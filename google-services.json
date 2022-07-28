@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "599904605694",
+    "project_id": "mobile-e5c1c",
+    "storage_bucket": "mobile-e5c1c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599904605694:android:92aaae26439612d63d9caf",
+        "android_client_info": {
+          "package_name": "io.ionic.school"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599904605694-1mjcjo146i91kp7nn9ghmg64cpmsnmbv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7N3RBCpO0O923boYrZHQYuDq4Bz1GG-Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599904605694-1mjcjo146i91kp7nn9ghmg64cpmsnmbv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
