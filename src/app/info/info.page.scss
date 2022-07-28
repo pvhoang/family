@@ -1,0 +1,36 @@
+// Image: i1
+
+.i1-area {
+	background:#fff;
+	display:block;
+	width:200px;
+	height:180px;
+	opacity:0;
+	position:absolute;
+}
+
+#i1-area1 { top:200px; left:380px; }
+#i1-area2 { top:180px; left:730px; }
+
+#i1-area1:hover,
+#i1-area2:hover
+{	opacity:0.4; }
+
+// Image: i2
+
+.i2-area {
+	background:#fff;
+	display:block;
+	width:200px;
+	height:180px;
+	opacity:0;
+	position:absolute;
+}
+
+#i2-area1 { top:115px; left:180px; }
+#i2-area2 { top:340px; left:680px; }
+
+#i2-area1:hover,
+#i2-area2:hover
+{	opacity:0.4; }
+

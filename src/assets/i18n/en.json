@@ -1,0 +1,40 @@
+{
+  "PHAN_FAMILY_TREE": "Phan's Family Tree",
+  "TREE": "Tree",
+  "INFO": "Info",
+  "CONTACT": "Contact",
+  "MESSAGE": "Message",
+  "ABOUT": "About",
+  "MALE": "Male",
+  "FEMALE": "Female",
+  "OK": "OK",
+  "CANCEL": "Cancel",
+
+  "NODE_TITLE": "Information",
+
+  "NODE_REQUIRED": "Required Info",
+  "NODE_NAME": "Name",
+  "NODE_NAME_ERROR": "Name is required.",
+  "NODE_YOB": "Year of birth",
+  "NODE_YOB_ERROR": "Year of birth is required.",
+  "NODE_POB": "Place of birth",
+  "NODE_POB_ERROR": "Place of birth is required.",
+  "NODE_GENDER": "Gender",
+  "NODE_OPTIONS": "Option Info",
+  "NODE_NICK": "Nicknames",
+  "NODE_YOD": "Year of death",
+  "NODE_POD": "Place of death",
+  "NODE_POR": "Place of residence",
+
+  "NODE_TREE": "Family Addition",
+  "NODE_CHILD": "Child",
+  "NODE_SPOUSE": "Spouse",
+
+  "NODE_SUBMIT": "Submit",
+
+  "NODE_ERR_YOB_ERROR": "Error year of birth: 1900-2500",
+  "NODE_ERR_YOD_BLANK": "Error year of death"
+
+
+}
+

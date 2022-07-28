@@ -1,0 +1,44 @@
+{
+  "PHAN_FAMILY_TREE": "Gia phả Họ Phan",
+  "TREE": "Phát đồ",
+  "INFO": "Tin tức",
+  "CONTACT": "Liên hệ",
+  "MESSAGE": "Tin nhắn",
+  "ABOUT": "About",
+  "MALE": "Nam",
+  "FEMALE": "Nữ",
+  "OK": "OK",
+  "CANCEL": "Hủy",
+  "CONTINUE": "Tiếp tục",
+
+  "SEARCH_RESULT_TITLE": "Kết quả tìm",
+  "TREE_UPDATE_HEADER": "Cập nhật gia phả",
+  "TREE_UPDATE_MESSAGE": "Nhận thông báo qua email sau khi duyệt.",
+  
+  "ADD_PEOPLE_HEADER": "Thông báo",
+  "ADD_PEOPLE_MESSAGE": "Thêm con/vợ/chồng vào gia phả sẽ không xóa được.",
+
+  "NODE_GROUP_NAME": "Danh tính",
+  "NODE_NAME": "Danh xưng",
+  "NODE_NAME_ERROR": "Danh xưng không được để trống.",
+  "NODE_NICK": "Tục danh",
+  "NODE_GENDER": "Giới tính",
+  "NODE_GROUP_TIME": "Sinh thời",
+  "NODE_YOB": "Sanh niên",
+  "NODE_YOD": "Tử niên",
+  "NODE_GROUP_PLACE": "Nguyên quán",
+  "NODE_POB": "Sinh quán",
+  "NODE_POD": "Tử quán",
+  "NODE_POR": "Trú quán",
+  "NODE_GROUP_TREE": "Gia phả",
+  "NODE_CHILD": "Thêm tên con",
+  "NODE_SPOUSE": "Thêm tên chồng/vợ",
+
+  "NODE_SUBMIT": "Cất",
+
+  "NODE_ERROR_TITLE": "Lỗi dữ liệu",
+  "NODE_ERR_YOB_ERROR": "Năm sinh phải từ 1900 đến 2500.",
+  "NODE_ERR_YOD_ERROR": "Năm mất phải từ 1900 đến 2500.",
+  "NODE_ERR_YOD_BLANK": "Tử quán phải để trống nếu năm mất để trống."
+
+}

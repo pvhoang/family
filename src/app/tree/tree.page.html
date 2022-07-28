@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title size="large" class="ion-text-center">{{ 'PHAN_FAMILY_TREE' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onHome()">
+        <ion-icon slot="icon-only" name="home"></ion-icon>
+      </ion-button>
+      <ion-button (click)="onZoomOut()" [disabled]="scaleStyle == 5">
+        <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+      </ion-button>
+      <ion-button (click)="onZoomIn()" [disabled]="scaleStyle == 15">
+        <ion-icon slot="icon-only" name="remove-circle"></ion-icon>
+      </ion-button>
+      <ion-button (click)="onSearch()">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
+      <ion-button (click)="setLanguage()">{{language}}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="ion-padding" *ngIf="searchView">
+    <ion-row>
+      <ion-col size="8">
+        <ng-select
+        [items]="people | async" 
+        bindLabel="name"
+        [(ngModel)]="selectPeople"
+        (close)="close()"
+        (clear)="clear()"
+        (search)="search($event)"
+        (keyup)="keyup($event, 'people')">
+      </ng-select>
+      </ion-col>
+      <ion-col size="4">
+        <ion-item>
+          <ion-label><b>{{searchPercent}}</b></ion-label>
+          <ion-button [disabled]="searchDisabled" (click)="nextSearch()">
+            <ion-icon slot="icon-only" name="arrow-down"></ion-icon>
+          </ion-button>
+          <ion-button [disabled]="searchDisabled" (click)="prevSearch()">
+            <ion-icon slot="icon-only" name="arrow-up"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  
+  </div>
+  
+  <div [ngStyle]="getZoomStyle()">
+  <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="family"></ft-tree>
+  </div>
+
+</ion-content>

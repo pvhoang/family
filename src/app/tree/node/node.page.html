@@ -1,0 +1,119 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title size="large" class="ion-text-center">{{ node.name }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onCancel()">
+        <ion-icon name="close" size="large"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="forms-validations-content">
+
+  <form class="validations-form" [formGroup]="validationsForm" (ngSubmit)="onSubmit(validationsForm.value)">
+
+    <ion-card>
+      <ion-card-header class="cardheader">
+        {{ 'NODE_GROUP_NAME' | translate }}
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item class="input-item">
+          <ion-label position="floating">{{ 'NODE_NAME' | translate }}</ion-label>
+          <ion-input type="text" formControlName="name" clearInput></ion-input>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.name">
+            <div class="error-message" *ngIf="validationsForm.get('name').hasError(validation.type) && (validationsForm.get('name').dirty || validationsForm.get('name').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message | translate }}</span>
+            </div>
+          </ng-container>
+        </div>
+        <ion-item class="input-item">
+          <ion-label position="floating">{{ 'NODE_NICK' | translate }}</ion-label>
+          <ion-input type="text" formControlName="nick" clearInput></ion-input>
+        </ion-item>
+        <ion-item class="input-item">
+          <ion-label position="floating">{{ 'NODE_GENDER' | translate }}</ion-label>
+          <ion-select formControlName="gender" cancelText="{{translations.CANCEL}}" okText="OK">
+            <ion-select-option *ngFor="let gender of genders" [value]="gender.value" >{{ gender.label }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header class="cardheader">
+        {{ 'NODE_GROUP_TIME' | translate }}
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item class="input-item">
+          <ion-label position="floating">{{ 'NODE_YOB' | translate }}</ion-label>
+          <ion-input type="text" formControlName="yob" clearInput></ion-input>
+        </ion-item>
+        <ion-item class="input-item">
+          <ion-label position="floating">{{ 'NODE_YOD' | translate }}</ion-label>
+          <ion-input type="text" formControlName="yod" clearInput></ion-input>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-label position="floating">{{ 'NODE_POB' | translate }}</ion-label>
+    <ng-select
+      [items]="places | async" 
+      bindLabel="name"
+      formControlName="pob"
+      [(ngModel)]="placeData.pob"
+      (focus)="focus('pob')"
+      (close)="close()"
+      (search)="search($event)"
+      (keyup)="keyup($event, 'places')">
+    </ng-select>
+
+    <ion-label position="floating">{{ 'NODE_POD' | translate }}</ion-label>
+    <ng-select
+      [items]="places | async" 
+      bindLabel="name"
+      formControlName="pod"
+      [(ngModel)]="placeData.pod"
+      (focus)="focus('pod')"
+      (close)="close()"
+      (search)="search($event)"
+      (keyup)="keyup($event, 'places')">
+    </ng-select>
+
+    <ion-label position="floating">{{ 'NODE_POR' | translate }}</ion-label>
+    <ng-select
+      [items]="places | async"
+      bindLabel="name"
+      formControlName="por"
+      [(ngModel)]="placeData.por"
+      (focus)="focus('por')"
+      (close)="close()"
+      (search)="search($event)"
+      (keyup)="keyup($event, 'places')">
+    </ng-select>
+
+    <ion-card>
+      <ion-card-header class="cardheader">
+        {{ 'NODE_GROUP_TREE' | translate }}
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item class="input-item">
+          <ion-label position="floating">{{ 'NODE_CHILD' | translate }}</ion-label>
+          <ion-input type="text" formControlName="child" clearInput></ion-input>
+        </ion-item>
+      </ion-card-content>
+      <ion-card-content>
+        <ion-item class="input-item">
+          <ion-label position="floating">{{ 'NODE_SPOUSE' | translate }}</ion-label>
+          <ion-input type="text" formControlName="spouse" clearInput></ion-input>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button class="submit-btn" type="submit" expand="block" fill="outline" [disabled]="!validationsForm.valid">{{ 'NODE_SUBMIT' | translate }}</ion-button>
+
+  </form>
+</ion-content>
