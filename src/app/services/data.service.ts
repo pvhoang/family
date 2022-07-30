@@ -4,7 +4,7 @@ import { Storage } from '@angular/fire/storage';
 import { deleteDoc, setDoc } from 'firebase/firestore';
 import { Subject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Family } from '../models/family.model';
+// import { Family } from '../models/family.model';
 
 export interface Content {
 	id?: string;

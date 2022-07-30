@@ -109,3 +109,25 @@ Hosting URL: https://family-e5c1c.web.app
 . firebase hosting:sites:create gia-pha-ho-phan
 . firebase target:apply hosting gia-pha-ho-phan gia-pha-ho-phan
 . firebase deploy --only hosting:gia-pha-ho-phan
+
+=====================================================================
+# GITHUB
+=====================================================================
+
+. open GitHub.com
+. create an empty res: 'pvhoang/family'
+. rename /family to /family-1
+. create an empty res: 'pvhoang/family'
+. create a local folder: c:\dev\family
+. cd /dev/family
+. copy README.md from another project.
+    echo "# family" >> README.md
+    git init
+    git add README.md
+    git commit -m "first commit"
+    git branch -M main
+    git remote add origin https://github.com/pvhoang/family.git
+    git push -u origin main
+
+. open SourceTree
+. copy files from /family-1 to /family

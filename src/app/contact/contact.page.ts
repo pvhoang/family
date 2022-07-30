@@ -3,6 +3,9 @@ import { AlertController } from '@ionic/angular';
 import { DataService } from '../services/data.service';
 import { LanguageService } from '../services/language.service';
 
+const VERSION = '0.0.1';
+const CONTACT = 'Phan Viết Hoàng - pvhoang940@gmail.com';
+
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.page.html',
@@ -12,6 +15,8 @@ export class ContactPage implements OnInit {
 
   family: any;
   translations: any;
+  version: any;
+  contact: any;
   
   constructor(
     private alertController: AlertController,
@@ -20,10 +25,10 @@ export class ContactPage implements OnInit {
   ) { }
 
   ngOnInit() {
-     console.log('ngOnInit');
+    console.log('ngOnInit');
+    this.version = VERSION;
+    this.contact = CONTACT;
     this.translations = this.languageService.getTrans();
-    // console.log('translations:', this.translations);
-
   }
 
   ionViewWillEnter() {
@@ -72,7 +77,6 @@ export class ContactPage implements OnInit {
   private filterNodes(family: any) {
     let filterFamily = {};
     filterFamily['nodes'] = [];
-    filterFamily['children'] = [];
 
     family['nodes'].forEach(node => {
       let newNode = {};
@@ -89,24 +93,19 @@ export class ContactPage implements OnInit {
       filterFamily['nodes'].push(newNode);
     })
     // console.log('filterFamily - nodes:' , filterFamily['nodes'] )
-
     if (family['children']) {
+      filterFamily['children'] = [];
       family['children'].forEach(fam => {
         let newFamily = this.filterFamily(fam);
         filterFamily['children'].push(newFamily);
       })
     }
-    // console.log('filterFamily:' , filterFamily )
     return filterFamily;
   }
 
   private filterFamily(family) {
-
-    // console.log('family:' , family )
-
-    let newFamily = {};
-    newFamily['nodes'] = [];
-    newFamily['children'] = [];
+    let filterFamily = {};
+    filterFamily['nodes'] = [];
 
     if (family['nodes'].length > 0) {
       family['nodes'].forEach(node => {
@@ -121,20 +120,17 @@ export class ContactPage implements OnInit {
         if (node.pob != '') newNode['pob'] = node.pob;
         if (node.pod != '') newNode['pod'] = node.pod;
         if (node.por != '') newNode['por'] = node.por;
-      // console.log('newNode:' , newNode )
-        newFamily['nodes'].push(newNode);
+        filterFamily['nodes'].push(newNode);
       });
     }
-    console.log('newFamily - nodes:' , newFamily['nodes'] )
+    // console.log('filterFamily - nodes:' , filterFamily['nodes'] )
     if (family['children']) {
+      filterFamily['children'] = [];
       family['children'].forEach(fam => {
         let nFamily = this.filterFamily(fam);
-        newFamily['children'].push(nFamily);
+        filterFamily['children'].push(nFamily);
       })
     }
-    // console.log('newFamily - nodes:' , newFamily['children'] )
-    return newFamily;
+    return filterFamily;
   }
-
-
 }

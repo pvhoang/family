@@ -8,11 +8,20 @@
 
   <ion-card>
     <ion-card-header class="cardheader">
-      {{ 'NODE_GROUP_TIME' | translate }}
+      {{ 'VERSION' | translate }}
     </ion-card-header>
     <ion-card-content>
       <ion-item>
-        <ion-label position="floating">{{ 'NODE_YOB' | translate }}</ion-label>
+        <ion-label>{{ version }}</ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header class="cardheader">
+      {{ 'TREE_UPDATE_HEADER' | translate }}
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
         <ion-button (click)="saveTree()"><ion-icon name="save"></ion-icon>
         </ion-button>
       </ion-item>
@@ -20,11 +29,11 @@
   </ion-card>
   <ion-card>
     <ion-card-header class="cardheader">
-      {{ 'NODE_GROUP_TIME' | translate }}
+      {{ 'CONTACT' | translate }}
     </ion-card-header>
     <ion-card-content>
       <ion-item>
-        <ion-label position="floating">{{ 'NODE_YOB' | translate }}</ion-label>
+        <ion-label>{{ contact }}</ion-label>
       </ion-item>
     </ion-card-content>
   </ion-card>

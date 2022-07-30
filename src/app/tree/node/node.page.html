@@ -34,14 +34,27 @@
           <ion-label position="floating">{{ 'NODE_NICK' | translate }}</ion-label>
           <ion-input type="text" formControlName="nick" clearInput></ion-input>
         </ion-item>
-        <ion-item class="input-item">
+
+        <!-- <ion-item class="input-item">
           <ion-label position="floating">{{ 'NODE_GENDER' | translate }}</ion-label>
           <ion-select formControlName="gender" cancelText="{{translations.CANCEL}}" okText="OK">
             <ion-select-option *ngFor="let gender of genders" [value]="gender.value" >{{ gender.label }}</ion-select-option>
           </ion-select>
-        </ion-item>
+        </ion-item> -->
+
       </ion-card-content>
     </ion-card>
+
+    <ion-label position="floating">{{ 'NODE_GENDER' | translate }}</ion-label>
+    <ion-col size="12">
+      <ng-select [items]="genders" 
+        bindLabel="name" 
+        bindValue="id"
+        formControlName="gender"
+        (close)="closeGender()"
+        [(ngModel)]="selectedGender">
+      </ng-select>
+    </ion-col>
 
     <ion-card>
       <ion-card-header class="cardheader">
@@ -66,7 +79,7 @@
       formControlName="pob"
       [(ngModel)]="placeData.pob"
       (focus)="focus('pob')"
-      (close)="close()"
+      (close)="closePlace()"
       (search)="search($event)"
       (keyup)="keyup($event, 'places')">
     </ng-select>
@@ -78,7 +91,7 @@
       formControlName="pod"
       [(ngModel)]="placeData.pod"
       (focus)="focus('pod')"
-      (close)="close()"
+      (close)="closePlace()"
       (search)="search($event)"
       (keyup)="keyup($event, 'places')">
     </ng-select>
@@ -90,7 +103,7 @@
       formControlName="por"
       [(ngModel)]="placeData.por"
       (focus)="focus('por')"
-      (close)="close()"
+      (close)="closePlace()"
       (search)="search($event)"
       (keyup)="keyup($event, 'places')">
     </ng-select>

@@ -1,7 +1,9 @@
 {
   "PHAN_FAMILY_TREE": "Gia phả Họ Phan",
+  "VERSION": "Ấn bản",
   "TREE": "Phát đồ",
-  "INFO": "Tin tức",
+  "ARCHIVE": "Tư liệu",
+  "INFO": "Thông tin",
   "CONTACT": "Liên hệ",
   "MESSAGE": "Tin nhắn",
   "ABOUT": "About",

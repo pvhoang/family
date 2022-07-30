@@ -22,9 +22,13 @@ export class NodePage implements OnInit {
   placeStr: any = '';
   placeData: any;
   placeItem: any;
+  // genderData: any;
+  // genderItem: any;
+
   translations: any;
-  gender: any = '';
+  // gender: any = '';
   genders: Array<any>;
+  selectedGender: string;
 
   validations = {
     'name': [
@@ -44,17 +48,27 @@ export class NodePage implements OnInit {
     let node = this.node;
     // console.log('node: ', this.node);
     this.translations = this.languageService.getTrans();
+    // this.genders = [
+    //   { value: 'male', label: this.translations.MALE },
+    //   { value: 'female', label: this.translations.FEMALE }
+    // ];
     this.genders = [
-      { value: 'male', label: this.translations.MALE },
-      { value: 'female', label: this.translations.FEMALE }
+      { id: 'male', name: this.translations.MALE },
+      { id: 'female', name: this.translations.FEMALE }
     ];
+    // this.selectedGender = this.genders[0].id;
+
     this.placeData = {pob: {name: node.pob}, pod: {name: node.pod}, por: {name: node.por}};
-    console.log('placeData: ', this.placeData);
+    // this.genderData = {id: node.gender, name: node.gender == 'male' ? this.translations.MALE : this.translations.FEMALE};
+    this.selectedGender = node.gender;
+
+    // console.log('genderData: ', this.genderData);
 
     this.validationsForm = new FormGroup({
       'name': new FormControl(node.name, Validators.required),
       'nick': new FormControl(node.nick),
-      'gender': new FormControl(node.gender),
+      // 'gender': new FormControl(this.genderData),
+      'gender': new FormControl(this.selectedGender),
       'yob': new FormControl(node.yob),
       'yod': new FormControl(node.yod),
       'pob': new FormControl(this.placeData.pob),
@@ -147,7 +161,7 @@ export class NodePage implements OnInit {
   keyup(event, json) {
     console.log('keyup: ', event);
     if (event.key == 'Enter')
-      this.close(1);
+      this.closePlace(1);
     this.places = this.typeahead.getJson(event.target.value, json);
   }
 
@@ -156,10 +170,14 @@ export class NodePage implements OnInit {
     this.placeItem = name;
   }
 
-  close(mode?: any) {
-    console.log('close: ', mode);
+  closePlace(mode?: any) {
+    console.log('closePlace: ', mode);
     if (mode)
       this.placeData[this.placeItem] = {name: this.placeStr};
+  }
+
+  closeGender() {
+    console.log('closeGender: ');
   }
 
   search(event) {

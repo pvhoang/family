@@ -55,7 +55,6 @@ export class TreePage implements OnInit {
   }
 	
 	ionViewWillLeave() {
-    console.log('ionViewWillLeave');
     // console.log('ionViewWillLeave');
     this.dataService.saveFamily(this.family).then(status => {});
 	}
@@ -76,7 +75,6 @@ export class TreePage implements OnInit {
 
   private getNodes(family: any) {
     let nodes = [];
-    // let family = this.family;
     family['nodes'].forEach(node => {
       node = this.fillNode(node);
       this.updateNclass(node);
@@ -85,18 +83,15 @@ export class TreePage implements OnInit {
       node.profile = this.getSearchStr(node);
       nodes.push(node);
     })
-    family['children'].forEach(fam => {
-      this.setChild(family.nodes[0], fam, nodes);
-    })
+    if (family['children']) {
+      family['children'].forEach(fam => {
+        this.setChild(family.nodes[0], fam, nodes);
+      })
+    }
     return nodes;
   }
 
   private setChild(pnode, family, nodes) {
-
-    if (!family.nodes)
-      family.nodes = [];
-    if (!family.children)
-      family.children = [];
 
     family.nodes.forEach(node => {
       node = this.fillNode(node);
@@ -107,9 +102,11 @@ export class TreePage implements OnInit {
       node.profile = this.getSearchStr(node);
       nodes.push(node);
     })
-    family['children'].forEach(fam => {
-      this.setChild(family.nodes[0], fam, nodes);
-    })
+    if (family['children']) {
+      family['children'].forEach(fam => {
+        this.setChild(family.nodes[0], fam, nodes);
+      })
+    }
   }
 
   private getSearchStr(node): string {
@@ -191,12 +188,12 @@ export class TreePage implements OnInit {
   }
 
   close() {
-    console.log('close');
+    // console.log('close');
     this.startSearch(this.selectPeople.name);
   }
 
   clear() {
-    console.log('clear');
+    // console.log('clear');
     this.searchReset();
   }
 
