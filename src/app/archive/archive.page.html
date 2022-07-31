@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <!-- <ion-title size="large" class="ion-text-center">{{ 'PHAN_FAMILY_TREE' | translate }}</ion-title> -->
+    <ion-title class="ion-text-center">{{ 'PHAN_FAMILY_TREE' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="show()">
+        <ion-icon slot="icon-only" name="people"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="ion-padding">
+    <ion-row>
+      <ion-col size="12">
+        <ng-select [items]="images" 
+          bindLabel="name" 
+          bindValue="id"
+          (close)="close()"
+          [(ngModel)]="selectedImage">
+        </ng-select>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <h1>{{idata.title}}</h1>
+  <div *ngIf="showDetail">
+    <div *ngFor="let area of idata.areas">
+      <a id="{{area.id}}" [ngStyle]="getAreaStyle(area)" (click)="displayText(area.text)"></a>
+    </div>
+  </div>
+  <img id="image" src="{{idata.src}}" width="idata.map.width" height="idata.map.height"/>
+
+</ion-content>
+

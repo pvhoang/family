@@ -2,6 +2,9 @@
   <ion-toolbar color="primary">
     <ion-title size="large" class="ion-text-center">{{ node.name }}</ion-title>
     <ion-buttons slot="end">
+      <ion-button (click)="onDelete()">
+        <ion-icon name="trash" size="large"></ion-icon>
+      </ion-button>
       <ion-button (click)="onCancel()">
         <ion-icon name="close" size="large"></ion-icon>
       </ion-button>
@@ -77,7 +80,7 @@
       [items]="places | async" 
       bindLabel="name"
       formControlName="pob"
-      [(ngModel)]="placeData.pob"
+      [(ngModel)]="placeData.pob.name"
       (focus)="focus('pob')"
       (close)="closePlace()"
       (search)="search($event)"
@@ -89,7 +92,7 @@
       [items]="places | async" 
       bindLabel="name"
       formControlName="pod"
-      [(ngModel)]="placeData.pod"
+      [(ngModel)]="placeData.pod.name"
       (focus)="focus('pod')"
       (close)="closePlace()"
       (search)="search($event)"
@@ -101,7 +104,7 @@
       [items]="places | async"
       bindLabel="name"
       formControlName="por"
-      [(ngModel)]="placeData.por"
+      [(ngModel)]="placeData.por.name"
       (focus)="focus('por')"
       (close)="closePlace()"
       (search)="search($event)"

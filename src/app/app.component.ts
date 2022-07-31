@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DataService } from './services/data.service';
+import { FamilyService } from './services/family.service';
 
 @Component({
   selector: 'app-root',
@@ -9,14 +9,14 @@ import { DataService } from './services/data.service';
 export class AppComponent {
 
   constructor(
-    private dataService: DataService,
+    private familyService: FamilyService,
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
     const id = '30-07-2022_09-26';
-    this.dataService.loadFamily(id);
+    this.familyService.loadFamily();
   }
 
   

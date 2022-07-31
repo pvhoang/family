@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -6,7 +7,18 @@ import { Injectable } from '@angular/core';
 export class UtilService {
 
   constructor(
+		private http: HttpClient
 	) { }
+
+	getLocalJsonFile(url: string): Promise<any> {
+		return new Promise((resolve, reject) => {
+			this.http.get(url).toPromise().then((data:any) => {
+				resolve(data);
+			}).catch(err => {
+				reject(err.error);
+			});
+		});
+	}
 
 	public savePeoplePlacesJSON(nodes: any) {
 		// console.log('savePeopleJSON: nodes:', nodes);

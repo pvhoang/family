@@ -1,0 +1,39 @@
+{
+  "i1": {
+    "title": "1920 - Nhánh Phan Ngọc Luật",
+    "src": "../../assets/imgs/phan-ngoc-luat-1920.jpg",
+    "image": {"width":"1200", "height": "900" },
+    "area": {"width":"200", "height": "180" },
+    "areas": [
+      { 
+        "id": "1",
+        "coords": {"x":"380", "y": "200" },
+        "text": "Phan Ngọc Luật"
+      },
+      { 
+        "id": "2",
+        "coords": {"x":"730", "y": "180" },
+        "text": "Phan Dính"
+      }
+    ]
+  },
+  "i2": {
+    "title": "1971 - Nhánh Phan Dính",
+    "src": "../../assets/imgs/phan-dinh-1971.jpg",
+    "image": {"width":"1200", "height": "900" },
+    "area": {"width":"200", "height": "180" },
+    "areas": [
+      { 
+        "id": "1",
+        "coords": {"x":"180", "y": "115" },
+        "text": "Phan Ngọc Danh"
+      },
+      { 
+        "id": "2",
+        "coords": {"x":"680", "y": "340" },
+        "text": "Phan Viết Hoàng"
+      }
+    ]
+  }
+
+}
