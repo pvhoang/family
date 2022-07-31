@@ -1,12 +1,13 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title size="large" class="ion-text-center">{{ 'PHAN_FAMILY_TREE' | translate }}</ion-title>
+    <!-- <ion-title size="large" class="ion-text-center">{{ 'PHAN_FAMILY_TREE' | translate }}</ion-title> -->
+    <ion-title size="medium" class="ion-text-center">{{ 'PHAN_FAMILY_TREE' | translate }} - {{version}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
 
-  <ion-card>
+  <!-- <ion-card>
     <ion-card-header class="card-header">
       {{ 'VERSION' | translate }}
     </ion-card-header>
@@ -15,7 +16,8 @@
         <ion-label>{{ version }}</ion-label>
       </ion-item>
     </ion-card-content>
-  </ion-card>
+  </ion-card> -->
+
   <ion-card>
     <ion-card-header class="card-header">
       {{ 'TREE_UPDATE_HEADER' | translate }}

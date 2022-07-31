@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { AlertController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,8 @@ import { HttpClient } from '@angular/common/http';
 export class UtilService {
 
   constructor(
-		private http: HttpClient
+		private http: HttpClient,
+    private alertController: AlertController,
 	) { }
 
 	getLocalJsonFile(url: string): Promise<any> {
@@ -20,61 +22,14 @@ export class UtilService {
 		});
 	}
 
-	public savePeoplePlacesJSON(nodes: any) {
-		// console.log('savePeopleJSON: nodes:', nodes);
-		// save PEOPLE.JSON
-		let peopleData = [];
-		let placeData = [];
-		nodes.forEach(node => {
-      peopleData.push(node.name);
-    });
-		nodes.forEach(node => {
-			if (node.pob != '') {
-				peopleData.push(node.pob);
-				placeData.push(node.pob);
-			}
-			if (node.pod != '') {
-				peopleData.push(node.pod);
-				placeData.push(node.pod);
-			}
-    });
-		nodes.forEach(node => {
-			if (node.yob != '')
-				peopleData.push(node.yob);
-			if (node.yod != '')
-				peopleData.push(node.yod);
-    });
-
-		let uniquePeopleData = [];
-		peopleData.forEach((element) => {
-			if (!uniquePeopleData.includes(element)) {
-				uniquePeopleData.push(element);
-			}
+	async alertMsg(title, message) {
+		let alert = await this.alertController.create({
+			header: title,
+			message: message,
+			buttons: ['OK']
 		});
-
-		let uniquePlaceData = [];
-		placeData.forEach((element) => {
-			if (!uniquePlaceData.includes(element)) {
-				uniquePlaceData.push(element);
-			}
-		});
-
-		// console.log('savePeopleJSON: uniqueData:', uniqueData);
-		let people = {};
-    people['data'] = [];
-    uniquePeopleData.forEach(value => {
-      people['data'].push({'name': value});
-    });
-		let places = {};
-    places['data'] = [];
-    uniquePlaceData.forEach(value => {
-      places['data'].push({'name': value});
-    });
-
-    console.log('people: ', JSON.stringify(people, null, 4));
-    console.log('places: ', JSON.stringify(places, null, 4));
-
-  }
+		alert.present();
+	}
 
 	public stripVN(str) {
 		str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/gi, 'a');

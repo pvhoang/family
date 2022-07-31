@@ -23,7 +23,6 @@ export class TypeaheadService {
         if (term) {
           // data = data.filter(x => x.name.toLocaleLowerCase().indexOf(term.toLocaleLowerCase()) > -1);
           data = data.filter(x => this.stripVN(x.name).indexOf(this.stripVN(term)) > -1);
-          console.log('data: ', data);
         }
         observer.next(data);
       });

@@ -5,7 +5,7 @@ import { UtilService } from '../services/util.service';
 import { LanguageService } from '../services/language.service';
 import { FamilyService } from '../services/family.service';
 
-const VERSION = '0.0.1';
+const VERSION = '0.0.2';
 const CONTACT = 'Phan Viết Hoàng - pvhoang940@gmail.com';
 
 @Component({
@@ -15,7 +15,6 @@ const CONTACT = 'Phan Viết Hoàng - pvhoang940@gmail.com';
 })
 export class ContactPage implements OnInit {
 
-  // filterFamily: any;
   translations: any;
   version: any;
   contact: any;
@@ -63,8 +62,7 @@ export class ContactPage implements OnInit {
           handler: (data: any) => {
             // console.log('data:' , data );
             this.familyService.readFamily().then(family => {
-              let nodes = this.familyService.getNodes(family);
-              this.utilService.savePeoplePlacesJSON(nodes);
+              this.familyService.printPeople(family);
               this.familyService.printFamily(family);
               // this.firebaseService.saveContent({ email: data['0'], text: JSON.stringify(family) });
             });

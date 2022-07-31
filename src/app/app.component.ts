@@ -16,6 +16,8 @@ export class AppComponent {
 
   initializeApp() {
     const id = '30-07-2022_09-26';
+    // const id = 'phan';
+    // this.familyService.loadFamily('phan');
     this.familyService.loadFamily();
   }
 

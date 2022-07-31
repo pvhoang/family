@@ -14,18 +14,22 @@ export class FamilyService {
 	) {
 	}
 
-  async loadFamily(id?) {
-    this.readFamily().then(value => {
-      if (!value)
-        this.loadFamilyFromFile(id)
-      else
-        console.log('loadFamily: data is from localStorage!');
-
-    });
+  async loadFamily(id?: any) {
+    if (id)
+      this.loadFamilyFromFile(id);
+    else {
+      // read from local
+      this.readFamily().then(value => {
+        if (value)
+          console.log('loadFamily: data is from localStorage!');
+        else
+          this.loadFamilyFromFile('phan');
+      });
+    }
   }
   
-  private loadFamilyFromFile(id?) {
-		if (id) {
+  private loadFamilyFromFile(id: any) {
+		if (id != 'phan') {
 			console.log('loadFamily: data from id: ', id);
 			// const id = '24-07-2022_14-43';
 			this.dataService.getContentDetails(id).subscribe((content:any) => {
@@ -66,6 +70,98 @@ export class FamilyService {
 		console.log('filterFamily:' , JSON.stringify(family, null, 4) )
 	}
 
+  // --- printPeople
+
+  printPeople(family: any) {
+    let people = [];
+		let places = [];
+
+    console.log('printPeople');
+
+    family.nodes.forEach((node: any) => {
+      people.push(node.name);
+      people.push(node.pob); people.push(node.pod); places.push(node.por);
+      people.push(node.yob); people.push(node.yod);
+      places.push(node.pob); people.push(node.pod); places.push(node.por);
+    })
+    if (family['children']) {
+      family['children'].forEach(child => {
+        this.printPeopleChild(child, people, places);
+      })
+    }
+
+    console.log('printPeople: ', people);
+
+    let uniquePeopleData = [];
+		people.forEach((element) => {
+			if (!uniquePeopleData.includes(element)) {
+				uniquePeopleData.push(element);
+			}
+		});
+
+		let uniquePlaceData = [];
+		places.forEach((element) => {
+			if (!uniquePlaceData.includes(element)) {
+				uniquePlaceData.push(element);
+			}
+		});
+
+		// console.log('savePeopleJSON: uniqueData:', uniqueData);
+		let pe = {};
+    pe['data'] = [];
+    uniquePeopleData.forEach(value => {
+      pe['data'].push({'name': value});
+    });
+		let pl = {};
+    pl['data'] = [];
+    uniquePlaceData.forEach(value => {
+      pl['data'].push({'name': value});
+    });
+
+    console.log('people: ', JSON.stringify(pe, null, 4));
+    console.log('places: ', JSON.stringify(pl, null, 4));
+  }
+
+  private printPeopleChild(family:any, people, places) {
+    family.nodes.forEach((node: any) => {
+      people.push(node.name);
+      people.push(node.pob); people.push(node.pod); places.push(node.por);
+      people.push(node.yob); people.push(node.yod);
+      places.push(node.pob); people.push(node.pod); places.push(node.por);
+    })
+    if (family['children']) {
+      family['children'].forEach(child => {
+        this.printPeopleChild(child, people, places);
+      })
+    }
+  }
+
+  // --- verifyFamily
+
+  verifyFamily(family: any) {
+    let msg = [];
+    if (family.nodes[0].name.indexOf('Phan') != 0) {
+      msg.push('Name not Phan: ' + family.nodes[0].name);
+    }
+    if (family['children']) {
+      family['children'].forEach(child => {
+        this.verifyNode(child, msg);
+      })
+    }
+    return msg.length == 0 ? null : msg.join('\n');
+  }
+
+  private verifyNode(family:any, msg) {
+    if (family.nodes[0].name.indexOf('Phan') != 0) {
+      msg.push('Name not Phan: ' + family.nodes[0].name);
+    }
+    if (family['children']) {
+      family['children'].forEach(child => {
+        this.verifyNode(child, msg);
+      })
+    }
+  }
+
   // --- getFilterFamily
 
   private getFilterFamily(family) {
@@ -75,7 +171,8 @@ export class FamilyService {
     if (family['nodes'].length > 0) {
       family['nodes'].forEach(node => {
         let newNode = {};
-        if (node.id != '') newNode['id'] = node.id;
+        // no need to save node id
+        // if (node.id != '') newNode['id'] = node.id;
         if (node.relationship != '') newNode['relationship'] = node.relationship;
         if (node.name != '') newNode['name'] = node.name;
         if (node.nick != '') newNode['nick'] = node.nick;
@@ -103,7 +200,7 @@ export class FamilyService {
   
   // --- getFamilyNodes
 
-  getNodes(family: any) {
+  getFamilyNodes(family: any) {
     let nodes = [];
     family.nodes.forEach((node: any) => {
       nodes.push(node);
@@ -137,10 +234,7 @@ export class FamilyService {
 		family.nodes.forEach((node: any) => {
       node = this.fillNode(node);
       this.updateNclass(node);
-      // node.id = '' + nodeLevel + '-' + nodeIdx++;
-      // node.id = nodeLevel + '-' + childIdx + '-' + nodeIdx++;
       node.id = '' + childIdx + '-' + nodeIdx++;
-      // console.log('name, id: ', node.name, node.id);
       node.pnode = null;
       node.parent = family;
       node.profile = this.getSearchStr(node);
@@ -160,11 +254,7 @@ export class FamilyService {
     family.nodes.forEach(node => {
       node = this.fillNode(node);
       this.updateNclass(node);
-      // node.id = pnode.id + '-' + nodeLevel + '-' + nodeIdx++;
-      // node.id = pnode.id + '-' + node.id;
-      // node.id = nodeLevel + '-' + childIdx + '-' + nodeIdx++;
       node.id = pnode.id + '-' + childIdx + '-' + nodeIdx++;
-      // console.log('name, id: ', nodeIdx, node.name, node.id);
       node.pnode = pnode;
       node.parent = family;
       node.profile = this.getSearchStr(node);
@@ -223,67 +313,4 @@ export class FamilyService {
       return true;
     return false;
   }
-	
-	// public filterFamily(family: any) {
-  //   let filterFamily = {};
-  //   filterFamily['nodes'] = [];
-
-  //   family['nodes'].forEach(node => {
-  //     let newNode = {};
-  //     if (node.id != '') newNode['id'] = node.id;
-  //     if (node.relationship != '') newNode['relationship'] = node.relationship;
-  //     if (node.name != '') newNode['name'] = node.name;
-  //     if (node.nick != '') newNode['nick'] = node.nick;
-  //     if (node.gender != '') newNode['gender'] = node.gender;
-  //     if (node.yob != '') newNode['yob'] = node.yob;
-  //     if (node.yod != '') newNode['yod'] = node.yod;
-  //     if (node.pob != '') newNode['pob'] = node.pob;
-  //     if (node.pod != '') newNode['pod'] = node.pod;
-  //     if (node.por != '') newNode['por'] = node.por;
-  //     filterFamily['nodes'].push(newNode);
-  //   })
-  //   // console.log('filterFamily - nodes:' , filterFamily['nodes'] )
-  //   if (family['children']) {
-  //     filterFamily['children'] = [];
-  //     family['children'].forEach(child => {
-  //       let newFamily = this.filterChild(child);
-  //       filterFamily['children'].push(newFamily);
-  //     })
-  //   }
-  //   return filterFamily;
-  // }
-
-  // private filterChild(family) {
-  //   let filterFamily = {};
-  //   filterFamily['nodes'] = [];
-
-  //   if (family['nodes'].length > 0) {
-  //     family['nodes'].forEach(node => {
-  //       let newNode = {};
-  //       if (node.id != '') newNode['id'] = node.id;
-  //       if (node.relationship != '') newNode['relationship'] = node.relationship;
-  //       if (node.name != '') newNode['name'] = node.name;
-  //       if (node.nick != '') newNode['nick'] = node.nick;
-  //       if (node.gender != '') newNode['gender'] = node.gender;
-  //       if (node.yob != '') newNode['yob'] = node.yob;
-  //       if (node.yod != '') newNode['yod'] = node.yod;
-  //       if (node.pob != '') newNode['pob'] = node.pob;
-  //       if (node.pod != '') newNode['pod'] = node.pod;
-  //       if (node.por != '') newNode['por'] = node.por;
-  //       filterFamily['nodes'].push(newNode);
-  //     });
-  //   }
-  //   // console.log('filterFamily - nodes:' , filterFamily['nodes'] )
-  //   if (family['children']) {
-  //     filterFamily['children'] = [];
-  //     family['children'].forEach(child => {
-  //       let nFamily = this.filterChild(child);
-  //       filterFamily['children'].push(nFamily);
-  //     })
-  //   }
-  //   return filterFamily;
-  // }
-
-
-	
 }

@@ -1,18 +1,47 @@
 <ion-header>
-  <ion-toolbar>
+  <!-- <ion-toolbar> -->
+
+    <ion-row>
+      <ion-col size="8">
+        <ng-select [items]="images" 
+            bindLabel="name" 
+            bindValue="id"
+            (close)="close()"
+            [(ngModel)]="selectedImage">
+          </ng-select>
+      </ion-col>
+      <ion-col size="4">
+        <ion-button (click)="show()">
+          <ion-icon slot="icon-only" name="people"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <!-- <div class="ion-padding">
+      <ion-row>
+        <ion-col size="12">
+          <ng-select [items]="images" 
+            bindLabel="name" 
+            bindValue="id"
+            (close)="close()"
+            [(ngModel)]="selectedImage">
+          </ng-select>
+        </ion-col>
+      </ion-row>
+    </div> -->
+
     <!-- <ion-title size="large" class="ion-text-center">{{ 'PHAN_FAMILY_TREE' | translate }}</ion-title> -->
-    <ion-title class="ion-text-center">{{ 'PHAN_FAMILY_TREE' | translate }}</ion-title>
-    <ion-buttons slot="end">
+    <!-- <ion-title class="ion-text-center">{{ 'PHAN_FAMILY_TREE' | translate }}</ion-title> -->
+    <!-- <ion-buttons slot="end">
       <ion-button (click)="show()">
         <ion-icon slot="icon-only" name="people"></ion-icon>
       </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+    </ion-buttons> -->
+  <!-- </ion-toolbar> -->
 </ion-header>
 
 <ion-content [fullscreen]="true">
 
-  <div class="ion-padding">
+  <!-- <div class="ion-padding">
     <ion-row>
       <ion-col size="12">
         <ng-select [items]="images" 
@@ -23,7 +52,7 @@
         </ng-select>
       </ion-col>
     </ion-row>
-  </div>
+  </div> -->
 
   <h1>{{idata.title}}</h1>
   <div *ngIf="showDetail">

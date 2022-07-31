@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ModalController, AlertController } from '@ionic/angular';
 import { TypeaheadService } from '../../services/typeahead.service';
 import { LanguageService } from '../../services/language.service';
+import { UtilService } from '../../services/util.service';
 
 @Component({
   selector: 'app-node',
@@ -31,45 +32,22 @@ export class NodePage implements OnInit {
     private modalCtr: ModalController,
     private alertController: AlertController,
     private languageService: LanguageService,
+    private utilService: UtilService,
     private typeahead: TypeaheadService
   ) { }
 
   ngOnInit(): void {
 
     let node = this.node;
-    console.log('node: ', this.node);
-
+    // console.log('NodePage - ngOnInit - node: ', node);
     this.translations = this.languageService.getTrans();
     this.genders = [
       { id: 'male', name: this.translations.MALE },
       { id: 'female', name: this.translations.FEMALE }
     ];
     this.selectGender = node.gender;
-
-    // this.genders = ['male', 'female'];
-    // this.genders = [this.translations.MALE, this.translations.FEMALE];
-    // this.selectGender = (node.gender == 'male') ? this.translations.MALE : this.translations.FEMALE;
-    // let genders1 = { 
-    //   male: this.translations.MALE,
-    //   female: this.translations.FEMALE,
-    // }
-    // this.selectGender = genders1[node.gender];
-
-    //   { id: 'male', name: this.translations.MALE },
-    //   { id: 'female', name: this.translations.FEMALE }
-    // ];
-    // this.genders = ['male', 'female'];
-
     this.placeData = {pob: {name: node.pob}, pod: {name: node.pod}, por: {name: node.por}};
-    // this.selectPob = node.pob;
-    
-    // this.selectGender = node.gender;
-
-    console.log('gender: ', node.gender);
-
-    // let nameGender = (node.gender == 'male') ? this.translations.MALE : this.translations.FEMALE;
-    // this.selectGender = { id: node.gender, name: nameGender };
-    // console.log('selectGender: ', this.selectGender);
+    // console.log('gender: ', node.gender);
 
     this.validationsForm = new FormGroup({
       'name': new FormControl(node.name, Validators.required),
@@ -86,21 +64,20 @@ export class NodePage implements OnInit {
   }
 
   async onCancel() {
-    console.log('onCancel: ');
+    console.log('NodePage - onCancel');
     await this.modalCtr.dismiss('cancel');
   }
 
   async onDelete() {
-    console.log('onDelete: ');
+    console.log('NodePage - onDelete');
 
     if (this.node.parent.nodes[0].name == this.node.name) {
         // this is main Node, check children
       if (this.node.parent.children && this.node.parent.children.length > 0) {
-        this.alertMsg(this.translations.NODE_ERROR_TITLE, this.translations.NODE_ERR_HAVE_CHILDREN + '[' + this.node.name + ']');
+        this.utilService.alertMsg(this.translations.NODE_ERROR_TITLE, this.translations.NODE_ERR_HAVE_CHILDREN + '[' + this.node.name + ']');
         return;
       }
     }
-
     let alert = await this.alertController.create({
       header: this.translations.DELETE_PEOPLE_HEADER,
       message: this.translations.DELETE_PEOPLE_MESSAGE + this.node.name + '?',
@@ -144,7 +121,7 @@ export class NodePage implements OnInit {
   }
 
   closeGender() {
-    console.log('NodePage - closeGender - ', this.selectGender);
+    // console.log('NodePage - closeGender - ', this.selectGender);
   }
 
   search(event) {
@@ -155,12 +132,11 @@ export class NodePage implements OnInit {
   async onSubmit(values) {
     if (!this.validationsForm.valid)
       return;
-
-    console.log('onSubmit1: ', values);
+    // console.log('onSubmit1: ', values);
     if (values.pob.name) values.pob = values.pob.name;
     if (values.pod.name) values.pod = values.pod.name;
     if (values.por.name) values.por = values.por.name;
-    console.log('onSubmit2: ', values);
+    console.log('onSubmit: ', values);
 
     let errorMsg = '';
     // --- data validation
@@ -184,7 +160,7 @@ export class NodePage implements OnInit {
     // --- end data validation
 
     if (errorMsg != '') {
-      this.alertMsg(this.translations.NODE_ERROR_TITLE, errorMsg);
+      this.utilService.alertMsg(this.translations.NODE_ERROR_TITLE, errorMsg);
       return;
     }
     this.updateAnDismiss(values);
@@ -236,15 +212,5 @@ export class NodePage implements OnInit {
     }
     await this.modalCtr.dismiss(change ? 'change' : 'nochange');
   }
-  
-
-  async alertMsg(title, message) {
-		let alert = await this.alertController.create({
-			header: title,
-			message: message,
-			buttons: ['OK']
-		});
-		alert.present();
-	}
 
 }

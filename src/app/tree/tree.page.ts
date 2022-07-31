@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ModalController, AlertController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { UtilService } from '../services/util.service';
 import { LanguageService } from '../services/language.service';
 import { FamilyService } from '../services/family.service';
@@ -34,7 +34,6 @@ export class TreePage implements OnInit {
 
   constructor(
     public modalCtrl: ModalController,
-    private alertController: AlertController,
     private utilService: UtilService,
     private familyService: FamilyService,
     private languageService: LanguageService,
@@ -46,8 +45,13 @@ export class TreePage implements OnInit {
     this.familyService.readFamily().then(family => {
       // console.log('TreePage - ngOnInit: ', family)
       this.familyService.buildFullFamily(family);
-      this.nodes = this.familyService.getNodes(family);
+      this.nodes = this.familyService.getFamilyNodes(family);
       this.family = family;
+      // verify data
+      let msg = this.familyService.verifyFamily(family);
+      if (msg)
+        this.utilService.alertMsg('WARNING', msg);
+
     });
   }
 
@@ -74,7 +78,7 @@ export class TreePage implements OnInit {
   }
 
   onLeafSelected(node: any) {
-    // console.log('onLeafSelected: ', node);
+    // console.log('TreePage - onLeafSelected: ', node);
     this.openNodeModal(node);
   }
 
@@ -82,25 +86,12 @@ export class TreePage implements OnInit {
     this.scrollToRoot();
   }
 
-  onZoomOut() {
-    this.scaleStyle += 1;
+  onZoom(increment) {
+    this.scaleStyle += increment;
   }
 
-  onZoomIn() {
-    this.scaleStyle -= 1;
-  }
-
-  onSearch(){
-		// console.log( 'onSearch - searchView: ', this.searchView);
-		if (this.searchView) {
-			this.searchView = false;
-		}	else {
-			this.searchView = true;
-		}
-	}
-  
   keyup(event, json) {
-    // console.log('keyup: ', event);
+    // console.log('TreePage - keyup: ', event);
     if (event.key == 'Enter')
       this.enter();
     this.people = this.typeahead.getJson(event.target.value, json);
@@ -132,6 +123,7 @@ export class TreePage implements OnInit {
     this.searchPercent = '0/0';
     this.searchIdx = 0;
     this.sNodes = [];
+    this.searchView = false;
     // reset nclass
     this.nodes.forEach(node => {
       this.familyService.updateNclass(node);
@@ -144,6 +136,7 @@ export class TreePage implements OnInit {
     this.searchReset();
     searchStr = this.utilService.stripVN(searchStr);
     // console.log('TreePage - startSear - chsearchStr: ', searchStr)
+    this.searchView = true;
 
     // search thru all nodes
     this.nodes.forEach(node => {
@@ -194,7 +187,6 @@ export class TreePage implements OnInit {
   scrollToRoot() {
     let node = this.nodes[0];
     let id = node.id;
-    console.log('  id: ', id)
     const eleTree = document.getElementById('1-0');
     const ele = document.getElementById(id);
     // console.log('ele: ', ele);
@@ -210,7 +202,6 @@ export class TreePage implements OnInit {
   scrollToSearch(sIndex: number) {
     let node = this.sNodes[sIndex];
     let id = node.id;
-    console.log('id: ', id)
     const eleTree = document.getElementById('1-0');
     const ele = document.getElementById(id);
     // console.log('ele: ', ele);
@@ -255,12 +246,12 @@ export class TreePage implements OnInit {
     return await modal.present();
   }
 
-  async alertMsg(title, message) {
-		let alert = await this.alertController.create({
-			header: title,
-			message: message,
-			buttons: ['OK']
-		});
-		alert.present();
-	}
+  // async alertMsg(title, message) {
+	// 	let alert = await this.alertController.create({
+	// 		header: title,
+	// 		message: message,
+	// 		buttons: ['OK']
+	// 	});
+	// 	alert.present();
+	// }
 }
