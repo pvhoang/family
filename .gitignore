@@ -29,6 +29,9 @@ npm-debug.log*
 /platforms
 /plugins
 /www
+/.angular
+/.firebase
+/.gradle
 
 # Firebase
 .firebase
