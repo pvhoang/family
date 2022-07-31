@@ -1,6 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { ToastController } from '@ionic/angular';
-// import { DataService } from '../services/data.service';
 import { UtilService } from '../services/util.service';
 import { LanguageService } from '../services/language.service';
 
@@ -22,7 +21,6 @@ export class ArchivePage implements OnInit {
 
   constructor(
     public toastController: ToastController,
-    // private dataService: DataService,
     private utilService: UtilService,
     private languageService: LanguageService,
   ) {
@@ -41,10 +39,6 @@ export class ArchivePage implements OnInit {
         this.images = [];
         let imageEle = document.getElementById("image");
         let rect:any = imageEle.getBoundingClientRect();
-        // let viewportWidth = window.innerWidth;
-        // let viewportHeight = window.innerHeight;
-        // console.log("viewportWidth, viewportHeight: ", viewportWidth, viewportHeight );
-        // console.log("rect: ", rect );
 
         // calculate position of each area
         this.imageIds.forEach(iid => {
@@ -52,8 +46,6 @@ export class ArchivePage implements OnInit {
           this.images.push({id: iid, name: d.title});
           let imageWidth = d.image.width;
           let imageHeight = d.image.height;
-          // let areaWidth = d.area.width;
-          // let areaHeight = d.area.height;
           d.areas.forEach(area => {
             // based 0
             let aid = area.id;
@@ -70,21 +62,20 @@ export class ArchivePage implements OnInit {
         })
         this.selectedImage = this.images[0].id;
       }, 500);
-
     });
   }
 
   ionViewWillEnter() {
-    console.log('ArchivePage - ionViewWillEnter');
+    // console.log('ArchivePage - ionViewWillEnter');
     this.showDetail = false;
   }
 	
 	ionViewWillLeave() {
-    console.log('ArchivePage - ionViewWillLeave');
+    // console.log('ArchivePage - ionViewWillLeave');
 	}
 
   show() {
-    // console.log('show');
+    // console.log('ArchivePage - show');
     if (this.showDetail)
       this.showDetail = false;
     else 
@@ -92,7 +83,7 @@ export class ArchivePage implements OnInit {
   }
 
   close() {
-    console.log('close: ', this.selectedImage);
+    console.log('ArchivePage - close: ', this.selectedImage);
     this.imageId = this.selectedImage;
     this.idata = this.data[this.imageId];
     this.showDetail = false;
@@ -109,12 +100,12 @@ export class ArchivePage implements OnInit {
       'top': area.coords.y + 'px',
       'left': area.coords.x + 'px',
     };
-    // console.log('getAreaStyle: ', styles);
+    // console.log('ArchivePage - getAreaStyle: ', styles);
     return styles;
   }
 
   displayText(text: any) {
-    // console.log('displayText: ', text);
+    // console.log('ArchivePage - displayText: ', text);
     this.presentToast(text);
   }
 

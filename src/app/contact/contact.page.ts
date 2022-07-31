@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-// import { DataService } from '../services/data.service';
 import { FirebaseService } from '../services/firebase.service';
 import { UtilService } from '../services/util.service';
 import { LanguageService } from '../services/language.service';
@@ -23,7 +22,6 @@ export class ContactPage implements OnInit {
   
   constructor(
     private alertController: AlertController,
-    // private dataService: DataService,
     private firebaseService: FirebaseService,
     private familyService: FamilyService,
     private utilService: UtilService,
@@ -39,15 +37,10 @@ export class ContactPage implements OnInit {
 
   ionViewWillEnter() {
     console.log('ContactPage - ionViewWillEnter');
-    // this.dataService.readFamily().then(family => {
-    //   this.filterFamily = family;
-    //   // console.log('ContactPage - ionViewWillEnter: ', family);
-    // });
   } 
 	
 	ionViewWillLeave() {
     console.log('ContactPage - ionViewWillLeave');
-    // this.dataService.saveFamily(this.family);
 	}
 
   async saveTree() {
@@ -68,25 +61,18 @@ export class ContactPage implements OnInit {
         {
           text: this.translations.CONTINUE,
           handler: (data: any) => {
-            console.log('data:' , data );
-            // console.log('filterFamily:' , JSON.stringify(this.filterFamily, null, 4) )
-
+            // console.log('data:' , data );
             this.familyService.readFamily().then(family => {
               let nodes = this.familyService.getNodes(family);
               this.utilService.savePeoplePlacesJSON(nodes);
               this.familyService.printFamily(family);
               // this.firebaseService.saveContent({ email: data['0'], text: JSON.stringify(family) });
             });
-            // let nodes = this.dataService.getFamilyNodes(this.filterFamily);
-            // this.utilService.savePeoplePlacesJSON(nodes);
-            // this.dataService.printFamily(this.filterFamily);
-            // this.dataService.saveContent({ email: data['0'], text: JSON.stringify(this.filterFamily) });
           }
         }
       ]
     });
     confirm.present();
 	}
-
 
 }

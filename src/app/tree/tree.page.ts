@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ModalController, AlertController } from '@ionic/angular';
-// import { DataService } from '../services/data.service';
 import { UtilService } from '../services/util.service';
 import { LanguageService } from '../services/language.service';
 import { FamilyService } from '../services/family.service';
@@ -36,7 +35,6 @@ export class TreePage implements OnInit {
   constructor(
     public modalCtrl: ModalController,
     private alertController: AlertController,
-    // private dataService: DataService,
     private utilService: UtilService,
     private familyService: FamilyService,
     private languageService: LanguageService,
@@ -46,24 +44,19 @@ export class TreePage implements OnInit {
 
   ngOnInit() {
     this.familyService.readFamily().then(family => {
-      console.log('TreePage - ngOnInit: ', family)
-      // this.familyService.printFamily(family);
-      // this.nodes = this.getNodes(family);
+      // console.log('TreePage - ngOnInit: ', family)
       this.familyService.buildFullFamily(family);
       this.nodes = this.familyService.getNodes(family);
       this.family = family;
-      // this.family = this.nodes[0]['parent'];
-      // this.utilService.savePeoplePlacesJSON()
     });
   }
 
   ionViewWillEnter() {
-    console.log('ionViewWillEnter');
+    console.log('TreePage - ionViewWillEnter');
   }
 	
 	ionViewWillLeave() {
-    console.log('ionViewWillLeave');
-    // this.dataService.saveFamily(this.family).then(status => {});
+    console.log('TreePage - ionViewWillLeave');
 	}
 
   getZoomStyle() {
@@ -79,87 +72,6 @@ export class TreePage implements OnInit {
     };
     return styles;
   }
-
-  // private getNodes(family: any) {
-  //   let nodes = [];
-  //   family['nodes'].forEach(node => {
-  //     node = this.fillNode(node);
-  //     this.updateNclass(node);
-  //     node.pnode = null;
-  //     node.parent = family;
-  //     node.profile = this.getSearchStr(node);
-  //     nodes.push(node);
-  //   })
-  //   if (family['children']) {
-  //     family['children'].forEach(fam => {
-  //       this.setChild(family.nodes[0], fam, nodes);
-  //     })
-  //   }
-  //   return nodes;
-  // }
-
-  // private setChild(pnode, family, nodes) {
-
-  //   family.nodes.forEach(node => {
-  //     node = this.fillNode(node);
-  //     this.updateNclass(node);
-  //     node.id = pnode.id + '-' + node.id;
-  //     node.pnode = pnode;
-  //     node.parent = family;
-  //     node.profile = this.getSearchStr(node);
-  //     nodes.push(node);
-  //   })
-  //   if (family['children']) {
-  //     family['children'].forEach(fam => {
-  //       this.setChild(family.nodes[0], fam, nodes);
-  //     })
-  //   }
-  // }
-
-  // private getSearchStr(node): string {
-  //   return node.name + ' ' + 
-  //     node.nick + ' ' +
-  //     node.gender + ' ' +
-  //     node.yob + ' ' +
-  //     node.yod + ' ' +
-  //     node.pob + ' ' +
-  //     node.pod + ' ' +
-  //     node.por;
-  // }
-  
-  // private fillNode(node) {
-  //   if (!node.id) node.id = '';
-  //   if (!node.relationship) node.relationship = '';
-  //   if (!node.name) node.name = '';
-  //   if (!node.nick) node.nick = '';
-  //   if (!node.gender) node.gender = '';
-  //   if (!node.yob) node.yob = '';
-  //   if (!node.yod) node.yod = '';
-  //   if (!node.pob) node.pob = '';
-  //   if (!node.pod) node.pod = '';
-  //   if (!node.por) node.por = '';
-  //   if (!node.child) node.child = '';
-  //   if (!node.spouse) node.spouse = '';
-  //   return node;
-  // }
-
-  // private updateNclass(node: Node): void {
-  //   node['nclass'] = node.gender;
-  //   if (this.isNodeMissingData(node))
-  //     node['nclass'] = 'not-complete';
-  // }
-
-  // private isNodeMissingData(node: any): boolean {
-  //   if (node['name'].length == 0)
-  //     return true;
-  //   if (node['yob'].length == 0)
-  //     return true;
-  //   if (node['pob'].length == 0)
-  //     return true;    
-  //   if (node['gender'].length == 0)
-  //     return true;
-  //   return false;
-  // }
 
   onLeafSelected(node: any) {
     // console.log('onLeafSelected: ', node);
@@ -206,17 +118,17 @@ export class TreePage implements OnInit {
 
   enter() {
     this.typeStr = this.typeStr.trim();
-    // console.log('enter: ', this.typeStr);
+    // console.log('TreePage - enter: ', this.typeStr);
     this.startSearch(this.typeStr.slice());
   }
 
   search(event) {
-    // console.log('search: ', event);
+    // console.log('TreePage - search: ', event);
     this.typeStr = event.term;
   }
 
   searchReset() {
-    // console.log('searchReset');
+    // console.log('TreePage -searchReset');
     this.searchPercent = '0/0';
     this.searchIdx = 0;
     this.sNodes = [];
@@ -231,7 +143,7 @@ export class TreePage implements OnInit {
     // always reset
     this.searchReset();
     searchStr = this.utilService.stripVN(searchStr);
-    // console.log('searchStr: ', searchStr)
+    // console.log('TreePage - startSear - chsearchStr: ', searchStr)
 
     // search thru all nodes
     this.nodes.forEach(node => {

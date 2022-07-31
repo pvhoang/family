@@ -103,6 +103,16 @@ html.md {
   --app-header-height: 56px;
 }
 
+.card-header{
+  background: #f4f5f8;
+  color: #3880ff;
+  font-weight: bold;
+}
+
+.card-label{
+  font-weight: bold;
+}
+
 @media (prefers-color-scheme: dark) {
   /*
    * Dark Colors
