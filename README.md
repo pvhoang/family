@@ -45,14 +45,11 @@ element.scrollIntoView
 // https://www.angularfix.com/2022/04/how-to-extend-css-family-tree.html
 
 =======================
-# Dividing, hovering, resizing, sliding images
+# Resizing, set coordinates on images
 =======================
-https://www.geeksforgeeks.org/how-to-divide-an-image-into-different-clickable-link-area-using-html/
-https://www.w3schools.com/tags/tag_area.asp
-https://www.angularfix.com/2022/02/is-it-possible-to-style-mouseover-on.html
-https://ionicframework.com/docs/api/slides
 https://www.iloveimg.com/resize-image
 Standard: 1200x(800-900)px
+Paint App
 
 =====================================================================
 # FIREBASE
