@@ -76,7 +76,7 @@ export class FamilyService {
     let people = [];
 		let places = [];
 
-    console.log('printPeople');
+    // console.log('printPeople');
 
     family.nodes.forEach((node: any) => {
       people.push(node.name);
@@ -89,37 +89,35 @@ export class FamilyService {
         this.printPeopleChild(child, people, places);
       })
     }
-
-    console.log('printPeople: ', people);
+    // console.log('printPeople: ', people);
 
     let uniquePeopleData = [];
 		people.forEach((element) => {
-			if (!uniquePeopleData.includes(element)) {
+			if (element && element != '' && !uniquePeopleData.includes(element)) {
 				uniquePeopleData.push(element);
 			}
 		});
+    uniquePeopleData.sort();
 
 		let uniquePlaceData = [];
 		places.forEach((element) => {
-			if (!uniquePlaceData.includes(element)) {
+			if (element && element != '' && !uniquePlaceData.includes(element))
 				uniquePlaceData.push(element);
-			}
 		});
+    uniquePlaceData.sort();
 
-		// console.log('savePeopleJSON: uniqueData:', uniqueData);
-		let pe = {};
-    pe['data'] = [];
+    let data = [];
     uniquePeopleData.forEach(value => {
-      pe['data'].push({'name': value});
+      data.push({'name': value});
     });
-		let pl = {};
-    pl['data'] = [];
-    uniquePlaceData.forEach(value => {
-      pl['data'].push({'name': value});
-    });
+    console.log('people: ', JSON.stringify({data: data}, null, 4));
 
-    console.log('people: ', JSON.stringify(pe, null, 4));
-    console.log('places: ', JSON.stringify(pl, null, 4));
+    data = [];
+    uniquePlaceData.forEach(value => {
+      data.push({'name': value});
+    });
+    console.log('places: ', JSON.stringify({data: data}, null, 4));
+
   }
 
   private printPeopleChild(family:any, people, places) {

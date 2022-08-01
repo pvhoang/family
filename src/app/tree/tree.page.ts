@@ -223,6 +223,7 @@ export class TreePage implements OnInit {
   }
   
   async openNodeModal(node) {
+    // console.log('openNodeModal - node : ', node);
     const modal = await this.modalCtrl.create({
       component: NodePage,
       componentProps: {
@@ -232,26 +233,20 @@ export class TreePage implements OnInit {
     });
 
     modal.onDidDismiss().then((resp) => {
-      console.log('onDidDismiss : ', resp);
+      // console.log('onDidDismiss : ', resp);
       if (resp.data !== null) {
         let mode = resp.data;
         if (mode == 'change' || mode == 'delete') {
+          // console.log('NodePage - onDidDismiss - nclass3: ', node.nclass);
+          // console.log('node : ', node);
           // save to storage
           this.familyService.saveFullFamily(this.family).then(status => {});
-          this.familyService.updateNclass(node);
+          // console.log('NodePage - onDidDismiss - nclass4: ', node.nclass);
+          if (node.nclass != 'select')
+            this.familyService.updateNclass(node);
         }
-        // console.log('node : ', node);
       }
     });
     return await modal.present();
   }
-
-  // async alertMsg(title, message) {
-	// 	let alert = await this.alertController.create({
-	// 		header: title,
-	// 		message: message,
-	// 		buttons: ['OK']
-	// 	});
-	// 	alert.present();
-	// }
 }

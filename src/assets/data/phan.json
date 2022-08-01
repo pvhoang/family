@@ -3,7 +3,7 @@
       {
           "name": "Phan Với",
           "gender": "male",
-          "pob": "Quảng Ngãi"
+          "pob": "Quảng Bình"
       },
       {
           "name": "Phan Thị Biu",
@@ -13,7 +13,7 @@
       {
           "name": "Phan Thị Khiển",
           "gender": "female",
-          "pob": "California, USA"
+          "pob": "Quảng Bình"
       }
   ],
   "children": [
@@ -38,14 +38,8 @@
                           "nodes": [
                               {
                                   "name": "Phan Hòa",
-                                  "nick": "abcd",
-                                  "gender": {
-                                      "id": "male",
-                                      "name": "Nam"
-                                  },
-                                  "yob": "1967",
-                                  "pob": "Quảng Ngãi",
-                                  "por": "Quảng Bình"
+                                  "gender": "male",
+                                  "pob": "Quảng Bình"
                               }
                           ]
                       },
@@ -54,8 +48,7 @@
                               {
                                   "name": "Phan Thị Kha",
                                   "gender": "female",
-                                  "pob": "Quảng Bình",
-                                  "por": "Quảng Ngãi"
+                                  "pob": "Quảng Bình"
                               }
                           ]
                       },
@@ -592,6 +585,104 @@
                                           "name": "Phan Văn Ba",
                                           "gender": "male"
                                       }
+                                  ],
+                                  "children": [
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thanh Sơn",
+                                                "gender": "male"
+                                            }
+                                        ],
+                                        "children": [
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Văn Vũ",
+                                                        "gender": "male"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thanh Lâm",
+                                                "gender": "male"
+                                            }
+                                        ],
+                                        "children": [
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Đức Anh",
+                                                        "gender": "male"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thanh Hùng",
+                                                "gender": "male"
+                                            }
+                                        ],
+                                        "children": [
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Thành Thái",
+                                                        "gender": "male"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Trần Mỹ Lệ",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thanh Dũng",
+                                                "gender": "male"
+                                            }
+                                        ],
+                                        "children": [
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Lê Minh Nhật",
+                                                        "gender": "male"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Trường Nghĩa",
+                                                "gender": "male"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Trần Nhân",
+                                                "gender": "male"
+                                            }
+                                        ]
+                                    }
                                   ]
                               },
                               {
@@ -608,6 +699,76 @@
                                           "name": "Phan Văn Năm",
                                           "gender": "male"
                                       }
+                                  ],
+                                  "children": [
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Mỹ Lệ",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thanh Hải",
+                                                "gender": "male"
+                                            }
+                                        ],
+                                        "children": [
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Thị Thanh Thảo",
+                                                        "gender": "female"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Thanh Thành",
+                                                        "gender": "male"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thanh Hậu",
+                                                "gender": "male"
+                                            }
+                                        ],
+                                        "children": [
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Thành Hiếu",
+                                                        "gender": "male"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Bạch Gia Hưng",
+                                                        "gender": "male"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Mỹ Linh",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    }
                                   ]
                               },
                               {
@@ -616,6 +777,24 @@
                                           "name": "Phan Văn Sáu",
                                           "gender": "male"
                                       }
+                                  ],
+                                  "children": [
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Thúy Hằng",
+                                                "gender": "male"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Ngọc Hải Long",
+                                                "gender": "male"
+                                            }
+                                        ]
+                                    }
                                   ]
                               },
                               {
@@ -632,6 +811,32 @@
                                           "name": "Phan Văn Tám",
                                           "gender": "male"
                                       }
+                                  ],
+                                  "children": [
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Kiều Bảo Trang",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Bảo Kiều Trang",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Bảo Hoài Nam",
+                                                "gender": "male"
+                                            }
+                                        ]
+                                    }
                                   ]
                               },
                               {
