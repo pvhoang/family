@@ -6,6 +6,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   template: `
 
     <div *ngFor="let node of child.nodes">
+      <div id="{{node.idlevel}}">
       <span
           class="node"
           [ngClass]="node.relationship ? node.relationship + '-leaf' : ''"
@@ -15,6 +16,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       >
         {{node.name}}<br/>{{node.yob}}
       </span>
+      </div>
     </div>
 
     <ul *ngIf="child.children && child.children.length > 0">

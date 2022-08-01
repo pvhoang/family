@@ -1,12 +1,12 @@
 {
-  "PHAN_FAMILY_TREE": "Gia phả Họ Phan",
+  "PHAN_FAMILY_TREE": "Gia Phả Họ Phan",
   "VERSION": "Ấn bản",
-  "TREE": "Phát đồ",
-  "ARCHIVE": "Tư liệu",
+  "TREE": "Phả đồ",
+  "ARCHIVE": "Phả ký",
   "INFO": "Thông tin",
   "CONTACT": "Liên hệ",
   "MESSAGE": "Tin nhắn",
-  "ABOUT": "About",
+  "ABOUT": "Về gia phả",
   "MALE": "Nam",
   "FEMALE": "Nữ",
   "OK": "OK",
@@ -14,7 +14,7 @@
   "CONTINUE": "Tiếp tục",
 
   "SEARCH_RESULT_TITLE": "Kết quả tìm",
-  "TREE_UPDATE_HEADER": "Cập nhật gia phả",
+  "TREE_UPDATE_HEADER": "Cập nhật phả đồ",
   "TREE_UPDATE_MESSAGE": "Nhận thông báo qua email sau khi duyệt.",
   
   "DELETE_PEOPLE_HEADER": "Thông báo",
@@ -23,8 +23,8 @@
   "NODE_GROUP_NAME": "Danh tính",
   "NODE_NAME": "Họ tên",
   "NODE_NAME_PLACEHOLDER": "Nhập họ tên (Phan nếu đầu nhánh, ví dụ. Phan Ngọc Luật)",
-  "NODE_NAME_ERROR": "Tên không được để trống.",
-  "NODE_NICK": "Tục danh",
+  
+  "NODE_NICK": "Biệt hiệu",
   "NODE_NICK_PLACEHOLDER": "Nhập tên gọi trong nhà (ví du: Bảy, Bờm, Tèo, Nô)",
   "NODE_GENDER": "Giới tính",
   "NODE_GROUP_TIME": "Sinh thời",
@@ -33,8 +33,8 @@
   "NODE_YOD": "Năm tử",
   "NODE_YOD_PLACEHOLDER": "Nhập năm (4 số, > Năm sinh, < 2022)",
   "NODE_GROUP_PLACE": "Nguyên quán",
-  "NODE_POB": "Sinh quán",
-  "NODE_POD": "Tử quán",
+  "NODE_POB": "Nguyên sinh",
+  "NODE_POD": "Nguyên táng",
   "NODE_POR": "Trú quán",
   "NODE_GROUP_TREE": "Gia phả",
   "NODE_CHILD": "Thêm con",
@@ -44,12 +44,14 @@
 
   "NODE_SUBMIT": "Cất",
 
-  "NODE_ERROR_TITLE": "Lỗi dữ liệu",
-  "NODE_ERR_YOB_ERROR": "Năm sinh phải từ 1900 đến 2500.",
-  "NODE_ERR_YOD_ERROR": "Năm mất phải từ 1900 đến 2500.",
-  "NODE_ERR_YOD_BLANK": "Tử quán phải để trống nếu năm mất để trống.",
+  "NODE_ERR_NAME_IS_BLANK": "Họ/tên không được để trống.",
+  "NODE_ERR_YOD_BLANK": "Nơi sinh phải để trống nếu năm mất để trống.",
 
-  "NODE_ERR_HAVE_CHILDREN": "Không thể xóa. Thành viên có con."
+  "NODE_ERROR_TITLE": "Lỗi dữ liệu",
+  "NODE_ERR_YOB_ERROR": "Năm sinh phải từ 1900 đến 2022.",
+  "NODE_ERR_YOD_ERROR": "Năm mất phải > năm sinh và từ 1900 đến 2022.",
+
+  "NODE_ERR_HAVE_CHILDREN": "Không thể xóa nhánh. Phải xóa ngọn trước."
 
 
 }

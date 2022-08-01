@@ -233,6 +233,7 @@ export class FamilyService {
       node = this.fillNode(node);
       this.updateNclass(node);
       node.id = '' + childIdx + '-' + nodeIdx++;
+      node.idlevel = 'level-' + nodeLevel;
       node.pnode = null;
       node.parent = family;
       node.profile = this.getSearchStr(node);
@@ -253,6 +254,7 @@ export class FamilyService {
       node = this.fillNode(node);
       this.updateNclass(node);
       node.id = pnode.id + '-' + childIdx + '-' + nodeIdx++;
+      node.idlevel = 'level-' + nodeLevel;
       node.pnode = pnode;
       node.parent = family;
       node.profile = this.getSearchStr(node);

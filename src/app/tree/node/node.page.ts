@@ -5,6 +5,9 @@ import { TypeaheadService } from '../../services/typeahead.service';
 import { LanguageService } from '../../services/language.service';
 import { UtilService } from '../../services/util.service';
 
+const MIN_YEAR = 1900;
+const MAX_YEAR = 2022;
+
 @Component({
   selector: 'app-node',
   templateUrl: './node.page.html',
@@ -138,11 +141,12 @@ export class NodePage implements OnInit {
     // place of death must be empty if year of death is empty
     if (values.yod == '' && values.pod.name != '') 
       errorMsg += this.translations.NODE_ERR_YOD_BLANK + '<br/>';
-    // year of birth is either empty or > 1900 and < 2500
-    if (values.yob == '' || (!isNaN(values.yob) && parseInt(values.yob) > 1900 && parseInt(values.yob) < 2500)) {
+    // year of birth is either empty or > 1900 and < 2022
+    if (values.yob == '' || (!isNaN(values.yob) && parseInt(values.yob) > MIN_YEAR && parseInt(values.yob) < MAX_YEAR)) {
     } else {
         errorMsg += this.translations.NODE_ERR_YOB_ERROR + '<br/>';
     }
+    
     // year of death is either empty or > 1900 and < 2500
     if (values.yod == '' || (!isNaN(values.yob) && parseInt(values.yod) > 1900 && parseInt(values.yod) < 2500)) {
     } else {

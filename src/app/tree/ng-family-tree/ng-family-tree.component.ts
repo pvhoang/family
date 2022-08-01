@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } fro
       <ul>
         <li>
           <div class="top" *ngFor="let node of family.nodes">
+            <div id="{{node.idlevel}}">
             <span 
                 class="node"
                 [ngClass]="node.relationship ? node.relationship + '-leaf' : ''"
@@ -16,6 +17,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } fro
             >
               {{node.name}}<br/>{{node.yob}}
             </span>
+            </div>
           </div>
           <ul>
             <li *ngFor="let child of family.children" [ngStyle]="{'width': _setWidth(child) ? '100%' : 'auto'}" >
