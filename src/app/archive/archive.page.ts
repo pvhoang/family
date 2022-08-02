@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { UtilService } from '../services/util.service';
+import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
 import { LanguageService } from '../services/language.service';
 
 @Component({
@@ -23,6 +24,7 @@ export class ArchivePage implements OnInit {
     public toastController: ToastController,
     private utilService: UtilService,
     private languageService: LanguageService,
+		private iab: InAppBrowser,
   ) {
   }
 
@@ -32,35 +34,42 @@ export class ArchivePage implements OnInit {
     this.utilService.getLocalJsonFile('./assets/data/images.json').then((data:any) => {
       console.log('data: ', data);
       this.imageIds = Object.keys(data);
+
+      console.log('data: ', data);
+      this.imageIds = Object.keys(data);
       this.data = data;
-      this.idata = data[this.imageId];
-      
+      this.idata = data[this.imageId]; 
+
       setTimeout(() => {
         this.images = [];
-        let imageEle = document.getElementById("image");
-        let rect:any = imageEle.getBoundingClientRect();
-
         // calculate position of each area
         this.imageIds.forEach(iid => {
           let d = data[iid];
           this.images.push({id: iid, name: d.title});
-          let imageWidth = d.image.width;
-          let imageHeight = d.image.height;
-          d.areas.forEach(area => {
-            // based 0
-            let aid = area.id;
-            let x = area.coords.x;
-            let y = area.coords.y;
-            let text = area.coords.text;
-            x = x * rect.width / imageWidth;
-            y = y * rect.height / imageHeight;
-            area.coords.x = parseInt(x) + rect.left;
-            area.coords.y = parseInt(y) + + rect.top;
-            area.id = iid + '-' + aid;
-          })
-          // console.log("dataid: ", d );
+
+          if (d.type == 'image') {
+            let imageEle = document.getElementById("image");
+            let rect:any = imageEle.getBoundingClientRect();
+            let imageWidth = d.image.width;
+            let imageHeight = d.image.height;
+            d.areas.forEach(area => {
+              // based 0
+              let aid = area.id;
+              let x = area.coords.x;
+              let y = area.coords.y;
+              let text = area.coords.text;
+              x = x * rect.width / imageWidth;
+              y = y * rect.height / imageHeight;
+              area.coords.x = parseInt(x) + rect.left;
+              area.coords.y = parseInt(y) + + rect.top;
+              area.id = iid + '-' + aid;
+            })
+          } else if (d.type == 'html') {
+          }
         })
+        // console.log('images: ', this.images);
         this.selectedImage = this.images[0].id;
+        // this.idata = data[this.selectedImage]; 
       }, 500);
     });
   }
@@ -80,6 +89,8 @@ export class ArchivePage implements OnInit {
       this.showDetail = false;
     else 
       this.showDetail = true;
+    // let url = "https://gia-pha-ho-phan.web.app/assets/doc/test.html";
+    // this.openWebpage(url);
   }
 
   close() {
@@ -108,6 +119,13 @@ export class ArchivePage implements OnInit {
     // console.log('ArchivePage - displayText: ', text);
     this.presentToast(text);
   }
+
+  openWebpage(url: string) {
+		const options: InAppBrowserOptions = {
+			zoom: 'yes'
+		}
+		this.iab.create(url, '_system', options);
+	}
 
   async presentToast(msg) {
     const toast = await this.toastController.create({

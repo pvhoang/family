@@ -32,6 +32,10 @@ export class LanguageService {
       });
   }
 
+  getTranslation(key) {
+    return this.translations[key];
+  }
+
   getTrans() {
     return this.translations;
   }

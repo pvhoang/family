@@ -7,7 +7,7 @@ import { FamilyService } from '../services/family.service';
 import { NodePage } from './node/node.page';
 import { TypeaheadService } from '../services/typeahead.service';
 import { Family, Node } from '../models/family.model';
-import { NgxSmoothScrollService } from '@eunsatio/ngx-smooth-scroll';
+
 
 @Component({
   selector: 'app-tree',
@@ -23,8 +23,8 @@ export class TreePage implements OnInit {
   language = 'VI';
   people: Observable<string[]>;
   typeStr: any = '';
-  selectPeople: any = {};
-  translations: any;
+  selectPeople: any = {name: ''};
+  // translations: any;
   scaleStyle: number = 10;
   searchView = false;
 	searchPercent: any = '0/0';
@@ -38,7 +38,6 @@ export class TreePage implements OnInit {
     private familyService: FamilyService,
     private languageService: LanguageService,
     private typeahead: TypeaheadService,
-    private smoothScrollService: NgxSmoothScrollService
   ) {}
 
   ngOnInit() {
@@ -46,12 +45,15 @@ export class TreePage implements OnInit {
       // console.log('TreePage - ngOnInit: ', family)
       this.familyService.buildFullFamily(family);
       this.nodes = this.familyService.getFamilyNodes(family);
+      // console.log('TreePage - nodes: ', this.nodes);
       this.family = family;
       // verify data
       let msg = this.familyService.verifyFamily(family);
       if (msg)
         this.utilService.alertMsg('WARNING', msg);
-
+      setTimeout(() => {
+        this.scrollToRoot();
+      }, 500);
     });
   }
 
@@ -98,18 +100,22 @@ export class TreePage implements OnInit {
   }
 
   close() {
-    // console.log('close');
-    this.startSearch(this.selectPeople.name);
+    // console.log('TreePage - close: ', this.selectPeople.name, this.typeStr);
+    if (this.selectPeople.name != '')
+      this.startSearch(this.selectPeople.name);
+    else
+      this.selectPeople = {'name': this.typeStr};
   }
 
   clear() {
-    // console.log('clear');
+    console.log('TreePage - clear');
     this.searchReset();
   }
 
   enter() {
     this.typeStr = this.typeStr.trim();
     // console.log('TreePage - enter: ', this.typeStr);
+    this.selectPeople = {'name': this.typeStr};
     this.startSearch(this.typeStr.slice());
   }
 
@@ -134,19 +140,25 @@ export class TreePage implements OnInit {
   startSearch(searchStr) {
     // always reset
     this.searchReset();
-    searchStr = this.utilService.stripVN(searchStr);
-    // console.log('TreePage - startSear - chsearchStr: ', searchStr)
+    // console.log('TreePage - startSearch - searchStr: ', searchStr)
+    let skeys = this.utilService.stripVN(searchStr).split(' ');
     this.searchView = true;
-
     // search thru all nodes
     this.nodes.forEach(node => {
       // reset nclass
       this.familyService.updateNclass(node);
-      // check if the node is select
-      let text = JSON.stringify(node['profile']);
-      text = this.utilService.stripVN(text);
-      if (text.indexOf(searchStr) >= 0) {
-        // console.log('text: ', text)
+      let keys = node['profile'];
+      let found = true;
+      let idx1 = -1;
+      for (let i = 0; i < skeys.length; i++) {
+        let idx = keys.indexOf(skeys[i]);
+        if ((idx == -1) || (idx1 != -1 && idx != idx1) ){
+          found = false;
+          break;
+        }
+        idx1 = idx + 1;
+      }
+      if (found) {
         node['nclass'] = 'select'
         this.sNodes.push(node);
       }
@@ -161,7 +173,12 @@ export class TreePage implements OnInit {
     } else {
       this.searchDisabled = (sCount == 1);
       this.searchIdx = 1;
-      this.searchPercent = this.searchIdx + '/' + this.sNodes.length + ' - ' + this.sNodes[this.searchIdx - 1].name;
+      let node = this.sNodes[this.searchIdx - 1];
+
+      console.log('node: ', node);
+      console.log('doi: ', this.familyService.getGeneration(node));
+
+      this.searchPercent = this.searchIdx + '/' + this.sNodes.length + ' - ' + node.name + ' (' + this.familyService.getGeneration(node) + ')';
       this.scrollToSearch(this.searchIdx-1);
     }
   }
@@ -171,7 +188,8 @@ export class TreePage implements OnInit {
       this.searchIdx = 1;
     else
       this.searchIdx++;
-    this.searchPercent = this.searchIdx + '/' + this.sNodes.length + ' - ' + this.sNodes[this.searchIdx - 1].name;
+    let node = this.sNodes[this.searchIdx - 1];
+    this.searchPercent = this.searchIdx + '/' + this.sNodes.length + ' - ' + node.name + ' (' + this.familyService.getGeneration(node) + ')';
     this.scrollToSearch(this.searchIdx-1);
   }
 
@@ -180,38 +198,32 @@ export class TreePage implements OnInit {
       this.searchIdx = this.sNodes.length;
     else
       this.searchIdx--;
-    this.searchPercent = this.searchIdx + '/' + this.sNodes.length + ' - ' + this.sNodes[this.searchIdx - 1].name;
+    let node = this.sNodes[this.searchIdx - 1];
+    this.searchPercent = this.searchIdx + '/' + this.sNodes.length + ' - ' + node.name + ' (' + this.familyService.getGeneration(node) + ')';
     this.scrollToSearch(this.searchIdx-1);
   }
 
   scrollToRoot() {
     let node = this.nodes[0];
     let id = node.id;
-    const eleTree = document.getElementById('1-0');
-    const ele = document.getElementById(id);
-    // console.log('ele: ', ele);
+    const ele = document.getElementById(node.id);
     let options: any = {
-      duration: 600,
-      alignX: 'center',
-      alignY: 'center',
-      timingFunction: 'ease-in-out'
+      behaviour: 'smooth',
+      block: 'center',
+      inline: 'center',
     }
-    this.smoothScrollService.scrollToElement(eleTree, ele, options);
+    ele.scrollIntoView(options);
   }
 
   scrollToSearch(sIndex: number) {
     let node = this.sNodes[sIndex];
-    let id = node.id;
-    const eleTree = document.getElementById('1-0');
-    const ele = document.getElementById(id);
-    // console.log('ele: ', ele);
+    const ele = document.getElementById(node.id);
     let options: any = {
-      duration: 600,
-      alignX: 'center',
-      alignY: 'center',
-      timingFunction: 'ease-in-out'
+      behaviour: 'smooth',
+      block: 'center',
+      inline: 'center',
     }
-    this.smoothScrollService.scrollToElement(eleTree, ele, options);
+    ele.scrollIntoView(options);
   }
 
   setLanguage() {
@@ -237,11 +249,8 @@ export class TreePage implements OnInit {
       if (resp.data !== null) {
         let mode = resp.data;
         if (mode == 'change' || mode == 'delete') {
-          // console.log('NodePage - onDidDismiss - nclass3: ', node.nclass);
-          // console.log('node : ', node);
           // save to storage
           this.familyService.saveFullFamily(this.family).then(status => {});
-          // console.log('NodePage - onDidDismiss - nclass4: ', node.nclass);
           if (node.nclass != 'select')
             this.familyService.updateNclass(node);
         }

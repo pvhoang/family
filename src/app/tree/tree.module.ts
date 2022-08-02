@@ -7,7 +7,6 @@ import { NgFamilyTreeModule } from './ng-family-tree/ng-family-tree.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { TreePageRoutingModule } from './tree-routing.module';
 import { TreePage } from './tree.page';
-import { NgxSmoothScrollModule } from '@eunsatio/ngx-smooth-scroll';
 
 @NgModule({
   imports: [
@@ -15,7 +14,6 @@ import { NgxSmoothScrollModule } from '@eunsatio/ngx-smooth-scroll';
     FormsModule,
     IonicModule,
     NgSelectModule,
-    NgxSmoothScrollModule,
     NgFamilyTreeModule,
     TranslateModule,
     TreePageRoutingModule

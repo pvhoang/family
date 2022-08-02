@@ -54,13 +54,21 @@
     </ion-row>
   </div> -->
 
-  <h1>{{idata.title}}</h1>
-  <div *ngIf="showDetail">
-    <div *ngFor="let area of idata.areas">
-      <a id="{{area.id}}" [ngStyle]="getAreaStyle(area)" (click)="displayText(area.text)"></a>
-    </div>
+  <div *ngIf="idata.type == 'html'">
+    <h1>{{idata.title}}</h1>
+    <ion-button (click)="openWebpage(idata.src)"><ion-icon name="save"></ion-icon>
+    </ion-button>
   </div>
-  <img id="image" src="{{idata.src}}" width="idata.map.width" height="idata.map.height"/>
+
+  <div *ngIf="idata.type == 'image'">
+    <h1>{{idata.title}}</h1>
+    <div *ngIf="showDetail">
+      <div *ngFor="let area of idata.areas">
+        <a id="{{area.id}}" [ngStyle]="getAreaStyle(area)" (click)="displayText(area.text)"></a>
+      </div>
+    </div>
+    <img id="image" src="{{idata.src}}" width="idata.map.width" height="idata.map.height"/>
+  </div>
 
 </ion-content>
 

@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { DataService } from '../services/data.service';
 import { UtilService } from '../services/util.service';
+import { LanguageService } from '../services/language.service';
+
 // import { Family, Node } from '../models/family.model';
+export const GENERATION = 0;
 
 @Injectable({
 	providedIn: 'root'
@@ -11,6 +14,7 @@ export class FamilyService {
 	constructor(
     private dataService: DataService,
     private utilService: UtilService,
+    private languageService: LanguageService,
 	) {
 	}
 
@@ -54,6 +58,8 @@ export class FamilyService {
 
   async saveFullFamily(family) {
 		family = this.getFilterFamily(family);
+		console.log('saveFullFamily - filterFamily:' , family)
+
 		localStorage.setItem('FAMILY', JSON.stringify(family));
 		return await true;
 	}
@@ -66,7 +72,6 @@ export class FamilyService {
 	}
 	
   printFamily(family) {
-		// family = this.filterNodes(family);
 		console.log('filterFamily:' , JSON.stringify(family, null, 4) )
 	}
 
@@ -75,8 +80,6 @@ export class FamilyService {
   printPeople(family: any) {
     let people = [];
 		let places = [];
-
-    // console.log('printPeople');
 
     family.nodes.forEach((node: any) => {
       people.push(node.name);
@@ -89,7 +92,6 @@ export class FamilyService {
         this.printPeopleChild(child, people, places);
       })
     }
-    // console.log('printPeople: ', people);
 
     let uniquePeopleData = [];
 		people.forEach((element) => {
@@ -169,8 +171,6 @@ export class FamilyService {
     if (family['nodes'].length > 0) {
       family['nodes'].forEach(node => {
         let newNode = {};
-        // no need to save node id
-        // if (node.id != '') newNode['id'] = node.id;
         if (node.relationship != '') newNode['relationship'] = node.relationship;
         if (node.name != '') newNode['name'] = node.name;
         if (node.nick != '') newNode['nick'] = node.nick;
@@ -236,7 +236,7 @@ export class FamilyService {
       node.idlevel = 'level-' + nodeLevel;
       node.pnode = null;
       node.parent = family;
-      node.profile = this.getSearchStr(node);
+      node.profile = this.getSearchKeys(node);
     })
     if (family['children']) {
       nodeLevel++;
@@ -257,7 +257,7 @@ export class FamilyService {
       node.idlevel = 'level-' + nodeLevel;
       node.pnode = pnode;
       node.parent = family;
-      node.profile = this.getSearchStr(node);
+      node.profile = this.getSearchKeys(node);
     })
     if (family['children']) {
       nodeLevel++;
@@ -269,16 +269,28 @@ export class FamilyService {
     }
   }
 
-	private getSearchStr(node): string {
-    return node.name + ' ' + 
-      node.nick + ' ' +
-      node.gender + ' ' +
-      node.yob + ' ' +
-      node.yod + ' ' +
-      node.pob + ' ' +
-      node.pod + ' ' +
-      node.por;
+  public getGeneration(node)  {
+    let nodeLevel = node.idlevel.substring(node.idlevel.indexOf('-')+1);
+    let genStr = this.languageService.getTranslation('GENERATION') + ' ' + (GENERATION + +nodeLevel);
+    return genStr;
   }
+
+	private getSearchKeys(node): string[]  {
+    let genStr = this.getGeneration(node);
+    // break into array
+    let str = node.name;
+    if (node.nick != '') str += ' ' + node.nick;
+    if (node.gender != '') str += ' ' + this.languageService.getTranslation(node.gender);
+    if (node.yob != '') str += ' ' + node.yob;
+    if (node.yod != '') str += ' ' + node.yod;
+    if (node.pob != '') str += ' ' + node.pob;
+    if (node.pod != '') str += ' ' + node.pod;
+    if (node.por != '') str += ' ' + node.por;
+    str += ' ' + genStr;
+    str = this.utilService.stripVN(str);
+    let keys = str.split(' ');
+    return keys;
+  } 
   
   private fillNode(node) {
     if (!node.id) node.id = '';

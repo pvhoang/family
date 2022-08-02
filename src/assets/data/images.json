@@ -1,6 +1,7 @@
 {
   "i1": {
     "title": "1920 - Nhánh Phan Ngọc Luật",
+    "type": "image",
     "src": "../../assets/imgs/phan-ngoc-luat-1920.jpg",
     "image": {"width":"1200", "height": "900" },
     "area": {"width":"200", "height": "180" },
@@ -19,6 +20,7 @@
   },
   "i2": {
     "title": "1971 - Nhánh Phan Dính",
+    "type": "image",
     "src": "../../assets/imgs/phan-dinh-1971.jpg",
     "image": {"width":"1200", "height": "900" },
     "area": {"width":"200", "height": "180" },
@@ -34,6 +36,15 @@
         "text": "Phan Viết Hoàng"
       }
     ]
+  },
+  "i3": {
+    "title": "Ngày giỗ",
+    "type": "html",
+    "src": "https://gia-pha-ho-phan.web.app/assets/doc/ngay_gio.html"
+  },
+  "i4": {
+    "title": "Phả đồ",
+    "type": "html",
+    "src": "https://gia-pha-ho-phan.web.app/assets/doc/test.html"
   }
-
 }

@@ -12,6 +12,9 @@
   "OK": "OK",
   "CANCEL": "Hủy",
   "CONTINUE": "Tiếp tục",
+  "GENERATION": "Đời",
+  "male": "Nam",
+  "female": "Nữ",
 
   "SEARCH_RESULT_TITLE": "Kết quả tìm",
   "TREE_UPDATE_HEADER": "Cập nhật phả đồ",

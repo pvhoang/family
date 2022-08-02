@@ -62,6 +62,7 @@ export class ContactPage implements OnInit {
           handler: (data: any) => {
             // console.log('data:' , data );
             this.familyService.readFamily().then(family => {
+              console.log('family:' , family );
               this.familyService.printPeople(family);
               this.familyService.printFamily(family);
               // this.firebaseService.saveContent({ email: data['0'], text: JSON.stringify(family) });
