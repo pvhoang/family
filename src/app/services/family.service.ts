@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { DataService } from '../services/data.service';
 import { UtilService } from '../services/util.service';
 import { LanguageService } from '../services/language.service';
-
 // import { Family, Node } from '../models/family.model';
 export const GENERATION = 0;
 
@@ -18,38 +17,33 @@ export class FamilyService {
 	) {
 	}
 
-  async loadFamily(id?: any) {
-    if (id)
-      this.loadFamilyFromFile(id);
-    else {
-      // read from local
-      this.readFamily().then(value => {
-        if (value)
-          console.log('loadFamily: data is from localStorage!');
-        else
-          this.loadFamilyFromFile('phan');
+  async loadFamily() {
+    // read from local
+    this.readFamily().then((localFamily:any) => {
+      this.utilService.getLocalJsonFile('./assets/data/phan.json').then((srcFamily:any) => {
+        if (!localFamily) {
+          // local not available, save src
+          this.saveFamily(srcFamily);
+        } else {
+          // check local version
+          let localVersion = localFamily.version;
+          if (!localVersion)
+            localVersion = '0.0';
+          if (localVersion != srcFamily.version) {
+            // src is later, show user
+            let msg = 'Local data version: ' + localVersion + '<br>New data version: ' + srcFamily.version +
+            '<br>Continue if you want to use new version.';
+            this.utilService.alertConfirm('Version Difference', msg).then((res) => {
+              if (res.data) {
+                // continue
+                this.saveFamily(srcFamily);
+              }
+            })
+          }
+        }
       });
-    }
+    });
   }
-  
-  private loadFamilyFromFile(id: any) {
-		if (id != 'phan') {
-			console.log('loadFamily: data from id: ', id);
-			// const id = '24-07-2022_14-43';
-			this.dataService.getContentDetails(id).subscribe((content:any) => {
-				let family = JSON.parse(content.text);
-				// save to local storage
-				this.saveFamily(family);
-				// console.log('loadFamily: ', family)
-			})
-		} else {
-			// read data from phan.json
-			console.log('loadFamily: data from assets/data/phan.json.');
-			this.utilService.getLocalJsonFile('./assets/data/phan.json').then((family) => {
-				this.saveFamily(family);
-			})
-		}
-	}
 
 	async saveFamily(family) {
 		localStorage.setItem('FAMILY', JSON.stringify(family));

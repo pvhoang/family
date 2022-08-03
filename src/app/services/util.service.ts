@@ -31,6 +31,35 @@ export class UtilService {
 		alert.present();
 	}
 
+	async alertConfirm(header, message) {
+		let alert = await this.alertController.create({
+      header: header,
+			message: message,
+      buttons: [
+        {
+          text: 'CANCEL',
+          handler: (data: any) => {
+						alert.dismiss(false);
+						return false;
+          }
+        },
+        {
+          text: 'CONTINUE',
+          handler: (data: any) => {
+						alert.dismiss(true);
+						return false;
+          }
+        }
+      ]
+    });
+    await alert.present();
+		let choice:any;
+    await alert.onDidDismiss().then((data) => {
+			choice = data;
+    })
+    return choice
+	}
+
 	public stripVN(str) {
 		str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/gi, 'a');
 		str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/gi, 'e');

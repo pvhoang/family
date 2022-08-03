@@ -51,6 +51,7 @@ https://www.iloveimg.com/resize-image
 Standard: 1200x(800-900)px
 Paint App
 
+
 =====================================================================
 # FIREBASE
 =====================================================================
@@ -72,14 +73,38 @@ Paint App
 . firebase use --add
 
 . firebase init
-	. select: project 'family', Firestore, Storage, Hosting
-	. select emulators: Firestore, Storage
+	. select: project 'family', Firestore, Functions, Storage, Hosting, Emulators
+	. select emulators: Firestore, Functions, Storage
+
+  === Functions Setup
+  ? What language would you like to use to write Cloud Functions? TypeScript
+  ? Do you want to use ESLint to catch probable bugs and enforce style? No
+  ? Do you want to install dependencies with npm now? No
+  === Hosting Setup
+  ? What do you want to use as your public directory? www
+  ? Configure as a single-page app (rewrite all urls to /index.html)? Yes
+  ? Set up automatic builds and deploys with GitHub? No
+  ? File www/index.html already exists. Overwrite? Yes
+  === Emulators Setup
+  ? Which Firebase emulators do you want to set up? Press Space to select emulators, then Enter to confirm your choices. Functions Emulator, Firestore Emulator, Hosting Emulator, Storage Emulator
+  i  Port for functions already configured: 5001
+  i  Port for firestore already configured: 8080
+  i  Port for hosting already configured: 5000
+  i  Port for storage already configured: 9199
+  i  Emulator UI already enabled with port: (automatic)
+  ? Would you like to download the emulators now? Yes
+
+  Writing configuration info to firebase.json...
+  Writing project information to .firebaserc...
 
 . cd /dev/family/functions
+	. npm install
 	. npm run build
 
 . cd/dev/family
-  . firebase emulators:start --only firestore,storage --import test-data
+  . firebase emulators:start
+  . firebase emulators:start --only functions,firestore,hosting,storage
+  . firebase emulators:start --only functions,firestore,hosting,storage --import test-data
   . firebase emulators:export test-data
 
 =======================
@@ -106,6 +131,19 @@ Hosting URL: https://family-e5c1c.web.app
 . firebase hosting:sites:create gia-pha-ho-phan
 . firebase target:apply hosting gia-pha-ho-phan gia-pha-ho-phan
 . firebase deploy --only hosting:gia-pha-ho-phan
+. firebase deploy --only functions
+
+=======================
+# Extensions: Trigger Email - firestore-send-email
+=======================
+
+SMTP connection URI: smtps://test@ezactive.com@mail.ezactive.com:465
+SMTP password: ,wHD[XW;+Oml
+Collection: content
+FROM address: pvhoang940@gmail.com
+
+https://betterprogramming.pub/how-to-send-emails-from-firebase-with-the-trigger-email-extension-27c593ca1157
+
 
 =====================================================================
 # GITHUB

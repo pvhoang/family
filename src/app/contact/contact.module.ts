@@ -17,6 +17,8 @@ import { ContactPage } from './contact.page';
     TranslateModule,
     ContactPageRoutingModule
   ],
+  providers: [
+  ],
   declarations: [ContactPage]
 })
 export class ContactPageModule {}

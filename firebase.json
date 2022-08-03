@@ -1,7 +1,7 @@
 {
   "firestore": {
     "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
+    "indexes": "y"
   },
   "hosting": {
     "target": "gia-pha-ho-phan",
@@ -40,5 +40,8 @@
     "ui": {
       "enabled": true
     }
+  },
+  "functions": {
+    "predeploy": "npm --prefix \"$RESOURCE_DIR\" run build"
   }
 }

@@ -31,15 +31,15 @@ export class FirebaseService {
 	// }
 
 	saveContent(content: any) {
-		const d = new Date();
-		let day = ''+d.getDate();		if (day.length < 2) day = '0' + day;
-		let month = ''+(d.getMonth()+1);		if (month.length < 2) month = '0' + month;
-		let year = d.getFullYear();
-		let hour = ''+d.getHours();		if (hour.length < 2) hour = '0' + hour;
-		let min = ''+d.getMinutes();		if (min.length < 2) min = '0' + min;
-		const id = ''+day+'-'+month+'-'+year+'_'+hour+'-'+min;
-		content.id = id;
-		console.log('content: ', content)
+		// const d = new Date();
+		// let day = ''+d.getDate();		if (day.length < 2) day = '0' + day;
+		// let month = ''+(d.getMonth()+1);		if (month.length < 2) month = '0' + month;
+		// let year = d.getFullYear();
+		// let hour = ''+d.getHours();		if (hour.length < 2) hour = '0' + hour;
+		// let min = ''+d.getMinutes();		if (min.length < 2) min = '0' + min;
+		// const id = ''+day+'-'+month+'-'+year+'_'+hour+'-'+min;
+		// content.id = id;
+		// console.log('content: ', content)
 		// let content = {id: id, email: email, text: JSON.stringify(family)};
     this.addContent(content).then(
       res => {
