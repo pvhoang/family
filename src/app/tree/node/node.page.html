@@ -15,72 +15,81 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding">
   
     <ion-card-header class="card-header">
       {{ 'NODE_GROUP_NAME' | translate }}
     </ion-card-header>
 
     <ion-label class="card-label">{{ 'NODE_NAME' | translate }}</ion-label>
-    <ion-input type="text" [(ngModel)]="values.name" placeholder="{{ 'NODE_NAME_PLACEHOLDER' | translate }}" clearInput></ion-input>
+    <ion-input class="card-input" type="text" [(ngModel)]="values.name" placeholder="{{ 'NODE_NAME_PLACEHOLDER' | translate }}" clearInput></ion-input>
     <ion-label class="card-label">{{ 'NODE_NICK' | translate }}</ion-label>
-    <ion-input type="text" [(ngModel)]="values.nick" placeholder="{{ 'NODE_NICK_PLACEHOLDER' | translate }}" clearInput></ion-input>
+    <ion-input class="card-input" type="text" [(ngModel)]="values.nick" placeholder="{{ 'NODE_NICK_PLACEHOLDER' | translate }}" clearInput></ion-input>
     <ion-label class="card-label">{{ 'NODE_GENDER' | translate }}</ion-label>
-    <ng-select 
-      [items]="genders" 
-      (close)="closeGender()"
-      bindLabel="name"
-      bindValue="id"
-      [(ngModel)]="values.gender">
-    </ng-select>
+    <div class="card-select">
+      <ng-select 
+        [items]="genders" 
+        (close)="closeGender()"
+        bindLabel="name"
+        bindValue="id"
+        [(ngModel)]="values.gender">
+      </ng-select>
+    </div>
     
     <ion-card-header class="card-header">
       {{ 'NODE_GROUP_TIME' | translate }}
     </ion-card-header>
     <ion-label class="card-label">{{ 'NODE_YOB' | translate }}</ion-label>
-    <ion-input type="text" [(ngModel)]="values.yob" placeholder="{{ 'NODE_YOB_PLACEHOLDER' | translate }}" clearInput></ion-input>
+    <ion-input class="card-input" type="text" [(ngModel)]="values.yob" placeholder="{{ 'NODE_YOB_PLACEHOLDER' | translate }}" clearInput></ion-input>
     <ion-label class="card-label">{{ 'NODE_YOD' | translate }}</ion-label>
-    <ion-input type="text" [(ngModel)]="values.yod" placeholder="{{ 'NODE_YOD_PLACEHOLDER' | translate }}" clearInput></ion-input>
+    <ion-input class="card-input" type="text" [(ngModel)]="values.yod" placeholder="{{ 'NODE_YOD_PLACEHOLDER' | translate }}" clearInput></ion-input>
  
     <ion-card-header class="card-header">
       {{ 'NODE_GROUP_PLACE' | translate }}
     </ion-card-header>
     <ion-label class="card-label">{{ 'NODE_POB' | translate }}</ion-label>
-    <ng-select
-      [items]="places | async" 
-      bindLabel="name"
-      [(ngModel)]="values.pob"
-      (focus)="focus('pob')"
-      (close)="closePlace()"
-      (search)="search($event)"
-      (keyup)="keyup($event, 'places')">
-    </ng-select>
+    <!-- <div class="card-select"> -->
+      <ng-select
+        [items]="places | async" 
+        bindLabel="name"
+        [(ngModel)]="values.pob"
+        (focus)="focus('pob')"
+        (close)="closePlace()"
+        (search)="search($event)"
+        (keyup)="keyup($event, 'places')">
+      </ng-select>
+    <!-- </div> -->
     <ion-label class="card-label">{{ 'NODE_POD' | translate }}</ion-label>
-    <ng-select
-      [items]="places | async" 
-      bindLabel="name"
-      [(ngModel)]="values.pod"
-      (focus)="focus('pod')"
-      (close)="closePlace()"
-      (search)="search($event)"
-      (keyup)="keyup($event, 'places')">
-    </ng-select>
+    <!-- <div class="card-select"> -->
+      <ng-select
+        [items]="places | async" 
+        bindLabel="name"
+        [(ngModel)]="values.pod"
+        (focus)="focus('pod')"
+        (close)="closePlace()"
+        (search)="search($event)"
+        (keyup)="keyup($event, 'places')">
+      </ng-select>
+    <!-- </div> -->
     <ion-label class="card-label">{{ 'NODE_POR' | translate }}</ion-label>
-    <ng-select
-      [items]="places | async"
-      bindLabel="name"
-      [(ngModel)]="values.por"
-      (focus)="focus('por')"
-      (close)="closePlace()"
-      (search)="search($event)"
-      (keyup)="keyup($event, 'places')">
-    </ng-select>
+    <!-- <div class="card-select"> -->
+      <ng-select
+        [items]="places | async"
+        bindLabel="name"
+        [(ngModel)]="values.por"
+        (focus)="focus('por')"
+        (close)="closePlace()"
+        (search)="search($event)"
+        (keyup)="keyup($event, 'places')">
+      </ng-select>
+    <!-- </div> -->
+    
     <ion-card-header class="card-header">
       {{ 'NODE_GROUP_TREE' | translate }}
     </ion-card-header>
     <ion-label class="card-label">{{ 'NODE_CHILD' | translate }}</ion-label>
-    <ion-input type="text" [(ngModel)]="values.child" placeholder="{{ 'NODE_CHILD_PLACEHOLDER' | translate }}" clearInput></ion-input>
+    <ion-input class="card-input" type="text" [(ngModel)]="values.child" placeholder="{{ 'NODE_CHILD_PLACEHOLDER' | translate }}" clearInput></ion-input>
     <ion-label class="card-label">{{ 'NODE_SPOUSE' | translate }}</ion-label>
-    <ion-input type="text" [(ngModel)]="values.spouse" placeholder="{{ 'NODE_SPOUSE_PLACEHOLDER' | translate }}" clearInput></ion-input>
+    <ion-input class="card-input" type="text" [(ngModel)]="values.spouse" placeholder="{{ 'NODE_SPOUSE_PLACEHOLDER' | translate }}" clearInput></ion-input>
 
 </ion-content>

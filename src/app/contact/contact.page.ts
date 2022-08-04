@@ -16,7 +16,8 @@ const CONTACT = 'Phan Viết Hoàng - pvhoang940@gmail.com';
 export class ContactPage implements OnInit {
 
   translations: any;
-  version: any;
+  appVersion: any;
+  familyVersion: any;
   contact: any;
   family: any;
 
@@ -30,13 +31,15 @@ export class ContactPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('ngOnInit');
-    this.version = VERSION;
+    console.log('ContactPage - ngOnInit');
+    this.appVersion = VERSION;
     this.contact = CONTACT;
     this.translations = this.languageService.getTrans();
+    this.familyVersion = '';
 
-    this.familyService.readFamily().then(family => {
+    this.familyService.readFamily().then((family:any) => {
       this.family = family;
+      this.familyVersion = family.version;
     });
   }
 
@@ -69,7 +72,12 @@ export class ContactPage implements OnInit {
             // console.log('data:' , data );
             // this.familyService.readFamily().then(family => {
               // console.log('family:' , family );
-            // this.familyService.printPeople(family);
+            let pdata = this.familyService.printPeople(this.family);
+            let text = '--- people.json --- \n' + pdata.people + '\n';
+            text += '--- places.json --- \n' + pdata.places + '\n';
+            text += '--- phan.json --- \n' + JSON.stringify(this.family, null, 4);
+            text += '\n';
+
             // this.familyService.printFamily(family);
               // this.firebaseService.saveContent({ email: data['0'], text: JSON.stringify(family) });
             let id = this.getContentID();
@@ -80,7 +88,7 @@ export class ContactPage implements OnInit {
               to: 'pvhoang940@gmail.com',
               message: {
                 subject: 'Gia Pha - ' + id + ' - ' + email,
-                text: JSON.stringify(this.family),
+                text: text,
               }
             });
             // });

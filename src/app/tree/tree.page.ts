@@ -45,7 +45,7 @@ export class TreePage implements OnInit {
       // console.log('TreePage - ngOnInit: ', family)
       this.familyService.buildFullFamily(family);
       this.nodes = this.familyService.getFamilyNodes(family);
-      // console.log('TreePage - nodes: ', this.nodes);
+      this.utilService.console_log('TreePage - nodes: ', this.nodes);
       this.family = family;
       // verify data
       let msg = this.familyService.verifyFamily(family);
@@ -53,7 +53,7 @@ export class TreePage implements OnInit {
         this.utilService.alertMsg('WARNING', msg);
       setTimeout(() => {
         this.scrollToRoot();
-      }, 500);
+      }, 100);
     });
   }
 
@@ -206,6 +206,7 @@ export class TreePage implements OnInit {
   scrollToRoot() {
     let node = this.nodes[0];
     let id = node.id;
+    console.log('scrollToRoot: ', id);
     const ele = document.getElementById(node.id);
     let options: any = {
       behaviour: 'smooth',
@@ -217,6 +218,7 @@ export class TreePage implements OnInit {
 
   scrollToSearch(sIndex: number) {
     let node = this.sNodes[sIndex];
+    console.log('scrollToSearch: ', sIndex);
     const ele = document.getElementById(node.id);
     let options: any = {
       behaviour: 'smooth',
@@ -251,8 +253,11 @@ export class TreePage implements OnInit {
         if (mode == 'change' || mode == 'delete') {
           // save to storage
           this.familyService.saveFullFamily(this.family).then(status => {});
+          // update data
           if (node.nclass != 'select')
             this.familyService.updateNclass(node);
+          node.span = this.familyService.getSpanStr(node);
+
         }
       }
     });

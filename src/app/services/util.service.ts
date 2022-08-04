@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AlertController } from '@ionic/angular';
 
+export const DEBUG = true;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,6 +22,16 @@ export class UtilService {
 				reject(err.error);
 			});
 		});
+	}
+
+	console_log(msg: string, obj?: any) {
+		if (!DEBUG)
+			return;
+		if (obj)
+			console.log(msg, obj);
+		else
+			console.log(msg);
+			// msg += ' ' + JSON.stringify(obj, null, 4);
 	}
 
 	async alertMsg(title, message) {

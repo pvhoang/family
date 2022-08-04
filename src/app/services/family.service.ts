@@ -52,7 +52,7 @@ export class FamilyService {
 
   async saveFullFamily(family) {
 		family = this.getFilterFamily(family);
-		console.log('saveFullFamily - filterFamily:' , family)
+		// console.log('saveFullFamily - filterFamily:' , family)
 
 		localStorage.setItem('FAMILY', JSON.stringify(family));
 		return await true;
@@ -102,17 +102,23 @@ export class FamilyService {
 		});
     uniquePlaceData.sort();
 
-    let data = [];
+    let peopleData = [];
     uniquePeopleData.forEach(value => {
-      data.push({'name': value});
+      peopleData.push({'name': value});
     });
-    console.log('people: ', JSON.stringify({data: data}, null, 4));
 
-    data = [];
+    let placesData = [];
     uniquePlaceData.forEach(value => {
-      data.push({'name': value});
+      placesData.push({'name': value});
     });
-    console.log('places: ', JSON.stringify({data: data}, null, 4));
+
+    return {
+      people: JSON.stringify({data: peopleData}, null, 4),
+      places: JSON.stringify({data: placesData}, null, 4)
+    };
+    // console.log('people: ', JSON.stringify({data: data}, null, 4));
+    // console.log('places: ', JSON.stringify({data: data}, null, 4));
+
 
   }
 
@@ -231,7 +237,9 @@ export class FamilyService {
       node.pnode = null;
       node.parent = family;
       node.profile = this.getSearchKeys(node);
-    })
+      node.span = this.getSpanStr(node);
+    });
+
     if (family['children']) {
       nodeLevel++;
       childIdx = 1;
@@ -252,6 +260,9 @@ export class FamilyService {
       node.pnode = pnode;
       node.parent = family;
       node.profile = this.getSearchKeys(node);
+      node.span = this.getSpanStr(node);
+      // let ele = document.getElementById(node.id);
+      // ele.innerHTML = node.span;
     })
     if (family['children']) {
       nodeLevel++;
@@ -286,6 +297,28 @@ export class FamilyService {
     return keys;
   } 
   
+  public getSpanStr(node) {
+    let spans = [];
+    // let spanStr = node.name;
+    spans.push(node.name);
+
+    if (node.yob != '' || node.yod != '')
+      spans.push(node.yob + ' - ' + node.yod);
+
+      // spanStr += '</br>' + node.yob + ' - ' + node.yod;
+      // spanStr += '&#13;&#10;' + node.yob + ' - ' + node.yod;
+    if (node.pob != '' || node.pod != '')
+      spans.push(node.pob + ' - ' + node.pod);
+
+      // spanStr += '</br>' + node.pob + ' - ' + node.pod;
+      // spanStr += '&#13;&#10;' + node.pob + ' - ' + node.pod;
+    // return spanStr;
+    // return spanStr;
+    // return [node.name, node.yob + ' - ' + node.yod, node.pob + ' - ' + node.pod];
+    // &#13;&#10;
+    return spans;
+  }
+
   private fillNode(node) {
     if (!node.id) node.id = '';
     if (!node.relationship) node.relationship = '';

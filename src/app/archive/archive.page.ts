@@ -14,7 +14,7 @@ export class ArchivePage implements OnInit {
   data: any;
   idata: any;
   imageIds: any = [];
-  imageId: any = 'i1';
+  // imageId: any = 'i1';
   showDetail:any = false;
   images: any[] = [];
   translations: any;
@@ -34,53 +34,25 @@ export class ArchivePage implements OnInit {
     this.utilService.getLocalJsonFile('./assets/data/images.json').then((data:any) => {
       console.log('data: ', data);
       this.imageIds = Object.keys(data);
-
-      console.log('data: ', data);
-      this.imageIds = Object.keys(data);
       this.data = data;
-      this.idata = data[this.imageId]; 
-
-      setTimeout(() => {
-        this.images = [];
-        // calculate position of each area
-        this.imageIds.forEach(iid => {
-          let d = data[iid];
-          this.images.push({id: iid, name: d.title});
-
-          if (d.type == 'image') {
-            let imageEle = document.getElementById("image");
-            let rect:any = imageEle.getBoundingClientRect();
-            let imageWidth = d.image.width;
-            let imageHeight = d.image.height;
-            d.areas.forEach(area => {
-              // based 0
-              let aid = area.id;
-              let x = area.coords.x;
-              let y = area.coords.y;
-              let text = area.coords.text;
-              x = x * rect.width / imageWidth;
-              y = y * rect.height / imageHeight;
-              area.coords.x = parseInt(x) + rect.left;
-              area.coords.y = parseInt(y) + + rect.top;
-              area.id = iid + '-' + aid;
-            })
-          } else if (d.type == 'html') {
-          }
-        })
-        // console.log('images: ', this.images);
-        this.selectedImage = this.images[0].id;
-        // this.idata = data[this.selectedImage]; 
-      }, 500);
+      this.idata = null;
+      this.images = [];
+      this.imageIds.forEach(iid => {
+        let d = data[iid];
+        this.images.push({id: iid, name: d.title});
+      });
+      this.selectedImage = this.images[0].id;
+      this.idata = data[this.selectedImage];
     });
   }
 
   ionViewWillEnter() {
-    // console.log('ArchivePage - ionViewWillEnter');
+    console.log('ArchivePage - ionViewWillEnter');
     this.showDetail = false;
   }
 	
 	ionViewWillLeave() {
-    // console.log('ArchivePage - ionViewWillLeave');
+    console.log('ArchivePage - ionViewWillLeave');
 	}
 
   show() {
@@ -95,10 +67,33 @@ export class ArchivePage implements OnInit {
 
   close() {
     console.log('ArchivePage - close: ', this.selectedImage);
-    this.imageId = this.selectedImage;
-    this.idata = this.data[this.imageId];
+    // calculate data for this image
+    this.idata = this.data[this.selectedImage];
+    if (this.idata.type == 'image' && !this.idata.area_updated)
+      this.updateImageArea(this.selectedImage, this.idata)
     this.showDetail = false;
   }
+
+  updateImageArea(id, idata) {
+    let imageEle = document.getElementById("image");
+    let rect:any = imageEle.getBoundingClientRect();
+    let imageWidth = idata.image.width;
+    let imageHeight = idata.image.height;
+    idata.areas.forEach(area => {
+      // based 0
+      let aid = area.id;
+      let x = area.coords.x;
+      let y = area.coords.y;
+      let text = area.coords.text;
+      x = x * rect.width / imageWidth;
+      y = y * rect.height / imageHeight;
+      area.coords.x = parseInt(x) + rect.left;
+      area.coords.y = parseInt(y) + + rect.top;
+      area.id = id + '-' + aid;
+    })
+    idata.area_updated = true;
+  }
+
 
   getAreaStyle(area: any) {
     let styles = {

@@ -11,9 +11,11 @@
           </ng-select>
       </ion-col>
       <ion-col size="4">
-        <ion-button (click)="show()">
-          <ion-icon slot="icon-only" name="people"></ion-icon>
-        </ion-button>
+        <div class="ion-float-right">
+          <ion-button (click)="show()">
+            <ion-icon slot="icon-only" name="people"></ion-icon>
+          </ion-button>
+        </div>
       </ion-col>
     </ion-row>
     <!-- <div class="ion-padding">
@@ -39,7 +41,7 @@
   <!-- </ion-toolbar> -->
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding">
 
   <!-- <div class="ion-padding">
     <ion-row>
@@ -54,13 +56,13 @@
     </ion-row>
   </div> -->
 
-  <div *ngIf="idata.type == 'html'">
+  <div *ngIf="idata && idata.type == 'html'">
     <h1>{{idata.title}}</h1>
     <ion-button (click)="openWebpage(idata.src)"><ion-icon name="save"></ion-icon>
     </ion-button>
   </div>
 
-  <div *ngIf="idata.type == 'image'">
+  <div *ngIf="idata && idata.type == 'image'">
     <h1>{{idata.title}}</h1>
     <div *ngIf="showDetail">
       <div *ngFor="let area of idata.areas">

@@ -11,7 +11,9 @@
           (keyup)="keyup($event, 'people')">
       </ng-select>
     </ion-col>
+    <!-- <ion-col size="6"class="ion-no-padding"> -->
     <ion-col size="6">
+      <div class="ion-float-right">
         <ion-button (click)="onHome()">
           <ion-icon slot="icon-only" name="home"></ion-icon>
         </ion-button>
@@ -25,6 +27,7 @@
           <!-- <ion-icon slot="icon-only" name="remove-circle"></ion-icon> -->
           {{language}}
         </ion-button>
+      </div>
     </ion-col>
   </ion-row>
 
@@ -50,7 +53,7 @@
 
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding">
   
   <div [ngStyle]="getZoomStyle()">
   <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="family"></ft-tree>

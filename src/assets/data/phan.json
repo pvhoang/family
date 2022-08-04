@@ -1,9 +1,9 @@
 
 {
-  "version": "0.2",
+  "version": "0.1",
   "nodes": [
     {
-      "name": "Phan Doi 1",
+      "name": "Phan Văn Tác",
       "gender": "male",
       "pob": "Quảng Bình"
     }
@@ -12,7 +12,7 @@
     {
       "nodes": [
         {
-          "name": "Phan Doi 2",
+          "name": "Phan Văn Lang",
           "gender": "male",
           "pob": "Quảng Bình"
         }
@@ -21,7 +21,7 @@
         {
           "nodes": [
             {
-              "name": "Phan Doi 3",
+              "name": "Phan Văn Thứ",
               "gender": "male",
               "pob": "Quảng Bình"
             }
@@ -30,7 +30,7 @@
             {
               "nodes": [
                 {
-                  "name": "Phan Doi 4",
+                  "name": "Phan Văn Bổ",
                   "gender": "male",
                   "pob": "Quảng Bình"
                 }
@@ -39,7 +39,7 @@
                 {
                   "nodes": [
                     {
-                      "name": "Phan Doi 5",
+                      "name": "Phan Văn Phiến",
                       "gender": "male",
                       "pob": "Quảng Bình"
                     }
@@ -48,7 +48,7 @@
                     {
                       "nodes": [
                         {
-                          "name": "Phan Doi 6",
+                          "name": "Phan Văn Duy",
                           "gender": "male",
                           "pob": "Quảng Bình"
                         }
@@ -57,7 +57,7 @@
                         {
                           "nodes": [
                             {
-                              "name": "Phan Doi 7",
+                              "name": "Phan Văn Du",
                               "gender": "male",
                               "pob": "Quảng Bình"
                             }
@@ -66,7 +66,7 @@
                             {
                               "nodes": [
                                 {
-                                  "name": "Phan Doi 8",
+                                  "name": "Phan Văn Nghi",
                                   "gender": "male",
                                   "pob": "Quảng Bình"
                                 }
@@ -75,7 +75,7 @@
                                 {
                                   "nodes": [
                                     {
-                                      "name": "Phan Doi 9",
+                                      "name": "Phan Văn Nguyên",
                                       "gender": "male",
                                       "pob": "Quảng Bình"
                                     }
@@ -84,7 +84,7 @@
                                     {
                                       "nodes": [
                                         {
-                                          "name": "Phan Doi 10",
+                                          "name": "Phan Văn Trích",
                                           "gender": "male",
                                           "pob": "Quảng Bình"
                                         }
@@ -93,7 +93,7 @@
                                         {
                                           "nodes": [
                                               {
-                                                  "name": "Phan Với",
+                                                  "name": "Phan Lợi Hành",
                                                   "gender": "male",
                                                   "pob": "Quảng Bình"
                                               },
@@ -112,7 +112,7 @@
                                               {
                                                   "nodes": [
                                                       {
-                                                          "name": "Phan Bó",
+                                                          "name": "Phan Khắc Tuần",
                                                           "gender": "male",
                                                           "yob": "1898"
                                                       }
