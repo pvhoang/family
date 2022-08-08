@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { DataService } from '../services/data.service';
 import { UtilService } from '../services/util.service';
 import { LanguageService } from '../services/language.service';
 // import { Family, Node } from '../models/family.model';
-export const GENERATION = 0;
+import { GENERATION } from '../../environments/environment';
 
 @Injectable({
 	providedIn: 'root'
@@ -11,11 +10,12 @@ export const GENERATION = 0;
 export class FamilyService {
 
 	constructor(
-    private dataService: DataService,
     private utilService: UtilService,
     private languageService: LanguageService,
 	) {
 	}
+
+  // --- Family ---
 
   async loadFamily() {
     // read from local
@@ -29,11 +29,22 @@ export class FamilyService {
           let localVersion = localFamily.version;
           if (!localVersion)
             localVersion = '0.0';
+            console.log('loadFamily - localVersion, srcVersion :' , localVersion, srcFamily.version);
+
           if (localVersion != srcFamily.version) {
             // src is later, show user
-            let msg = 'Local data version: ' + localVersion + '<br>New data version: ' + srcFamily.version +
-            '<br>Continue if you want to use new version.';
-            this.utilService.alertConfirm('Version Difference', msg).then((res) => {
+            let msg = 
+              this.languageService.getTranslation('LOCAL_DATA') + ': ' + localVersion + '<br>' +
+              this.languageService.getTranslation('NEW_DATA') + ': ' + srcFamily.version + '<br>' +
+              this.languageService.getTranslation('DATA_WARNING');
+              // 'Local data version: ' + localVersion + 
+              // '<br>New data version: ' + srcFamily.version +
+              '<br>Continue if you want to use new version.';
+            let header = this.languageService.getTranslation('SELECT_DATA_VERSION');
+            let cancelText = this.languageService.getTranslation('LOCAL_DATA_BUTTON');
+            let okText = this.languageService.getTranslation('NEW_DATA_BUTTON');
+            this.utilService.alertConfirm(header, msg, cancelText, okText).then((res) => {
+              console.log('loadFamily - res:' , res)
               if (res.data) {
                 // continue
                 this.saveFamily(srcFamily);
@@ -53,7 +64,6 @@ export class FamilyService {
   async saveFullFamily(family) {
 		family = this.getFilterFamily(family);
 		// console.log('saveFullFamily - filterFamily:' , family)
-
 		localStorage.setItem('FAMILY', JSON.stringify(family));
 		return await true;
 	}
@@ -69,79 +79,76 @@ export class FamilyService {
 		console.log('filterFamily:' , JSON.stringify(family, null, 4) )
 	}
 
-  // --- printPeople
+  // --- JSON: People, Places---
 
-  printPeople(family: any) {
-    let people = [];
-		let places = [];
-
+  async saveJson(family:any, json) {
+    let data = [];
     family.nodes.forEach((node: any) => {
-      people.push(node.name);
-      people.push(node.pob); people.push(node.pod); places.push(node.por);
-      people.push(node.yob); people.push(node.yod);
-      places.push(node.pob); people.push(node.pod); places.push(node.por);
+      if (json == 'people') {
+        data.push(node.name);
+        data.push(node.pob); data.push(node.pod); data.push(node.por);
+        data.push(node.yob); data.push(node.yod);
+      } else if (json == 'places') {
+        data.push(node.pob); data.push(node.pod); data.push(node.por);
+      }
     })
-    if (family['children']) {
-      family['children'].forEach(child => {
-        this.printPeopleChild(child, people, places);
+    if (family.children) {
+      family.children.forEach(child => {
+        this.saveJsonChild(child, data, json);
       })
     }
 
-    let uniquePeopleData = [];
-		people.forEach((element) => {
-			if (element && element != '' && !uniquePeopleData.includes(element)) {
-				uniquePeopleData.push(element);
+    let uniqueData = [];
+		data.forEach((element) => {
+			if (element && element != '' && !uniqueData.includes(element)) {
+				uniqueData.push(element);
 			}
 		});
-    uniquePeopleData.sort();
+    uniqueData.sort();
 
-		let uniquePlaceData = [];
-		places.forEach((element) => {
-			if (element && element != '' && !uniquePlaceData.includes(element))
-				uniquePlaceData.push(element);
-		});
-    uniquePlaceData.sort();
-
-    let peopleData = [];
-    uniquePeopleData.forEach(value => {
-      peopleData.push({'name': value});
+    let jsonData = [];
+    uniqueData.forEach(value => {
+      jsonData.push({'name': value});
     });
+    console.log('jsonData: ', jsonData);
+		localStorage.setItem(json, JSON.stringify({data: jsonData}));
+		return await true;
+	}
 
-    let placesData = [];
-    uniquePlaceData.forEach(value => {
-      placesData.push({'name': value});
-    });
-
-    return {
-      people: JSON.stringify({data: peopleData}, null, 4),
-      places: JSON.stringify({data: placesData}, null, 4)
-    };
-    // console.log('people: ', JSON.stringify({data: data}, null, 4));
-    // console.log('places: ', JSON.stringify({data: data}, null, 4));
-
-
-  }
-
-  private printPeopleChild(family:any, people, places) {
+  private saveJsonChild(family:any, data:any, json:any) {
     family.nodes.forEach((node: any) => {
-      people.push(node.name);
-      people.push(node.pob); people.push(node.pod); places.push(node.por);
-      people.push(node.yob); people.push(node.yod);
-      places.push(node.pob); people.push(node.pod); places.push(node.por);
+      if (json == 'people') {
+        data.push(node.name);
+        data.push(node.pob); data.push(node.pod); data.push(node.por);
+        data.push(node.yob); data.push(node.yod);
+      } else if (json == 'places') {
+        data.push(node.pob); data.push(node.pod); data.push(node.por);
+      }
     })
-    if (family['children']) {
-      family['children'].forEach(child => {
-        this.printPeopleChild(child, people, places);
+    if (family.children) {
+      family.children.forEach(child => {
+        this.saveJsonChild(child, data, json);
       })
     }
   }
+
+  async readJson(json) {
+		let value = localStorage.getItem(json);
+    if (value)
+      value = JSON.parse(value);
+		return await value;
+	}
 
   // --- verifyFamily
 
   verifyFamily(family: any) {
     let msg = [];
-    if (family.nodes[0].name.indexOf('Phan') != 0) {
-      msg.push('Name not Phan: ' + family.nodes[0].name);
+    let name = family.nodes[0].name;
+    let keys = this.utilService.stripVN(name).split(' ');
+    // if (family.nodes[0].name.indexOf('Phan') != 0) {
+    if (keys[0] != 'phan') {
+      let message = this.languageService.getTranslation('NAME_MUST_BE_PHAN') + ' [' + name + ']';
+      msg.push(message);
     }
     if (family['children']) {
       family['children'].forEach(child => {
@@ -152,8 +159,11 @@ export class FamilyService {
   }
 
   private verifyNode(family:any, msg) {
-    if (family.nodes[0].name.indexOf('Phan') != 0) {
-      msg.push('Name not Phan: ' + family.nodes[0].name);
+    let name = family.nodes[0].name;
+    let keys = this.utilService.stripVN(name).split(' ');
+    if (keys[0] != 'phan') {
+      let message = this.languageService.getTranslation('NAME_MUST_BE_PHAN') + ' [' + name + ']';
+      msg.push(message);
     }
     if (family['children']) {
       family['children'].forEach(child => {
@@ -165,9 +175,10 @@ export class FamilyService {
   // --- getFilterFamily
 
   private getFilterFamily(family) {
-    let filterFamily = {};
-    filterFamily['nodes'] = [];
+    let filterFamily:any = {};
+    filterFamily.version = family.version;
 
+    filterFamily['nodes'] = [];
     if (family['nodes'].length > 0) {
       family['nodes'].forEach(node => {
         let newNode = {};
@@ -231,16 +242,18 @@ export class FamilyService {
     let nodeIdx = 1;
 		family.nodes.forEach((node: any) => {
       node = this.fillNode(node);
-      this.updateNclass(node);
+      // this.updateNclass(node);
       node.id = '' + childIdx + '-' + nodeIdx++;
       node.idlevel = 'level-' + nodeLevel;
+      node.level = '' + nodeLevel;
+      node.nclass = this.updateNclass(node);
       node.pnode = null;
-      node.parent = family;
+      node.family = family;
       node.profile = this.getSearchKeys(node);
       node.span = this.getSpanStr(node);
     });
 
-    if (family['children']) {
+    if (family.children) {
       nodeLevel++;
       childIdx = 1;
       family['children'].forEach(child => {
@@ -254,15 +267,14 @@ export class FamilyService {
     let nodeIdx = 1;
     family.nodes.forEach(node => {
       node = this.fillNode(node);
-      this.updateNclass(node);
       node.id = pnode.id + '-' + childIdx + '-' + nodeIdx++;
       node.idlevel = 'level-' + nodeLevel;
+      node.level = '' + nodeLevel;
+      node.nclass = this.updateNclass(node);
       node.pnode = pnode;
-      node.parent = family;
+      node.family = family;
       node.profile = this.getSearchKeys(node);
       node.span = this.getSpanStr(node);
-      // let ele = document.getElementById(node.id);
-      // ele.innerHTML = node.span;
     })
     if (family['children']) {
       nodeLevel++;
@@ -275,9 +287,13 @@ export class FamilyService {
   }
 
   public getGeneration(node)  {
-    let nodeLevel = node.idlevel.substring(node.idlevel.indexOf('-')+1);
-    let genStr = this.languageService.getTranslation('GENERATION') + ' ' + (GENERATION + +nodeLevel);
+    let nodeLevel = +node.level;
+    let genStr = this.languageService.getTranslation('GENERATION') + ' ' + (GENERATION + nodeLevel);
     return genStr;
+  }
+
+  public updateNclass(node: any): void {
+    return (this.isNodeMissingData(node)) ? 'not-complete' : node.gender;
   }
 
 	private getSearchKeys(node): string[]  {
@@ -299,23 +315,11 @@ export class FamilyService {
   
   public getSpanStr(node) {
     let spans = [];
-    // let spanStr = node.name;
     spans.push(node.name);
-
     if (node.yob != '' || node.yod != '')
       spans.push(node.yob + ' - ' + node.yod);
-
-      // spanStr += '</br>' + node.yob + ' - ' + node.yod;
-      // spanStr += '&#13;&#10;' + node.yob + ' - ' + node.yod;
     if (node.pob != '' || node.pod != '')
       spans.push(node.pob + ' - ' + node.pod);
-
-      // spanStr += '</br>' + node.pob + ' - ' + node.pod;
-      // spanStr += '&#13;&#10;' + node.pob + ' - ' + node.pod;
-    // return spanStr;
-    // return spanStr;
-    // return [node.name, node.yob + ' - ' + node.yod, node.pob + ' - ' + node.pod];
-    // &#13;&#10;
     return spans;
   }
 
@@ -335,10 +339,40 @@ export class FamilyService {
     return node;
   }
 
-  public updateNclass(node: any): void {
-    node['nclass'] = node.gender;
-    if (this.isNodeMissingData(node))
-      node['nclass'] = 'not-complete';
+  public isNodeChanged(node, values:any) {
+    // let node = this.node;
+    let change = 
+      (node.name != values.name) ||
+      (node.nick != values.nick) ||
+      (node.gender != values.gender) ||
+      (node.yob != values.yob) ||
+      (node.yod != values.yod) ||
+      (values.pob && node.pob != values.pob.name) ||
+      (values.pod && node.pod != values.pod.name) ||
+      (values.por && node.por != values.por.name) ||
+      (values.child != '') ||
+      (values.spouse != '');
+    return change;
+  }
+
+  public getEmptyNode(id: string, level: string, name: string, gender: string) {
+    let node:any = {
+      id: id,
+      relationship: '',
+      name: name,
+      level: level,
+      nick: '',
+      gender: gender,
+      yob: '',
+      yod: '',
+      pob: '',
+      pod: '',
+      por: ''
+    }
+    node.profile = this.getSearchKeys(node),
+    node.span = this.getSpanStr(node);
+    node.nclass = this.updateNclass(node);
+    return node;
   }
 
   private isNodeMissingData(node: any): boolean {

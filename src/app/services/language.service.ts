@@ -24,7 +24,6 @@ export class LanguageService {
   }
 
   getTranslations() {
-    // get translations for this page to use in the Language Chooser Alert
     this.translate.getTranslation(this.translate.currentLang)
       .subscribe((translations) => {
         this.translations = translations;

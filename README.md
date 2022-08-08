@@ -32,10 +32,9 @@ https://aaronczichon.de/blog/zoom-dom-elements-with-css/
 =======================
 # Scrolling into view
 =======================
+https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
 // https://stackoverflow.com/questions/46658522/how-to-smooth-scroll-to-page-anchor-in-angular-4-without-plugins-properly/51400379#51400379
 element.scrollIntoView
-// https://github.com/Seemspyo/ngx-smooth-scroll
-// @eunsatio/ngx-smooth-scroll
 
 =======================
 # Family Tree
@@ -50,7 +49,6 @@ element.scrollIntoView
 https://www.iloveimg.com/resize-image
 Standard: 1200x(800-900)px
 Paint App
-
 
 =====================================================================
 # FIREBASE

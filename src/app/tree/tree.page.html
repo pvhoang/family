@@ -1,60 +1,63 @@
 <ion-header>
-  <ion-row>
-    <ion-col size="6">
-      <ng-select
-          [items]="people | async" 
-          bindLabel="name"
-          [(ngModel)]="selectPeople"
-          (close)="close()"
-          (clear)="clear()"
-          (search)="search($event)"
-          (keyup)="keyup($event, 'people')">
-      </ng-select>
-    </ion-col>
-    <!-- <ion-col size="6"class="ion-no-padding"> -->
-    <ion-col size="6">
-      <div class="ion-float-right">
-        <ion-button (click)="onHome()">
-          <ion-icon slot="icon-only" name="home"></ion-icon>
-        </ion-button>
-        <ion-button (click)="onZoom(1)" [disabled]="scaleStyle == 5">
-          <ion-icon slot="icon-only" name="add-circle"></ion-icon>
-        </ion-button>
-        <ion-button (click)="onZoom(-1)" [disabled]="scaleStyle == 15">
-          <ion-icon slot="icon-only" name="remove-circle"></ion-icon>
-        </ion-button>
-        <ion-button (click)="setLanguage()">
-          <!-- <ion-icon slot="icon-only" name="remove-circle"></ion-icon> -->
-          {{language}}
-        </ion-button>
-      </div>
-    </ion-col>
-  </ion-row>
-
-  <div class="ion-padding" *ngIf="searchView">
-    <ion-row>
-      <ion-col size="8">
-        <ion-item>
-          <ion-label><b>{{searchPercent}}</b></ion-label>
-        </ion-item>
+  <ion-grid>
+    <ion-row class="ion-padding">
+      <ion-col size="6">
+        <ng-select #ngSelectComponent
+            [items]="people | async" 
+            bindLabel="name"
+            notFoundText="{{selectPeopleNotFoundText}}"
+            placeholder="{{selectPeoplePlaceholder}}"
+            [(ngModel)]="selectPeople"
+            (close)="close()"
+            (clear)="clear()"
+            (search)="search($event)"
+            (keyup)="keyup($event, 'people')">
+        </ng-select>
       </ion-col>
-      <ion-col size="4">
-        <ion-item>
-          <ion-button [disabled]="searchDisabled" (click)="nextSearch()">
-            <ion-icon slot="icon-only" name="arrow-down"></ion-icon>
+      <ion-col size="6">
+        <div class="ion-float-right">
+          <ion-button fill="clear" (click)="onHome()">
+            <ion-icon slot="icon-only" name="home"></ion-icon>
           </ion-button>
-          <ion-button [disabled]="searchDisabled" (click)="prevSearch()">
-            <ion-icon slot="icon-only" name="arrow-up"></ion-icon>
+          <ion-button fill="clear" (click)="onZoom(1)" [disabled]="scaleStyle == 5">
+            <ion-icon slot="icon-only" name="add-circle"></ion-icon>
           </ion-button>
-        </ion-item>
+          <ion-button fill="clear" (click)="onZoom(-1)" [disabled]="scaleStyle == 15">
+            <ion-icon slot="icon-only" name="remove-circle"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" (click)="setLanguage()">
+            <ion-label style="color: grey;">{{language}}</ion-label>
+          </ion-button>
+        </div>
       </ion-col>
     </ion-row>
-  </div>
 
+    <div *ngIf="searchView">
+      <ion-row>
+        <ion-col size="8" class="ion-padding-start">
+          <ion-item>
+            <ion-label><b>{{searchPercent}}</b></ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4" class="ion-padding-end">
+          <div class="ion-float-right">
+          <!-- <ion-item> -->
+            <ion-button fill="clear" [disabled]="searchDisabled" (click)="nextSearch()">
+              <ion-icon slot="icon-only" name="arrow-down"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" [disabled]="searchDisabled" (click)="prevSearch()">
+              <ion-icon slot="icon-only" name="arrow-up"></ion-icon>
+            </ion-button>
+          <!-- </ion-item> -->
+        </div>
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-grid>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-  
+
   <div [ngStyle]="getZoomStyle()">
   <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="family"></ft-tree>
   </div>

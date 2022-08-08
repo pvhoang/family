@@ -4,9 +4,8 @@ import { ModalController, AlertController } from '@ionic/angular';
 import { TypeaheadService } from '../../services/typeahead.service';
 import { LanguageService } from '../../services/language.service';
 import { UtilService } from '../../services/util.service';
-
-const MIN_YEAR = 1900;
-const MAX_YEAR = 2022;
+import { FamilyService } from '../../services/family.service';
+import { MIN_YEAR, MAX_YEAR } from '../../../environments/environment';
 
 @Component({
   selector: 'app-node',
@@ -18,6 +17,7 @@ export class NodePage implements OnInit {
   @Input() name: string;
   @Input() node: any;
 
+  title: any;
   values: any = {};
   places: Observable<string[]>;
   place: any;
@@ -25,8 +25,9 @@ export class NodePage implements OnInit {
   placeData: any;
   placeItem: any;
   translations: any;
-  // selectGender: any = {};
   selectGender: any = '';
+  selectPlacesNotFoundText: any = 'Not found text';
+  selectPlacesPlaceholder: any = 'Place holder';
   genders: Array<any>;
 
   constructor(
@@ -34,22 +35,23 @@ export class NodePage implements OnInit {
     private alertController: AlertController,
     private languageService: LanguageService,
     private utilService: UtilService,
+    private familyService: FamilyService,
     private typeahead: TypeaheadService
   ) { }
 
   ngOnInit(): void {
 
     // console.log('NodePage - ngOnInit - node: ', this.node);
-
     let node = this.node;
+    this.title = node.name + ' - ' + this.familyService.getGeneration(node);
     this.values.name = node.name;
     this.values.nick = node.nick;
     this.values.gender = node.gender;
     this.values.yob = node.yob;
     this.values.yod = node.yod;
-    this.values.pob = {name: node.pob};
-    this.values.pod = {name: node.pod};
-    this.values.por = {name: node.por};
+    this.values.pob = (node.pob == '') ? null : {name: node.pob};
+    this.values.pod = (node.pod == '') ? null : {name: node.pod};
+    this.values.por = (node.por == '') ? null : {name: node.por};
     this.values.child = node.child;
     this.values.spouse = node.spouse;
 
@@ -59,19 +61,30 @@ export class NodePage implements OnInit {
       { id: 'female', name: this.translations.FEMALE }
     ];
     this.selectGender = node.gender;
+    this.selectPlacesNotFoundText = this.translations.SELECT_PLACES_NOT_FOUND_TEXT;
+    this.selectPlacesPlaceholder = this.translations.SELECT_PLACES_PLACEHOLDER;
+
   }
 
   async onCancel() {
     // console.log('NodePage - onCancel - node: ', this.node);
-    await this.modalCtr.dismiss('cancel');
+    let values = this.values;
+    if (this.familyService.isNodeChanged(this.node, values)) {
+      this.utilService.alertConfirm(this.translations.NODE_CANCEL_HEADING, this.translations.NODE_CANCEL_MESSAGE, this.translations.CANCEL, this.translations.CONTINUE).then((res) => {
+        if (res.data) {
+          this.modalCtr.dismiss({status: 'cancel'});
+        }
+      })
+      return;
+    }
+    await this.modalCtr.dismiss({status: 'cancel'});
   }
 
   async onDelete() {
-    // console.log('NodePage - onDelete');
-
-    if (this.node.parent.nodes[0].name == this.node.name) {
+    if (this.node.family.nodes[0].name == this.node.name) {
+      console.log('NodePage - onDelete - children: ', this.node.family.children);
         // this is main Node, check children
-      if (this.node.parent.children && this.node.parent.children.length > 0) {
+      if (this.node.family.children && this.node.family.children.length > 0) {
         this.utilService.alertMsg(this.translations.NODE_ERROR_TITLE, this.translations.NODE_ERR_HAVE_CHILDREN + '[' + this.node.name + ']');
         return;
       }
@@ -88,11 +101,7 @@ export class NodePage implements OnInit {
         {
           text: this.translations.OK,
           handler: (data: any) => {
-            let nodes = this.node.parent.nodes;
-            this.node.parent.nodes = nodes.filter((node:any) => {
-              return (node.name != this.node.name);
-            });
-            this.modalCtr.dismiss('delete');
+            this.modalCtr.dismiss({status: 'delete'});
           }
         }
       ]
@@ -127,11 +136,15 @@ export class NodePage implements OnInit {
     this.placeStr = event.term;
   }
 
-  onSave() {
+  async onSave() {
     // console.log('NodePage - onSave - node: ', this.node);
-    // console.log('NodePage - onSave - nclass1: ', this.node.nclass);
     let values = this.values;
-    // console.log('onSubmit: ', values);
+    console.log('onSave: ', values);
+    if (this.familyService.isNodeChanged(this.node, values) == false) {
+      this.utilService.alertMsg(this.translations.NODE_SAVE_HEADING, this.translations.NODE_SAVE_MESSAGE);
+      return;
+    }
+    console.log('onSave: change');
 
     let errorMsg = '';
     // --- data validation
@@ -139,69 +152,25 @@ export class NodePage implements OnInit {
     if (values.name == '') 
       errorMsg += this.translations.NODE_ERR_NAME_IS_BLANK + '<br/>';
     // place of death must be empty if year of death is empty
-    if (values.yod == '' && values.pod.name != '') 
+    if (values.yod == '' && values.pod && values.pod.name != '') 
       errorMsg += this.translations.NODE_ERR_YOD_BLANK + '<br/>';
     // year of birth is either empty or > 1900 and < 2022
     if (values.yob == '' || (!isNaN(values.yob) && parseInt(values.yob) > MIN_YEAR && parseInt(values.yob) < MAX_YEAR)) {
     } else {
         errorMsg += this.translations.NODE_ERR_YOB_ERROR + '<br/>';
     }
-    
     // year of death is either empty or > 1900 and < 2500
     if (values.yod == '' || (!isNaN(values.yob) && parseInt(values.yod) > 1900 && parseInt(values.yod) < 2500)) {
     } else {
         errorMsg += this.translations.NODE_ERR_YOD_ERROR + '<br/>';
     }
     // --- end data validation
+    console.log('onSave: errorMsg:' , errorMsg);
 
     if (errorMsg != '') {
       this.utilService.alertMsg(this.translations.NODE_ERROR_TITLE, errorMsg);
       return;
     }
-    // console.log('NodePage - onSave - nclass2: ', this.node.nclass);
-    this.updateAnDismiss(values);
+    await this.modalCtr.dismiss({status: 'save', values: values});
   }
-
-  async updateAnDismiss(values) {
-
-    // save to node
-    let node = this.node;
-    // compare
-    let change = false;
-    if (node.name != values.name) {     change = true;      node.name = values.name;    }
-    if (node.nick != values.nick) {     change = true;      node.nick = values.nick;    }
-    if (node.gender != values.gender) {     change = true;      node.gender = values.gender;    }
-    if (node.yob != values.yob) {     change = true;      node.yob = values.yob;    }
-    if (node.yod != values.yod) {     change = true;      node.yod = values.yod;    }
-    if (node.pob != values.pob.name) {     change = true;      node.pob = values.pob.name;    }
-    if (node.pod != values.pod.name) {     change = true;      node.pod = values.pod.name;    }
-    if (node.por != values.por.name) {     change = true;      node.por = values.por.name;    }
-    
-    if (values.child != '') {
-      if (!node.parent.children)
-        node.parent.children = [];
-      let childIdx = node.parent.children.length + 1;
-      let nodeIdx = 1;
-      let id = node.id + '-' + childIdx + '-' + nodeIdx;
-      let newNode = { id: id, name: values.child, gender: 'male', nclass: 'not-complete' }
-      node.parent.children.push({nodes: [newNode]});
-      change = true;
-    }
-
-    if (values.spouse != '') {
-      let id = node.id;
-      let ids = id.split('-');
-      // take the last one, increase by 1
-      let nodeIdx = ids[ids.length-1];
-      id = id.substring(0, id.lastIndexOf('-'));
-      id = id + '-' + (+nodeIdx+1);
-      // console.log('node - child, id: ', values.spouse, id);
-      let newNode = { id: id, name: values.spouse, gender: 'male', nclass: 'not-complete' }
-      node.parent.nodes.push(newNode);
-      change = true;
-    }
-    // console.log('NodePage - onSave - nclass3: ', this.node.nclass);
-    await this.modalCtr.dismiss(change ? 'change' : 'nochange');
-  }
-
 }

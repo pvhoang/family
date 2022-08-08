@@ -15,17 +15,10 @@ $hover_color: #c8e4f8;
 }
 .tree {
   white-space: nowrap;
-  // min-width: 800px;
-  // min-height: 500px;
-  // width: 500px;
-  // height: 300px;
   overflow-x: scroll;
-  // overflow-y: scroll;
   ul {
     display: flex;
     width:100%;
-    // overflow-x: scroll;
-    // overflow-y: scroll;
     padding-top: 20px;
     position: relative;
     transition: all 0.5s;
@@ -118,60 +111,60 @@ $hover_color: #c8e4f8;
       transition: all 0.5s;
       -webkit-transition: all 0.5s;
       -moz-transition: all 0.5s;
-      #level-1 {
-        border: 2px solid #3880ff !important;
-      }
-      #level-2 {
-        border: 2px solid #3dc2ff !important;
-      }
-      #level-3 {
-        border: 2px solid #5260ff !important;
-      }
-      #level-4 {
-        border: 2px solid #2dd36f !important;
-      }
-      #level-5 {
-        border: 2px solid #ffc409 !important;
-      }
-      #level-6 {
-        border: 2px solid #eb445a !important;
-      }
-      #level-7 {
-        border: 2px solid #222428 !important;
-      }
-      #level-8 {
-        border: 2px solid #92949c !important;
-      }
-      #level-9 {
-        border: 2px solid #5260ff !important;
-      }
-      #level-10 {
-        border: 2px solid #2dd36f !important;
-      }
-      #level-11 {
-        border: 2px solid #3880ff !important;
-      }
-      #level-12 {
-        border: 2px solid #3dc2ff !important;
-      }
-      #level-13 {
-        border: 2px solid #5260ff !important;
-      }
-      #level-14 {
-        border: 2px solid #2dd36f !important;
-      }
-      #level-15 {
-        border: 2px solid #ffc409 !important;
-      }
-      #level-16 {
-        border: 2px solid #eb445a !important;
-      }
-      #level-17 {
-        border: 2px solid #222428 !important;
-      }
-      #level-18 {
-        border: 2px solid #92949c !important;
-      }
+      // #level-1 {
+      //   border: 2px solid #3880ff !important;
+      // }
+      // #level-2 {
+      //   border: 2px solid #3dc2ff !important;
+      // }
+      // #level-3 {
+      //   border: 2px solid #5260ff !important;
+      // }
+      // #level-4 {
+      //   border: 2px solid #2dd36f !important;
+      // }
+      // #level-5 {
+      //   border: 2px solid #ffc409 !important;
+      // }
+      // #level-6 {
+      //   border: 2px solid #eb445a !important;
+      // }
+      // #level-7 {
+      //   border: 2px solid #222428 !important;
+      // }
+      // #level-8 {
+      //   border: 2px solid #92949c !important;
+      // }
+      // #level-9 {
+      //   border: 2px solid #5260ff !important;
+      // }
+      // #level-10 {
+      //   border: 2px solid #2dd36f !important;
+      // }
+      // #level-11 {
+      //   border: 2px solid #3880ff !important;
+      // }
+      // #level-12 {
+      //   border: 2px solid #3dc2ff !important;
+      // }
+      // #level-13 {
+      //   border: 2px solid #5260ff !important;
+      // }
+      // #level-14 {
+      //   border: 2px solid #2dd36f !important;
+      // }
+      // #level-15 {
+      //   border: 2px solid #ffc409 !important;
+      // }
+      // #level-16 {
+      //   border: 2px solid #eb445a !important;
+      // }
+      // #level-17 {
+      //   border: 2px solid #222428 !important;
+      // }
+      // #level-18 {
+      //   border: 2px solid #92949c !important;
+      // }
       .node {
         display: inline-block;
         // text-overflow: ellipsis;

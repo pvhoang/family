@@ -1,11 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 
-// <div id="{{node.idlevel}}">
-// </div>
-// <div class="top" *ngFor="let node of family.nodes">
-// <span style="text-overflow:ellipsis; width:250px; display:inline-block; word-break: break-word;" 
-
-
 @Component({
   selector: 'ft-tree',
   template: `

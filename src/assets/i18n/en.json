@@ -1,6 +1,10 @@
 {
+
+
   "PHAN_FAMILY_TREE": "Phan's Family Tree",
+  "VERSION": "Version",
   "TREE": "Tree",
+  "ARCHIVE": "Document",
   "INFO": "Info",
   "CONTACT": "Contact",
   "MESSAGE": "Message",
@@ -9,32 +13,69 @@
   "FEMALE": "Female",
   "OK": "OK",
   "CANCEL": "Cancel",
+  "CONTINUE": "Continue",
+  "GENERATION": "Generation",
+  "male": "Male",
+  "female": "Female",
 
-  "NODE_TITLE": "Information",
+  "LOCAL_DATA": "Tree on machine",
+  "NEW_DATA": "New tree",
+  "DATA_WARNING": "If new tree is selected, changes in machine tree will be lost!",
+  "SELECT_DATA_VERSION": "Select tree",
+  "LOCAL_DATA_BUTTON": "Machine",
+  "NEW_DATA_BUTTON": "New",
 
-  "NODE_REQUIRED": "Required Info",
-  "NODE_NAME": "Name",
-  "NODE_NAME_ERROR": "Name is required.",
-  "NODE_YOB": "Year of birth",
-  "NODE_YOB_ERROR": "Year of birth is required.",
-  "NODE_POB": "Place of birth",
-  "NODE_POB_ERROR": "Place of birth is required.",
+  "NAME_MUST_BE_PHAN": "Lead name of branch must have surname: Phan!",
+
+  "SELECT_PEOPLE_NOT_FOUND_TEXT": "Name not found!",
+  "SELECT_PEOPLE_PLACEHOLDER": "Enter or select name.",
+  "SELECT_PLACES_NOT_FOUND_TEXT": "Place not found!",
+  "SELECT_PLACES_PLACEHOLDER": "Enter or select place.",
+
+  "SEARCH_RESULT_TITLE": "Search Result",
+  "TREE_UPDATE_HEADER": "Update tree?",
+  "TREE_UPDATE_MSG": "Your updated tree will be reviewed before publishing",
+  "TREE_UPDATE_MESSAGE": "Please enter your email for contact during tree review.",
+  
+  "DELETE_PEOPLE_HEADER": "Information",
+  "DELETE_PEOPLE_MESSAGE": "Delete person",
+
+  "NODE_GROUP_NAME": "Name",
+  "NODE_NAME": "Surname",
+  "NODE_NAME_PLACEHOLDER": "Enter name (Phan if head of branch, ví dụ. Phan Ngọc Luật)",
+  
+  "NODE_NICK": "Nickname",
+  "NODE_NICK_PLACEHOLDER": "Enter nick name (ví du: Bảy, Bờm, Tèo, Nô)",
   "NODE_GENDER": "Gender",
-  "NODE_OPTIONS": "Option Info",
-  "NODE_NICK": "Nicknames",
-  "NODE_YOD": "Year of death",
-  "NODE_POD": "Place of death",
-  "NODE_POR": "Place of residence",
+  "NODE_GROUP_TIME": "Birth date",
+  "NODE_YOB": "Birth year",
+  "NODE_YOB_PLACEHOLDER": "Enter year (4 digit, > 1900, < 2022)",
+  "NODE_YOD": "Death year",
+  "NODE_YOD_PLACEHOLDER": "Enter year (4 digit, > Năm sinh, < 2022)",
+  "NODE_GROUP_PLACE": "Birth place",
+  "NODE_POB": "Birth place",
+  "NODE_POD": "Death place",
+  "NODE_POR": "Residence",
+  "NODE_GROUP_TREE": "Tree",
+  "NODE_CHILD": "Add a child",
+  "NODE_CHILD_PLACEHOLDER": "Enter name",
+  "NODE_SPOUSE": "Add a spouse",
+  "NODE_SPOUSE_PLACEHOLDER": "Enter name",
 
-  "NODE_TREE": "Family Addition",
-  "NODE_CHILD": "Child",
-  "NODE_SPOUSE": "Spouse",
+  "NODE_SUBMIT": "Save",
+  "NODE_SAVE_HEADING": "Warning",
+  "NODE_SAVE_MESSAGE": "Data is not changed!",
+  "NODE_CANCEL_HEADING": "Warning",
+  "NODE_CANCEL_MESSAGE": "Data has been changed. Continue to cancel?",
 
-  "NODE_SUBMIT": "Submit",
+  "NODE_ERR_NAME_IS_BLANK": "Name must have value.",
+  "NODE_ERR_YOD_BLANK": "Death place must be empty if death year is empty.",
 
-  "NODE_ERR_YOB_ERROR": "Error year of birth: 1900-2500",
-  "NODE_ERR_YOD_BLANK": "Error year of death"
+  "NODE_ERROR_TITLE": "Data error",
+  "NODE_ERR_YOB_ERROR": "Birth year must be from 1900 to 2022.",
+  "NODE_ERR_YOD_ERROR": "Death year must be greater than birth year and from 1900 to 2022.",
 
+  "NODE_ERR_HAVE_CHILDREN": "Can not delete branch! Must delete leaf first."
 
 }
 

@@ -4,9 +4,7 @@ import { FirebaseService } from '../services/firebase.service';
 import { UtilService } from '../services/util.service';
 import { LanguageService } from '../services/language.service';
 import { FamilyService } from '../services/family.service';
-
-const VERSION = '0.0.2';
-const CONTACT = 'Phan Viết Hoàng - pvhoang940@gmail.com';
+import { VERSION, CONTACT } from '../../environments/environment';
 
 @Component({
   selector: 'app-contact',
@@ -69,17 +67,8 @@ export class ContactPage implements OnInit {
         {
           text: this.translations.CONTINUE,
           handler: (data: any) => {
-            // console.log('data:' , data );
-            // this.familyService.readFamily().then(family => {
-              // console.log('family:' , family );
-            let pdata = this.familyService.printPeople(this.family);
-            let text = '--- people.json --- \n' + pdata.people + '\n';
-            text += '--- places.json --- \n' + pdata.places + '\n';
-            text += '--- phan.json --- \n' + JSON.stringify(this.family, null, 4);
+            let text = '--- phan.json --- \n' + JSON.stringify(this.family, null, 4);
             text += '\n';
-
-            // this.familyService.printFamily(family);
-              // this.firebaseService.saveContent({ email: data['0'], text: JSON.stringify(family) });
             let id = this.getContentID();
             let email = data[0];
             this.firebaseService.saveContent({

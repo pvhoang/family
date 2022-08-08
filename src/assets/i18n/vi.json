@@ -16,9 +16,24 @@
   "male": "Nam",
   "female": "Nữ",
 
+  "LOCAL_DATA": "Phả đồ trong máy",
+  "NEW_DATA": "Phả đồ mới",
+  "DATA_WARNING": "Nếu chọn phả đồ mới, thay đổi trong phả đồ máy sẽ bị xóa!",
+  "SELECT_DATA_VERSION": "Chọn phả đồ",
+  "LOCAL_DATA_BUTTON": "Máy",
+  "NEW_DATA_BUTTON": "Mới",
+
+  "NAME_MUST_BE_PHAN": "Tên đầu nhánh phải có họ Phan!",
+
+  "SELECT_PEOPLE_NOT_FOUND_TEXT": "Không tìm thấy tên",
+  "SELECT_PEOPLE_PLACEHOLDER": "Nhập hoặc chọn tên",
+  "SELECT_PLACES_NOT_FOUND_TEXT": "Không tìm thấy nơi",
+  "SELECT_PLACES_PLACEHOLDER": "Nhập hoặc chọn nơi",
+
   "SEARCH_RESULT_TITLE": "Kết quả tìm",
   "TREE_UPDATE_HEADER": "Cập nhật phả đồ",
-  "TREE_UPDATE_MESSAGE": "Nhận thông báo qua email sau khi duyệt.",
+  "TREE_UPDATE_MSG": "Phả đồ bạn điều chỉnh sẽ được gửi về ban quản trị duyệt trước khi cập nhật.",
+  "TREE_UPDATE_MESSAGE": "Nhập email để ban quản trị tiện liên lạc trong khi duyệt phả đồ.",
   
   "DELETE_PEOPLE_HEADER": "Thông báo",
   "DELETE_PEOPLE_MESSAGE": "Xóa tên ",
@@ -27,7 +42,7 @@
   "NODE_NAME": "Họ tên",
   "NODE_NAME_PLACEHOLDER": "Nhập họ tên (Phan nếu đầu nhánh, ví dụ. Phan Ngọc Luật)",
   
-  "NODE_NICK": "Biệt hiệu",
+  "NODE_NICK": "Tên gọi",
   "NODE_NICK_PLACEHOLDER": "Nhập tên gọi trong nhà (ví du: Bảy, Bờm, Tèo, Nô)",
   "NODE_GENDER": "Giới tính",
   "NODE_GROUP_TIME": "Sinh thời",
@@ -36,9 +51,9 @@
   "NODE_YOD": "Năm tử",
   "NODE_YOD_PLACEHOLDER": "Nhập năm (4 số, > Năm sinh, < 2022)",
   "NODE_GROUP_PLACE": "Nguyên quán",
-  "NODE_POB": "Nguyên sinh",
-  "NODE_POD": "Nguyên táng",
-  "NODE_POR": "Trú quán",
+  "NODE_POB": "Nơi sinh",
+  "NODE_POD": "Nơi tử",
+  "NODE_POR": "Nơi cư trú",
   "NODE_GROUP_TREE": "Gia phả",
   "NODE_CHILD": "Thêm con",
   "NODE_CHILD_PLACEHOLDER": "Nhập tên",
@@ -47,12 +62,18 @@
 
   "NODE_SUBMIT": "Cất",
 
+  "NODE_SAVE_HEADING": "Thông báo",
+  "NODE_SAVE_MESSAGE": "Dữ liệu không thay đổi.",
+
+  "NODE_CANCEL_HEADING": "Thông báo",
+  "NODE_CANCEL_MESSAGE": "Dữ liệu đã được thay đổi. Tiếp tục bỏ?",
+  
   "NODE_ERR_NAME_IS_BLANK": "Họ/tên không được để trống.",
   "NODE_ERR_YOD_BLANK": "Nơi sinh phải để trống nếu năm mất để trống.",
 
   "NODE_ERROR_TITLE": "Lỗi dữ liệu",
   "NODE_ERR_YOB_ERROR": "Năm sinh phải từ 1900 đến 2022.",
-  "NODE_ERR_YOD_ERROR": "Năm mất phải > năm sinh và từ 1900 đến 2022.",
+  "NODE_ERR_YOD_ERROR": "Năm tử phải > năm sinh và từ 1900 đến 2022.",
 
   "NODE_ERR_HAVE_CHILDREN": "Không thể xóa nhánh. Phải xóa ngọn trước."
 

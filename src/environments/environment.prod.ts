@@ -8,5 +8,12 @@ export const environment = {
     authDomain: 'family-c5b45.firebaseapp.com',
     messagingSenderId: '123668295235',
   },
-  production: true
+  production: true,
 };
+
+export const MIN_YEAR = 1900;
+export const MAX_YEAR = 2022;
+export const GENERATION = 0;
+export const DEBUG = true;
+export const VERSION = '0.0.2';
+export const CONTACT = 'Phan Viết Hoàng - pvhoang940@gmail.com';

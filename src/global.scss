@@ -25,12 +25,6 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-@import "~@ng-select/ng-select/themes/default.theme.css";
-
-ion-title.title-large {
-  color: white;
-  font-size: 18px;
-}
 
 // http://ionicframework.com/docs/theming/
 @import url('https://fonts.googleapis.com/css?family=Rubik:300,400,500,700');
@@ -53,3 +47,17 @@ ion-title.title-large {
 @import "theme/app-defaults.scss";
 // Add base shell styles
 @import "theme/shell-defaults.scss";
+
+// PROJECT GLOBAL STYLES
+
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+ion-title{
+  font-size: 20px;
+}
+
+ion-icon {
+  font-size: 24px;
+  color: grey;
+}
+

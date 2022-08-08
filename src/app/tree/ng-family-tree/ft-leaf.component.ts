@@ -1,10 +1,6 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-// <div id="{{node.idlevel}}">
-// </div>
-// {{node.span[0]}}<br/>{{node.span[1]}}<br/>{{node.span[2]}}
-
 @Component({
   selector: 'ft-leaf',
   template: `

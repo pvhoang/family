@@ -1,18 +1,25 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title size="medium" class="ion-text-center">{{ node.name }}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="onSave()">
-        <ion-icon name="save"></ion-icon>
-      </ion-button>
-      <ion-button (click)="onDelete()">
-        <ion-icon name="trash"></ion-icon>
-      </ion-button>
-      <ion-button (click)="onCancel()">
-        <ion-icon name="close"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+  <ion-grid>
+    <ion-row class="ion-padding">
+      <ion-col size="6">
+        <ion-title class="ion-text-center" style="color:blue">{{ title }}</ion-title>
+        <!-- <ion-label class="ion-text-center">{{ title }}</ion-label> -->
+      </ion-col>
+      <ion-col size="6">
+        <div class="ion-float-right">
+          <ion-button fill="clear" (click)="onSave()">
+            <ion-icon name="save"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" (click)="onDelete()">
+            <ion-icon name="trash"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" (click)="onCancel()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
@@ -48,41 +55,49 @@
       {{ 'NODE_GROUP_PLACE' | translate }}
     </ion-card-header>
     <ion-label class="card-label">{{ 'NODE_POB' | translate }}</ion-label>
-    <!-- <div class="card-select"> -->
+    <div class="card-select-1">
       <ng-select
         [items]="places | async" 
         bindLabel="name"
+        notFoundText="{{selectPlacesNotFoundText}}"
+        placeholder="{{selectPlacesPlaceholder}}"
         [(ngModel)]="values.pob"
         (focus)="focus('pob')"
         (close)="closePlace()"
         (search)="search($event)"
         (keyup)="keyup($event, 'places')">
       </ng-select>
-    <!-- </div> -->
+    </div>
+
     <ion-label class="card-label">{{ 'NODE_POD' | translate }}</ion-label>
-    <!-- <div class="card-select"> -->
+    <div class="card-select-1">
       <ng-select
         [items]="places | async" 
         bindLabel="name"
+        notFoundText="{{selectPlacesNotFoundText}}"
+        placeholder="{{selectPlacesPlaceholder}}"
         [(ngModel)]="values.pod"
         (focus)="focus('pod')"
         (close)="closePlace()"
         (search)="search($event)"
         (keyup)="keyup($event, 'places')">
       </ng-select>
-    <!-- </div> -->
+    </div>
+    
     <ion-label class="card-label">{{ 'NODE_POR' | translate }}</ion-label>
-    <!-- <div class="card-select"> -->
+    <div class="card-select">
       <ng-select
         [items]="places | async"
         bindLabel="name"
+        notFoundText="{{selectPlacesNotFoundText}}"
+        placeholder="{{selectPlacesPlaceholder}}"
         [(ngModel)]="values.por"
         (focus)="focus('por')"
         (close)="closePlace()"
         (search)="search($event)"
         (keyup)="keyup($event, 'places')">
       </ng-select>
-    <!-- </div> -->
+    </div>
     
     <ion-card-header class="card-header">
       {{ 'NODE_GROUP_TREE' | translate }}

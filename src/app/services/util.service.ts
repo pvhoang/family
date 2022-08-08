@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AlertController } from '@ionic/angular';
-
-export const DEBUG = true;
+import { DEBUG } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -43,20 +42,20 @@ export class UtilService {
 		alert.present();
 	}
 
-	async alertConfirm(header, message) {
+	async alertConfirm(header, message, cancelText, okText) {
 		let alert = await this.alertController.create({
       header: header,
 			message: message,
       buttons: [
         {
-          text: 'CANCEL',
+          text: cancelText,
           handler: (data: any) => {
 						alert.dismiss(false);
 						return false;
           }
         },
         {
-          text: 'CONTINUE',
+          text: okText,
           handler: (data: any) => {
 						alert.dismiss(true);
 						return false;

@@ -1,7 +1,26 @@
-ion-content {
-	--background: url('../../assets/imgs/gia-pha-1.jpg') no-repeat center/cover;
+// ion-content {
+// 	--background: url('../../assets/imgs/gia-pha-1.jpg') no-repeat center/cover;
+// }
+
+// ion-content.ion-color-secondary{
+// 	--ion-color-base: none !important;
+// }
+
+.card-header{
+  background: #f4f5f8;
+  color: #3880ff;
+  font-weight: bold;
+  font-size: 18px;
+	margin-top: 16px;
+	margin-bottom: 8px;
 }
 
-ion-content.ion-color-secondary{
-	--ion-color-base: none !important;
+.card-label{
+  font-weight: bold;
+	margin-top: 16px;
+	// margin-bottom: 8px;
+}
+
+ion-icon {
+  font-size: 24px;
 }

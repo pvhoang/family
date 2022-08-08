@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { UtilService } from '../services/util.service';
 import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
@@ -14,11 +14,13 @@ export class ArchivePage implements OnInit {
   data: any;
   idata: any;
   imageIds: any = [];
-  // imageId: any = 'i1';
   showDetail:any = false;
   images: any[] = [];
   translations: any;
   selectedImage: string;
+  detail1:any = '';
+  detail2:any = '';
+  detail3:any = '';
 
   constructor(
     public toastController: ToastController,
@@ -30,12 +32,10 @@ export class ArchivePage implements OnInit {
 
   ngOnInit() {
     this.translations = this.languageService.getTrans();
-
     this.utilService.getLocalJsonFile('./assets/data/images.json').then((data:any) => {
       console.log('data: ', data);
       this.imageIds = Object.keys(data);
       this.data = data;
-      this.idata = null;
       this.images = [];
       this.imageIds.forEach(iid => {
         let d = data[iid];
@@ -43,6 +43,9 @@ export class ArchivePage implements OnInit {
       });
       this.selectedImage = this.images[0].id;
       this.idata = data[this.selectedImage];
+      setTimeout(() => {
+        this.idata = this.getImageData(this.selectedImage);
+      },300); 
     });
   }
 
@@ -61,25 +64,28 @@ export class ArchivePage implements OnInit {
       this.showDetail = false;
     else 
       this.showDetail = true;
-    // let url = "https://gia-pha-ho-phan.web.app/assets/doc/test.html";
-    // this.openWebpage(url);
   }
 
   close() {
-    console.log('ArchivePage - close: ', this.selectedImage);
-    // calculate data for this image
-    this.idata = this.data[this.selectedImage];
-    if (this.idata.type == 'image' && !this.idata.area_updated)
-      this.updateImageArea(this.selectedImage, this.idata)
+    // console.log('ArchivePage - close: ', this.selectedImage);
+    this.idata = this.getImageData(this.selectedImage)
     this.showDetail = false;
   }
 
-  updateImageArea(id, idata) {
+  getImageData(id) {
+    // calculate data for this image
+    let data = this.data[id];
+    return (data.type == 'image') ? this.updateImageArea(id) : data;
+  }
+
+  updateImageArea(id) {
+    let idata = this.data[id];
     let imageEle = document.getElementById("image");
     let rect:any = imageEle.getBoundingClientRect();
     let imageWidth = idata.image.width;
     let imageHeight = idata.image.height;
-    idata.areas.forEach(area => {
+
+    idata.areas.forEach((area:any) => {
       // based 0
       let aid = area.id;
       let x = area.coords.x;
@@ -87,24 +93,58 @@ export class ArchivePage implements OnInit {
       let text = area.coords.text;
       x = x * rect.width / imageWidth;
       y = y * rect.height / imageHeight;
-      area.coords.x = parseInt(x) + rect.left;
-      area.coords.y = parseInt(y) + + rect.top;
-      area.id = id + '-' + aid;
+      area.domid = id + '-' + aid;
+      area.x = parseInt(x + rect.left);
+      area.y = parseInt(y + rect.top);
+      area.width = idata.area.width;
+      area.height = idata.area.height;
     })
-    idata.area_updated = true;
+    // this.addCornerImages(idata);
+    console.log('idata: ', idata);
+    // this.dislayDetailData(imageEle, idata.areas[2]);
+    return idata;
   }
 
+  addCornerImages(idata) {
+    let imageEle = document.getElementById("image");
+    let rect:any = imageEle.getBoundingClientRect();
+    for (let i = 0; i < 4; i++) {
+      let area: any;
+      if (i == 0)
+        area = {domid: 'corner-'+i, x: 0, y: 0, width: 200, height: 200, text: 'corner-'+i};
+      else if (i == 1)
+        area = {domid: 'corner-'+i, x: rect.right - 200, y: 0, width: 200, height: 200, text: 'corner-'+i};
+      else if (i == 2)
+        area = {domid: 'corner-'+i, x: 0, y: rect.bottom - 200, width: 200, height: 200, text: 'corner-'+i};
+      else if (i == 3)
+        area = {domid: 'corner-'+i, x: rect.right - 200, y: rect.bottom - 200, width: 200, height: 200, text: 'corner-'+i};
+      idata.areas.push(area);
+    }  
+  }
+
+  dislayDetailData(imageEle, area) {
+    let rect:any = imageEle.getBoundingClientRect();
+    let scrollX = window.scrollX;
+    let scrollY = window.scrollY;
+    let viewportWidth = window.innerWidth;
+    let viewportHeight = window.innerHeight;
+    this.detail1 = 'window: scrollX='+scrollX+', scrollY='+scrollY+', viewportWidth='+viewportWidth+', viewportHeight='+viewportHeight+', '+window.outerWidth+', '+window.outerHeight;
+    this.detail2 = 'image: left='+parseInt(rect.left)+', top='+parseInt(rect.top)+', right='+parseInt(rect.right)+', bottom='+parseInt(rect.bottom)+', width='+rect.width+', height='+rect.height+', offsetWidth='+imageEle.offsetWidth+', offsetHeight='+imageEle.offsetHeight;
+    this.detail3 = 'area: ax='+area.x +', ay='+area.y+', width='+area.width+', height='+area.height+', X='+area.x+', Y='+area.y+ ', text='+area.text;
+  }
 
   getAreaStyle(area: any) {
     let styles = {
       'background':'#fff',
       'display': 'block',
-      'width': this.idata.area.width + 'px',
-      'height': this.idata.area.height + 'px',
-      'opacity': '0.4',
+      // 'display': 'inline-block',
+      'width': area.width + 'px',
+      'height': area.height + 'px',
+      'opacity': '0.2',
       'position': 'absolute',
-      'top': area.coords.y + 'px',
-      'left': area.coords.x + 'px',
+      'top': area.y + 'px',
+      'left': area.x + 'px',
+      'border': '2px solid #000000',
     };
     // console.log('ArchivePage - getAreaStyle: ', styles);
     return styles;
