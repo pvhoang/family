@@ -46,14 +46,15 @@ export class TreePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.familyService.readFamily().then(family => {
-      // console.log('TreePage - ngOnInit: ', family)
+
+    console.log('TreePage - ngOnInit')
+
+    this.familyService.loadFamily().then(family => {
+      console.log('TreePage - ngOnInit - family: ', family)
+      // initialize from family
+      this.familyService.saveFamily(family);
       this.familyService.buildFullFamily(family);
-      this.familyService.saveJson(family, 'people').then(status => {
-        this.familyService.readJson('people').then((data:any) => {
-          console.log('people: ', data);
-        });
-      });
+      this.familyService.saveJson(family, 'people').then(status => {});
       this.familyService.saveJson(family, 'places').then(status => {});
 
       this.translations = this.languageService.getTrans();
@@ -62,7 +63,7 @@ export class TreePage implements OnInit {
       this.selectPeopleNotFoundText = this.translations.SELECT_PEOPLE_NOT_FOUND_TEXT;
       this.selectPeoplePlaceholder = this.translations.SELECT_PEOPLE_PLACEHOLDER;
       this.nodes = this.familyService.getFamilyNodes(family);
-      this.utilService.console_log('TreePage - nodes: ', this.nodes);
+      // this.utilService.console_log('TreePage - nodes: ', this.nodes);
       this.family = family;
 
       // verify data
@@ -175,7 +176,7 @@ export class TreePage implements OnInit {
         this.sNodes.push(node);
       }
     })
-    console.log('sNodes: ', this.sNodes)
+    // console.log('sNodes: ', this.sNodes)
     
     let sCount = this.sNodes.length;
     if (sCount == 0) {
@@ -265,9 +266,7 @@ export class TreePage implements OnInit {
         node.family.nodes = node.family.nodes.filter((n:any) => {
           return (n.name != node.name);
         });
-
-        console.log('onDidDismiss - delete - length', node.family.nodes.length);
-
+        // console.log('onDidDismiss - delete - length', node.family.nodes.length);
         if (node.family.nodes.length == 0) {
           // remove family
           node.pnode.family.children = null;
@@ -278,8 +277,8 @@ export class TreePage implements OnInit {
          // rebuild nodes
         this.nodes = this.familyService.getFamilyNodes(this.family);
         // must reset search information
-        // this.searchReset();
-        this.ngSelectComponent.clearModel();
+        this.searchReset();
+        // this.ngSelectComponent.clearModel();
 
       } else if (status == 'save') {
         // update node from values

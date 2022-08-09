@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform, AlertController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { FirebaseService } from '../services/firebase.service';
-import { UtilService } from '../services/util.service';
 import { LanguageService } from '../services/language.service';
 import { FamilyService } from '../services/family.service';
 import { VERSION, CONTACT } from '../../environments/environment';
@@ -20,11 +19,9 @@ export class ContactPage implements OnInit {
   family: any;
 
   constructor(
-    private platform: Platform,
     private alertController: AlertController,
     private firebaseService: FirebaseService,
     private familyService: FamilyService,
-    private utilService: UtilService,
     private languageService: LanguageService,
   ) { }
 
@@ -38,6 +35,7 @@ export class ContactPage implements OnInit {
     this.familyService.readFamily().then((family:any) => {
       this.family = family;
       this.familyVersion = family.version;
+      // console.log('ContactPage - family: ', family);
     });
   }
 

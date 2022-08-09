@@ -56,7 +56,7 @@
   </ion-grid>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="false" class="ion-padding">
 
   <div [ngStyle]="getZoomStyle()">
   <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="family"></ft-tree>

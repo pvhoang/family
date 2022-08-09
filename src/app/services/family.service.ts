@@ -17,41 +17,45 @@ export class FamilyService {
 
   // --- Family ---
 
-  async loadFamily() {
-    // read from local
-    this.readFamily().then((localFamily:any) => {
-      this.utilService.getLocalJsonFile('./assets/data/phan.json').then((srcFamily:any) => {
-        if (!localFamily) {
-          // local not available, save src
-          this.saveFamily(srcFamily);
-        } else {
-          // check local version
-          let localVersion = localFamily.version;
-          if (!localVersion)
-            localVersion = '0.0';
-            console.log('loadFamily - localVersion, srcVersion :' , localVersion, srcFamily.version);
-
-          if (localVersion != srcFamily.version) {
-            // src is later, show user
-            let msg = 
-              this.languageService.getTranslation('LOCAL_DATA') + ': ' + localVersion + '<br>' +
-              this.languageService.getTranslation('NEW_DATA') + ': ' + srcFamily.version + '<br>' +
-              this.languageService.getTranslation('DATA_WARNING');
-              // 'Local data version: ' + localVersion + 
-              // '<br>New data version: ' + srcFamily.version +
-              '<br>Continue if you want to use new version.';
-            let header = this.languageService.getTranslation('SELECT_DATA_VERSION');
-            let cancelText = this.languageService.getTranslation('LOCAL_DATA_BUTTON');
-            let okText = this.languageService.getTranslation('NEW_DATA_BUTTON');
-            this.utilService.alertConfirm(header, msg, cancelText, okText).then((res) => {
-              console.log('loadFamily - res:' , res)
-              if (res.data) {
-                // continue
-                this.saveFamily(srcFamily);
-              }
-            })
+  loadFamily(): Promise<any> {
+    return new Promise((resolve) => {
+      // read from local
+      this.readFamily().then((localFamily:any) => {
+        this.utilService.getLocalJsonFile('./assets/data/phan.json').then((srcFamily:any) => {
+          if (!localFamily) {
+            // local not available, use src
+            console.log('FamilyService - localFamily not defined!');
+            resolve(srcFamily);
+          } else {
+            // check local version
+            let localVersion = localFamily.version;
+            if (!localVersion)
+              localVersion = '0.0';
+            console.log('FamilyService - loadFamily - localVersion, srcVersion :' , localVersion, srcFamily.version);
+            if (localVersion == srcFamily.version) {
+              resolve(localFamily);
+            } else {
+              // src is later, ask user
+              let msg = 
+                this.languageService.getTranslation('LOCAL_DATA') + ': ' + localVersion + '<br>' +
+                this.languageService.getTranslation('NEW_DATA') + ': ' + srcFamily.version + '<br>' +
+                this.languageService.getTranslation('DATA_WARNING');
+                '<br>Continue if you want to use new version.';
+              let header = this.languageService.getTranslation('SELECT_DATA_VERSION');
+              let cancelText = this.languageService.getTranslation('LOCAL_DATA_BUTTON');
+              let okText = this.languageService.getTranslation('NEW_DATA_BUTTON');
+              this.utilService.alertConfirm(header, msg, cancelText, okText).then((res) => {
+                // console.log('loadFamily - res:' , res)
+                if (res.data) {
+                  // continue
+                  resolve(srcFamily);
+                } else {
+                  resolve(localFamily);
+                }
+              })
+            } 
           }
-        }
+        });
       });
     });
   }
@@ -70,11 +74,17 @@ export class FamilyService {
 	
 	async readFamily() {
 		let value = localStorage.getItem('FAMILY');
+		// console.log('readFamily - value:' , value)
     if (value)
       value = JSON.parse(value);
 		return await value;
 	}
 	
+  async deleteFamily() {
+		localStorage.removeItem('FAMILY');
+		return await true;
+	}
+
   printFamily(family) {
 		console.log('filterFamily:' , JSON.stringify(family, null, 4) )
 	}
@@ -110,7 +120,7 @@ export class FamilyService {
     uniqueData.forEach(value => {
       jsonData.push({'name': value});
     });
-    console.log('jsonData: ', jsonData);
+    // console.log('jsonData: ', jsonData);
 		localStorage.setItem(json, JSON.stringify({data: jsonData}));
 		return await true;
 	}
@@ -316,10 +326,10 @@ export class FamilyService {
   public getSpanStr(node) {
     let spans = [];
     spans.push(node.name);
-    if (node.yob != '' || node.yod != '')
-      spans.push(node.yob + ' - ' + node.yod);
-    if (node.pob != '' || node.pod != '')
-      spans.push(node.pob + ' - ' + node.pod);
+    // if (node.yob != '' || node.yod != '')
+    spans.push(node.yob + ' - ' + node.yod);
+    // if (node.pob != '' || node.pod != '')
+    //   spans.push(node.pob + ' - ' + node.pod);
     return spans;
   }
 
@@ -380,10 +390,10 @@ export class FamilyService {
       return true;
     if (node['yob'].length == 0)
       return true;
-    if (node['pob'].length == 0)
-      return true;    
-    if (node['gender'].length == 0)
-      return true;
+    // if (node['pob'].length == 0)
+    //   return true;    
+    // if (node['gender'].length == 0)
+    //   return true;
     return false;
   }
 }

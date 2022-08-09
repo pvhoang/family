@@ -18,7 +18,8 @@ export class AppComponent {
     // const id = '30-07-2022_09-26';
     // const id = 'phan';
     // this.familyService.loadFamily('phan');
-    this.familyService.loadFamily();
+    // this.familyService.deleteFamily();
+    // this.familyService.loadFamily2();
   }
 
   

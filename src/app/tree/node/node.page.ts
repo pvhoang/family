@@ -21,9 +21,7 @@ export class NodePage implements OnInit {
   values: any = {};
   places: Observable<string[]>;
   place: any;
-  placeStr: any = '';
-  placeData: any;
-  placeItem: any;
+  placeItem: any = null;
   translations: any;
   selectGender: any = '';
   selectPlacesNotFoundText: any = 'Not found text';
@@ -40,30 +38,34 @@ export class NodePage implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
     // console.log('NodePage - ngOnInit - node: ', this.node);
-    let node = this.node;
-    this.title = node.name + ' - ' + this.familyService.getGeneration(node);
-    this.values.name = node.name;
-    this.values.nick = node.nick;
-    this.values.gender = node.gender;
-    this.values.yob = node.yob;
-    this.values.yod = node.yod;
-    this.values.pob = (node.pob == '') ? null : {name: node.pob};
-    this.values.pod = (node.pod == '') ? null : {name: node.pod};
-    this.values.por = (node.por == '') ? null : {name: node.por};
-    this.values.child = node.child;
-    this.values.spouse = node.spouse;
-
+    this.title = this.node.name + ' - ' + this.familyService.getGeneration(this.node);
     this.translations = this.languageService.getTrans();
+    this.values = this.loadValues();
     this.genders = [
       { id: 'male', name: this.translations.MALE },
       { id: 'female', name: this.translations.FEMALE }
     ];
-    this.selectGender = node.gender;
+    this.selectGender = this.node.gender;
     this.selectPlacesNotFoundText = this.translations.SELECT_PLACES_NOT_FOUND_TEXT;
     this.selectPlacesPlaceholder = this.translations.SELECT_PLACES_PLACEHOLDER;
 
+  }
+
+  loadValues() {
+    let values:any = {};
+    let node = this.node;
+    values.name = node.name;
+    values.nick = node.nick;
+    values.gender = node.gender;
+    values.yob = node.yob;
+    values.yod = node.yod;
+    values.pob = (node.pob == '') ? null : {name: node.pob};
+    values.pod = (node.pod == '') ? null : {name: node.pod};
+    values.por = (node.por == '') ? null : {name: node.por};
+    values.child = node.child;
+    values.spouse = node.spouse;
+    return values;
   }
 
   async onCancel() {
@@ -109,22 +111,23 @@ export class NodePage implements OnInit {
     alert.present();
   }
 
-  keyup(event, json) {
+  keyup(event, json: any) {
     // console.log('NodePage - keyup: ', event);
-    if (event.key == 'Enter')
-      this.closePlace(1);
     this.places = this.typeahead.getJson(event.target.value, json);
   }
 
-  focus(name) {
+  focus(name: any) {
     // console.log('NodePage - focus: ', name);
     this.placeItem = name;
   }
 
-  closePlace(mode?: any) {
-    // console.log('NodePage - closePlace: ', mode);
-    if (mode)
-      this.placeData[this.placeItem] = {name: this.placeStr};
+  blur() {
+    // console.log('NodePage - blur');
+    this.placeItem = null;
+  }
+
+  closePlace() {
+    // console.log('NodePage - closePlace');
   }
 
   closeGender() {
@@ -133,7 +136,7 @@ export class NodePage implements OnInit {
 
   search(event) {
     // console.log('NodePage - search: ', event);
-    this.placeStr = event.term;
+    this.values[this.placeItem] = {name: event.term};
   }
 
   async onSave() {
@@ -148,22 +151,38 @@ export class NodePage implements OnInit {
 
     let errorMsg = '';
     // --- data validation
+
     // name must be  defined
     if (values.name == '') 
       errorMsg += this.translations.NODE_ERR_NAME_IS_BLANK + '<br/>';
-    // place of death must be empty if year of death is empty
-    if (values.yod == '' && values.pod && values.pod.name != '') 
-      errorMsg += this.translations.NODE_ERR_YOD_BLANK + '<br/>';
-    // year of birth is either empty or > 1900 and < 2022
-    if (values.yob == '' || (!isNaN(values.yob) && parseInt(values.yob) > MIN_YEAR && parseInt(values.yob) < MAX_YEAR)) {
-    } else {
+
+    // years must be valid
+    let yobTemp = 0;
+    if (values.yob != '') {
+      if (isNaN(values.yob)) {
         errorMsg += this.translations.NODE_ERR_YOB_ERROR + '<br/>';
+      } else {
+        let yob = parseInt(values.yob);
+        if (yob < MIN_YEAR || yob > MAX_YEAR) {
+          errorMsg += this.translations.NODE_ERR_YOB_ERROR + '<br/>';
+        }
+        yobTemp = yob;
+      }
     }
-    // year of death is either empty or > 1900 and < 2500
-    if (values.yod == '' || (!isNaN(values.yob) && parseInt(values.yod) > 1900 && parseInt(values.yod) < 2500)) {
-    } else {
+    if (values.yod != '') {
+      if (isNaN(values.yod)) {
         errorMsg += this.translations.NODE_ERR_YOD_ERROR + '<br/>';
+      } else {
+        let yod = parseInt(values.yod);
+        if (yod < MIN_YEAR || yod > MAX_YEAR) {
+          errorMsg += this.translations.NODE_ERR_YOD_ERROR + '<br/>';
+        }
+        if (yod < yobTemp) {
+          errorMsg += this.translations.NODE_ERR_YOD_ERROR + '<br/>';
+        }
+      }
     }
+
     // --- end data validation
     console.log('onSave: errorMsg:' , errorMsg);
 

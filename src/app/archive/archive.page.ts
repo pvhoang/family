@@ -59,7 +59,7 @@ export class ArchivePage implements OnInit {
 	}
 
   show() {
-    // console.log('ArchivePage - show');
+    console.log('ArchivePage - show');
     if (this.showDetail)
       this.showDetail = false;
     else 
@@ -67,26 +67,30 @@ export class ArchivePage implements OnInit {
   }
 
   close() {
-    // console.log('ArchivePage - close: ', this.selectedImage);
-    this.idata = this.getImageData(this.selectedImage)
+    console.log('ArchivePage - close: ', this.selectedImage);
+    this.idata = this.getImageData(this.selectedImage);
+    console.log('ArchivePage - close: ', this.idata);
     this.showDetail = false;
   }
 
   getImageData(id) {
     // calculate data for this image
     let data = this.data[id];
+    console.log('ArchivePage - getImageData: ', data);
     return (data.type == 'image') ? this.updateImageArea(id) : data;
   }
 
   updateImageArea(id) {
     let idata = this.data[id];
     let imageEle = document.getElementById("image");
+    if (imageEle)
+      idata.imageEle = imageEle;
+    else
+      imageEle = idata.imageEle;
     let rect:any = imageEle.getBoundingClientRect();
     let imageWidth = idata.image.width;
     let imageHeight = idata.image.height;
-
     idata.areas.forEach((area:any) => {
-      // based 0
       let aid = area.id;
       let x = area.coords.x;
       let y = area.coords.y;
@@ -100,7 +104,7 @@ export class ArchivePage implements OnInit {
       area.height = idata.area.height;
     })
     // this.addCornerImages(idata);
-    console.log('idata: ', idata);
+    // console.log('idata: ', idata);
     // this.dislayDetailData(imageEle, idata.areas[2]);
     return idata;
   }

@@ -2,8 +2,7 @@
   <ion-grid>
     <ion-row class="ion-padding">
       <ion-col size="6">
-        <ion-title class="ion-text-center" style="color:blue">{{ title }}</ion-title>
-        <!-- <ion-label class="ion-text-center">{{ title }}</ion-label> -->
+        <ion-title class="ion-text-center">{{ title }}</ion-title>
       </ion-col>
       <ion-col size="6">
         <div class="ion-float-right">
@@ -22,7 +21,7 @@
   </ion-grid>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="false" class="ion-padding">
   
     <ion-card-header class="card-header">
       {{ 'NODE_GROUP_NAME' | translate }}
@@ -63,6 +62,7 @@
         placeholder="{{selectPlacesPlaceholder}}"
         [(ngModel)]="values.pob"
         (focus)="focus('pob')"
+        (blur)="blur()"
         (close)="closePlace()"
         (search)="search($event)"
         (keyup)="keyup($event, 'places')">
@@ -78,6 +78,7 @@
         placeholder="{{selectPlacesPlaceholder}}"
         [(ngModel)]="values.pod"
         (focus)="focus('pod')"
+        (blur)="blur()"
         (close)="closePlace()"
         (search)="search($event)"
         (keyup)="keyup($event, 'places')">
@@ -93,6 +94,7 @@
         placeholder="{{selectPlacesPlaceholder}}"
         [(ngModel)]="values.por"
         (focus)="focus('por')"
+        (blur)="blur()"
         (close)="closePlace()"
         (search)="search($event)"
         (keyup)="keyup($event, 'places')">
