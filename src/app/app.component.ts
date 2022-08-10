@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FamilyService } from './services/family.service';
+// import { FamilyService } from './services/family.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,7 @@ import { FamilyService } from './services/family.service';
 export class AppComponent {
 
   constructor(
-    private familyService: FamilyService,
+    // private familyService: FamilyService,
   ) {
     this.initializeApp();
   }
@@ -20,6 +20,7 @@ export class AppComponent {
     // this.familyService.loadFamily('phan');
     // this.familyService.deleteFamily();
     // this.familyService.loadFamily2();
+    // console.log('ANCESTOR: ', ANCESTOR);
   }
 
   

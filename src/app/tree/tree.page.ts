@@ -22,7 +22,7 @@ export class TreePage implements OnInit {
   modalDataResponse: any;
   family:any = {};
   nodes:Node[] = [];
-  language = 'VI';
+  // language = 'VI';
   people: Observable<string[]>;
   typeStr: any = '';
   selectPeople: any = null;
@@ -48,8 +48,10 @@ export class TreePage implements OnInit {
   ngOnInit() {
 
     console.log('TreePage - ngOnInit')
+    this.familyService.deleteSetting().then(() => {});
 
     this.familyService.loadFamily().then(family => {
+
       console.log('TreePage - ngOnInit - family: ', family)
       // initialize from family
       this.familyService.saveFamily(family);
@@ -237,14 +239,14 @@ export class TreePage implements OnInit {
     ele.scrollIntoView(options);
   }
 
-  setLanguage() {
-    if (this.language == 'VI') {
-      this.language = 'EN';
-    } else {
-      this.language = 'VI'
-    }
-    this.languageService.setLanguage(this.language.toLowerCase());
-  }
+  // setLanguage() {
+  //   if (this.language == 'VI') {
+  //     this.language = 'EN';
+  //   } else {
+  //     this.language = 'VI'
+  //   }
+  //   this.languageService.setLanguage(this.language.toLowerCase());
+  // }
   
   async openNodeModal(node) {
 
@@ -283,7 +285,7 @@ export class TreePage implements OnInit {
       } else if (status == 'save') {
         // update node from values
         let values = resp.data.values;
-        let change = this.updateNode(node, values);
+        let change = this.familyService.updateNode(node, values);
         if (change) {
           // there is change
           console.log('TreePage - onDidDismiss : change');
@@ -332,18 +334,18 @@ export class TreePage implements OnInit {
     return await modal.present();
   }
 
-  updateNode(node, values) {
-    // console.log('values: ', values);
-    let change = this.familyService.isNodeChanged(node, values);
-    node.name = values.name;
-    node.nick = values.nick;
-    node.gender = values.gender;
-    node.yob = values.yob;
-    node.yod = values.yod;  
-    node.pob = (values.pob && values.pob.name != '') ? values.pob.name : '';
-    node.pod = (values.pod && values.pod.name != '') ? values.pod.name : '';
-    node.por = (values.por && values.por.name != '') ? values.por.name : '';
-    return change;
-  }
+  // updateNode(node, values) {
+  //   // console.log('values: ', values);
+  //   let change = this.familyService.isNodeChanged(node, values);
+  //   node.name = values.name;
+  //   node.nick = values.nick;
+  //   node.gender = values.gender;
+  //   node.yob = values.yob;
+  //   node.yod = values.yod;  
+  //   node.pob = (values.pob && values.pob.name != '') ? values.pob.name : '';
+  //   node.pod = (values.pod && values.pod.name != '') ? values.pod.name : '';
+  //   node.por = (values.por && values.por.name != '') ? values.por.name : '';
+  //   return change;
+  // }
 
 }

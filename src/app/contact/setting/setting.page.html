@@ -1,0 +1,151 @@
+<ion-header>
+  <ion-grid>
+    <ion-row class="ion-padding">
+      <ion-col size="6">
+        <ion-title class="ion-text-center">{{ title }}</ion-title>
+      </ion-col>
+      <ion-col size="6">
+        <div class="ion-float-right">
+          <ion-button fill="clear" (click)="onSave()">
+            <ion-icon name="save"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" (click)="onCancel()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-header>
+
+<ion-content [fullscreen]="false" class="ion-padding">
+  
+  <ion-card-header class="card-header">
+    {{ 'SETTING_LANGUAGE_NAME' | translate }}
+  </ion-card-header>
+
+  <ion-label class="card-label">{{ 'SETTING_LANGUAGE' | translate }}</ion-label>
+  <div class="card-select">
+    <ng-select 
+      [items]="languages" 
+      bindLabel="name"
+      bindValue="id"
+      [(ngModel)]="values.language">
+    </ng-select>
+  </div>
+
+  <ion-card-header class="card-header">
+    {{ 'SETTING_FAMILY_NAME' | translate }}
+  </ion-card-header>
+
+  <ion-label class="card-label">{{ 'SETTING_FAMILY' | translate }}</ion-label>
+  <div class="card-select">
+    <ng-select
+      [items]="ancestors"
+      bindLabel="name"
+      bindValue="id"
+      [(ngModel)]="values.ancestor">
+    </ng-select>
+  </div>
+
+
+  <!-- <ion-grid>
+    <ion-row>
+      <ion-input class="card-input" type="text" [(ngModel)]="values.name" placeholder="{{ 'NODE_NAME_PLACEHOLDER' | translate }}" clearInput></ion-input>
+    </ion-row>
+    <ion-row>
+      <ion-label>Hello</ion-label>
+    </ion-row>
+    <ion-row>
+      <ion-label>OK</ion-label>
+    </ion-row>
+    <ion-row>
+      <ion-label>{{test}}</ion-label>
+    </ion-row>
+    <ion-row>
+      <ion-label>{{ title }}</ion-label>
+    </ion-row>
+    <ion-row>
+      <ion-label>Testing</ion-label>
+    </ion-row>
+    <ion-row>
+      <div class="card-select">
+        <ng-select 
+            [items]="languages" 
+            bindLabel="name"
+            bindValue="id"
+            [(ngModel)]="values.language">
+        </ng-select>
+      </div>
+      <ion-input class="card-input" type="text" [(ngModel)]="values.name" placeholder="{{ 'NODE_NAME_PLACEHOLDER' | translate }}" clearInput></ion-input>
+    </ion-row>
+    <ion-row>
+      <ion-label>{{ 'NODE_NAME' | translate }}</ion-label>
+    </ion-row>
+  </ion-grid> -->
+
+
+
+  <!-- <ion-card-header class="card-header">
+    {{ 'SETTING_LANGUAGE_NAME' | translate }}
+  </ion-card-header> -->
+  <!-- <ion-label class="card-label">{{ 'NODE_NAME' | translate }}</ion-label>
+  <ion-input class="card-input" type="text" [(ngModel)]="values.name" placeholder="{{ 'NODE_NAME_PLACEHOLDER' | translate }}" clearInput></ion-input> -->
+    
+  <!-- <ion-grid>
+    <ion-row>
+      <ion-card-header class="card-header">
+        {{ 'SETTING_LANGUAGE_NAME' | translate }}
+      </ion-card-header>
+    </ion-row>
+    <ion-row>
+      <ion-label class="card-label">{{ 'NODE_NAME' | translate }}</ion-label>
+    </ion-row>
+    <ion-row>
+      <ion-input class="card-input" type="text" [(ngModel)]="values.name" placeholder="{{ 'NODE_NAME_PLACEHOLDER' | translate }}" clearInput></ion-input>
+    </ion-row>
+    <ion-row>
+      <ion-label class="card-label">{{ 'NODE_NAME' | translate }}</ion-label>
+    </ion-row>
+    <ion-row>
+      <div class="card-select">
+        <ng-select 
+          [items]="languages" 
+          bindLabel="name"
+          bindValue="id"
+          [(ngModel)]="values.language">
+        </ng-select>
+      </div>
+    </ion-row>
+    <ion-row class="ion-padding">
+      <ion-label class="card-label">{{ 'NODE_NAME' | translate }}</ion-label>
+    </ion-row>
+  </ion-grid> -->
+
+<!-- <ion-input class="card-input" type="text" [(ngModel)]="values.name" placeholder="{{ 'NODE_NAME_PLACEHOLDER' | translate }}" clearInput></ion-input> -->
+
+  <!-- <ion-label class="card-label">{{ 'SETTING_LANGUAGE' | translate }}</ion-label>
+  <div class="card-select">
+    <ng-select 
+      [items]="languages" 
+      bindLabel="name"
+      bindValue="id"
+      [(ngModel)]="values.language">
+    </ng-select>
+  </div> -->
+  
+  <!-- <ion-card-header class="card-header">
+    {{ 'SETTING_FAMILY_NAME' | translate }}
+  </ion-card-header> -->
+
+  <!-- <ion-label class="card-label">{{ 'SETTING_FAMILY' | translate }}</ion-label>
+  <div class="card-select">
+    <ng-select
+      [items]="families"
+      bindLabel="name"
+      bindValue="id"
+      [(ngModel)]="values.family">
+    </ng-select>
+  </div> -->
+  
+</ion-content>

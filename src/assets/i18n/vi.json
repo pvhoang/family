@@ -1,5 +1,8 @@
 {
-  "PHAN_FAMILY_TREE": "Gia Phả Họ Phan",
+  "phan": {"name": "Họ Phan", "tree": "Gia Phả Họ Phan", "short_name": "Phan"},
+  "le": {"name": "Họ Lê", "tree": "Gia Phả Họ Lê", "short_name": "Lê"},
+  "doan": {"name": "Họ Đoàn", "tree": "Gia Phả Họ Đoàn", "short_name": "Đoàn"},
+
   "VERSION": "Ấn bản",
   "TREE": "Phả đồ",
   "ARCHIVE": "Phả ký",
@@ -23,7 +26,7 @@
   "LOCAL_DATA_BUTTON": "Máy",
   "NEW_DATA_BUTTON": "Mới",
 
-  "NAME_MUST_BE_PHAN": "Tên đầu nhánh phải có họ Phan!",
+  "NAME_MUST_BE_ANCESTOR": "Tên đầu nhánh phải mang họ ",
 
   "SELECT_PEOPLE_NOT_FOUND_TEXT": "Không tìm thấy tên",
   "SELECT_PEOPLE_PLACEHOLDER": "Nhập hoặc chọn tên",
@@ -37,6 +40,14 @@
   
   "DELETE_PEOPLE_HEADER": "Thông báo",
   "DELETE_PEOPLE_MESSAGE": "Xóa tên ",
+
+  "SETTING": "Thông số",
+  "VIETNAMESE": "Tiếng Việt",
+  "ENGLISH": "Tiếng Anh",
+  "SETTING_LANGUAGE_NAME": "Ngôn ngữ",
+  "SETTING_LANGUAGE": "Chọn",
+  "SETTING_FAMILY_NAME": "Dòng tộc",
+  "SETTING_FAMILY": "Họ",
 
   "NODE_GROUP_NAME": "Danh tính",
   "NODE_NAME": "Họ tên",
@@ -76,6 +87,7 @@
   "NODE_ERR_YOD_ERROR": "Năm tử phải > năm sinh và từ 1900 đến 2022.",
 
   "NODE_ERR_HAVE_CHILDREN": "Không thể xóa nhánh. Phải xóa ngọn trước."
+
 
 
 }

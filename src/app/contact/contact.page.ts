@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { FirebaseService } from '../services/firebase.service';
 import { LanguageService } from '../services/language.service';
 import { FamilyService } from '../services/family.service';
-import { VERSION, CONTACT } from '../../environments/environment';
+import { SettingPage } from './setting/setting.page';
+import { VERSION, CONTACT, ANCESTOR } from '../../environments/environment';
 
 @Component({
   selector: 'app-contact',
@@ -12,14 +13,13 @@ import { VERSION, CONTACT } from '../../environments/environment';
 })
 export class ContactPage implements OnInit {
 
-  translations: any;
-  appVersion: any;
-  familyVersion: any;
-  contact: any;
+  title: any = '';
+  contact: any = '';
   family: any;
 
   constructor(
     private alertController: AlertController,
+    public modalCtrl: ModalController,
     private firebaseService: FirebaseService,
     private familyService: FamilyService,
     private languageService: LanguageService,
@@ -27,15 +27,13 @@ export class ContactPage implements OnInit {
 
   ngOnInit() {
     console.log('ContactPage - ngOnInit');
-    this.appVersion = VERSION;
-    this.contact = CONTACT;
-    this.translations = this.languageService.getTrans();
-    this.familyVersion = '';
-
-    this.familyService.readFamily().then((family:any) => {
+    let ancestor = ANCESTOR;
+    this.familyService.readFamily(ancestor).then((family:any) => {
       this.family = family;
-      this.familyVersion = family.version;
-      // console.log('ContactPage - family: ', family);
+      let ancestorText = this.languageService.getTranslation(ancestor);
+      console.log('ContactPage - ngOnInit - setting: ', ancestorText);
+      this.title = ancestorText.tree + ' - ' + VERSION + ' - ' + family.version;
+      this.contact = CONTACT[ancestor].name + ' - ' + CONTACT[ancestor].email;
     });
   }
 
@@ -47,10 +45,52 @@ export class ContactPage implements OnInit {
     console.log('ContactPage - ionViewWillLeave');
 	}
 
+  async onSetting() {
+    this.familyService.readSetting().then((setting:any) => {
+      console.log('ContactPage - onSetting - setting: ', setting);
+
+      this.openSettingModal(setting);
+    });
+  }
+
+  async openSettingModal(setting) {
+    console.log('ContactPage - openSettingModal');
+
+    const modal = await this.modalCtrl.create({
+      component: SettingPage,
+      componentProps: {
+        'name': 'Setting',
+        'setting': setting
+      }
+    });
+
+    modal.onDidDismiss().then((resp) => {
+      console.log('ContactPage - openSettingModal - onDidDismiss : ', resp);
+      let status = resp.data.status;
+      if (status == 'cancel') {
+        // do nothing
+      } else if (status == 'save') {
+        console.log('values: ', resp.data.values);
+        let values = resp.data.values;
+
+        if (setting.language != values.language) {
+          setting.language = values.language;
+          this.languageService.setLanguage(setting.language);
+          this.familyService.saveSetting(setting);
+        }
+        if (setting.ancestor != values.ancestor) {
+          setting.ancestor = values.ancestor;
+          this.familyService.saveSetting(setting);
+        }
+      }
+    });
+    return await modal.present();
+  }
+  
   async saveTree() {
 		let confirm = await this.alertController.create({
-      header: this.translations.TREE_UPDATE_HEADER,
-			message: this.translations.TREE_UPDATE_MESSAGE,
+      header: this.languageService.getTranslation('TREE_UPDATE_HEADER'),
+			message: this.languageService.getTranslation('TREE_UPDATE_MESSAGE'),
       inputs: [
         {
           placeholder: 'Email'
@@ -58,14 +98,15 @@ export class ContactPage implements OnInit {
       ],
       buttons: [
         {
-          text: this.translations.CANCEL,
+          text: this.languageService.getTranslation('CANCEL'),
           handler: (data: any) => {
           }
         },
         {
-          text: this.translations.CONTINUE,
+          text: this.languageService.getTranslation('CONTINUE'),
           handler: (data: any) => {
-            let text = '--- phan.json --- \n' + JSON.stringify(this.family, null, 4);
+            let ancestor = this.family.ancestor;
+            let text = '--- ' + ancestor + '.json --- \n' + JSON.stringify(this.family, null, 4);
             text += '\n';
             let id = this.getContentID();
             let email = data[0];
@@ -96,4 +137,5 @@ export class ContactPage implements OnInit {
 		const id = ''+day+'-'+month+'-'+year+'_'+hour+'-'+min;
 		return id;
   }
+
 }

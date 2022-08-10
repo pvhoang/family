@@ -23,7 +23,7 @@ export class NodePage implements OnInit {
   place: any;
   placeItem: any = null;
   translations: any;
-  selectGender: any = '';
+  // selectGender: any = '';
   selectPlacesNotFoundText: any = 'Not found text';
   selectPlacesPlaceholder: any = 'Place holder';
   genders: Array<any>;
@@ -38,35 +38,35 @@ export class NodePage implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // console.log('NodePage - ngOnInit - node: ', this.node);
+    console.log('NodePage - ngOnInit - node: ', this.node);
     this.title = this.node.name + ' - ' + this.familyService.getGeneration(this.node);
     this.translations = this.languageService.getTrans();
-    this.values = this.loadValues();
+    this.values = this.familyService.loadValues(this.node);
     this.genders = [
       { id: 'male', name: this.translations.MALE },
       { id: 'female', name: this.translations.FEMALE }
     ];
-    this.selectGender = this.node.gender;
+    // this.selectGender = this.node.gender;
     this.selectPlacesNotFoundText = this.translations.SELECT_PLACES_NOT_FOUND_TEXT;
     this.selectPlacesPlaceholder = this.translations.SELECT_PLACES_PLACEHOLDER;
 
   }
 
-  loadValues() {
-    let values:any = {};
-    let node = this.node;
-    values.name = node.name;
-    values.nick = node.nick;
-    values.gender = node.gender;
-    values.yob = node.yob;
-    values.yod = node.yod;
-    values.pob = (node.pob == '') ? null : {name: node.pob};
-    values.pod = (node.pod == '') ? null : {name: node.pod};
-    values.por = (node.por == '') ? null : {name: node.por};
-    values.child = node.child;
-    values.spouse = node.spouse;
-    return values;
-  }
+  // loadValues() {
+  //   let values:any = {};
+  //   let node = this.node;
+  //   values.name = node.name;
+  //   values.nick = node.nick;
+  //   values.gender = node.gender;
+  //   values.yob = node.yob;
+  //   values.yod = node.yod;
+  //   values.pob = (node.pob == '') ? null : {name: node.pob};
+  //   values.pod = (node.pod == '') ? null : {name: node.pod};
+  //   values.por = (node.por == '') ? null : {name: node.por};
+  //   values.child = node.child;
+  //   values.spouse = node.spouse;
+  //   return values;
+  // }
 
   async onCancel() {
     // console.log('NodePage - onCancel - node: ', this.node);
@@ -126,6 +126,11 @@ export class NodePage implements OnInit {
     this.placeItem = null;
   }
 
+  clear() {
+    // console.log('NodePage - blur');
+    this.placeItem = null;
+  }
+
   closePlace() {
     // console.log('NodePage - closePlace');
   }
@@ -140,7 +145,7 @@ export class NodePage implements OnInit {
   }
 
   async onSave() {
-    // console.log('NodePage - onSave - node: ', this.node);
+    console.log('NodePage - onSave - node: ', this.node);
     let values = this.values;
     console.log('onSave: ', values);
     if (this.familyService.isNodeChanged(this.node, values) == false) {

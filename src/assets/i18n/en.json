@@ -1,7 +1,9 @@
 {
 
+  "phan": {"name": "Phan Family", "tree": "Phan Family Tree", "short_name": "Phan"},
+  "le": {"name": "Le Family", "tree": "Le Family Tree", "short_name": "Le"},
+  "doan": {"name": "Doan Family", "tree": "Doan Family Tree", "short_name": "Doan"},
 
-  "PHAN_FAMILY_TREE": "Phan's Family Tree",
   "VERSION": "Version",
   "TREE": "Tree",
   "ARCHIVE": "Document",
@@ -25,7 +27,7 @@
   "LOCAL_DATA_BUTTON": "Machine",
   "NEW_DATA_BUTTON": "New",
 
-  "NAME_MUST_BE_PHAN": "Lead name of branch must have surname: Phan!",
+  "NAME_MUST_BE_ANCESTOR": "Lead name of branch must have surname: ",
 
   "SELECT_PEOPLE_NOT_FOUND_TEXT": "Name not found!",
   "SELECT_PEOPLE_PLACEHOLDER": "Enter or select name.",
@@ -40,6 +42,14 @@
   "DELETE_PEOPLE_HEADER": "Information",
   "DELETE_PEOPLE_MESSAGE": "Delete person",
 
+  "SETTING": "Setting",
+  "VIETNAMESE": "Vietnamese",
+  "ENGLISH": "English",
+  "SETTING_LANGUAGE_NAME": "Language",
+  "SETTING_LANGUAGE": "Select",
+  "SETTING_FAMILY_NAME": "Ancestor",
+  "SETTING_FAMILY": "Family",
+  
   "NODE_GROUP_NAME": "Name",
   "NODE_NAME": "Surname",
   "NODE_NAME_PLACEHOLDER": "Enter name (Phan if head of branch, ví dụ. Phan Ngọc Luật)",

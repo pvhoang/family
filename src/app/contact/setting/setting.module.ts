@@ -5,10 +5,9 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 
+import { SettingPageRoutingModule } from './setting-routing.module';
 
-import { ContactPageRoutingModule } from './contact-routing.module';
-
-import { ContactPage } from './contact.page';
+import { SettingPage } from './setting.page';
 
 @NgModule({
   imports: [
@@ -18,10 +17,8 @@ import { ContactPage } from './contact.page';
     IonicModule,
     TranslateModule,
     NgSelectModule,
-    ContactPageRoutingModule
+    SettingPageRoutingModule
   ],
-  providers: [
-  ],
-  declarations: [ContactPage]
+  declarations: [SettingPage]
 })
-export class ContactPageModule {}
+export class SettingPageModule {}

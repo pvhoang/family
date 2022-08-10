@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { UtilService } from '../services/util.service';
 import { LanguageService } from '../services/language.service';
 // import { Family, Node } from '../models/family.model';
-import { GENERATION } from '../../environments/environment';
+import { GENERATION, SETTING, ANCESTOR } from '../../environments/environment';
 
 @Injectable({
 	providedIn: 'root'
@@ -19,9 +19,19 @@ export class FamilyService {
 
   loadFamily(): Promise<any> {
     return new Promise((resolve) => {
+      
+    this.readSetting().then((setting:any) => {
+      console.log('FamilyService - loadFamily - setting: ', setting);
+
+      let ancestor = setting.ancestor;
+      let jsonFile = './assets/data/' + ancestor + '-family.json'
+
       // read from local
-      this.readFamily().then((localFamily:any) => {
-        this.utilService.getLocalJsonFile('./assets/data/phan.json').then((srcFamily:any) => {
+      this.readFamily(ancestor).then((localFamily:any) => {
+        this.utilService.getLocalJsonFile(jsonFile).then((srcFamily:any) => {
+
+          console.log('FamilyService - loadFamily - srcFamily: ', srcFamily);
+
           if (!localFamily) {
             // local not available, use src
             console.log('FamilyService - localFamily not defined!');
@@ -58,35 +68,57 @@ export class FamilyService {
         });
       });
     });
+    });
   }
 
 	async saveFamily(family) {
-		localStorage.setItem('FAMILY', JSON.stringify(family));
+		localStorage.setItem(family.ancestor, JSON.stringify(family));
 		return await true;
 	}
 
   async saveFullFamily(family) {
 		family = this.getFilterFamily(family);
 		// console.log('saveFullFamily - filterFamily:' , family)
-		localStorage.setItem('FAMILY', JSON.stringify(family));
+		localStorage.setItem(family.ancestor, JSON.stringify(family));
 		return await true;
 	}
 	
-	async readFamily() {
-		let value = localStorage.getItem('FAMILY');
+	async readFamily(ancestor) {
+		let value = localStorage.getItem(ancestor);
 		// console.log('readFamily - value:' , value)
     if (value)
       value = JSON.parse(value);
 		return await value;
 	}
 	
-  async deleteFamily() {
-		localStorage.removeItem('FAMILY');
+  async deleteFamily(ancestor) {
+		localStorage.removeItem(ancestor);
 		return await true;
 	}
 
   printFamily(family) {
 		console.log('filterFamily:' , JSON.stringify(family, null, 4) )
+	}
+
+  // --- Setting ---
+
+  async readSetting() {
+		let value:any = localStorage.getItem('SETTING');
+    if (value)
+      value = JSON.parse(value);
+    else
+      value = SETTING;
+		return await value;
+	}
+
+  async saveSetting(setting) {
+		localStorage.setItem('SETTING', JSON.stringify(setting));
+		return await true;
+	}
+
+  async deleteSetting() {
+		localStorage.removeItem('SETTING');
+		return await true;
 	}
 
   // --- JSON: People, Places---
@@ -153,11 +185,12 @@ export class FamilyService {
 
   verifyFamily(family: any) {
     let msg = [];
+    let ancestor = family.ancestor;
     let name = family.nodes[0].name;
     let keys = this.utilService.stripVN(name).split(' ');
-    // if (family.nodes[0].name.indexOf('Phan') != 0) {
-    if (keys[0] != 'phan') {
-      let message = this.languageService.getTranslation('NAME_MUST_BE_PHAN') + ' [' + name + ']';
+    if (keys[0] != ancestor) {
+      let ancestorText = this.languageService.getTranslation(ancestor);
+      let message = this.languageService.getTranslation('NAME_MUST_BE_ANCESTOR') + ' ' + ancestorText.short_name + '. [' + name + ']';
       msg.push(message);
     }
     if (family['children']) {
@@ -169,10 +202,12 @@ export class FamilyService {
   }
 
   private verifyNode(family:any, msg) {
+    let ancestor = family.ancestor;
     let name = family.nodes[0].name;
     let keys = this.utilService.stripVN(name).split(' ');
-    if (keys[0] != 'phan') {
-      let message = this.languageService.getTranslation('NAME_MUST_BE_PHAN') + ' [' + name + ']';
+    if (keys[0] != ancestor) {
+      let ancestorText = this.languageService.getTranslation(ancestor);
+      let message = this.languageService.getTranslation('NAME_MUST_BE_ANCESTOR') + ' ' + ancestorText.short_name + '. [' + name + ']';
       msg.push(message);
     }
     if (family['children']) {
@@ -187,6 +222,7 @@ export class FamilyService {
   private getFilterFamily(family) {
     let filterFamily:any = {};
     filterFamily.version = family.version;
+    filterFamily.ancestor = family.ancestor;
 
     filterFamily['nodes'] = [];
     if (family['nodes'].length > 0) {
@@ -349,17 +385,51 @@ export class FamilyService {
     return node;
   }
 
-  public isNodeChanged(node, values:any) {
-    // let node = this.node;
+  public loadValues(node: any) {
+    let values:any = {};
+    values.name = node.name;
+    values.nick = node.nick;
+    values.gender = node.gender;
+    values.yob = node.yob;
+    values.yod = node.yod;
+    values.pob = (node.pob == '') ? null : {name: node.pob};
+    values.pod = (node.pod == '') ? null : {name: node.pod};
+    values.por = (node.por == '') ? null : {name: node.por};
+    values.child = node.child;
+    values.spouse = node.spouse;
+    return values;
+  }
+
+  public updateNode(node: any, values: any) {
+    // console.log('values: ', values);
+    let change = this.isNodeChanged(node, values);
+    let pob = values.pob ? values.pob.name : '';
+    let pod = values.pod ? values.pod.name : '';
+    let por = values.por ? values.por.name : '';
+    node.name = values.name;
+    node.nick = values.nick;
+    node.gender = values.gender;
+    node.yob = values.yob;
+    node.yod = values.yod;  
+    node.pob = pob;
+    node.pod = pod;
+    node.por = por;
+    return change;
+  }
+
+  public isNodeChanged(node: any, values:any) {
+    let pob = values.pob ? values.pob.name : '';
+    let pod = values.pod ? values.pod.name : '';
+    let por = values.por ? values.por.name : '';
     let change = 
       (node.name != values.name) ||
       (node.nick != values.nick) ||
       (node.gender != values.gender) ||
       (node.yob != values.yob) ||
       (node.yod != values.yod) ||
-      (values.pob && node.pob != values.pob.name) ||
-      (values.pod && node.pod != values.pod.name) ||
-      (values.por && node.por != values.por.name) ||
+      (node.pob != pob) ||
+      (node.pod != pod) ||
+      (node.por != por) ||
       (values.child != '') ||
       (values.spouse != '');
     return change;

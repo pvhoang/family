@@ -1,0 +1,14 @@
+{
+    "version": "0.1",
+    "ancestor": "le",
+    "nodes": [
+        {
+            "name": "Lê Văn Mạnh",
+            "gender": "male",
+            "yob": "1910",
+            "yod": "1950",
+            "pob": "Quảng Bình",
+            "pod": "Quảng Bình"
+        }
+    ]
+}

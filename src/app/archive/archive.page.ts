@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { UtilService } from '../services/util.service';
 import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
-import { LanguageService } from '../services/language.service';
+// import { LanguageService } from '../services/language.service';
+// import { FamilyService } from '../services/family.service';
+import { ANCESTOR } from '../../environments/environment';
 
 @Component({
   selector: 'app-archive',
@@ -16,7 +18,6 @@ export class ArchivePage implements OnInit {
   imageIds: any = [];
   showDetail:any = false;
   images: any[] = [];
-  translations: any;
   selectedImage: string;
   detail1:any = '';
   detail2:any = '';
@@ -25,14 +26,15 @@ export class ArchivePage implements OnInit {
   constructor(
     public toastController: ToastController,
     private utilService: UtilService,
-    private languageService: LanguageService,
+    // private languageService: LanguageService,
+    // private familyService: FamilyService,
 		private iab: InAppBrowser,
   ) {
   }
 
   ngOnInit() {
-    this.translations = this.languageService.getTrans();
-    this.utilService.getLocalJsonFile('./assets/data/images.json').then((data:any) => {
+    let jsonFile = './assets/data/' + ANCESTOR + '-images.json'
+    this.utilService.getLocalJsonFile(jsonFile).then((data:any) => {
       console.log('data: ', data);
       this.imageIds = Object.keys(data);
       this.data = data;
