@@ -44,6 +44,8 @@
         [(ngModel)]="values.gender">
       </ng-select>
     </div>
+    <ion-label class="card-label">{{ 'NODE_DOD' | translate }}</ion-label>
+    <ion-input class="card-input" type="text" [(ngModel)]="values.dod" placeholder="{{ 'NODE_DOD_PLACEHOLDER' | translate }}" clearInput></ion-input>
     <ion-label class="card-label">{{ 'NODE_DESC' | translate }}</ion-label>
     <ion-textarea class="card-textarea" type="text" rows="3" autosize [(ngModel)]="values.desc" placeholder="{{ 'NODE_DESC_PLACEHOLDER' | translate }}"></ion-textarea>
 

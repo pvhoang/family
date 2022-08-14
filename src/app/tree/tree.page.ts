@@ -67,6 +67,10 @@ export class TreePage implements OnInit {
       let msg = this.familyService.verifyFamily(family);
       if (msg)
         this.utilService.alertMsg('WARNING', msg);
+      msg = this.familyService.passAwayFamily(family);
+      if (msg)
+        this.utilService.alertMsg('MEMORIAL', msg);
+
       setTimeout(() => {
         this.scrollToRoot();
       }, 100);

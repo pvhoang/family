@@ -10,6 +10,7 @@ export class Node {
   pod: string = '';
   por: string = '';
   desc: string = '';
+  dod: string = '';
 }
 
 export const NODE = {
@@ -23,7 +24,8 @@ export const NODE = {
   pob: '',
   pod: '',
   por: '',
-  desc: ''
+  desc: '',
+  dod: ''
 }
 
 export class Family {

@@ -65,6 +65,10 @@ https://gist.github.com/danallison/3ec9d5314788b337b682
 =======================
 https://stackoverflow.com/questions/40843218/upload-a-file-and-read-data-with-filereader-in-angular-2
 
+=======================
+# Convert to Lunar date
+=======================
+https://www.npmjs.com/package/date-chinese
 
 =====================================================================
 # FIREBASE

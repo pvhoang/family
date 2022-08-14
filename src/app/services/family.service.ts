@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UtilService } from '../services/util.service';
 import { LanguageService } from '../services/language.service';
+import { CalendarChinese, CalendarVietnamese } from 'date-chinese';
 import { Family, Node, NODE } from '../models/family.model';
 import { SETTING, ANCESTOR } from '../../environments/environment';
 
@@ -72,13 +73,13 @@ export class FamilyService {
     });
   }
 
-	async saveFamily(family) {
+	async saveFamily(family:any) {
 		console.log('saveFamily - family: ' , family)
 		localStorage.setItem(ANCESTOR, JSON.stringify(family));
 		return await true;
 	}
 
-  async saveFullFamily(family) {
+  async saveFullFamily(family:any) {
 		family = this.getFilterFamily(family);
 		console.log('saveFullFamily - filterFamily:' , family)
 		localStorage.setItem(ANCESTOR, JSON.stringify(family));
@@ -229,6 +230,88 @@ export class FamilyService {
     }
   }
 
+  // --- passAwayFamily
+
+  // getLunarDate(dod: any) {
+
+  //   // const CalendarVietnamese = require('date-chinese').CalendarVietnamese
+  //   let d = new Date();
+  //   // console.log('year, month, date: ', date.getFullYear(), date.getMonth(), date.getDate());
+
+  //   let cal = new CalendarVietnamese()
+  //   // cal.fromGregorian(2022, 8, 14)
+  //   cal.fromGregorian(d.getFullYear(), d.getMonth()+1, d.getDate())
+  //   let cdate = cal.get()
+  //   console.log('FamilyService - passAwayFamily: ', cdate);
+  //   let month = cdate[2];
+  //   let day = cdate[4];
+  //   let paDate = dod.split('/');
+
+  //   console.log('FamilyService - passAwayFamily: ', month, day, paDate);
+
+  //   let todayDate = month * 30 + day;
+  //   let dodDate = +paDate[1] * 30 + +paDate[0];
+
+  //   console.log('FamilyService - passAwayFamily: ', todayDate, dodDate);
+
+  //   if (dodDate > todayDate && dodDate < todayDate + 7) {
+  //     console.log("Gio sap den!");
+  //   }
+
+    // let cal = new CalendarChinese(78, 1, 10, true, 9)
+    // let date = cal.toDate(date).toISOString();
+
+    //> 1984-11-30T16:00:00.426Z
+    //> [ 78, 2, 2, true, 2 ]
+    // let gyear = cal.yearFromEpochCycle()
+    //> 1985
+    // console.log('FamilyService - passAwayFamily: ', cdate, gyear);
+  // }
+
+  passAwayFamily(family: any) {
+
+    console.log('FamilyService - passAwayFamily')
+    let msg = [];
+    family.nodes.forEach(node => {
+      if (this.isMemorialComing(node.dod)) {
+        msg.push('Name: ' + node.name + ' - ' + node.dod);
+      }
+    })
+    if (family['children']) {
+      // console.log('FamilyService - verifyFamily2')
+      family['children'].forEach(child => {
+        this.passAwayNode(child, msg);
+      })
+    }
+    return msg.length == 0 ? null : msg.join('\n');
+  }
+
+  private passAwayNode(family:any, msg: any) {
+    family.nodes.forEach(node => {
+      if (this.isMemorialComing(node.dod)) {
+        msg.push('Name: ' + node.name + ' - ' + node.dod);
+      }
+    })
+    if (family['children']) {
+      family['children'].forEach(child => {
+        this.passAwayNode(child, msg);
+      })
+    }
+  }
+
+  private isMemorialComing(dod: any) {
+    if (!dod || dod == '')
+      return false;
+    let d = new Date();
+    let cal = new CalendarVietnamese()
+    cal.fromGregorian(d.getFullYear(), d.getMonth()+1, d.getDate())
+    let cdate = cal.get()
+    let todayCount = cdate[2] * 30 + cdate[4];
+    let ary = dod.split('/');
+    let dodCount = +ary[1] * 30 + +ary[0];
+    return dodCount > todayCount && dodCount < todayCount + 7;
+  }
+
   // --- compareFamilies
 
   public compareFamilies(srcFamily:any, modFamily:any): any[] {
@@ -364,6 +447,7 @@ export class FamilyService {
         if (node.pod != '') newNode['pod'] = node.pod;
         if (node.por != '') newNode['por'] = node.por;
         if (node.desc != '') newNode['desc'] = node.desc;
+        if (node.dod != '') newNode['dod'] = node.dod;
         filterFamily['nodes'].push(newNode);
       });
     }
@@ -481,6 +565,7 @@ export class FamilyService {
     if (node.pod != '') str += ' ' + node.pod;
     if (node.por != '') str += ' ' + node.por;
     if (node.desc != '') str += ' ' + node.desc;
+    if (node.dod != '') str += ' ' + node.dod;
     str += ' ' + genStr;
     str = this.utilService.stripVN(str);
     let keys = str.split(' ');
@@ -531,6 +616,7 @@ export class FamilyService {
     if (!node.pod) node.pod = '';
     if (!node.por) node.por = '';
     if (!node.desc) node.desc = '';
+    if (!node.dod) node.dod = '';
     if (!node.child) node.child = '';
     if (!node.spouse) node.spouse = '';
     return node;
@@ -548,6 +634,7 @@ export class FamilyService {
     values.pod = (node.pod == '') ? null : {name: node.pod};
     values.por = (node.por == '') ? null : {name: node.por};
     values.desc = node.desc;
+    values.dod = node.dod;
     values.child = node.child;
     values.spouse = node.spouse;
     return values;
@@ -568,6 +655,7 @@ export class FamilyService {
     node.pod = pod;
     node.por = por;
     node.desc = values.desc;
+    node.dod = values.dod;
     return change;
   }
 
@@ -585,6 +673,7 @@ export class FamilyService {
       (node.pod != pod) ||
       (node.por != por) ||
       (node.desc != values.desc) ||
+      (node.dod != values.dod) ||
       (values.child != '') ||
       (values.spouse != '');
     return change;

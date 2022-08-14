@@ -84,6 +84,8 @@
   "NODE_POR": "Nơi cư trú",
   "NODE_DESC": "Chi tiết",
   "NODE_DESC_PLACEHOLDER": "Nhập chi tiết cá nhân: thành đạt, chức vụ, v.v",
+  "NODE_DOD": "Ngày mất",
+  "NODE_DOD_PLACEHOLDER": "Nhập ngày mất theo âm lịch (nn/tt, ví du: 12/05)",
 
   "NODE_GROUP_TREE": "Gia phả",
   "NODE_CHILD": "Thêm con",
