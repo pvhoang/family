@@ -19,6 +19,7 @@ export class AppComponent {
   }
 
   initializeApp() {
+    
     // this.familyService.deleteFamily();
     // this.familyService.deleteSetting();
   }
