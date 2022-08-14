@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ModalController, AlertController } from '@ionic/angular';
 import { TypeaheadService } from '../../services/typeahead.service';
+import * as htmlToImage from 'html-to-image';
 import { LanguageService } from '../../services/language.service';
 import { UtilService } from '../../services/util.service';
 import { FamilyService } from '../../services/family.service';
@@ -23,7 +24,6 @@ export class NodePage implements OnInit {
   place: any;
   placeItem: any = null;
   translations: any;
-  // selectGender: any = '';
   selectPlacesNotFoundText: any = 'Not found text';
   selectPlacesPlaceholder: any = 'Place holder';
   genders: Array<any>;
@@ -46,36 +46,41 @@ export class NodePage implements OnInit {
       { id: 'male', name: this.translations.MALE },
       { id: 'female', name: this.translations.FEMALE }
     ];
-    // this.selectGender = this.node.gender;
     this.selectPlacesNotFoundText = this.translations.SELECT_PLACES_NOT_FOUND_TEXT;
     this.selectPlacesPlaceholder = this.translations.SELECT_PLACES_PLACEHOLDER;
-
   }
 
-  // loadValues() {
-  //   let values:any = {};
-  //   let node = this.node;
-  //   values.name = node.name;
-  //   values.nick = node.nick;
-  //   values.gender = node.gender;
-  //   values.yob = node.yob;
-  //   values.yod = node.yod;
-  //   values.pob = (node.pob == '') ? null : {name: node.pob};
-  //   values.pod = (node.pod == '') ? null : {name: node.pod};
-  //   values.por = (node.por == '') ? null : {name: node.por};
-  //   values.child = node.child;
-  //   values.spouse = node.spouse;
-  //   return values;
-  // }
+  onImage() {
+    console.log('NodePage - onImage - node: ', this.node);
+    const ele = document.getElementById('family-' + this.node.id);
+    let rect:any = ele.getBoundingClientRect();
+    let width = rect.width + 20;
+    let height = rect.height + 20;
+    let keys = this.utilService.stripVN(this.node.name).split(' ');
+    let nameStr = keys.join('_')
+
+    let options = {
+      quality: 0.95,
+      backgroundColor: '#f0f1f2',
+      width: width,
+      height: height
+    }
+    htmlToImage.toJpeg(ele, options)
+    .then(function (dataUrl) {
+      var link = document.createElement('a');
+      link.download = 'family_' + nameStr + '.jpeg';
+      link.href = dataUrl;
+      link.click();
+    });
+  }
 
   async onCancel() {
     // console.log('NodePage - onCancel - node: ', this.node);
     let values = this.values;
     if (this.familyService.isNodeChanged(this.node, values)) {
       this.utilService.alertConfirm(this.translations.NODE_CANCEL_HEADING, this.translations.NODE_CANCEL_MESSAGE, this.translations.CANCEL, this.translations.CONTINUE).then((res) => {
-        if (res.data) {
+        if (res.data)
           this.modalCtr.dismiss({status: 'cancel'});
-        }
       })
       return;
     }

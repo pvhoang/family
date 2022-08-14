@@ -6,7 +6,7 @@ import { LanguageService } from '../services/language.service';
 import { FamilyService } from '../services/family.service';
 import { NodePage } from './node/node.page';
 import { TypeaheadService } from '../services/typeahead.service';
-import { Family, Node } from '../models/family.model';
+// import { Family, Node } from '../models/family.model';
 import { NgSelectComponent } from '@ng-select/ng-select';
 
 
@@ -21,21 +21,23 @@ export class TreePage implements OnInit {
 
   modalDataResponse: any;
   family:any = {};
-  nodes:Node[] = [];
+  // nodes:Node[] = [];
+  nodes:any[] = [];
   // language = 'VI';
   people: Observable<string[]>;
   typeStr: any = '';
   selectPeople: any = null;
   selectPeopleNotFoundText: any = 'Not found text';
   selectPeoplePlaceholder: any = 'Place holder';
-
+  split = false;
   translations: any;
   scaleStyle: number = 10;
   searchView = false;
 	searchPercent: any = '0/0';
 	searchIdx: any = '0/0';
 	searchDisabled:any = false;
-  sNodes:Node[] = [];
+  // sNodes:Node[] = [];
+  sNodes:any[] = [];
 
   constructor(
     public modalCtrl: ModalController,
@@ -47,27 +49,20 @@ export class TreePage implements OnInit {
 
   ngOnInit() {
 
-    console.log('TreePage - ngOnInit')
-    this.familyService.deleteSetting().then(() => {});
-
     this.familyService.loadFamily().then(family => {
-
       console.log('TreePage - ngOnInit - family: ', family)
-      // initialize from family
       this.familyService.saveFamily(family);
       this.familyService.buildFullFamily(family);
       this.familyService.saveJson(family, 'people').then(status => {});
       this.familyService.saveJson(family, 'places').then(status => {});
 
       this.translations = this.languageService.getTrans();
-      
       this.selectPeople = null;
       this.selectPeopleNotFoundText = this.translations.SELECT_PEOPLE_NOT_FOUND_TEXT;
       this.selectPeoplePlaceholder = this.translations.SELECT_PEOPLE_PLACEHOLDER;
       this.nodes = this.familyService.getFamilyNodes(family);
       // this.utilService.console_log('TreePage - nodes: ', this.nodes);
       this.family = family;
-
       // verify data
       let msg = this.familyService.verifyFamily(family);
       if (msg)
@@ -106,11 +101,16 @@ export class TreePage implements OnInit {
   }
 
   onHome() {
+    this.scaleStyle = 10;
     this.scrollToRoot();
   }
 
   onZoom(increment) {
     this.scaleStyle += increment;
+  }
+
+  onSplit() {
+    this.split = !this.split;
   }
 
   keyup(event, json) {
@@ -239,15 +239,6 @@ export class TreePage implements OnInit {
     ele.scrollIntoView(options);
   }
 
-  // setLanguage() {
-  //   if (this.language == 'VI') {
-  //     this.language = 'EN';
-  //   } else {
-  //     this.language = 'VI'
-  //   }
-  //   this.languageService.setLanguage(this.language.toLowerCase());
-  // }
-  
   async openNodeModal(node) {
 
     console.log('openNodeModal - node : ', node);
@@ -280,7 +271,6 @@ export class TreePage implements OnInit {
         this.nodes = this.familyService.getFamilyNodes(this.family);
         // must reset search information
         this.searchReset();
-        // this.ngSelectComponent.clearModel();
 
       } else if (status == 'save') {
         // update node from values
@@ -320,7 +310,6 @@ export class TreePage implements OnInit {
           this.familyService.saveFullFamily(this.family).then(status => {});
           this.familyService.saveJson(this.family, 'people').then(status => {});
           this.familyService.saveJson(this.family, 'places').then(status => {});
-          // update other variables
           if (node.nclass != 'select')
             node.nclass = this.familyService.updateNclass(node);
           node.span = this.familyService.getSpanStr(node);
@@ -333,19 +322,4 @@ export class TreePage implements OnInit {
     });
     return await modal.present();
   }
-
-  // updateNode(node, values) {
-  //   // console.log('values: ', values);
-  //   let change = this.familyService.isNodeChanged(node, values);
-  //   node.name = values.name;
-  //   node.nick = values.nick;
-  //   node.gender = values.gender;
-  //   node.yob = values.yob;
-  //   node.yod = values.yod;  
-  //   node.pob = (values.pob && values.pob.name != '') ? values.pob.name : '';
-  //   node.pod = (values.pod && values.pod.name != '') ? values.pod.name : '';
-  //   node.por = (values.por && values.por.name != '') ? values.por.name : '';
-  //   return change;
-  // }
-
 }

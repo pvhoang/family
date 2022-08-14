@@ -50,6 +50,22 @@ https://www.iloveimg.com/resize-image
 Standard: 1200x(800-900)px
 Paint App
 
+=======================
+# Display branch on images
+=======================
+https://www.npmjs.com/package/html-to-image
+
+=======================
+# Download a text file
+=======================
+https://gist.github.com/danallison/3ec9d5314788b337b682
+
+=======================
+# Upload a text file
+=======================
+https://stackoverflow.com/questions/40843218/upload-a-file-and-read-data-with-filereader-in-angular-2
+
+
 =====================================================================
 # FIREBASE
 =====================================================================

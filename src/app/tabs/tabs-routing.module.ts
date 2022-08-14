@@ -8,6 +8,10 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
+        path: 'tab0',
+        loadChildren: () => import('../home/home.module').then( m => m.HomePageModule)
+      },
+      {
         path: 'tab1',
         loadChildren: () => import('../tree/tree.module').then( m => m.TreePageModule)
       },
@@ -22,14 +26,14 @@ const routes: Routes = [
 
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/tab0',
         pathMatch: 'full'
       },
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/tab0',
     pathMatch: 'full'
   }
 ];

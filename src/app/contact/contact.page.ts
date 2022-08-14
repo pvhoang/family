@@ -3,8 +3,9 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { FirebaseService } from '../services/firebase.service';
 import { LanguageService } from '../services/language.service';
 import { FamilyService } from '../services/family.service';
-import { SettingPage } from './setting/setting.page';
-import { VERSION, CONTACT, ANCESTOR } from '../../environments/environment';
+import { UtilService } from '../services/util.service';
+// import { SettingPage } from './setting/setting.page';
+import { VERSION, ANCESTOR } from '../../environments/environment';
 
 @Component({
   selector: 'app-contact',
@@ -14,26 +15,27 @@ import { VERSION, CONTACT, ANCESTOR } from '../../environments/environment';
 export class ContactPage implements OnInit {
 
   title: any = '';
-  contact: any = '';
   family: any;
+  compareResults: any[] = [];
 
   constructor(
     private alertController: AlertController,
     public modalCtrl: ModalController,
     private firebaseService: FirebaseService,
     private familyService: FamilyService,
+    private utilService: UtilService,
     private languageService: LanguageService,
   ) { }
 
   ngOnInit() {
     console.log('ContactPage - ngOnInit');
     let ancestor = ANCESTOR;
-    this.familyService.readFamily(ancestor).then((family:any) => {
+    this.familyService.readFamily().then((family:any) => {
       this.family = family;
       let ancestorText = this.languageService.getTranslation(ancestor);
       console.log('ContactPage - ngOnInit - setting: ', ancestorText);
-      this.title = ancestorText.tree + ' - ' + VERSION + ' - ' + family.version;
-      this.contact = CONTACT[ancestor].name + ' - ' + CONTACT[ancestor].email;
+      // this.title = ancestorText.tree + ' - ' + VERSION + ' - ' + family.version;
+      this.title = ancestorText.tree;
     });
   }
 
@@ -45,48 +47,46 @@ export class ContactPage implements OnInit {
     console.log('ContactPage - ionViewWillLeave');
 	}
 
-  async onSetting() {
-    this.familyService.readSetting().then((setting:any) => {
-      console.log('ContactPage - onSetting - setting: ', setting);
 
-      this.openSettingModal(setting);
-    });
-  }
+  // async openSettingModal(setting) {
+  //   console.log('ContactPage - openSettingModal');
 
-  async openSettingModal(setting) {
-    console.log('ContactPage - openSettingModal');
+  //   const modal = await this.modalCtrl.create({
+  //     component: SettingPage,
+  //     componentProps: {
+  //       'name': 'Setting',
+  //       'setting': setting
+  //     }
+  //   });
 
-    const modal = await this.modalCtrl.create({
-      component: SettingPage,
-      componentProps: {
-        'name': 'Setting',
-        'setting': setting
-      }
-    });
-
-    modal.onDidDismiss().then((resp) => {
-      console.log('ContactPage - openSettingModal - onDidDismiss : ', resp);
-      let status = resp.data.status;
-      if (status == 'cancel') {
-        // do nothing
-      } else if (status == 'save') {
-        console.log('values: ', resp.data.values);
-        let values = resp.data.values;
-
-        if (setting.language != values.language) {
-          setting.language = values.language;
-          this.languageService.setLanguage(setting.language);
-          this.familyService.saveSetting(setting);
-        }
-        if (setting.ancestor != values.ancestor) {
-          setting.ancestor = values.ancestor;
-          this.familyService.saveSetting(setting);
-        }
-      }
-    });
-    return await modal.present();
-  }
+  //   modal.onDidDismiss().then((resp) => {
+  //     console.log('ContactPage - openSettingModal - onDidDismiss : ', resp);
+  //     let status = resp.data.status;
+  //     if (status == 'cancel') {
+  //       // do nothing
+  //     } else if (status == 'save') {
+  //       console.log('values: ', resp.data.values);
+  //       let values = resp.data.values;
+  //       if (setting.language != values.language) {
+  //         setting.language = values.language;
+  //         this.languageService.setLanguage(setting.language);
+  //         this.familyService.saveSetting(setting);
+  //       }
+  //     }
+  //   });
+  //   return await modal.present();
+  // }
   
+  async compareTree() {
+    this.familyService.readFamily().then((localFamily:any) => {
+      let jsonFile = './assets/data/' + ANCESTOR + '-family.json';
+      console.log('jsonFile: ', jsonFile);
+      this.utilService.getLocalJsonFile(jsonFile).then((srcFamily:any) => {
+        this.compareResults = this.familyService.compareFamilies(srcFamily, localFamily);
+      });
+    });
+  }
+
   async saveTree() {
 		let confirm = await this.alertController.create({
       header: this.languageService.getTranslation('TREE_UPDATE_HEADER'),
@@ -105,7 +105,7 @@ export class ContactPage implements OnInit {
         {
           text: this.languageService.getTranslation('CONTINUE'),
           handler: (data: any) => {
-            let ancestor = this.family.ancestor;
+            let ancestor = ANCESTOR;
             let text = '--- ' + ancestor + '.json --- \n' + JSON.stringify(this.family, null, 4);
             text += '\n';
             let id = this.getContentID();
@@ -119,7 +119,6 @@ export class ContactPage implements OnInit {
                 text: text,
               }
             });
-            // });
           }
         }
       ]
@@ -127,6 +126,37 @@ export class ContactPage implements OnInit {
     confirm.present();
 	}
 
+  uploadTree(event:any) {
+    // console.log('ContactPage - uploadTree: ', event);
+    var file: File = event.target.files[0];
+    var myReader: FileReader = new FileReader();
+    myReader.onloadend = ((e:any) => {
+      let family = myReader.result;
+      console.log('family: ', family);
+    });
+    myReader.readAsText(file);
+  }
+
+  downloadTree() {
+    let text = '--- ' + ANCESTOR + '.json --- \n' + JSON.stringify(this.family, null, 4);
+    text += '\n';
+    this.downloadString(text, 'text/csv', 'test-family.txt');
+  }
+
+  // downloadString("a,b,c\n1,2,3", "text/csv", "myCSV.csv")
+  downloadString(text, fileType, fileName) {
+    var blob = new Blob([text], { type: fileType });
+    var a = document.createElement('a');
+    a.download = fileName;
+    a.href = URL.createObjectURL(blob);
+    a.dataset.downloadurl = [fileType, a.download, a.href].join(':');
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function() { URL.revokeObjectURL(a.href); }, 1500);
+  }
+  
   getContentID() {
 		const d = new Date();
 		let day = ''+d.getDate();		if (day.length < 2) day = '0' + day;

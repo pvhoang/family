@@ -4,7 +4,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'ft-leaf',
   template: `
-
+  <a id="{{child.iddom}}">
     <div *ngFor="let node of child.nodes">
       <span *ngIf="node.span.length == 1"
           class="node"
@@ -43,7 +43,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
         <ft-leaf (onLeafSelected)="_leafSelected($event)" [child]="row"></ft-leaf>
       </li>
     </ul>
-
+  </a>
   `
 })
 export class FtLeafComponent {

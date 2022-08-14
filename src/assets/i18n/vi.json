@@ -4,9 +4,16 @@
   "doan": {"name": "Họ Đoàn", "tree": "Gia Phả Họ Đoàn", "short_name": "Đoàn"},
 
   "VERSION": "Ấn bản",
+  "HOME": "Phả nhập",
   "TREE": "Phả đồ",
   "ARCHIVE": "Phả ký",
-  "INFO": "Thông tin",
+  "INFO": "Phụ khảo",
+
+  "HOME_INTRO": "Giới thiệu",
+  "HOME_INTRO_CONTENT": "Cây có cội <br> Nước có nguồn <br><strong>Sông</strong> có <i>biển</i>",
+  "HOME_USER_GUIDE": "Hướng dẫn sử dụng",
+  "HOME_USER_GUIDE_CONTENT": "Cây có cội <br> Nước có nguồn <br><strong>Sông</strong> có <i>biển</i>",
+
   "CONTACT": "Liên hệ",
   "MESSAGE": "Tin nhắn",
   "ABOUT": "Về gia phả",
@@ -36,6 +43,8 @@
   "SEARCH_RESULT_TITLE": "Kết quả tìm",
   "TREE_UPDATE_HEADER": "Cập nhật phả đồ",
   "TREE_UPDATE_MSG": "Phả đồ bạn điều chỉnh sẽ được gửi về ban quản trị duyệt trước khi cập nhật.",
+  "TREE_COMPARE_HEADER": "So sánh phả đồ",
+  "TREE_COMPARE_MSG": "So sánh phả đồ bạn đang điều chỉnh với phả đồ gốc.",
   "TREE_UPDATE_MESSAGE": "Nhập email để ban quản trị tiện liên lạc trong khi duyệt phả đồ.",
   
   "DELETE_PEOPLE_HEADER": "Thông báo",
@@ -49,10 +58,18 @@
   "SETTING_FAMILY_NAME": "Dòng tộc",
   "SETTING_FAMILY": "Họ",
 
+  "CONTACT_NAME": "Họ tên",
+  "CONTACT_ITEM": "Thông số",
+  "CONTACT_OLD_VALUE": "Cũ",
+  "CONTACT_NEW_VALUE": "Mới",
+  "CONTACT_DATA_NOT_CHANGED": "Dữ liệu không thay đổi.",
+  "CONTACT_LEVELS_CHANGED": "Số đời thay đổi",
+  "CONTACT_NAME_CHANGED": "Tên đã thay đổi",
+  "CONTACT_NAME_ADDED": "Mới thêm",
+
   "NODE_GROUP_NAME": "Danh tính",
   "NODE_NAME": "Họ tên",
   "NODE_NAME_PLACEHOLDER": "Nhập họ tên (Phan nếu đầu nhánh, ví dụ. Phan Ngọc Luật)",
-  
   "NODE_NICK": "Tên gọi",
   "NODE_NICK_PLACEHOLDER": "Nhập tên gọi trong nhà (ví du: Bảy, Bờm, Tèo, Nô)",
   "NODE_GENDER": "Giới tính",
@@ -65,6 +82,9 @@
   "NODE_POB": "Nơi sinh",
   "NODE_POD": "Nơi tử",
   "NODE_POR": "Nơi cư trú",
+  "NODE_DESC": "Chi tiết",
+  "NODE_DESC_PLACEHOLDER": "Nhập chi tiết cá nhân: thành đạt, chức vụ, v.v",
+
   "NODE_GROUP_TREE": "Gia phả",
   "NODE_CHILD": "Thêm con",
   "NODE_CHILD_PLACEHOLDER": "Nhập tên",

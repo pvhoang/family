@@ -13,7 +13,7 @@ export const environment = {
 
 export const MIN_YEAR = 1900;
 export const MAX_YEAR = 2022;
-export const GENERATION = 0;
+// export const GENERATION = 0;
 export const DEBUG = true;
 export const VERSION = '0.0.2';
 export const CONTACT = {
@@ -22,9 +22,9 @@ export const CONTACT = {
   "doan": {"name": "Đoàn Bảo Hà", "email": "pvhoang940@gmail.com"},
 }
 
-declare var ancestor;
+declare var ancestor:any;
 export const ANCESTOR = ancestor;
 export const SETTING = {
-  language: 'vi',
-  ancestor: ANCESTOR
+  language: 'vi'
+  // ancestor: ANCESTOR
 }

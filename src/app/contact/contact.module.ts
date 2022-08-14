@@ -4,10 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
-
-
 import { ContactPageRoutingModule } from './contact-routing.module';
-
 import { ContactPage } from './contact.page';
 
 @NgModule({

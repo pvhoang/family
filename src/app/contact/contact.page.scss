@@ -1,26 +1,43 @@
-// ion-content {
-// 	--background: url('../../assets/imgs/gia-pha-1.jpg') no-repeat center/cover;
-// }
+.scroll-1 {
+	overflow: auto;
+}
 
-// ion-content.ion-color-secondary{
-// 	--ion-color-base: none !important;
-// }
+.ion-grid-1 {
+  // border:1px solid green;
+  height:300px;
+	width: 600px;
+}
 
-// .card-header{
-//   background: #f4f5f8;
-//   color: #3880ff;
-//   font-weight: bold;
-//   font-size: 18px;
-// 	margin-top: 16px;
-// 	margin-bottom: 8px;
-// }
+.headers {
+	// color: #454f63;
+	color: #3880ff;
+	// font-family: "Open Sans";
+	font-weight: bold;
+	font-size: 14px;
+	margin-top: 10px;
+	word-wrap: break-word;
+	background-color: #f0f1f2;
+// Fixed Header
+	position: sticky;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 9999;
+}
 
-// .card-label{
-//   font-weight: bold;
-// 	margin-top: 16px;
-// 	// margin-bottom: 8px;
-// }
+.border,
+.single-border {
+	border-bottom: 2px solid #989898;
 
-// ion-icon {
-//   font-size: 24px;
-// }
+}
+
+.single-border {
+	padding-top: 12px;
+
+}
+
+.content {
+	color: #454f63;
+	// font-family: "Open Sans";
+	font-size: 14px;
+}

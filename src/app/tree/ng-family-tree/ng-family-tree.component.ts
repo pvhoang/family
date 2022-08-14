@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } fro
 @Component({
   selector: 'ft-tree',
   template: `
-    <div class="tree">
+    <div class="tree" id="tree">
       <ul>
         <li>
           <div *ngFor="let node of family.nodes">

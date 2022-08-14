@@ -19,14 +19,17 @@
           <ion-button fill="clear" (click)="onHome()">
             <ion-icon slot="icon-only" name="home"></ion-icon>
           </ion-button>
-          <ion-button fill="clear" (click)="onZoom(1)" [disabled]="scaleStyle == 5">
+          <!-- <ion-button fill="clear" (click)="onZoom(1)" [disabled]="scaleStyle == 5">
             <ion-icon slot="icon-only" name="add-circle"></ion-icon>
           </ion-button>
           <ion-button fill="clear" (click)="onZoom(-1)" [disabled]="scaleStyle == 15">
             <ion-icon slot="icon-only" name="remove-circle"></ion-icon>
+          </ion-button> -->
+          <!-- <ion-button *ngIf="split == false" fill="clear" (click)="onSplit()">
+            <ion-icon slot="icon-only" name="copy"></ion-icon>
           </ion-button>
-          <!-- <ion-button fill="clear" (click)="setLanguage()">
-            <ion-label style="color: grey;">{{language}}</ion-label>
+          <ion-button *ngIf="split" fill="clear" (click)="onSplit()">
+            <ion-icon slot="icon-only" name="tablet-portrait"></ion-icon>
           </ion-button> -->
         </div>
       </ion-col>
@@ -58,8 +61,32 @@
 
 <ion-content [fullscreen]="false" class="ion-padding">
 
-  <div [ngStyle]="getZoomStyle()">
-  <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="family"></ft-tree>
+  <div *ngIf="split">
+    <div class="split left">
+      <!-- <div class="centered"> -->
+         <!-- <div *ngFor="let node of nodes">
+          <p>{{node.name}}</p>
+        </div> -->
+        <div [ngStyle]="getZoomStyle()">
+          <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="family"></ft-tree>
+        </div>
+      <!-- </div> -->
+    </div>
+    <div class="split right">
+      <!-- <div class="centered"> -->
+        <div [ngStyle]="getZoomStyle()">
+          <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="family"></ft-tree>
+        </div>
+      <!-- </div> -->
+    </div>
+  </div>
+
+  <div *ngIf="!split">
+    <!-- <div class="centered"> -->
+      <div [ngStyle]="getZoomStyle()">
+        <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="family"></ft-tree>
+      </div>
+    <!-- </div> -->
   </div>
 
 </ion-content>

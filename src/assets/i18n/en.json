@@ -5,9 +5,16 @@
   "doan": {"name": "Doan Family", "tree": "Doan Family Tree", "short_name": "Doan"},
 
   "VERSION": "Version",
+  "HOME": "Home",
   "TREE": "Tree",
   "ARCHIVE": "Document",
   "INFO": "Info",
+
+  "HOME_INTRO": "Introduction",
+  "HOME_INTRO_CONTENT": "Tree has root<br>Water has source.",
+  "HOME_USER_GUIDE": "User guide",
+  "HOME_USER_GUIDE_CONTENT": "Tree has root<br>Water has source.",
+
   "CONTACT": "Contact",
   "MESSAGE": "Message",
   "ABOUT": "About",
@@ -37,6 +44,8 @@
   "SEARCH_RESULT_TITLE": "Search Result",
   "TREE_UPDATE_HEADER": "Update tree?",
   "TREE_UPDATE_MSG": "Your updated tree will be reviewed before publishing",
+  "TREE_COMPARE_HEADER": "Compare trees",
+  "TREE_COMPARE_MSG": "Compare editing tree with source tree.",
   "TREE_UPDATE_MESSAGE": "Please enter your email for contact during tree review.",
   
   "DELETE_PEOPLE_HEADER": "Information",
@@ -50,6 +59,17 @@
   "SETTING_FAMILY_NAME": "Ancestor",
   "SETTING_FAMILY": "Family",
   
+ 
+
+  "CONTACT_NAME": "Name",
+  "CONTACT_ITEM": "Data",
+  "CONTACT_OLD_VALUE": "Old",
+  "CONTACT_NEW_VALUE": "New",
+  "CONTACT_DATA_NOT_CHANGED": "Data does not change.",
+  "CONTACT_LEVELS_CHANGED": "Number of generations has changed.",
+  "CONTACT_NAME_CHANGED": "Name has changed.",
+  "CONTACT_NAME_ADDED": "Added",
+
   "NODE_GROUP_NAME": "Name",
   "NODE_NAME": "Surname",
   "NODE_NAME_PLACEHOLDER": "Enter name (Phan if head of branch, ví dụ. Phan Ngọc Luật)",
@@ -66,6 +86,9 @@
   "NODE_POB": "Birth place",
   "NODE_POD": "Death place",
   "NODE_POR": "Residence",
+  "NODE_DESC": "Description",
+  "NODE_DESC_PLACEHOLDER": "Enter personal information: accomplishment, etc.",
+
   "NODE_GROUP_TREE": "Tree",
   "NODE_CHILD": "Add a child",
   "NODE_CHILD_PLACEHOLDER": "Enter name",

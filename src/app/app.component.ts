@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-// import { FamilyService } from './services/family.service';
+import { FamilyService } from './services/family.service';
+// import { SETTING, ANCESTOR } from '../environments/environment';
+import { ANCESTOR } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -9,19 +11,15 @@ import { Component } from '@angular/core';
 export class AppComponent {
 
   constructor(
-    // private familyService: FamilyService,
+    private familyService: FamilyService,
   ) {
+    console.log('ANCESTOR: ', ANCESTOR);
+
     this.initializeApp();
   }
 
   initializeApp() {
-    // const id = '30-07-2022_09-26';
-    // const id = 'phan';
-    // this.familyService.loadFamily('phan');
     // this.familyService.deleteFamily();
-    // this.familyService.loadFamily2();
-    // console.log('ANCESTOR: ', ANCESTOR);
+    // this.familyService.deleteSetting();
   }
-
-  
 }

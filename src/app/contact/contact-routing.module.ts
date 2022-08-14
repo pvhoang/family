@@ -8,10 +8,10 @@ const routes: Routes = [
     path: '',
     component: ContactPage
   },
-  {
-    path: 'setting',
-    loadChildren: () => import('./setting/setting.module').then( m => m.SettingPageModule)
-  }
+  // {
+  //   path: 'setting',
+  //   loadChildren: () => import('./setting/setting.module').then( m => m.SettingPageModule)
+  // }
 ];
 
 @NgModule({

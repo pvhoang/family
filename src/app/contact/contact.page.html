@@ -1,15 +1,8 @@
 <ion-header>
   <ion-grid>
     <ion-row class="ion-padding">
-      <ion-col size="6">
+      <ion-col size="12">
         <ion-title class="ion-text-center">{{ title }}</ion-title>
-      </ion-col>
-      <ion-col size="6">
-        <div class="ion-float-right">
-          <ion-button fill="clear" (click)="onSetting()">
-            <ion-icon name="settings"></ion-icon>
-          </ion-button>
-        </div>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -19,24 +12,81 @@
 
   <ion-card>
     <ion-card-header class="card-header">
+      {{ 'APP_INFO' | translate }}
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>{{ family.version }}</ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header class="card-header">
+      {{ 'GOI_PHA_KY' | translate }}
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>{{ family.version }}</ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header class="card-header">
       {{ 'TREE_UPDATE_HEADER' | translate }}
     </ion-card-header>
     <ion-card-content>
       <ion-item>
         <ion-label>{{ 'TREE_UPDATE_MSG' | translate }}</ion-label>
-        <ion-button fill="clear" (click)="saveTree()">
+        <ion-button fill="clear" (click)="downloadTree()">
           <ion-icon name="save"></ion-icon>
         </ion-button>
       </ion-item>
+      <ion-item>
+        <ion-label>Choose a file</ion-label>
+        <input type="file" (change)="uploadTree($event)" title=" " accept=".tree"/>
+        <!-- <input type="file" (change)="uploadTree($event)" title=" " accept="*.txt"/> -->
+      </ion-item>
     </ion-card-content>
   </ion-card>
+
   <ion-card>
     <ion-card-header class="card-header">
-      {{ 'CONTACT' | translate }}
+      {{ 'TREE_COMPARE_HEADER' | translate }}
     </ion-card-header>
     <ion-card-content>
       <ion-item>
-        <ion-label>{{ contact }}</ion-label>
+        <ion-label>{{ 'TREE_COMPARE_MSG' | translate }}</ion-label>
+        <ion-button fill="clear" (click)="compareTree()">
+          <ion-icon name="git-compare"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <ion-item>
+        <div class="scroll-1">
+          <ion-grid class="ion-grid-1">
+            <ion-row nowrap class="headers">
+              <ion-col size="6" class="single-border">
+                {{ 'CONTACT_NAME' | translate }}
+              </ion-col>
+              <ion-col size="2" class="single-border">
+                {{ 'CONTACT_ITEM' | translate }}
+              </ion-col>
+              <ion-col size="2" class="single-border">
+                {{ 'CONTACT_OLD_VALUE' | translate }}
+              </ion-col>
+              <ion-col size="2" class="single-border">
+                {{ 'CONTACT_NEW_VALUE' | translate }}
+              </ion-col>
+            </ion-row>
+            <ion-row nowrap class="content" *ngFor="let row of compareResults">
+              <ion-col size="6"> {{ row.name }} </ion-col>
+              <ion-col size="2"> {{ row.item }} </ion-col>
+              <ion-col size="2"> {{ row.old }} </ion-col>
+              <ion-col size="2"> {{ row.new }} </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
       </ion-item>
     </ion-card-content>
   </ion-card>

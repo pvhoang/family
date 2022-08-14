@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { UtilService } from '../services/util.service';
 import { LanguageService } from '../services/language.service';
-// import { Family, Node } from '../models/family.model';
-import { GENERATION, SETTING, ANCESTOR } from '../../environments/environment';
+import { Family, Node, NODE } from '../models/family.model';
+import { SETTING, ANCESTOR } from '../../environments/environment';
 
 @Injectable({
 	providedIn: 'root'
@@ -23,18 +23,18 @@ export class FamilyService {
     this.readSetting().then((setting:any) => {
       console.log('FamilyService - loadFamily - setting: ', setting);
 
-      let ancestor = setting.ancestor;
-      let jsonFile = './assets/data/' + ancestor + '-family.json'
+      let jsonFile = './assets/data/' + ANCESTOR + '-family.json'
 
       // read from local
-      this.readFamily(ancestor).then((localFamily:any) => {
+      this.readFamily().then((localFamily:any) => {
         this.utilService.getLocalJsonFile(jsonFile).then((srcFamily:any) => {
 
           console.log('FamilyService - loadFamily - srcFamily: ', srcFamily);
 
           if (!localFamily) {
             // local not available, use src
-            console.log('FamilyService - localFamily not defined!');
+            console.log('FamilyService - localFamily not defined! Save srcFamily');
+            this.saveFamily(srcFamily);
             resolve(srcFamily);
           } else {
             // check local version
@@ -58,6 +58,7 @@ export class FamilyService {
                 // console.log('loadFamily - res:' , res)
                 if (res.data) {
                   // continue
+                  this.saveFamily(srcFamily);
                   resolve(srcFamily);
                 } else {
                   resolve(localFamily);
@@ -72,27 +73,28 @@ export class FamilyService {
   }
 
 	async saveFamily(family) {
-		localStorage.setItem(family.ancestor, JSON.stringify(family));
+		console.log('saveFamily - family: ' , family)
+		localStorage.setItem(ANCESTOR, JSON.stringify(family));
 		return await true;
 	}
 
   async saveFullFamily(family) {
 		family = this.getFilterFamily(family);
-		// console.log('saveFullFamily - filterFamily:' , family)
-		localStorage.setItem(family.ancestor, JSON.stringify(family));
+		console.log('saveFullFamily - filterFamily:' , family)
+		localStorage.setItem(ANCESTOR, JSON.stringify(family));
 		return await true;
 	}
 	
-	async readFamily(ancestor) {
-		let value = localStorage.getItem(ancestor);
+	async readFamily() {
+		let value = localStorage.getItem(ANCESTOR);
 		// console.log('readFamily - value:' , value)
     if (value)
       value = JSON.parse(value);
 		return await value;
 	}
 	
-  async deleteFamily(ancestor) {
-		localStorage.removeItem(ancestor);
+  async deleteFamily() {
+		localStorage.removeItem(ANCESTOR);
 		return await true;
 	}
 
@@ -130,6 +132,7 @@ export class FamilyService {
         data.push(node.name);
         data.push(node.pob); data.push(node.pod); data.push(node.por);
         data.push(node.yob); data.push(node.yod);
+        data.push(this.getGeneration(node));
       } else if (json == 'places') {
         data.push(node.pob); data.push(node.pod); data.push(node.por);
       }
@@ -163,6 +166,7 @@ export class FamilyService {
         data.push(node.name);
         data.push(node.pob); data.push(node.pod); data.push(node.por);
         data.push(node.yob); data.push(node.yod);
+        data.push(this.getGeneration(node));
       } else if (json == 'places') {
         data.push(node.pob); data.push(node.pod); data.push(node.por);
       }
@@ -185,25 +189,32 @@ export class FamilyService {
 
   verifyFamily(family: any) {
     let msg = [];
-    let ancestor = family.ancestor;
+    let ancestor = ANCESTOR;
     let name = family.nodes[0].name;
     let keys = this.utilService.stripVN(name).split(' ');
+
+    // console.log('FamilyService - verifyFamily1')
+
     if (keys[0] != ancestor) {
       let ancestorText = this.languageService.getTranslation(ancestor);
       let message = this.languageService.getTranslation('NAME_MUST_BE_ANCESTOR') + ' ' + ancestorText.short_name + '. [' + name + ']';
       msg.push(message);
     }
     if (family['children']) {
+      // console.log('FamilyService - verifyFamily2')
       family['children'].forEach(child => {
-        this.verifyNode(child, msg);
+        this.verifyNode(ancestor, child, msg);
       })
     }
+    // console.log('FamilyService - verifyFamily4')
     return msg.length == 0 ? null : msg.join('\n');
   }
 
-  private verifyNode(family:any, msg) {
-    let ancestor = family.ancestor;
+  private verifyNode(ancestor, family:any, msg) {
     let name = family.nodes[0].name;
+    // console.log('FamilyService - verifyFamily3 - name: ', name);
+    // console.log('FamilyService - verifyFamily3 - ancestor: ', ancestor);
+
     let keys = this.utilService.stripVN(name).split(' ');
     if (keys[0] != ancestor) {
       let ancestorText = this.languageService.getTranslation(ancestor);
@@ -211,9 +222,123 @@ export class FamilyService {
       msg.push(message);
     }
     if (family['children']) {
+    // console.log('FamilyService - verifyFamily3')
       family['children'].forEach(child => {
-        this.verifyNode(child, msg);
+        this.verifyNode(ancestor, child, msg);
       })
+    }
+  }
+
+  // --- compareFamilies
+
+  public compareFamilies(srcFamily:any, modFamily:any): any[] {
+    let srcLevels = this.getFamilyLevel(srcFamily);
+    let modLevels = this.getFamilyLevel(modFamily);
+
+    let results = [];
+
+    if (JSON.stringify(modLevels) == JSON.stringify(srcLevels)) {
+      let msg = this.languageService.getTranslation('CONTACT_DATA_NOT_CHANGED')
+      results.push({name: msg, item: '', old: '', new: '' });
+      return results;            
+    }
+
+    let sLevels = Object.keys(srcLevels);
+    let mLevels = Object.keys(modLevels);
+    if (sLevels.length != mLevels.length) {
+      let msg = this.languageService.getTranslation('CONTACT_LEVELS_CHANGED');
+      results.push({name: msg, item: '', old: ''+sLevels.length, new: ''+mLevels.length });
+    }
+
+    // loop thru each node on each level
+    mLevels.forEach((level:any) => {
+      let mData = modLevels[level];
+      let sData = srcLevels[level];
+      Object.keys(mData.names).forEach((name:any) => {
+        let mDetail = mData.names[name]
+        let sDetail = sData.names[name]
+        if (!sDetail) {
+          let msg = this.languageService.getTranslation('CONTACT_NAME_ADDED');
+          let genStr = this.languageService.getTranslation('GENERATION') + ' ' + level;
+          let n = name + ' - ' + genStr;
+          results.push({name: n, item: '', old: '', new: msg });
+        } else if (!mDetail) {
+          let msg = this.languageService.getTranslation('CONTACT_NAME_ADDED');
+          let genStr = this.languageService.getTranslation('GENERATION') + ' ' + level;
+          let n = name + ' - ' + genStr;
+          results.push({name: n, item: '', old: msg, new: '' });
+        } else {
+          if (mDetail != sDetail) {
+            // get detail difference
+            let diff:any = this.compareDetail(mDetail, sDetail);
+            for (let i = 0; i < diff.length; i++) {
+              let genStr = this.languageService.getTranslation('GENERATION') + ' ' + level;
+              let n = name + ' - ' + genStr;
+              let data = (i == 0) ? 
+                  { name: n, item: diff[i].item, old: diff[i].old, new: diff[i].new } :
+                  { name: '', item: diff[i].item, old: diff[i].old, new: diff[i].new };
+              results.push(data);
+            }
+          }
+        }
+      });
+    });
+    return results;
+  }
+
+  private getFamilyLevel(family:any) {
+    console.log('family.generation: ', family.generation);
+    let nodeLevel = +family.generation;
+    let levels = {};
+    let count = family.nodes.length;
+    let names = {};
+    family.nodes.forEach(node => {
+      let name = node.name + ' ()';
+      names[name] = this.getDetailStr(node);
+    })
+    levels[''+nodeLevel] = {count: count, names: names};
+
+    if (family['children']) {
+      nodeLevel++;
+      let count = 0;
+      let names = {};
+      family['children'].forEach(child => {
+        count += child.nodes.length;
+        child.nodes.forEach(node => {
+          let name = node.name + ' (' + family.nodes[0].name + ')';
+          names[name] = this.getDetailStr(node);
+        })
+        this.compareChildFamilies(child, nodeLevel, levels);
+      })
+      if (!levels[''+nodeLevel])
+        levels[''+nodeLevel] = {count: 0, names: []}
+      levels[''+nodeLevel].count += count;
+      Object.keys(names).forEach(key => {
+        levels[''+nodeLevel].names[key] = names[key];
+      });
+    }
+    return levels;
+  }
+
+  private compareChildFamilies(family:any, nodeLevel, levels) {
+    if (family['children']) {
+      nodeLevel++;
+      let count = 0;
+      let names = {};
+      family['children'].forEach(child => {
+        count += child.nodes.length;
+        child.nodes.forEach(node => {
+          let name = node.name + ' (' + family.nodes[0].name + ')';
+          names[name] = this.getDetailStr(node);
+        })
+        this.compareChildFamilies(child, nodeLevel, levels);
+      })
+      if (!levels[''+nodeLevel])
+        levels[''+nodeLevel] = {count: 0, names: []}
+      levels[''+nodeLevel].count += count;
+      Object.keys(names).forEach(key => {
+        levels[''+nodeLevel].names[key] = names[key];
+      });
     }
   }
 
@@ -222,7 +347,8 @@ export class FamilyService {
   private getFilterFamily(family) {
     let filterFamily:any = {};
     filterFamily.version = family.version;
-    filterFamily.ancestor = family.ancestor;
+    filterFamily.description = family.description;
+    filterFamily.generation = family.generation;
 
     filterFamily['nodes'] = [];
     if (family['nodes'].length > 0) {
@@ -237,6 +363,7 @@ export class FamilyService {
         if (node.pob != '') newNode['pob'] = node.pob;
         if (node.pod != '') newNode['pod'] = node.pod;
         if (node.por != '') newNode['por'] = node.por;
+        if (node.desc != '') newNode['desc'] = node.desc;
         filterFamily['nodes'].push(newNode);
       });
     }
@@ -252,7 +379,7 @@ export class FamilyService {
     }
     return filterFamily;
   }
-  
+
   // --- getFamilyNodes
 
   getFamilyNodes(family: any) {
@@ -283,12 +410,12 @@ export class FamilyService {
 
   buildFullFamily(family: any) {
     // start at root
-    let nodeLevel = 1;
+    let nodeLevel = +family.generation;
     let childIdx = 1;
     let nodeIdx = 1;
-		family.nodes.forEach((node: any) => {
+
+    family.nodes.forEach((node: any) => {
       node = this.fillNode(node);
-      // this.updateNclass(node);
       node.id = '' + childIdx + '-' + nodeIdx++;
       node.idlevel = 'level-' + nodeLevel;
       node.level = '' + nodeLevel;
@@ -298,7 +425,7 @@ export class FamilyService {
       node.profile = this.getSearchKeys(node);
       node.span = this.getSpanStr(node);
     });
-
+    family.iddom = 'family-' + family.nodes[0].id;
     if (family.children) {
       nodeLevel++;
       childIdx = 1;
@@ -322,6 +449,7 @@ export class FamilyService {
       node.profile = this.getSearchKeys(node);
       node.span = this.getSpanStr(node);
     })
+    family.iddom = 'family-' + family.nodes[0].id;
     if (family['children']) {
       nodeLevel++;
       let cIdx = 1;
@@ -333,8 +461,7 @@ export class FamilyService {
   }
 
   public getGeneration(node)  {
-    let nodeLevel = +node.level;
-    let genStr = this.languageService.getTranslation('GENERATION') + ' ' + (GENERATION + nodeLevel);
+    let genStr = this.languageService.getTranslation('GENERATION') + ' ' + +node.level;
     return genStr;
   }
 
@@ -353,18 +480,41 @@ export class FamilyService {
     if (node.pob != '') str += ' ' + node.pob;
     if (node.pod != '') str += ' ' + node.pod;
     if (node.por != '') str += ' ' + node.por;
+    if (node.desc != '') str += ' ' + node.desc;
     str += ' ' + genStr;
     str = this.utilService.stripVN(str);
     let keys = str.split(' ');
     return keys;
   } 
   
+  private getDetailStr(node): string  {
+    let str = node.name + ',' + 
+        (node.nick ? node.nick : '') + ',' +
+        (node.gender ? node.gender : '') + ',' +
+        (node.yob ? node.yob : '') + ',' +
+        (node.yod ? node.yod : '') + ',' +
+        (node.pob ? node.pob : '') + ',' +
+        (node.pod ? node.pod : '') + ',' +
+        (node.por ? node.por : '');
+    return str;
+  } 
+
+  private compareDetail(mod, src):any  {
+    let mItems = mod.split(',');
+    let sItems = src.split(',');
+    let diff = [];
+    let ids = ["NODE_NAME", "NODE_NICK", "NODE_GENDER", "NODE_YOB", "NODE_YOD", "NODE_POB", "NODE_POD", "NODE_POR"];
+    for (let i = 0; i < sItems.length; i++) {
+      if (mItems[i] != sItems[i])
+        diff.push({item: this.languageService.getTranslation(ids[i]), old: sItems[i], new: mItems[i]})
+    }
+    return diff;
+  } 
+
   public getSpanStr(node) {
     let spans = [];
     spans.push(node.name);
-    // if (node.yob != '' || node.yod != '')
     spans.push(node.yob + ' - ' + node.yod);
-    // if (node.pob != '' || node.pod != '')
     //   spans.push(node.pob + ' - ' + node.pod);
     return spans;
   }
@@ -380,6 +530,7 @@ export class FamilyService {
     if (!node.pob) node.pob = '';
     if (!node.pod) node.pod = '';
     if (!node.por) node.por = '';
+    if (!node.desc) node.desc = '';
     if (!node.child) node.child = '';
     if (!node.spouse) node.spouse = '';
     return node;
@@ -387,6 +538,7 @@ export class FamilyService {
 
   public loadValues(node: any) {
     let values:any = {};
+
     values.name = node.name;
     values.nick = node.nick;
     values.gender = node.gender;
@@ -395,6 +547,7 @@ export class FamilyService {
     values.pob = (node.pob == '') ? null : {name: node.pob};
     values.pod = (node.pod == '') ? null : {name: node.pod};
     values.por = (node.por == '') ? null : {name: node.por};
+    values.desc = node.desc;
     values.child = node.child;
     values.spouse = node.spouse;
     return values;
@@ -414,6 +567,7 @@ export class FamilyService {
     node.pob = pob;
     node.pod = pod;
     node.por = por;
+    node.desc = values.desc;
     return change;
   }
 
@@ -430,25 +584,14 @@ export class FamilyService {
       (node.pob != pob) ||
       (node.pod != pod) ||
       (node.por != por) ||
+      (node.desc != values.desc) ||
       (values.child != '') ||
       (values.spouse != '');
     return change;
   }
 
   public getEmptyNode(id: string, level: string, name: string, gender: string) {
-    let node:any = {
-      id: id,
-      relationship: '',
-      name: name,
-      level: level,
-      nick: '',
-      gender: gender,
-      yob: '',
-      yod: '',
-      pob: '',
-      pod: '',
-      por: ''
-    }
+    let node = Object.create(NODE);
     node.profile = this.getSearchKeys(node),
     node.span = this.getSpanStr(node);
     node.nclass = this.updateNclass(node);

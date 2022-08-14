@@ -18,11 +18,24 @@ export class UtilService {
 			this.http.get(url).toPromise().then((data:any) => {
 				resolve(data);
 			}).catch(err => {
+				console.log('err: ', err);
 				reject(err.error);
 			});
 		});
 	}
 
+	getLocalTextFile(url: string): Promise<any> {
+		return new Promise((resolve, reject) => {
+			this.http.get(url, {responseType: 'text'}).toPromise().then((data:any) => {
+				resolve(data);
+			}).catch(err => {
+				reject(err.error);
+			});
+		}).catch(err => {
+			console.log('err = ', err);
+		});
+	}
+	
 	console_log(msg: string, obj?: any) {
 		if (!DEBUG)
 			return;
