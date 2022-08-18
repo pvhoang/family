@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { UtilService } from '../services/util.service';
 import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
-// import { LanguageService } from '../services/language.service';
-// import { FamilyService } from '../services/family.service';
 import { ANCESTOR } from '../../environments/environment';
 
 @Component({
@@ -26,16 +24,15 @@ export class ArchivePage implements OnInit {
   constructor(
     public toastController: ToastController,
     private utilService: UtilService,
-    // private languageService: LanguageService,
-    // private familyService: FamilyService,
 		private iab: InAppBrowser,
   ) {
   }
 
   ngOnInit() {
+    console.log('ArchivePage - ngOnInit');
     let jsonFile = './assets/data/' + ANCESTOR + '-images.json'
     this.utilService.getLocalJsonFile(jsonFile).then((data:any) => {
-      console.log('data: ', data);
+      // console.log('data: ', data);
       this.imageIds = Object.keys(data);
       this.data = data;
       this.images = [];
@@ -78,7 +75,7 @@ export class ArchivePage implements OnInit {
   getImageData(id) {
     // calculate data for this image
     let data = this.data[id];
-    console.log('ArchivePage - getImageData: ', data);
+    // console.log('ArchivePage - getImageData: ', data);
     return (data.type == 'image') ? this.updateImageArea(id) : data;
   }
 
@@ -158,7 +155,7 @@ export class ArchivePage implements OnInit {
 
   displayText(text: any) {
     // console.log('ArchivePage - displayText: ', text);
-    this.presentToast(text);
+    this.utilService.presentToast(text);
   }
 
   openWebpage(url: string) {
@@ -167,14 +164,4 @@ export class ArchivePage implements OnInit {
 		}
 		this.iab.create(url, '_system', options);
 	}
-
-  async presentToast(msg) {
-    const toast = await this.toastController.create({
-      message: msg,
-      color: 'primary',
-      position: 'middle',
-      duration: 2000
-    });
-    toast.present();
-  }
 }

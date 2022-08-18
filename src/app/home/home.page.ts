@@ -1,14 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-// import { DomSanitizer, SafeHtml, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-// import { Pipe, PipeTransform } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { LanguageService } from '../services/language.service';
 import { FamilyService } from '../services/family.service';
 import { UtilService } from '../services/util.service';
-import { SettingPage } from './setting/setting.page';
-
-// import { VERSION, CONTACT, ANCESTOR } from '../../environments/environment';
 import { CONTACT, ANCESTOR } from '../../environments/environment';
 
 @Component({
@@ -22,93 +16,66 @@ export class HomePage implements OnInit {
   contact: any = '';
   language = 'VI';
   introStr: string = '';
-  guideStr: SafeHtml = '';
+  guideStr: string = '';
 
   constructor(
     public modalCtrl: ModalController,
-    private sanitizer: DomSanitizer,
     private languageService: LanguageService,
     private utilService: UtilService,
     private familyService: FamilyService,
   ) { }
 
   ngOnInit() {
-    // console.log('HomePage - ngOnInit');
+    console.log('HomePage - ngOnInit');
     let ancestorText = this.languageService.getTranslation(ANCESTOR);
-    // console.log('HomePage - ngOnInit - ancestorText: ', ancestorText);
     this.title = ancestorText.tree;
     this.contact = CONTACT[ANCESTOR].name + ' - ' + CONTACT[ANCESTOR].email;
-    // this.introStr = this.languageService.getTranslation('HOME_INTRO_CONTENT');
-
-    // this.guideStr = this.languageService.getTranslation('HOME_USER_GUIDE_CONTENT');
-
-    this.utilService.getLocalTextFile('./assets/data/guide.txt').then(html => {
-      // this.guideStr = this.sanitizer.bypassSecurityTrustHtml(html);
-      // console.log('HomePage - guideStr: ', this.guideStr);
+    this.utilService.getLocalTextFile('./assets/data/' + this.language.toLowerCase() + '-guide.txt').then(html => {
       this.guideStr = html;
-      // this.guideStr = '<h1>Hello Angular 14!</h1>';
     });
-    
-    this.utilService.getLocalTextFile('./assets/data/intro.txt').then(text => {
-      // console.log('HomePage - text: ', text);
+    this.utilService.getLocalTextFile('./assets/data/' + this.language.toLowerCase() + '-intro.txt').then(text => {
       this.introStr = text;
     });
-
   }
 
   ionViewWillEnter() {
-    // console.log('HomePage - ionViewWillEnter');
+    console.log('HomePage - ionViewWillEnter');
   } 
 	
 	ionViewWillLeave() {
-    // console.log('HomePage - ionViewWillLeave');
+    console.log('HomePage - ionViewWillLeave');
 	}
+
+  onMemorial() {
+    this.familyService.passAwayFamily().then((data:any) => {
+      console.log('data: ', data);
+      if (data) {
+        let today = data.today;
+        let header = '<pre style="margin-left: 2.0em;">' +
+        '<b>Hôm nay (âm lịch)</b>:\t<b>' + today + '</b>' + '<br><br>' +
+        '<b>Tên</b>\t\t<b>Đời</b>\t<b>Ngày mất</b>' + '<br>';
+        let msg = '';
+        data.persons.forEach(person => {
+          msg += person[0] + '\t' + person[1] + '\t' + person[2] + '<br>';
+        })
+        msg = header + msg + '</pre>';
+        this.utilService.alertMsg('MEMORIAL', msg, 'alert-small');
+      }
+    });
+  }
 
   onLanguage() {
     if (this.language == 'VI') {
       this.language = 'EN';
-      // this.languageIcon = '../../assets/icon/usa.png';
     } else {
       this.language = 'VI'
-      // this.languageIcon = '../../assets/icon/vietnam.png';
     }
     this.languageService.setLanguage(this.language.toLowerCase());
-    this.introStr = this.languageService.getTranslation('HOME_INTRO_CONTENT');
-    // this.guideStr = this.languageService.getTranslation('HOME_USER_GUIDE_CONTENT');
-  }
-
-  async onSetting() {
-    console.log('HomePage - onSetting');
-    this.familyService.readSetting().then((setting:any) => {
-      console.log('HomePage - onSetting - setting: ', setting);
-      this.openSettingModal(setting);
+    this.utilService.getLocalTextFile('./assets/data/' + this.language.toLowerCase() + '-guide.txt').then(html => {
+      this.guideStr = html;
+    });
+    this.utilService.getLocalTextFile('./assets/data/' + this.language.toLowerCase() + '-intro.txt').then(text => {
+      this.introStr = text;
     });
   }
-
-  async openSettingModal(setting:any) {
-    const modal = await this.modalCtrl.create({
-      component: SettingPage,
-      componentProps: {
-        'name': 'Setting',
-        'setting': setting
-      }
-    });
-    modal.onDidDismiss().then((resp) => {
-      console.log('ContactPage - openSettingModal - onDidDismiss : ', resp);
-      let status = resp.data.status;
-      if (status == 'cancel') {
-        // do nothing
-      } else if (status == 'save') {
-        console.log('values: ', resp.data.values);
-        let values = resp.data.values;
-        if (setting.language != values.language) {
-          setting.language = values.language;
-          this.languageService.setLanguage(setting.language);
-          this.familyService.saveSetting(setting);
-        }
-      }
-    });
-    return await modal.present();
-  }
-
 }

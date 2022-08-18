@@ -1,6 +1,7 @@
 {
   "i1": {
     "title": "1920 - Nhánh Phan Ngọc Luật",
+    "description": "Hình chụp tại Đồng Phú",
     "type": "image",
     "src": "../../assets/imgs/phan-ngoc-luat-1920.jpg",
     "image": {"width":"1200", "height": "900" },
@@ -20,6 +21,7 @@
   },
   "i2": {
     "title": "1971 - Nhánh Phan Dính",
+    "description": "Hình chụp tại Tp. HCM",
     "type": "image",
     "src": "../../assets/imgs/phan-dinh-1971.jpg",
     "image": {"width":"1200", "height": "900" },
@@ -39,11 +41,13 @@
   },
   "i3": {
     "title": "Ngày giỗ",
+    "description": "Ngày giỗ của tổ tiên từ thời xa xưa",
     "type": "html",
     "src": "https://gia-pha-ho-phan.web.app/assets/doc/ngay_gio.html"
   },
   "i4": {
     "title": "Phả đồ",
+    "description": "Phả đồ từ chi Ông Luật",
     "type": "html",
     "src": "https://gia-pha-ho-phan.web.app/assets/doc/test.html"
   }

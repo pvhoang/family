@@ -56,6 +56,11 @@ Paint App
 https://www.npmjs.com/package/html-to-image
 
 =======================
+# Shade image as background
+=======================
+https://coder-coder.com/background-image-opacity/
+
+=======================
 # Download a text file
 =======================
 https://gist.github.com/danallison/3ec9d5314788b337b682
@@ -69,6 +74,11 @@ https://stackoverflow.com/questions/40843218/upload-a-file-and-read-data-with-fi
 # Convert to Lunar date
 =======================
 https://www.npmjs.com/package/date-chinese
+
+=======================
+# Build an Ionic table
+=======================
+https://edupala.com/ionic-table/
 
 =====================================================================
 # FIREBASE

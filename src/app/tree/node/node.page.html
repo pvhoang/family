@@ -1,33 +1,35 @@
 <ion-header>
-  <ion-grid>
-    <ion-row class="ion-padding">
-      <ion-col size="6">
-        <ion-title class="ion-text-center">{{ title }}</ion-title>
+  <ion-item class="app-ion-item">
+      <ion-col size="7">
+        <ion-title class="ion-text-center ion-text-wrap app-ion-title">{{ title }}</ion-title>
       </ion-col>
-      <ion-col size="6">
-        <div class="ion-float-right">
-          <ion-button fill="clear" (click)="onImage()">
-            <ion-icon name="image"></ion-icon>
+      <ion-col size="5">
+        <ion-button class="app-ion-button" fill="clear" (click)="onChild()">
+          <ion-icon slot="icon-only" name="person-add" class="app-ion-icon"></ion-icon>
+        </ion-button>
+        <ion-button class="app-ion-button" fill="clear" (click)="onImage()">
+          <ion-icon slot="icon-only" name="image" class="app-ion-icon"></ion-icon>
+        </ion-button>
+        <ion-button class="app-ion-button" fill="clear" (click)="onDelete()">
+          <ion-icon slot="icon-only" name="trash" class="app-ion-icon"></ion-icon>
+        </ion-button>
+      <!-- </ion-col> -->
+      <!-- <ion-col size="2"> -->
+          <ion-button class="app-ion-button" fill="clear" (click)="onSave()">
+            <ion-icon slot="icon-only" name="save" class="app-ion-icon"></ion-icon>
           </ion-button>
-          <ion-button fill="clear" (click)="onSave()">
-            <ion-icon name="save"></ion-icon>
+          <ion-button class="app-ion-button" fill="clear" (click)="onCancel()">
+            <ion-icon slot="icon-only" name="close" class="app-ion-icon"></ion-icon>
           </ion-button>
-          <ion-button fill="clear" (click)="onDelete()">
-            <ion-icon name="trash"></ion-icon>
-          </ion-button>
-          <ion-button fill="clear" (click)="onCancel()">
-            <ion-icon name="close"></ion-icon>
-          </ion-button>
-        </div>
       </ion-col>
-    </ion-row>
-  </ion-grid>
+  </ion-item>
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
   
+  <div class="app-ion-content">
     <ion-card-header class="card-header">
-      {{ 'NODE_GROUP_NAME' | translate }}
+    &nbsp;{{ 'NODE_GROUP_NAME' | translate }}
     </ion-card-header>
 
     <ion-label class="card-label">{{ 'NODE_NAME' | translate }}</ion-label>
@@ -50,7 +52,7 @@
     <ion-textarea class="card-textarea" type="text" rows="3" autosize [(ngModel)]="values.desc" placeholder="{{ 'NODE_DESC_PLACEHOLDER' | translate }}"></ion-textarea>
 
     <ion-card-header class="card-header">
-      {{ 'NODE_GROUP_TIME' | translate }}
+    &nbsp;{{ 'NODE_GROUP_TIME' | translate }}
     </ion-card-header>
     <ion-label class="card-label">{{ 'NODE_YOB' | translate }}</ion-label>
     <ion-input class="card-input" type="text" [(ngModel)]="values.yob" placeholder="{{ 'NODE_YOB_PLACEHOLDER' | translate }}" clearInput></ion-input>
@@ -58,7 +60,7 @@
     <ion-input class="card-input" type="text" [(ngModel)]="values.yod" placeholder="{{ 'NODE_YOD_PLACEHOLDER' | translate }}" clearInput></ion-input>
  
     <ion-card-header class="card-header">
-      {{ 'NODE_GROUP_PLACE' | translate }}
+      &nbsp;{{ 'NODE_GROUP_PLACE' | translate }}
     </ion-card-header>
     <ion-label class="card-label">{{ 'NODE_POB' | translate }}</ion-label>
     <div class="card-select-1">
@@ -110,13 +112,6 @@
         (keyup)="keyup($event, 'places')">
       </ng-select>
     </div>
-    
-    <ion-card-header class="card-header">
-      {{ 'NODE_GROUP_TREE' | translate }}
-    </ion-card-header>
-    <ion-label class="card-label">{{ 'NODE_CHILD' | translate }}</ion-label>
-    <ion-input class="card-input" type="text" [(ngModel)]="values.child" placeholder="{{ 'NODE_CHILD_PLACEHOLDER' | translate }}" clearInput></ion-input>
-    <ion-label class="card-label">{{ 'NODE_SPOUSE' | translate }}</ion-label>
-    <ion-input class="card-input" type="text" [(ngModel)]="values.spouse" placeholder="{{ 'NODE_SPOUSE_PLACEHOLDER' | translate }}" clearInput></ion-input>
+  </div>
 
 </ion-content>

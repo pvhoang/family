@@ -1,71 +1,39 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-grid>
-      <ion-row>
-        <ion-col size="10">
-          <ion-title class="ion-text-center">{{ title }}</ion-title>
-        </ion-col>
-        <ion-col size="2">
-          <ion-button fill="clear" (click)="onLanguage()">
-            <ion-icon slot="icon-only" name="flag" style="color: yellow;"></ion-icon>
-          </ion-button> 
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-</ion-toolbar>
-
+  <ion-item class="app-ion-item">
+    <ion-col size="9">
+      <ion-title class="ion-text-center app-ion-title">{{ title }}</ion-title>
+    </ion-col>
+    <ion-col size="3">
+      <ion-button class="app-ion-button" fill="clear" (click)="onMemorial()">
+        <ion-icon slot="icon-only" name="ribbon" class="app-ion-icon"></ion-icon>
+      </ion-button>
+      <ion-button class="app-ion-button" fill="clear" (click)="onLanguage()">
+        <ion-icon slot="icon-only" name="flag" class="app-ion-icon"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-item>
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
+  <div class="app-ion-content">
 
-  <ion-card>
     <ion-card-header class="card-header">
-      {{ 'HOME_USER_GUIDE' | translate }}
+    &nbsp;{{ 'HOME_INTRO' | translate }}
     </ion-card-header>
-    <ion-card-content>
-      <ion-item>
-        <div class="scroll-1">
-          <ion-grid class="ion-grid-1">
-            <div [innerHtml]="guideStr | keepHtml"></div>
-          </ion-grid>
-        </div>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
+    <div class="home-scroll">
+      <!-- <ion-grid class="home-ion-grid-1"> -->
+        <div [innerHtml]="introStr"></div>
+      <!-- </ion-grid> -->
+    </div>
 
-  <ion-card>
     <ion-card-header class="card-header">
-      {{ 'HOME_INTRO' | translate }}
+      &nbsp;{{ 'HOME_USER_GUIDE' | translate }}
     </ion-card-header>
-    <ion-card-content>
-      <ion-item>
-        <div class="scroll-1">
-          <ion-grid class="ion-grid-1">
-            <div [innerHtml]="introStr"></div>
-            <!-- <div contenteditable="false">
-              This is the first line.<br>
-              See, how the text fits here, also if<br>there is a <strong>linebreak</strong> at the end?
-              <br>It works nicely.
-              <br>
-              <br><span style="color: lightgreen">Great</span>.
-            </div> -->
-          </ion-grid>
-        </div>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
-
-
-  <ion-card>
-    <ion-card-header class="card-header">
-      {{ 'CONTACT' | translate }}
-    </ion-card-header>
-    <ion-card-content>
-      <ion-item>
-        <ion-label>{{ contact }}</ion-label>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
-
-
+    <div class="home-scroll">
+      <!-- <ion-grid class="home-ion-grid-2"> -->
+        <div [innerHtml]="guideStr | keepHtml"></div>
+      <!-- </ion-grid> -->
+    </div>
+    
+  </div>
 </ion-content>

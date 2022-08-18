@@ -6,6 +6,7 @@ $background_color_select: lightgreen; // success
 $background_color_not_complete: lightyellow; // warning in variables.css
 
 $border_color: #94a0b4;
+// $border_color: #C10100;
 $hover_color: #c8e4f8;
 
 * {
@@ -97,7 +98,8 @@ $hover_color: #c8e4f8;
       }
     }
     div {
-      border: 1px solid #3880ff;
+      border: 1px solid #C10100;
+      // border: 1px solid #3880ff;
       // padding: 5px 10px;
       padding: 5px 5px;
       text-decoration: none;

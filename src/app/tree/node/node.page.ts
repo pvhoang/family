@@ -50,72 +50,7 @@ export class NodePage implements OnInit {
     this.selectPlacesPlaceholder = this.translations.SELECT_PLACES_PLACEHOLDER;
   }
 
-  onImage() {
-    console.log('NodePage - onImage - node: ', this.node);
-    const ele = document.getElementById('family-' + this.node.id);
-    let rect:any = ele.getBoundingClientRect();
-    let width = rect.width + 20;
-    let height = rect.height + 20;
-    let keys = this.utilService.stripVN(this.node.name).split(' ');
-    let nameStr = keys.join('_')
-
-    let options = {
-      quality: 0.95,
-      backgroundColor: '#f0f1f2',
-      width: width,
-      height: height
-    }
-    htmlToImage.toJpeg(ele, options)
-    .then(function (dataUrl) {
-      var link = document.createElement('a');
-      link.download = 'family_' + nameStr + '.jpeg';
-      link.href = dataUrl;
-      link.click();
-    });
-  }
-
-  async onCancel() {
-    // console.log('NodePage - onCancel - node: ', this.node);
-    let values = this.values;
-    if (this.familyService.isNodeChanged(this.node, values)) {
-      this.utilService.alertConfirm(this.translations.NODE_CANCEL_HEADING, this.translations.NODE_CANCEL_MESSAGE, this.translations.CANCEL, this.translations.CONTINUE).then((res) => {
-        if (res.data)
-          this.modalCtr.dismiss({status: 'cancel'});
-      })
-      return;
-    }
-    await this.modalCtr.dismiss({status: 'cancel'});
-  }
-
-  async onDelete() {
-    if (this.node.family.nodes[0].name == this.node.name) {
-      console.log('NodePage - onDelete - children: ', this.node.family.children);
-        // this is main Node, check children
-      if (this.node.family.children && this.node.family.children.length > 0) {
-        this.utilService.alertMsg(this.translations.NODE_ERROR_TITLE, this.translations.NODE_ERR_HAVE_CHILDREN + '[' + this.node.name + ']');
-        return;
-      }
-    }
-    let alert = await this.alertController.create({
-      header: this.translations.DELETE_PEOPLE_HEADER,
-      message: this.translations.DELETE_PEOPLE_MESSAGE + this.node.name + '?',
-      buttons: [
-        {
-          text: this.translations.CANCEL,
-          handler: (data: any) => {
-          }
-        },
-        {
-          text: this.translations.OK,
-          handler: (data: any) => {
-            this.modalCtr.dismiss({status: 'delete'});
-          }
-        }
-      ]
-    });
-    alert.present();
-  }
-
+  
   keyup(event, json: any) {
     // console.log('NodePage - keyup: ', event);
     this.places = this.typeahead.getJson(event.target.value, json);
@@ -147,6 +82,99 @@ export class NodePage implements OnInit {
   search(event) {
     // console.log('NodePage - search: ', event);
     this.values[this.placeItem] = {name: event.term};
+  }
+
+  onChild() {
+    // let node:any = this.sNodes[this.searchIdx - 1];
+    // verify ???
+
+    let header = this.languageService.getTranslation('TREE_ADD_CHILD');
+    let msg = header;
+    let texts = [
+      this.languageService.getTranslation('TREE_ADD_NAME_PLACEHOLDER'),
+      this.languageService.getTranslation('TREE_ADD_RELATION_PLACEHOLDER'),
+      this.languageService.getTranslation('TREE_ADD_GENDER_PLACEHOLDER'),
+      this.languageService.getTranslation('CANCEL'),
+      this.languageService.getTranslation('OK')
+    ]
+    this.utilService.alertAddNode(header, msg, texts).then((res) => {
+      console.log('alertAddNode - res:' , res)
+      if (!res.data)
+        return;
+      let name = res.data.name;
+      let relation = res.data.relation;
+      let gender = res.data.gender == '1' ? 'male' : 'female';
+      this.modalCtr.dismiss({status: 'add', values: {name: name, relation: relation, gender: gender}});
+    })
+  }
+
+  async onImage() {
+    let node:any = this.node;
+    console.log('NodePage - onImage - node: ', node);
+    const ele = document.getElementById('family-' + node.id);
+    let rect:any = ele.getBoundingClientRect();
+    let width = rect.width + 20;
+    let height = rect.height + 20;
+    let keys = this.utilService.stripVN(node.name).split(' ');
+    let nameStr = keys.join('-')
+
+    let gen = this.familyService.getGeneration(node);
+    let gkeys = this.utilService.stripVN(gen).split(' ');
+    let genStr = gkeys.join('-')
+    let fileName = 'branch-' + nameStr + '-' + genStr + '.jpeg';
+    let options = {
+      quality: 0.95,
+      backgroundColor: '#f0f1f2',
+      width: width,
+      height: height
+    }
+    htmlToImage.toJpeg(ele, options)
+    .then(function (dataUrl) {
+      var link = document.createElement('a');
+      link.download = fileName;
+      link.href = dataUrl;
+      link.click();
+    });
+    await this.modalCtr.dismiss({status: 'cancel'});
+  }
+
+  async onDelete() {
+    let node:any = this.node;
+    if (node.family.nodes[0].name == node.name) {
+      console.log('NodePage - onDelete - children: ', node.family.children);
+        // this is main Node, check children
+      if (node.family.children && node.family.children.length > 0) {
+        this.utilService.alertMsg(
+          this.languageService.getTranslation('NODE_ERROR_TITLE'),
+          this.languageService.getTranslation('NODE_ERR_HAVE_CHILDREN') + '[' + node.name + ']'
+        );
+          // this.translations.NODE_ERROR_TITLE, this.translations.NODE_ERR_HAVE_CHILDREN + '[' + this.node.name + ']');
+        return;
+      }
+    }
+    this.utilService.alertConfirm(
+      this.languageService.getTranslation('DELETE_PEOPLE_HEADER'),
+      this.languageService.getTranslation('DELETE_PEOPLE_MESSAGE') + ': ' + node.name,
+      this.languageService.getTranslation('CANCEL'),
+      this.languageService.getTranslation('CONTINUE')).then((res) => {
+      console.log('onDelete - res:' , res)
+      if (res) {
+        this.modalCtr.dismiss({status: 'delete'});
+      }
+    });
+  }
+
+  async onCancel() {
+    // console.log('NodePage - onCancel - node: ', this.node);
+    let values = this.values;
+    if (this.familyService.isNodeChanged(this.node, values)) {
+      this.utilService.alertConfirm(this.translations.NODE_CANCEL_HEADING, this.translations.NODE_CANCEL_MESSAGE, this.translations.CANCEL, this.translations.CONTINUE).then((res) => {
+        if (res.data)
+          this.modalCtr.dismiss({status: 'cancel'});
+      })
+      return;
+    }
+    await this.modalCtr.dismiss({status: 'cancel'});
   }
 
   async onSave() {

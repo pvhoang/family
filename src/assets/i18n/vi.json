@@ -9,7 +9,7 @@
   "ARCHIVE": "Phả ký",
   "INFO": "Phụ khảo",
 
-  "HOME_INTRO": "Giới thiệu",
+  "HOME_INTRO": "Lời ngõ",
   "HOME_INTRO_CONTENT": "Cây có cội <br> Nước có nguồn <br><strong>Sông</strong> có <i>biển</i>",
   "HOME_USER_GUIDE": "Hướng dẫn sử dụng",
   "HOME_USER_GUIDE_CONTENT": "Cây có cội <br> Nước có nguồn <br><strong>Sông</strong> có <i>biển</i>",
@@ -41,12 +41,12 @@
   "SELECT_PLACES_PLACEHOLDER": "Nhập hoặc chọn nơi",
 
   "SEARCH_RESULT_TITLE": "Kết quả tìm",
-  "TREE_UPDATE_HEADER": "Cập nhật phả đồ",
-  "TREE_UPDATE_MSG": "Phả đồ bạn điều chỉnh sẽ được gửi về ban quản trị duyệt trước khi cập nhật.",
-  "TREE_COMPARE_HEADER": "So sánh phả đồ",
-  "TREE_COMPARE_MSG": "So sánh phả đồ bạn đang điều chỉnh với phả đồ gốc.",
-  "TREE_UPDATE_MESSAGE": "Nhập email để ban quản trị tiện liên lạc trong khi duyệt phả đồ.",
-  
+
+  "TREE_ADD_CHILD": "Thêm con/vợ/chồng",
+  "TREE_ADD_NAME_PLACEHOLDER": "Nhập tên",
+  "TREE_ADD_RELATION_PLACEHOLDER": "Nhập liên hệ: c(con), v(vợ), ch(chồng)",
+  "TREE_ADD_GENDER_PLACEHOLDER": "Nhập giới tính: n(nam), nu(nữ)",
+
   "DELETE_PEOPLE_HEADER": "Thông báo",
   "DELETE_PEOPLE_MESSAGE": "Xóa tên ",
 
@@ -57,6 +57,33 @@
   "SETTING_LANGUAGE": "Chọn",
   "SETTING_FAMILY_NAME": "Dòng tộc",
   "SETTING_FAMILY": "Họ",
+  
+  "CONTACT_INFO": "Thông tin",
+  "CONTACT_VERSION": "Phiên bản hiện tại: ",
+  "CONTACT_CONTRIBUTION": "Đóng góp",
+
+  "CONTACT_TREE": "Phả đồ",
+  "CONTACT_RESET_MSG": "Dùng lại phả đồ gốc.",
+  "CONTACT_COMPARE_MSG": "So sánh phả đồ bạn đang điều chỉnh với phả đồ gốc.",
+  "CONTACT_DOWNLOAD_MSG": "Cất phả đồ bạn đang điều chỉnh.",
+  "CONTACT_UPLOAD_MSG": "Dùng phả đồ trong máy.",
+
+  "CONTACT_CONTACT": "Liên lạc",
+  "CONTACT_SEND": "Để cập nhật vào phả đồ gốc cho phiên bản mới, bạn có thể gởi phả đồ về ban biên tập. Email: pvhoang940@gmail.com.",
+
+  "CONTACT_RESET_HEADER": "Phả đồ gốc.",
+  "CONTACT_RESET_MESSAGE": "Phả đồ gốc.",
+
+  "CONTACT_UPLOAD_HEADER": "Phả đồ gốc.",
+  "CONTACT_UPLOAD_MESSAGE": "Phả đồ gốc.",
+
+  "CONTACT_DOWNLOAD_HEADER": "Tải phả đồ",
+  "CONTACT_DOWNLOAD_MESSAGE": "Tải phả đồ.",
+
+  "TREE_UPDATE_MSG": "Phả đồ bạn điều chỉnh sẽ được gửi về ban quản trị duyệt trước khi cập nhật.",
+  
+  "CONTACT_DATE": "Ngày",
+  "CONTACT_DETAIL": "Chi tiết",
 
   "CONTACT_NAME": "Họ tên",
   "CONTACT_ITEM": "Thông số",

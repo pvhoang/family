@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { UtilService } from '../services/util.service';
 import { LanguageService } from '../services/language.service';
-import { CalendarChinese, CalendarVietnamese } from 'date-chinese';
-import { Family, Node, NODE } from '../models/family.model';
+import { CalendarVietnamese } from 'date-chinese';
+import { Family, Node, NODE } from './family.model';
 import { SETTING, ANCESTOR } from '../../environments/environment';
 
 @Injectable({
@@ -18,20 +18,31 @@ export class FamilyService {
 
   // --- Family ---
 
-  loadFamily(): Promise<any> {
+  startFamily(): Promise<any> {
     return new Promise((resolve) => {
-      
+      this.loadFamily().then(family => {
+        console.log('FamilyService - startFamily');
+        // console.log('FamilyService - startFamily - family: ', family);
+        this.saveFamily(family);
+        this.saveJson(family, 'people').then(status => {});
+        this.saveJson(family, 'places').then(status => {});
+        // verify data
+        let msg = this.verifyFamily(family);
+        if (msg)
+          this.utilService.alertMsg('WRONG NAME', msg);
+        resolve(true);
+      });
+    });
+  }
+
+  private loadFamily(): Promise<any> {
+    return new Promise((resolve) => {
     this.readSetting().then((setting:any) => {
-      console.log('FamilyService - loadFamily - setting: ', setting);
-
       let jsonFile = './assets/data/' + ANCESTOR + '-family.json'
-
       // read from local
       this.readFamily().then((localFamily:any) => {
         this.utilService.getLocalJsonFile(jsonFile).then((srcFamily:any) => {
-
-          console.log('FamilyService - loadFamily - srcFamily: ', srcFamily);
-
+          // console.log('FamilyService - loadFamily - srcFamily: ', srcFamily);
           if (!localFamily) {
             // local not available, use src
             console.log('FamilyService - localFamily not defined! Save srcFamily');
@@ -42,7 +53,7 @@ export class FamilyService {
             let localVersion = localFamily.version;
             if (!localVersion)
               localVersion = '0.0';
-            console.log('FamilyService - loadFamily - localVersion, srcVersion :' , localVersion, srcFamily.version);
+            // console.log('FamilyService - loadFamily - localVersion, srcVersion :' , localVersion, srcFamily.version);
             if (localVersion == srcFamily.version) {
               resolve(localFamily);
             } else {
@@ -73,8 +84,22 @@ export class FamilyService {
     });
   }
 
+  startSourceFamily(): Promise<any> {
+    return new Promise((resolve) => {
+      let jsonFile = './assets/data/' + ANCESTOR + '-family.json'
+      this.utilService.getLocalJsonFile(jsonFile).then((family:any) => {
+        this.saveFamily(family);
+        // family = this.buildFullFamily(family);
+        this.saveJson(family, 'people').then(status => {});
+        this.saveJson(family, 'places').then(status => {});
+        // this.fullFamily = family;
+        resolve(true);
+      });
+    });
+  }
+
 	async saveFamily(family:any) {
-		console.log('saveFamily - family: ' , family)
+		// console.log('saveFamily - family: ' , family)
 		localStorage.setItem(ANCESTOR, JSON.stringify(family));
 		return await true;
 	}
@@ -194,28 +219,21 @@ export class FamilyService {
     let name = family.nodes[0].name;
     let keys = this.utilService.stripVN(name).split(' ');
 
-    // console.log('FamilyService - verifyFamily1')
-
     if (keys[0] != ancestor) {
       let ancestorText = this.languageService.getTranslation(ancestor);
       let message = this.languageService.getTranslation('NAME_MUST_BE_ANCESTOR') + ' ' + ancestorText.short_name + '. [' + name + ']';
       msg.push(message);
     }
     if (family['children']) {
-      // console.log('FamilyService - verifyFamily2')
       family['children'].forEach(child => {
         this.verifyNode(ancestor, child, msg);
       })
     }
-    // console.log('FamilyService - verifyFamily4')
     return msg.length == 0 ? null : msg.join('\n');
   }
 
   private verifyNode(ancestor, family:any, msg) {
     let name = family.nodes[0].name;
-    // console.log('FamilyService - verifyFamily3 - name: ', name);
-    // console.log('FamilyService - verifyFamily3 - ancestor: ', ancestor);
-
     let keys = this.utilService.stripVN(name).split(' ');
     if (keys[0] != ancestor) {
       let ancestorText = this.languageService.getTranslation(ancestor);
@@ -223,7 +241,6 @@ export class FamilyService {
       msg.push(message);
     }
     if (family['children']) {
-    // console.log('FamilyService - verifyFamily3')
       family['children'].forEach(child => {
         this.verifyNode(ancestor, child, msg);
       })
@@ -232,69 +249,47 @@ export class FamilyService {
 
   // --- passAwayFamily
 
-  // getLunarDate(dod: any) {
+  passAwayFamily(): Promise<any> {
+    return new Promise((resolve) => {
 
-  //   // const CalendarVietnamese = require('date-chinese').CalendarVietnamese
-  //   let d = new Date();
-  //   // console.log('year, month, date: ', date.getFullYear(), date.getMonth(), date.getDate());
-
-  //   let cal = new CalendarVietnamese()
-  //   // cal.fromGregorian(2022, 8, 14)
-  //   cal.fromGregorian(d.getFullYear(), d.getMonth()+1, d.getDate())
-  //   let cdate = cal.get()
-  //   console.log('FamilyService - passAwayFamily: ', cdate);
-  //   let month = cdate[2];
-  //   let day = cdate[4];
-  //   let paDate = dod.split('/');
-
-  //   console.log('FamilyService - passAwayFamily: ', month, day, paDate);
-
-  //   let todayDate = month * 30 + day;
-  //   let dodDate = +paDate[1] * 30 + +paDate[0];
-
-  //   console.log('FamilyService - passAwayFamily: ', todayDate, dodDate);
-
-  //   if (dodDate > todayDate && dodDate < todayDate + 7) {
-  //     console.log("Gio sap den!");
-  //   }
-
-    // let cal = new CalendarChinese(78, 1, 10, true, 9)
-    // let date = cal.toDate(date).toISOString();
-
-    //> 1984-11-30T16:00:00.426Z
-    //> [ 78, 2, 2, true, 2 ]
-    // let gyear = cal.yearFromEpochCycle()
-    //> 1985
-    // console.log('FamilyService - passAwayFamily: ', cdate, gyear);
-  // }
-
-  passAwayFamily(family: any) {
-
-    console.log('FamilyService - passAwayFamily')
-    let msg = [];
-    family.nodes.forEach(node => {
-      if (this.isMemorialComing(node.dod)) {
-        msg.push('Name: ' + node.name + ' - ' + node.dod);
-      }
-    })
-    if (family['children']) {
-      // console.log('FamilyService - verifyFamily2')
-      family['children'].forEach(child => {
-        this.passAwayNode(child, msg);
-      })
-    }
-    return msg.length == 0 ? null : msg.join('\n');
+      this.readFamily().then((family:any) => {
+        let msg = [];
+        let nodeLevel = +family.generation;
+        family.nodes.forEach(node => {
+          if (this.isMemorialComing(node.dod)) {
+            msg.push([node.name, ''+nodeLevel, node.dod]);
+          }
+        })
+        if (family['children']) {
+          nodeLevel++;
+          family['children'].forEach(child => {
+            this.passAwayNode(child, nodeLevel, msg);
+          })
+        }
+        // console.log('msg: ', msg);
+        if (msg.length == 0)
+          resolve (null);
+        let d = new Date();
+        let cal = new CalendarVietnamese()
+        cal.fromGregorian(d.getFullYear(), d.getMonth()+1, d.getDate())
+        let cdate = cal.get()
+        let today = cdate[4] + '/' + cdate[2];
+        resolve ({ today: today, persons: msg });
+      });
+    });
   }
 
-  private passAwayNode(family:any, msg: any) {
+  private passAwayNode(family:any, nodeLevel: any, msg: any) {
     family.nodes.forEach(node => {
       if (this.isMemorialComing(node.dod)) {
-        msg.push('Name: ' + node.name + ' - ' + node.dod);
+        // msg.push('Name: ' + node.name + ' - ' + node.dod);
+        msg.push([node.name, nodeLevel, node.dod]);
       }
     })
     if (family['children']) {
+      nodeLevel++;
       family['children'].forEach(child => {
-        this.passAwayNode(child, msg);
+        this.passAwayNode(child, nodeLevel, msg);
       })
     }
   }
@@ -492,7 +487,7 @@ export class FamilyService {
 
   // --- buildFullFamily
 
-  buildFullFamily(family: any) {
+  buildFullFamily(family: Family): Family {
     // start at root
     let nodeLevel = +family.generation;
     let childIdx = 1;
@@ -518,6 +513,7 @@ export class FamilyService {
         childIdx++;
       })
     }
+    return family;
   }
 
   private buildChildNodes(pnode, family, nodeLevel, childIdx) {
@@ -617,8 +613,6 @@ export class FamilyService {
     if (!node.por) node.por = '';
     if (!node.desc) node.desc = '';
     if (!node.dod) node.dod = '';
-    if (!node.child) node.child = '';
-    if (!node.spouse) node.spouse = '';
     return node;
   }
 
@@ -635,8 +629,6 @@ export class FamilyService {
     values.por = (node.por == '') ? null : {name: node.por};
     values.desc = node.desc;
     values.dod = node.dod;
-    values.child = node.child;
-    values.spouse = node.spouse;
     return values;
   }
 
@@ -673,14 +665,15 @@ export class FamilyService {
       (node.pod != pod) ||
       (node.por != por) ||
       (node.desc != values.desc) ||
-      (node.dod != values.dod) ||
-      (values.child != '') ||
-      (values.spouse != '');
+      (node.dod != values.dod);
     return change;
   }
 
   public getEmptyNode(id: string, level: string, name: string, gender: string) {
     let node = Object.create(NODE);
+    node.name = name;
+    node.gender = gender;
+    node.level = level;
     node.profile = this.getSearchKeys(node),
     node.span = this.getSpanStr(node);
     node.nclass = this.updateNclass(node);

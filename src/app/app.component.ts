@@ -13,14 +13,13 @@ export class AppComponent {
   constructor(
     private familyService: FamilyService,
   ) {
-    console.log('ANCESTOR: ', ANCESTOR);
-
+    console.log('AppComponent - ANCESTOR: ', ANCESTOR);
     this.initializeApp();
   }
 
   initializeApp() {
-    
-    // this.familyService.deleteFamily();
+    this.familyService.startFamily().then(status => {});
+    // this.familyService.deleteSetting();
     // this.familyService.deleteSetting();
   }
 }
