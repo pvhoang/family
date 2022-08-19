@@ -33,7 +33,7 @@ export class HomePage implements OnInit {
     this.utilService.getLocalTextFile('./assets/data/' + this.language.toLowerCase() + '-guide.txt').then(html => {
       this.guideStr = html;
     });
-    this.utilService.getLocalTextFile('./assets/data/' + this.language.toLowerCase() + '-intro.txt').then(text => {
+    this.utilService.getLocalTextFile('./assets/data/' + ANCESTOR + '-' + this.language.toLowerCase() + '-intro.txt').then(text => {
       this.introStr = text;
     });
   }
@@ -74,7 +74,7 @@ export class HomePage implements OnInit {
     this.utilService.getLocalTextFile('./assets/data/' + this.language.toLowerCase() + '-guide.txt').then(html => {
       this.guideStr = html;
     });
-    this.utilService.getLocalTextFile('./assets/data/' + this.language.toLowerCase() + '-intro.txt').then(text => {
+    this.utilService.getLocalTextFile('./assets/data/' + ANCESTOR + '-' + this.language.toLowerCase() + '-intro.txt').then(text => {
       this.introStr = text;
     });
   }

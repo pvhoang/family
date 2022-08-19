@@ -6,10 +6,10 @@
       <ng-select 
         [appendTo]="'body'"
         [items]="images" 
-          bindLabel="name" 
-          bindValue="id"
-          (close)="close()"
-          [(ngModel)]="selectedImage">
+        bindLabel="name" 
+        bindValue="id"
+        (close)="close()"
+        [(ngModel)]="selectedImage">
       </ng-select>
     </ion-col>
     <ion-col size="2">
@@ -25,7 +25,7 @@
 <ion-content [fullscreen]="false" class="ion-padding">
 
   <div *ngIf="idata && idata.type == 'html'">
-    <div class="app-ion-content">
+    <!-- <div class="app-ion-content"> -->
       <ion-item>
         <ion-col size="11">
           <ion-label>&#8226;&ensp;{{ idata.description }}</ion-label>
@@ -36,11 +36,11 @@
           </ion-button>
         </ion-col>
       </ion-item>
-    </div>
+    <!-- </div> -->
   </div>
 
   <div *ngIf="idata && idata.type == 'image'">
-    <div class="app-ion-content">
+    <!-- <div class="app-ion-content"> -->
       <ion-item>
         <ion-col size="12">
           <ion-label>&#8226;&ensp;{{ idata.description }}</ion-label>
@@ -54,7 +54,7 @@
       <div id="image">
         <img src="{{idata.src}}" width="idata.map.width" height="idata.map.height"/>
       </div>
-    </div>
+    <!-- </div> -->
   </div>
 
 </ion-content>

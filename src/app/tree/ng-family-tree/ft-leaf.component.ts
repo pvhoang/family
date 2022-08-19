@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
@@ -9,7 +8,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       <span *ngIf="node.span.length == 1"
           class="node"
           [ngClass]="node.relationship ? node.relationship + '-leaf' : ''"
-          (click)="_leafSelected(node)" 
+          (click)="_leafSelected(node)"
           [class]="node.nclass"
           id="{{node.id}}"
       >
@@ -19,7 +18,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       <span *ngIf="node.span.length == 2"
           class="node"
           [ngClass]="node.relationship ? node.relationship + '-leaf' : ''"
-          (click)="_leafSelected(node)" 
+          (click)="_leafSelected(node)"
           [class]="node.nclass"
           id="{{node.id}}"
       >

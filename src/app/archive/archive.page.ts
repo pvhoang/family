@@ -40,11 +40,8 @@ export class ArchivePage implements OnInit {
         let d = data[iid];
         this.images.push({id: iid, name: d.title});
       });
-      this.selectedImage = this.images[0].id;
-      this.idata = data[this.selectedImage];
-      setTimeout(() => {
-        this.idata = this.getImageData(this.selectedImage);
-      },300); 
+      this.selectedImage = null;
+      this.idata = null;
     });
   }
 
@@ -66,17 +63,17 @@ export class ArchivePage implements OnInit {
   }
 
   close() {
-    console.log('ArchivePage - close: ', this.selectedImage);
-    this.idata = this.getImageData(this.selectedImage);
-    console.log('ArchivePage - close: ', this.idata);
+    // console.log('ArchivePage - close: ', this.selectedImage);
+    let data = this.data[this.selectedImage];
+    if (data.type == 'image') {
+      this.idata = data;
+      setTimeout(() => {
+        this.idata = this.updateImageArea(this.selectedImage);
+      },300); 
+    } else {
+      this.idata = data;
+    }
     this.showDetail = false;
-  }
-
-  getImageData(id) {
-    // calculate data for this image
-    let data = this.data[id];
-    // console.log('ArchivePage - getImageData: ', data);
-    return (data.type == 'image') ? this.updateImageArea(id) : data;
   }
 
   updateImageArea(id) {

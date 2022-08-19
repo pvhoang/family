@@ -59,7 +59,27 @@
   "SETTING_FAMILY_NAME": "Ancestor",
   "SETTING_FAMILY": "Family",
   
- 
+  "CONTACT_INFO": "Information",
+  "CONTACT_VERSION": "Current version : ",
+  "CONTACT_CONTRIBUTION": "Contribution",
+
+  "CONTACT_TREE": "Tree",
+  "CONTACT_RESET_MSG": "Use source tree.",
+  "CONTACT_COMPARE_MSG": "Compare working tree with source tree.",
+  "CONTACT_DOWNLOAD_MSG": "Save editing tree.",
+  "CONTACT_UPLOAD_MSG": "Read local tree.",
+
+  "CONTACT_CONTACT": "Contact",
+  "CONTACT_SEND": "To update your change to new version, please send the editing tree to the editor for review. Email: pvhoang940@gmail.com.",
+
+  "CONTACT_RESET_HEADER": "Source tree",
+  "CONTACT_RESET_MESSAGE": "Source tree",
+
+  "CONTACT_UPLOAD_HEADER": "Upload tree",
+  "CONTACT_UPLOAD_MESSAGE": "Upload tree",
+
+  "CONTACT_DOWNLOAD_HEADER": "Download tree",
+  "CONTACT_DOWNLOAD_MESSAGE": "Download tree",
 
   "CONTACT_NAME": "Name",
   "CONTACT_ITEM": "Data",

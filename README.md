@@ -44,6 +44,12 @@ element.scrollIntoView
 // https://www.angularfix.com/2022/04/how-to-extend-css-family-tree.html
 
 =======================
+# Gia Pha reference
+=======================
+http://www.giaphavietnam.vn/default.aspx?lang=vi-VN&cp=news-detail&cid=38
+http://www.giaphavietnam.vn/default.aspx?cp=phado&id=307
+
+=======================
 # Resizing, set coordinates on images
 =======================
 https://www.iloveimg.com/resize-image
@@ -79,6 +85,11 @@ https://www.npmjs.com/package/date-chinese
 # Build an Ionic table
 =======================
 https://edupala.com/ionic-table/
+
+=======================
+# Double click an element
+=======================
+https://stackoverflow.com/questions/48295288/how-to-handle-single-click-and-double-click-on-the-same-html-dom-element-usi
 
 =====================================================================
 # FIREBASE

@@ -34,6 +34,8 @@ export class TreePage implements OnInit {
 	searchIdx: any = '0/0';
 	searchDisabled:any = false;
   sNodes:Node[] = [];
+  justClicked = false;
+  doubleClicked = false;
 
   constructor(
     public modalCtrl: ModalController,
@@ -85,10 +87,24 @@ export class TreePage implements OnInit {
     };
     return styles;
   }
-
-  onLeafSelected(node: any) {
-    // console.log('TreePage - onLeafSelected: ', node);
-    this.openNodeModal(node);
+  
+  onLeafSelected (node) {
+    console.log('TreePage - onLeafSelected: ', node);
+    if (this.justClicked === true) {
+      this.doubleClicked = true;
+      this.viewNodeDetail(node);
+      console.log('Double Click Event');
+    } else {
+      this.justClicked = true;
+      setTimeout(() => {
+        this.justClicked = false;
+        if (this.doubleClicked === false) {
+          this.openNodeModal(node);
+          // console.log('Single Click Event');
+        }
+        this.doubleClicked = false;
+      }, 500);
+    }
   }
 
   onHome() {
@@ -317,6 +333,59 @@ export class TreePage implements OnInit {
       inline: 'center',
     }
     ele.scrollIntoView(options);
+  }
+
+  private viewNodeDetail(node) {
+
+    console.log('viewNodeDetail - node : ', node);
+
+    let title = node.name;
+
+    let level = '<b>' + 'Doi' + '</b>' + '\t\t: ' + node.level + '<br>';
+    let parent = '<b>' + 'Con ông/bà' + '</b>' + '\t: ' + node.pnode.name + '<br>';
+    let nick = (node.nick == '') ? '' : '<b>' + 'Tuc danh' + '</b>' + '\t\t: ' + node.nick + '<br>';
+    let children = '';
+    if (node.family.children)
+      children = '<b>' + 'Số con' + '</b>' + '\t\t: ' + node.family.children.length + '<br>';
+    let spouse = '';
+    if (node.family.nodes.length > 1) {
+      let spouseNode = null;
+      for (let i = 0; i < node.family.nodes.length; i++) {
+        if (node.name == node.family.nodes[i]) {
+          // use the other node
+          spouseNode = (i == 0) ? node.family.nodes[1] : node.family.nodes[0]
+          break;
+        }
+      }
+      if (spouseNode) {
+        if (spouseNode.gender == 'male')
+          spouse = '<b>' + 'Chong' + '</b>' + '\t: ' + spouseNode.name + '<br>';
+        else
+        spouse = '<b>' + 'Vo' + '</b>' + '\t: ' + spouseNode.name + '<br>';
+      }
+    }
+
+    let years = '<b>' + 'Nam sinh/tu' + '</b>' + '\t: ' + node.yob + ' - ' + node.yod + '<br>';
+    let places = '<b>' + 'Noi sinh/tu' + '</b>' + '\t: ' + node.pob + ' - ' + node.pod + '<br>';
+    let residence = '<b>' + 'Noi sinh song' + '</b>' + '\t: ' + node.por + '<br>';
+
+    let header = '<pre style="margin-left: 2.0em;">';
+    let msg = level + parent + nick + years + places + residence + spouse + children;
+    
+    // let msg = 
+    // '<b>' + 'Con ông/bà' + '</b>' + '\t:' + node.pnode.name +
+
+    // '<b>' + this.languageService.getTranslation('GENERATION') + '</b>' + '\t:\t' + node.level + '<br>' +
+    // '<b>' + this.languageService.getTranslation('NODE_NICK') + '</b>' + '\t:\t' + node.nick + '<br>' +
+    // '<b>' + this.languageService.getTranslation('NODE_YOB') + '</b>' + '\t:\t' + node.yob + '<br>' +
+    // '<b>' + this.languageService.getTranslation('NODE_YOD') + '</b>' + '\t:\t' + node.yob + '<br>' +
+    // '<b>' + this.languageService.getTranslation('NODE_POB') + '</b>' + '\t:\t' + node.pob + '<br>' +
+    // '<b>' + this.languageService.getTranslation('NODE_POD') + '</b>' + '\t:\t' + node.pob + '<br>' +
+    // '<b>' + this.languageService.getTranslation('NODE_POR') + '</b>' + '\t:\t' + node.pob + '<br>' 
+
+    // ;
+    msg = header + msg + '</pre>';
+    this.utilService.alertMsg(title, msg, 'alert-small');
   }
 
   async openNodeModal(node) {

@@ -4,7 +4,7 @@ import { LanguageService } from '../services/language.service';
 import { FamilyService } from '../services/family.service';
 import { UtilService } from '../services/util.service';
 import { Family, FAMILY} from '../services/family.model';
-import { ANCESTOR } from '../../environments/environment';
+import { ANCESTOR, VERSION } from '../../environments/environment';
 
 @Component({
   selector: 'app-contact',
@@ -37,7 +37,9 @@ export class ContactPage implements OnInit {
       let ancestorText = this.languageService.getTranslation(ancestor);
       // console.log('ContactPage - ngOnInit - setting: ', ancestorText);
       // this.title = ancestorText.tree + ' - ' + VERSION + ' - ' + family.version;
-      this.version = this.languageService.getTranslation('CONTACT_VERSION') + family.version;
+      let msg1 = this.languageService.getTranslation('CONTACT_VERSION_1');
+      let msg2 = this.languageService.getTranslation('CONTACT_VERSION_2');
+      this.version = msg1 + VERSION + ' - ' + msg2 + family.version;
       this.title = ancestorText.tree;
       let jsonFile = './assets/data/' + ANCESTOR + '-contribution.json'
       this.utilService.getLocalJsonFile(jsonFile).then(json => {

@@ -59,7 +59,8 @@
   "SETTING_FAMILY": "Họ",
   
   "CONTACT_INFO": "Thông tin",
-  "CONTACT_VERSION": "Phiên bản hiện tại: ",
+  "CONTACT_VERSION_1": "Phiên bản hiện tại - Ứng dụng: ",
+  "CONTACT_VERSION_2": "Dữ liệu:  ",
   "CONTACT_CONTRIBUTION": "Đóng góp",
 
   "CONTACT_TREE": "Phả đồ",
@@ -80,8 +81,6 @@
   "CONTACT_DOWNLOAD_HEADER": "Tải phả đồ",
   "CONTACT_DOWNLOAD_MESSAGE": "Tải phả đồ.",
 
-  "TREE_UPDATE_MSG": "Phả đồ bạn điều chỉnh sẽ được gửi về ban quản trị duyệt trước khi cập nhật.",
-  
   "CONTACT_DATE": "Ngày",
   "CONTACT_DETAIL": "Chi tiết",
 

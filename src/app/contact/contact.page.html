@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
-  <div class="app-ion-content">
+  <!-- <div class="app-ion-content"> -->
 
     <ion-card-header class="card-header">
       &nbsp;{{ 'CONTACT_INFO' | translate }}
@@ -143,30 +143,6 @@
           <ion-col size="1"> {{ row.new }} </ion-col>
         </ion-row>
       </ion-grid>
-
-      <!-- <ion-grid class="contact-ion-grid">
-        <ion-row wrap class="headers">
-          <ion-col size="8" class="contact-table-border">
-            {{ 'CONTACT_NAME' | translate }}
-          </ion-col>
-          <ion-col size="2" class="contact-table-border">
-            {{ 'CONTACT_ITEM' | translate }}
-          </ion-col>
-          <ion-col size="1" class="contact-table-border">
-            {{ 'CONTACT_OLD_VALUE' | translate }}
-          </ion-col>
-          <ion-col size="1" class="contact-table-border">
-            {{ 'CONTACT_NEW_VALUE' | translate }}
-          </ion-col>
-        </ion-row>
-        <ion-row wrap class="contact-table-content" *ngFor="let row of compareResults">
-          <ion-col size="8"> {{ row.name }} </ion-col>
-          <ion-col size="2"> {{ row.item }} </ion-col>
-          <ion-col size="1"> {{ row.old }} </ion-col>
-          <ion-col size="1"> {{ row.new }} </ion-col>
-        </ion-row>
-      </ion-grid> -->
-
     </ion-item>
 
     <ion-item>
@@ -175,18 +151,23 @@
       </ion-col>
       <ion-col size="1">
         <ion-button class="app-ion-button" fill="clear" (click)="downloadTree()">
-          <ion-icon name="code-download" class="contact-icon"></ion-icon>
+          <ion-icon name="download" class="contact-icon"></ion-icon>
         </ion-button>
       </ion-col>
     </ion-item>
     <ion-item>
-      <ion-col size="9">
+      <ion-col size="8">
         <ion-label>&#8226;&ensp;{{ 'CONTACT_UPLOAD_MSG' | translate }}</ion-label>
       </ion-col>
       <ion-col size="3">
         <input type="file" (change)="uploadTree($event)" title=" " accept=".tree"/>
       </ion-col>
+      <ion-col size="1">
+        <ion-button class="app-ion-button" fill="clear">
+          <ion-icon name="share" class="contact-icon"></ion-icon>
+        </ion-button>
+      </ion-col>
     </ion-item>
 
-  </div>
+  <!-- </div> -->
 </ion-content>
