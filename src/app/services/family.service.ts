@@ -595,7 +595,7 @@ export class FamilyService {
   public getSpanStr(node) {
     let spans = [];
     spans.push(node.name);
-    spans.push(node.yob + ' - ' + node.yod);
+    // spans.push(node.yob + ' - ' + node.yod);
     //   spans.push(node.pob + ' - ' + node.pod);
     return spans;
   }

@@ -335,14 +335,14 @@ export class TreePage implements OnInit {
     ele.scrollIntoView(options);
   }
 
-  private viewNodeDetail(node) {
+  private viewNodeDetail(node: any) {
 
     console.log('viewNodeDetail - node : ', node);
 
     let title = node.name;
 
     let level = '<b>' + 'Doi' + '</b>' + '\t\t: ' + node.level + '<br>';
-    let parent = '<b>' + 'Con ông/bà' + '</b>' + '\t: ' + node.pnode.name + '<br>';
+    let parent = (node.pnode) ? '<b>' + 'Con ông/bà' + '</b>' + '\t: ' + node.pnode.name + '<br>' : '';
     let nick = (node.nick == '') ? '' : '<b>' + 'Tuc danh' + '</b>' + '\t\t: ' + node.nick + '<br>';
     let children = '';
     if (node.family.children)
@@ -366,11 +366,12 @@ export class TreePage implements OnInit {
     }
 
     let years = '<b>' + 'Nam sinh/tu' + '</b>' + '\t: ' + node.yob + ' - ' + node.yod + '<br>';
-    let places = '<b>' + 'Noi sinh/tu' + '</b>' + '\t: ' + node.pob + ' - ' + node.pod + '<br>';
+    let birthPlace = '<b>' + 'Noi sinh' + '</b>' + '\t: ' + node.pob + '<br>';
+    let deathPlace = '<b>' + 'Noi tu' + '</b>' + '\t: ' + node.pod + '<br>';
     let residence = '<b>' + 'Noi sinh song' + '</b>' + '\t: ' + node.por + '<br>';
 
     let header = '<pre style="margin-left: 2.0em;">';
-    let msg = level + parent + nick + years + places + residence + spouse + children;
+    let msg = level + parent + nick + years + birthPlace + deathPlace + residence + spouse + children;
     
     // let msg = 
     // '<b>' + 'Con ông/bà' + '</b>' + '\t:' + node.pnode.name +
@@ -384,7 +385,7 @@ export class TreePage implements OnInit {
     // '<b>' + this.languageService.getTranslation('NODE_POR') + '</b>' + '\t:\t' + node.pob + '<br>' 
 
     // ;
-    msg = header + msg + '</pre>';
+    msg = header + msg + '<br><br></pre>';
     this.utilService.alertMsg(title, msg, 'alert-small');
   }
 

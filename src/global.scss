@@ -86,7 +86,6 @@ $background_color_not_complete: lightyellow; // warning in variables.css
 .app-ion-title {
   font-size: 18px;
   color: $color;
-  font-weight: italic;
 }
 
 .app-ion-icon {
@@ -97,6 +96,16 @@ $background_color_not_complete: lightyellow; // warning in variables.css
 .app-ion-button {
   --padding-start: 5px;
   --padding-end: 5px;
+}
+
+.app-ion-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.app-ion-label {
+  font-size: 16px;
 }
 
 .app-ion-item {
@@ -116,8 +125,6 @@ $background_color_not_complete: lightyellow; // warning in variables.css
 
 ion-tab-bar {
   --background: var(--url-ion-tab-bar) center / 100%;
-  // --background: url("./assets/imgs/image-1.jpg") center / 100%;
-  // --background: url("./assets/imgs/image-1.jpg") center / 100%;
   height: 50px;
   display: flex; 
   align-items: center;
@@ -147,8 +154,6 @@ ion-tab-button {
 // --- home ---
 
 .home-scroll {
-	// overflow: auto;
-  // overflow-wrap: break-word;
   word-wrap: break-word;
 }
 
@@ -159,67 +164,68 @@ ion-tab-button {
   font-size: 16px;
   display: flex; 
   align-items: center;
+  margin-left:10px;
 }
 
-.home-guide-tab {
-  background: $background_color;
-  width: 100px; 
-  display: flex; 
-  align-items: center;
+.home-guide-tab-symbol {
+  margin-left:20px;
+  .tab {
+    background: $background_color;
+    width: 100px; 
+    display: flex; 
+    align-items: center;
+    .icon {
+      font-size: 24px;
+      color: $color;
+    }
+    .label {
+      font-size: 14px;
+      color: $color;
+    }
+  }
 }
 
-.home-guide-icon-normal {
-  background: $background_color;
-  font-size: 18px;
-  color: white;
-  margin-left:20px;
-}
-
-.home-guide-icon-select {
-  background: $background_color;
-  font-size: 18px;
-  color: lightgreen;
-  margin-left:20px;
-}
-
-.home-guide-icon-male {
-  background: $background_color;
-  font-size: 18px;
-  color: lightblue;
-  margin-left:20px;
-}
-.home-guide-icon-female {
-  background: $background_color;
-  font-size: 18px;
-  color: lightpink;
-  margin-left:20px;
-}
-.home-guide-icon-not-complete {
-  background: $background_color;
-  font-size: 18px;
-  color: lightyellow;
-  margin-left:20px;
-}
-
-.home-guide-icon {
-  background: $background_color;
-  font-size: 18px;
-  color: $color;
-  margin-left:20px;
-}
-
-.home-guide-label-first {
-  margin-left:20px;
-}
-
-.home-guide-label {
-  margin-left:60px;
+.home-guide-icon-symbol {
+  margin-left:40px;
+  .label {
+    font-size: 15px;
+  }
+  .icon {
+    background: $background_color;
+    font-size: 18px;
+    color: $color;
+  }
+  .icon-normal {
+    background: $background_color;
+    font-size: 18px;
+    color: white;
+  }
+  .icon-select {
+    background: $background_color;
+    font-size: 18px;
+    color: lightgreen;
+  }
+  .icon-male {
+    background: $background_color;
+    font-size: 18px;
+    color: lightblue;
+  }
+  .icon-female {
+    background: $background_color;
+    font-size: 18px;
+    color: lightpink;
+  }
+  .icon-not-complete {
+    background: $background_color;
+    font-size: 18px;
+    color: lightyellow;
+  }
 }
 
 // --- archive ---
 
 .archive-icon {
-  font-size: 18px;
+  font-size: 24px;
   color: $color;
   background: $background_color;
 }
@@ -227,12 +233,12 @@ ion-tab-button {
 // --- contact ---
 
 .contact-icon {
-  font-size: 18px;
+  font-size: 24px;
   color: $color;
   background: $background_color;
 }
 
-.contact-ion-grid-new {
+.contact-grid {
   --ion-grid-column-padding: 10px;
   border-collapse: collapse;
   border-style: hidden;
@@ -259,41 +265,10 @@ ion-tab-button {
   }
 }
 
-.contact-ion-grid-two {
-  --ion-grid-column-padding: 10px;
-  border-collapse: collapse;
-  border-style: hidden;
-	font-size: 14px;
-  ion-row {
-    // background-color:  #2dd36f;
-    font-weight: bold;
-    color: white;
-    background-color: $background_color;
-    font-size: 14px;
-  }
-}
-
-.contact-ion-grid-one {
-  --ion-grid-column-padding: 10px;
-  border-collapse: collapse;
-  border-style: hidden;
-  // ion-col {
-  //   border: 1px solid black;
-  //   // border-bottom: 0;
-  //   // border-right: 1px solid black;
-  // }
-  ion-row {
-    border: 1px solid $background_color;
-    font-size: 14px;
-    // border-top: 1px solid black;
-    // border-bottom: 1px solid black;
-  }
-}
-
 // --- util ---
 
 .alert-small {
-// --background: url("./assets/imgs/dragon.webp") top / 100%;
+// --background: var(--url-ion-item) top / 100%;
   --height: 400px;
 //   --height: 500px;
   .alert-wrapper {
@@ -333,7 +308,7 @@ ion-tab-button {
   background: $background_color;
   color: white;
   font-size: 18px;
-  height:30px;
+  height:26px;
 	margin-top: 10px;
 	margin-bottom: 10px;
   position: relative; 
@@ -345,25 +320,30 @@ ion-tab-button {
 
 .card-label{
   font-weight: bold;
+  font-size: 16px;
 }
 
 .card-input{
 	margin-top: 8px;
 	border: solid 1px grey;
 	margin-bottom: 8px;
+  font-size: 16px;
 }
 
 .card-textarea{
 	margin-top: 8px;
 	border: solid 1px grey;
 	margin-bottom: 8px;
+  font-size: 16px;
 }
 
 .card-select{
 	margin-top: 8px;
+  font-size: 16px;
 }
 
 .card-select-1{
 	margin-top: 8px;
 	margin-bottom: 8px;
+  font-size: 16px;
 }

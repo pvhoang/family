@@ -25,27 +25,27 @@
 <ion-content [fullscreen]="false" class="ion-padding">
 
   <div *ngIf="idata && idata.type == 'html'">
-    <!-- <div class="app-ion-content"> -->
-      <ion-item>
-        <ion-col size="11">
+    <div class="app-ion-content">
+      <ion-row class="app-ion-row">
+        <ion-col size="10">
           <ion-label>&#8226;&ensp;{{ idata.description }}</ion-label>
         </ion-col>
-        <ion-col size="1">
+        <ion-col size="2">
           <ion-button class="app-ion-button" fill="clear" (click)="openWebpage(idata.src)">
             <ion-icon name="open" class="archive-icon"></ion-icon>
           </ion-button>
         </ion-col>
-      </ion-item>
-    <!-- </div> -->
+      </ion-row>
+    </div>
   </div>
 
   <div *ngIf="idata && idata.type == 'image'">
-    <!-- <div class="app-ion-content"> -->
-      <ion-item>
+    <div class="app-ion-content">
+      <ion-row class="app-ion-row">
         <ion-col size="12">
           <ion-label>&#8226;&ensp;{{ idata.description }}</ion-label>
         </ion-col>
-      </ion-item>
+      </ion-row>
       <div *ngIf="showDetail">
         <div *ngFor="let area of idata.areas">
           <a id="{{area.domid}}" [ngStyle]="getAreaStyle(area)" (click)="displayText(area.text)"></a>
@@ -54,7 +54,7 @@
       <div id="image">
         <img src="{{idata.src}}" width="idata.map.width" height="idata.map.height"/>
       </div>
-    <!-- </div> -->
+    </div>
   </div>
 
 </ion-content>

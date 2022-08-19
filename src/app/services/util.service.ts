@@ -47,12 +47,12 @@ export class UtilService {
 			// msg += ' ' + JSON.stringify(obj, null, 4);
 	}
 
-	async alertMsg(title, message, css?) {
+	async alertMsg(header, message, css?) {
 		if (!css)
 			css = 'alert-small';
 		// let css = 'myClass';
 		let alert = await this.alertController.create({
-			header: title,
+			header: header,
 			message: message,
 			cssClass: css,
 			buttons: ['OK']
@@ -173,9 +173,9 @@ export class UtilService {
     return result;
 	}
 
-	async presentToast(msg) {
+	async presentToast(message) {
     const toast = await this.toastController.create({
-      message: msg,
+      message: message,
       color: 'primary',
       position: 'middle',
       duration: 2000

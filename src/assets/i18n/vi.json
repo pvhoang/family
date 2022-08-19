@@ -132,7 +132,7 @@
 
   "NODE_ERROR_TITLE": "Lỗi dữ liệu",
   "NODE_ERR_YOB_ERROR": "Năm sinh phải từ 1900 đến 2022.",
-  "NODE_ERR_YOD_ERROR": "Năm tử phải > năm sinh và từ 1900 đến 2022.",
+  "NODE_ERR_YOD_ERROR": "<b>Năm tử</b> phải lớn hơn <b>Năm sinh</b> và từ <b>1900 đến 2022</b>.",
 
   "NODE_ERR_HAVE_CHILDREN": "Không thể xóa nhánh. Phải xóa ngọn trước."
 

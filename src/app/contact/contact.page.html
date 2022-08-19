@@ -7,167 +7,136 @@
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
-  <!-- <div class="app-ion-content"> -->
+  <div class="app-ion-content">
 
     <ion-card-header class="card-header">
       &nbsp;{{ 'CONTACT_INFO' | translate }}
     </ion-card-header>
-    <ion-item>
+    <ion-row class="app-ion-row">
       <ion-col size="12">
-        <!-- <ion-label>&#8226;&ensp;{{ 'CONTACT_VERSION' | translate }}</ion-label> -->
-        <ion-label>&#8226;&ensp;{{ version }}</ion-label>
+        <ion-label class="ion-text-wrap app-ion-label">&#8226;&ensp;{{ version }}</ion-label>
       </ion-col>
-    </ion-item>
-    <ion-item>
-      <ion-col size="11">
-        <ion-label>&#8226;&ensp;{{ 'CONTACT_CONTRIBUTION' | translate }}</ion-label>
+    </ion-row>
+    <ion-row class="app-ion-row">
+      <ion-col size="10">
+        <ion-label class="ion-text-wrap app-ion-label">&#8226;&ensp;{{ 'CONTACT_CONTRIBUTION' | translate }}</ion-label>
       </ion-col>
-      <ion-col size="1">
+      <ion-col size="2">
         <ion-button class="app-ion-button" fill="clear" (click)="onContribution()">
           <ion-icon name="people" class="contact-icon"></ion-icon>
         </ion-button>
       </ion-col>
-    </ion-item>
+    </ion-row>
 
-    <!-- <ion-item *ngIf="contMode">
-      <ion-grid class="contact-ion-grid">
-        <ion-row nowrap class="headers">
-          <ion-col size="2" class="contact-table-border">
-            {{ 'CONTACT_DATE' | translate }}
-          </ion-col>
-          <ion-col size="4" class="contact-table-border">
-            {{ 'CONTACT_NAME' | translate }}
-          </ion-col>
-          <ion-col size="6" class="contact-table-border">
-            {{ 'CONTACT_DETAIL' | translate }}
-          </ion-col>
-        </ion-row>
-        <ion-row nowrap class="contact-table-content" *ngFor="let row of contResults">
-          <ion-col size="2"> {{ row.date }} </ion-col>
-          <ion-col size="4"> {{ row.name }} </ion-col>
-          <ion-col size="6"> {{ row.detail }} </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item> -->
-
-    <ion-item *ngIf="contMode">
-      <ion-grid class="contact-ion-grid-new">
-        <ion-row>
-          <ion-col size="2">
-            {{ 'CONTACT_DATE' | translate }}
-          </ion-col>
-          <ion-col size="4">
-            {{ 'CONTACT_NAME' | translate }}
-          </ion-col>
-          <ion-col size="6">
-            {{ 'CONTACT_DETAIL' | translate }}
-          </ion-col>
-        </ion-row>
-        <ion-row *ngFor="let row of contResults">
-          <ion-col size="2"> {{ row.date }} </ion-col>
-          <ion-col size="4"> {{ row.name }} </ion-col>
-          <ion-col size="6">
-            <div [innerHtml]="row.detail"></div>
-            <!-- <ion-label class="ion-text-wrap">{{ row.detail }}</ion-label> -->
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-
+    <ion-grid class="contact-grid" *ngIf="contMode">
+      <ion-row>
+        <ion-col size="2">
+          {{ 'CONTACT_DATE' | translate }}
+        </ion-col>
+        <ion-col size="4">
+          {{ 'CONTACT_NAME' | translate }}
+        </ion-col>
+        <ion-col size="6">
+          {{ 'CONTACT_DETAIL' | translate }}
+        </ion-col>
+      </ion-row>
+      <ion-row *ngFor="let row of contResults">
+        <ion-col size="2"> {{ row.date }} </ion-col>
+        <ion-col size="4"> {{ row.name }} </ion-col>
+        <ion-col size="6">
+          <div [innerHtml]="row.detail"></div>
+          <!-- <ion-label class="ion-text-wrap">{{ row.detail }}</ion-label> -->
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
     <ion-card-header class="card-header">
       &nbsp;{{ 'CONTACT_CONTACT' | translate }}
     </ion-card-header>
-    <ion-item>
+    <ion-row class="app-ion-row">
       <ion-col size="12">
-        <ion-label class="ion-text-wrap">&#8226;&ensp;{{ 'CONTACT_SEND' | translate }}</ion-label>
+        <ion-label class="ion-text-wrap app-ion-label">&#8226;&ensp;{{ 'CONTACT_SEND' | translate }}</ion-label>
       </ion-col>
-    </ion-item>
+    </ion-row>
 
     <ion-card-header class="card-header">
       &nbsp;{{ 'CONTACT_TREE' | translate }}
     </ion-card-header>
-    <ion-item>
-      <ion-col size="11">
-        <ion-label>&#8226;&ensp;{{ 'CONTACT_RESET_MSG' | translate }}</ion-label>
+    <ion-row class="app-ion-row">
+      <ion-col size="10">
+        <ion-label class="ion-text-wrap app-ion-label">&#8226;&ensp;{{ 'CONTACT_RESET_MSG' | translate }}</ion-label>
       </ion-col>
-      <ion-col size="1">
+      <ion-col size="2">
         <ion-button class="app-ion-button" fill="clear" (click)="resetTree()">
           <ion-icon name="refresh-circle" class="contact-icon"></ion-icon>
         </ion-button>
       </ion-col>
-    </ion-item>
-
-    <ion-item>
-      <ion-col size="11">
-        <ion-label class="ion-text-wrap">&#8226;&ensp;{{ 'CONTACT_COMPARE_MSG' | translate }}</ion-label>
+    </ion-row>
+    <ion-row class="app-ion-row">
+      <ion-col size="10">
+        <ion-label class="ion-text-wrap app-ion-label">&#8226;&ensp;{{ 'CONTACT_COMPARE_MSG' | translate }}</ion-label>
       </ion-col>
-      <ion-col size="1">
+      <ion-col size="2">
         <ion-button class="app-ion-button" fill="clear" (click)="compareTree()">
           <ion-icon name="git-compare" class="contact-icon"></ion-icon>
         </ion-button>
       </ion-col>
-    </ion-item>
+    </ion-row>
 
-    <ion-item *ngIf="compareMode && compareResults.length == 1">
-      <ion-grid class="contact-ion-grid-new">
-        <ion-row>
-          <ion-col size="12">
-            &#8226;&ensp;{{ compareResults[0].name }}
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-      <!-- <ion-label class="ion-text-wrap">&#8226;&ensp;{{ compareResults[0] }}</ion-label> -->
-    </ion-item>
+    <ion-grid class="contact-grid" *ngIf="compareMode && compareResults.length == 1">
+      <ion-row>
+        <ion-col size="12">
+          &#8226;&ensp;{{ compareResults[0].name }}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-    <ion-item *ngIf="compareMode && compareResults.length > 1">
-      <ion-grid class="contact-ion-grid-new">
-        <ion-row>
-          <ion-col size="8">
-            {{ 'CONTACT_NAME' | translate }}
-          </ion-col>
-          <ion-col size="2">
-            {{ 'CONTACT_ITEM' | translate }}
-          </ion-col>
-          <ion-col size="1">
-            {{ 'CONTACT_OLD_VALUE' | translate }}
-          </ion-col>
-          <ion-col size="1">
-            {{ 'CONTACT_NEW_VALUE' | translate }}
-          </ion-col>
-        </ion-row>
-        <ion-row *ngFor="let row of compareResults">
-          <ion-col size="8"> {{ row.name }} </ion-col>
-          <ion-col size="2"> {{ row.item }} </ion-col>
-          <ion-col size="1"> {{ row.old }} </ion-col>
-          <ion-col size="1"> {{ row.new }} </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
+    <ion-grid class="contact-grid" *ngIf="compareMode && compareResults.length > 1">
+      <ion-row>
+        <ion-col size="8">
+          {{ 'CONTACT_NAME' | translate }}
+        </ion-col>
+        <ion-col size="2">
+          {{ 'CONTACT_ITEM' | translate }}
+        </ion-col>
+        <ion-col size="1">
+          {{ 'CONTACT_OLD_VALUE' | translate }}
+        </ion-col>
+        <ion-col size="1">
+          {{ 'CONTACT_NEW_VALUE' | translate }}
+        </ion-col>
+      </ion-row>
+      <ion-row *ngFor="let row of compareResults">
+        <ion-col size="8"> {{ row.name }} </ion-col>
+        <ion-col size="2"> {{ row.item }} </ion-col>
+        <ion-col size="1"> {{ row.old }} </ion-col>
+        <ion-col size="1"> {{ row.new }} </ion-col>
+      </ion-row>
+    </ion-grid>
 
-    <ion-item>
-      <ion-col size="11">
-        <ion-label>&#8226;&ensp;{{ 'CONTACT_DOWNLOAD_MSG' | translate }}</ion-label>
+    <ion-row class="app-ion-row">
+      <ion-col size="10">
+        <ion-label class="ion-text-wrap app-ion-label">&#8226;&ensp;{{ 'CONTACT_DOWNLOAD_MSG' | translate }}</ion-label>
       </ion-col>
-      <ion-col size="1">
+      <ion-col size="2">
         <ion-button class="app-ion-button" fill="clear" (click)="downloadTree()">
           <ion-icon name="download" class="contact-icon"></ion-icon>
         </ion-button>
       </ion-col>
-    </ion-item>
-    <ion-item>
+    </ion-row>
+    <ion-row class="app-ion-row">
       <ion-col size="8">
-        <ion-label>&#8226;&ensp;{{ 'CONTACT_UPLOAD_MSG' | translate }}</ion-label>
+        <ion-label class="ion-text-wrap app-ion-label">&#8226;&ensp;{{ 'CONTACT_UPLOAD_MSG' | translate }}</ion-label>
       </ion-col>
-      <ion-col size="3">
+      <ion-col size="2">
         <input type="file" (change)="uploadTree($event)" title=" " accept=".tree"/>
       </ion-col>
-      <ion-col size="1">
+      <ion-col size="2">
         <ion-button class="app-ion-button" fill="clear">
           <ion-icon name="share" class="contact-icon"></ion-icon>
         </ion-button>
       </ion-col>
-    </ion-item>
+    </ion-row>
 
-  <!-- </div> -->
+  </div>
 </ion-content>
