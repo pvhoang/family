@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { UtilService } from '../services/util.service';
+import { LanguageService } from '../services/language.service';
 import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
 import { ANCESTOR } from '../../environments/environment';
 
@@ -13,10 +14,13 @@ export class ArchivePage implements OnInit {
 
   data: any;
   idata: any;
+  language: any;
   imageIds: any = [];
   showDetail:any = false;
   images: any[] = [];
   selectedImage: string;
+  selectNotFoundText: any = '';
+  selectPlaceholder: any = '';
   detail1:any = '';
   detail2:any = '';
   detail3:any = '';
@@ -24,35 +28,71 @@ export class ArchivePage implements OnInit {
   constructor(
     public toastController: ToastController,
     private utilService: UtilService,
+    private languageService: LanguageService,
 		private iab: InAppBrowser,
   ) {
   }
 
   ngOnInit() {
     console.log('ArchivePage - ngOnInit');
+    // this.start();
     let jsonFile = './assets/data/' + ANCESTOR + '-images.json'
     this.utilService.getLocalJsonFile(jsonFile).then((data:any) => {
-      // console.log('data: ', data);
-      this.imageIds = Object.keys(data);
+      console.log('data: ', data);
+      // this.language = this.languageService.getLanguage();
+      // console.log('language: ', this.language);
+
+      // this.imageIds = Object.keys(data);
       this.data = data;
-      this.images = [];
-      this.imageIds.forEach(iid => {
-        let d = data[iid];
-        this.images.push({id: iid, name: d.title});
-      });
-      this.selectedImage = null;
-      this.idata = null;
+      // this.images = [];
+      // this.imageIds.forEach(iid => {
+      //   let d = data[iid];
+      //   this.images.push({id: iid, name: d.title[this.language]});
+      // });
+      // console.log('this.imageIds: ', this.imageIds);
+      this.start();
+      // this.selectedImage = null;
+      // this.idata = null;
+      // this.selectNotFoundText = this.languageService.getTranslation('ARCHIVE_SELECT_NOT_FOUND_TEXT');
+      // this.selectPlaceholder = this.languageService.getTranslation('ARCHIVE_SELECT_PLACEHOLDER');
     });
   }
 
   ionViewWillEnter() {
     console.log('ArchivePage - ionViewWillEnter');
-    this.showDetail = false;
+    // this.showDetail = false;
+    // this.selectedImage = null;
+    // this.idata = null;
+    this.start();
   }
 	
 	ionViewWillLeave() {
     console.log('ArchivePage - ionViewWillLeave');
 	}
+
+  start() {
+    // let jsonFile = './assets/data/' + ANCESTOR + '-images.json'
+    // this.utilService.getLocalJsonFile(jsonFile).then((data:any) => {
+    //   console.log('data: ', data);
+      this.language = this.languageService.getLanguage();
+      // console.log('language: ', this.language);
+      this.imageIds = Object.keys(this.data);
+      // this.data = data;
+      this.images = [];
+      this.imageIds.forEach(iid => {
+        let d = this.data[iid];
+        this.images.push({id: iid, name: d.title[this.language]});
+      });
+      console.log('this.imageIds: ', this.imageIds);
+
+      this.selectedImage = null;
+      this.idata = null;
+      this.showDetail = false;
+      this.selectNotFoundText = this.languageService.getTranslation('ARCHIVE_SELECT_NOT_FOUND_TEXT');
+      this.selectPlaceholder = this.languageService.getTranslation('ARCHIVE_SELECT_PLACEHOLDER');
+
+    // });
+  }
 
   show() {
     console.log('ArchivePage - show');
@@ -72,6 +112,7 @@ export class ArchivePage implements OnInit {
       },300); 
     } else {
       this.idata = data;
+      this.idata.desc =  data.description[this.language];
     }
     this.showDetail = false;
   }
@@ -102,6 +143,10 @@ export class ArchivePage implements OnInit {
     // this.addCornerImages(idata);
     // console.log('idata: ', idata);
     // this.dislayDetailData(imageEle, idata.areas[2]);
+    idata.desc = idata.description[this.language];
+
+    console.log('idata: ', idata);
+
     return idata;
   }
 
@@ -152,7 +197,9 @@ export class ArchivePage implements OnInit {
 
   displayText(text: any) {
     // console.log('ArchivePage - displayText: ', text);
-    this.utilService.presentToast(text);
+    let header = text.header;
+    let message = text.message[this.language];
+    this.utilService.presentToastWait(header, message, 'OK');
   }
 
   openWebpage(url: string) {

@@ -1,12 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ModalController, AlertController } from '@ionic/angular';
 import { TypeaheadService } from '../../services/typeahead.service';
-import * as htmlToImage from 'html-to-image';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import { LanguageService } from '../../services/language.service';
 import { UtilService } from '../../services/util.service';
 import { FamilyService } from '../../services/family.service';
-import { MIN_YEAR, MAX_YEAR } from '../../../environments/environment';
+import { NodeService } from '../../services/node.service';
+import { ChildPage } from '../child/child.page';
 
 @Component({
   selector: 'app-node',
@@ -18,125 +19,213 @@ export class NodePage implements OnInit {
   @Input() name: string;
   @Input() node: any;
 
+  @ViewChild('ngSelectName') ngSelectName: NgSelectComponent;
+  @ViewChild('ngSelectPOB') ngSelectPOB: NgSelectComponent;
+  @ViewChild('ngSelectPOD') ngSelectPOD: NgSelectComponent;
+  @ViewChild('ngSelectPOR') ngSelectPOR: NgSelectComponent;
+
   title: any;
   values: any = {};
   places: Observable<string[]>;
-  place: any;
-  placeItem: any = null;
+
+  // place: any;
+  // placeItem: any = null;
   // translations: any;
-  selectPlacesNotFoundText: any = 'Not found text';
-  selectPlacesPlaceholder: any = 'Place holder';
+  selectPlacesNotFoundText: any = '';
+  selectPlacesPlaceholder: any = '';
   genders: Array<any>;
+  years: Array<any>;
+
+  selectYearsPlaceholder: any = '';
+
+  // nameTypeStr: string = '';
+  selectNamesNotFoundText: any = '';
+  selectNamesPlaceholder: any = '';
+  names: Observable<string[]>;
 
   constructor(
-    private modalCtr: ModalController,
+    private modalCtrl: ModalController,
     private alertController: AlertController,
     private languageService: LanguageService,
     private utilService: UtilService,
     private familyService: FamilyService,
+    private nodeService: NodeService,
     private typeahead: TypeaheadService
   ) { }
 
   ngOnInit(): void {
     console.log('NodePage - ngOnInit - node: ', this.node);
-    this.title = this.node.name + ' - ' + this.familyService.getGeneration(this.node);
-    // this.translations = this.languageService.getTrans();
-    this.values = this.familyService.loadValues(this.node);
+    this.title = this.node.name + ' - ' + this.nodeService.getGeneration(this.node);
+    this.values = this.nodeService.loadValues(this.node);
+    this.values.nameItem = { name: this.values.name }
+
     this.genders = [
       { id: 'male', name: this.languageService.getTranslation('MALE') },
       { id: 'female', name: this.languageService.getTranslation('FEMALE') }
     ];
-    this.selectPlacesNotFoundText = this.languageService.getTranslation('SELECT_PLACES_NOT_FOUND_TEXT');
+
+    this.years = this.utilService.getYears();
+
+    // this.selectPlacesNotFoundText = this.languageService.getTranslation('SELECT_PLACES_NOT_FOUND_TEXT');
+    this.selectPlacesNotFoundText = null;
     this.selectPlacesPlaceholder = this.languageService.getTranslation('SELECT_PLACES_PLACEHOLDER');
+    // this.selectNamesNotFoundText = this.languageService.getTranslation('SELECT_PEOPLE_NOT_FOUND_TEXT');
+    this.selectNamesNotFoundText = null;
+    this.selectNamesPlaceholder = this.languageService.getTranslation('SELECT_PEOPLE_PLACEHOLDER');
+    this.selectYearsPlaceholder = this.languageService.getTranslation('SELECT_YEARS_PLACEHOLDER');
   }
 
-  
-  keyup(event, json: any) {
-    // console.log('NodePage - keyup: ', event);
-    this.places = this.typeahead.getJson(event.target.value, json);
+  // ------------- ng-select -------------
+  // -------TYPE NEW WORD (Enter) OR SELECT -------
+  // -------------------------------------
+
+  keydownInDropdown(event) {
+    return false;
   }
 
-  focus(name: any) {
-    // console.log('NodePage - focus: ', name);
-    this.placeItem = name;
+  clearName() {
+    console.log('TreePage - clear');
+    this.values.nameItem = null;
+    this.names = this.typeahead.getJsonNames(null);
   }
 
-  blur() {
-    // console.log('NodePage - blur');
-    this.placeItem = null;
+  keydownName(event) {
+    if (event.key !== 'Enter')
+      return;
+    this.values.nameItem = {name: event.target.value};
+    this.ngSelectName.close();
   }
 
-  clear() {
-    // console.log('NodePage - blur');
-    this.placeItem = null;
+  keyupName(event) {
+    this.names = this.typeahead.getJsonNames(event.target.value);
   }
 
-  closePlace() {
-    // console.log('NodePage - closePlace');
+  clearPOB() {
+    console.log('TreePage - clear');
+    this.values.pob = null;
+    this.places = this.typeahead.getJson(null, 'places');
   }
 
-  closeGender() {
-    // console.log('NodePage - closeGender - ', this.selectGender);
+  keydownPOB(event) {
+    if (event.key !== 'Enter')
+      return;
+    this.values.pob = {name: event.target.value};
+    this.ngSelectPOB.close();
   }
 
-  search(event) {
-    // console.log('NodePage - search: ', event);
-    this.values[this.placeItem] = {name: event.term};
+  keyupPOB(event) {
+    this.places = this.typeahead.getJson(event.target.value, 'places');
   }
 
-  onChild() {
-    // let node:any = this.sNodes[this.searchIdx - 1];
-    // verify ???
-
-    let header = this.languageService.getTranslation('TREE_ADD_CHILD');
-    let msg = header;
-    let texts = [
-      this.languageService.getTranslation('TREE_ADD_NAME_PLACEHOLDER'),
-      this.languageService.getTranslation('TREE_ADD_RELATION_PLACEHOLDER'),
-      this.languageService.getTranslation('TREE_ADD_GENDER_PLACEHOLDER'),
-      this.languageService.getTranslation('CANCEL'),
-      this.languageService.getTranslation('OK')
-    ]
-    this.utilService.alertAddNode(header, msg, texts).then((res) => {
-      console.log('alertAddNode - res:' , res)
-      if (!res.data)
-        return;
-      let name = res.data.name;
-      let relation = res.data.relation;
-      let gender = res.data.gender == '1' ? 'male' : 'female';
-      this.modalCtr.dismiss({status: 'add', values: {name: name, relation: relation, gender: gender}});
-    })
+  clearPOD() {
+    console.log('TreePage - clear');
+    this.values.pod = null;
+    this.places = this.typeahead.getJson(null, 'places');
   }
 
-  async onImage() {
+  keydownPOD(event) {
+    if (event.key !== 'Enter')
+      return;
+    this.values.pod = {name: event.target.value};
+    this.ngSelectPOD.close();
+  }
+
+  keyupPOD(event) {
+    this.places = this.typeahead.getJson(event.target.value, 'places');
+  }
+
+  clearPOR() {
+    console.log('TreePage - clear');
+    this.values.por = null;
+    this.places = this.typeahead.getJson(null, 'places');
+  }
+
+  keydownPOR(event) {
+    if (event.key !== 'Enter')
+      return;
+    this.values.por = {name: event.target.value};
+    this.ngSelectPOR.close();
+  }
+
+  keyupPOR(event) {
+    this.places = this.typeahead.getJson(event.target.value, 'places');
+  }
+
+  clearYOB() {
+    console.log('TreePage - clear');
+    this.values.yob = null;
+  }
+
+  clearYOD() {
+    console.log('TreePage - clear');
+    this.values.yod = null;
+  }
+
+
+  // --------- END ng-select ----------
+
+  async onChild() {
     let node:any = this.node;
-    console.log('NodePage - onImage - node: ', node);
-    const ele = document.getElementById('family-' + node.id);
-    let rect:any = ele.getBoundingClientRect();
-    let width = rect.width + 20;
-    let height = rect.height + 20;
-    let keys = this.utilService.stripVN(node.name).split(' ');
-    let nameStr = keys.join('-')
 
-    let gen = this.familyService.getGeneration(node);
-    let gkeys = this.utilService.stripVN(gen).split(' ');
-    let genStr = gkeys.join('-')
-    let fileName = 'branch-' + nameStr + '-' + genStr + '.jpeg';
-    let options = {
-      quality: 0.95,
-      backgroundColor: '#f0f1f2',
-      width: width,
-      height: height
-    }
-    htmlToImage.toJpeg(ele, options)
-    .then(function (dataUrl) {
-      var link = document.createElement('a');
-      link.download = fileName;
-      link.href = dataUrl;
-      link.click();
+    console.log('openChildModal - node : ', node);
+    const modal = await this.modalCtrl.create({
+      component: ChildPage,
+      componentProps: {
+        'name': 'Detail',
+        'node': node
+      },
+      cssClass: "child-modal"
     });
-    await this.modalCtr.dismiss({status: 'cancel'});
+
+    modal.onDidDismiss().then((resp) => {
+      console.log('onDidDismiss : ', resp);
+      let status = resp.data.status;
+      if (status == 'cancel') {
+        // do nothing
+      } else if (status == 'save') {
+        let values = resp.data.values;
+        console.log('onChild - values:' , values)
+        // console.log('alertAddNode - res:' , res)
+        // if (!res.data)
+        //   return;
+        let name = values.nameItem.name;
+        let relation = values.relation;
+        let gender = values.gender;
+        this.modalCtrl.dismiss({status: 'add', values: {name: name, relation: relation, gender: gender}});
+      }
+    });
+    return await modal.present();
   }
+
+  // async onImage() {
+  //   let node:any = this.node;
+  //   console.log('NodePage - onImage - node: ', node);
+  //   const ele = document.getElementById('family-' + node.id);
+  //   let rect:any = ele.getBoundingClientRect();
+  //   let width = rect.width + 20;
+  //   let height = rect.height + 20;
+  //   let keys = this.utilService.stripVN(node.name).split(' ');
+  //   let nameStr = keys.join('-')
+
+  //   let gen = this.nodeService.getGeneration(node);
+  //   let gkeys = this.utilService.stripVN(gen).split(' ');
+  //   let genStr = gkeys.join('-')
+  //   let fileName = 'branch-' + nameStr + '-' + genStr + '.jpeg';
+  //   let options = {
+  //     quality: 0.95,
+  //     backgroundColor: '#f0f1f2',
+  //     width: width,
+  //     height: height
+  //   }
+  //   htmlToImage.toJpeg(ele, options)
+  //   .then(function (dataUrl) {
+  //     var link = document.createElement('a');
+  //     link.download = fileName;
+  //     link.href = dataUrl;
+  //     link.click();
+  //   });
+  //   // await this.modalCtrl.dismiss({status: 'cancel'});
+  // }
 
   async onDelete() {
     let node:any = this.node;
@@ -144,22 +233,20 @@ export class NodePage implements OnInit {
       console.log('NodePage - onDelete - children: ', node.family.children);
         // this is main Node, check children
       if (node.family.children && node.family.children.length > 0) {
-        this.utilService.alertMsg(
-          this.languageService.getTranslation('NODE_ERROR_TITLE'),
-          this.languageService.getTranslation('NODE_ERR_HAVE_CHILDREN') + '[' + node.name + ']'
+        let message = this.languageService.getTranslation('NODE_ERR_HAVE_CHILDREN') + '[' + node.name + ']';
+        this.utilService.alertMsg('NODE_ERROR_TITLE', message
+          // this.languageService.getTranslation('NODE_ERROR_TITLE'),
+          // this.languageService.getTranslation('NODE_ERR_HAVE_CHILDREN') + '[' + node.name + ']'
         );
           // this.translations.NODE_ERROR_TITLE, this.translations.NODE_ERR_HAVE_CHILDREN + '[' + this.node.name + ']');
         return;
       }
     }
-    this.utilService.alertConfirm(
-      this.languageService.getTranslation('DELETE_PEOPLE_HEADER'),
-      this.languageService.getTranslation('DELETE_PEOPLE_MESSAGE') + ': ' + node.name,
-      this.languageService.getTranslation('CANCEL'),
-      this.languageService.getTranslation('CONTINUE')).then((res) => {
+    let message = this.languageService.getTranslation('DELETE_PEOPLE_MESSAGE') + ': ' + node.name;
+    this.utilService.alertConfirm('DELETE_PEOPLE_HEADER', message, 'CANCEL', 'CONTINUE').then((res) => {
       console.log('onDelete - res:' , res)
       if (res) {
-        this.modalCtr.dismiss({status: 'delete'});
+        this.modalCtrl.dismiss({status: 'delete'});
       }
     });
   }
@@ -167,38 +254,33 @@ export class NodePage implements OnInit {
   async onCancel() {
     // console.log('NodePage - onCancel - node: ', this.node);
     let values = this.values;
-    if (this.familyService.isNodeChanged(this.node, values)) {
-
-      let header = this.languageService.getTranslation('NODE_CANCEL_HEADING');
-      let message = this.languageService.getTranslation('NODE_CANCEL_MESSAGE');
-      let cancelText = this.languageService.getTranslation('CANCEL');
-      let okText = this.languageService.getTranslation('CONTINUE');
-      this.utilService.alertConfirm(header, message, cancelText, okText).then((res) => {
+    if (this.nodeService.isNodeChanged(this.node, values)) {
+      this.utilService.alertConfirm('NODE_CANCEL_HEADING', 'NODE_CANCEL_MESSAGE', 'CANCEL', 'CONTINUE').then((res) => {
         if (res.data)
-          this.modalCtr.dismiss({status: 'cancel'});
+          this.modalCtrl.dismiss({status: 'cancel'});
       })
       return;
     }
-    await this.modalCtr.dismiss({status: 'cancel'});
+    await this.modalCtrl.dismiss({status: 'cancel'});
   }
 
   async onSave() {
     console.log('NodePage - onSave - node: ', this.node);
     let values = this.values;
+    values.name = values.nameItem.name;
+
     console.log('onSave: ', values);
-    if (this.familyService.isNodeChanged(this.node, values) == false) {
-      let header = this.languageService.getTranslation('NODE_SAVE_HEADING');
-      let message = this.languageService.getTranslation('NODE_SAVE_MESSAGE');
-      this.utilService.alertMsg(header, message);
+    if (this.nodeService.isNodeChanged(this.node, values) == false) {
+      this.utilService.alertMsg('NODE_SAVE_HEADING', 'NODE_SAVE_MESSAGE');
       return;
     }
     console.log('onSave: change');
     let errorMsg = this.validateData(values);
     if (errorMsg != '') {
-      this.utilService.alertMsg(this.languageService.getTranslation('NODE_ERROR_TITLE'), errorMsg);
+      this.utilService.alertMsg('NODE_ERROR_TITLE', errorMsg);
       return;
     }
-    await this.modalCtr.dismiss({status: 'save', values: values});
+    await this.modalCtrl.dismiss({status: 'save', values: values});
   }
 
   private validateData(values: any): string {
@@ -209,7 +291,7 @@ export class NodePage implements OnInit {
     // name, nick, gender, dod, desc, yob, yod, pob, pod, por, 
     let nameMsg = '';
     if (values.name == '' || values.name.length < 5)
-      nameMsg = bullet + '<b>Ten</b> phai co it nhat 5 ky tu.<br>';
+      nameMsg = bullet + '<b>Ten</b> phai co it nhat 4 ky tu.<br>';
     let dodMsg = '';
     if (values.dod !== '' && values.dod.length != 5 && values.dod.indexOf('/') != 2) 
       dodMsg = bullet + "<b>Ngay mat</b> khong dung mau 'nn/tt'.<br>";

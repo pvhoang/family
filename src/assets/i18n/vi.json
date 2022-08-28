@@ -17,28 +17,40 @@
   "CONTACT": "Liên hệ",
   "MESSAGE": "Tin nhắn",
   "ABOUT": "Về gia phả",
-  "MALE": "Nam",
-  "FEMALE": "Nữ",
   "OK": "OK",
   "CANCEL": "Hủy",
   "CONTINUE": "Tiếp tục",
+  "WARNING": "Cảnh báo",
+  "ANNOUNCE": "Thông báo",
   "GENERATION": "Đời",
   "male": "Nam",
   "female": "Nữ",
+  "MALE": "Nam",
+  "FEMALE": "Nữ",
 
-  "LOCAL_DATA": "Phả đồ trong máy",
+  "child": "Con",
+  "wife": "Vợ",
+  "husband": "Chồng",
+  "CHILD": "Con",
+  "WIFE": "Vợ",
+  "HUSBAND": "Chồng",
+
+  "LOCAL_DATA": "Phả đồ điều chỉnh",
   "NEW_DATA": "Phả đồ mới",
   "DATA_WARNING": "Nếu chọn phả đồ mới, thay đổi trong phả đồ máy sẽ bị xóa!",
   "SELECT_DATA_VERSION": "Chọn phả đồ",
   "LOCAL_DATA_BUTTON": "Máy",
   "NEW_DATA_BUTTON": "Mới",
 
-  "NAME_MUST_BE_ANCESTOR": "Tên đầu nhánh phải mang họ ",
+  "NAME_MUST_BE_ANCESTOR": "Chi đầu nhánh phải mang họ ",
 
   "SELECT_PEOPLE_NOT_FOUND_TEXT": "Không tìm thấy tên",
   "SELECT_PEOPLE_PLACEHOLDER": "Nhập hoặc chọn tên",
   "SELECT_PLACES_NOT_FOUND_TEXT": "Không tìm thấy nơi",
   "SELECT_PLACES_PLACEHOLDER": "Nhập hoặc chọn nơi",
+  "SELECT_RELATION_PLACEHOLDER": "Chọn quan hệ",
+  "SELECT_GENDER_PLACEHOLDER": "Chọn giới tính",
+  "SELECT_YEARS_PLACEHOLDER": "Chọn năm hoặc để trống",
 
   "SEARCH_RESULT_TITLE": "Kết quả tìm",
 
@@ -46,6 +58,9 @@
   "TREE_ADD_NAME_PLACEHOLDER": "Nhập tên",
   "TREE_ADD_RELATION_PLACEHOLDER": "Nhập liên hệ: c(con), v(vợ), ch(chồng)",
   "TREE_ADD_GENDER_PLACEHOLDER": "Nhập giới tính: n(nam), nu(nữ)",
+
+  "TREE_SHORT_VIEW_ERROR_HEADING": "Lỗi",
+  "TREE_SHORT_VIEW_ERROR_MSG": "Không thể sửa thông tin khi đang xem Phả đồ Chi!",
 
   "DELETE_PEOPLE_HEADER": "Thông báo",
   "DELETE_PEOPLE_MESSAGE": "Xóa tên ",
@@ -58,40 +73,42 @@
   "SETTING_FAMILY_NAME": "Dòng tộc",
   "SETTING_FAMILY": "Họ",
   
+  "ARCHIVE_SELECT_NOT_FOUND_TEXT": "Không tìm thấy tư liệu",
+  "ARCHIVE_SELECT_PLACEHOLDER": "Chọn tư liệu",
+
   "CONTACT_INFO": "Thông tin",
   "CONTACT_VERSION_1": "Phiên bản hiện tại - Ứng dụng: ",
-  "CONTACT_VERSION_2": "Dữ liệu:  ",
+  "CONTACT_VERSION_2": "Phả đồ gốc: ",
+  "CONTACT_VERSION_3": "Phả đồ đang điều chỉnh: ",
+  
   "CONTACT_CONTRIBUTION": "Đóng góp",
 
   "CONTACT_TREE": "Phả đồ",
   "CONTACT_RESET_MSG": "Dùng lại phả đồ gốc.",
-  "CONTACT_COMPARE_MSG": "So sánh phả đồ bạn đang điều chỉnh với phả đồ gốc.",
-  "CONTACT_DOWNLOAD_MSG": "Cất phả đồ bạn đang điều chỉnh.",
+  "CONTACT_COMPARE_MSG": "So sánh phả đồ đang điều chỉnh với phả đồ gốc.",
+  "CONTACT_DOWNLOAD_MSG": "Cất phả đồ đang điều chỉnh.",
   "CONTACT_UPLOAD_MSG": "Dùng phả đồ trong máy.",
 
   "CONTACT_CONTACT": "Liên lạc",
-  "CONTACT_SEND": "Để cập nhật vào phả đồ gốc cho phiên bản mới, bạn có thể gởi phả đồ về ban biên tập. Email: pvhoang940@gmail.com.",
-
-  "CONTACT_RESET_HEADER": "Phả đồ gốc.",
-  "CONTACT_RESET_MESSAGE": "Phả đồ gốc.",
-
-  "CONTACT_UPLOAD_HEADER": "Phả đồ gốc.",
-  "CONTACT_UPLOAD_MESSAGE": "Phả đồ gốc.",
-
-  "CONTACT_DOWNLOAD_HEADER": "Tải phả đồ",
-  "CONTACT_DOWNLOAD_MESSAGE": "Tải phả đồ.",
-
+  "CONTACT_EMAIL": "Email: pvhoang940@gmail.com.",
+  "CONTACT_RESET_MESSAGE": "Xóa phả đồ đang điều chỉnh và dùng lại phả đồ gốc?",
   "CONTACT_DATE": "Ngày",
   "CONTACT_DETAIL": "Chi tiết",
-
   "CONTACT_NAME": "Họ tên",
   "CONTACT_ITEM": "Thông số",
   "CONTACT_OLD_VALUE": "Cũ",
   "CONTACT_NEW_VALUE": "Mới",
-  "CONTACT_DATA_NOT_CHANGED": "Dữ liệu không thay đổi.",
+  "CONTACT_DATA_NOT_CHANGED": "Phả đồ không thay đổi.",
   "CONTACT_LEVELS_CHANGED": "Số đời thay đổi",
   "CONTACT_NAME_CHANGED": "Tên đã thay đổi",
   "CONTACT_NAME_ADDED": "Mới thêm",
+
+  "CONTACT_SEND_MSG": "Gởi phả đồ đang điều chỉnh về ban biên tập.",
+  "CONTACT_SEND_NO_CHANGE_MSG": "Phả đồ đang điều chỉnh giống phả đồ gốc.",
+  "CONTACT_SEND_HEADER": "Gởi phả đồ",
+  "CONTACT_SEND_HEADER_MSG": "Số mục điều chỉnh so với phả đồ gốc: ",
+  "CONTACT_SEND_INFO_PLACEHOLDER": "Chi tiết (tên, email, điện thoại, v.v.)",
+  "CONTACT_SEND_ANSWER": "Phả đồ đã được gởi về ban biên tập. Chúng tôi sẽ thông báo kết quả trong thời gian sớm nhất",
 
   "NODE_GROUP_NAME": "Danh tính",
   "NODE_NAME": "Họ tên",
@@ -99,6 +116,7 @@
   "NODE_NICK": "Tên gọi",
   "NODE_NICK_PLACEHOLDER": "Nhập tên gọi trong nhà (ví du: Bảy, Bờm, Tèo, Nô)",
   "NODE_GENDER": "Giới tính",
+  "NODE_RELATION": "Quan hệ",
   "NODE_GROUP_TIME": "Sinh thời",
   "NODE_YOB": "Năm sinh",
   "NODE_YOB_PLACEHOLDER": "Nhập năm (4 số, > 1900, < 2022)",
@@ -120,22 +138,35 @@
   "NODE_SPOUSE_PLACEHOLDER": "Nhập tên",
 
   "NODE_SUBMIT": "Cất",
-
   "NODE_SAVE_HEADING": "Thông báo",
   "NODE_SAVE_MESSAGE": "Dữ liệu không thay đổi.",
-
   "NODE_CANCEL_HEADING": "Thông báo",
   "NODE_CANCEL_MESSAGE": "Dữ liệu đã được thay đổi. Tiếp tục bỏ?",
   
   "NODE_ERR_NAME_IS_BLANK": "Họ/tên không được để trống.",
   "NODE_ERR_YOD_BLANK": "Nơi sinh phải để trống nếu năm mất để trống.",
-
   "NODE_ERROR_TITLE": "Lỗi dữ liệu",
   "NODE_ERR_YOB_ERROR": "Năm sinh phải từ 1900 đến 2022.",
   "NODE_ERR_YOD_ERROR": "<b>Năm tử</b> phải lớn hơn <b>Năm sinh</b> và từ <b>1900 đến 2022</b>.",
+  "NODE_ERR_HAVE_CHILDREN": "Không thể xóa nhánh. Phải xóa ngọn trước.",
 
-  "NODE_ERR_HAVE_CHILDREN": "Không thể xóa nhánh. Phải xóa ngọn trước."
+  "CHILD_ADD": "Thêm con/vợ/chồng",
 
+  "VIEW_GENERATION": "Đời",
+  "VIEW_CHILD_OF": "Con ông/bà",
+  "VIEW_NICK_NAME": "Tục danh",
+  "VIEW_NO_CHILDREN": "Số con",
+  "VIEW_HUSBAND": "Chồng",
+  "VIEW_WIFE": "Vợ",
+  "VIEW_YOB_YOD": "Năm sinh-tử",
+  "VIEW_POB": "Nơi sinh",
+  "VIEW_POD": "Nơi tử",
+  "VIEW_POR": "Nơi sinh sống",
 
-
+  "MEMORIAL_HEADER": "Ngày giỗ",
+  "MEMORIAL_TODAY": "Hôm nay (âm lịch)",
+  "MEMORIAL_NAME": "Tên",
+  "MEMORIAL_GEN": "Đời",
+  "MEMORIAL_DOD": "Ngày mất",
+  "MEMORIAL_NO_DOD": "Không có ngày mất trong 7 ngày tới."
 }

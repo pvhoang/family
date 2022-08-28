@@ -1,5 +1,4 @@
 {
-
   "phan": {"name": "Phan Family", "tree": "Phan Family Tree", "short_name": "Phan"},
   "le": {"name": "Le Family", "tree": "Le Family Tree", "short_name": "Le"},
   "doan": {"name": "Doan Family", "tree": "Doan Family Tree", "short_name": "Doan"},
@@ -18,23 +17,32 @@
   "CONTACT": "Contact",
   "MESSAGE": "Message",
   "ABOUT": "About",
-  "MALE": "Male",
-  "FEMALE": "Female",
   "OK": "OK",
   "CANCEL": "Cancel",
   "CONTINUE": "Continue",
+  "WARNING": "Warning",
+  "ANNOUNCE": "Announcement",
   "GENERATION": "Gen",
   "male": "Male",
   "female": "Female",
+  "MALE": "Male",
+  "FEMALE": "Female",
 
-  "LOCAL_DATA": "Tree on machine",
+  "child": "Child",
+  "wife": "Wife",
+  "husband": "Husband",
+  "CHILD": "Child",
+  "WIFE": "Wife",
+  "HUSBAND": "Husband",
+  
+  "LOCAL_DATA": "Editing tree",
   "NEW_DATA": "New tree",
-  "DATA_WARNING": "If new tree is selected, changes in machine tree will be lost!",
+  "DATA_WARNING": "If new tree is selected, changes in editing tree will be lost!",
   "SELECT_DATA_VERSION": "Select tree",
   "LOCAL_DATA_BUTTON": "Machine",
   "NEW_DATA_BUTTON": "New",
 
-  "NAME_MUST_BE_ANCESTOR": "Lead name of branch must have surname: ",
+  "NAME_MUST_BE_ANCESTOR": "Lead branch node must have surname: ",
 
   "SELECT_PEOPLE_NOT_FOUND_TEXT": "Name not found!",
   "SELECT_PEOPLE_PLACEHOLDER": "Enter or select name.",
@@ -59,8 +67,13 @@
   "SETTING_FAMILY_NAME": "Ancestor",
   "SETTING_FAMILY": "Family",
   
+  "ARCHIVE_SELECT_NOT_FOUND_TEXT": "Document is not found.",
+  "ARCHIVE_SELECT_PLACEHOLDER": "Select document",
+
   "CONTACT_INFO": "Information",
-  "CONTACT_VERSION": "Current version : ",
+  "CONTACT_VERSION_1": "Current version - App: ",
+  "CONTACT_VERSION_2": "Source tree:  ",
+  "CONTACT_VERSION_3": "Editing tree:  ",
   "CONTACT_CONTRIBUTION": "Contribution",
 
   "CONTACT_TREE": "Tree",
@@ -70,33 +83,33 @@
   "CONTACT_UPLOAD_MSG": "Read local tree.",
 
   "CONTACT_CONTACT": "Contact",
-  "CONTACT_SEND": "To update your change to new version, please send the editing tree to the editor for review. Email: pvhoang940@gmail.com.",
-
-  "CONTACT_RESET_HEADER": "Source tree",
-  "CONTACT_RESET_MESSAGE": "Source tree",
-
-  "CONTACT_UPLOAD_HEADER": "Upload tree",
-  "CONTACT_UPLOAD_MESSAGE": "Upload tree",
-
-  "CONTACT_DOWNLOAD_HEADER": "Download tree",
-  "CONTACT_DOWNLOAD_MESSAGE": "Download tree",
-
+  "CONTACT_EMAIL": "Email: pvhoang940@gmail.com.",
+  "CONTACT_RESET_MESSAGE": "Delete editing tree and reuse source  tree?",
+  "CONTACT_DATE": "Date",
+  "CONTACT_DETAIL": "Detail",
   "CONTACT_NAME": "Name",
-  "CONTACT_ITEM": "Data",
+  "CONTACT_ITEM": "Item",
   "CONTACT_OLD_VALUE": "Old",
   "CONTACT_NEW_VALUE": "New",
-  "CONTACT_DATA_NOT_CHANGED": "Data does not change.",
-  "CONTACT_LEVELS_CHANGED": "Number of generations has changed.",
-  "CONTACT_NAME_CHANGED": "Name has changed.",
-  "CONTACT_NAME_ADDED": "Added",
+  "CONTACT_DATA_NOT_CHANGED": "Editing tree is same as source tree.",
+  "CONTACT_LEVELS_CHANGED": "Number of generations has changed!",
+  "CONTACT_NAME_CHANGED": "Name has been changed",
+  "CONTACT_NAME_ADDED": "Recently added",
+
+  "CONTACT_SEND_MSG": "Send the editing tree to the editor.",
+  "CONTACT_SEND_NO_CHANGE_MSG": "Editing tree is same as source tree.",
+  "CONTACT_SEND_HEADER": "Send editing tree",
+  "CONTACT_SEND_HEADER_MSG": "Number of items compared to source tree: ",
+  "CONTACT_SEND_INFO_PLACEHOLDER": "Information (name, email, phone, etc.)",
+  "CONTACT_SEND_ANSWER": "Tree has been sent. We will inform the results as soon as we could. Thanks.",
 
   "NODE_GROUP_NAME": "Name",
   "NODE_NAME": "Surname",
   "NODE_NAME_PLACEHOLDER": "Enter name (Phan if head of branch, ví dụ. Phan Ngọc Luật)",
-  
   "NODE_NICK": "Nickname",
   "NODE_NICK_PLACEHOLDER": "Enter nick name (ví du: Bảy, Bờm, Tèo, Nô)",
   "NODE_GENDER": "Gender",
+  "NODE_RELATION": "Quan hệ",
   "NODE_GROUP_TIME": "Birth date",
   "NODE_YOB": "Birth year",
   "NODE_YOB_PLACEHOLDER": "Enter year (4 digit, > 1900, < 2022)",
@@ -108,6 +121,8 @@
   "NODE_POR": "Residence",
   "NODE_DESC": "Description",
   "NODE_DESC_PLACEHOLDER": "Enter personal information: accomplishment, etc.",
+  "NODE_DOD": "Death date (Lunar year)",
+  "NODE_DOD_PLACEHOLDER": "Enter the Lunar death date (dd/mm, Eg. 12/05)",
 
   "NODE_GROUP_TREE": "Tree",
   "NODE_CHILD": "Add a child",
@@ -123,12 +138,28 @@
 
   "NODE_ERR_NAME_IS_BLANK": "Name must have value.",
   "NODE_ERR_YOD_BLANK": "Death place must be empty if death year is empty.",
-
-  "NODE_ERROR_TITLE": "Data error",
+  "NODE_ERROR_TITLE": "Error",
   "NODE_ERR_YOB_ERROR": "Birth year must be from 1900 to 2022.",
   "NODE_ERR_YOD_ERROR": "Death year must be greater than birth year and from 1900 to 2022.",
+  "NODE_ERR_HAVE_CHILDREN": "Can not delete node with branch! Must delete leaf node first.",
 
-  "NODE_ERR_HAVE_CHILDREN": "Can not delete branch! Must delete leaf first."
+  "CHILD_ADD": "Add child/wife/husband",
 
+  "VIEW_GENERATION": "Gen",
+  "VIEW_CHILD_OF": "Parent",
+  "VIEW_NICK_NAME": "Nick name",
+  "VIEW_NO_CHILDREN": "No.child",
+  "VIEW_HUSBAND": "Husband",
+  "VIEW_WIFE": "Wife",
+  "VIEW_YOB_YOD": "B-D Year",
+  "VIEW_POB": "Birthplace",
+  "VIEW_POD": "Deathplace",
+  "VIEW_POR": "Residence",
+
+  "MEMORIAL_TODAY": "Today (Lunar year)",
+  "MEMORIAL_NAME": "Name",
+  "MEMORIAL_GEN": "Den",
+  "MEMORIAL_DOD": "Death date",
+  "MEMORIAL_NO_DOD": "No death dates in next 7 days."
 }
 

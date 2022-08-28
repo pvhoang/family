@@ -1,29 +1,34 @@
 <ion-header>
-  <ion-item class="app-ion-item">
-    <ion-col size="1">
-    </ion-col>
-    <ion-col size="6">
-      <ng-select #ngSelectComponent
-        [appendTo]="'body'"
-        [items]="people | async" 
-        bindLabel="name"
-        notFoundText="{{selectPeopleNotFoundText}}"
-        placeholder="{{selectPeoplePlaceholder}}"
-        [(ngModel)]="selectPeople"
-        (close)="close()"
-        (clear)="clear()"
-        (search)="search($event)"
-        (keyup)="keyup($event, 'people')">
-      </ng-select>
-    </ion-col>
-    <ion-col size="2">
-    </ion-col>
-    <ion-col size="3">
-      <ion-button class="app-ion-button" fill="clear" (click)="onHome()">
-        <ion-icon slot="icon-only" name="home" class="app-ion-icon"></ion-icon>
-      </ion-button>
-    </ion-col>
-  </ion-item>
+
+  <div *ngIf="!searchView">
+    <ion-item class="app-ion-item">
+      <ion-col size="1">
+      </ion-col>
+      <ion-col size="6">
+        <ng-select #ngSelectPeople
+          [appendTo]="'body'"
+          [items]="people | async" 
+          bindLabel="name"
+          notFoundText="{{selectPeopleNotFoundText}}"
+          placeholder="{{selectPeoplePlaceholder}}"
+          [(ngModel)]="selectPeople"
+          (clear)="clearPeople()"
+          (close)="closePeople()"
+          (keydown)="keydownPeople($event)"
+          (keyup)="keyupPeople($event)"
+          [keyDownFn]="keydownInDropdownPeople"
+        >
+        </ng-select>
+      </ion-col>
+      <ion-col size="2">
+      </ion-col>
+      <ion-col size="3">
+        <ion-button class="app-ion-button" fill="clear" (click)="onHome()">
+          <ion-icon slot="icon-only" name="home" class="app-ion-icon"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-item>
+  </div>
 
   <div *ngIf="searchView">
     <ion-item class="app-ion-item">
@@ -37,11 +42,34 @@
       <ion-col size="2">
       </ion-col>
       <ion-col size="3">
-        <ion-button class="app-ion-button" fill="clear" [disabled]="searchDisabled" (click)="nextSearch()">
+        <ion-button *ngIf="!searchDisabled" class="app-ion-button" fill="clear" (click)="nextSearch()">
+          <ion-icon slot="icon-only" name="arrow-down-circle" class="app-ion-icon"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="!searchDisabled" class="app-ion-button" fill="clear" (click)="prevSearch()">
+          <ion-icon slot="icon-only" name="arrow-up-circle" class="app-ion-icon"></ion-icon>
+        </ion-button>
+
+        <!-- <ion-button class="app-ion-button" fill="clear" [disabled]="searchDisabled" (click)="nextSearch()">
           <ion-icon slot="icon-only" name="arrow-down-circle" class="app-ion-icon"></ion-icon>
         </ion-button>
         <ion-button class="app-ion-button" fill="clear" [disabled]="searchDisabled" (click)="prevSearch()">
           <ion-icon slot="icon-only" name="arrow-up-circle" class="app-ion-icon"></ion-icon>
+        </ion-button> -->
+
+        <ion-button class="app-ion-button" fill="clear" (click)="onHome()">
+          <ion-icon slot="icon-only" name="home" class="app-ion-icon-small"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="nodeView" class="app-ion-button" fill="clear" (click)="onImage()">
+          <ion-icon slot="icon-only" name="image" class="app-ion-icon"></ion-icon>
+        </ion-button>
+        <!-- <ion-button class="app-ion-button" fill="clear" [disabled]="!nodeView" (click)="onPdf()">
+          <ion-icon slot="icon-only" name="document-text" class="app-ion-icon"></ion-icon>
+        </ion-button> -->
+        <ion-button *ngIf="nodeView" class="app-ion-button" fill="clear" (click)="onPdf()">
+          <ion-icon slot="icon-only" name="document-text" class="app-ion-icon"></ion-icon>
+        </ion-button>
+        <ion-button class="app-ion-button" fill="clear" (click)="closeSearch()">
+          <ion-icon slot="icon-only" name="close" class="app-ion-icon"></ion-icon>
         </ion-button>
       </ion-col>
     </ion-item>
@@ -51,7 +79,7 @@
 <ion-content [fullscreen]="false" class="ion-padding">
   <div class="app-ion-content">
     <div [ngStyle]="getZoomStyle()">
-      <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="family"></ft-tree>
+      <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView"></ft-tree>
     </div>
   </div>
 </ion-content>

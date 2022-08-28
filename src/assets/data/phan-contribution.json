@@ -3,12 +3,17 @@
         {
             "date": "15/07/2022",
             "name": "Phan Viết Hoàng (Đời 15)",
-            "detail": "Dòng họ Phan ta đã lập nghiệp tại làng Phú Ninh nay là phường Đồng Phú này hơn 300 năm. Các bậc tổ tiên đã cần cù lao động xây dựng nề nếp cho con cháu đời sau với tiền đồ sáng lạn. Đất nước ta từ bao đời đã trải qua chinh chiến từ thời kỳ này qua thời kỳ khác, tổ tiên ta đã lao động chiến đấu xã thân tạo dựng cơ đồ. Tất cả tấm gương đó là những gương sáng để con cháu đời sau tiếp nối học tập noi theo, tiếp tục truyển thống của gia đình và dòng họ để phấn đấu xây dựng một cuộc sống ấm no hạnh phúc cho chính bản thân mình và góp phần xây dựng cộng đồng xã hội.<br><br>"
+            "detail": [ 
+                "phát triển ứng dụng"
+            ]
         },
         {
-            "date": "15/05/2022",
+            "date": "15/05/2013",
             "name": "Phan Thanh Dũng (Đời 16)",
-            "detail": "&#8226;&ensp;thêm tên Abcd<br>&#8226;&ensp;thêm họ <b>Abcd<b><br"
+            "detail": [ 
+                "sưu tập gia phả từ làng Đồng Phú",
+                "tổng hợp vào các tư liệu MS, PDF, v.v."
+            ]
         }
     ]
 }

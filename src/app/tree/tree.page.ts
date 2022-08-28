@@ -4,11 +4,14 @@ import { ModalController } from '@ionic/angular';
 import { UtilService } from '../services/util.service';
 import { LanguageService } from '../services/language.service';
 import { FamilyService } from '../services/family.service';
+import { NodeService } from '../services/node.service';
 import { NodePage } from './node/node.page';
 import { TypeaheadService } from '../services/typeahead.service';
 import { Family, Node, FAMILY} from '../services/family.model';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import * as htmlToImage from 'html-to-image';
+import { jsPDF } from 'jspdf';
+import domtoimage from 'dom-to-image';
 
 @Component({
   selector: 'app-tree',
@@ -17,17 +20,17 @@ import * as htmlToImage from 'html-to-image';
 })
 export class TreePage implements OnInit {
 
-  @ViewChild('ngSelectComponent') ngSelectComponent: NgSelectComponent;
+  @ViewChild('ngSelectPeople') ngSelectPeople: NgSelectComponent;
 
   modalDataResponse: any;
   family:Family = Object.create(FAMILY);
-  nodes:Node[] = [];
+  familyView:Family = Object.create(FAMILY);
+  nodeView = false;
   people: Observable<string[]>;
   typeStr: string = '';
   selectPeople: any = null;
-  selectPeopleNotFoundText: any = 'Not found text';
-  selectPeoplePlaceholder: any = 'Place holder';
-  split = false;
+  selectPeopleNotFoundText: any = null;
+  selectPeoplePlaceholder: any = null;
   scaleStyle: number = 10;
   searchView = false;
 	searchPercent: any = '0/0';
@@ -41,37 +44,41 @@ export class TreePage implements OnInit {
     public modalCtrl: ModalController,
     private utilService: UtilService,
     private familyService: FamilyService,
+    private nodeService: NodeService,
     private languageService: LanguageService,
     private typeahead: TypeaheadService,
   ) {}
 
   ngOnInit() {
     console.log('TreePage - ngOnInit');
-    this.start();
-    console.log('TreePage - end ngOnInit');
+    this.startFromStorage();
   }
 
   ionViewWillEnter() {
     console.log('TreePage - ionViewWillEnter');
-    this.start();
+    this.startFromStorage();
   }
 	
 	ionViewWillLeave() {
     console.log('TreePage - ionViewWillLeave');
 	}
 
-  start() {
+  startFromStorage() {
     this.familyService.readFamily().then((family:any) => {
-      this.family = this.familyService.buildFullFamily(family);
-      // console.log('TreePage - ngOnInit - family: ', this.family)
-      this.selectPeople = null;
-      this.selectPeopleNotFoundText = this.languageService.getTranslation('SELECT_PEOPLE_NOT_FOUND_TEXT');
-      this.selectPeoplePlaceholder = this.languageService.getTranslation('SELECT_PEOPLE_PLACEHOLDER');
-      this.nodes = this.familyService.getFamilyNodes(this.family);
-      setTimeout(() => {
-        this.scrollToRoot();
-      }, 100);
+      this.start(family);
     });
+  }
+
+  start(family: any) {
+    this.family = this.familyService.buildFullFamily(family);
+    this.familyView = this.family;
+    this.selectPeopleNotFoundText = this.languageService.getTranslation('SELECT_PEOPLE_NOT_FOUND_TEXT');
+    this.selectPeoplePlaceholder = this.languageService.getTranslation('SELECT_PEOPLE_PLACEHOLDER');
+    // reset search
+    this.searchView = false;
+    setTimeout(() => {
+      this.scrollToRoot();
+    }, 100);
   }
 
   getZoomStyle() {
@@ -87,7 +94,7 @@ export class TreePage implements OnInit {
     };
     return styles;
   }
-  
+
   onLeafSelected (node) {
     console.log('TreePage - onLeafSelected: ', node);
     if (this.justClicked === true) {
@@ -100,7 +107,6 @@ export class TreePage implements OnInit {
         this.justClicked = false;
         if (this.doubleClicked === false) {
           this.openNodeModal(node);
-          // console.log('Single Click Event');
         }
         this.doubleClicked = false;
       }, 500);
@@ -109,76 +115,89 @@ export class TreePage implements OnInit {
 
   onHome() {
     this.scaleStyle = 10;
-    this.scrollToRoot();
+    if (this.searchView) {
+      let node = this.sNodes[this.searchIdx - 1];
+      if (this.nodeView) {
+        // in node view, reset to tree view, back to full family
+        this.familyView = this.family;
+        setTimeout(() => {
+          this.scrollToNode(node);
+        }, 100);
+        this.nodeView = false;
+      } else {
+        // in tree view, set to node view
+        this.nodeView = true;
+        this.viewSearch(node);
+      }
+    } else {
+      // in full view, go to Root
+      this.scrollToRoot();
+    }
   }
 
-  onZoom(increment) {
-    this.scaleStyle += increment;
-  }
-
-  onSplit() {
-    this.split = !this.split;
-  }
-
-  keyup(event, json) {
-    // console.log('TreePage - keyup: ', event);
-    if (event.key == 'Enter')
-      this.enter();
-    this.people = this.typeahead.getJson(event.target.value, json);
-  }
-
-  close() {
-    console.log('TreePage - close: ', this.selectPeople.name, this.typeStr);
-    if (this.selectPeople.name != '')
-      this.startSearch(this.selectPeople.name);
-    else
-      this.selectPeople = {'name': this.typeStr};
-  }
-
-  clear() {
+  // ------------- ng-select -------------
+  // -------TYPE NEW WORD (Enter) OR SELECT -------
+  // ------------------------------------- 
+  clearPeople() {
     console.log('TreePage - clear');
-    this.searchReset();
+    this.selectPeople = null;
+    this.typeStr = '';
+    this.people = this.typeahead.getJson('', 'people');
   }
 
-  enter() {
-    this.typeStr = this.typeStr.trim();
-    // console.log('TreePage - enter: ', this.typeStr);
-    this.selectPeople = {'name': this.typeStr};
-    this.startSearch(this.typeStr.slice());
+  closePeople() {
+    console.log('TreePage - close: ', this.selectPeople);
+    this.startSearch(this.selectPeople.name);
   }
 
-  search(event) {
-    // console.log('TreePage - search: ', event);
-    this.typeStr = event.term;
+  keydownPeople(event) {
+    if (event.key !== 'Enter')
+      return;
+    console.log('TreePage - keydown: Enter: ', this.typeStr);
+    this.ngSelectPeople.close();
+    this.startSearch(this.typeStr);
   }
+
+  keyupPeople(event) {
+    let term = event.target.value;
+    console.log('TreePage - keyup - term: ', term);
+    this.typeStr = term;
+    this.people = this.typeahead.getJson(term, 'people');
+  }
+
+  keydownInDropdownPeople(event) {
+    return false;
+  }
+  // --------- END ng-select ----------
 
   searchReset() {
-    console.log('TreePage -searchReset');
+    console.log('TreePage - searchReset');
     this.searchPercent = '0/0';
     this.searchIdx = 0;
     this.sNodes = [];
+    this.selectPeople = null;
+    this.typeStr = '';
+    this.people = this.typeahead.getJson('', 'people');
+  }
+
+  closeSearch() {
     this.searchView = false;
-    // reset nclass
-    this.nodes.forEach((node:any) => {
-      node.nclass = this.familyService.updateNclass(node);
-    });
-    this.family = this.nodes[0]['family'];
-    console.log('TreePage -searchReset-selectPeople: ', this.selectPeople);
-    this.ngSelectComponent.clearModel();
+    this.startFromStorage();
   }
 
   startSearch(searchStr) {
+    console.log('TreePage - startSearch - searchStr: ', searchStr)
+    this.searchView = true;
     // always reset
     this.searchReset();
-    console.log('TreePage - startSearch - searchStr: ', searchStr)
     let skeys = this.utilService.stripVN(searchStr).split(' ');
     let strSearch = skeys.join(' ');
 
-    this.searchView = true;
     // search thru all nodes
-    this.nodes.forEach((node:any) => {
+    let nodes = this.nodeService.getFamilyNodes(this.family);
+    nodes.forEach((node:any) => {
       // reset nclass
-      node.nclass = this.familyService.updateNclass(node);
+      node.nclass = this.nodeService.updateNclass(node);
       let strProfile = node.profile.join(' ');
       if (strProfile.indexOf(strSearch) >= 0) {
         node['nclass'] = 'select'
@@ -191,13 +210,12 @@ export class TreePage implements OnInit {
     if (sCount == 0) {
       this.searchPercent = '0/0';
       this.searchDisabled = true;
-
     } else {
       this.searchDisabled = (sCount == 1);
       this.searchIdx = 1;
       let node = this.sNodes[this.searchIdx - 1];
-      this.searchPercent = this.searchIdx + '/' + this.sNodes.length + ' - ' + node.name + ' (' + this.familyService.getGeneration(node) + ')';
-      this.scrollToSearch(this.searchIdx-1);
+      this.searchPercent = this.searchIdx + '/' + this.sNodes.length + ' - ' + node.name + ' (' + this.nodeService.getGeneration(node) + ')';
+      this.scrollToNode(node);
     }
   }
 
@@ -207,8 +225,8 @@ export class TreePage implements OnInit {
     else
       this.searchIdx++;
     let node = this.sNodes[this.searchIdx - 1];
-    this.searchPercent = this.searchIdx + '/' + this.sNodes.length + ' - ' + node.name + ' (' + this.familyService.getGeneration(node) + ')';
-    this.scrollToSearch(this.searchIdx-1);
+    this.searchPercent = this.searchIdx + '/' + this.sNodes.length + ' - ' + node.name + ' (' + this.nodeService.getGeneration(node) + ')';
+    this.viewSearch(node);
   }
 
   prevSearch() {
@@ -217,51 +235,27 @@ export class TreePage implements OnInit {
     else
       this.searchIdx--;
     let node = this.sNodes[this.searchIdx - 1];
-    this.searchPercent = this.searchIdx + '/' + this.sNodes.length + ' - ' + node.name + ' (' + this.familyService.getGeneration(node) + ')';
-    this.scrollToSearch(this.searchIdx-1);
+    this.searchPercent = this.searchIdx + '/' + this.sNodes.length + ' - ' + node.name + ' (' + this.nodeService.getGeneration(node) + ')';
+    this.viewSearch(node);
   }
-
-  onChild() {
-    let node:any = this.sNodes[this.searchIdx - 1];
-    // verify ???
-
-    let header = this.languageService.getTranslation('TREE_ADD_CHILD');
-    let msg = header;
-    let texts = [
-      this.languageService.getTranslation('TREE_ADD_NAME_PLACEHOLDER'),
-      this.languageService.getTranslation('TREE_ADD_RELATION_PLACEHOLDER'),
-      this.languageService.getTranslation('TREE_ADD_GENDER_PLACEHOLDER'),
-      this.languageService.getTranslation('CANCEL'),
-      this.languageService.getTranslation('OK')
-    ]
-    this.utilService.alertAddNode(header, msg, texts).then((res) => {
-      console.log('alertAddNode - res:' , res)
-      if (!res.data)
-        return;
-      let name = res.data.name;
-      let relation = res.data.relation;
-      let gender = res.data.gender == '1' ? 'male' : 'female';
-      if (relation == '1') {
-        // child
-        this.addChild(node, name, gender);
-      } else {
-        // spouse
-        this.addSpouse(node, name, gender);
-      }
-      this.updateSystemData(node);
-    })
+  
+  viewSearch(node: any) {
+    if (this.nodeView) {
+      // set new family view for node
+      this.familyView = this.familyService.getSelectedFamily(this.family, node);
+    } else {
+      this.scrollToNode(node);
+    }
   }
 
   onImage() {
     let node:any = this.sNodes[this.searchIdx - 1];
-    console.log('NodePage - onImage - node: ', node);
-    const ele = document.getElementById('family-' + node.id);
+    const ele = document.getElementById('tree');
     let rect:any = ele.getBoundingClientRect();
     let width = rect.width + 20;
     let height = rect.height + 20;
     let keys = this.utilService.stripVN(node.name).split(' ');
     let nameStr = keys.join('_')
-
     let options = {
       quality: 0.95,
       backgroundColor: '#f0f1f2',
@@ -277,25 +271,41 @@ export class TreePage implements OnInit {
     });
   }
 
+  onPdf() {
+    const dashboard = document.getElementById('tree');
+
+    const dashboardHeight = dashboard.clientHeight;
+    const dashboardWidth = dashboard.clientWidth;
+    const options = { background: 'white', width: dashboardWidth, height: dashboardHeight };
+
+    domtoimage.toPng(dashboard, options).then((imgData) => {
+      const doc = new jsPDF(dashboardWidth > dashboardHeight ? 'l' : 'p', 'mm', [dashboardWidth, dashboardHeight]);
+      const imgProps = doc.getImageProperties(imgData);
+      const pdfWidth = doc.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+      doc.addPage();
+      doc.text('My Tree', 20, 20);
+      doc.textWithLink('Vist DEV.to', 35, 35, { url: 'https://dev.to/' });
+
+      doc.save('tree.pdf');
+    });
+  }
+
   async onDelete() {
     let node:any = this.sNodes[this.searchIdx - 1];
     if (node.family.nodes[0].name == node.name) {
       console.log('NodePage - onDelete - children: ', node.family.children);
         // this is main Node, check children
       if (node.family.children && node.family.children.length > 0) {
-        this.utilService.alertMsg(
-          this.languageService.getTranslation('NODE_ERROR_TITLE'),
-          this.languageService.getTranslation('NODE_ERR_HAVE_CHILDREN') + '[' + node.name + ']'
-        );
-          // this.translations.NODE_ERROR_TITLE, this.translations.NODE_ERR_HAVE_CHILDREN + '[' + this.node.name + ']');
+        let msg = this.languageService.getTranslation('NODE_ERR_HAVE_CHILDREN') + '[' + node.name + ']';
+        this.utilService.alertMsg('NODE_ERROR_TITLE', msg);
         return;
       }
     }
-    this.utilService.alertConfirm(
-      this.languageService.getTranslation('DELETE_PEOPLE_HEADER'),
-      this.languageService.getTranslation('DELETE_PEOPLE_MESSAGE'),
-      this.languageService.getTranslation('CANCEL'),
-      this.languageService.getTranslation('CONTINUE')).then((res) => {
+    this.utilService.alertConfirm('DELETE_PEOPLE_HEADER', 'DELETE_PEOPLE_MESSAGE', 'CANCEL', 'CONTINUE').then((res) => {
       console.log('onDelete - res:' , res)
       if (res) {
         node.family.nodes = node.family.nodes.filter((n:any) => {
@@ -312,20 +322,10 @@ export class TreePage implements OnInit {
   }
 
   scrollToRoot() {
-    let node = this.nodes[0];
-    let id = node.id;
-    const ele = document.getElementById(node.id);
-    let options: any = {
-      behaviour: 'smooth',
-      block: 'center',
-      inline: 'center',
-    }
-    ele.scrollIntoView(options);
+    this.scrollToNode(this.family.nodes[0]);
   }
 
-  scrollToSearch(sIndex: number) {
-    let node = this.sNodes[sIndex];
-    console.log('scrollToSearch: ', sIndex);
+  scrollToNode(node) {
     const ele = document.getElementById(node.id);
     let options: any = {
       behaviour: 'smooth',
@@ -336,17 +336,15 @@ export class TreePage implements OnInit {
   }
 
   private viewNodeDetail(node: any) {
-
     console.log('viewNodeDetail - node : ', node);
 
     let title = node.name;
-
-    let level = '<b>' + 'Doi' + '</b>' + '\t\t: ' + node.level + '<br>';
-    let parent = (node.pnode) ? '<b>' + 'Con ông/bà' + '</b>' + '\t: ' + node.pnode.name + '<br>' : '';
-    let nick = (node.nick == '') ? '' : '<b>' + 'Tuc danh' + '</b>' + '\t\t: ' + node.nick + '<br>';
+    let level = '<b>' + this.languageService.getTranslation('VIEW_GENERATION') + '</b>' + ': ' + node.level + '<br>';
+    let parent = (node.pnode) ? '<b>' + this.languageService.getTranslation('VIEW_CHILD_OF') + '</b>' + ': ' + node.pnode.name + '<br>' : '';
+    let nick = (node.nick == '') ? '' : '<b>' + this.languageService.getTranslation('VIEW_NICK_NAME') + '</b>' + ': ' + node.nick + '<br>';
     let children = '';
     if (node.family.children)
-      children = '<b>' + 'Số con' + '</b>' + '\t\t: ' + node.family.children.length + '<br>';
+      children = '<b>' + this.languageService.getTranslation('VIEW_NO_CHILDREN') + '</b>' + ': ' + node.family.children.length + '<br>';
     let spouse = '';
     if (node.family.nodes.length > 1) {
       let spouseNode = null;
@@ -359,38 +357,25 @@ export class TreePage implements OnInit {
       }
       if (spouseNode) {
         if (spouseNode.gender == 'male')
-          spouse = '<b>' + 'Chong' + '</b>' + '\t: ' + spouseNode.name + '<br>';
+          spouse = '<b>' + this.languageService.getTranslation('VIEW_HUSBAND') + '</b>' + ': ' + spouseNode.name + '<br>';
         else
-        spouse = '<b>' + 'Vo' + '</b>' + '\t: ' + spouseNode.name + '<br>';
+        spouse = '<b>' + this.languageService.getTranslation('VIEW_WIFE') + '</b>' + ': ' + spouseNode.name + '<br>';
       }
     }
 
-    let years = '<b>' + 'Nam sinh/tu' + '</b>' + '\t: ' + node.yob + ' - ' + node.yod + '<br>';
-    let birthPlace = '<b>' + 'Noi sinh' + '</b>' + '\t: ' + node.pob + '<br>';
-    let deathPlace = '<b>' + 'Noi tu' + '</b>' + '\t: ' + node.pod + '<br>';
-    let residence = '<b>' + 'Noi sinh song' + '</b>' + '\t: ' + node.por + '<br>';
+    let years = '<b>' + this.languageService.getTranslation('VIEW_YOB_YOD') + '</b>' + ': ' + node.yob + ' - ' + node.yod + '<br>';
+    let birthPlace = '<b>' + this.languageService.getTranslation('VIEW_POB') + '</b>' + ': ' + node.pob + '<br>';
+    let deathPlace = '<b>' + this.languageService.getTranslation('VIEW_POD') + '</b>' + ': ' + node.pod + '<br>';
+    let residence = '<b>' + this.languageService.getTranslation('VIEW_POR') + '</b>' + ': ' + node.por + '<br>';
 
     let header = '<pre style="margin-left: 2.0em;">';
     let msg = level + parent + nick + years + birthPlace + deathPlace + residence + spouse + children;
     
-    // let msg = 
-    // '<b>' + 'Con ông/bà' + '</b>' + '\t:' + node.pnode.name +
-
-    // '<b>' + this.languageService.getTranslation('GENERATION') + '</b>' + '\t:\t' + node.level + '<br>' +
-    // '<b>' + this.languageService.getTranslation('NODE_NICK') + '</b>' + '\t:\t' + node.nick + '<br>' +
-    // '<b>' + this.languageService.getTranslation('NODE_YOB') + '</b>' + '\t:\t' + node.yob + '<br>' +
-    // '<b>' + this.languageService.getTranslation('NODE_YOD') + '</b>' + '\t:\t' + node.yob + '<br>' +
-    // '<b>' + this.languageService.getTranslation('NODE_POB') + '</b>' + '\t:\t' + node.pob + '<br>' +
-    // '<b>' + this.languageService.getTranslation('NODE_POD') + '</b>' + '\t:\t' + node.pob + '<br>' +
-    // '<b>' + this.languageService.getTranslation('NODE_POR') + '</b>' + '\t:\t' + node.pob + '<br>' 
-
-    // ;
     msg = header + msg + '<br><br></pre>';
     this.utilService.alertMsg(title, msg, 'alert-small');
   }
 
   async openNodeModal(node) {
-
     console.log('openNodeModal - node : ', node);
     const modal = await this.modalCtrl.create({
       component: NodePage,
@@ -412,7 +397,8 @@ export class TreePage implements OnInit {
 
       } else if (status == 'add') {
         let values = resp.data.values;
-        if (values.relation == '1') {
+        console.log('TreePage - onDidDismiss : values= ', values);
+        if (values.relation == 'child') {
           // child
           this.addChild(node, values.name, values.gender);
         } else {
@@ -420,11 +406,10 @@ export class TreePage implements OnInit {
           this.addSpouse(node, values.name, values.gender);
         }
         this.updateSystemData(node);
-
       } else if (status == 'save') {
         // update node from values
         let values = resp.data.values;
-        let change = this.familyService.updateNode(node, values);
+        let change = this.nodeService.updateNode(node, values);
         if (change) {
           // there is change
           console.log('TreePage - onDidDismiss : change');
@@ -436,30 +421,47 @@ export class TreePage implements OnInit {
   }
   
   deleteNode(node: any) {
-    // console.log('deleteNode - pnode: ', node.pnode, node.pnode.family)
-    // console.log('deleteNode - node: ', node, node.family)
-    let children = [];
+    console.log('deleteNode - node: ', node)
     let pnode = node.pnode;
-    for (let i = 0; i < pnode.family.children.length; i++) {
-      let family = pnode.family.children[i];
-      let nodes = family.nodes;
-      nodes = nodes.filter((n:any) => {
+    if (!node.pnode) {
+      // this is root
+      let nodes = this.family.nodes;
+      let newNodes = nodes.filter((n:any) => {
         return (n.name != node.name);
       });
-      if (nodes.length > 0)
-        children.push(family);
+      if (newNodes.length > 0)
+        this.family.nodes = newNodes;
+
+    } else {
+      let children = [];
+      for (let i = 0; i < pnode.family.children.length; i++) {
+        let family = pnode.family.children[i];
+        let nodes = family.nodes;
+        // console.log('deleteNode - nodes1 : ', nodes)
+        let newNodes = nodes.filter((n:any) => {
+          return (n.name != node.name);
+        });
+        // console.log('deleteNode - nodes2 : ', newNodes)
+        if (newNodes.length > 0) {
+          family.nodes = newNodes;
+          children.push(family);
+        }
+      }
+      // console.log('deleteNode - children: ', children);
+      pnode.family.children = children;
     }
-    pnode.family.children = children;
   }
 
   addChild(node: any, name, gender) {
+    console.log('addChild - node: ', node)
+
     if (!node.family.children)
       node.family.children = [];
     let childIdx = node.family.children.length + 1;
     let nodeIdx = 1;
     let id = node.id + '-' + childIdx + '-' + nodeIdx;
     let level = '' + (1 + +node.level);
-    let newNode = this.familyService.getEmptyNode(id, level, name, gender);
+    let newNode = this.nodeService.getEmptyNode(id, level, name, gender);
     let newFamily = {nodes: [newNode]};
     newNode.pnode = node;
     newNode.family = newFamily;
@@ -467,29 +469,31 @@ export class TreePage implements OnInit {
   }
 
   addSpouse(node: any, name, gender) {
+    console.log('addSpouse - node: ', node)
     let id = node.id;
     let ids = id.split('-');
     // take the last one, increase by 1
     let nodeIdx = ids[ids.length-1];
     id = id.substring(0, id.lastIndexOf('-'));
     id = id + '-' + (+nodeIdx+1);
-    let newNode = this.familyService.getEmptyNode(id, node.level, name, gender);
+    let newNode = this.nodeService.getEmptyNode(id, node.level, name, gender);
     newNode.family = node.family;
     newNode.pnode = node.pnode;
     node.family.nodes.push(newNode);
   }
 
   updateSystemData(node: any) {
-    // save to local memory and json
+    // update data for node
+    node.span = this.nodeService.getSpanStr(node);
+    // save family to local memory and json
     this.familyService.saveFullFamily(this.family).then(status => {});
-    this.familyService.saveJson(this.family, 'people').then(status => {});
-    this.familyService.saveJson(this.family, 'places').then(status => {});
-    if (node.nclass != 'select')
-      node.nclass = this.familyService.updateNclass(node);
-    node.span = this.familyService.getSpanStr(node);
-    // finally rebuild nodes
-    this.nodes = this.familyService.getFamilyNodes(this.family);
-    // must reset search information
-    this.searchReset();
+    // if in search mode, must reset all select node and search data
+    if (this.searchView) {
+      let nodes = this.nodeService.getFamilyNodes(this.family);
+      nodes.forEach((node:any) => {
+          node.nclass = this.nodeService.updateNclass(node);
+      });
+      this.searchReset();
+    }
   }
 }

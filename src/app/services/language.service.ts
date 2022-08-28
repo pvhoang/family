@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class LanguageService {
 
   translations: any;
+  language: any;
 
   constructor(
     public translate: TranslateService,
@@ -21,8 +22,13 @@ export class LanguageService {
     this.translate.onLangChange.subscribe(() => {
       this.getTranslations();
     });
+    this.language = language;
   }
 
+  getLanguage() {
+    return this.language;
+  }
+  
   getTranslations() {
     this.translate.getTranslation(this.translate.currentLang)
       .subscribe((translations) => {

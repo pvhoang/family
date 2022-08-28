@@ -8,6 +8,8 @@
         [items]="images" 
         bindLabel="name" 
         bindValue="id"
+        notFoundText="{{selectNotFoundText}}"
+        placeholder="{{selectPlaceholder}}"
         (close)="close()"
         [(ngModel)]="selectedImage">
       </ng-select>
@@ -15,7 +17,7 @@
     <ion-col size="2">
     </ion-col>
     <ion-col size="3">
-        <ion-button class="app-ion-button" fill="clear" [disabled]="idata && idata.type == 'html'" (click)="show()">
+        <ion-button class="app-ion-button" fill="clear" [disabled]="!idata || (idata && idata.type == 'html')" (click)="show()">
           <ion-icon slot="icon-only" name="people" class="app-ion-icon"></ion-icon>
         </ion-button>
     </ion-col>
@@ -28,7 +30,7 @@
     <div class="app-ion-content">
       <ion-row class="app-ion-row">
         <ion-col size="10">
-          <ion-label>&#8226;&ensp;{{ idata.description }}</ion-label>
+          <ion-label>&#8226;&ensp;{{ idata.desc }}</ion-label>
         </ion-col>
         <ion-col size="2">
           <ion-button class="app-ion-button" fill="clear" (click)="openWebpage(idata.src)">
@@ -43,7 +45,7 @@
     <div class="app-ion-content">
       <ion-row class="app-ion-row">
         <ion-col size="12">
-          <ion-label>&#8226;&ensp;{{ idata.description }}</ion-label>
+          <ion-label>&#8226;&ensp;{{ idata.desc }}</ion-label>
         </ion-col>
       </ion-row>
       <div *ngIf="showDetail">

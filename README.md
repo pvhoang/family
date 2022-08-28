@@ -91,6 +91,12 @@ https://edupala.com/ionic-table/
 =======================
 https://stackoverflow.com/questions/48295288/how-to-handle-single-click-and-double-click-on-the-same-html-dom-element-usi
 
+=======================
+# HTML to PDF and Image
+=======================
+https://dev.to/_mnavarros/how-to-convert-html-to-pdf-using-angular-3jj8
+https://www.npmjs.com/package/html-to-image
+
 =====================================================================
 # FIREBASE
 =====================================================================

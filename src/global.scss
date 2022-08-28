@@ -55,15 +55,21 @@
 
 // --- color ---
 
-$color: yellow;
-$background_color: #C10100;
-// $color: #ffc409;
-// $color: lightgreen;
-// $background_color: #3880ff;
+// $base_color: yellow;
+// $base_background_color: #C10100;
+
 $background_color_male: lightblue;  // primary
 $background_color_female: lightpink;
 $background_color_select: lightgreen; // success
 $background_color_not_complete: lightyellow; // warning in variables.css
+
+$text_font_size_large: 20px;
+$text_font_size_medium: 18px;
+$text_font_size_small: 16px;
+$text_font_size_tiny: 14px;
+
+$icon_font_size_large: 24px;
+$icon_font_size_small: 18px;
 
 // --- app ---
 
@@ -84,13 +90,18 @@ $background_color_not_complete: lightyellow; // warning in variables.css
 }
 
 .app-ion-title {
-  font-size: 18px;
-  color: $color;
+  font-size: $text_font_size_medium;
+  color: var(--app-color);
 }
 
 .app-ion-icon {
-  font-size: 24px;
-  color: $color;
+  font-size: $icon_font_size_large;
+  color: var(--app-color);
+}
+
+.app-ion-icon-small {
+  font-size: $icon_font_size_small;
+  color: var(--app-color);
 }
 
 .app-ion-button {
@@ -105,12 +116,13 @@ $background_color_not_complete: lightyellow; // warning in variables.css
 }
 
 .app-ion-label {
-  font-size: 16px;
+  font-size: $text_font_size_small;
 }
 
 .app-ion-item {
-  --background: var(--url-ion-item) center / 100%;
+  // --background: var(--url-ion-item) center / 100%;
   // --background: url("./assets/imgs/dragon.webp") center / 100%;
+  --background: var(--app-background-color) center / 100%;
   --padding-start: 0px;
   --padding-end: 0px;
   --padding-top: 0px;
@@ -124,7 +136,8 @@ $background_color_not_complete: lightyellow; // warning in variables.css
 // --- tab ---
 
 ion-tab-bar {
-  --background: var(--url-ion-tab-bar) center / 100%;
+  // --background: var(--url-ion-tab-bar) center / 100%;
+  --background: var(--app-background-color) center / 100%;
   height: 50px;
   display: flex; 
   align-items: center;
@@ -142,13 +155,13 @@ ion-tab-button {
 }
 
 .tab-icon {
-  font-size: 24px;
-  color: $color;
+  font-size: $icon_font_size_large;
+  color: var(--app-color);
 }
 
 .tab-label {
-  font-size: 14px;
-  color: $color;
+  font-size: $text_font_size_tiny;
+  color: var(--app-color);
 }
 
 // --- home ---
@@ -158,10 +171,10 @@ ion-tab-button {
 }
 
 .home-guide-section {
-  background: $background_color;
+  background: var(--app-background-color);
   color: white;
   width: 180px;
-  font-size: 16px;
+  font-size: $text_font_size_small;
   display: flex; 
   align-items: center;
   margin-left:10px;
@@ -169,18 +182,20 @@ ion-tab-button {
 
 .home-guide-tab-symbol {
   margin-left:20px;
+  margin-top:5px;
+  margin-bottom:5px;
   .tab {
-    background: $background_color;
+    background: var(--app-background-color);
     width: 100px; 
     display: flex; 
     align-items: center;
     .icon {
-      font-size: 24px;
-      color: $color;
+      font-size: $icon_font_size_large;
+      color: var(--app-color);
     }
     .label {
-      font-size: 14px;
-      color: $color;
+      font-size: $text_font_size_tiny;
+      color: var(--app-color);
     }
   }
 }
@@ -188,36 +203,36 @@ ion-tab-button {
 .home-guide-icon-symbol {
   margin-left:40px;
   .label {
-    font-size: 15px;
+    font-size: $text_font_size_tiny;
   }
   .icon {
-    background: $background_color;
-    font-size: 18px;
-    color: $color;
+    background: var(--app-background-color);
+    font-size: $icon_font_size_small;
+    color: var(--app-color);
   }
   .icon-normal {
-    background: $background_color;
-    font-size: 18px;
+    background: var(--app-background-color);
+    font-size: $icon_font_size_small;
     color: white;
   }
   .icon-select {
-    background: $background_color;
-    font-size: 18px;
+    background: var(--app-background-color);
+    font-size: $icon_font_size_small;
     color: lightgreen;
   }
   .icon-male {
-    background: $background_color;
-    font-size: 18px;
+    background: var(--app-background-color);
+    font-size: $icon_font_size_small;
     color: lightblue;
   }
   .icon-female {
-    background: $background_color;
-    font-size: 18px;
+    background: var(--app-background-color);
+    font-size: $icon_font_size_small;
     color: lightpink;
   }
   .icon-not-complete {
-    background: $background_color;
-    font-size: 18px;
+    background: var(--app-background-color);
+    font-size: $icon_font_size_small;
     color: lightyellow;
   }
 }
@@ -225,31 +240,31 @@ ion-tab-button {
 // --- archive ---
 
 .archive-icon {
-  font-size: 24px;
-  color: $color;
-  background: $background_color;
+  font-size: $icon_font_size_large;
+  color: var(--app-color);
+  background: var(--app-background-color);
 }
 
 // --- contact ---
 
 .contact-icon {
-  font-size: 24px;
-  color: $color;
-  background: $background_color;
+  font-size: $icon_font_size_large;
+  color: var(--app-color);
+  background: var(--app-background-color);
 }
 
 .contact-grid {
   --ion-grid-column-padding: 10px;
   border-collapse: collapse;
   border-style: hidden;
-	font-size: 14px;
+	font-size: $text_font_size_tiny;
   
   ion-row:first-child {
     // background-color:  #2dd36f;
     font-weight: bold;
     color: white;
-    background-color: $background_color;
-    font-size: 14px;
+    background-color: var(--app-background-color);
+    font-size: $text_font_size_tiny;
   }
   ion-col {
     border: 1px solid black;
@@ -283,9 +298,9 @@ ion-tab-button {
       margin-bottom: 10px;
       h2 {
         color: white;
-        background-color: $background_color;
-        font-weight: bold;
-        font-size: 14px;
+        background-color: var(--app-background-color);
+        // font-weight: bold;
+        font-size: $text_font_size_medium;
       }
     }
     .alert-button-group {
@@ -302,12 +317,44 @@ ion-tab-button {
   }
 }
 
+.toast {
+    --height: 100px;
+    background: var(--app-background-color);
+    color: white;
+    font-size: $text_font_size_small;
+
+    // .toast-wrapper {
+    //   min-width: 350px !important;
+    //   .toast-button:first-child {
+    //     color: grey;
+    //   }
+    //   .toast-head {
+    //     h2 {
+    //       color: white;
+    //       background-color: var(--app-background-color);
+    //       font-size: 18px;
+    //     }
+    //   }
+    //   .toast-button-group {
+    //     justify-content: center;
+    //   }
+    //   .toast-button:nth-child(1){
+    //     // color: red;
+    //     color: var(--app-background-color);
+    //   }
+    //   .toast-button:nth-child(2){
+    //     // color: blue;
+    //     color: grey;
+    //   }
+    // }
+}
+
 // --- card ---
 
 .card-header{
-  background: $background_color;
+  background: var(--app-background-color);
   color: white;
-  font-size: 18px;
+  font-size: $text_font_size_medium;
   height:26px;
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -320,30 +367,41 @@ ion-tab-button {
 
 .card-label{
   font-weight: bold;
-  font-size: 16px;
+  font-size: $text_font_size_small;
 }
 
 .card-input{
 	margin-top: 8px;
 	border: solid 1px grey;
 	margin-bottom: 8px;
-  font-size: 16px;
+  font-size: $text_font_size_small;
 }
 
 .card-textarea{
 	margin-top: 8px;
 	border: solid 1px grey;
 	margin-bottom: 8px;
-  font-size: 16px;
+  font-size: $text_font_size_small;
 }
 
 .card-select{
 	margin-top: 8px;
-  font-size: 16px;
+  font-size: $text_font_size_small;
 }
 
 .card-select-1{
 	margin-top: 8px;
 	margin-bottom: 8px;
-  font-size: 16px;
+  font-size: $text_font_size_small;
+}
+
+// --- modal ---
+
+.child-modal {
+  align-items: center;
+  justify-content: center;
+  --min-height: 80%; 
+  --min-width: 50%;
+  --max-height: 80%; 
+  --max-width: 50%;
 }

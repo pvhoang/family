@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AlertController, ToastController } from '@ionic/angular';
 import { DEBUG } from '../../environments/environment';
+import { LanguageService } from '../services/language.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ export class UtilService {
 
   constructor(
 		private http: HttpClient,
+    private languageService: LanguageService,
     private alertController: AlertController,
     public toastController: ToastController,
 	) { }
@@ -47,7 +49,14 @@ export class UtilService {
 			// msg += ' ' + JSON.stringify(obj, null, 4);
 	}
 
-	async alertMsg(header, message, css?) {
+	async alertMsg(srcHeader, srcMessage, css?) {
+		let header = this.languageService.getTranslation(srcHeader);
+		if (!header)
+			header = srcHeader;
+		let message = this.languageService.getTranslation(srcMessage);
+		if (!message)
+			message = srcMessage;
+
 		if (!css)
 			css = 'alert-small';
 		// let css = 'myClass';
@@ -60,7 +69,17 @@ export class UtilService {
 		alert.present();
 	}
 
-	async alertConfirm(header, message, cancelText, okText, css?) {
+	async alertConfirm(srcHeader, srcMessage, cancelText, okText, css?) {
+		let header = this.languageService.getTranslation(srcHeader);
+		if (!header)
+			header = srcHeader;
+		let message = this.languageService.getTranslation(srcMessage);
+		if (!message)
+			message = srcMessage;
+
+		cancelText = this.languageService.getTranslation(cancelText);
+		okText = this.languageService.getTranslation(okText);
+
 		if (!css)
 			css = 'alert-small';
 		let alert = await this.alertController.create({
@@ -92,7 +111,17 @@ export class UtilService {
     return choice;
 	}
 
-	async alertAddNode(header, message, texts, css?) {
+	async alertSendTree(header, srcMessage, infoText, cancelText, okText, css?) {
+
+		header = this.languageService.getTranslation(header);
+		let message = this.languageService.getTranslation(srcMessage);
+		if (!message)
+			message = srcMessage;
+		
+		infoText = this.languageService.getTranslation(infoText);
+		cancelText = this.languageService.getTranslation(cancelText);
+		okText = this.languageService.getTranslation(okText);
+
 		if (!css) 
 			css = 'alert-small';
 		let alert = await this.alertController.create({
@@ -101,64 +130,31 @@ export class UtilService {
 			cssClass: css,
 			inputs: [
         {
-          name: 'name',
-          placeholder: texts[0],
-        },
-				{
-          name: 'relation',
-          placeholder: texts[1],
-        },
-				{
-          name: 'gender',
-          placeholder: texts[2],
-        },
+          name: 'info',
+          placeholder: infoText,
+        }
       ],
       buttons: [
         {
-          text: texts[3],
+          text: cancelText,
           handler: (data: any) => {
 						alert.dismiss(false);
 						return false;
           }
         },
         {
-          text: texts[4],
+          text: okText,
           handler: (data: any) => {
-						let name = data.name;
-						let relation: string = data.relation.toLowerCase();
-						let gender: string = data.gender.toLowerCase();
-
+						let info = data.info;
 						// validate data
-						console.log('data: ', data);
-
+						console.log('info: ', info);
 						let msg = '';
-						if (name.length < 5)
-							msg += 'Tên không hợp lệ. <br>';
-						let type = 0;
-						if (relation.indexOf('ch') == 0)
-							type = 2;
-						else if (relation.indexOf('v') == 0)
-							type = 3;
-						else if (relation.indexOf('c') == 0)
-							type = 1;
-						if (type == 0)
-							msg += 'Liên hệ không hợp lệ. <br>';
-						
-						let gen = 0;
-						if (gender.indexOf('nu') == 0)
-							gen = 2;
-						else if (gender.indexOf('n') == 0)
-							gen = 1;
-						if (gen == 0)
-							msg += 'Giới tính không hợp lệ. <br>';
-
+						if (info.length < 5)
+							msg += 'Thông tin liên hệ không được để trống<br>';
 						if (msg != '') {
 							this.presentToast(msg);
 							return false;
 						}
-						data.relation = ''+type;
-						data.gender = ''+gen;
-
 						alert.dismiss(true);
 						return data;
           }
@@ -173,15 +169,57 @@ export class UtilService {
     return result;
 	}
 
-	async presentToast(message) {
+	async presentToastWait(header, srcMessage, okText) {
+		header = this.languageService.getTranslation(header);
+		let message = this.languageService.getTranslation(srcMessage);
+		if (!message)
+			message = srcMessage;
+
+		okText = this.languageService.getTranslation(okText);
+
+    const toast = await this.toastController.create({
+      header: header,
+      message: message,
+      icon: 'information-circle',
+      position: 'middle',
+      color: 'medium',
+      buttons: [
+				{
+          text: okText,
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    await toast.present();
+		let result:any;
+    await toast.onDidDismiss().then((data) => {
+			result = data;
+    })
+    return result;
+  }
+
+	async presentToast(srcMessage) {
+		let message = this.languageService.getTranslation(srcMessage);
+		if (!message)
+			message = srcMessage;
     const toast = await this.toastController.create({
       message: message,
-      color: 'primary',
+      color: 'medium',
       position: 'middle',
-      duration: 2000
+      duration: 3000
     });
     toast.present();
   }
+
+	public getYears() {
+		let years = [];
+		for (let i = 1900; i < 2023; i++)
+			years.push({name: ''+i});
+		return years;
+	}
 
 	public stripVN(str) {
 		str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/gi, 'a');

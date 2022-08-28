@@ -95,8 +95,17 @@
   --app-broad-radius: 12px;
 
   --url-ion-content: url("../assets/imgs/dragon.webp");
-  --url-ion-item: url("../assets/imgs/image-1.jpg");
-  --url-ion-tab-bar: url("../assets/imgs/image-1.jpg");
+  // --url-ion-item: url("../assets/imgs/image-1.jpg");
+  // --url-ion-tab-bar: url("../assets/imgs/image-1.jpg");
+  --url-ion-item: --app-background-color;
+  --url-ion-tab-bar: --app-background-color;
+
+  --ion-color-medium: #C10100;
+
+  // --base_color: yellow;
+  // --base_background_color: #C10100;
+  --app-color: yellow;
+  --app-background-color: #C10100;
 
 }
 

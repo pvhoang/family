@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
 import { LanguageService } from '../services/language.service';
+import { FirebaseService } from '../services/firebase.service';
 import { FamilyService } from '../services/family.service';
 import { UtilService } from '../services/util.service';
 import { Family, FAMILY} from '../services/family.model';
@@ -22,8 +22,7 @@ export class ContactPage implements OnInit {
   version: string = '';
 
   constructor(
-    private alertController: AlertController,
-    public modalCtrl: ModalController,
+    private firebaseService: FirebaseService,
     private familyService: FamilyService,
     private utilService: UtilService,
     private languageService: LanguageService,
@@ -34,16 +33,17 @@ export class ContactPage implements OnInit {
     let ancestor = ANCESTOR;
     this.familyService.readFamily().then((family:any) => {
       this.family = family;
-      let ancestorText = this.languageService.getTranslation(ancestor);
-      // console.log('ContactPage - ngOnInit - setting: ', ancestorText);
-      // this.title = ancestorText.tree + ' - ' + VERSION + ' - ' + family.version;
-      let msg1 = this.languageService.getTranslation('CONTACT_VERSION_1');
-      let msg2 = this.languageService.getTranslation('CONTACT_VERSION_2');
-      this.version = msg1 + VERSION + ' - ' + msg2 + family.version;
-      this.title = ancestorText.tree;
-      let jsonFile = './assets/data/' + ANCESTOR + '-contribution.json'
-      this.utilService.getLocalJsonFile(jsonFile).then(json => {
-        this.contResults = json.data;
+      this.familyService.getSourceFamilyVersion().then((srcVersion:any) => {
+        let ancestorText = this.languageService.getTranslation(ancestor);
+        let msg1 = this.languageService.getTranslation('CONTACT_VERSION_1');
+        let msg2 = this.languageService.getTranslation('CONTACT_VERSION_2');
+        let msg3 = this.languageService.getTranslation('CONTACT_VERSION_3');
+        this.version = msg1 + VERSION + ' - ' + msg2 + srcVersion + ' - ' + msg3 + family.version;
+        this.title = ancestorText.tree;
+        let jsonFile = './assets/data/' + ANCESTOR + '-contribution.json'
+        this.utilService.getLocalJsonFile(jsonFile).then(json => {
+          this.contResults = this.getContribution(json.data);
+        });
       });
     });
   }
@@ -68,12 +68,19 @@ export class ContactPage implements OnInit {
     this.contMode = true;
   }
 
+  getContribution(data: any) {
+    data.forEach((item: any) => {
+      let str = '';
+      item.detail.forEach((value: any) => {
+        str += '&#8226;&ensp;' + value + '<br>';
+      })
+      item.message = str;
+    })
+    return data;
+  }
+
   async resetTree() {
-    this.utilService.alertConfirm(
-      this.languageService.getTranslation('CONTACT_RESET_HEADER'),
-      this.languageService.getTranslation('CONTACT_RESET_MESSAGE'),
-      this.languageService.getTranslation('CANCEL'),
-      this.languageService.getTranslation('CONTINUE')).then((res) => {
+    this.utilService.alertConfirm('WARNING', 'CONTACT_RESET_MESSAGE', 'CANCEL', 'OK').then((res) => {
       console.log('resetTree - res:' , res)
       if (res) {
         this.familyService.startSourceFamily().then(status => {});
@@ -96,60 +103,64 @@ export class ContactPage implements OnInit {
     });
   }
 
-  uploadTree(event:any) {
-    // console.log('ContactPage - uploadTree: ', event);
-    var file: File = event.target.files[0];
-    var myReader: FileReader = new FileReader();
-    myReader.onloadend = ((e:any) => {
-      let family = myReader.result;
-      console.log('family: ', family);
-      this.confirmUploadTree(family);
+  async saveTree() {
+
+    // evaluate difference
+    this.familyService.readFamily().then((localFamily:any) => {
+      let jsonFile = './assets/data/' + ANCESTOR + '-family.json';
+      this.utilService.getLocalJsonFile(jsonFile).then((srcFamily:any) => {
+        let compareResults = this.familyService.compareFamilies(srcFamily, localFamily);
+        if (compareResults.length == 0) {
+          this.utilService.alertMsg('ANNOUNCE', 'CONTACT_SEND_NO_CHANGE_MSG'
+            // this.languageService.getTranslation('ANNOUNCE'),
+            // this.languageService.getTranslation('CONTACT_SEND_NO_CHANGE_MSG')
+          );
+          return;
+        }
+
+        // let header = this.languageService.getTranslation('CONTACT_SEND_HEADER');
+        let msg = this.languageService.getTranslation('CONTACT_SEND_HEADER_MSG') + '[' + compareResults.length + ']';
+        // let texts = [
+        //   this.languageService.getTranslation('CONTACT_SEND_INFO_PLACEHOLDER'),
+        //   this.languageService.getTranslation('CANCEL'),
+        //   this.languageService.getTranslation('OK')
+        // ]
+        this.utilService.alertSendTree('CONTACT_SEND_HEADER', msg, 'CONTACT_SEND_INFO_PLACEHOLDER', 'CANCEL', 'OK').then((res) => {
+        // this.utilService.alertSendTree(header, msg, texts).then((res) => {
+          console.log('alertSendTree - res:' , res)
+          if (!res.data)
+            return;
+          let info = res.data.info;
+          let text = '--- ' + ANCESTOR + '-family.json --- \n' + JSON.stringify(this.family, null, 4);
+          text += '\n';
+          let id = this.getContentID();
+          let shortInfo = (info.length < 20) ? info : info.substring(0, 20);
+          this.firebaseService.saveContent({
+            id: id,
+            info: info,
+            to: 'pvhoang940@gmail.com',
+            message: {
+              subject: 'Gia Pha - ' + id + ' - ' + shortInfo,
+              text: text,
+            }
+          });
+          let header = this.languageService.getTranslation('ANNOUNCE');
+          let message = this.languageService.getTranslation('CONTACT_SEND_ANSWER');
+          let okText = this.languageService.getTranslation('OK');
+          this.utilService.presentToastWait(header, message, okText);
+        })
+      });
     });
-    myReader.readAsText(file);
-  }
+	}
 
-  async confirmUploadTree(family) {
-    this.utilService.alertConfirm(
-      this.languageService.getTranslation('CONTACT_UPLOAD_HEADER'),
-      this.languageService.getTranslation('CONTACT_UPLOAD_MESSAGE'),
-      this.languageService.getTranslation('CANCEL'),
-      this.languageService.getTranslation('CONTINUE')).then((res) => {
-      console.log('confirmUploadTree - res:' , res)
-      if (res) {
-        this.familyService.saveFamily(JSON.parse(family));
-      }
-    });
-  }
-
-  downloadTree() {
-    let text = JSON.stringify(this.family, null, 4);
-    let fileName = ANCESTOR + '-family-' + this.getDateID() + '.tree';
-    this.downloadString(text, 'text/tree', fileName);
-    this.utilService.alertMsg(
-      this.languageService.getTranslation('CONTACT_DOWNLOAD_HEADER'),
-      this.languageService.getTranslation('CONTACT_DOWNLOAD_MESSAGE') + ' [' + fileName + ']'
-    );
-  }
-
-  downloadString(text, fileType, fileName) {
-    var blob = new Blob([text], { type: fileType });
-    var a = document.createElement('a');
-    a.download = fileName;
-    a.href = URL.createObjectURL(blob);
-    a.dataset.downloadurl = [fileType, a.download, a.href].join(':');
-    a.style.display = "none";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(function() { URL.revokeObjectURL(a.href); }, 1500);
-  }
-  
-  getDateID() {
+  getContentID() {
 		const d = new Date();
 		let day = ''+d.getDate();		if (day.length < 2) day = '0' + day;
 		let month = ''+(d.getMonth()+1);		if (month.length < 2) month = '0' + month;
 		let year = d.getFullYear();
-    const id = ''+day+'-'+month+'-'+year;
+		let hour = ''+d.getHours();		if (hour.length < 2) hour = '0' + hour;
+		let min = ''+d.getMinutes();		if (min.length < 2) min = '0' + min;
+		const id = ''+day+'-'+month+'-'+year+'_'+hour+'-'+min;
 		return id;
   }
 

@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 
+// <div class="center-this">
+// </div>
+
 @Component({
   selector: 'ft-tree',
   template: `

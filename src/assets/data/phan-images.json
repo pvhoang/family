@@ -1,7 +1,7 @@
 {
   "i1": {
-    "title": "1920 - Nhánh Phan Ngọc Luật",
-    "description": "Hình chụp tại Đồng Phú",
+    "title": {"vi": "1920 - Nhánh Phan Ngọc Luật", "en": "1920 - Branch Phan Ngọc Luật"},
+    "description": {"vi": "Hình chụp tại Đồng Phú", "en": "Picture taken at Đồng Phú hamlet"},
     "type": "image",
     "src": "../../assets/imgs/phan-ngoc-luat-1920.jpg",
     "image": {"width":"1200", "height": "900" },
@@ -10,18 +10,30 @@
       { 
         "id": "1",
         "coords": {"x":"380", "y": "200" },
-        "text": "Phan Ngọc Luật"
+        "text": { 
+          "header": "Phan Ngọc Luật", 
+          "message": {
+            "vi": "Đứng dưới chân là ông Phan Ngọc Tường", 
+            "en": "Standing below is Mr. Phan Ngọc Tường"
+          }
+        }
       },
       { 
         "id": "2",
         "coords": {"x":"730", "y": "180" },
-        "text": "Phan Dính"
+        "text": { 
+          "header": "Phan Dính", 
+          "message": {
+            "vi": "Bên phải là bà Phan Thị Quý Thu", 
+            "en": "Right is Mrs Phan Thị Quý Thu"
+          }
+        }
       }
     ]
   },
   "i2": {
-    "title": "1971 - Nhánh Phan Dính",
-    "description": "Hình chụp tại Tp. HCM",
+    "title": {"vi": "1971 - Nhánh Phan Dính", "en": "1971 - Branch Phan Dính"},
+    "description": {"vi": "Hình chụp tại Tp. HCM", "en": "Picture taken in HCMC"},
     "type": "image",
     "src": "../../assets/imgs/phan-dinh-1971.jpg",
     "image": {"width":"1200", "height": "900" },
@@ -30,24 +42,36 @@
       { 
         "id": "1",
         "coords": {"x":"180", "y": "115" },
-        "text": "Phan Ngọc Danh"
+        "text": { 
+          "header": "Phan Ngọc Danh", 
+          "message": {
+            "vi": "Bên phải là Phan Viết Châu (Nô)", 
+            "en": "Right is Mr. Phan Viết Châu"
+          }
+        }
       },
       { 
         "id": "2",
         "coords": {"x":"680", "y": "340" },
-        "text": "Phan Viết Hoàng"
+        "text": { 
+          "header": "Phan Viết Hoàng", 
+          "message": {
+            "vi": "Phía trên là Phan Viết Anh", 
+            "en": "Above is Phan Viết Anh"
+          }
+        }
       }
     ]
   },
   "i3": {
-    "title": "Ngày giỗ",
-    "description": "Ngày giỗ của tổ tiên từ thời xa xưa",
+    "title": {"vi": "Ngày giỗ", "en": "Memorial days"},
+    "description": {"vi": "Ngày giỗ của dòng họ", "en": "Memorial days of the family"},
     "type": "html",
     "src": "https://gia-pha-ho-phan.web.app/assets/doc/ngay_gio.html"
   },
   "i4": {
-    "title": "Phả đồ",
-    "description": "Phả đồ từ chi Ông Luật",
+    "title": {"vi": "Phả đồ", "en": "Tree"},
+    "description": {"vi": "Phả đồ từ chi Ông Luật", "en": "Tree from Mr Luat branch"},
     "type": "html",
     "src": "https://gia-pha-ho-phan.web.app/assets/doc/test.html"
   }

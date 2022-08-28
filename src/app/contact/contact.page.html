@@ -44,7 +44,7 @@
         <ion-col size="2"> {{ row.date }} </ion-col>
         <ion-col size="4"> {{ row.name }} </ion-col>
         <ion-col size="6">
-          <div [innerHtml]="row.detail"></div>
+          <div [innerHtml]="row.message"></div>
           <!-- <ion-label class="ion-text-wrap">{{ row.detail }}</ion-label> -->
         </ion-col>
       </ion-row>
@@ -55,7 +55,7 @@
     </ion-card-header>
     <ion-row class="app-ion-row">
       <ion-col size="12">
-        <ion-label class="ion-text-wrap app-ion-label">&#8226;&ensp;{{ 'CONTACT_SEND' | translate }}</ion-label>
+        <ion-label class="ion-text-wrap app-ion-label">&#8226;&ensp;{{ 'CONTACT_EMAIL' | translate }}</ion-label>
       </ion-col>
     </ion-row>
 
@@ -83,15 +83,15 @@
       </ion-col>
     </ion-row>
 
-    <ion-grid class="contact-grid" *ngIf="compareMode && compareResults.length == 1">
+    <ion-grid class="contact-grid" *ngIf="compareMode && compareResults.length == 0">
       <ion-row>
         <ion-col size="12">
-          &#8226;&ensp;{{ compareResults[0].name }}
+          &#8226;&ensp;{{ 'CONTACT_DATA_NOT_CHANGED' | translate }}
         </ion-col>
       </ion-row>
     </ion-grid>
 
-    <ion-grid class="contact-grid" *ngIf="compareMode && compareResults.length > 1">
+    <ion-grid class="contact-grid" *ngIf="compareMode && compareResults.length > 0">
       <ion-row>
         <ion-col size="8">
           {{ 'CONTACT_NAME' | translate }}
@@ -116,6 +116,18 @@
 
     <ion-row class="app-ion-row">
       <ion-col size="10">
+        <ion-label class="ion-text-wrap app-ion-label">&#8226;&ensp;{{ 'CONTACT_SEND_MSG' | translate }}</ion-label>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button class="app-ion-button" fill="clear" (click)="saveTree()">
+          <ion-icon name="share" class="contact-icon"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+
+    <!-- <ion-row class="app-ion-row">
+      <ion-col size="10">
         <ion-label class="ion-text-wrap app-ion-label">&#8226;&ensp;{{ 'CONTACT_DOWNLOAD_MSG' | translate }}</ion-label>
       </ion-col>
       <ion-col size="2">
@@ -136,7 +148,7 @@
           <ion-icon name="share" class="contact-icon"></ion-icon>
         </ion-button>
       </ion-col>
-    </ion-row>
+    </ion-row> -->
 
   </div>
 </ion-content>
