@@ -169,8 +169,10 @@ export class UtilService {
     return result;
 	}
 
-	async presentToastWait(header, srcMessage, okText) {
-		header = this.languageService.getTranslation(header);
+	async presentToastWait(srcHeader, srcMessage, okText) {
+		let header = this.languageService.getTranslation(srcHeader);
+		if (!header)
+			header = srcHeader;
 		let message = this.languageService.getTranslation(srcMessage);
 		if (!message)
 			message = srcMessage;

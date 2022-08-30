@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FamilyService } from './services/family.service';
-// import { SETTING, ANCESTOR } from '../environments/environment';
 import { ANCESTOR } from '../environments/environment';
 
 @Component({
@@ -19,7 +18,6 @@ export class AppComponent {
 
   initializeApp() {
     this.familyService.startFamily().then(status => {});
-    // this.familyService.deleteSetting();
     // this.familyService.deleteSetting();
   }
 }

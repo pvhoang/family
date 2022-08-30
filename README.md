@@ -97,6 +97,17 @@ https://stackoverflow.com/questions/48295288/how-to-handle-single-click-and-doub
 https://dev.to/_mnavarros/how-to-convert-html-to-pdf-using-angular-3jj8
 https://www.npmjs.com/package/html-to-image
 
+=======================
+# Create phan-images.json
+=======================
+
+. cd/dev/face-api.js/examples/examples-browser
+. npm start
+Listening on port 3000!
+. cd/dev/face-api.js/examples/examples-browser/views/faceDetection.html
+. console.log
+. get Name
+
 =====================================================================
 # FIREBASE
 =====================================================================

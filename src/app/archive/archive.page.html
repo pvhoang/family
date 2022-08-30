@@ -26,6 +26,10 @@
 
 <ion-content [fullscreen]="false" class="ion-padding">
 
+<!-- <h2> {{detail1}} </h2>
+  <h2> {{detail2}} </h2>
+  <h2> {{detail3}} </h2> -->
+
   <div *ngIf="idata && idata.type == 'html'">
     <div class="app-ion-content">
       <ion-row class="app-ion-row">
@@ -42,8 +46,8 @@
   </div>
 
   <div *ngIf="idata && idata.type == 'image'">
-    <div class="app-ion-content">
-      <ion-row class="app-ion-row">
+    <div class="app-ion-content" id="outer">
+      <ion-row class="app-ion-row" id="row">
         <ion-col size="12">
           <ion-label>&#8226;&ensp;{{ idata.desc }}</ion-label>
         </ion-col>
@@ -53,9 +57,7 @@
           <a id="{{area.domid}}" [ngStyle]="getAreaStyle(area)" (click)="displayText(area.text)"></a>
         </div>
       </div>
-      <div id="image">
-        <img src="{{idata.src}}" width="idata.map.width" height="idata.map.height"/>
-      </div>
+      <img id="image" src="{{idata.src}}" />
     </div>
   </div>
 
