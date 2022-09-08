@@ -95,6 +95,7 @@ https://stackoverflow.com/questions/48295288/how-to-handle-single-click-and-doub
 # HTML to PDF and Image
 =======================
 https://dev.to/_mnavarros/how-to-convert-html-to-pdf-using-angular-3jj8
+https://stackoverflow.com/questions/59885556/how-to-add-and-set-a-font-in-jspdf
 https://www.npmjs.com/package/html-to-image
 
 =======================
@@ -104,9 +105,20 @@ https://www.npmjs.com/package/html-to-image
 . cd/dev/face-api.js/examples/examples-browser
 . npm start
 Listening on port 3000!
+http://localhost:3000/face_detection
 . cd/dev/face-api.js/examples/examples-browser/views/faceDetection.html
 . console.log
 . get Name
+
+=======================
+# DIFF 2 family files
+=======================
+https://github.com/kpdecker/jsdiff/tree/master/src/diff
+
+=======================
+# Popular Vietnames Ho Ten 
+=======================
+https://hoten.org/100-ho-pho-bien-nhat/
 
 =====================================================================
 # FIREBASE
@@ -183,11 +195,11 @@ Project Console: https://console.firebase.google.com/project/family-e5c1c/overvi
 Hosting URL: https://family-e5c1c.web.app
 
 . ionic build --prod
-. firebase hosting:sites:delete gia-pha-ho-phan
-. firebase hosting:sites:create gia-pha-ho-phan
-. firebase target:apply hosting gia-pha-ho-phan gia-pha-ho-phan
-. firebase deploy --only hosting:gia-pha-ho-phan
-. firebase deploy --only functions
+
+. firebase hosting:sites:delete gphphan
+. firebase hosting:sites:create gphphan
+. firebase target:apply hosting gphphan gphphan
+. firebase deploy --only hosting:gphphan
 
 =======================
 # Extensions: Trigger Email - firestore-send-email

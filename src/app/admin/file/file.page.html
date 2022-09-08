@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-item class="app-ion-item">
+    <ion-col size="3">
+      <ion-title class="ion-text-center app-ion-title">{{ title }}</ion-title>
+    </ion-col>
+    <ion-col size="5">
+    </ion-col>
+    <ion-col size="2">
+      <ion-title class="ion-text-center app-ion-title">{{ srcVersion }}</ion-title>
+    </ion-col>
+    <ion-col size="2">
+      <ion-button class="app-ion-button" fill="clear" (click)="onContent()">
+        <ion-icon slot="icon-only" name="document" class="app-ion-icon"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-item>
+</ion-header>
+
+<ion-content [fullscreen]="false" class="ion-padding">
+
+  <ion-grid class="contact-grid" *ngIf="contentMode && contents.length > 0">
+    <ion-row>
+      <ion-col size="2">
+        {{ 'FILE_ID' | translate }}
+      </ion-col>
+      <ion-col size="4">
+        {{ 'FILE_INFO' | translate }}
+      </ion-col>
+      <ion-col size="3">
+        {{ 'FILE_SUBJECT' | translate }}
+      </ion-col>
+      <ion-col size="1">
+        {{ 'FILE_COMPARE' | translate }}
+      </ion-col>
+      <ion-col size="1">
+        {{ 'FILE_DELETE' | translate }}
+      </ion-col>
+      <ion-col size="1">
+        {{ 'FILE_REPLACE' | translate }}
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let content of contents">
+      <ion-col size="2"> {{ content.id }} </ion-col>
+      <ion-col size="4"> {{ content.info }} </ion-col>
+      <ion-col size="3"> {{ content.subject }} </ion-col>
+      <ion-col size="1"> 
+        <ion-button class="app-ion-button" fill="clear" (click)="onCompare(content)">
+          <ion-icon slot="icon-only" name="git-compare" class="contact-icon-small"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col size="1"> 
+        <ion-button class="app-ion-button" fill="clear" (click)="onDelete(content)">
+          <ion-icon slot="icon-only" name="trash" class="contact-icon-small"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col size="1"> 
+        <ion-button class="app-ion-button" fill="clear" (click)="onReplaceSource(content)">
+          <ion-icon slot="icon-only" name="repeat" class="contact-icon-small"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="app-ion-content">
+    <ion-grid class="contact-grid" *ngIf="compareMode && compareResults.length > 0">
+      <ion-row>
+        <ion-col size="2">
+          {{ 'CONTACT_NAME' | translate }}
+        </ion-col>
+        <ion-col size="2">
+          {{ 'CONTACT_ITEM' | translate }}
+        </ion-col>
+        <ion-col size="4">
+          {{ 'CONTACT_OLD_VALUE' | translate }}
+        </ion-col>
+        <ion-col size="4">
+          {{ 'CONTACT_NEW_VALUE' | translate }}
+        </ion-col>
+      </ion-row>
+      <ion-row *ngFor="let row of compareResults">
+        <ion-col size="2"> {{ row.name }} </ion-col>
+        <ion-col size="2"> {{ row.item }} </ion-col>
+        <ion-col size="4"> {{ row.old }} </ion-col>
+        <ion-col size="4"> {{ row.new }} </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

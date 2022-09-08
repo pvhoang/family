@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FamilyService } from '../services/family.service';
 import { UtilService } from '../services/util.service';
+import { DataService } from '../services/data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { UtilService } from '../services/util.service';
 export class TypeaheadService {
 
   constructor(
+    private dataService: DataService,
     private familyService: FamilyService,
     private utilService: UtilService,
   ) { }
@@ -18,7 +20,7 @@ export class TypeaheadService {
     return new Observable((observer) => {
 
       let getJsonPromise = new Promise((resolve) => {
-        this.familyService.readJson('names').then((data:any) => {
+        this.dataService.readItem('names').then((data:any) => {
           resolve(data['data']);
         });
       });
@@ -116,7 +118,7 @@ export class TypeaheadService {
     return new Observable((observer) => {
       let getJsonPromise: Promise<any>;
       getJsonPromise = new Promise((resolve) => {
-        this.familyService.readJson(json).then((data:any) => {
+        this.dataService.readItem(json).then((data:any) => {
           resolve(data['data']);
         });
       });

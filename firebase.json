@@ -4,7 +4,7 @@
     "indexes": "y"
   },
   "hosting": {
-    "target": "gia-pha-ho-phan",
+    "target": "gphphan",
     "public": "www",
     "ignore": [
       "firebase.json",

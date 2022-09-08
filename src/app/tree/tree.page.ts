@@ -5,6 +5,7 @@ import { UtilService } from '../services/util.service';
 import { LanguageService } from '../services/language.service';
 import { FamilyService } from '../services/family.service';
 import { NodeService } from '../services/node.service';
+import { DataService } from '../services/data.service';
 import { NodePage } from './node/node.page';
 import { TypeaheadService } from '../services/typeahead.service';
 import { Family, Node, FAMILY} from '../services/family.model';
@@ -12,6 +13,9 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 import * as htmlToImage from 'html-to-image';
 import { jsPDF } from 'jspdf';
 import domtoimage from 'dom-to-image';
+import '../../assets/fonts/Roboto-Regular-normal.js';
+
+declare var ancestor;
 
 @Component({
   selector: 'app-tree',
@@ -45,6 +49,7 @@ export class TreePage implements OnInit {
     private utilService: UtilService,
     private familyService: FamilyService,
     private nodeService: NodeService,
+    private dataService: DataService,
     private languageService: LanguageService,
     private typeahead: TypeaheadService,
   ) {}
@@ -64,13 +69,21 @@ export class TreePage implements OnInit {
 	}
 
   startFromStorage() {
-    this.familyService.readFamily().then((family:any) => {
+    this.dataService.readFamily().then((family:any) => {
+      console.log('FamilyService - startFromStorage - family: ', family);
+      let msg = this.familyService.verifyFamily(family);
+      if (msg)
+        this.utilService.alertMsg('WARNING', msg);
+      console.log('FamilyService - msg: ', msg);
       this.start(family);
     });
   }
 
   start(family: any) {
     this.family = this.familyService.buildFullFamily(family);
+    console.log('FamilyService - start -fullFamily: ', this.family);
+
+    this.familyService.saveJson(family, 'people').then(status => {});
     this.familyView = this.family;
     this.selectPeopleNotFoundText = this.languageService.getTranslation('SELECT_PEOPLE_NOT_FOUND_TEXT');
     this.selectPeoplePlaceholder = this.languageService.getTranslation('SELECT_PEOPLE_PLACEHOLDER');
@@ -182,6 +195,7 @@ export class TreePage implements OnInit {
 
   closeSearch() {
     this.searchView = false;
+    this.nodeView = false;
     this.startFromStorage();
   }
 
@@ -249,48 +263,64 @@ export class TreePage implements OnInit {
   }
 
   onImage() {
-    let node:any = this.sNodes[this.searchIdx - 1];
-    const ele = document.getElementById('tree');
-    let rect:any = ele.getBoundingClientRect();
-    let width = rect.width + 20;
-    let height = rect.height + 20;
-    let keys = this.utilService.stripVN(node.name).split(' ');
-    let nameStr = keys.join('_')
-    let options = {
-      quality: 0.95,
-      backgroundColor: '#f0f1f2',
-      width: width,
-      height: height
-    }
-    htmlToImage.toJpeg(ele, options)
-    .then(function (dataUrl) {
-      var link = document.createElement('a');
-      link.download = 'family_' + nameStr + '.jpeg';
-      link.href = dataUrl;
-      link.click();
+    this.utilService.alertConfirm('SAVE_IMAGE_HEADER', 'SAVE_IMAGE_MESSAGE', 'CANCEL', 'CONTINUE').then((res) => {
+      console.log('res: ', res);
+      if (res.data) {
+        let node:any = this.sNodes[this.searchIdx - 1];
+        const ele = document.getElementById('tree');
+        let rect:any = ele.getBoundingClientRect();
+        let width = rect.width + 20;
+        let height = rect.height + 20;
+        let keys = this.utilService.stripVN(node.name).split(' ');
+        let nameStr = keys.join('_')
+        let options = {
+          quality: 0.95,
+          backgroundColor: '#f0f1f2',
+          width: width,
+          height: height
+        }
+        htmlToImage.toJpeg(ele, options)
+        .then(function (dataUrl) {
+          var link = document.createElement('a');
+          link.download = 'family_' + nameStr + '.jpeg';
+          link.href = dataUrl;
+          link.click();
+        });
+      }
     });
   }
 
   onPdf() {
-    const dashboard = document.getElementById('tree');
+    let node:any = this.sNodes[this.searchIdx - 1];
+    let keys = this.utilService.stripVN(node.name).split(' ');
+    let nameStr = keys.join('_');
+    let fileName = ancestor + '_' + nameStr + '.pdf';
 
-    const dashboardHeight = dashboard.clientHeight;
-    const dashboardWidth = dashboard.clientWidth;
-    const options = { background: 'white', width: dashboardWidth, height: dashboardHeight };
-
-    domtoimage.toPng(dashboard, options).then((imgData) => {
-      const doc = new jsPDF(dashboardWidth > dashboardHeight ? 'l' : 'p', 'mm', [dashboardWidth, dashboardHeight]);
-      const imgProps = doc.getImageProperties(imgData);
-      const pdfWidth = doc.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-      doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-
-      doc.addPage();
-      doc.text('My Tree', 20, 20);
-      doc.textWithLink('Vist DEV.to', 35, 35, { url: 'https://dev.to/' });
-
-      doc.save('tree.pdf');
+    this.utilService.alertConfirm('SAVE_PDF_HEADER', 'Cat pha do vao file: ' + fileName, 'CANCEL', 'CONTINUE').then((res) => {
+      if (res.data) {
+        let node:any = this.sNodes[this.searchIdx - 1];
+        let header = 'Phả đồ chi ' + node.name;
+        let message = 'Đời ' + node.level;
+        const dashboard = document.getElementById('tree');
+        const dashboardHeight = dashboard.clientHeight;
+        const dashboardWidth = dashboard.clientWidth;
+        const options = { background: 'white', width: dashboardWidth, height: dashboardHeight };
+        domtoimage.toPng(dashboard, options).then((imgData:any) => {
+          const doc = new jsPDF(dashboardWidth > dashboardHeight ? 'l' : 'p', 'mm', [dashboardWidth, 2 * dashboardHeight]);
+          const imgProps = doc.getImageProperties(imgData);
+          const pdfWidth = doc.internal.pageSize.getWidth();
+          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+          doc.setFont('Roboto-Regular'); // set custom font
+          doc.setTextColor("red");
+          doc.setFontSize(60);
+          doc.text(header, 10, 20);
+          doc.setTextColor("blue");
+          doc.setFontSize(40);
+          doc.text(message, 10, 40);
+          doc.addImage(imgData, 'PNG', 10, 60, pdfWidth, pdfHeight);
+          doc.save(fileName);
+        });
+      }
     });
   }
 
@@ -307,7 +337,7 @@ export class TreePage implements OnInit {
     }
     this.utilService.alertConfirm('DELETE_PEOPLE_HEADER', 'DELETE_PEOPLE_MESSAGE', 'CANCEL', 'CONTINUE').then((res) => {
       console.log('onDelete - res:' , res)
-      if (res) {
+      if (res.data) {
         node.family.nodes = node.family.nodes.filter((n:any) => {
           return (n.name != node.name);
         });
@@ -380,7 +410,7 @@ export class TreePage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: NodePage,
       componentProps: {
-        'name': 'Detail',
+        'caller': 'tree',
         'node': node
       }
     });
@@ -437,17 +467,14 @@ export class TreePage implements OnInit {
       for (let i = 0; i < pnode.family.children.length; i++) {
         let family = pnode.family.children[i];
         let nodes = family.nodes;
-        // console.log('deleteNode - nodes1 : ', nodes)
         let newNodes = nodes.filter((n:any) => {
           return (n.name != node.name);
         });
-        // console.log('deleteNode - nodes2 : ', newNodes)
         if (newNodes.length > 0) {
           family.nodes = newNodes;
           children.push(family);
         }
       }
-      // console.log('deleteNode - children: ', children);
       pnode.family.children = children;
     }
   }
@@ -485,15 +512,27 @@ export class TreePage implements OnInit {
   updateSystemData(node: any) {
     // update data for node
     node.span = this.nodeService.getSpanStr(node);
-    // save family to local memory and json
+    // save full family to local memory and json
     this.familyService.saveFullFamily(this.family).then(status => {});
+
     // if in search mode, must reset all select node and search data
-    if (this.searchView) {
-      let nodes = this.nodeService.getFamilyNodes(this.family);
-      nodes.forEach((node:any) => {
-          node.nclass = this.nodeService.updateNclass(node);
-      });
-      this.searchReset();
-    }
+    // if (this.searchView) {
+
+      // let nodes = this.nodeService.getFamilyNodes(this.family);
+      // nodes.forEach((node:any) => {
+      //     node.nclass = this.nodeService.updateNclass(node);
+      // });
+      // this.searchReset();
+      // this.searchView = false;
+      // this.nodeView = false;
+    
+      // if (this.nodeView) {
+      //   // in node view, reset to tree view, back to full family
+      //   this.familyView = this.family;
+      //   setTimeout(() => {
+      //     this.scrollToNode(node);
+      //   }, 100);
+      //   this.nodeView = false;
+    // }
   }
 }

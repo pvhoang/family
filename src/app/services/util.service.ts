@@ -111,9 +111,54 @@ export class UtilService {
     return choice;
 	}
 
-	async alertSendTree(header, srcMessage, infoText, cancelText, okText, css?) {
+	async alertRadio(srcHeader, srcMessage, inputs: any[], cancelText, okText, css?) {
+		let header = this.languageService.getTranslation(srcHeader);
+		if (!header)
+			header = srcHeader;
+		let message = this.languageService.getTranslation(srcMessage);
+		if (!message)
+			message = srcMessage;
 
-		header = this.languageService.getTranslation(header);
+		cancelText = this.languageService.getTranslation(cancelText);
+		okText = this.languageService.getTranslation(okText);
+
+		if (!css)
+			css = 'alert-small';
+		let alert = await this.alertController.create({
+      header: header,
+			message: message,
+			cssClass: css,
+			inputs: inputs,
+      buttons: [
+        {
+          text: cancelText,
+          handler: (data: any) => {
+						alert.dismiss(false);
+						return false;
+          }
+        },
+        {
+          text: okText,
+          handler: (data: any) => {
+						alert.dismiss(data);
+						return false;
+          }
+        }
+      ]
+    });
+    await alert.present();
+		let choice:any;
+    await alert.onDidDismiss().then((data) => {
+			choice = data;
+    })
+    return choice;
+	}
+
+	async alertSendTree(srcHeader, srcMessage, infoText, cancelText, okText, css?) {
+
+		let header = this.languageService.getTranslation(srcHeader);
+		if (!header)
+			header = srcHeader;
 		let message = this.languageService.getTranslation(srcMessage);
 		if (!message)
 			message = srcMessage;
@@ -169,6 +214,49 @@ export class UtilService {
     return result;
 	}
 
+	async alertAdmin(srcHeader, srcMessage:any, inputs: any[], cancelText, okText, css?) {
+
+		let header = this.languageService.getTranslation(srcHeader);
+		if (!header)
+			header = srcHeader;
+		let message = this.languageService.getTranslation(srcMessage);
+		if (!message)
+			message = srcMessage;
+		cancelText = this.languageService.getTranslation(cancelText);
+		okText = this.languageService.getTranslation(okText);
+
+		if (!css) 
+			css = 'alert-big';
+		let alert = await this.alertController.create({
+      header: header,
+			message: message,
+			cssClass: css,
+			inputs: inputs,
+      buttons: [
+        {
+          text: cancelText,
+          handler: (data: any) => {
+						alert.dismiss(false);
+						return false;
+          }
+        },
+        {
+          text: okText,
+          handler: (data: any) => {
+						alert.dismiss(true);
+						return data;
+          }
+        }
+      ]
+    });
+    await alert.present();
+		let result:any;
+    await alert.onDidDismiss().then((data) => {
+			result = data;
+    })
+    return result;
+	}
+
 	async presentToastWait(srcHeader, srcMessage, okText) {
 		let header = this.languageService.getTranslation(srcHeader);
 		if (!header)
@@ -176,9 +264,7 @@ export class UtilService {
 		let message = this.languageService.getTranslation(srcMessage);
 		if (!message)
 			message = srcMessage;
-
 		okText = this.languageService.getTranslation(okText);
-
     const toast = await this.toastController.create({
       header: header,
       message: message,
@@ -241,4 +327,26 @@ export class UtilService {
     return str.toLowerCase();
 	}
 
+	getDateID(full?) {
+		const d = new Date();
+		let day = ''+d.getDate();		if (day.length < 2) day = '0' + day;
+		let month = ''+(d.getMonth()+1);		if (month.length < 2) month = '0' + month;
+		let year = d.getFullYear();
+		let id = ''+day+'-'+month+'-'+year;
+		if (full) {
+			let hour = ''+d.getHours();		if (hour.length < 2) hour = '0' + hour;
+			let min = ''+d.getMinutes();		if (min.length < 2) min = '0' + min;
+			id = ''+day+'-'+month+'-'+year+'-'+hour+'-'+min;
+		}
+		return id;
+  }
+
+	getDateTime(dateID: any) {
+		// 03-08-2022-16-27
+		let values = dateID.split('-');
+		let d = new Date(values[2], values[1], values[0]);
+		if (values.length > 3)
+			d = new Date(values[2], values[1], values[0], values[3], values[4]);
+		return d.getTime();
+  }
 }

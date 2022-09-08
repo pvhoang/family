@@ -16,7 +16,7 @@ import { ChildPage } from '../child/child.page';
 })
 export class NodePage implements OnInit {
 
-  @Input() name: string;
+  @Input() caller: string;
   @Input() node: any;
 
   @ViewChild('ngSelectName') ngSelectName: NgSelectComponent;
@@ -245,7 +245,7 @@ export class NodePage implements OnInit {
     let message = this.languageService.getTranslation('DELETE_PEOPLE_MESSAGE') + ': ' + node.name;
     this.utilService.alertConfirm('DELETE_PEOPLE_HEADER', message, 'CANCEL', 'CONTINUE').then((res) => {
       console.log('onDelete - res:' , res)
-      if (res) {
+      if (res.data) {
         this.modalCtrl.dismiss({status: 'delete'});
       }
     });
@@ -285,45 +285,56 @@ export class NodePage implements OnInit {
 
   private validateData(values: any): string {
 
-    // console.log('validateData: values: ', values);
+    console.log('validateData: values: ', values);
     let msg = '';
     let bullet = '&#8226;&nbsp;';
     // name, nick, gender, dod, desc, yob, yod, pob, pod, por, 
     let nameMsg = '';
     if (values.name == '' || values.name.length < 5)
       nameMsg = bullet + '<b>Ten</b> phai co it nhat 4 ky tu.<br>';
+
     let dodMsg = '';
-    if (values.dod !== '' && values.dod.length != 5 && values.dod.indexOf('/') != 2) 
-      dodMsg = bullet + "<b>Ngay mat</b> khong dung mau 'nn/tt'.<br>";
-
-    let yobMsg = '';
-    let yobNum = 0;
-    let yob = values.yob;
-    if (yob != '') {
-      if (yob.length != 4 && isNaN(yob)) {
-        yobMsg = bullet + "Nam sinh khong dung mau 'yyyy'.<br>";
-      } else if (+yob < 1900 || +yob > 2030) {
-        yobMsg = bullet + "<b>Nam sinh</b> phai lon hon 1900 va nho hon 2023.<br>";
-      } else
-        yobNum = +yob;
-    }
-
-    let yodMsg = '';
-    let yod = values.yod;
-    if (yod !== '') {
-      if (yod.length != 4 && isNaN(yod)) {
-        yodMsg = bullet + "Nam tu khong dung mau 'yyyy'.<br>";
-      } else if (+yob < 1900 || +yob > 2030) {
-        yodMsg = bullet + "Nam tu phai lon hon 1900 va nho hon 2023.<br>";
-      } else if (yobNum > 0 && +yod < yobNum) {
-        yodMsg = bullet + "Nam tu phai lon hon Nam sinh.<br>";
+    if (values.dod !== '') {
+      if (!values.yod) {
+        dodMsg = bullet + "<b>Ngay mat</b> phai de trong. Nam tu chua nhap.<br>";
+      } else if (values.dod.length != 5 || values.dod.indexOf('/') != 2) {
+        dodMsg = bullet + "<b>Ngay mat</b> khong dung mau 'nn/tt'.<br>";
       }
     }
+   
+    let yobMsg = '';
+    let yodMsg = '';
+    if (values.yob && values.yod) {
+      if (+values.yob.name > values.yod.name) {
+        yodMsg = bullet + "Nam tu phai lon hon Nam sinh.<br>";
+      }
+    } 
+
+    // console.log('yob: ', yob);
+    // if (yob != '') {
+    //   if (yob.length != 4 && isNaN(yob)) {
+    //     yobMsg = bullet + "Nam sinh khong dung mau 'yyyy'.<br>";
+    //   } else if (+yob < 1900 || +yob > 2030) {
+    //     yobMsg = bullet + "<b>Nam sinh</b> phai lon hon 1900 va nho hon 2023.<br>";
+    //   } else
+    //     yobNum = +yob;
+    // }
+
+    // let yodMsg = '';
+    // let yod = values.yod;
+    // if (yod !== '') {
+    //   if (yod.length != 4 && isNaN(yod)) {
+    //     yodMsg = bullet + "Nam tu khong dung mau 'yyyy'.<br>";
+    //   } else if (+yob < 1900 || +yob > 2030) {
+    //     yodMsg = bullet + "Nam tu phai lon hon 1900 va nho hon 2023.<br>";
+    //   } else if (yobNum > 0 && +yod < yobNum) {
+    //     yodMsg = bullet + "Nam tu phai lon hon Nam sinh.<br>";
+    //   }
+    // }
 
     let pobMsg = (values.pob && values.pob.name != '' && values.pob.name.length < 5) ? bullet + 'Noi sinh phai co it nhat 5 ky tu.<br>' : '';
     let podMsg = (values.pod && values.pod.name != '' && values.pod.name.length < 5) ? bullet + 'Noi tu phai co it nhat 5 ky tu.<br>' : '';
     let porMsg = (values.por && values.por.name != '' && values.por.name.length < 5) ? bullet + 'Noi sinh song phai co it nhat 5 ky tu.<br>' : '';
-
     msg = nameMsg + dodMsg + yobMsg + yodMsg + pobMsg + podMsg + porMsg;
     return msg;
   }

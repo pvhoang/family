@@ -55,4 +55,26 @@ export class FirebaseService {
 		return updateDoc(contentRef, data);
 	}
 
+	readDocument(collection: string, documentId): Observable<any> {
+		let id = collection + '/' + documentId;
+		const data = doc(this.firestore, id);
+		return docData(data) as any;
+	}
+
+	saveDocument(collection: string, document: any) {
+    this.addDocument(collection, document).then(
+      res => {
+				console.log('saveDocument - res: ', res);
+			},
+      async err => {
+				console.log('saveDocument - ERROR: ', err);
+      }
+    );
+	}
+
+	private async addDocument(collection: string, document: any)  {
+		const docRef = doc(this.firestore, collection, document.id);
+		return await setDoc(docRef, document);
+	}
+
 }

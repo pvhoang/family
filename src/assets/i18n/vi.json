@@ -3,6 +3,7 @@
   "le": {"name": "Họ Lê", "tree": "Gia Phả Họ Lê", "short_name": "Lê"},
   "doan": {"name": "Họ Đoàn", "tree": "Gia Phả Họ Đoàn", "short_name": "Đoàn"},
 
+  "TITLE_TREE": "Gia Phả Họ",
   "VERSION": "Ấn bản",
   "HOME": "Phả nhập",
   "TREE": "Phả đồ",
@@ -14,6 +15,7 @@
   "HOME_USER_GUIDE": "Hướng dẫn sử dụng",
   "HOME_USER_GUIDE_CONTENT": "Cây có cội <br> Nước có nguồn <br><strong>Sông</strong> có <i>biển</i>",
 
+  "EDITOR": "Điều chỉnh",
   "CONTACT": "Liên hệ",
   "MESSAGE": "Tin nhắn",
   "ABOUT": "Về gia phả",
@@ -65,6 +67,12 @@
   "DELETE_PEOPLE_HEADER": "Thông báo",
   "DELETE_PEOPLE_MESSAGE": "Xóa tên ",
 
+  "SAVE_IMAGE_HEADER": "Thông báo",
+  "SAVE_IMAGE_MESSAGE": "Cất phả đồ chi vào dạng jpeg ",
+
+  "SAVE_PDF_HEADER": "Thông báo",
+  "SAVE_PDF_MESSAGE": "Cất phả đồ chi vào dạng pdf ",
+
   "SETTING": "Thông số",
   "VIETNAMESE": "Tiếng Việt",
   "ENGLISH": "Tiếng Anh",
@@ -110,32 +118,38 @@
   "CONTACT_SEND_INFO_PLACEHOLDER": "Chi tiết (tên, email, điện thoại, v.v.)",
   "CONTACT_SEND_ANSWER": "Phả đồ đã được gởi về ban biên tập. Chúng tôi sẽ thông báo kết quả trong thời gian sớm nhất",
 
-  "NODE_GROUP_NAME": "Danh tính",
+  "NODE_GROUP_BASIC": "Thông tin cơ bản",
   "NODE_NAME": "Họ tên",
   "NODE_NAME_PLACEHOLDER": "Nhập họ tên (Phan nếu đầu nhánh, ví dụ. Phan Ngọc Luật)",
-  "NODE_NICK": "Tên gọi",
-  "NODE_NICK_PLACEHOLDER": "Nhập tên gọi trong nhà (ví du: Bảy, Bờm, Tèo, Nô)",
   "NODE_GENDER": "Giới tính",
-  "NODE_RELATION": "Quan hệ",
-  "NODE_GROUP_TIME": "Sinh thời",
+  "NODE_GENDER_PLACEHOLDER": "Nhập giới tính",
+
+  "NODE_GROUP_ADVANCE": "Thông tin cá nhân",
   "NODE_YOB": "Năm sinh",
   "NODE_YOB_PLACEHOLDER": "Nhập năm (4 số, > 1900, < 2022)",
   "NODE_YOD": "Năm tử",
   "NODE_YOD_PLACEHOLDER": "Nhập năm (4 số, > Năm sinh, < 2022)",
-  "NODE_GROUP_PLACE": "Nguyên quán",
+  "NODE_DOD": "Ngày mất",
+  "NODE_DOD_PLACEHOLDER": "Nhập ngày mất theo âm lịch (nn/tt, ví du: 12/05)",
   "NODE_POB": "Nơi sinh",
   "NODE_POD": "Nơi tử",
   "NODE_POR": "Nơi cư trú",
+
+  "NODE_GROUP_OTHER": "Thông tin khác",
+  "NODE_NICK": "Tên gọi",
+  "NODE_NICK_PLACEHOLDER": "Nhập tên gọi trong nhà (ví du: Bảy, Bờm, Tèo, Nô)",
   "NODE_DESC": "Chi tiết",
   "NODE_DESC_PLACEHOLDER": "Nhập chi tiết cá nhân: thành đạt, chức vụ, v.v",
-  "NODE_DOD": "Ngày mất",
-  "NODE_DOD_PLACEHOLDER": "Nhập ngày mất theo âm lịch (nn/tt, ví du: 12/05)",
-
+  
   "NODE_GROUP_TREE": "Gia phả",
   "NODE_CHILD": "Thêm con",
   "NODE_CHILD_PLACEHOLDER": "Nhập tên",
   "NODE_SPOUSE": "Thêm chồng/vợ",
   "NODE_SPOUSE_PLACEHOLDER": "Nhập tên",
+
+  "NODE_EDIT": "Sửa",
+  "NODE_DELETE": "Xóa",
+  "NODE_RELATION": "Quan hệ",
 
   "NODE_SUBMIT": "Cất",
   "NODE_SAVE_HEADING": "Thông báo",
@@ -168,5 +182,19 @@
   "MEMORIAL_NAME": "Tên",
   "MEMORIAL_GEN": "Đời",
   "MEMORIAL_DOD": "Ngày mất",
-  "MEMORIAL_NO_DOD": "Không có ngày mất trong 7 ngày tới."
+  "MEMORIAL_NO_DOD": "Không có ngày mất trong 7 ngày tới.",
+
+  "FILE_ID": "ID",
+  "FILE_INFO": "Thông tin",
+  "FILE_SUBJECT": "Chủ đề",
+  "FILE_COMPARE": "So sánh",
+  "FILE_DELETE": "Xóa",
+  "FILE_REPLACE": "Thay thế",
+  
+  "ADMIN_SETTING": "Thông số",
+  "ADMIN_EDITOR": "Thay đổi",
+  "ADMIN_FILE": "Dữ liệu",
+  "ADMIN_FILE_SRC_VERSION": "Dữ liệu gốc: ",
+  "ADMIN_FILES_ARE_THE_SAME": "Dữ liệu giống nhau!"
+
 }

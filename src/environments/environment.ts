@@ -26,12 +26,13 @@ export const CONTACT = {
   "doan": {"name": "Đoàn Bảo Hà", "email": "pvhoang940@gmail.com"},
 }
 
-declare var ancestor;
-export const ANCESTOR = ancestor;
-export const SETTING = {
-  language: 'vi'
-  // ancestor: ANCESTOR
-}
+// declare var ancestor;
+// export const ANCESTOR = ancestor;
+
+// export const SETTING = {
+//   language: 'vi',
+//   // ancestor: ANCESTOR
+// }
 
 /*
  * For easier debugging in development mode, you can import the following file

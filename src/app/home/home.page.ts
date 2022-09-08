@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { LanguageService } from '../services/language.service';
 import { FamilyService } from '../services/family.service';
+import { DataService } from '../services/data.service';
 import { UtilService } from '../services/util.service';
-import { CONTACT, ANCESTOR } from '../../environments/environment';
+import { FirebaseService } from '../services/firebase.service';
 
 const BLUE_PRIMARY = '#3880ff';
 const RED = '#C10100';
@@ -12,6 +13,7 @@ const ORANGE = '#ffc409';
 const WHITE = '#FFFFFF';
 const GREY = '#808080';
 
+declare var ancestor;
 
 @Component({
   selector: 'app-home',
@@ -21,7 +23,6 @@ const GREY = '#808080';
 export class HomePage implements OnInit {
 
   title: any = '';
-  contact: any = '';
   language = 'VI';
   introStr: string = '';
   guideStr: string = '';
@@ -32,18 +33,24 @@ export class HomePage implements OnInit {
     private languageService: LanguageService,
     private utilService: UtilService,
     private familyService: FamilyService,
+    private dataService: DataService,
+    private fbService: FirebaseService,
   ) { }
 
   ngOnInit() {
     console.log('HomePage - ngOnInit');
-    let ancestorText = this.languageService.getTranslation(ANCESTOR);
-    this.title = ancestorText.tree;
-    this.contact = CONTACT[ANCESTOR].name + ' - ' + CONTACT[ANCESTOR].email;
-    this.utilService.getLocalTextFile('./assets/data/' + this.language.toLowerCase() + '-guide.txt').then(html => {
-      this.guideStr = html;
+    this.familyService.startFamily().then(status => {
+    this.dataService.readFamily().then((family:any) => {
+      // console.log('HomePage - ngOnInit - family: ', family);
+      this.title = this.languageService.getTranslation('TITLE_TREE') + ' ' + family.info.family_name;
+      this.utilService.getLocalTextFile('./assets/data/' + this.language.toLowerCase() + '-guide.txt').then(html => {
+        this.guideStr = html;
+      });
+      this.fbService.readDocument(ancestor, 'intro').subscribe((res:any) => {
+        let lang = this.language.toLowerCase();
+        this.introStr = res[lang];
+      });
     });
-    this.utilService.getLocalTextFile('./assets/data/' + ANCESTOR + '-' + this.language.toLowerCase() + '-intro.txt').then(text => {
-      this.introStr = text;
     });
   }
 
@@ -89,19 +96,13 @@ export class HomePage implements OnInit {
     this.utilService.getLocalTextFile('./assets/data/' + this.language.toLowerCase() + '-guide.txt').then(html => {
       this.guideStr = html;
     });
-    this.utilService.getLocalTextFile('./assets/data/' + ANCESTOR + '-' + this.language.toLowerCase() + '-intro.txt').then(text => {
+    this.utilService.getLocalTextFile('./assets/data/' + ancestor + '-' + this.language.toLowerCase() + '-intro.txt').then(text => {
       this.introStr = text;
     });
   }
 
   onStyle() {
     let root = document.documentElement;
-
-    // let app_color = root.style.getPropertyValue('--app-color');
-    // let app_background_color = root.style.getPropertyValue('--app-background-color');
-    // console.log('colors: ', this.colorStyle);
-    // console.log('colors: ', app_color, app_background_color);
-
     if (this.colorStyle == 1) {
       this.colorStyle = 2;
       root.style.setProperty('--app-color', ORANGE);
@@ -118,7 +119,6 @@ export class HomePage implements OnInit {
       root.style.setProperty('--app-color', YELLOW);
       root.style.setProperty('--app-background-color', RED);
       root.style.setProperty('--ion-color-medium', RED);
-
     }
   }
 }

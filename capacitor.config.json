@@ -1,11 +1,6 @@
 {
-	"appId": "io.ionic.school",
-	"appName": "school",
+	"appId": "io.ionic.starter",
+	"appName": "family",
 	"webDir": "www",
-	"bundledWebRuntime": false,
-	"plugins": {
-    "PushNotifications": {
-      "presentationOptions": ["badge", "sound", "alert"]
-    }
-  }
+	"bundledWebRuntime": false
 }

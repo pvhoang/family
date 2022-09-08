@@ -251,18 +251,24 @@ ion-tab-button {
   background: var(--app-background-color);
 }
 
+.contact-icon-small {
+  font-size: $icon_font_size_small;
+  color: var(--app-color);
+  background: var(--app-background-color);
+}
+
 .contact-grid {
   --ion-grid-column-padding: 10px;
   border-collapse: collapse;
   border-style: hidden;
-	font-size: $text_font_size_tiny;
+	font-size: $text_font_size_small;
   
   ion-row:first-child {
     // background-color:  #2dd36f;
     font-weight: bold;
     color: white;
     background-color: var(--app-background-color);
-    font-size: $text_font_size_tiny;
+    font-size: $text_font_size_small;
   }
   ion-col {
     border: 1px solid black;
@@ -314,6 +320,39 @@ ion-tab-button {
     }
   }
 }
+
+.alert-big {
+    --height: 500px;
+    .alert-wrapper {
+      min-width: 350px !important;
+      .alert-button:first-child {
+        color: grey;
+      }
+      .alert-head {
+        // header styling here eg. background
+        margin-top: 10px;
+        margin-bottom: 10px;
+        h2 {
+          color: white;
+          background-color: var(--app-background-color);
+          // font-weight: bold;
+          font-size: $text_font_size_small;
+        }
+      }
+      .alert-button-group {
+        justify-content: center;
+      }
+      .alert-button:nth-child(1){
+        // color: red;
+        color: grey;
+      }
+      .alert-button:nth-child(2){
+        // color: blue;
+        color: grey;
+      }
+    }
+  }
+
 
 .toast {
     --height: 100px;

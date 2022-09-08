@@ -1,7 +1,6 @@
 {
-    "version": "0.1",
-    "description": "Tổ chi Phan Lợi Hành",
-    "generation": "11",
+    "version": "0.2",
+    "info": {},
     "nodes": [
         {
             "name": "Phan Lợi Hành",

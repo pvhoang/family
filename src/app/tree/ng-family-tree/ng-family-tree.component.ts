@@ -20,7 +20,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } fro
               {{node.span[0]}}
             </span>
           </div>
-          <ul>
+          <ul *ngIf="family.children && family.children.length > 0">
             <li *ngFor="let child of family.children" [ngStyle]="{'width': _setWidth(child) ? '100%' : 'auto'}" >
               <ft-leaf (onLeafSelected)="_leafSelected($event)" [child]="child"></ft-leaf>
             </li>

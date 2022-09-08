@@ -4,13 +4,13 @@
         <ion-title class="ion-text-center ion-text-wrap app-ion-title">{{ title }}</ion-title>
       </ion-col>
       <ion-col size="5">
-        <ion-button class="app-ion-button" fill="clear" (click)="onChild()">
+        <ion-button *ngIf="caller=='tree'" class="app-ion-button" fill="clear" (click)="onChild()">
           <ion-icon slot="icon-only" name="person-add" class="app-ion-icon"></ion-icon>
         </ion-button>
         <!-- <ion-button class="app-ion-button" fill="clear" (click)="onImage()">
           <ion-icon slot="icon-only" name="image" class="app-ion-icon"></ion-icon>
         </ion-button> -->
-        <ion-button class="app-ion-button" fill="clear" (click)="onDelete()">
+        <ion-button *ngIf="caller=='tree'" class="app-ion-button" fill="clear" (click)="onDelete()">
           <ion-icon slot="icon-only" name="trash" class="app-ion-icon"></ion-icon>
         </ion-button>
       <!-- </ion-col> -->
@@ -30,7 +30,7 @@
   <div class="app-ion-content">
 
     <ion-card-header class="card-header">
-    &nbsp;{{ 'NODE_GROUP_NAME' | translate }}
+    &nbsp;{{ 'NODE_GROUP_BASIC' | translate }}
     </ion-card-header>
 
     <ion-label class="card-label">{{ 'NODE_NAME' | translate }}</ion-label>
@@ -50,8 +50,6 @@
       </ng-select>
     </div>
     
-    <ion-label class="card-label">{{ 'NODE_NICK' | translate }}</ion-label>
-    <ion-input class="card-input" type="text" [(ngModel)]="values.nick" placeholder="{{ 'NODE_NICK_PLACEHOLDER' | translate }}" clearInput></ion-input>
     <ion-label class="card-label">{{ 'NODE_GENDER' | translate }}</ion-label>
     <div class="card-select-1">
       <ng-select 
@@ -61,13 +59,9 @@
         [(ngModel)]="values.gender">
       </ng-select>
     </div>
-    <ion-label class="card-label">{{ 'NODE_DOD' | translate }}</ion-label>
-    <ion-input class="card-input" type="text" [(ngModel)]="values.dod" placeholder="{{ 'NODE_DOD_PLACEHOLDER' | translate }}" clearInput></ion-input>
-    <ion-label class="card-label">{{ 'NODE_DESC' | translate }}</ion-label>
-    <ion-textarea class="card-textarea" type="text" rows="3" autosize [(ngModel)]="values.desc" placeholder="{{ 'NODE_DESC_PLACEHOLDER' | translate }}"></ion-textarea>
 
     <ion-card-header class="card-header">
-    &nbsp;{{ 'NODE_GROUP_TIME' | translate }}
+    &nbsp;{{ 'NODE_GROUP_ADVANCE' | translate }}
     </ion-card-header>
     <ion-label class="card-label">{{ 'NODE_YOB' | translate }}</ion-label>
     <div class="card-select-1">
@@ -80,7 +74,6 @@
       >
       </ng-select>
     </div>
-    <!-- <ion-input class="card-input" type="text" [(ngModel)]="values.yob" placeholder="{{ 'NODE_YOB_PLACEHOLDER' | translate }}" clearInput></ion-input> -->
     <ion-label class="card-label">{{ 'NODE_YOD' | translate }}</ion-label>
     <div class="card-select-1">
       <ng-select 
@@ -92,11 +85,8 @@
       >
       </ng-select>
     </div>
-    <!-- <ion-input class="card-input" type="text" [(ngModel)]="values.yod" placeholder="{{ 'NODE_YOD_PLACEHOLDER' | translate }}" clearInput></ion-input> -->
- 
-    <ion-card-header class="card-header">
-      &nbsp;{{ 'NODE_GROUP_PLACE' | translate }}
-    </ion-card-header>
+    <ion-label class="card-label">{{ 'NODE_DOD' | translate }}</ion-label>
+    <ion-input class="card-input" type="text" [(ngModel)]="values.dod" placeholder="{{ 'NODE_DOD_PLACEHOLDER' | translate }}" clearInput></ion-input>
     <ion-label class="card-label">{{ 'NODE_POB' | translate }}</ion-label>
     <div class="card-select-1">
       <ng-select #ngSelectPOB
@@ -111,41 +101,6 @@
         [keyDownFn]="keydownInDropdown"
       >
       </ng-select>
-
-
-      <!-- <ng-select #ngSelectPOB
-        [items]="places | async" 
-        bindLabel="name"
-        notFoundText="{{selectPlacesNotFoundText}}"
-        placeholder="{{selectPlacesPlaceholder}}"
-        [(ngModel)]="values.pob"
-        [closeOnSelect]="true"
-        (focus)="focus('pob')"
-        (blur)="blur()"
-        (clear)="clear('places')"
-        (close)="close()"
-        (keydown)="keydown($event)"
-        (keyup)="keyup($event, 'places')"
-        [keyDownFn]="keydownInDropdown"
-      >
-      </ng-select> -->
-
-
-
-      <!-- <ng-select
-        [items]="places | async" 
-        bindLabel="name"
-        notFoundText="{{selectPlacesNotFoundText}}"
-        placeholder="{{selectPlacesPlaceholder}}"
-        [(ngModel)]="values.pob"
-        (focus)="focusPlace('pob')"
-        (blur)="blurPlace()"
-        (clear)="clearPlace()"
-        (search)="searchPlace($event)"
-        (keyup)="keyupPlace($event)">
-      </ng-select> -->
-    
-    
     </div>
 
     <ion-label class="card-label">{{ 'NODE_POD' | translate }}</ion-label>
@@ -162,19 +117,6 @@
         [keyDownFn]="keydownInDropdown"
       >
       </ng-select>
-
-      <!-- <ng-select
-        [items]="places | async" 
-        bindLabel="name"
-        notFoundText="{{selectPlacesNotFoundText}}"
-        placeholder="{{selectPlacesPlaceholder}}"
-        [(ngModel)]="values.pod"
-        (focus)="focusPlace('pod')"
-        (blur)="blurPlace()"
-        (clear)="clearPlace()"
-        (search)="searchPlace($event)"
-        (keyup)="keyupPlace($event)">
-      </ng-select> -->
     </div>
     
     <ion-label class="card-label">{{ 'NODE_POR' | translate }}</ion-label>
@@ -192,20 +134,16 @@
         [keyDownFn]="keydownInDropdown"
       >
       </ng-select>
-
-      <!-- <ng-select
-        [items]="places | async"
-        bindLabel="name"
-        notFoundText="{{selectPlacesNotFoundText}}"
-        placeholder="{{selectPlacesPlaceholder}}"
-        [(ngModel)]="values.por"
-        (focus)="focusPlace('por')"
-        (blur)="blurPlace()"
-        (clear)="clearPlace()"
-        (search)="searchPlace($event)"
-        (keyup)="keyupPlace($event)">
-      </ng-select> -->
     </div>
+
+    <ion-card-header class="card-header">
+      &nbsp;{{ 'NODE_GROUP_OTHER' | translate }}
+    </ion-card-header>
+    <ion-label class="card-label">{{ 'NODE_NICK' | translate }}</ion-label>
+    <ion-input class="card-input" type="text" [(ngModel)]="values.nick" placeholder="{{ 'NODE_NICK_PLACEHOLDER' | translate }}" clearInput></ion-input>
+    <ion-label class="card-label">{{ 'NODE_DESC' | translate }}</ion-label>
+    <ion-textarea class="card-textarea" type="text" rows="3" autosize [(ngModel)]="values.desc" placeholder="{{ 'NODE_DESC_PLACEHOLDER' | translate }}"></ion-textarea>
+
   </div>
 
 </ion-content>

@@ -1,0 +1,95 @@
+<ion-header>
+    <ion-item class="app-ion-item">
+      <ion-col size="3">
+        <!-- <ion-label class="ion-text-wrap app-ion-label">&#8226;&ensp;{{ title }}</ion-label> -->
+        <ion-title class="ion-text-center app-ion-title">{{ title }}</ion-title>
+      </ion-col>
+      <ion-col size="5">
+        <ng-select #ngSelectPeople
+          [appendTo]="'body'"
+          [items]="people | async" 
+          bindLabel="name"
+          notFoundText="{{selectPeopleNotFoundText}}"
+          placeholder="{{selectPeoplePlaceholder}}"
+          [(ngModel)]="selectPeople"
+          (clear)="clearPeople()"
+          (close)="closePeople()"
+          (keydown)="keydownPeople($event)"
+          (keyup)="keyupPeople($event)"
+          [keyDownFn]="keydownInDropdownPeople"
+        >
+        </ng-select>
+      </ion-col>
+      <ion-col size="2">
+        <ion-title class="ion-text-center app-ion-title">{{ selectedNodeName }}</ion-title>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button class="app-ion-button" fill="clear" (click)="onAdd()">
+          <ion-icon slot="icon-only" name="person-add" class="app-ion-icon"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-item>
+</ion-header>
+
+<ion-content [fullscreen]="false" class="ion-padding">
+
+  <ion-grid class="contact-grid">
+    <ion-row>
+      <ion-col size="1">
+        {{ 'NODE_RELATION' | translate }}
+      </ion-col>
+      <ion-col size="1">
+        {{ 'NODE_NAME' | translate }}
+      </ion-col>
+      <ion-col size="1">
+        {{ 'NODE_GENDER' | translate }}
+      </ion-col>
+      <ion-col size="1">
+        {{ 'NODE_YOB' | translate }} - {{ 'NODE_YOD' | translate }}
+      </ion-col>
+      <ion-col size="1">
+        {{ 'NODE_DOD' | translate }}
+      </ion-col>
+      <ion-col size="1">
+        {{ 'NODE_POB' | translate }} - {{ 'NODE_POD' | translate }}
+      </ion-col>
+      <ion-col size="1">
+        {{ 'NODE_POR' | translate }}
+      </ion-col>
+      <ion-col size="1">
+        {{ 'NODE_NICK' | translate }}
+      </ion-col>
+      <ion-col size="2">
+        {{ 'NODE_DESC' | translate }}
+      </ion-col>
+      <ion-col size="1">
+        {{ 'NODE_EDIT' | translate }}
+      </ion-col>
+      <ion-col size="1">
+        {{ 'NODE_DELETE' | translate }}
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let node of childNodes">
+      <ion-col size="1"> {{ node.relation }} </ion-col>
+      <ion-col size="1"> {{ node.name }} </ion-col>
+      <ion-col size="1"> {{ node.genderText }} </ion-col>
+      <ion-col size="1"> {{ node.yob }} - {{ node.yod }} </ion-col>
+      <ion-col size="1"> {{ node.dod }} </ion-col>
+      <ion-col size="1"> {{ node.pob }} - {{ node.pod }} </ion-col>
+      <ion-col size="1"> {{ node.por }} </ion-col>
+      <ion-col size="1"> {{ node.nick }} </ion-col>
+      <ion-col size="2"> {{ node.desc }} </ion-col>
+      <ion-col size="1"> 
+        <ion-button class="app-ion-button" fill="clear" (click)="onEdit(node)">
+          <ion-icon slot="icon-only" name="create" class="contact-icon-small"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col size="1"> 
+        <ion-button class="app-ion-button" fill="clear" (click)="onDelete(node)">
+          <ion-icon slot="icon-only" name="trash" class="contact-icon-small"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

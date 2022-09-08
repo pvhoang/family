@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { UtilService } from '../services/util.service';
+import { DataService } from '../services/data.service';
 import { LanguageService } from '../services/language.service';
+import { FirebaseService } from '../services/firebase.service';
 import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
-import { ANCESTOR } from '../../environments/environment';
+
+declare var ancestor;
 
 @Component({
   selector: 'app-archive',
@@ -28,6 +31,8 @@ export class ArchivePage implements OnInit {
   constructor(
     public toastController: ToastController,
     private utilService: UtilService,
+    private dataService: DataService,
+    private fbService: FirebaseService,
     private languageService: LanguageService,
 		private iab: InAppBrowser,
   ) {
@@ -35,10 +40,8 @@ export class ArchivePage implements OnInit {
 
   ngOnInit() {
     console.log('ArchivePage - ngOnInit');
-    let jsonFile = './assets/data/' + ANCESTOR + '-images.json'
-    this.utilService.getLocalJsonFile(jsonFile).then((data:any) => {
-      console.log('data: ', data);
-      this.data = data;
+    this.fbService.readDocument(ancestor, 'images').subscribe((res:any) => {
+      this.data = JSON.parse(res.data);
       this.start();
     });
   }
