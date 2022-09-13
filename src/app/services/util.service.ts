@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { AlertController, ToastController } from '@ionic/angular';
 import { DEBUG } from '../../environments/environment';
 import { LanguageService } from '../services/language.service';
@@ -38,7 +38,19 @@ export class UtilService {
 			console.log('err = ', err);
 		});
 	}
-	
+
+	getLocalImageFile(url: string): Promise<any> {
+		return new Promise((resolve, reject) => {
+			this.http.get(url, { responseType: 'blob' }).toPromise().then((blob:any) => {
+				resolve(blob);
+			}).catch(err => {
+				reject(err.error);
+			});
+		}).catch(err => {
+			console.log('err = ', err);
+		});
+	}
+
 	console_log(msg: string, obj?: any) {
 		if (!DEBUG)
 			return;
@@ -307,6 +319,24 @@ export class UtilService {
 		for (let i = 1900; i < 2023; i++)
 			years.push({name: ''+i});
 		return years;
+	}
+
+	public getDays() {
+		let days = [];
+		for (let i = 1; i <= 30; i++) {
+			let day = (i < 10) ? '0' + i : '' + i;
+			days.push({name: day});
+		}
+		return days;
+	}
+
+	public getMonths() {
+		let months = [];
+		for (let i = 1; i <= 12; i++) {
+			let month = (i < 10) ? '0' + i : '' + i;
+			months.push({name: month});
+		}
+		return months;
 	}
 
 	public stripVN(str) {

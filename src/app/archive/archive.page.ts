@@ -40,8 +40,13 @@ export class ArchivePage implements OnInit {
 
   ngOnInit() {
     console.log('ArchivePage - ngOnInit');
-    this.fbService.readDocument(ancestor, 'images').subscribe((res:any) => {
-      this.data = JSON.parse(res.data);
+    this.dataService.readLocalJson(ancestor, 'archive').then((data:any) => {
+    // this.fbService.readDocument(ancestor, 'archive').subscribe((res:any) => {
+    // this.fbService.readDocument(ancestor, 'images').subscribe((res:any) => {
+      // this.data = JSON.parse(res.data);
+      this.data = data;
+      // this.data['i2']['src'] = "https://gphphan.web.app/assets/imgs/phan-dinh-1971.jpg";
+      // this.data['i3']['src'] = "https://gphphan.web.app/assets/doc/ngay-gio.html";
       this.start();
     });
   }
@@ -68,8 +73,8 @@ export class ArchivePage implements OnInit {
     this.selectedImage = null;
     this.idata = null;
     this.showDetail = false;
-    this.selectNotFoundText = this.languageService.getTranslation('ARCHIVE_SELECT_NOT_FOUND_TEXT');
     this.selectPlaceholder = this.languageService.getTranslation('ARCHIVE_SELECT_PLACEHOLDER');
+    this.selectNotFoundText = this.languageService.getTranslation('ARCHIVE_SELECT_ITEM_NOT_FOUND');
   }
 
   show() {
@@ -86,6 +91,7 @@ export class ArchivePage implements OnInit {
       this.idata = data;
       setTimeout(() => {
         this.idata = this.updateImageArea(this.selectedImage);
+        // console.log('this.idata.src = ', this.idata.src);
       },300); 
     } else {
       this.idata = data;
@@ -125,13 +131,19 @@ export class ArchivePage implements OnInit {
 
     })
     // this.addCornerImages(idata);
-    this.dislayWindowData();
-    this.dislayDOMCrds('outer', 'outer');
-    this.dislayDOMCrds('row', 'row');
-    this.dislayDOMCrds('image', 'image');
-    this.dislayAreaData('Danh', idata.areas[1]);
+    // this.dislayWindowData();
+    // this.dislayDOMCrds('outer', 'outer');
+    // this.dislayDOMCrds('row', 'row');
+    // this.dislayDOMCrds('image', 'image');
+    // this.dislayAreaData('Danh', idata.areas[1]);
 
     idata.desc = idata.description[this.language];
+    // const fileName = "phan-11-09-2022-16-42-phan-dinh-1971.jpg";
+    // idata.src = "../../assets/imgs/phan-dinh-1971.jpg";
+    // this.fbService.downloadImage(fileName,idata.src).then((url:any) => {
+    //   const img = document.getElementById('image');
+    //   img.setAttribute('src', url);
+    // })
     console.log('idata: ', idata);
     return idata;
   }

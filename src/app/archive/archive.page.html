@@ -17,7 +17,7 @@
     <ion-col size="2">
     </ion-col>
     <ion-col size="3">
-        <ion-button class="app-ion-button" fill="clear" [disabled]="!idata || (idata && idata.type == 'html')" (click)="show()">
+        <ion-button class="app-ion-button" title="{{ 'ARCHIVE_HEADER_TOOLTIP_PEOPLE' | translate }}" fill="clear" [disabled]="!idata || (idata && idata.type == 'html')" (click)="show()">
           <ion-icon slot="icon-only" name="people" class="app-ion-icon"></ion-icon>
         </ion-button>
     </ion-col>

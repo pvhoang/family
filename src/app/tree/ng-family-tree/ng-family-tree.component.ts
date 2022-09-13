@@ -19,6 +19,15 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } fro
             >
               {{node.span[0]}}
             </span>
+            <span *ngIf="node.span.length == 2"
+              class="node"
+              [ngClass]="node.relationship ? node.relationship + '-leaf' : ''"
+              (click)="_leafSelected(node)" 
+              [class]="node.nclass"
+              id="{{node.id}}"
+            >
+              {{node.span[0]}}<br/>{{node.span[1]}}
+            </span>
           </div>
           <ul *ngIf="family.children && family.children.length > 0">
             <li *ngFor="let child of family.children" [ngStyle]="{'width': _setWidth(child) ? '100%' : 'auto'}" >

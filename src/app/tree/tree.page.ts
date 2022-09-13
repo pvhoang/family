@@ -13,7 +13,7 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 import * as htmlToImage from 'html-to-image';
 import { jsPDF } from 'jspdf';
 import domtoimage from 'dom-to-image';
-import '../../assets/fonts/Roboto-Regular-normal.js';
+import '../../assets/js/Roboto-Regular-normal.js';
 
 declare var ancestor;
 
@@ -70,23 +70,23 @@ export class TreePage implements OnInit {
 
   startFromStorage() {
     this.dataService.readFamily().then((family:any) => {
-      console.log('FamilyService - startFromStorage - family: ', family);
+      // console.log('FamilyService - startFromStorage - family: ', family);
       let msg = this.familyService.verifyFamily(family);
       if (msg)
         this.utilService.alertMsg('WARNING', msg);
-      console.log('FamilyService - msg: ', msg);
+      // console.log('FamilyService - msg: ', msg);
       this.start(family);
     });
   }
 
   start(family: any) {
     this.family = this.familyService.buildFullFamily(family);
-    console.log('FamilyService - start -fullFamily: ', this.family);
+    // console.log('FamilyService - start -fullFamily: ', this.family);
 
-    this.familyService.saveJson(family, 'people').then(status => {});
+    this.familyService.savePeopleJson(family, 'people').then(status => {});
     this.familyView = this.family;
-    this.selectPeopleNotFoundText = this.languageService.getTranslation('SELECT_PEOPLE_NOT_FOUND_TEXT');
-    this.selectPeoplePlaceholder = this.languageService.getTranslation('SELECT_PEOPLE_PLACEHOLDER');
+    this.selectPeopleNotFoundText = this.languageService.getTranslation('TREE_SEARCH_ITEM_NOT_FOUND');
+    this.selectPeoplePlaceholder = this.languageService.getTranslation('TREE_SEARCH_PLACEHOLDER');
     // reset search
     this.searchView = false;
     setTimeout(() => {
@@ -109,11 +109,11 @@ export class TreePage implements OnInit {
   }
 
   onLeafSelected (node) {
-    console.log('TreePage - onLeafSelected: ', node);
+    // console.log('TreePage - onLeafSelected: ', node);
     if (this.justClicked === true) {
       this.doubleClicked = true;
       this.viewNodeDetail(node);
-      console.log('Double Click Event');
+      // console.log('Double Click Event');
     } else {
       this.justClicked = true;
       setTimeout(() => {
@@ -152,28 +152,28 @@ export class TreePage implements OnInit {
   // -------TYPE NEW WORD (Enter) OR SELECT -------
   // ------------------------------------- 
   clearPeople() {
-    console.log('TreePage - clear');
+    // console.log('TreePage - clear');
     this.selectPeople = null;
     this.typeStr = '';
     this.people = this.typeahead.getJson('', 'people');
   }
 
   closePeople() {
-    console.log('TreePage - close: ', this.selectPeople);
+    // console.log('TreePage - close: ', this.selectPeople);
     this.startSearch(this.selectPeople.name);
   }
 
   keydownPeople(event) {
     if (event.key !== 'Enter')
       return;
-    console.log('TreePage - keydown: Enter: ', this.typeStr);
+    // console.log('TreePage - keydown: Enter: ', this.typeStr);
     this.ngSelectPeople.close();
     this.startSearch(this.typeStr);
   }
 
   keyupPeople(event) {
     let term = event.target.value;
-    console.log('TreePage - keyup - term: ', term);
+    // console.log('TreePage - keyup - term: ', term);
     this.typeStr = term;
     this.people = this.typeahead.getJson(term, 'people');
   }
@@ -184,7 +184,7 @@ export class TreePage implements OnInit {
   // --------- END ng-select ----------
 
   searchReset() {
-    console.log('TreePage - searchReset');
+    // console.log('TreePage - searchReset');
     this.searchPercent = '0/0';
     this.searchIdx = 0;
     this.sNodes = [];
@@ -200,19 +200,20 @@ export class TreePage implements OnInit {
   }
 
   startSearch(searchStr) {
-    console.log('TreePage - startSearch - searchStr: ', searchStr)
+    // console.log('TreePage - startSearch - searchStr: ', searchStr)
     this.searchView = true;
     // always reset
     this.searchReset();
     let skeys = this.utilService.stripVN(searchStr).split(' ');
     let strSearch = skeys.join(' ');
-
+    // console.log('TreePage - startSearch - searchStr: ', searchStr)
     // search thru all nodes
     let nodes = this.nodeService.getFamilyNodes(this.family);
     nodes.forEach((node:any) => {
       // reset nclass
       node.nclass = this.nodeService.updateNclass(node);
       let strProfile = node.profile.join(' ');
+      // console.log('TreePage - startSearch - strProfile: ', strProfile)
       if (strProfile.indexOf(strSearch) >= 0) {
         node['nclass'] = 'select'
         this.sNodes.push(node);
@@ -264,7 +265,7 @@ export class TreePage implements OnInit {
 
   onImage() {
     this.utilService.alertConfirm('SAVE_IMAGE_HEADER', 'SAVE_IMAGE_MESSAGE', 'CANCEL', 'CONTINUE').then((res) => {
-      console.log('res: ', res);
+      // console.log('res: ', res);
       if (res.data) {
         let node:any = this.sNodes[this.searchIdx - 1];
         const ele = document.getElementById('tree');
@@ -327,16 +328,16 @@ export class TreePage implements OnInit {
   async onDelete() {
     let node:any = this.sNodes[this.searchIdx - 1];
     if (node.family.nodes[0].name == node.name) {
-      console.log('NodePage - onDelete - children: ', node.family.children);
+      // console.log('NodePage - onDelete - children: ', node.family.children);
         // this is main Node, check children
       if (node.family.children && node.family.children.length > 0) {
-        let msg = this.languageService.getTranslation('NODE_ERR_HAVE_CHILDREN') + '[' + node.name + ']';
-        this.utilService.alertMsg('NODE_ERROR_TITLE', msg);
+        let msg = this.languageService.getTranslation('TREE_ALERT_MESSAGE_DELETE_NODE_HAS_CHILDREN') + '[' + node.name + ']';
+        this.utilService.alertMsg('TREE_ALERT_HEADER_DELETE_NODE_HAS_CHILDREN', msg);
         return;
       }
     }
-    this.utilService.alertConfirm('DELETE_PEOPLE_HEADER', 'DELETE_PEOPLE_MESSAGE', 'CANCEL', 'CONTINUE').then((res) => {
-      console.log('onDelete - res:' , res)
+    this.utilService.alertConfirm('TREE_CONFIRM_HEADER_DELETE_NODE', 'TREE_CONFIRM_MESSAGE_DELETE_NODE', 'CANCEL', 'OK').then((res) => {
+      // console.log('onDelete - res:' , res)
       if (res.data) {
         node.family.nodes = node.family.nodes.filter((n:any) => {
           return (n.name != node.name);
@@ -366,15 +367,14 @@ export class TreePage implements OnInit {
   }
 
   private viewNodeDetail(node: any) {
-    console.log('viewNodeDetail - node : ', node);
-
+    // console.log('viewNodeDetail - node : ', node);
     let title = node.name;
-    let level = '<b>' + this.languageService.getTranslation('VIEW_GENERATION') + '</b>' + ': ' + node.level + '<br>';
-    let parent = (node.pnode) ? '<b>' + this.languageService.getTranslation('VIEW_CHILD_OF') + '</b>' + ': ' + node.pnode.name + '<br>' : '';
-    let nick = (node.nick == '') ? '' : '<b>' + this.languageService.getTranslation('VIEW_NICK_NAME') + '</b>' + ': ' + node.nick + '<br>';
+    let level = '<b>' + this.languageService.getTranslation('TREE_ALERT_VIEW_GENERATION') + '</b>' + ': ' + node.level + '<br>';
+    let parent = (node.pnode) ? '<b>' + this.languageService.getTranslation('TREE_ALERT_VIEW_CHILD_OF') + '</b>' + ': ' + node.pnode.name + '<br>' : '';
+    let nick = (node.nick == '') ? '' : '<b>' + this.languageService.getTranslation('TREE_ALERT_VIEW_NICK_NAME') + '</b>' + ': ' + node.nick + '<br>';
     let children = '';
     if (node.family.children)
-      children = '<b>' + this.languageService.getTranslation('VIEW_NO_CHILDREN') + '</b>' + ': ' + node.family.children.length + '<br>';
+      children = '<b>' + this.languageService.getTranslation('TREE_ALERT_VIEW_NUM_CHILDREN') + '</b>' + ': ' + node.family.children.length + '<br>';
     let spouse = '';
     if (node.family.nodes.length > 1) {
       let spouseNode = null;
@@ -387,16 +387,16 @@ export class TreePage implements OnInit {
       }
       if (spouseNode) {
         if (spouseNode.gender == 'male')
-          spouse = '<b>' + this.languageService.getTranslation('VIEW_HUSBAND') + '</b>' + ': ' + spouseNode.name + '<br>';
+          spouse = '<b>' + this.languageService.getTranslation('TREE_ALERT_VIEW_HUSBAND') + '</b>' + ': ' + spouseNode.name + '<br>';
         else
-        spouse = '<b>' + this.languageService.getTranslation('VIEW_WIFE') + '</b>' + ': ' + spouseNode.name + '<br>';
+        spouse = '<b>' + this.languageService.getTranslation('TREE_ALERT_VIEW_WIFE') + '</b>' + ': ' + spouseNode.name + '<br>';
       }
     }
 
-    let years = '<b>' + this.languageService.getTranslation('VIEW_YOB_YOD') + '</b>' + ': ' + node.yob + ' - ' + node.yod + '<br>';
-    let birthPlace = '<b>' + this.languageService.getTranslation('VIEW_POB') + '</b>' + ': ' + node.pob + '<br>';
-    let deathPlace = '<b>' + this.languageService.getTranslation('VIEW_POD') + '</b>' + ': ' + node.pod + '<br>';
-    let residence = '<b>' + this.languageService.getTranslation('VIEW_POR') + '</b>' + ': ' + node.por + '<br>';
+    let years = '<b>' + this.languageService.getTranslation('TREE_ALERT_VIEW_YOB_YOD') + '</b>' + ': ' + node.yob + ' - ' + node.yod + '<br>';
+    let birthPlace = '<b>' + this.languageService.getTranslation('TREE_ALERT_VIEW_POB') + '</b>' + ': ' + node.pob + '<br>';
+    let deathPlace = '<b>' + this.languageService.getTranslation('TREE_ALERT_VIEW_POD') + '</b>' + ': ' + node.pod + '<br>';
+    let residence = '<b>' + this.languageService.getTranslation('TREE_ALERT_VIEW_POR') + '</b>' + ': ' + node.por + '<br>';
 
     let header = '<pre style="margin-left: 2.0em;">';
     let msg = level + parent + nick + years + birthPlace + deathPlace + residence + spouse + children;
@@ -406,7 +406,7 @@ export class TreePage implements OnInit {
   }
 
   async openNodeModal(node) {
-    console.log('openNodeModal - node : ', node);
+    // console.log('openNodeModal - node : ', node);
     const modal = await this.modalCtrl.create({
       component: NodePage,
       componentProps: {
@@ -416,7 +416,7 @@ export class TreePage implements OnInit {
     });
 
     modal.onDidDismiss().then((resp) => {
-      console.log('onDidDismiss : ', resp);
+      // console.log('onDidDismiss : ', resp);
       let status = resp.data.status;
       if (status == 'cancel') {
         // do nothing
@@ -427,7 +427,7 @@ export class TreePage implements OnInit {
 
       } else if (status == 'add') {
         let values = resp.data.values;
-        console.log('TreePage - onDidDismiss : values= ', values);
+        // console.log('TreePage - onDidDismiss : values= ', values);
         if (values.relation == 'child') {
           // child
           this.addChild(node, values.name, values.gender);
@@ -442,7 +442,7 @@ export class TreePage implements OnInit {
         let change = this.nodeService.updateNode(node, values);
         if (change) {
           // there is change
-          console.log('TreePage - onDidDismiss : change');
+          // console.log('TreePage - onDidDismiss : change');
           this.updateSystemData(node);
         }
       }
@@ -451,7 +451,7 @@ export class TreePage implements OnInit {
   }
   
   deleteNode(node: any) {
-    console.log('deleteNode - node: ', node)
+    // console.log('deleteNode - node: ', node)
     let pnode = node.pnode;
     if (!node.pnode) {
       // this is root
@@ -480,7 +480,7 @@ export class TreePage implements OnInit {
   }
 
   addChild(node: any, name, gender) {
-    console.log('addChild - node: ', node)
+    // console.log('addChild - node: ', node)
 
     if (!node.family.children)
       node.family.children = [];
@@ -496,7 +496,7 @@ export class TreePage implements OnInit {
   }
 
   addSpouse(node: any, name, gender) {
-    console.log('addSpouse - node: ', node)
+    // console.log('addSpouse - node: ', node)
     let id = node.id;
     let ids = id.split('-');
     // take the last one, increase by 1

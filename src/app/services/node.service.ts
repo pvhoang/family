@@ -75,6 +75,7 @@ export class NodeService {
     if (node.por != '') str += ' ' + node.por;
     if (node.desc != '') str += ' ' + node.desc;
     if (node.dod != '') str += ' ' + node.dod;
+    
     str += ' ' + genStr;
     str = this.utilService.stripVN(str);
     let keys = str.split(' ');
@@ -108,7 +109,7 @@ export class NodeService {
   public getSpanStr(node) {
     let spans = [];
     spans.push(node.name);
-    // spans.push(node.yob + ' - ' + node.yod);
+    spans.push(node.yob + ' - ' + node.yod);
     //   spans.push(node.pob + ' - ' + node.pod);
     return spans;
   }
@@ -142,7 +143,8 @@ export class NodeService {
     values.pod = (node.pod == '') ? null : {name: node.pod};
     values.por = (node.por == '') ? null : {name: node.por};
     values.desc = node.desc;
-    values.dod = node.dod;
+    values.dod_day = (node.dod == '') ? null : {name: node.dod.substring(0,2)};
+    values.dod_month = (node.dod == '') ? null : {name: node.dod.substring(3)};
     return values;
   }
 
@@ -165,7 +167,8 @@ export class NodeService {
     node.pod = pod;
     node.por = por;
     node.desc = values.desc;
-    node.dod = values.dod;
+    // node.dod = values.dod;
+    node.dod = (values.dod_day && values.dod_month) ? (values.dod_day.name + '/' + values.dod_month.name) : '';
     return change;
   }
 
@@ -175,6 +178,7 @@ export class NodeService {
     let pob = values.pob ? values.pob.name : '';
     let pod = values.pod ? values.pod.name : '';
     let por = values.por ? values.por.name : '';
+    let dod = (values.dod_day && values.dod_month) ? (values.dod_day.name + '/' + values.dod_month.name) : '';
 
     let change = 
       (node.name != values.name) ||
@@ -186,7 +190,7 @@ export class NodeService {
       (node.pod != pod) ||
       (node.por != por) ||
       (node.desc != values.desc) ||
-      (node.dod != values.dod);
+      (node.dod != dod);
     return change;
   }
 

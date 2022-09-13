@@ -4,10 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { IonicModule } from '@ionic/angular';
-
-import { ChildPageRoutingModule } from './child-routing.module';
-
-import { ChildPage } from './child.page';
+import { AncestorPageRoutingModule } from './ancestor-routing.module';
+import { AncestorPage } from './ancestor.page';
 
 @NgModule({
   imports: [
@@ -17,8 +15,9 @@ import { ChildPage } from './child.page';
     IonicModule,
     TranslateModule,
     NgSelectModule,
-    ChildPageRoutingModule
+    AncestorPageRoutingModule
   ],
-  declarations: [ChildPage]
+  declarations: [AncestorPage]
 })
-export class ChildPageModule {}
+export class AncestorPageModule {}
+

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+// import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-tabs',
@@ -9,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class TabsPage {
 
   constructor(
-    public translate: TranslateService,
+    // public translate: TranslateService,
   ) {}
 
 }

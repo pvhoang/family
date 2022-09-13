@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
 	providedIn: 'root'
@@ -6,6 +7,7 @@ import { Injectable } from '@angular/core';
 export class DataService {
 
 	constructor(
+		private http: HttpClient,
 	) {
 	}
 
@@ -34,9 +36,10 @@ export class DataService {
     return new Promise((resolve) => {
       // always add info from 'ANCESTOR'
       this.readItem('FAMILY').then((family:any) => {
-        // console.log('readFamily - family: ', family);
-        this.readItem('ANCESTOR').then((res:any) => {
-          let info = JSON.parse(res.data);
+        console.log('readFamily - family: ', family);
+        this.readItem('ANCESTOR').then((info:any) => {
+          // console.log('readFamily - res: ', res);
+          // let info = JSON.parse(res.data);
           // console.log('readFamily - data: ', info);
           if (!family) {
             // set a default family
@@ -58,5 +61,18 @@ export class DataService {
       });
     });
   }
+
+  readLocalJson(collection, documentId): Promise<any> {
+		return new Promise((resolve, reject) => {
+      const url = './assets/' + collection + '/' + documentId + '.json';
+			this.http.get(url).toPromise().then((res:any) => {
+        // json format: {id: documentId, data: data} - no Stringgify
+				resolve(res.data);
+			}).catch(err => {
+				console.log('err: ', err);
+				reject(err.error);
+			});
+		});
+	}
 
 }

@@ -4,13 +4,13 @@
       <ion-title class="ion-text-center app-ion-title">{{ title }}</ion-title>
     </ion-col>
     <ion-col size="3">
-      <ion-button class="app-ion-button" fill="clear" (click)="onMemorial()">
+      <ion-button class="app-ion-button" title="{{ 'HOME_HEADER_TOOLTIP_MEMORIAL' | translate }}" fill="clear" (click)="onMemorial()">
         <ion-icon slot="icon-only" name="ribbon" class="app-ion-icon"></ion-icon>
       </ion-button>
-      <ion-button class="app-ion-button" fill="clear" (click)="onLanguage()">
+      <ion-button class="app-ion-button" title="{{ 'HOME_HEADER_TOOLTIP_LANGUAGE' | translate }}" fill="clear" (click)="onLanguage()">
         <ion-icon slot="icon-only" name="flag" class="app-ion-icon"></ion-icon>
       </ion-button>
-      <ion-button class="app-ion-button" fill="clear" (click)="onStyle()">
+      <ion-button class="app-ion-button" title="{{ 'HOME_HEADER_TOOLTIP_THEME' | translate }}" fill="clear" (click)="onStyle()">
         <ion-icon slot="icon-only" name="color-palette" class="app-ion-icon"></ion-icon>
       </ion-button>
     </ion-col>

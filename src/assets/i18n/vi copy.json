@@ -1,34 +1,18 @@
 {
+  "phan": {"name": "Họ Phan", "tree": "Gia Phả Họ Phan", "short_name": "Phan"},
+  "le": {"name": "Họ Lê", "tree": "Gia Phả Họ Lê", "short_name": "Lê"},
+  "doan": {"name": "Họ Đoàn", "tree": "Gia Phả Họ Đoàn", "short_name": "Đoàn"},
+
   "VERSION": "Ấn bản",
-  "EDITOR": "Điều chỉnh",
-  "CONTACT": "Liên hệ",
-  "MESSAGE": "Tin nhắn",
-  "ABOUT": "Về gia phả",
-  "OK": "OK",
-  "CANCEL": "Hủy",
-  "CONTINUE": "Tiếp tục",
-  "WARNING": "Cảnh báo",
-  "ANNOUNCE": "Thông báo",
-  "GENERATION": "Đời",
-  "male": "Nam",
-  "female": "Nữ",
-  "MALE": "Nam",
-  "FEMALE": "Nữ",
-  "child": "Con",
-  "wife": "Vợ",
-  "husband": "Chồng",
-  "CHILD": "Con",
-  "WIFE": "Vợ",
-  "HUSBAND": "Chồng",
+
 
   "TAB_HOME": "Phả nhập",
   "TAB_TREE": "Phả đồ",
   "TAB_ARCHIVE": "Phả ký",
   "TAB_INFO": "Phụ khảo",
 
+
   "HOME_HEADER_TITLE": "Gia Phả Họ ",
-  "HOME_INTRO": "Lời ngõ",
-  "HOME_USER_GUIDE": "Hướng dẫn sử dụng",
   "HOME_HEADER_TOOLTIP_MEMORIAL": "Xem ngày giỗ",
   "HOME_HEADER_TOOLTIP_LANGUAGE": "Đổi ngôn ngữ",
   "HOME_HEADER_TOOLTIP_THEME": "Đổi giao diện",
@@ -39,6 +23,7 @@
   "HOME_ALERT_MEMORIAL_DOD": "Ngày mất",
   "HOME_ALERT_MEMORIAL_NO_DOD": "Không có ngày giỗ trong 7 ngày tới.",
   "HOME_ALERT_MEMORIAL_HEADER": "Ngày giỗ",
+
   
   "TREE_HEADER_TOOLTIP_HOME": "Về chi gốc",
   "TREE_SEARCH_PLACEHOLDER": "Chọn chi, đời, năm, địa chỉ, v.v",
@@ -60,10 +45,6 @@
   "TREE_ALERT_VIEW_POD": "Nơi tử",
   "TREE_ALERT_VIEW_POR": "Nơi sinh sống",
 
-  "NODE_HEADER_TOOLTIP_ADD": "Thêm con/vợ/chồng",
-  "NODE_HEADER_TOOLTIP_DELETE": "Xóa chi",
-  "NODE_HEADER_TOOLTIP_SAVE": "Cất thông tin mới",
-  "NODE_HEADER_TOOLTIP_CANCEL": "Bỏ thông tin mới",
   "NODE_GROUP_BASIC": "Thông tin cơ bản",
   "NODE_NAME": "Họ tên",
   "NODE_NAME_PLACEHOLDER": "Nhập họ tên (Phan nếu đầu nhánh, ví dụ. Phan Ngọc Luật)",
@@ -110,7 +91,6 @@
   "NODE_ERR_YOD_ERROR": "<b>Năm tử</b> phải lớn hơn <b>Năm sinh</b> và từ <b>1900 đến 2022</b>.",
   "NODE_ERR_HAVE_CHILDREN": "Không thể xóa nhánh. Phải xóa ngọn trước.",
 
-  "ARCHIVE_HEADER_TOOLTIP_PEOPLE": "Xem nhân vật trong hình",
   "ARCHIVE_SELECT_PLACEHOLDER": "Chọn tư liệu",
   "ARCHIVE_SELECT_ITEM_NOT_FOUND": "Không tìm thấy tư liệu",
 
@@ -149,32 +129,126 @@
   "CONTACT_SEND_INFO_PLACEHOLDER": "Chi tiết (tên, email, điện thoại, v.v.)",
   "CONTACT_SEND_ANSWER": "Phả đồ đã được gởi về ban biên tập. Chúng tôi sẽ thông báo kết quả trong thời gian sớm nhất",
 
-  "ADMIN_HEADER_TOOLTIP_EDITOR": "Điều chỉnh chi",
-  "ADMIN_HEADER_TOOLTIP_FILE": "Thay đổi gia phả lưu trên mạng",
 
-  "EDITOR_HEADER_TITLE": "Điều chỉnh",
-  "EDITOR_HEADER_TOOLTIP_ADD": "Thêm con/vợ/chồng",
-  "EDITOR_SEARCH_PLACEHOLDER": "Chọn chi",
-  "EDITOR_SEARCH_ITEM_NOT_FOUND": "Không tìm thấy thông tin",
-  "EDITOR_ALERT_HEADER_DELETE_NODE_HAS_CHILDREN": "Thông báo",
-  "EDITOR_ALERT_MESSAGE_DELETE_NODE_HAS_CHILDREN": "Không thể xóa chi. Phải xóa nhánh trước.",
-  "EDITOR_CONFIRM_HEADER_DELETE_NODE": "Cảnh báo",
-  "EDITOR_CONFIRM_MESSAGE_DELETE_NODE": "Chi xóa sẽ không phục hồi được!",
+  "EDITOR_": "Gia Phả Họ",
+  "FILE_": "Gia Phả Họ",
 
-  "FILE_TITLE": "Dữ liệu",
-  "FILE_SRC_VERSION": "Dữ liệu gốc: ",
-  "FILE_FILES_ARE_THE_SAME": "Dữ liệu giống nhau!",
-  "FILE_DELETE_HEADER": "Cảnh báo",
-  "FILE_DELETE_MESSAGE": "Dữ liệu xóa sẽ không phục hồi được!",
+
+  "TITLE_TREE": "Gia Phả Họ",
+  "VERSION": "Ấn bản",
+  "HOME": "Phả nhập",
+  "TREE": "Phả đồ",
+  "ARCHIVE": "Phả ký",
+  "INFO": "Phụ khảo",
+
+  "HOME_INTRO": "Lời ngõ",
+  "HOME_INTRO_CONTENT": "Cây có cội <br> Nước có nguồn <br><strong>Sông</strong> có <i>biển</i>",
+  "HOME_USER_GUIDE": "Hướng dẫn sử dụng",
+  "HOME_USER_GUIDE_CONTENT": "Cây có cội <br> Nước có nguồn <br><strong>Sông</strong> có <i>biển</i>",
+
+  "EDITOR": "Điều chỉnh",
+  "CONTACT": "Liên hệ",
+  "MESSAGE": "Tin nhắn",
+  "ABOUT": "Về gia phả",
+  "OK": "OK",
+  "CANCEL": "Hủy",
+  "CONTINUE": "Tiếp tục",
+  "WARNING": "Cảnh báo",
+  "ANNOUNCE": "Thông báo",
+  "GENERATION": "Đời",
+  "male": "Nam",
+  "female": "Nữ",
+  "MALE": "Nam",
+  "FEMALE": "Nữ",
+
+  "child": "Con",
+  "wife": "Vợ",
+  "husband": "Chồng",
+  "CHILD": "Con",
+  "WIFE": "Vợ",
+  "HUSBAND": "Chồng",
+
+  "LOCAL_DATA": "Phả đồ điều chỉnh",
+  "NEW_DATA": "Phả đồ mới",
+  "DATA_WARNING": "Nếu chọn phả đồ mới, thay đổi trong phả đồ máy sẽ bị xóa!",
+  "SELECT_DATA_VERSION": "Chọn phả đồ",
+  "LOCAL_DATA_BUTTON": "Máy",
+  "NEW_DATA_BUTTON": "Mới",
+
+  "NAME_MUST_BE_ANCESTOR": "Chi đầu nhánh phải mang họ ",
+
+  "SELECT_PEOPLE_NOT_FOUND_TEXT": "Không tìm thấy tên",
+  "SELECT_PEOPLE_PLACEHOLDER": "Nhập hoặc chọn tên",
+  "SELECT_PLACES_NOT_FOUND_TEXT": "Không tìm thấy nơi",
+  "SELECT_PLACES_PLACEHOLDER": "Nhập hoặc chọn nơi",
+  "SELECT_RELATION_PLACEHOLDER": "Chọn quan hệ",
+  "SELECT_GENDER_PLACEHOLDER": "Chọn giới tính",
+  "SELECT_YEARS_PLACEHOLDER": "Chọn năm hoặc để trống",
+  "SELECT_DAYS_PLACEHOLDER": "Chọn ngày Âm lịch hoặc để trống",
+  "SELECT_MONTHS_PLACEHOLDER": "Chọn tháng  Âm lịch hoặc để trống",
+
+  "SEARCH_RESULT_TITLE": "Kết quả tìm",
+
+  "TREE_ADD_CHILD": "Thêm con/vợ/chồng",
+  "TREE_ADD_NAME_PLACEHOLDER": "Nhập tên",
+  "TREE_ADD_RELATION_PLACEHOLDER": "Nhập liên hệ: c(con), v(vợ), ch(chồng)",
+  "TREE_ADD_GENDER_PLACEHOLDER": "Nhập giới tính: n(nam), nu(nữ)",
+
+  "TREE_SHORT_VIEW_ERROR_HEADING": "Lỗi",
+  "TREE_SHORT_VIEW_ERROR_MSG": "Không thể sửa thông tin khi đang xem Phả đồ Chi!",
+
+  "DELETE_PEOPLE_HEADER": "Thông báo",
+  "DELETE_PEOPLE_MESSAGE": "Xóa tên ",
+
+  "SAVE_IMAGE_HEADER": "Thông báo",
+  "SAVE_IMAGE_MESSAGE": "Cất phả đồ chi vào dạng jpeg ",
+
+  "SAVE_PDF_HEADER": "Thông báo",
+  "SAVE_PDF_MESSAGE": "Cất phả đồ chi vào dạng pdf ",
+
+  "SETTING": "Thông số",
+  "VIETNAMESE": "Tiếng Việt",
+  "ENGLISH": "Tiếng Anh",
+  "SETTING_LANGUAGE_NAME": "Ngôn ngữ",
+  "SETTING_LANGUAGE": "Chọn",
+  "SETTING_FAMILY_NAME": "Dòng tộc",
+  "SETTING_FAMILY": "Họ",
+  
+  
+
+ 
+
+  "CHILD_ADD": "Thêm con/vợ/chồng",
+
+  "VIEW_GENERATION": "Đời",
+  "VIEW_CHILD_OF": "Con ông/bà",
+  "VIEW_NICK_NAME": "Tục danh",
+  "VIEW_NO_CHILDREN": "Số con",
+  "VIEW_HUSBAND": "Chồng",
+  "VIEW_WIFE": "Vợ",
+  "VIEW_YOB_YOD": "Năm sinh-tử",
+  "VIEW_POB": "Nơi sinh",
+  "VIEW_POD": "Nơi tử",
+  "VIEW_POR": "Nơi sinh sống",
+
+  "MEMORIAL_HEADER": "Ngày giỗ",
+  "MEMORIAL_TODAY": "Hôm nay (âm lịch)",
+  "MEMORIAL_NAME": "Tên",
+  "MEMORIAL_GEN": "Đời",
+  "MEMORIAL_DOD": "Ngày mất",
+  "MEMORIAL_NO_DOD": "Không có ngày mất trong 7 ngày tới.",
+
   "FILE_ID": "ID",
   "FILE_INFO": "Thông tin",
   "FILE_SUBJECT": "Chủ đề",
   "FILE_COMPARE": "So sánh",
   "FILE_DELETE": "Xóa",
   "FILE_REPLACE": "Thay thế",
-  "FILE_NAME": "Họ tên",
-  "FILE_ITEM": "Thông số",
-  "FILE_OLD_VALUE": "Cũ",
-  "FILE_NEW_VALUE": "Mới"
+  
+  "ADMIN_SETTING": "Thông số",
+  "ADMIN_EDITOR": "Thay đổi",
+  "ADMIN_FILE": "Dữ liệu",
+  "ADMIN_FILE_SRC_VERSION": "Dữ liệu gốc: ",
+  "ADMIN_FILES_ARE_THE_SAME": "Dữ liệu giống nhau!"
 
 }

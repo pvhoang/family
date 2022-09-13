@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: SettingPage
-  }
+  },
+  {
+    path: 'ancestor',
+    loadChildren: () => import('../ancestor/ancestor.module').then( m => m.AncestorPageModule)
+  },
 ];
 
 @NgModule({

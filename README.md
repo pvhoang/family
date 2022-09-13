@@ -15,6 +15,11 @@ https://github.com/aaronczichon/aaronczichon.de/tree/master/CSS_Zooming
 https://aaronczichon.de/blog/zoom-dom-elements-with-css/
 
 =======================
+# Tooltip for button
+=======================
+https://stackoverflow.com/questions/66484943/how-to-change-title-of-an-ion-icon
+
+=======================
 # ModalController, AlertController, ToastController
 =======================
 // https://remotestack.io/ionic-modal-popup-tutorial/
@@ -99,16 +104,19 @@ https://stackoverflow.com/questions/59885556/how-to-add-and-set-a-font-in-jspdf
 https://www.npmjs.com/package/html-to-image
 
 =======================
-# Create phan-images.json
+# Create archive.json
 =======================
 
 . cd/dev/face-api.js/examples/examples-browser
 . npm start
-Listening on port 3000!
-http://localhost:3000/face_detection
-. cd/dev/face-api.js/examples/examples-browser/views/faceDetection.html
-. console.log
-. get Name
+. Listening on port 3000!
+. http://localhost:3000/face_detection
+. [Choose file]
+. Ctrl-Shift-J
+. select: json in [Console]
+. add name to areas->text->header (get person from areas->score on image)
+
+. edit script from /dev/face-api.js/examples/examples-browser/views/faceDetection.html
 
 =======================
 # DIFF 2 family files

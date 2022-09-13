@@ -46,14 +46,15 @@ export class ContactPage implements OnInit {
       // this.ancestorInfo = data;
       this.familyService.getSourceFamilyVersion().then((srcVersion:any) => {
         // console.log('ContactPage - ngOnInit - srcVersion: ', srcVersion);
-        this.title = this.languageService.getTranslation('TITLE_TREE') + ' ' + family.info.family_name;
+        this.title = this.languageService.getTranslation('CONTACT_HEADER_TITLE') + ' ' + family.info.family_name;
         let msg1 = this.languageService.getTranslation('CONTACT_VERSION_1');
         let msg2 = this.languageService.getTranslation('CONTACT_VERSION_2');
         let msg3 = this.languageService.getTranslation('CONTACT_VERSION_3');
         this.version = msg1 + version + ' - ' + msg2 + srcVersion + ' - ' + msg3 + family.version;
-        this.fbService.readDocument(ancestor, 'contribution').subscribe((res:any) => {
-          let d = JSON.parse(res.data);
-          let data = d.data;
+        this.dataService.readLocalJson(ancestor, 'contribution').then((data:any) => {
+        // this.fbService.readDocument(ancestor, 'contribution').subscribe((res:any) => {
+          // let d = JSON.parse(res.data);
+          // let data = d.data;
           this.contResults = this.getContribution(data);
         });
       });
@@ -108,8 +109,10 @@ export class ContactPage implements OnInit {
     }
     this.compareMode = true;
     this.dataService.readFamily().then((localFamily:any) => {
-      this.fbService.readDocument(ancestor, 'family').subscribe((res:any) => {
-        let srcFamily = JSON.parse(res.data);
+      this.dataService.readLocalJson(ancestor, 'family').then((data:any) => {
+      // this.fbService.readDocument(ancestor, 'family').subscribe((res:any) => {
+        // let srcFamily = JSON.parse(res.data);
+        let srcFamily = data;
         srcFamily.info = localFamily.info;
         this.compareResults = this.familyService.compareFamilies(srcFamily, localFamily);
       });
@@ -129,8 +132,10 @@ export class ContactPage implements OnInit {
 
     // evaluate difference
     this.dataService.readFamily().then((localFamily:any) => {
-      this.fbService.readDocument(ancestor, 'family').subscribe((res:any) => {
-        let srcFamily = JSON.parse(res.data);
+      this.dataService.readLocalJson(ancestor, 'family').then((data:any) => {
+        // this.fbService.readDocument(ancestor, 'family').subscribe((res:any) => {
+        // let srcFamily = JSON.parse(res.data);
+        let srcFamily = data;
         // srcFamily.info = localFamily.info;
         let compareResults = this.familyService.compareFamilies(srcFamily, localFamily);
         // let compareResults = this.familyService.compareFamilies(srcFamily, localFamily);
@@ -152,15 +157,17 @@ export class ContactPage implements OnInit {
           // reset info in family
           localFamily.info = {};
           let info = res.data.info;
-          let text = JSON.stringify(localFamily, null, 4);
-          let id = this.utilService.getDateID(true);
+          // let text = JSON.stringify(localFamily, null, 4);
+          let t = { id: "family", data: localFamily };
+          const text = JSON.stringify(t, null, 4);
+          let id = ancestor + '-' + this.utilService.getDateID(true);
           let shortInfo = (info.length < 20) ? info : info.substring(0, 20);
           this.firebaseService.saveContent({
             id: id,
             info: info,
             to: email,
             message: {
-              subject: 'Gia Pha - ' + id + ' - ' + shortInfo,
+              subject: 'Gia Pha - (' + id + ') - ' + shortInfo,
               text: text,
             }
           });

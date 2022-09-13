@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { Observable } from 'rxjs';
 import { ModalController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UtilService } from '../../services/util.service';
 import { LanguageService } from '../../services/language.service';
 import { FamilyService } from '../../services/family.service';
@@ -43,6 +44,7 @@ export class EditorPage implements OnInit {
 
   constructor(
     public modalCtrl: ModalController,
+    private router: Router,
     private utilService: UtilService,
     private familyService: FamilyService,
     private nodeService: NodeService,
@@ -53,18 +55,22 @@ export class EditorPage implements OnInit {
 
   ngOnInit() {
     console.log('EditorPage - ngOnInit');
-    this.title = this.languageService.getTranslation('ADMIN_EDITOR');
+    this.title = this.languageService.getTranslation('EDITOR_HEADER_TITLE');
     this.startFromStorage();
   }
 
   ionViewWillEnter() {
-    console.log('TreePage - ionViewWillEnter');
+    console.log('EditorPage - ionViewWillEnter');
     this.startFromStorage();
   }
 	
 	ionViewWillLeave() {
-    console.log('TreePage - ionViewWillLeave');
+    console.log('EditorPage - ionViewWillLeave');
 	}
+
+  async onClose() {
+    this.router.navigateByUrl(`/admin`);
+  }
 
   startFromStorage() {
     this.dataService.readFamily().then((family:any) => {
@@ -81,10 +87,12 @@ export class EditorPage implements OnInit {
     this.family = this.familyService.buildFullFamily(family);
     console.log('FamilyService - start -fullFamily: ', this.family);
 
-    this.familyService.saveJson(family, 'people').then(status => {});
+    this.familyService.savePeopleJson(family, 'people', true).then(status => {});
     this.familyView = this.family;
-    this.selectPeopleNotFoundText = this.languageService.getTranslation('SELECT_PEOPLE_NOT_FOUND_TEXT');
-    this.selectPeoplePlaceholder = this.languageService.getTranslation('SELECT_PEOPLE_PLACEHOLDER');
+    this.selectPeoplePlaceholder = this.languageService.getTranslation('EDITOR_SEARCH_PLACEHOLDER');
+    this.selectPeopleNotFoundText = this.languageService.getTranslation('EDITOR_SEARCH_ITEM_NOT_FOUND');
+    this.childNodes = [];
+    this.selectPeople = null;
     // reset search
   }
 
@@ -185,12 +193,13 @@ export class EditorPage implements OnInit {
       {type: 'radio', label: this.languageService.getTranslation('HUSBAND'), value: 'husband' }
     ];
     this.utilService.alertRadio('RELATION', msg, inputs , 'CANCEL', 'OK').then((res) => {
-      console.log('onAdd - res:' , res)
+      // console.log('onAdd - res:' , res)
       if (res) {
         // this.familyService.startSourceFamily().then(status => {});
         let relation = res.data;
-        let name = this.languageService.getTranslation('NODE_CHILD_PLACEHOLDER');
-        let gender = '';
+        // let name = this.languageService.getTranslation('NODE_CHILD_PLACEHOLDER');
+        let name = 'Phan - nhập tên';
+        let gender = (relation == 'child') ? 'male' : ((relation == 'wife') ? 'female' : 'male');
         if (relation == 'child')
           this.addChild(this.selectedNode, name, gender, relation);
         else
@@ -200,17 +209,17 @@ export class EditorPage implements OnInit {
   }
 
   onEdit(node: any) {
-    console.log('onEdit- node: ', node);
+    // console.log('onEdit- node: ', node);
     this.openNodeModal(node);
   }
 
   onDelete(node: any) {
     if (node.family.nodes[0].name == node.name) {
-      console.log('NodePage - onDelete - children: ', node.family.children);
+      // console.log('NodePage - onDelete - children: ', node.family.children);
         // this is main Node, check children
       if (node.family.children && node.family.children.length > 0) {
-        let message = this.languageService.getTranslation('NODE_ERR_HAVE_CHILDREN') + '[' + node.name + ']';
-        this.utilService.alertMsg('NODE_ERROR_TITLE', message
+        let message = this.languageService.getTranslation('EDITOR_ALERT_MESSAGE_DELETE_NODE_HAS_CHILDREN') + '[' + node.name + ']';
+        this.utilService.alertMsg('EDITOR_ALERT_HEADER_DELETE_NODE_HAS_CHILDREN', message
           // this.languageService.getTranslation('NODE_ERROR_TITLE'),
           // this.languageService.getTranslation('NODE_ERR_HAVE_CHILDREN') + '[' + node.name + ']'
         );
@@ -218,8 +227,8 @@ export class EditorPage implements OnInit {
         return;
       }
     }
-    let message = this.languageService.getTranslation('DELETE_PEOPLE_MESSAGE') + ': ' + node.name;
-    this.utilService.alertConfirm('DELETE_PEOPLE_HEADER', message, 'CANCEL', 'CONTINUE').then((res) => {
+    let message = this.languageService.getTranslation('EDITOR_CONFIRM_MESSAGE_DELETE_NODE') + ': ' + node.name;
+    this.utilService.alertConfirm('EDITOR_CONFIRM_HEADER_DELETE_NODE', message, 'CANCEL', 'OK').then((res) => {
       console.log('onDelete - res:' , res)
       if (res.data) {
         this.deleteNode(node);
@@ -230,7 +239,7 @@ export class EditorPage implements OnInit {
   }
 
   async openNodeModal(node) {
-    console.log('openNodeModal - node : ', node);
+    // console.log('openNodeModal - node : ', node);
     const modal = await this.modalCtrl.create({
       component: NodePage,
       componentProps: {
@@ -240,7 +249,7 @@ export class EditorPage implements OnInit {
     });
 
     modal.onDidDismiss().then((resp) => {
-      console.log('onDidDismiss : ', resp);
+      // console.log('onDidDismiss : ', resp);
       let status = resp.data.status;
       if (status == 'cancel') {
         // do nothing
@@ -252,7 +261,7 @@ export class EditorPage implements OnInit {
         let change = this.nodeService.updateNode(node, values);
         if (change) {
           // there is change
-          console.log('TreePage - onDidDismiss : change');
+          // console.log('TreePage - onDidDismiss : change');
           this.updateSystemData(node);
           this.updateChildren();
         }
@@ -262,7 +271,7 @@ export class EditorPage implements OnInit {
   }
   
   deleteNode(node: any) {
-    console.log('deleteNode - node: ', node)
+    // console.log('deleteNode - node: ', node)
     let pnode = node.pnode;
     if (!node.pnode) {
       // this is root
@@ -310,7 +319,7 @@ export class EditorPage implements OnInit {
   }
 
   addChild(node: any, name, gender, relation) {
-    console.log('addChild - node: ', node)
+    // console.log('addChild - node: ', node)
     
     if (!node.family.children)
       node.family.children = [];
@@ -329,7 +338,7 @@ export class EditorPage implements OnInit {
   }
 
   addSpouse(node: any, name, gender, relation:any) {
-    console.log('addSpouse - node: ', node)
+    // console.log('addSpouse - node: ', node)
     let id = node.id;
     let ids = id.split('-');
     // take the last one, increase by 1
@@ -349,7 +358,7 @@ export class EditorPage implements OnInit {
     // update data for node
     node.span = this.nodeService.getSpanStr(node);
     // save full family to local memory and json
-    console.log('TreePage - updateSystemData : save: ', node);
+    // console.log('TreePage - updateSystemData : save: ', node);
     this.familyService.saveFullFamily(this.family).then(status => {});
     // this.family = this.familyService.buildFullFamily(this.family);
     // this.startFromStorage();

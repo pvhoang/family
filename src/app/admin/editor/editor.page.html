@@ -1,10 +1,17 @@
 <ion-header>
     <ion-item class="app-ion-item">
-      <ion-col size="3">
+      <ion-col size="1">
+      </ion-col>
+      <ion-col size="1">
+        <ion-button class="app-ion-button" fill="clear" (click)="onClose()">
+          <ion-icon slot="icon-only" name="arrow-back" class="app-ion-icon"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col size="2">
         <!-- <ion-label class="ion-text-wrap app-ion-label">&#8226;&ensp;{{ title }}</ion-label> -->
         <ion-title class="ion-text-center app-ion-title">{{ title }}</ion-title>
       </ion-col>
-      <ion-col size="5">
+      <ion-col size="4">
         <ng-select #ngSelectPeople
           [appendTo]="'body'"
           [items]="people | async" 
@@ -21,10 +28,10 @@
         </ng-select>
       </ion-col>
       <ion-col size="2">
-        <ion-title class="ion-text-center app-ion-title">{{ selectedNodeName }}</ion-title>
+        <ion-title *ngIf="selectPeople" class="ion-text-center app-ion-title">{{ selectedNodeName }}</ion-title>
       </ion-col>
       <ion-col size="2">
-        <ion-button class="app-ion-button" fill="clear" (click)="onAdd()">
+        <ion-button *ngIf="selectPeople" class="app-ion-button" title="{{ 'EDITOR_HEADER_TOOLTIP_ADD' | translate }}" fill="clear" (click)="onAdd()">
           <ion-icon slot="icon-only" name="person-add" class="app-ion-icon"></ion-icon>
         </ion-button>
       </ion-col>

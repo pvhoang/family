@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-item class="app-ion-item">
+      <ion-col size="7">
+        <ion-title class="ion-text-center ion-text-wrap app-ion-title">{{ title }}</ion-title>
+      </ion-col>
+      <ion-col size="5">
+        <ion-button class="app-ion-button" fill="clear" (click)="onSave()">
+          <ion-icon slot="icon-only" name="download" class="app-ion-icon"></ion-icon>
+        </ion-button>
+        <ion-button class="app-ion-button" fill="clear" (click)="onCancel()">
+          <ion-icon slot="icon-only" name="close" class="app-ion-icon"></ion-icon>
+        </ion-button>
+      </ion-col>
+  </ion-item>
+</ion-header>
+
+<ion-content [fullscreen]="false" class="ion-padding">
+  <div class="app-ion-content">
+
+    <ion-card-header class="card-header">
+      &nbsp;{{ 'ADMIN_GROUP_BASIC' | translate }}
+    </ion-card-header>
+
+    <ion-label class="card-label">{{ 'ADMIN_NAME' | translate }}</ion-label>
+    <ion-input class="card-input" type="text" [(ngModel)]="values.admin" placeholder="{{ 'ADMIN_NAME_PLACEHOLDER' | translate }}" clearInput></ion-input>
+    <ion-label class="card-label">{{ 'ADMIN_EMAIL' | translate }}</ion-label>
+    <ion-input class="card-input" type="text" [(ngModel)]="values.email" placeholder="{{ 'ADMIN_EMAIL_PLACEHOLDER' | translate }}" clearInput></ion-input>
+
+    <ion-card-header class="card-header">
+        &nbsp;{{ 'ADMIN_GROUP_DETAIL' | translate }}
+    </ion-card-header>
+
+    <ion-label class="card-label">{{ 'ADMIN_ANCESTOR_NAME' | translate }}</ion-label>
+    <ion-input class="card-input" type="text" [(ngModel)]="values.family_name" placeholder="{{ 'ADMIN_ANCESTOR_NAME_PLACEHOLDER' | translate }}" clearInput></ion-input>
+
+    <ion-label class="card-label">{{ 'ADMIN_DESCRIPTION' | translate}}</ion-label>
+    <ion-input class="card-input" type="text" [(ngModel)]="values.description" placeholder="{{ 'ADMIN_ADMIN_DESCRIPTION_PLACEHOLDER' | translate }}" clearInput></ion-input>
+
+    <ion-label class="card-label">{{ 'ADMIN_ROOT_NODE_NAME' | translate }}</ion-label>
+    <ion-input class="card-input" type="text" [(ngModel)]="values.name" placeholder="{{ 'ADMIN_ROOT_NODE_NAME_PLACEHOLDER' | translate }}" clearInput></ion-input>
+
+    <ion-label class="card-label">{{ 'ADMIN_GENERATION' | translate }}</ion-label>
+    <ion-input class="card-input" type="text" [(ngModel)]="values.generation" placeholder="{{ 'ADMIN_GENERATION_PLACEHOLDER' | translate }}" clearInput></ion-input>
+
+  </div>
+</ion-content>

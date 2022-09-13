@@ -42,14 +42,27 @@ export class HomePage implements OnInit {
     this.familyService.startFamily().then(status => {
     this.dataService.readFamily().then((family:any) => {
       // console.log('HomePage - ngOnInit - family: ', family);
-      this.title = this.languageService.getTranslation('TITLE_TREE') + ' ' + family.info.family_name;
-      this.utilService.getLocalTextFile('./assets/data/' + this.language.toLowerCase() + '-guide.txt').then(html => {
+      this.title = this.languageService.getTranslation('HOME_HEADER_TITLE') + ' ' + family.info.family_name;
+      // this.tooltipMemorial = this.languageService.getTranslation('HOME_HEADER_TOOLTIP_MEMORIAL') + ' ' + family.info.family_name;
+      
+      const guideFile = './assets/common/' + this.language.toLowerCase() + '-guide.txt';
+      this.utilService.getLocalTextFile(guideFile).then(html => {
         this.guideStr = html;
+        // console.log('HomePage - ngOnInit - this.guideStr: ', this.guideStr);
       });
-      this.fbService.readDocument(ancestor, 'intro').subscribe((res:any) => {
-        let lang = this.language.toLowerCase();
-        this.introStr = res[lang];
+      const introFile = './assets/' + ancestor + '/' + this.language.toLowerCase() + '-intro.txt';
+      this.utilService.getLocalTextFile(introFile).then((html:any) => {
+        // let lang = this.language.toLowerCase();
+        // this.introStr = res[lang];
+        this.introStr = html;
+        // console.log('HomePage - ngOnInit - this.introStr: ', this.introStr);
       });
+
+      // const introFile = this.language.toLowerCase() + '-intro.txt';
+      // this.fbService.readDocument(ancestor, 'intro').subscribe((res:any) => {
+      //   let lang = this.language.toLowerCase();
+      //   this.introStr = res[lang];
+      // });
     });
     });
   }
@@ -69,20 +82,20 @@ export class HomePage implements OnInit {
       let bullet = '&#8226;&nbsp;';
       let header = '<pre style="margin-left: 2.0em;">' +
       // '<b>' + this.languageService.getTranslation('MEMORIAL_TODAY') +'</b>:\t<b>' + today + '</b>' + '<br><br>';
-      '<b>' + this.languageService.getTranslation('MEMORIAL_TODAY') +'</b>: <b>' + today + '</b>' + '<br><br>';
+      '<b>' + this.languageService.getTranslation('HOME_ALERT_MEMORIAL_TODAY') +'</b>: <b>' + today + '</b>' + '<br><br>';
       let msg = '';
       if (data.persons.length > 0) {
-        msg = '<b>' + this.languageService.getTranslation('MEMORIAL_NAME') + 
-        '</b>\t\t<b>' + this.languageService.getTranslation('MEMORIAL_GEN') + 
-        '</b>\t<b>' + this.languageService.getTranslation('MEMORIAL_DOD') + '</b>' + '<br>';
+        msg = '<b>' + this.languageService.getTranslation('HOME_ALERT_MEMORIAL_NAME') + 
+        '</b>\t\t<b>' + this.languageService.getTranslation('HOME_ALERT_MEMORIAL_GENERATION') + 
+        '</b>\t<b>' + this.languageService.getTranslation('HOME_ALERT_MEMORIAL_DOD') + '</b>' + '<br>';
         data.persons.forEach(person => {
           msg += person[0] + '\t' + person[1] + '\t' + person[2] + '<br>';
         })
       } else {
-        msg = bullet + this.languageService.getTranslation('MEMORIAL_NO_DOD') + '<br><br>';
+        msg = bullet + this.languageService.getTranslation('HOME_ALERT_MEMORIAL_NO_DOD') + '<br><br>';
       }
       msg = header + msg + '</pre>';
-      this.utilService.alertMsg('MEMORIAL_HEADER', msg, 'alert-small');
+      this.utilService.alertMsg('HOME_ALERT_MEMORIAL_HEADER', msg, 'alert-small');
     });
   }
 
@@ -92,13 +105,24 @@ export class HomePage implements OnInit {
     } else {
       this.language = 'VI'
     }
+
     this.languageService.setLanguage(this.language.toLowerCase());
-    this.utilService.getLocalTextFile('./assets/data/' + this.language.toLowerCase() + '-guide.txt').then(html => {
+
+    const guideFile = './assets/common/' + this.language.toLowerCase() + '-guide.txt';
+    this.utilService.getLocalTextFile(guideFile).then(html => {
       this.guideStr = html;
     });
-    this.utilService.getLocalTextFile('./assets/data/' + ancestor + '-' + this.language.toLowerCase() + '-intro.txt').then(text => {
-      this.introStr = text;
+    const introFile = './assets/' + ancestor + '/' + this.language.toLowerCase() + '-intro.txt';
+    this.utilService.getLocalTextFile(introFile).then((html:any) => {
+      this.introStr = html;
     });
+
+    // this.utilService.getLocalTextFile('./assets/data/' + this.language.toLowerCase() + '-guide.txt').then(html => {
+    //   this.guideStr = html;
+    // });
+    // this.utilService.getLocalTextFile('./assets/data/' + ancestor + '-' + this.language.toLowerCase() + '-intro.txt').then(text => {
+    //   this.introStr = text;
+    // });
   }
 
   onStyle() {

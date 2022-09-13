@@ -7,7 +7,7 @@ import { LanguageService } from '../../services/language.service';
 import { UtilService } from '../../services/util.service';
 import { FamilyService } from '../../services/family.service';
 import { NodeService } from '../../services/node.service';
-import { ChildPage } from '../child/child.page';
+// import { ChildPage } from '../child/child.page';
 
 @Component({
   selector: 'app-node',
@@ -27,6 +27,8 @@ export class NodePage implements OnInit {
   title: any;
   values: any = {};
   places: Observable<string[]>;
+  canAddChild: any = true;
+  canDelete: any = true;
 
   // place: any;
   // placeItem: any = null;
@@ -35,8 +37,12 @@ export class NodePage implements OnInit {
   selectPlacesPlaceholder: any = '';
   genders: Array<any>;
   years: Array<any>;
+  days: Array<any>;
+  months: Array<any>;
 
   selectYearsPlaceholder: any = '';
+  selectDaysPlaceholder: any = '';
+  selectMonthsPlaceholder: any = '';
 
   // nameTypeStr: string = '';
   selectNamesNotFoundText: any = '';
@@ -54,7 +60,7 @@ export class NodePage implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log('NodePage - ngOnInit - node: ', this.node);
+    // console.log('NodePage - ngOnInit - node: ', this.node);
     this.title = this.node.name + ' - ' + this.nodeService.getGeneration(this.node);
     this.values = this.nodeService.loadValues(this.node);
     this.values.nameItem = { name: this.values.name }
@@ -65,6 +71,8 @@ export class NodePage implements OnInit {
     ];
 
     this.years = this.utilService.getYears();
+    this.days = this.utilService.getDays();
+    this.months = this.utilService.getMonths();
 
     // this.selectPlacesNotFoundText = this.languageService.getTranslation('SELECT_PLACES_NOT_FOUND_TEXT');
     this.selectPlacesNotFoundText = null;
@@ -73,6 +81,20 @@ export class NodePage implements OnInit {
     this.selectNamesNotFoundText = null;
     this.selectNamesPlaceholder = this.languageService.getTranslation('SELECT_PEOPLE_PLACEHOLDER');
     this.selectYearsPlaceholder = this.languageService.getTranslation('SELECT_YEARS_PLACEHOLDER');
+    this.selectDaysPlaceholder = this.languageService.getTranslation('SELECT_DAYS_PLACEHOLDER');
+    this.selectMonthsPlaceholder = this.languageService.getTranslation('SELECT_MONTHS_PLACEHOLDER');
+
+    // set node type
+    let node = this.node;
+    if (node.family.nodes[0].name == node.name) {
+      // valid 1st node
+      if (node.family.children && node.family.children.length > 0)
+        this.canDelete = false;
+    } else {
+      // spouse node, can not add child
+      this.canAddChild = false;
+    }
+
   }
 
   // ------------- ng-select -------------
@@ -84,7 +106,7 @@ export class NodePage implements OnInit {
   }
 
   clearName() {
-    console.log('TreePage - clear');
+    // console.log('TreePage - clear');
     this.values.nameItem = null;
     this.names = this.typeahead.getJsonNames(null);
   }
@@ -101,7 +123,7 @@ export class NodePage implements OnInit {
   }
 
   clearPOB() {
-    console.log('TreePage - clear');
+    // console.log('TreePage - clear');
     this.values.pob = null;
     this.places = this.typeahead.getJson(null, 'places');
   }
@@ -118,7 +140,7 @@ export class NodePage implements OnInit {
   }
 
   clearPOD() {
-    console.log('TreePage - clear');
+    // console.log('TreePage - clear');
     this.values.pod = null;
     this.places = this.typeahead.getJson(null, 'places');
   }
@@ -135,7 +157,7 @@ export class NodePage implements OnInit {
   }
 
   clearPOR() {
-    console.log('TreePage - clear');
+    // console.log('TreePage - clear');
     this.values.por = null;
     this.places = this.typeahead.getJson(null, 'places');
   }
@@ -152,99 +174,55 @@ export class NodePage implements OnInit {
   }
 
   clearYOB() {
-    console.log('TreePage - clear');
+    // console.log('TreePage - clear');
     this.values.yob = null;
   }
 
   clearYOD() {
-    console.log('TreePage - clear');
+    // console.log('TreePage - clear');
     this.values.yod = null;
   }
 
+  clearDOD_DAY() {
+    // console.log('TreePage - clear');
+    this.values.dod_day = null;
+  }
+
+  clearDOD_MONTH() {
+    // console.log('TreePage - clear');
+    this.values.dod_month = null;
+  }
 
   // --------- END ng-select ----------
 
   async onChild() {
-    let node:any = this.node;
-
-    console.log('openChildModal - node : ', node);
-    const modal = await this.modalCtrl.create({
-      component: ChildPage,
-      componentProps: {
-        'name': 'Detail',
-        'node': node
-      },
-      cssClass: "child-modal"
-    });
-
-    modal.onDidDismiss().then((resp) => {
-      console.log('onDidDismiss : ', resp);
-      let status = resp.data.status;
-      if (status == 'cancel') {
-        // do nothing
-      } else if (status == 'save') {
-        let values = resp.data.values;
-        console.log('onChild - values:' , values)
-        // console.log('alertAddNode - res:' , res)
-        // if (!res.data)
-        //   return;
-        let name = values.nameItem.name;
-        let relation = values.relation;
-        let gender = values.gender;
+    let msg = 'Role';
+    let inputs = [
+      {type: 'radio', label: this.languageService.getTranslation('CHILD'), value: 'child' },
+      {type: 'radio', label: this.languageService.getTranslation('WIFE'), value: 'wife' },
+      {type: 'radio', label: this.languageService.getTranslation('HUSBAND'), value: 'husband' }
+    ];
+    this.utilService.alertRadio('RELATION', msg, inputs , 'CANCEL', 'OK').then((res) => {
+      // console.log('onAdd - res:' , res)
+      if (res.data) {
+        let relation = res.data;
+        // let name = this.languageService.getTranslation('NODE_CHILD_PLACEHOLDER');
+        let name = 'Phan - nhập tên';
+        let gender = (relation == 'child') ? 'male' : ((relation == 'wife') ? 'female' : 'male');
         this.modalCtrl.dismiss({status: 'add', values: {name: name, relation: relation, gender: gender}});
+        // if (relation == 'child')
+        //   this.addChild(this.selectedNode, name, gender, relation);
+        // else
+        //   this.addSpouse(this.selectedNode, name, gender, relation);
       }
     });
-    return await modal.present();
   }
-
-  // async onImage() {
-  //   let node:any = this.node;
-  //   console.log('NodePage - onImage - node: ', node);
-  //   const ele = document.getElementById('family-' + node.id);
-  //   let rect:any = ele.getBoundingClientRect();
-  //   let width = rect.width + 20;
-  //   let height = rect.height + 20;
-  //   let keys = this.utilService.stripVN(node.name).split(' ');
-  //   let nameStr = keys.join('-')
-
-  //   let gen = this.nodeService.getGeneration(node);
-  //   let gkeys = this.utilService.stripVN(gen).split(' ');
-  //   let genStr = gkeys.join('-')
-  //   let fileName = 'branch-' + nameStr + '-' + genStr + '.jpeg';
-  //   let options = {
-  //     quality: 0.95,
-  //     backgroundColor: '#f0f1f2',
-  //     width: width,
-  //     height: height
-  //   }
-  //   htmlToImage.toJpeg(ele, options)
-  //   .then(function (dataUrl) {
-  //     var link = document.createElement('a');
-  //     link.download = fileName;
-  //     link.href = dataUrl;
-  //     link.click();
-  //   });
-  //   // await this.modalCtrl.dismiss({status: 'cancel'});
-  // }
 
   async onDelete() {
     let node:any = this.node;
-    if (node.family.nodes[0].name == node.name) {
-      console.log('NodePage - onDelete - children: ', node.family.children);
-        // this is main Node, check children
-      if (node.family.children && node.family.children.length > 0) {
-        let message = this.languageService.getTranslation('NODE_ERR_HAVE_CHILDREN') + '[' + node.name + ']';
-        this.utilService.alertMsg('NODE_ERROR_TITLE', message
-          // this.languageService.getTranslation('NODE_ERROR_TITLE'),
-          // this.languageService.getTranslation('NODE_ERR_HAVE_CHILDREN') + '[' + node.name + ']'
-        );
-          // this.translations.NODE_ERROR_TITLE, this.translations.NODE_ERR_HAVE_CHILDREN + '[' + this.node.name + ']');
-        return;
-      }
-    }
     let message = this.languageService.getTranslation('DELETE_PEOPLE_MESSAGE') + ': ' + node.name;
     this.utilService.alertConfirm('DELETE_PEOPLE_HEADER', message, 'CANCEL', 'CONTINUE').then((res) => {
-      console.log('onDelete - res:' , res)
+      // console.log('onDelete - res:' , res)
       if (res.data) {
         this.modalCtrl.dismiss({status: 'delete'});
       }
@@ -265,16 +243,18 @@ export class NodePage implements OnInit {
   }
 
   async onSave() {
-    console.log('NodePage - onSave - node: ', this.node);
+    // console.log('NodePage - onSave - node: ', this.node);
     let values = this.values;
+    // console.log('NodePage - onSave - values: ', values);
+
     values.name = values.nameItem.name;
 
-    console.log('onSave: ', values);
+    // console.log('onSave: ', values);
     if (this.nodeService.isNodeChanged(this.node, values) == false) {
       this.utilService.alertMsg('NODE_SAVE_HEADING', 'NODE_SAVE_MESSAGE');
       return;
     }
-    console.log('onSave: change');
+    // console.log('onSave: change');
     let errorMsg = this.validateData(values);
     if (errorMsg != '') {
       this.utilService.alertMsg('NODE_ERROR_TITLE', errorMsg);
@@ -285,7 +265,7 @@ export class NodePage implements OnInit {
 
   private validateData(values: any): string {
 
-    console.log('validateData: values: ', values);
+    // console.log('validateData: values: ', values);
     let msg = '';
     let bullet = '&#8226;&nbsp;';
     // name, nick, gender, dod, desc, yob, yod, pob, pod, por, 
@@ -294,11 +274,11 @@ export class NodePage implements OnInit {
       nameMsg = bullet + '<b>Ten</b> phai co it nhat 4 ky tu.<br>';
 
     let dodMsg = '';
-    if (values.dod !== '') {
+    if (values.dod_day && values.dod_month) {
       if (!values.yod) {
         dodMsg = bullet + "<b>Ngay mat</b> phai de trong. Nam tu chua nhap.<br>";
-      } else if (values.dod.length != 5 || values.dod.indexOf('/') != 2) {
-        dodMsg = bullet + "<b>Ngay mat</b> khong dung mau 'nn/tt'.<br>";
+      // } else if (values.dod.length != 5 || values.dod.indexOf('/') != 2) {
+      //   dodMsg = bullet + "<b>Ngay mat</b> khong dung mau 'nn/tt'.<br>";
       }
     }
    
@@ -309,28 +289,6 @@ export class NodePage implements OnInit {
         yodMsg = bullet + "Nam tu phai lon hon Nam sinh.<br>";
       }
     } 
-
-    // console.log('yob: ', yob);
-    // if (yob != '') {
-    //   if (yob.length != 4 && isNaN(yob)) {
-    //     yobMsg = bullet + "Nam sinh khong dung mau 'yyyy'.<br>";
-    //   } else if (+yob < 1900 || +yob > 2030) {
-    //     yobMsg = bullet + "<b>Nam sinh</b> phai lon hon 1900 va nho hon 2023.<br>";
-    //   } else
-    //     yobNum = +yob;
-    // }
-
-    // let yodMsg = '';
-    // let yod = values.yod;
-    // if (yod !== '') {
-    //   if (yod.length != 4 && isNaN(yod)) {
-    //     yodMsg = bullet + "Nam tu khong dung mau 'yyyy'.<br>";
-    //   } else if (+yob < 1900 || +yob > 2030) {
-    //     yodMsg = bullet + "Nam tu phai lon hon 1900 va nho hon 2023.<br>";
-    //   } else if (yobNum > 0 && +yod < yobNum) {
-    //     yodMsg = bullet + "Nam tu phai lon hon Nam sinh.<br>";
-    //   }
-    // }
 
     let pobMsg = (values.pob && values.pob.name != '' && values.pob.name.length < 5) ? bullet + 'Noi sinh phai co it nhat 5 ky tu.<br>' : '';
     let podMsg = (values.pod && values.pod.name != '' && values.pod.name.length < 5) ? bullet + 'Noi tu phai co it nhat 5 ky tu.<br>' : '';

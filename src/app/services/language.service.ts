@@ -38,7 +38,7 @@ export class LanguageService {
   }
 
   getTranslation(key) {
-    return this.translations[key];
+    return (this.translations[key]) ? this.translations[key] : key;
   }
 
   getTrans() {

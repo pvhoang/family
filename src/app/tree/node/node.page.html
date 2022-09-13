@@ -4,21 +4,21 @@
         <ion-title class="ion-text-center ion-text-wrap app-ion-title">{{ title }}</ion-title>
       </ion-col>
       <ion-col size="5">
-        <ion-button *ngIf="caller=='tree'" class="app-ion-button" fill="clear" (click)="onChild()">
+        <ion-button *ngIf="caller=='tree' && canAddChild" class="app-ion-button" title="{{ 'NODE_HEADER_TOOLTIP_ADD' | translate }}" fill="clear" (click)="onChild()">
           <ion-icon slot="icon-only" name="person-add" class="app-ion-icon"></ion-icon>
         </ion-button>
         <!-- <ion-button class="app-ion-button" fill="clear" (click)="onImage()">
           <ion-icon slot="icon-only" name="image" class="app-ion-icon"></ion-icon>
         </ion-button> -->
-        <ion-button *ngIf="caller=='tree'" class="app-ion-button" fill="clear" (click)="onDelete()">
+        <ion-button *ngIf="caller=='tree' && canDelete" class="app-ion-button" title="{{ 'NODE_HEADER_TOOLTIP_DELETE' | translate }}" fill="clear" (click)="onDelete()">
           <ion-icon slot="icon-only" name="trash" class="app-ion-icon"></ion-icon>
         </ion-button>
       <!-- </ion-col> -->
       <!-- <ion-col size="2"> -->
-          <ion-button class="app-ion-button" fill="clear" (click)="onSave()">
+          <ion-button class="app-ion-button" title="{{ 'NODE_HEADER_TOOLTIP_SAVE' | translate }}" fill="clear" (click)="onSave()">
             <ion-icon slot="icon-only" name="download" class="app-ion-icon"></ion-icon>
           </ion-button>
-          <ion-button class="app-ion-button" fill="clear" (click)="onCancel()">
+          <ion-button class="app-ion-button" fill="clear" title="{{ 'NODE_HEADER_TOOLTIP_CANCEL' | translate }}"  (click)="onCancel()">
             <ion-icon slot="icon-only" name="close" class="app-ion-icon"></ion-icon>
           </ion-button>
       </ion-col>
@@ -85,8 +85,70 @@
       >
       </ng-select>
     </div>
+
     <ion-label class="card-label">{{ 'NODE_DOD' | translate }}</ion-label>
-    <ion-input class="card-input" type="text" [(ngModel)]="values.dod" placeholder="{{ 'NODE_DOD_PLACEHOLDER' | translate }}" clearInput></ion-input>
+    <div class="card-select-1">
+    <ion-row>
+      <ion-col size="4">
+        <ng-select 
+          [items]="days" 
+          bindLabel="name"
+          placeholder="{{selectDaysPlaceholder}}"
+          [(ngModel)]="values.dod_day"
+          (clear)="clearDOD_DAY()"
+        >
+        </ng-select>
+      </ion-col>
+      <ion-col size="4">
+        <ng-select 
+          [items]="months" 
+          bindLabel="name"
+          placeholder="{{selectMonthsPlaceholder}}"
+          [(ngModel)]="values.dod_month"
+          (clear)="clearDOD_MONTH()"
+        >
+        </ng-select>
+      </ion-col>
+    </ion-row>
+    </div>
+
+    <!-- <ion-item>
+    <div class="card-select-1">
+      <ng-select 
+        [items]="years" 
+        bindLabel="name"
+        placeholder="{{selectYearsPlaceholder}}"
+        [(ngModel)]="values.yod"
+        (clear)="clearYOD()"
+      >
+      </ng-select>
+      <ng-select 
+        [items]="years" 
+        bindLabel="name"
+        placeholder="{{selectYearsPlaceholder}}"
+        [(ngModel)]="values.yod"
+        (clear)="clearYOD()"
+      >
+      </ng-select>
+    </div>
+    </ion-item> -->
+
+    <!-- <ion-input class="card-input" type="text" [(ngModel)]="values.dod" placeholder="{{ 'NODE_DOD_PLACEHOLDER' | translate }}" clearInput></ion-input> -->
+    <!-- <ion-datetime placeholder="None" [(ngModel)]="values.dod" disabled></ion-datetime> -->
+
+    <!-- <ion-datetime-button datetime="datetime"></ion-datetime-button>
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime id="datetime" presentation="date" [(ngModel)]="values.dod" 
+        [firstDayOfWeek]="1" locale="vi-VI" color="medium"
+        [showDefaultButtons]="true" cancelText="Cancel" doneText="OK"
+        [showClearButton]="true" clearText="Clear"
+        >
+          <span slot="title">Chon ngay mat am lich</span>
+        </ion-datetime>
+      </ng-template>
+    </ion-modal> -->
+
     <ion-label class="card-label">{{ 'NODE_POB' | translate }}</ion-label>
     <div class="card-select-1">
       <ng-select #ngSelectPOB
