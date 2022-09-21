@@ -5,9 +5,7 @@ import { TypeaheadService } from '../../services/typeahead.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { LanguageService } from '../../services/language.service';
 import { UtilService } from '../../services/util.service';
-import { FamilyService } from '../../services/family.service';
 import { NodeService } from '../../services/node.service';
-// import { ChildPage } from '../child/child.page';
 
 @Component({
   selector: 'app-node',
@@ -30,33 +28,30 @@ export class NodePage implements OnInit {
   canAddChild: any = true;
   canDelete: any = true;
 
-  // place: any;
-  // placeItem: any = null;
-  // translations: any;
   selectPlacesNotFoundText: any = '';
   selectPlacesPlaceholder: any = '';
   genders: Array<any>;
   years: Array<any>;
   days: Array<any>;
   months: Array<any>;
+  locations: Array<any> = [];
 
   selectYearsPlaceholder: any = '';
   selectDaysPlaceholder: any = '';
   selectMonthsPlaceholder: any = '';
-
-  // nameTypeStr: string = '';
   selectNamesNotFoundText: any = '';
   selectNamesPlaceholder: any = '';
   names: Observable<string[]>;
 
+  selectGenderPlaceholder: any = '';
+  
   constructor(
     private modalCtrl: ModalController,
     private alertController: AlertController,
     private languageService: LanguageService,
     private utilService: UtilService,
-    private familyService: FamilyService,
     private nodeService: NodeService,
-    private typeahead: TypeaheadService
+    private typeahead: TypeaheadService,
   ) { }
 
   ngOnInit(): void {
@@ -70,19 +65,22 @@ export class NodePage implements OnInit {
       { id: 'female', name: this.languageService.getTranslation('FEMALE') }
     ];
 
+    this.typeahead.getJsonPlaces().then((data:any) => {
+      this.locations = data;
+    })
+
     this.years = this.utilService.getYears();
     this.days = this.utilService.getDays();
     this.months = this.utilService.getMonths();
 
-    // this.selectPlacesNotFoundText = this.languageService.getTranslation('SELECT_PLACES_NOT_FOUND_TEXT');
     this.selectPlacesNotFoundText = null;
-    this.selectPlacesPlaceholder = this.languageService.getTranslation('SELECT_PLACES_PLACEHOLDER');
-    // this.selectNamesNotFoundText = this.languageService.getTranslation('SELECT_PEOPLE_NOT_FOUND_TEXT');
+    this.selectPlacesPlaceholder = this.languageService.getTranslation('NODE_SELECT_PLACES_PLACEHOLDER');
     this.selectNamesNotFoundText = null;
-    this.selectNamesPlaceholder = this.languageService.getTranslation('SELECT_PEOPLE_PLACEHOLDER');
-    this.selectYearsPlaceholder = this.languageService.getTranslation('SELECT_YEARS_PLACEHOLDER');
-    this.selectDaysPlaceholder = this.languageService.getTranslation('SELECT_DAYS_PLACEHOLDER');
-    this.selectMonthsPlaceholder = this.languageService.getTranslation('SELECT_MONTHS_PLACEHOLDER');
+    this.selectNamesPlaceholder = this.languageService.getTranslation('NODE_SELECT_PEOPLE_PLACEHOLDER');
+    this.selectYearsPlaceholder = this.languageService.getTranslation('NODE_SELECT_YEARS_PLACEHOLDER');
+    this.selectDaysPlaceholder = this.languageService.getTranslation('NODE_SELECT_DAYS_PLACEHOLDER');
+    this.selectMonthsPlaceholder = this.languageService.getTranslation('NODE_SELECT_MONTHS_PLACEHOLDER');
+    this.selectGenderPlaceholder = this.languageService.getTranslation('NODE_SELECT_GENDER_PLACEHOLDER');
 
     // set node type
     let node = this.node;
@@ -125,7 +123,7 @@ export class NodePage implements OnInit {
   clearPOB() {
     // console.log('TreePage - clear');
     this.values.pob = null;
-    this.places = this.typeahead.getJson(null, 'places');
+    // this.places = this.typeahead.getJson(null, 'places');
   }
 
   keydownPOB(event) {
@@ -142,7 +140,7 @@ export class NodePage implements OnInit {
   clearPOD() {
     // console.log('TreePage - clear');
     this.values.pod = null;
-    this.places = this.typeahead.getJson(null, 'places');
+    // this.places = this.typeahead.getJson(null, 'places');
   }
 
   keydownPOD(event) {
@@ -159,7 +157,7 @@ export class NodePage implements OnInit {
   clearPOR() {
     // console.log('TreePage - clear');
     this.values.por = null;
-    this.places = this.typeahead.getJson(null, 'places');
+    // this.places = this.typeahead.getJson(null, 'places');
   }
 
   keydownPOR(event) {
@@ -195,40 +193,6 @@ export class NodePage implements OnInit {
 
   // --------- END ng-select ----------
 
-  async onChild() {
-    let msg = 'Role';
-    let inputs = [
-      {type: 'radio', label: this.languageService.getTranslation('CHILD'), value: 'child' },
-      {type: 'radio', label: this.languageService.getTranslation('WIFE'), value: 'wife' },
-      {type: 'radio', label: this.languageService.getTranslation('HUSBAND'), value: 'husband' }
-    ];
-    this.utilService.alertRadio('RELATION', msg, inputs , 'CANCEL', 'OK').then((res) => {
-      // console.log('onAdd - res:' , res)
-      if (res.data) {
-        let relation = res.data;
-        // let name = this.languageService.getTranslation('NODE_CHILD_PLACEHOLDER');
-        let name = 'Phan - nhập tên';
-        let gender = (relation == 'child') ? 'male' : ((relation == 'wife') ? 'female' : 'male');
-        this.modalCtrl.dismiss({status: 'add', values: {name: name, relation: relation, gender: gender}});
-        // if (relation == 'child')
-        //   this.addChild(this.selectedNode, name, gender, relation);
-        // else
-        //   this.addSpouse(this.selectedNode, name, gender, relation);
-      }
-    });
-  }
-
-  async onDelete() {
-    let node:any = this.node;
-    let message = this.languageService.getTranslation('DELETE_PEOPLE_MESSAGE') + ': ' + node.name;
-    this.utilService.alertConfirm('DELETE_PEOPLE_HEADER', message, 'CANCEL', 'CONTINUE').then((res) => {
-      // console.log('onDelete - res:' , res)
-      if (res.data) {
-        this.modalCtrl.dismiss({status: 'delete'});
-      }
-    });
-  }
-
   async onCancel() {
     // console.log('NodePage - onCancel - node: ', this.node);
     let values = this.values;
@@ -243,18 +207,13 @@ export class NodePage implements OnInit {
   }
 
   async onSave() {
-    // console.log('NodePage - onSave - node: ', this.node);
     let values = this.values;
-    // console.log('NodePage - onSave - values: ', values);
-
     values.name = values.nameItem.name;
-
     // console.log('onSave: ', values);
     if (this.nodeService.isNodeChanged(this.node, values) == false) {
       this.utilService.alertMsg('NODE_SAVE_HEADING', 'NODE_SAVE_MESSAGE');
       return;
     }
-    // console.log('onSave: change');
     let errorMsg = this.validateData(values);
     if (errorMsg != '') {
       this.utilService.alertMsg('NODE_ERROR_TITLE', errorMsg);

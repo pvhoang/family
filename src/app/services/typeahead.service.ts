@@ -138,6 +138,26 @@ export class TypeaheadService {
     });
   }
 
+  // async getJsonPlaces() {
+  //   return await this.dataService.readItem('places');
+  // }
+
+  getJsonPlaces(): any {
+    return new Promise((resolve) => {
+      this.dataService.readItem('places').then((data:any) => {
+        resolve(data['data']);
+      });
+    });
+  }
+
+  getJsonPeople(): any {
+    return new Promise((resolve) => {
+      this.dataService.readItem('people').then((data:any) => {
+        resolve(data['data']);
+      });
+    });
+  }
+
   private sortName(names: any) {
     let d = [];
     names.forEach((element:any) => {

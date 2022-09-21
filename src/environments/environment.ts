@@ -13,18 +13,20 @@ export const environment = {
     messagingSenderId: '123668295235',
   },
   production: false,
+  phabletDevice: true
+
 };
 
-export const MIN_YEAR = 1900;
-export const MAX_YEAR = 2022;
+// export const MIN_YEAR = 1900;
+// export const MAX_YEAR = 2022;
 // export const GENERATION = 0;
 export const DEBUG = true;
 export const VERSION = '0.0.3';
-export const CONTACT = {
-  "phan": {"name": "Phan Viết Hoàng", "email": "pvhoang940@gmail.com"},
-  "le": {"name": "Lê Xuân Khách", "email": "pvhoang940@gmail.com"},
-  "doan": {"name": "Đoàn Bảo Hà", "email": "pvhoang940@gmail.com"},
-}
+// export const CONTACT = {
+//   "phan": {"name": "Phan Viết Hoàng", "email": "pvhoang940@gmail.com"},
+//   "le": {"name": "Lê Xuân Khách", "email": "pvhoang940@gmail.com"},
+//   "doan": {"name": "Đoàn Bảo Hà", "email": "pvhoang940@gmail.com"},
+// }
 
 // declare var ancestor;
 // export const ANCESTOR = ancestor;

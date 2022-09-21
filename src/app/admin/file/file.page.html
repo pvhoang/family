@@ -2,24 +2,9 @@
   <ion-item class="app-ion-item">
     <ion-col size="1">
     </ion-col>
-    <ion-col size="1">
-      <ion-button class="app-ion-button" fill="clear" (click)="onClose()">
-        <ion-icon slot="icon-only" name="arrow-back" class="app-ion-icon"></ion-icon>
-      </ion-button>
+    <ion-col size="4">
+      <ion-title class="ion-text-center app-ion-title-small">{{ srcVersion }}</ion-title>
     </ion-col>
-    <ion-col size="3">
-      <ion-title class="ion-text-center app-ion-title">{{ title }}</ion-title>
-    </ion-col>
-    <ion-col size="3">
-    </ion-col>
-    <ion-col size="2">
-      <ion-title class="ion-text-center app-ion-title">{{ srcVersion }}</ion-title>
-    </ion-col>
-    <!-- <ion-col size="2">
-      <ion-button class="app-ion-button" fill="clear" (click)="onContent()">
-        <ion-icon slot="icon-only" name="document" class="app-ion-icon"></ion-icon>
-      </ion-button>
-    </ion-col> -->
   </ion-item>
 </ion-header>
 
@@ -42,9 +27,6 @@
       <ion-col size="1">
         {{ 'FILE_DELETE' | translate }}
       </ion-col>
-      <!-- <ion-col size="1">
-        {{ 'FILE_REPLACE' | translate }}
-      </ion-col> -->
     </ion-row>
     <ion-row *ngFor="let content of contents">
       <ion-col size="2"> {{ content.id }} </ion-col>
@@ -52,19 +34,14 @@
       <ion-col size="3"> {{ content.subject }} </ion-col>
       <ion-col size="1"> 
         <ion-button class="app-ion-button" fill="clear" (click)="onCompare(content)">
-          <ion-icon slot="icon-only" name="git-compare" class="contact-icon-small"></ion-icon>
+          <ion-icon slot="icon-only" src="../../assets/fonts/compare-horizontal.svg" class="contact-icon-material"></ion-icon>
         </ion-button>
       </ion-col>
       <ion-col size="1"> 
         <ion-button class="app-ion-button" fill="clear" (click)="onDelete(content)">
-          <ion-icon slot="icon-only" name="trash" class="contact-icon-small"></ion-icon>
+          <ion-icon slot="icon-only" src="../../assets/fonts/account-remove-outline.svg" class="contact-icon-material"></ion-icon>
         </ion-button>
       </ion-col>
-      <!-- <ion-col size="1"> 
-        <ion-button class="app-ion-button" fill="clear" (click)="onReplaceSource(content)">
-          <ion-icon slot="icon-only" name="repeat" class="contact-icon-small"></ion-icon>
-        </ion-button>
-      </ion-col> -->
     </ion-row>
   </ion-grid>
 

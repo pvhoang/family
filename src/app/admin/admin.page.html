@@ -1,21 +1,23 @@
-<ion-header>
-  <ion-item class="app-ion-item">
-    <ion-col size="10">
-      <ion-title class="ion-text-center app-ion-title">{{ title }}</ion-title>
-    </ion-col>
-    <ion-col size="1">
-      <ion-button class="app-ion-button" title="{{ 'ADMIN_HEADER_TOOLTIP_EDITOR' | translate }}" fill="clear" (click)="onEditor()">
-        <ion-icon slot="icon-only" name="create" class="app-ion-icon"></ion-icon>
-      </ion-button>
-    </ion-col>
-    <ion-col size="1">
-      <ion-button class="app-ion-button" title="{{ 'ADMIN_HEADER_TOOLTIP_FILE' | translate }}" fill="clear" (click)="onFile()">
-        <ion-icon slot="icon-only" name="document" class="app-ion-icon"></ion-icon>
-      </ion-button>
-    </ion-col>
-  </ion-item>
-</ion-header>
+<ion-tabs>
 
-<ion-content [fullscreen]="false" class="ion-padding">
+  <ion-tab-bar slot="top">
 
-</ion-content>
+    <ion-tab-button tab="tab1">
+      <div class="tab-button-center">
+        <!-- <ion-icon name="home" class="tab-icon"></ion-icon> -->
+        <ion-icon src="../../assets/fonts/file-tree-outline.svg" class="tab-icon-material"></ion-icon>
+        <ion-label class="tab-label">&nbsp;{{ 'TAB_EDITOR' | translate }}</ion-label>
+      </div>
+    </ion-tab-button>
+
+    <ion-tab-button tab="tab2">
+      <div class="tab-button-center">
+        <!-- <ion-icon name="list-circle" class="tab-icon"></ion-icon> -->
+        <ion-icon src="../../assets/fonts/file-replace-outline.svg" class="tab-icon-material"></ion-icon>
+        <ion-label class="tab-label">&nbsp;{{ 'TAB_FILE' | translate }}</ion-label>
+      </div>
+    </ion-tab-button>
+    
+  </ion-tab-bar>
+
+</ion-tabs>

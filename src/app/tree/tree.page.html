@@ -20,13 +20,60 @@
         >
         </ng-select>
       </ion-col>
-      <ion-col size="2">
+      <ion-col size="1">
       </ion-col>
-      <ion-col size="3">
-        <ion-button class="app-ion-button" title="{{ 'TREE_HEADER_TOOLTIP_HOME' | translate }}" fill="clear" (click)="onHome()">
-          <ion-icon slot="icon-only" name="home" class="app-ion-icon"></ion-icon>
+      <ion-col size="1">
+        <ion-button *ngIf="treeClass == 'vertical-tree'" class="app-ion-button" title="{{ 'TREE_HEADER_TOOLTIP_SELECT_HORIZONTAL' | translate }}" fill="clear" (click)="onChangeTree()">
+          <!-- <ion-icon slot="icon-only" name="reorder-two" class="app-ion-icon"></ion-icon> -->
+          <ion-icon slot="icon-only" src="../../assets/fonts/arrow-split-horizontal.svg" class="app-ion-icon-material"></ion-icon>
+
+        </ion-button>
+        <ion-button *ngIf="treeClass == 'tree'" class="app-ion-button" title="{{ 'TREE_HEADER_TOOLTIP_SELECT_VERTICAL' | translate }}" fill="clear" (click)="onChangeTree()">
+          <!-- <ion-icon slot="icon-only" name="pause" class="app-ion-icon"></ion-icon> -->
+          <ion-icon slot="icon-only" src="../../assets/fonts/arrow-split-vertical.svg" class="app-ion-icon-material"></ion-icon>
         </ion-button>
       </ion-col>
+
+      <ion-col size="1">
+        <ion-button class="app-ion-button" title="{{ 'TREE_HEADER_TOOLTIP_ZOOM_OUT' | translate }}" fill="clear" [disabled]="scaleStyle == 11" (click)="onZoom(1)" >
+          <!-- <ion-icon slot="icon-only" name="add-circle" class="app-ion-icon"></ion-icon> -->
+          <ion-icon slot="icon-only" src="../../assets/fonts/magnify-plus-outline.svg" class="app-ion-icon-material"></ion-icon>
+        </ion-button>
+        <ion-button class="app-ion-button" title="{{ 'TREE_HEADER_TOOLTIP_ZOOM_IN' | translate }}" fill="clear" [disabled]="scaleStyle == 7" (click)="onZoom(-1)" >
+          <!-- <ion-icon slot="icon-only" name="remove-circle" class="app-ion-icon"></ion-icon> -->
+          <ion-icon slot="icon-only" src="../../assets/fonts/magnify-minus-outline.svg" class="app-ion-icon-material"></ion-icon>
+        </ion-button>
+        <ion-button class="app-ion-button" title="{{ 'TREE_HEADER_TOOLTIP_HOME' | translate }}" fill="clear" (click)="onHome()">
+          <!-- <ion-icon slot="icon-only" name="home" class="app-ion-icon"></ion-icon> -->
+          <ion-icon slot="icon-only" src="../../assets/fonts/origin.svg" class="app-ion-icon-material"></ion-icon>
+        </ion-button>
+      </ion-col>
+      
+      <ion-col size="1">
+      </ion-col>
+
+      <ion-col size="1">
+        <ion-button id="click-trigger" class="app-ion-button" title="{{ 'TREE_HEADER_TOOLTIP_OTHER_TASKS' | translate }}" fill="clear">
+          <!-- <ion-icon slot="icon-only" name="ellipsis-vertical" class="app-ion-icon"></ion-icon> -->
+          <ion-icon slot="icon-only" src="../../assets/fonts/cog-outline.svg" class="app-ion-icon-material"></ion-icon>
+        </ion-button>
+        <ion-popover 
+          trigger="click-trigger" triggerAction="click" 
+          [dismissOnSelect]="true" side="left" alignment="start" size="auto">
+          <ng-template>
+            <ion-content class="ion-padding">
+              <!-- <ion-list> -->
+                <ion-row class="app-popover" (click)="viewTreeSummary()">
+                  <!-- <ion-icon class="icon" name="create"></ion-icon> -->
+                  <ion-icon class="icon" src="../../assets/fonts/view-headline.svg" ></ion-icon>
+                  <ion-label class="label">&nbsp;&nbsp;&nbsp;&nbsp;{{ 'TREE_POPOVER_SUMMARY' | translate }}</ion-label>
+                </ion-row>
+              <!-- </ion-list> -->
+            </ion-content>
+          </ng-template>
+        </ion-popover>
+      </ion-col>
+
     </ion-item>
   </div>
 
@@ -39,39 +86,87 @@
           <ion-label><b>{{searchPercent}}</b></ion-label>
         </ion-item>
       </ion-col>
-      <ion-col size="2">
+      <ion-col size="1">
       </ion-col>
-      <ion-col size="3">
-        <ion-button *ngIf="!searchDisabled" class="app-ion-button" fill="clear" (click)="nextSearch()">
-          <ion-icon slot="icon-only" name="arrow-down-circle" class="app-ion-icon"></ion-icon>
+      <ion-col size="1">
+        <ion-button [disabled]="searchDisabled" class="app-ion-button" title="{{ 'TREE_SELECT_NEXT_NODE' | translate }}" fill="clear" (click)="nextSearch()">
+          <!-- <ion-icon slot="icon-only" name="arrow-down-circle" class="app-ion-icon"></ion-icon> -->
+          <ion-icon slot="icon-only" src="../../assets/fonts/page-next-outline.svg" class="app-ion-icon-material"></ion-icon>
         </ion-button>
-        <ion-button *ngIf="!searchDisabled" class="app-ion-button" fill="clear" (click)="prevSearch()">
-          <ion-icon slot="icon-only" name="arrow-up-circle" class="app-ion-icon"></ion-icon>
-        </ion-button>
-
-        <!-- <ion-button class="app-ion-button" fill="clear" [disabled]="searchDisabled" (click)="nextSearch()">
-          <ion-icon slot="icon-only" name="arrow-down-circle" class="app-ion-icon"></ion-icon>
-        </ion-button>
-        <ion-button class="app-ion-button" fill="clear" [disabled]="searchDisabled" (click)="prevSearch()">
-          <ion-icon slot="icon-only" name="arrow-up-circle" class="app-ion-icon"></ion-icon>
-        </ion-button> -->
-
-        <ion-button class="app-ion-button" fill="clear" (click)="onHome()">
-          <ion-icon slot="icon-only" name="home" class="app-ion-icon-small"></ion-icon>
-        </ion-button>
-        <ion-button *ngIf="nodeView" class="app-ion-button" fill="clear" (click)="onImage()">
-          <ion-icon slot="icon-only" name="image" class="app-ion-icon"></ion-icon>
-        </ion-button>
-        <!-- <ion-button class="app-ion-button" fill="clear" [disabled]="!nodeView" (click)="onPdf()">
-          <ion-icon slot="icon-only" name="document-text" class="app-ion-icon"></ion-icon>
-        </ion-button> -->
-        <ion-button *ngIf="nodeView" class="app-ion-button" fill="clear" (click)="onPdf()">
-          <ion-icon slot="icon-only" name="document-text" class="app-ion-icon"></ion-icon>
-        </ion-button>
-        <ion-button class="app-ion-button" fill="clear" (click)="closeSearch()">
-          <ion-icon slot="icon-only" name="close" class="app-ion-icon"></ion-icon>
+        <ion-button [disabled]="searchDisabled" class="app-ion-button" title="{{ 'TREE_SELECT_PREV_NODE' | translate }}" fill="clear" (click)="prevSearch()">
+          <!-- <ion-icon slot="icon-only" name="arrow-up-circle" class="app-ion-icon"></ion-icon> -->
+          <ion-icon slot="icon-only" src="../../assets/fonts/page-previous-outline.svg" class="app-ion-icon-material"></ion-icon>
         </ion-button>
       </ion-col>
+      <ion-col size="1">
+        <ion-button *ngIf="!nodeView" class="app-ion-button" title="{{ 'TREE_SELECT_VIEW_NODE_FROM_ROOT' | translate }}" fill="clear" (click)="onHome()">
+          <!-- <ion-icon slot="icon-only" name="reorder-two" class="app-ion-icon"></ion-icon> -->
+          <ion-icon slot="icon-only" src="../../assets/fonts/file-tree-outline.svg" class="app-ion-icon-material"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="nodeView" class="app-ion-button" title="{{ 'TREE_SELECT_VIEW_NODE_FULL' | translate }}" fill="clear" (click)="onHome()">
+          <!-- <ion-icon slot="icon-only" name="reorder-four" class="app-ion-icon"></ion-icon> -->
+          <ion-icon slot="icon-only" src="../../assets/fonts/family-tree.svg" class="app-ion-icon-material"></ion-icon>
+        </ion-button>
+        <ion-button class="app-ion-button" fill="clear" title="{{ 'TREE_SELECT_CLOSE' | translate }}"  fill="clear" (click)="closeSearch()">
+          <!-- <ion-icon slot="icon-only" name="close" class="app-ion-icon"></ion-icon> -->
+          <ion-icon slot="icon-only" src="../../assets/fonts/close-circle-outline.svg" class="app-ion-icon-material"></ion-icon>
+        </ion-button>
+      </ion-col>
+
+      <ion-col size="1">
+      </ion-col>
+
+      <ion-col size="1">
+        <ion-button id="click-trigger" class="app-ion-button" title="{{ 'TREE_HEADER_TOOLTIP_OTHER_TASKS' | translate }}" fill="clear">
+          <!-- <ion-icon slot="icon-only" name="ellipsis-vertical" class="app-ion-icon"></ion-icon> -->
+          <ion-icon slot="icon-only" src="../../assets/fonts/cog-outline.svg" class="app-ion-icon-material"></ion-icon>
+        </ion-button>
+        <ion-popover 
+          trigger="click-trigger" triggerAction="click" 
+          [dismissOnSelect]="true" side="left" alignment="start" size="auto">
+          <ng-template>
+            <ion-content class="ion-padding">
+
+              <ion-row class="app-popover" (click)="viewNodeDetail()">
+                <!-- <ion-icon class="icon" name="key"></ion-icon> -->
+                <ion-icon class="icon" src="../../assets/fonts/account-eye-outline.svg" ></ion-icon>
+                <ion-label class="label">&nbsp;&nbsp;&nbsp;&nbsp;{{ 'TREE_POPOVER_VIEW_DETAIL' | translate }}</ion-label>
+              </ion-row>
+
+              <ion-row class="app-popover" (click)="onEdit()">
+                <ion-icon class="icon" src="../../assets/fonts/account-edit-outline.svg" ></ion-icon>
+                <!-- <ion-icon class="icon" name="create"></ion-icon> -->
+                <ion-label class="label">&nbsp;&nbsp;&nbsp;&nbsp;{{ 'TREE_POPOVER_EDIT_NODE' | translate }}</ion-label>
+              </ion-row>
+
+              <ion-row class="app-popover" (click)="onAdd()">
+                <ion-icon class="icon" src="../../assets/fonts/account-plus-outline.svg" ></ion-icon>
+                <!-- <ion-icon class="icon" name="person-add"></ion-icon> -->
+                <ion-label class="label">&nbsp;&nbsp;&nbsp;&nbsp;{{ 'TREE_POPOVER_ADD_NODE' | translate }}</ion-label>
+              </ion-row>
+
+              <ion-row class="app-popover" (click)="onDelete()">
+                <!-- <ion-icon class="icon" name="trash"></ion-icon> -->
+                <ion-icon class="icon" src="../../assets/fonts/account-remove-outline.svg" ></ion-icon>
+                <ion-label class="label">&nbsp;&nbsp;&nbsp;&nbsp;{{ 'TREE_POPOVER_DELETE_NODE' | translate }}</ion-label>
+              </ion-row>
+
+              <ion-row *ngIf="treeClass == 'vertical-tree' && nodeView" class="app-popover" (click)="onImage()">
+                <!-- <ion-icon class="icon" name="image"></ion-icon> -->
+                <ion-icon class="icon" src="../../assets/fonts/file-jpg-box.svg" ></ion-icon>
+                <ion-label class="label">&nbsp;&nbsp;&nbsp;&nbsp;{{ 'TREE_POPOVER_PRINT_JPG' | translate }}</ion-label>
+              </ion-row>
+
+              <ion-row *ngIf="treeClass == 'vertical-tree' && nodeView" class="app-popover" (click)="onPdf()">
+                <!-- <ion-icon class="icon" name="document-text"></ion-icon> -->
+                <ion-icon class="icon" src="../../assets/fonts/file-pdf-box.svg" ></ion-icon>
+                <ion-label class="label">&nbsp;&nbsp;&nbsp;&nbsp;{{ 'TREE_POPOVER_PRINT_PDF' | translate }}</ion-label>
+              </ion-row>
+            </ion-content>
+          </ng-template>
+        </ion-popover>
+      </ion-col>
+
     </ion-item>
     </div>
 </ion-header>
@@ -79,7 +174,7 @@
 <ion-content [fullscreen]="false" class="ion-padding">
   <div class="app-ion-content">
     <div [ngStyle]="getZoomStyle()">
-      <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView"></ft-tree>
+      <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [class]="treeClass"></ft-tree>
     </div>
   </div>
 </ion-content>

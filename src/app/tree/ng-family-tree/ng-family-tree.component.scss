@@ -23,7 +23,8 @@ $hover_color: #c8e4f8;
   white-space: nowrap;
   overflow-x: scroll;
   padding-top: 10px;
-  padding-bottom: 50px;
+  // padding-bottom: 50px;
+  padding-bottom: 20px;
   ul {
     display: flex;
     width:100%;
@@ -38,7 +39,7 @@ $hover_color: #c8e4f8;
         position: absolute;
         top: 0;
         left: 50%;
-        border-left: 1px solid #ccc;
+        border-left: 2px solid #ccc;
         width: 0;
         height: 20px;
       }
@@ -58,7 +59,7 @@ $hover_color: #c8e4f8;
       position: absolute;
       top: 0;
       right: 50%;
-      border-top: 1px solid #ccc;
+      border-top: 2px solid #ccc;
       width: 50%;
       height: 20px;
     }
@@ -67,12 +68,12 @@ $hover_color: #c8e4f8;
       position: absolute;
       top: 0;
       right: 50%;
-      border-top: 1px solid #ccc;
+      border-top: 2px solid #ccc;
       width: 50%;
       height: 20px;
       right: auto;
       left: 50%;
-      border-left: 1px solid #ccc;
+      border-left: 2px solid #ccc;
     }
     &:only-child {
       &::after {
@@ -98,7 +99,7 @@ $hover_color: #c8e4f8;
         border: 0 none;
       }
       &::before {
-        border-right: 1px solid #ccc;
+        border-right: 2px solid #ccc;
         border-radius: 0 5px 0 0;
         -webkit-border-radius: 0 5px 0 0;
         -moz-border-radius: 0 5px 0 0;

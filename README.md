@@ -3,7 +3,7 @@
 =====================================================================
 
 =======================
-# Angular
+# Angular - Dynamic styling
 =======================
 ngStyle()
 https://ultimatecourses.com/blog/using-ngstyle-in-angular-for-dynamic-styling
@@ -104,6 +104,12 @@ https://stackoverflow.com/questions/59885556/how-to-add-and-set-a-font-in-jspdf
 https://www.npmjs.com/package/html-to-image
 
 =======================
+# DOC to HTM
+=======================
+. open '.doc' in MS WORD
+. 'Save As' -> 'Web Page (*.htm, *.html)
+
+=======================
 # Create archive.json
 =======================
 
@@ -127,6 +133,23 @@ https://github.com/kpdecker/jsdiff/tree/master/src/diff
 # Popular Vietnames Ho Ten 
 =======================
 https://hoten.org/100-ho-pho-bien-nhat/
+
+=======================
+# Metrial Designs Font
+=======================
+. https://materialdesignicons.com/
+. search 'tree'
+. click on 'family-tree'
+. click on 'Icon Package' -> 'SVG .optimized'
+. copy family-tree.svg ('Downloads' folder) -> src/assets/fonts
+
+. https://github.com/ionic-team/ionicons
+
+<ion-icon src="../../assets/fonts/family-tree.svg" size="small" ></ion-icon>
+ion-icon {
+  font-size: 64px;
+  color: blue;
+}
 
 =====================================================================
 # FIREBASE
@@ -218,6 +241,8 @@ SMTP password: ,wHD[XW;+Oml
 Collection: content
 FROM address: pvhoang940@gmail.com
 
+https://firebase.google.com/docs/extensions/official/firestore-send-email
+https://nodemailer.com/message/attachments/
 https://betterprogramming.pub/how-to-send-emails-from-firebase-with-the-trigger-email-extension-27c593ca1157
 
 

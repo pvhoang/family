@@ -10,6 +10,7 @@
   "WARNING": "Cảnh báo",
   "ANNOUNCE": "Thông báo",
   "GENERATION": "Đời",
+  
   "male": "Nam",
   "female": "Nữ",
   "MALE": "Nam",
@@ -20,11 +21,19 @@
   "CHILD": "Con",
   "WIFE": "Vợ",
   "HUSBAND": "Chồng",
+  "SELF": "Chi",
+
+  "FAMILY_EDIT_TREE": "Phả đồ đang điều chỉnh",
+  "FAMILY_NEW_TREE": "Phả đồ gốc mới",
+  "FAMILY_TREE_WARNING": "Nếu chọn phả đồ gốc, những thay đổi trong phả đồ đang điều chỉnh sẽ bị xóa!",
+  "FAMILY_SELECT_NEW_TREE": "Chọn phả đồ mới",
 
   "TAB_HOME": "Phả nhập",
   "TAB_TREE": "Phả đồ",
   "TAB_ARCHIVE": "Phả ký",
-  "TAB_INFO": "Phụ khảo",
+  "TAB_INFO": "Phả cụ",
+  "TAB_EDITOR": "Phả chi",
+  "TAB_FILE": "Phả cụ",
 
   "HOME_HEADER_TITLE": "Gia Phả Họ ",
   "HOME_INTRO": "Lời ngõ",
@@ -40,12 +49,39 @@
   "HOME_ALERT_MEMORIAL_NO_DOD": "Không có ngày giỗ trong 7 ngày tới.",
   "HOME_ALERT_MEMORIAL_HEADER": "Ngày giỗ",
   
+  "TREE_HEADER_TOOLTIP_SELECT_HORIZONTAL": "Xem phả đồ chiều ngang",
+  "TREE_HEADER_TOOLTIP_SELECT_VERTICAL": "Xem phả đồ chiều dọc",
+  "TREE_HEADER_TOOLTIP_ZOOM_OUT": "Phóng lớn",
+  "TREE_HEADER_TOOLTIP_ZOOM_IN": "Phóng nhỏ",
   "TREE_HEADER_TOOLTIP_HOME": "Về chi gốc",
+  "TREE_HEADER_TOOLTIP_OTHER_TASKS": "Chức năng khác",
+  "TREE_POPOVER_SUMMARY": "Thông tin cơ bản",
+
   "TREE_SEARCH_PLACEHOLDER": "Chọn chi, đời, năm, địa chỉ, v.v",
   "TREE_SEARCH_ITEM_NOT_FOUND": "Không tìm thấy thông tin",
 
+  "TREE_SELECT_NEXT_NODE": "Chọn chi kế",
+  "TREE_SELECT_PREV_NODE": "Chọn chi trước",
+  "TREE_SELECT_VIEW_NODE_FROM_ROOT": "Xem phả đồ chi từ chi gốc",
+  "TREE_SELECT_VIEW_NODE_FULL": "Xem chi trong toàn phả đồ",
+  "TREE_SELECT_CLOSE": "Đóng chế độ chọn, về chi gốc",
+
+  "TREE_POPOVER_EDIT_NODE": "Sửa thông tin chi",
+  "TREE_POPOVER_ADD_NODE": "Thêm con/vợ/chồng",
+  "TREE_POPOVER_DELETE_NODE": "Xóa chi",
+  "TREE_POPOVER_VIEW_DETAIL": "Xem thông tin chi",
+  "TREE_POPOVER_PRINT_JPG": "Tạo hình dạng JPG",
+  "TREE_SELECT_PRINT_JPG_MSG": "File JPG sẽ được tạo và cất vào hệ thống",
+  "TREE_POPOVER_PRINT_PDF": "Tạo hình dạng PDF",
+  "TREE_SELECT_PRINT_PDF_MSG": "File PDF sẽ được tạo và cất vào hệ thống",
+
+  "TREE_SELECT_NO_NAME": "chưa tên",
+  "TREE_SELECT_NEW_CHILD_NAME": "Con chưa tên",
+  "TREE_SELECT_NEW_WIFE_NAME": "Vợ chưa tên",
+  "TREE_SELECT_NEW_HUSBAND_NAME": "Chồng chưa tên",
+
   "TREE_ALERT_HEADER_DELETE_NODE_HAS_CHILDREN": "Thông báo",
-  "TREE_ALERT_MESSAGE_DELETE_NODE_HAS_CHILDREN": "Không thể xóa chi. Phải xóa nhánh trước.",
+  "TREE_ALERT_MESSAGE_DELETE_NODE_HAS_CHILDREN": "Không thể xóa chi có nhánh! Phải xóa nhánh trước.",
   "TREE_CONFIRM_HEADER_DELETE_NODE": "Cảnh báo",
   "TREE_CONFIRM_MESSAGE_DELETE_NODE": "Chi xóa sẽ không phục hồi được!",
 
@@ -60,10 +96,19 @@
   "TREE_ALERT_VIEW_POD": "Nơi tử",
   "TREE_ALERT_VIEW_POR": "Nơi sinh sống",
 
-  "NODE_HEADER_TOOLTIP_ADD": "Thêm con/vợ/chồng",
-  "NODE_HEADER_TOOLTIP_DELETE": "Xóa chi",
   "NODE_HEADER_TOOLTIP_SAVE": "Cất thông tin mới",
   "NODE_HEADER_TOOLTIP_CANCEL": "Bỏ thông tin mới",
+
+  "NODE_SELECT_PEOPLE_NOT_FOUND_TEXT": "Không tìm thấy tên",
+  "NODE_SELECT_PEOPLE_PLACEHOLDER": "Nhập hoặc chọn tên",
+  "NODE_SELECT_PLACES_NOT_FOUND_TEXT": "Không tìm thấy nơi",
+  "NODE_SELECT_PLACES_PLACEHOLDER": "Chọn nơi",
+  "NODE_SELECT_RELATION_PLACEHOLDER": "Chọn quan hệ",
+  "NODE_SELECT_GENDER_PLACEHOLDER": "Chọn giới tính",
+  "NODE_SELECT_YEARS_PLACEHOLDER": "Chọn năm hoặc để trống",
+  "NODE_SELECT_DAYS_PLACEHOLDER": "Chọn ngày Âm lịch hoặc để trống",
+  "NODE_SELECT_MONTHS_PLACEHOLDER": "Chọn tháng  Âm lịch hoặc để trống",
+
   "NODE_GROUP_BASIC": "Thông tin cơ bản",
   "NODE_NAME": "Họ tên",
   "NODE_NAME_PLACEHOLDER": "Nhập họ tên (Phan nếu đầu nhánh, ví dụ. Phan Ngọc Luật)",
@@ -87,6 +132,9 @@
   "NODE_DESC": "Chi tiết",
   "NODE_DESC_PLACEHOLDER": "Nhập chi tiết cá nhân: thành đạt, chức vụ, v.v",
   
+  "NODE_ALERT_RELATION_HEADER": "Thêm chi",
+  "NODE_ALERT_RELATION_MESSAGE": "Quan hệ",
+
   "NODE_GROUP_TREE": "Gia phả",
   "NODE_CHILD": "Thêm con",
   "NODE_CHILD_PLACEHOLDER": "Nhập tên",
@@ -116,10 +164,22 @@
 
   "CONTACT_HEADER_TITLE": "Gia Phả Họ ",
   "CONTACT_INFO": "Thông tin",
+
+  "CONTACT_VERSION_ITEM": "Thông số",
+  "CONTACT_VERSION_DATA": "Số liệu",
+  "CONTACT_VERSION": "Phiên bản hiện tại",
+  "CONTACT_VERSION_APP": "Ứng dụng",
+  "CONTACT_VERSION_SRC_TREE": "Phả đồ gốc",
+  "CONTACT_VERSION_EDIT_TREE": "Phả đồ đang điều chỉnh",
+  "CONTACT_VERSION_NODES": "Số chi",
+  "CONTACT_VERSION_GENERATION": "Số đời",
+  
   "CONTACT_VERSION_1": "Phiên bản hiện tại - Ứng dụng: ",
   "CONTACT_VERSION_2": "Phả đồ gốc: ",
   "CONTACT_VERSION_3": "Phả đồ đang điều chỉnh: ",
-  
+  "CONTACT_SUMMARY_1": "Sơ lược phả đồ - Số đời: ",
+  "CONTACT_SUMMARY_2": " - Số chi: ",
+
   "CONTACT_CONTRIBUTION": "Đóng góp",
 
   "CONTACT_TREE": "Phả đồ",
@@ -128,15 +188,17 @@
   "CONTACT_DOWNLOAD_MSG": "Cất phả đồ đang điều chỉnh.",
   "CONTACT_UPLOAD_MSG": "Dùng phả đồ trong máy.",
 
-  "CONTACT_CONTACT": "Liên lạc",
+  "CONTACT_CONTACT": "Biên tập: pvhoang940@gmail.com, 0903 592 592",
   "CONTACT_EMAIL": "Email: pvhoang940@gmail.com.",
   "CONTACT_RESET_MESSAGE": "Xóa phả đồ đang điều chỉnh và dùng lại phả đồ gốc?",
   "CONTACT_DATE": "Ngày",
   "CONTACT_DETAIL": "Chi tiết",
-  "CONTACT_NAME": "Họ tên",
-  "CONTACT_ITEM": "Thông số",
+  "CONTACT_NAME": "Tên chi",
+  "CONTACT_ITEM": "Tình trạng",
   "CONTACT_OLD_VALUE": "Cũ",
   "CONTACT_NEW_VALUE": "Mới",
+  "ADD": "Thêm vào",
+  "REMOVE": "Lấy ra",
   "CONTACT_DATA_NOT_CHANGED": "Phả đồ không thay đổi.",
   "CONTACT_LEVELS_CHANGED": "Số đời thay đổi",
   "CONTACT_NAME_CHANGED": "Tên đã thay đổi",
@@ -149,6 +211,7 @@
   "CONTACT_SEND_INFO_PLACEHOLDER": "Chi tiết (tên, email, điện thoại, v.v.)",
   "CONTACT_SEND_ANSWER": "Phả đồ đã được gởi về ban biên tập. Chúng tôi sẽ thông báo kết quả trong thời gian sớm nhất",
 
+  "ADMIN_PHABLET_DEVICE": "Các chức năng của admin chỉ chạy được trên máy tính bảng hay laptop!",
   "ADMIN_HEADER_TOOLTIP_EDITOR": "Điều chỉnh chi",
   "ADMIN_HEADER_TOOLTIP_FILE": "Thay đổi gia phả lưu trên mạng",
 
@@ -166,9 +229,9 @@
   "FILE_FILES_ARE_THE_SAME": "Dữ liệu giống nhau!",
   "FILE_DELETE_HEADER": "Cảnh báo",
   "FILE_DELETE_MESSAGE": "Dữ liệu xóa sẽ không phục hồi được!",
-  "FILE_ID": "ID",
-  "FILE_INFO": "Thông tin",
-  "FILE_SUBJECT": "Chủ đề",
+  "FILE_ID": "ID phả đồ",
+  "FILE_INFO": "Thông tin liên lạc",
+  "FILE_SUBJECT": "Chủ đề email",
   "FILE_COMPARE": "So sánh",
   "FILE_DELETE": "Xóa",
   "FILE_REPLACE": "Thay thế",

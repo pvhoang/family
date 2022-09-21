@@ -17,27 +17,75 @@ export class NodeService {
   // --- getFamilyNodes
 
   getFamilyNodes(family: any) {
+    let nodeLevel = +family.info.generation;
     let nodes = [];
     family.nodes.forEach((node: any) => {
+      node.level = nodeLevel;
       nodes.push(node);
     })
     if (family['children']) {
+      nodeLevel++;
       family['children'].forEach(child => {
-        this.getChildNodes(child, nodes);
+        this.getChildNodes(child, nodeLevel, nodes);
       })
     }
     return nodes;
   }
 
-  getChildNodes(family:any, nodes) {
+  getChildNodes(family:any, nodeLevel, nodes) {
     family.nodes.forEach(node => {
+      node.level = nodeLevel;
       nodes.push(node);
     })
     if (family['children']) {
+      nodeLevel++;
       family['children'].forEach(child => {
-        this.getChildNodes(child, nodes);
+        this.getChildNodes(child, nodeLevel, nodes);
       })
     }
+  }
+
+  getFamilyNode(family: any, nodeId: any) {
+    // console.log('getFamilyNode: ', nodeId);
+    let nodeFound: any = null;
+    family.nodes.forEach((node: any) => {
+      // console.log('getFamilyNode: ', node.id);
+      if (node.id == nodeId)
+        nodeFound = node;
+    })
+    if (nodeFound)
+      return nodeFound;
+
+    if (family['children']) {
+      family['children'].forEach(child => {
+        let node:any = this.getChildNode(child, nodeId);
+        if (node)
+          nodeFound = node;
+      })
+      if (nodeFound)
+        return nodeFound;
+    }
+    return null;
+  }
+
+  getChildNode(family:any, nodeId) {
+    let nodeFound: any = null;
+    family.nodes.forEach(node => {
+      if (node.id == nodeId)
+        nodeFound = node;
+    })
+    if (nodeFound)
+      return nodeFound;
+    if (family['children']) {
+      family['children'].forEach(child => {
+        let node:any = this.getChildNode(child, nodeId);
+        if (node)
+          nodeFound = node;
+      })
+      if (nodeFound)
+        return nodeFound;
+    }
+    return null;
   }
 
   public getProperName(node: any)  {
@@ -107,13 +155,13 @@ export class NodeService {
   } 
 
   public getSpanStr(node) {
-    let spans = [];
-    spans.push(node.name);
-    spans.push(node.yob + ' - ' + node.yod);
-    //   spans.push(node.pob + ' - ' + node.pod);
-    return spans;
+    // let noName = this.languageService.getTranslation('TREE_SELECT_NO_NAME');
+    // let header = (node.family.children) ? ' (=>)' : '';
+    // let row1 = (node.family && node.family.children) ? '<b>' + node.name + '</b>' : ( node.name.indexOf(noName) > 0 ? '<i>' + node.name + '</i>' : node.name );
+    let row1 = (node.family && node.family.children) ? '<b>' + node.name + '</b>' : node.name;
+    let row2 = ((node.yob) ? node.yob : '') + ' - ' + ((node.yod) ? node.yod : '');
+    return row1 + '<br/>' + row2;
   }
-
 
   public fillNode(node) {
     if (!node.id) node.id = '';
@@ -196,10 +244,11 @@ export class NodeService {
 
   public getEmptyNode(id: string, level: string, name: string, gender: string) {
     let node = Object.create(NODE);
+    node.id = id;
     node.name = name;
     node.gender = gender;
     node.level = level;
-    node.profile = this.getSearchKeys(node),
+    node.profile = this.getSearchKeys(node)
     node.span = this.getSpanStr(node);
     node.nclass = this.updateNclass(node);
     return node;

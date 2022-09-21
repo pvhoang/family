@@ -1,16 +1,223 @@
 {
     "id": "archive",
     "data": {
+        "i01": {
+            "title": {
+                "vi": "1801? - Bài vị Thủy Tổ (Đời 1)", 
+                "en": "1801? - Bài vị Thủy Tổ (Đời 1)"
+            },
+            "description": {
+                "vi": "Hình chụp tại tại Chánh điện nhà Thờ Phan Tộc, Đồng Hới", 
+                "en": "Picture taken at Chánh điện nhà Thờ Phan Tộc, Đồng Hới"
+            },
+            "type": "image",
+            "src": "../../assets/phan/bai-vi-doi-1.jpg"
+        },
+        "i02": {
+            "title": {
+                "vi": "1801? - Mộ Tổ (Đời 1)", 
+                "en": "1801? - Mộ Tổ (Đời 1)"
+            },
+            "description": {
+                "vi": "Hình chụp tại lăng Phan Tộc, Đá Bạc, Đồng Sơn, Quảng Bình", 
+                "en": "Picture taken at lăng Phan Tộc, Đá Bạc, Đồng Sơn, Quảng Bình"
+            },
+            "type": "image",
+            "src": "../../assets/phan/mo-to-doi-1.jpg"
+        },
+        "i03": {
+            "title": {
+                "vi": "1876 - Mộ Tổ (Đời 11, Chi Phan Lợi Hành)", 
+                "en": "1876 - Mộ Tổ (Đời 11, Chi Phan Lợi Hành)"
+            },
+            "description": {
+                "vi": "Hình chụp tại lăng Phan Tộc, Đá Bạc, Đồng Sơn, Quảng Bình", 
+                "en": "Picture taken at lăng Phan Tộc, Đá Bạc, Đồng Sơn, Quảng Bình"
+            },
+            "type": "image",
+            "src": "../../assets/phan/mo-to-doi-11.jpg"
+        },
+        "i3": {
+            "title": {
+                "vi": "1920 - Nhánh Phan Ngọc Luật", 
+                "en": "1920 - Branch Phan Ngọc Luật"
+            },
+            "description": {
+                "vi": "Hình chụp tại nhà Từ Đường (Đời 13, Chi Phan Ngọc Luật), thôn Đồng Phú, Quảng Bình", 
+                "en": "Picture taken at nhà Từ Đường (Đời 13, Chi Phan Ngọc Luật), thôn Đồng Phú, Quảng Bình"
+            },
+            "type": "people",
+            "src": "../../assets/phan/phan-ngoc-luat.jpg",
+            "image": {
+                "width": "4320",
+                "height": "2880"
+            },
+            "areas": [
+                {
+                    "id": "1",
+                    "score": "0.92",
+                    "coords": {
+                        "x": "2841",
+                        "y": "381",
+                        "width": "223",
+                        "height": "280"
+                    },
+                    "text": {
+                        "header": "Phan Dinh",
+                        "message": {
+                            "vi": "Phan Dinh, đã mất! Cạnh bên là Phan Thị Kế.",
+                            "en": "Phan Dinh, passed away!"
+                        }
+                    }
+                },
+                {
+                    "id": "2",
+                    "score": "0.87",
+                    "coords": {
+                        "x": "221",
+                        "y": "744",
+                        "width": "153",
+                        "height": "202"
+                    },
+                    "text": {
+                        "header": "Giượng Kế",
+                        "message": {
+                            "vi": "Giượng Kế, đã mất! Cạnh bên là Phan Duấn.",
+                            "en": "Giượng Kế, passed away!"
+                        }
+                    }
+                },
+                {
+                    "id": "3",
+                    "score": "0.79",
+                    "coords": {
+                        "x": "2083",
+                        "y": "656",
+                        "width": "187",
+                        "height": "263"
+                    },
+                    "text": {
+                        "header": "Phan Thị Cáo",
+                        "message": {
+                            "vi": "Phan Thị Cáo, đã mất!",
+                            "en": "Phan Thị Cáo, passed away!"
+                        }
+                    }
+                },
+                {
+                    "id": "4",
+                    "score": "0.78",
+                    "coords": {
+                        "x": "1451",
+                        "y": "1413",
+                        "width": "187",
+                        "height": "266"
+                    },
+                    "text": {
+                        "header": "Nguyễn Thị Huân",
+                        "message": {
+                            "vi": "Nguyễn Thị Huân, đã mất!",
+                            "en": "Nguyễn Thị Huân, passed away!"
+                        }
+                    }
+                },
+                {
+                    "id": "5",
+                    "score": "0.70",
+                    "coords": {
+                        "x": "980",
+                        "y": "1325",
+                        "width": "185",
+                        "height": "262"
+                    },
+                    "text": {
+                        "header": "Phan Ngọc Tường",
+                        "message": {
+                            "vi": "Phan Ngọc Tường, đã mất!",
+                            "en": "Phan Ngọc Tường, passed away!"
+                        }
+                    }
+                },
+                {
+                    "id": "6",
+                    "score": "0.66",
+                    "coords": {
+                        "x": "1028",
+                        "y": "597",
+                        "width": "172",
+                        "height": "247"
+                    },
+                    "text": {
+                        "header": "Phan Ngọc Luật",
+                        "message": {
+                            "vi": "Phan Ngọc Luật, đã mất!",
+                            "en": "Phan Ngọc Luật, passed away!"
+                        }
+                    }
+                },
+                {
+                    "id": "7",
+                    "score": "0.66",
+                    "coords": {
+                        "x": "1810",
+                        "y": "739",
+                        "width": "172",
+                        "height": "247"
+                    },
+                    "text": {
+                        "header": "Trần Thị Lan",
+                        "message": {
+                            "vi": "Trần Thị Lan bồng con Phan Thị Bẹp, đã mất!",
+                            "en": "Trần Thị Lan, passed away!"
+                        }
+                    }
+                },
+                {
+                    "id": "8",
+                    "score": "0.58",
+                    "coords": {
+                        "x": "2360",
+                        "y": "840",
+                        "width": "178",
+                        "height": "257"
+                    },
+                    "text": {
+                        "header": "Phan Khắc Phúc",
+                        "message": {
+                            "vi": "Phan Khắc Phúc, đã mất!",
+                            "en": "Phan Khắc Phúc, passed away!"
+                        }
+                    }
+                },
+                {
+                    "id": "9",
+                    "score": "0.56",
+                    "coords": {
+                        "x": "2685",
+                        "y": "484",
+                        "width": "195",
+                        "height": "266"
+                    },
+                    "text": {
+                        "header": "Phan Quang Ngự",
+                        "message": {
+                            "vi": "Phan Quang Ngự, đã mất!",
+                            "en": "Phan Quang Ngự, passed away!"
+                        }
+                    }
+                }
+            ]
+        },
         "i1": {
             "title": {
                 "vi": "1971 - Nhánh Phan Dính", 
                 "en": "1971 - Branch Phan Dính"
             },
             "description": {
-                "vi": "Hình chụp tại Tp. HCM", 
-                "en": "Picture taken in HCMC"
+                "vi": "Hình chụp tại Tp. HCM (Đời 15, Chi Phan Dính)", 
+                "en": "Picture taken in HCMC ((Đời 15, Chi Phan Dính)"
             },
-            "type": "image",
+            "type": "people",
             "src": "../../assets/phan/phan-dinh-1971.jpg",
             "image": {
                 "width": "1200",
@@ -104,93 +311,7 @@
                 }
             ]
         },
-        "i2": {
-            "title": {
-                "vi": "1920 - Nhánh Phan Ngọc Luật", 
-                "en": "1971 - Branch Phan Ngọc Luật"
-            },
-            "description": {
-                "vi": "Hình chụp tại Đồng Phú, Quảng Bình", 
-                "en": "Picture taken in Quảng Bình"
-            },
-            "type": "image",
-            "src": "../../assets/phan/phan-ngoc-luat-1920.jpg",
-            "image": {
-                "width": "1200",
-                "height": "900"
-            },
-            "areas": [
-                {
-                    "id": "1",
-                    "score": "0.88",
-                    "coords": {
-                        "x": "551",
-                        "y": "267",
-                        "width": "30",
-                        "height": "50"
-                    },
-                    "text": {
-                        "header": "Phan Thị Ké",
-                        "message": {
-                            "vi": "Phan Thị Ké, đã mất!",
-                            "en": "Phan Thị Ké, passed away!"
-                        }
-                    }
-                },
-                {
-                    "id": "2",
-                    "score": "0.82",
-                    "coords": {
-                        "x": "395",
-                        "y": "227",
-                        "width": "34",
-                        "height": "46"
-                    },
-                    "text": {
-                        "header": "Phan Ngọc Luật",
-                        "message": {
-                            "vi": "Phan Ngọc Luật, đã mất!",
-                            "en": "Phan Ngọc Luật, passed away!"
-                        }
-                    }
-                },
-                {
-                    "id": "3",
-                    "score": "0.75",
-                    "coords": {
-                        "x": "319",
-                        "y": "222",
-                        "width": "33",
-                        "height": "50"
-                    },
-                    "text": {
-                        "header": "Phan Duấn",
-                        "message": {
-                            "vi": "Phan Duấn, đã mất!",
-                            "en": "Phan Duấn, passed away!"
-                        }
-                    }
-                },
-                {
-                    "id": "4",
-                    "score": "0.70",
-                    "coords": {
-                        "x": "663",
-                        "y": "287",
-                        "width": "28",
-                        "height": "43"
-                    },
-                    "text": {
-                        "header": "Phan Khắc Phúc",
-                        "message": {
-                            "vi": "Phan Khắc Phúc, đã mất!",
-                            "en": "Phan Khắc Phúc, passed away!"
-                        }
-                    }
-                }
-            ]
-        },
-        "i3": {
+        "i4": {
             "title": {
                 "vi": "Ngày giỗ", 
                 "en": "Memorial days"
@@ -200,19 +321,19 @@
                 "en": "Memorial days of the family"
             },
             "type": "html",
-            "src": "../../assets/phan/ngay-gio.html"
+            "src": "../../assets/phan/ngay-gio.htm"
         },
-        "i4": {
+        "i5": {
             "title": {
                 "vi": "Phả đồ", 
                 "en": "Family tree"
             },
             "description": {
-                "vi": "Phả đồ từ chi Ông Luật", 
-                "en": "Tree from Mr Luat branch"
+                "vi": "Phả đồ từ chi ông Phan Ngọc Luật", 
+                "en": "Tree from Mr Phan Ngoc Luat branch"
             },
             "type": "html",
-            "src": "../../assets/phan/gen-11.html"
+            "src": "../../assets/phan/gen-11.htm"
         }
     }
 }

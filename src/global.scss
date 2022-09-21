@@ -66,6 +66,7 @@ $text_font_size_medium: 18px;
 $text_font_size_small: 16px;
 $text_font_size_tiny: 14px;
 
+$icon_font_size_material_large: 24px;
 $icon_font_size_large: 24px;
 $icon_font_size_small: 18px;
 
@@ -92,8 +93,18 @@ $icon_font_size_small: 18px;
   color: var(--app-color);
 }
 
+.app-ion-title-small {
+  font-size: $text_font_size_small;
+  color: var(--app-color);
+}
+
 .app-ion-icon {
   font-size: $icon_font_size_large;
+  color: var(--app-color);
+}
+
+.app-ion-icon-material {
+  font-size: $icon_font_size_material_large;
   color: var(--app-color);
 }
 
@@ -131,6 +142,19 @@ $icon_font_size_small: 18px;
   --inner-padding-bottom: 0px;
 }
 
+.app-popover {
+  padding-top: 10px;
+  margin-left: 20px;
+  .label {
+    font-size: $text_font_size_tiny;
+  }
+  .icon {
+    background: var(--app-background-color);
+    font-size: $icon_font_size_small;
+    color: var(--app-color);
+  }
+}
+
 // --- tab ---
 
 ion-tab-bar {
@@ -154,6 +178,11 @@ ion-tab-button {
 
 .tab-icon {
   font-size: $icon_font_size_large;
+  color: var(--app-color);
+}
+
+.tab-icon-material {
+  font-size: $icon_font_size_material_large;
   color: var(--app-color);
 }
 
@@ -243,10 +272,23 @@ ion-tab-button {
   background: var(--app-background-color);
 }
 
+.archive-ion-row {
+  padding-bottom: 10px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
 // --- contact ---
 
 .contact-icon {
   font-size: $icon_font_size_large;
+  color: var(--app-color);
+  background: var(--app-background-color);
+}
+
+.contact-icon-material {
+  font-size: $icon_font_size_material_large;
   color: var(--app-color);
   background: var(--app-background-color);
 }

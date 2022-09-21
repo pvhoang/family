@@ -9,6 +9,8 @@ export const environment = {
     messagingSenderId: '123668295235',
   },
   production: true,
+  phabletDevice: true
+
 };
 
 export const DEBUG = true;

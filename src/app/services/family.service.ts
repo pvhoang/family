@@ -68,11 +68,10 @@ export class FamilyService {
             } else {
               // src is different, ask user
               let msg = 
-                this.languageService.getTranslation('LOCAL_DATA') + ': ' + localVersion + '<br>' +
-                this.languageService.getTranslation('NEW_DATA') + ': ' + srcFamily.version + '<br>' +
-                this.languageService.getTranslation('DATA_WARNING');
-                '<br>Continue if you want to use new version.';
-              this.utilService.alertConfirm('SELECT_DATA_VERSION', msg, 'CANCEL', 'OK').then((res) => {
+                this.languageService.getTranslation('FAMILY_EDIT_TREE') + ': ' + localVersion + '<br>' +
+                this.languageService.getTranslation('FAMILY_NEW_TREE') + ': ' + srcFamily.version + '<br>' +
+                this.languageService.getTranslation('FAMILY_TREE_WARNING');
+              this.utilService.alertConfirm('FAMILY_SELECT_NEW_TREE', msg, 'CANCEL', 'OK').then((res) => {
                 if (res.data) {
                   this.dataService.saveFamily(srcFamily).then(status => {});
                   resolve(srcFamily);
@@ -217,7 +216,7 @@ export class FamilyService {
   private saveFileJson(json) {
     return new Promise((resolve) => {
       // let jsonFile = './assets/data/' + json + '.json';
-      let jsonFile = './assets/' + ancestor + '/' + json + '.json';
+      let jsonFile = './assets/common/' + json + '.json';
       this.utilService.getLocalJsonFile(jsonFile).then((jsonData:any) => {
         localStorage.setItem(json, JSON.stringify(jsonData));
         resolve(true);
@@ -251,12 +250,12 @@ export class FamilyService {
   private verifyFamilyNode(family_name, family:any, msg) {
     let name = family.nodes[0].name;
     let keys = this.utilService.stripVN(name).split(' ');
-    if (keys[0] != family_name) {
-      // console.log('family, name, keys: ', family, name, keys);
-      let ancestorText = this.languageService.getTranslation(family_name);
-      let message = this.languageService.getTranslation('NAME_MUST_BE_ANCESTOR') + ' ' + ancestorText.short_name + '. [' + name + ']';
-      msg.push(message);
-    }
+    // if (keys[0] != family_name) {
+    //   // console.log('family, name, keys: ', family, name, keys);
+    //   let ancestorText = this.languageService.getTranslation(family_name);
+    //   let message = this.languageService.getTranslation('NAME_MUST_BE_ANCESTOR') + ' ' + ancestorText.short_name + '. [' + name + ']';
+    //   msg.push(message);
+    // }
     if (family['children']) {
       family['children'].forEach(child => {
         this.verifyFamilyNode(family_name, child, msg);
@@ -336,8 +335,7 @@ export class FamilyService {
     diff.forEach((part:any) => {
         const mode = part.added ? 'ADD' : part.removed ? 'REMOVE' : 'COMMON';
         // console.log('mode: ', mode);
-
-        if (mode !== 'COMMON') {
+        if (mode !== 'COMMON' && part.value.length > 4) {
           let row = 0;
           if (part.oldPos) {
             // get line number

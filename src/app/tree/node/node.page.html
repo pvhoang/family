@@ -1,27 +1,22 @@
 <ion-header>
   <ion-item class="app-ion-item">
-      <ion-col size="7">
-        <ion-title class="ion-text-center ion-text-wrap app-ion-title">{{ title }}</ion-title>
-      </ion-col>
-      <ion-col size="5">
-        <ion-button *ngIf="caller=='tree' && canAddChild" class="app-ion-button" title="{{ 'NODE_HEADER_TOOLTIP_ADD' | translate }}" fill="clear" (click)="onChild()">
-          <ion-icon slot="icon-only" name="person-add" class="app-ion-icon"></ion-icon>
+    <ion-col size="1">
+    </ion-col>
+    <ion-col size="6">
+      <ion-title class="ion-text-center ion-text-wrap app-ion-title">{{ title }}</ion-title>
+    </ion-col>
+    <ion-col size="2">
+    </ion-col>
+    <ion-col size="1">
+        <ion-button class="app-ion-button" title="{{ 'NODE_HEADER_TOOLTIP_SAVE' | translate }}" fill="clear" (click)="onSave()">
+          <!-- <ion-icon slot="icon-only" name="download" class="app-ion-icon"></ion-icon> -->
+          <ion-icon slot="icon-only" src="../../assets/fonts/content-save-outline.svg" class="app-ion-icon-material"></ion-icon>
         </ion-button>
-        <!-- <ion-button class="app-ion-button" fill="clear" (click)="onImage()">
-          <ion-icon slot="icon-only" name="image" class="app-ion-icon"></ion-icon>
-        </ion-button> -->
-        <ion-button *ngIf="caller=='tree' && canDelete" class="app-ion-button" title="{{ 'NODE_HEADER_TOOLTIP_DELETE' | translate }}" fill="clear" (click)="onDelete()">
-          <ion-icon slot="icon-only" name="trash" class="app-ion-icon"></ion-icon>
+        <ion-button class="app-ion-button" fill="clear" title="{{ 'NODE_HEADER_TOOLTIP_CANCEL' | translate }}"  (click)="onCancel()">
+          <!-- <ion-icon slot="icon-only" name="close" class="app-ion-icon"></ion-icon> -->
+          <ion-icon slot="icon-only" src="../../assets/fonts/close-circle-outline.svg" class="app-ion-icon-material"></ion-icon>
         </ion-button>
-      <!-- </ion-col> -->
-      <!-- <ion-col size="2"> -->
-          <ion-button class="app-ion-button" title="{{ 'NODE_HEADER_TOOLTIP_SAVE' | translate }}" fill="clear" (click)="onSave()">
-            <ion-icon slot="icon-only" name="download" class="app-ion-icon"></ion-icon>
-          </ion-button>
-          <ion-button class="app-ion-button" fill="clear" title="{{ 'NODE_HEADER_TOOLTIP_CANCEL' | translate }}"  (click)="onCancel()">
-            <ion-icon slot="icon-only" name="close" class="app-ion-icon"></ion-icon>
-          </ion-button>
-      </ion-col>
+    </ion-col>
   </ion-item>
 </ion-header>
 
@@ -56,6 +51,7 @@
         [items]="genders" 
         bindLabel="name"
         bindValue="id"
+        placeholder="{{selectGenderPlaceholder}}"
         [(ngModel)]="values.gender">
       </ng-select>
     </div>
@@ -112,92 +108,41 @@
     </ion-row>
     </div>
 
-    <!-- <ion-item>
-    <div class="card-select-1">
-      <ng-select 
-        [items]="years" 
-        bindLabel="name"
-        placeholder="{{selectYearsPlaceholder}}"
-        [(ngModel)]="values.yod"
-        (clear)="clearYOD()"
-      >
-      </ng-select>
-      <ng-select 
-        [items]="years" 
-        bindLabel="name"
-        placeholder="{{selectYearsPlaceholder}}"
-        [(ngModel)]="values.yod"
-        (clear)="clearYOD()"
-      >
-      </ng-select>
-    </div>
-    </ion-item> -->
-
-    <!-- <ion-input class="card-input" type="text" [(ngModel)]="values.dod" placeholder="{{ 'NODE_DOD_PLACEHOLDER' | translate }}" clearInput></ion-input> -->
-    <!-- <ion-datetime placeholder="None" [(ngModel)]="values.dod" disabled></ion-datetime> -->
-
-    <!-- <ion-datetime-button datetime="datetime"></ion-datetime-button>
-    <ion-modal [keepContentsMounted]="true">
-      <ng-template>
-        <ion-datetime id="datetime" presentation="date" [(ngModel)]="values.dod" 
-        [firstDayOfWeek]="1" locale="vi-VI" color="medium"
-        [showDefaultButtons]="true" cancelText="Cancel" doneText="OK"
-        [showClearButton]="true" clearText="Clear"
-        >
-          <span slot="title">Chon ngay mat am lich</span>
-        </ion-datetime>
-      </ng-template>
-    </ion-modal> -->
-
     <ion-label class="card-label">{{ 'NODE_POB' | translate }}</ion-label>
     <div class="card-select-1">
-      <ng-select #ngSelectPOB
-        [items]="places | async" 
+      <ng-select 
+        [items]="locations" 
         bindLabel="name"
-        notFoundText="{{selectPlacesNotFoundText}}"
         placeholder="{{selectPlacesPlaceholder}}"
         [(ngModel)]="values.pob"
         (clear)="clearPOB()"
-        (keydown)="keydownPOB($event)"
-        (keyup)="keyupPOB($event)"
-        [keyDownFn]="keydownInDropdown"
       >
       </ng-select>
     </div>
 
     <ion-label class="card-label">{{ 'NODE_POD' | translate }}</ion-label>
     <div class="card-select-1">
-      <ng-select #ngSelectPOD
-        [items]="places | async" 
+      <ng-select 
+        [items]="locations" 
         bindLabel="name"
-        notFoundText="{{selectPlacesNotFoundText}}"
         placeholder="{{selectPlacesPlaceholder}}"
         [(ngModel)]="values.pod"
         (clear)="clearPOD()"
-        (keydown)="keydownPOD($event)"
-        (keyup)="keyupPOD($event)"
-        [keyDownFn]="keydownInDropdown"
       >
       </ng-select>
     </div>
     
     <ion-label class="card-label">{{ 'NODE_POR' | translate }}</ion-label>
-    <div class="card-select">
-
-      <ng-select #ngSelectPOR
-        [items]="places | async" 
+    <div class="card-select-1">
+      <ng-select 
+        [items]="locations" 
         bindLabel="name"
-        notFoundText="{{selectPlacesNotFoundText}}"
         placeholder="{{selectPlacesPlaceholder}}"
         [(ngModel)]="values.por"
         (clear)="clearPOR()"
-        (keydown)="keydownPOR($event)"
-        (keyup)="keyupPOR($event)"
-        [keyDownFn]="keydownInDropdown"
       >
       </ng-select>
     </div>
-
     <ion-card-header class="card-header">
       &nbsp;{{ 'NODE_GROUP_OTHER' | translate }}
     </ion-card-header>
