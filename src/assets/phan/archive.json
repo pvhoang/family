@@ -321,7 +321,7 @@
                 "en": "Memorial days of the family"
             },
             "type": "html",
-            "src": "../../assets/phan/ngay-gio.htm"
+            "src": "../../assets/phan/ngay-gio.html"
         },
         "i5": {
             "title": {
@@ -333,7 +333,7 @@
                 "en": "Tree from Mr Phan Ngoc Luat branch"
             },
             "type": "html",
-            "src": "../../assets/phan/gen-11.htm"
+            "src": "../../assets/phan/gen-11.html"
         }
     }
 }

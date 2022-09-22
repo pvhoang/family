@@ -13,11 +13,13 @@ https://ultimatecourses.com/blog/using-ngstyle-in-angular-for-dynamic-styling
 =======================
 https://github.com/aaronczichon/aaronczichon.de/tree/master/CSS_Zooming
 https://aaronczichon.de/blog/zoom-dom-elements-with-css/
+https://github.com/GoogleChromeLabs/pinch-zoom#readme
 
 =======================
 # Tooltip for button
 =======================
 https://stackoverflow.com/questions/66484943/how-to-change-title-of-an-ion-icon
+https://blog.logrocket.com/creating-beautiful-tooltips-with-only-css/
 
 =======================
 # ModalController, AlertController, ToastController
@@ -33,6 +35,7 @@ https://stackoverflow.com/questions/66484943/how-to-change-title-of-an-ion-icon
 @ng-select/ng-select
 // https://www.freakyjolly.com/ng-select-typeahead-with-debouncetime-fetch-server-response
 // https://www.omdbapi.com
+// https://github.com/ng-select/ng-select
 
 =======================
 # Scrolling into view
@@ -101,6 +104,7 @@ https://stackoverflow.com/questions/48295288/how-to-handle-single-click-and-doub
 =======================
 https://dev.to/_mnavarros/how-to-convert-html-to-pdf-using-angular-3jj8
 https://stackoverflow.com/questions/59885556/how-to-add-and-set-a-font-in-jspdf
+http://raw.githack.com/MrRio/jsPDF/master/docs/index.html
 https://www.npmjs.com/package/html-to-image
 
 =======================
@@ -108,6 +112,12 @@ https://www.npmjs.com/package/html-to-image
 =======================
 . open '.doc' in MS WORD
 . 'Save As' -> 'Web Page (*.htm, *.html)
+
+https://wordtohtml.net/
+. open '.doc' in MS WORD
+. Ctrl-A for all text
+. Ctrl-V (left) -> Copy to clipboard (right)
+. open an empty HTML (test.html) -> Ctrl-V
 
 =======================
 # Create archive.json
