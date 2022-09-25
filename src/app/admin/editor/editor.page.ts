@@ -10,8 +10,6 @@ import { TypeaheadService } from '../../services/typeahead.service';
 import { Family, Node, FAMILY} from '../../services/family.model';
 import { NgSelectComponent } from '@ng-select/ng-select';
 
-// declare var ancestor;
-
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.page.html',
@@ -52,7 +50,8 @@ export class EditorPage implements OnInit {
 
   ngOnInit() {
     console.log('EditorPage - ngOnInit');
-    this.title = this.languageService.getTranslation('EDITOR_HEADER_TITLE');
+    // this.title = this.languageService.getTranslation('EDITOR_HEADER_TITLE');
+
     this.startFromStorage();
   }
 
@@ -67,6 +66,8 @@ export class EditorPage implements OnInit {
 
   startFromStorage() {
     this.dataService.readFamily().then((family:any) => {
+      this.title = family.info.description;
+
       // verify data
       let msg = this.familyService.verifyFamily(family);
       if (msg)

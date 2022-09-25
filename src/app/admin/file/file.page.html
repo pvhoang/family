@@ -1,43 +1,59 @@
 <ion-header>
   <ion-item class="app-ion-item">
-    <ion-col size="1">
+    <ion-col size="3">
+      <ion-title class="ion-text-center app-ion-title-small">{{ title }}</ion-title>
     </ion-col>
-    <ion-col size="4">
-      <ion-title class="ion-text-center app-ion-title-small">{{ srcVersion }}</ion-title>
+    <ion-col size="9">
     </ion-col>
   </ion-item>
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
 
-  <ion-grid class="contact-grid" *ngIf="contentMode && contents.length > 0">
+  <ion-card-header class="card-header">
+    &nbsp;{{ 'FILE_TREE' | translate }}
+  </ion-card-header>
+
+  <ion-row class="app-ion-row">
+    <ion-col size="10">
+      <!-- <ion-label class="ion-text-wrap app-ion-label">&#8226;&ensp;{{ 'FILE_COMPARE_TREE' | translate }}</ion-label> -->
+      <ion-label class="ion-text-wrap app-ion-label">&#8226;&ensp;{{ msgCompare }}</ion-label>
+    </ion-col>
+    <ion-col size="2">
+      <ion-button class="app-ion-button" fill="clear" (click)="onView()">
+        <ion-icon src="../../assets/fonts/compare-horizontal.svg" class="contact-icon"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-grid class="contact-grid" *ngIf="viewMode">
     <ion-row>
       <ion-col size="2">
         {{ 'FILE_ID' | translate }}
       </ion-col>
-      <ion-col size="5">
-        {{ 'FILE_INFO' | translate }}
+      <ion-col size="3">
+        {{ 'FILE_VERSION' | translate }}
       </ion-col>
       <ion-col size="3">
-        {{ 'FILE_SUBJECT' | translate }}
+        {{ 'FILE_DIFFERENCE' | translate }}
       </ion-col>
-      <ion-col size="1">
+      <ion-col size="2">
         {{ 'FILE_COMPARE' | translate }}
       </ion-col>
-      <ion-col size="1">
+      <ion-col size="2">
         {{ 'FILE_DELETE' | translate }}
       </ion-col>
     </ion-row>
     <ion-row *ngFor="let content of contents">
       <ion-col size="2"> {{ content.id }} </ion-col>
-      <ion-col size="5"> {{ content.info }} </ion-col>
-      <ion-col size="3"> {{ content.subject }} </ion-col>
-      <ion-col size="1"> 
-        <ion-button class="app-ion-button" fill="clear" (click)="onCompare(content)">
+      <ion-col size="3"> {{ content.version }} </ion-col>
+      <ion-col size="3"> {{ content.diff }} </ion-col>
+      <ion-col size="2"> 
+        <ion-button class="app-ion-button" [disabled]="content.diff == 0" fill="clear" (click)="onCompare(content)">
           <ion-icon slot="icon-only" src="../../assets/fonts/compare-horizontal.svg" class="contact-icon-material"></ion-icon>
         </ion-button>
       </ion-col>
-      <ion-col size="1"> 
+      <ion-col size="2"> 
         <ion-button class="app-ion-button" fill="clear" (click)="onDelete(content)">
           <ion-icon slot="icon-only" src="../../assets/fonts/file-document-minus-outline.svg" class="contact-icon-material"></ion-icon>
         </ion-button>
@@ -46,7 +62,7 @@
   </ion-grid>
 
   <div class="app-ion-content">
-    <ion-grid class="contact-grid" *ngIf="compareMode && compareResults.length > 0">
+    <ion-grid class="contact-grid" *ngIf="viewMode && compareMode && compareResults.length > 0">
       <ion-row>
         <ion-col size="2">
           {{ 'FILE_NAME' | translate }}
@@ -68,5 +84,35 @@
         <ion-col size="4"> {{ row.new }} </ion-col>
       </ion-row>
     </ion-grid>
+
+    <ion-card-header class="card-header">
+      &nbsp;{{ 'FILE_EXCHANGE' | translate }}
+    </ion-card-header>
+  
+    <ion-row class="app-ion-row">
+      <ion-col size="8">
+        <ion-label class="ion-text-wrap app-ion-label">&#8226;&ensp;{{ 'FILE_UPLOAD' | translate }}</ion-label>
+      </ion-col>
+      <ion-col size="2">
+        <input type="file" (change)="onUpload($event)" title=" " accept=".json"/>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button class="app-ion-button" fill="clear">
+          <ion-icon slot="icon-only" src="../../assets/fonts/file-upload-outline.svg" class="contact-icon"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="app-ion-row">
+      <ion-col size="10">
+        <ion-label class="ion-text-wrap app-ion-label">&#8226;&ensp;{{ 'FILE_DOWNLOAD' | translate }}</ion-label>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button class="app-ion-button" fill="clear" (click)="onDownload()">
+          <ion-icon slot="icon-only" src="../../assets/fonts/file-download-outline.svg" class="contact-icon"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
   </div>
 </ion-content>

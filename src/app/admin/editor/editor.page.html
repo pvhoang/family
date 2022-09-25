@@ -1,8 +1,9 @@
 <ion-header>
     <ion-item class="app-ion-item">
-      <ion-col size="1">
+      <ion-col size="3">
+        <ion-title class="ion-text-center app-ion-title-small">{{ title }}</ion-title>
       </ion-col>
-      <ion-col size="5">
+      <ion-col size="4">
         <ng-select #ngSelectPeople
           [appendTo]="'body'"
           [items]="peopleNodes" 
@@ -18,8 +19,6 @@
       </ion-col>
       <ion-col size="2">
         <ion-title *ngIf="selectPeople" class="ion-text-center app-ion-title-small">{{ selectedNodeName }}</ion-title>
-      </ion-col>
-      <ion-col size="1">
       </ion-col>
       <ion-col size="2">
         <ion-button *ngIf="selectPeople" class="app-ion-button" title="{{ 'EDITOR_HEADER_TOOLTIP_ADD' | translate }}" fill="clear" (click)="onAdd()">
@@ -85,7 +84,6 @@
       <ion-col size="1"> 
         <ion-button class="app-ion-button" fill="clear" (click)="onDelete(node)">
           <ion-icon slot="icon-only" src="../../assets/fonts/account-remove-outline.svg" class="contact-icon-material"></ion-icon>
-          <!-- <ion-icon slot="icon-only" name="trash" class="contact-icon-small"></ion-icon> -->
         </ion-button>
       </ion-col>
     </ion-row>

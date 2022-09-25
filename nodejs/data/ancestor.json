@@ -1,0 +1,11 @@
+{
+    "id": "ancestor",
+    "data": {
+            "admin":"admin",
+            "email":"admin@gmail.com",
+            "description":"description",
+            "name":"name",
+            "family_name":"family",
+            "generation":"1"
+    }
+}

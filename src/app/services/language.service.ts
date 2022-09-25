@@ -6,12 +6,13 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class LanguageService {
 
-  translations: any;
+  translations: any = {};
   language: any;
 
   constructor(
     public translate: TranslateService,
   ) {
+    // console.log('LanguageService - constructor');
     this.setLanguage('vi');
   }
 
@@ -30,10 +31,10 @@ export class LanguageService {
   }
   
   getTranslations() {
+    // console.log('language: ', this.translate.currentLang);
     this.translate.getTranslation(this.translate.currentLang)
       .subscribe((translations) => {
         this.translations = translations;
-        // console.log('translations: ', translations);
       });
   }
 

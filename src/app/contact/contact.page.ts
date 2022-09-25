@@ -6,11 +6,9 @@ import { FirebaseService } from '../services/firebase.service';
 import { DataService } from '../services/data.service';
 import { NodeService } from '../services/node.service';
 // import { Family, FAMILY} from '../services/family.model';
-import { VERSION } from '../../environments/environment';
+import { environment, VERSION } from '../../environments/environment';
 
-
-
-declare var ancestor;
+// declare var ancestor;
 
 @Component({
   selector: 'app-contact',
@@ -28,6 +26,7 @@ export class ContactPage implements OnInit {
   versionMode: any = false;
   version: string = '';
   summary: string = '';
+  contact: any = '';
 
   constructor(
     private fbService: FirebaseService,
@@ -44,7 +43,9 @@ export class ContactPage implements OnInit {
       // let version = family.version;
       this.familyService.getSourceFamilyVersion().then((srcVersion:any) => {
         // console.log('ContactPage - ngOnInit - srcVersion: ', srcVersion);
-        this.title = this.languageService.getTranslation('CONTACT_HEADER_TITLE') + ' ' + family.info.family_name;
+        // this.title = this.languageService.getTranslation('CONTACT_HEADER_TITLE') + ' ' + family.info.family_name;
+        this.title = family.info.description;
+        this.contact = 'Lien lac: ' + family.info.contact;
         
         // let msg1 = this.languageService.getTranslation('CONTACT_VERSION_1');
         // let msg2 = this.languageService.getTranslation('CONTACT_VERSION_2');
@@ -52,7 +53,8 @@ export class ContactPage implements OnInit {
         // this.version = msg1 + version + ' - ' + msg2 + srcVersion + ' - ' + msg3 + family.version;
         // this.summary = this.getSummary(family);
         this.versionResults = this.getVersion(family, srcVersion);
-        this.dataService.readLocalJson(ancestor, 'contribution').then((data:any) => {
+        this.fbService.readJsonDocument(environment.ancestor, 'contribution').subscribe((data:any) => {
+        // this.dataService.readLocalJson(ancestor, 'contribution').then((data:any) => {
           this.contResults = this.getContribution(data);
         });
       });
@@ -137,7 +139,8 @@ export class ContactPage implements OnInit {
     }
     this.compareMode = true;
     this.dataService.readFamily().then((localFamily:any) => {
-      this.dataService.readLocalJson(ancestor, 'family').then((srcFamily:any) => {
+      // this.dataService.readLocalJson(ancestor, 'family').then((srcFamily:any) => {
+      this.fbService.readJsonDocument(environment.ancestor, 'family').subscribe((srcFamily:any) => {
         this.compareResults = this.familyService.compareFamilies(srcFamily, localFamily);
       });
     });
@@ -146,44 +149,20 @@ export class ContactPage implements OnInit {
   async saveTree() {
     // evaluate difference
     this.dataService.readFamily().then((localFamily:any) => {
-      this.dataService.readLocalJson(ancestor, 'family').then((srcFamily:any) => {
+      this.fbService.readJsonDocument(environment.ancestor, 'family').subscribe((srcFamily:any) => {
         let compareResults = this.familyService.compareFamilies(srcFamily, localFamily);
         if (compareResults.length == 0) {
           this.utilService.alertMsg('ANNOUNCE', 'CONTACT_SEND_NO_CHANGE_MSG');
           return;
         }
-        let msg = this.languageService.getTranslation('CONTACT_SEND_HEADER_MSG') + '[' + compareResults.length + ']';
+        let msg = this.languageService.getTranslation('CONTACT_SEND_HEADER_MSG') + ' [' + compareResults.length + ']';
         this.utilService.alertSendTree('CONTACT_SEND_HEADER', msg, 'CONTACT_SEND_INFO_PLACEHOLDER', 'CANCEL', 'OK').then((res) => {
           console.log('alertSendTree - res:' , res)
           if (!res.data)
             return;
-          let email = localFamily.info.email;
-          // reset info in family
-          localFamily.info = {};
-          let info = res.data.info;
-          let t = { id: "family", data: localFamily };
-          const text = JSON.stringify(t, null, 4);
-          let id = ancestor + '-' + this.utilService.getDateID(true);
-          // let shortInfo = (info.length < 20) ? info : info.substring(0, 20);
-          let filename = id + '.json'
-          this.fbService.saveContent({
-            id: id,
-            info: info,
-            to: email,
-            message: {
-              // subject: 'Phả đồ - (' + id + ') - ' + shortInfo,
-              subject: 'Gia Pha - (' + id + ')',
-              // text: text,
-              text: info,
-              attachments: [
-                { 
-                    // filename: 'text1.txt',
-                    filename: filename,
-                    content: text
-                }
-              ]
-            }
-          });
+          let id = this.utilService.getDateID(true);
+          let data = { id: id, data: JSON.stringify(localFamily) };
+          this.fbService.saveAncestorFamily(environment.ancestor, data);
           let header = this.languageService.getTranslation('ANNOUNCE');
           let message = this.languageService.getTranslation('CONTACT_SEND_ANSWER');
           let okText = this.languageService.getTranslation('OK');
@@ -192,4 +171,57 @@ export class ContactPage implements OnInit {
       });
     });
 	}
+
+  // async saveTree1() {
+  //   // evaluate difference
+  //   this.dataService.readFamily().then((localFamily:any) => {
+  //     this.fbService.readJsonDocument(environment.ancestor, 'family').subscribe((srcFamily:any) => {
+  //     // this.dataService.readLocalJson(ancestor, 'family').then((srcFamily:any) => {
+  //       let compareResults = this.familyService.compareFamilies(srcFamily, localFamily);
+  //       if (compareResults.length == 0) {
+  //         this.utilService.alertMsg('ANNOUNCE', 'CONTACT_SEND_NO_CHANGE_MSG');
+  //         return;
+  //       }
+  //       let msg = this.languageService.getTranslation('CONTACT_SEND_HEADER_MSG') + '[' + compareResults.length + ']';
+  //       this.utilService.alertSendTree('CONTACT_SEND_HEADER', msg, 'CONTACT_SEND_INFO_PLACEHOLDER', 'CANCEL', 'OK').then((res) => {
+  //         console.log('alertSendTree - res:' , res)
+  //         if (!res.data)
+  //           return;
+  //         let email = localFamily.info.email;
+  //         // reset info in family
+  //         localFamily.info = {};
+  //         let info = res.data.info;
+  //         let t = { id: "family", data: localFamily };
+  //         const text = JSON.stringify(t, null, 4);
+  //         let id = environment.ancestor + '-' + this.utilService.getDateID(true);
+  //         // let shortInfo = (info.length < 20) ? info : info.substring(0, 20);
+  //         let filename = id + '.json';
+
+  //         this.fbService.saveAncestorFamily(environment.ancestor, {
+  //         // this.fbService.saveContent({
+  //           id: id,
+  //           info: info,
+  //           to: email,
+  //           message: {
+  //             // subject: 'Phả đồ - (' + id + ') - ' + shortInfo,
+  //             subject: 'Gia Pha - (' + id + ')',
+  //             // text: text,
+  //             text: info,
+  //             attachments: [
+  //               { 
+  //                   // filename: 'text1.txt',
+  //                   filename: filename,
+  //                   content: text
+  //               }
+  //             ]
+  //           }
+  //         });
+  //         let header = this.languageService.getTranslation('ANNOUNCE');
+  //         let message = this.languageService.getTranslation('CONTACT_SEND_ANSWER');
+  //         let okText = this.languageService.getTranslation('OK');
+  //         this.utilService.presentToastWait(header, message, okText);
+  //       })
+  //     });
+  //   });
+	// }
 }

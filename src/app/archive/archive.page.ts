@@ -5,8 +5,9 @@ import { DataService } from '../services/data.service';
 import { LanguageService } from '../services/language.service';
 import { FirebaseService } from '../services/firebase.service';
 import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
+import { environment } from '../../environments/environment';
 
-declare var ancestor;
+// declare var ancestor;
 
 @Component({
   selector: 'app-archive',
@@ -15,6 +16,7 @@ declare var ancestor;
 })
 export class ArchivePage implements OnInit {
 
+  title: any = '';
   data: any;
   idata: any;
   language: any;
@@ -40,14 +42,14 @@ export class ArchivePage implements OnInit {
 
   ngOnInit() {
     console.log('ArchivePage - ngOnInit');
-    this.dataService.readLocalJson(ancestor, 'archive').then((data:any) => {
-    // this.fbService.readDocument(ancestor, 'archive').subscribe((res:any) => {
-    // this.fbService.readDocument(ancestor, 'images').subscribe((res:any) => {
-      // this.data = JSON.parse(res.data);
-      this.data = data;
-      // this.data['i2']['src'] = "https://gphphan.web.app/assets/imgs/phan-dinh-1971.jpg";
-      // this.data['i3']['src'] = "https://gphphan.web.app/assets/doc/ngay-gio.html";
-      this.start();
+    // this.dataService.readLocalJson(ancestor, 'archive').then((data:any) => {
+    this.dataService.readFamily().then((family:any) => {
+      this.fbService.readJsonDocument(environment.ancestor, 'archive').subscribe((data:any) => {
+        this.title = family.info.description;
+        this.data = data;
+        console.log('ArchivePage - ngOnInit - archive: ', data);
+        this.start();
+      });
     });
   }
 
@@ -221,7 +223,9 @@ export class ArchivePage implements OnInit {
     // console.log('ArchivePage - displayText: ', text);
     let header = text.header;
     let message = text.message[this.language];
-    this.utilService.presentToastWait(header, message, 'OK');
+    this.utilService.presentToast(message);
+    // this.utilService.presentToastWait(header, message, 'OK');
+    
   }
 
   openWebpage(url: string) {

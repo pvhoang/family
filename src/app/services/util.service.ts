@@ -40,10 +40,14 @@ export class UtilService {
 	}
 
 	getLocalImageFile(url: string): Promise<any> {
+		console.log('getLocalImageFile - url = ', url);
+
 		return new Promise((resolve, reject) => {
 			this.http.get(url, { responseType: 'blob' }).toPromise().then((blob:any) => {
+				console.log('OK');
 				resolve(blob);
 			}).catch(err => {
+				console.log('ERROR: ', err.error );
 				reject(err.error);
 			});
 		}).catch(err => {
@@ -68,7 +72,6 @@ export class UtilService {
 		let message = this.languageService.getTranslation(srcMessage);
 		if (!message)
 			message = srcMessage;
-
 		if (!css)
 			css = 'alert-small';
 		// let css = 'myClass';

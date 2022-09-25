@@ -1,0 +1,1377 @@
+{
+    "id": "family",
+    "data": {
+        "version": "0.4",
+        "nodes": [
+            {
+                "name": "Phan Lợi Hành",
+                "nick": "Phan Văn Tự",
+                "gender": "male",
+                "yob": "1829",
+                "yod": "1876",
+                "pob": "Quảng Bình",
+                "pod": "Quảng Bình",
+                "dod": "29/10"
+            },
+            {
+                "name": "Trần Thị Khương",
+                "gender": "female",
+                "yod": "1839",
+                "pob": "Quảng Bình",
+                "pod": "Quảng Bình",
+                "dod": "27/02"
+            }
+        ],
+        "children": [
+            {
+                "nodes": [
+                    {
+                        "name": "Phan Khắc Tuần",
+                        "gender": "male",
+                        "yob": "1898"
+                    }
+                ],
+                "children": [
+                    {
+                        "nodes": [
+                            {
+                                "name": "Phan Me",
+                                "gender": "male"
+                            }
+                        ],
+                        "children": [
+                            {
+                                "nodes": [
+                                    {
+                                        "name": "Phan Bình An",
+                                        "gender": "male",
+                                        "yob": "1904",
+                                        "yod": "1905",
+                                        "pob": "Cao Bằng",
+                                        "pod": "Cao Bằng",
+                                        "por": "Lào Cai",
+                                        "dod": "06/07"
+                                    },
+                                    {
+                                        "name": "Phan Thị Tên",
+                                        "gender": "female",
+                                        "yob": "1901",
+                                        "yod": "1904",
+                                        "pob": "Điện Biên",
+                                        "pod": "Canada",
+                                        "por": "Japan",
+                                        "dod": "02/06"
+                                    }
+                                ],
+                                "children": [
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Ngọc Ái",
+                                                "gender": "male",
+                                                "yod": "1905",
+                                                "dod": "05/12"
+                                            }
+                                        ],
+                                        "children": [
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Ngọc Mỹ Dung",
+                                                        "gender": "female",
+                                                        "yob": "1967"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Ngọc Mỹ Hạnh",
+                                                        "gender": "female",
+                                                        "yob": "1969"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Ngọc Mỹ Phượng",
+                                                        "gender": "female",
+                                                        "yob": "1971"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Ngọc Quý",
+                                                        "gender": "male",
+                                                        "yob": "1973"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Ngọc Mỹ Quyên",
+                                                        "gender": "female",
+                                                        "yob": "1975"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Ngọc Ân",
+                                                "gender": "male"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thi Việt Bích",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Ngọc Tuấn",
+                                                "gender": "male"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Giáng Hương",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "nodes": [
+                                    {
+                                        "name": "Phan Hòa",
+                                        "gender": "male",
+                                        "pob": "Quảng Bình"
+                                    }
+                                ]
+                            },
+                            {
+                                "nodes": [
+                                    {
+                                        "name": "Phan Thị Kha",
+                                        "gender": "female",
+                                        "pob": "Quảng Bình"
+                                    }
+                                ]
+                            },
+                            {
+                                "nodes": [
+                                    {
+                                        "name": "Phan Phú Định",
+                                        "gender": "male"
+                                    }
+                                ],
+                                "children": [
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Kim Oanh",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Phi Loan",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Ngọc Yến",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Phú Đạt",
+                                                "gender": "male"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Anh Ngọc",
+                                                "gender": "male"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Anh Tuấn",
+                                                "gender": "male"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Kim Anh",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Thuý Nga",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Ngọc Lan",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "nodes": [
+                    {
+                        "name": "Phan Tặng",
+                        "gender": "male",
+                        "yob": "1916"
+                    }
+                ]
+            },
+            {
+                "nodes": [
+                    {
+                        "name": "Phan Uyển",
+                        "gender": "male"
+                    }
+                ]
+            },
+            {
+                "nodes": [
+                    {
+                        "name": "Phan Chuyển",
+                        "gender": "male"
+                    }
+                ],
+                "children": [
+                    {
+                        "nodes": [
+                            {
+                                "name": "Phan Ngọc Luật",
+                                "gender": "male",
+                                "yob": "1881",
+                                "yod": "1941",
+                                "pob": "Quảng Bình",
+                                "pod": "Quảng Bình",
+                                "por": "Quảng Bình",
+                                "dod": "15/01"
+                            },
+                            {
+                                "name": "Võ Thị Ngàn",
+                                "gender": "female",
+                                "yob": "1883",
+                                "yod": "1927",
+                                "dod": "14/08"
+                            },
+                            {
+                                "name": "Trần Thị Lan",
+                                "gender": "female",
+                                "yob": "1905",
+                                "yod": "1979",
+                                "pob": "Quảng Bình",
+                                "pod": "Quảng Bình",
+                                "por": "Hà Nội",
+                                "dod": "20/02"
+                            }
+                        ],
+                        "children": [
+                            {
+                                "nodes": [
+                                    {
+                                        "name": "Phan Thị Kế",
+                                        "gender": "female",
+                                        "yob": "1910"
+                                    },
+                                    {
+                                        "name": "Hoàng Thung",
+                                        "gender": "male"
+                                    }
+                                ]
+                            },
+                            {
+                                "nodes": [
+                                    {
+                                        "name": "Phan Thị Quý Thu",
+                                        "gender": "female",
+                                        "yob": "1911",
+                                        "yod": "1997",
+                                        "pob": "Quảng Bình",
+                                        "pod": "America",
+                                        "por": "America",
+                                        "dod": "07/03"
+                                    },
+                                    {
+                                        "name": "Phan Văn Thanh",
+                                        "gender": "male"
+                                    }
+                                ],
+                                "children": [
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Văn Ky",
+                                                "gender": "male"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Văn Tô",
+                                                "gender": "male"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Bạch Vân",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Liên",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "nodes": [
+                                    {
+                                        "name": "Phan Duấn",
+                                        "gender": "male",
+                                        "yob": "1912",
+                                        "yod": "1985",
+                                        "pob": "Quảng Bình",
+                                        "pod": "Tp Hồ Chí Minh",
+                                        "por": "Tp Hồ Chí Minh",
+                                        "dod": "27/04"
+                                    },
+                                    {
+                                        "name": "Phan Thị Quyên",
+                                        "gender": "female",
+                                        "yob": "1913",
+                                        "yod": "2012",
+                                        "pob": "Quảng Bình",
+                                        "pod": "Tp Hồ Chí Minh",
+                                        "por": "Tp Hồ Chí Minh",
+                                        "dod": "04/03"
+                                    }
+                                ],
+                                "children": [
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Văn Phùng",
+                                                "gender": "male",
+                                                "yob": "1937",
+                                                "pob": "Quảng Bình",
+                                                "por": "Tp Hồ Chí Minh"
+                                            }
+                                        ],
+                                        "children": [
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Như Minh",
+                                                        "gender": "male",
+                                                        "yob": "1975"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Bạch Yến",
+                                                "gender": "female",
+                                                "yob": "1941"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Khắc Hưng",
+                                                "gender": "male",
+                                                "yob": "1948"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Nhạn",
+                                                "nick": "Thu Sương",
+                                                "gender": "female",
+                                                "yob": "1950"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Văn Trường",
+                                                "gender": "male",
+                                                "yod": "1947"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "nodes": [
+                                    {
+                                        "name": "Phan Thị Chút",
+                                        "gender": "female",
+                                        "yob": "1913",
+                                        "yod": "1914",
+                                        "pob": "Quảng Bình",
+                                        "pod": "Quảng Bình",
+                                        "por": "Quảng Bình",
+                                        "dod": "18/03"
+                                    }
+                                ]
+                            },
+                            {
+                                "nodes": [
+                                    {
+                                        "name": "Phan Dính",
+                                        "gender": "male",
+                                        "yob": "1915",
+                                        "yod": "1975",
+                                        "pob": "Quảng Bình",
+                                        "pod": "Quảng Ngãi",
+                                        "por": "Quảng Ngãi",
+                                        "dod": "12/09"
+                                    },
+                                    {
+                                        "name": "Đoàn Thị Thí",
+                                        "gender": "female",
+                                        "yob": "1916",
+                                        "yod": "2001",
+                                        "pob": "Quảng Bình",
+                                        "pod": "Quảng Ngãi",
+                                        "por": "Quảng Ngãi",
+                                        "dod": "13/01"
+                                    }
+                                ],
+                                "children": [
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Kim Hải",
+                                                "nick": "Ni",
+                                                "gender": "female",
+                                                "yob": "1942",
+                                                "yod": "2018",
+                                                "pob": "Quảng Bình",
+                                                "pod": "Tp Hồ Chí Minh",
+                                                "por": "Tp Hồ Chí Minh"
+                                            },
+                                            {
+                                                "name": "Trần Bông",
+                                                "gender": "male",
+                                                "yod": "1973",
+                                                "pob": "Thừa Thiên",
+                                                "pod": "Quảng Ngãi",
+                                                "por": "Quảng Ngãi"
+                                            }
+                                        ],
+                                        "children": [
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Trần Trung Bảo",
+                                                        "gender": "male",
+                                                        "yob": "1967",
+                                                        "pob": "Quảng Ngãi",
+                                                        "por": "Tp Hồ Chí Minh"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Trần Thị Ngân Hà",
+                                                        "gender": "female",
+                                                        "yob": "1969",
+                                                        "pob": "Quảng Ngãi",
+                                                        "por": "America"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Trần Thị Vân",
+                                                        "gender": "female",
+                                                        "yob": "1971",
+                                                        "pob": "Quảng Ngãi",
+                                                        "por": "America"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Viết Châu",
+                                                "nick": "Nô",
+                                                "gender": "male",
+                                                "yob": "1944",
+                                                "yod": "2019",
+                                                "pob": "Quảng Bình",
+                                                "pod": "Quảng Ngãi",
+                                                "por": "Quảng Ngãi",
+                                                "dod": "10/08"
+                                            },
+                                            {
+                                                "name": "Nguyễn Thị Hương",
+                                                "gender": "female"
+                                            }
+                                        ],
+                                        "children": [
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Chánh Pháp",
+                                                        "gender": "male"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Tuyết",
+                                                "gender": "female",
+                                                "yob": "1945"
+                                            },
+                                            {
+                                                "name": "Nguyễn Văn Bản",
+                                                "gender": "male",
+                                                "yob": "1941",
+                                                "yod": "2017",
+                                                "pob": "Quảng Bình",
+                                                "pod": "America",
+                                                "por": "America"
+                                            }
+                                        ],
+                                        "children": [
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Nguyễn Phan Bình",
+                                                        "gender": "male",
+                                                        "yob": "1969"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Nguyễn Phan Hoàng Nam",
+                                                        "gender": "male",
+                                                        "yob": "1971"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Nguyễn Phan Việt Bắc",
+                                                        "nick": "Tí, Tea",
+                                                        "gender": "male",
+                                                        "yob": "1973"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Viết Anh",
+                                                "gender": "male",
+                                                "yob": "1947"
+                                            },
+                                            {
+                                                "name": "Nguyễn Thị Thái Phương",
+                                                "gender": "female",
+                                                "yob": "1952"
+                                            }
+                                        ],
+                                        "children": [
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Thị Phương Thư",
+                                                        "gender": "female"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Nhật Huy",
+                                                        "gender": "male"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Ngọc Danh",
+                                                "gender": "male",
+                                                "yob": "1949"
+                                            },
+                                            {
+                                                "name": "Nguyễn Thị Thu Hương",
+                                                "gender": "female",
+                                                "yob": "1951"
+                                            }
+                                        ],
+                                        "children": [
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Đỗ Quyên",
+                                                        "nick": "Tí Tàu",
+                                                        "gender": "female",
+                                                        "yob": "1981"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Lam Duy",
+                                                        "nick": "Nghé",
+                                                        "gender": "male"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Văn Vĩnh",
+                                                "gender": "male",
+                                                "yob": "1950",
+                                                "yod": "1973"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Viết Hoàng",
+                                                "nick": "Bảy",
+                                                "gender": "male",
+                                                "yob": "1953",
+                                                "pob": "Quảng Bình"
+                                            }
+                                        ],
+                                        "children": [
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Anh Quân",
+                                                        "nick": "Bờm",
+                                                        "gender": "male"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Cẩm Thành",
+                                                "gender": "female",
+                                                "yob": "1957",
+                                                "pob": "Quảng Ngãi",
+                                                "por": "Quảng Ngãi"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Minh Tâm",
+                                                "nick": "Nhung",
+                                                "gender": "female",
+                                                "yob": "1958",
+                                                "pob": "Quảng Ngãi",
+                                                "por": "America"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Cẩm Phương",
+                                                "nick": "Xíu",
+                                                "gender": "female",
+                                                "yob": "1962",
+                                                "pob": "Quảng Ngãi",
+                                                "por": "Quảng Ngãi"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "nodes": [
+                                    {
+                                        "name": "Phan Quang Ngự",
+                                        "gender": "male",
+                                        "yob": "1918",
+                                        "yod": "1997",
+                                        "pob": "Quảng Bình",
+                                        "pod": "Quảng Bình",
+                                        "por": "Quảng Bình",
+                                        "dod": "29/04"
+                                    },
+                                    {
+                                        "name": "Trần Thị Cút",
+                                        "gender": "female",
+                                        "yob": "1921",
+                                        "yod": "2004",
+                                        "pob": "Quảng Bình",
+                                        "pod": "Quảng Bình",
+                                        "por": "Quảng Bình",
+                                        "dod": "17/05"
+                                    }
+                                ],
+                                "children": [
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Văn Ba",
+                                                "gender": "male",
+                                                "yob": "1944"
+                                            }
+                                        ],
+                                        "children": [
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Thanh Sơn",
+                                                        "gender": "male"
+                                                    }
+                                                ],
+                                                "children": [
+                                                    {
+                                                        "nodes": [
+                                                            {
+                                                                "name": "Phan Văn Vũ",
+                                                                "gender": "male"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Thanh Lâm",
+                                                        "gender": "male"
+                                                    }
+                                                ],
+                                                "children": [
+                                                    {
+                                                        "nodes": [
+                                                            {
+                                                                "name": "Phan Đức Anh",
+                                                                "gender": "male"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Thanh Hùng",
+                                                        "gender": "male"
+                                                    }
+                                                ],
+                                                "children": [
+                                                    {
+                                                        "nodes": [
+                                                            {
+                                                                "name": "Phan Thành Thái",
+                                                                "gender": "male"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Trần Mỹ Lệ",
+                                                        "gender": "female"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Thanh Dũng",
+                                                        "gender": "male"
+                                                    }
+                                                ],
+                                                "children": [
+                                                    {
+                                                        "nodes": [
+                                                            {
+                                                                "name": "Phan Lê Minh Nhật",
+                                                                "gender": "male"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Trường Nghĩa",
+                                                        "gender": "male"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Trần Nhân",
+                                                        "gender": "male"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Tư",
+                                                "gender": "female",
+                                                "yob": "1949"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Văn Năm",
+                                                "gender": "male",
+                                                "yob": "1951"
+                                            }
+                                        ],
+                                        "children": [
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Thị Mỹ Lệ",
+                                                        "gender": "female"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Thanh Hải",
+                                                        "gender": "male"
+                                                    }
+                                                ],
+                                                "children": [
+                                                    {
+                                                        "nodes": [
+                                                            {
+                                                                "name": "Phan Thị Thanh Thảo",
+                                                                "gender": "female"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "nodes": [
+                                                            {
+                                                                "name": "Phan Thanh Thành",
+                                                                "gender": "male"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Thanh Hậu",
+                                                        "gender": "male"
+                                                    }
+                                                ],
+                                                "children": [
+                                                    {
+                                                        "nodes": [
+                                                            {
+                                                                "name": "Phan Thành Hiếu",
+                                                                "gender": "male"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "nodes": [
+                                                            {
+                                                                "name": "Phan Bạch Gia Hưng",
+                                                                "gender": "male"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Thị Mỹ Linh",
+                                                        "gender": "female"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Văn Sáu",
+                                                "gender": "male",
+                                                "yob": "1958",
+                                                "pob": "Quảng Bình",
+                                                "por": "Quảng Bình"
+                                            },
+                                            {
+                                                "name": "Nguyễn Thị Hương",
+                                                "gender": "female",
+                                                "yob": "1962"
+                                            }
+                                        ],
+                                        "children": [
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Thị Thúy Hằng",
+                                                        "gender": "male"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Ngọc Hải Long",
+                                                        "gender": "male"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Văn Bảy",
+                                                "gender": "male",
+                                                "yob": "1960"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Văn Tám",
+                                                "gender": "male",
+                                                "yob": "1961"
+                                            }
+                                        ],
+                                        "children": [
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Kiều Bảo Trang",
+                                                        "nick": "Hai",
+                                                        "gender": "female",
+                                                        "yob": "1990",
+                                                        "pob": "Bà Rịa",
+                                                        "por": "Bà Rịa"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Bảo Kiều Trang",
+                                                        "nick": "Sim",
+                                                        "gender": "female",
+                                                        "yob": "1996",
+                                                        "pob": "Bà Rịa",
+                                                        "por": "Bà Rịa"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "nodes": [
+                                                    {
+                                                        "name": "Phan Bảo Hoài Nam",
+                                                        "nick": "Heo",
+                                                        "gender": "male",
+                                                        "yob": "1999",
+                                                        "pob": "Bà Rịa",
+                                                        "por": "Bà Rịa"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Chín",
+                                                "gender": "female",
+                                                "yob": "1964"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "nodes": [
+                                    {
+                                        "name": "Phan Khắc Phúc",
+                                        "gender": "male",
+                                        "yob": "1923",
+                                        "yod": "1990",
+                                        "pob": "Quảng Bình",
+                                        "pod": "America",
+                                        "por": "America",
+                                        "dod": "23/06"
+                                    },
+                                    {
+                                        "name": "Nguyễn Thị Thuận",
+                                        "gender": "female",
+                                        "yob": "1925",
+                                        "pod": "America",
+                                        "por": "America"
+                                    }
+                                ],
+                                "children": [
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Ngọc Trinh",
+                                                "gender": "female",
+                                                "yob": "1949",
+                                                "por": "America"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Ngọc Minh",
+                                                "gender": "female",
+                                                "yob": "1951",
+                                                "pob": "Tp Hồ Chí Minh",
+                                                "por": "America"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Anh Dũng",
+                                                "gender": "male",
+                                                "yob": "1953",
+                                                "pob": "Tp Hồ Chí Minh",
+                                                "por": "America"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Ngọc Mai",
+                                                "gender": "female",
+                                                "yob": "1954",
+                                                "pob": "Tp Hồ Chí Minh",
+                                                "por": "America"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Ngọc Trâm",
+                                                "gender": "female",
+                                                "yob": "1958"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Anh Tuấn",
+                                                "gender": "male",
+                                                "yob": "1960"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Anh Ngọc",
+                                                "gender": "male",
+                                                "yob": "1962"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Anh Tùng",
+                                                "gender": "male",
+                                                "yob": "1964"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "nodes": [
+                                    {
+                                        "name": "Phan Ngọc Tường",
+                                        "gender": "male",
+                                        "yob": "1929",
+                                        "yod": "1997",
+                                        "pob": "Quảng Bình",
+                                        "pod": "Hà Nội",
+                                        "por": "Hà Nội",
+                                        "dod": "14/05"
+                                    },
+                                    {
+                                        "name": "Lê Thị Xuân Mỹ",
+                                        "gender": "female",
+                                        "yob": "1932"
+                                    }
+                                ],
+                                "children": [
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Mỹ Linh",
+                                                "gender": "female",
+                                                "yob": "1959"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Tường Tâm",
+                                                "gender": "female",
+                                                "yob": "1961"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "nodes": [
+                                    {
+                                        "name": "Phan Thị Bẹp",
+                                        "gender": "female",
+                                        "yob": "1933"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "nodes": [
+                            {
+                                "name": "Phan Quang Triệt",
+                                "gender": "male"
+                            }
+                        ],
+                        "children": [
+                            {
+                                "nodes": [
+                                    {
+                                        "name": "Phan Thị Giượng",
+                                        "gender": "female"
+                                    }
+                                ]
+                            },
+                            {
+                                "nodes": [
+                                    {
+                                        "name": "Phan Khắc Phục",
+                                        "gender": "male"
+                                    }
+                                ],
+                                "children": [
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Lượng",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Khắc Kiện",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Khắc Nam",
+                                                "gender": "male"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Quảng",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Phú",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Luận",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Văn Sĩ",
+                                                "gender": "male"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thị Trang",
+                                                "gender": "female"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thế Đại",
+                                                "gender": "male"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Thế Phiệt",
+                                                "gender": "male"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "nodes": [
+                                            {
+                                                "name": "Phan Khắc Quý",
+                                                "gender": "male"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "nodes": [
+                                    {
+                                        "name": "Phan Thị Mẹt",
+                                        "gender": "female"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "info": {}
+    }
+}

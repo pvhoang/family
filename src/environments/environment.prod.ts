@@ -9,12 +9,9 @@ export const environment = {
     messagingSenderId: '123668295235',
   },
   production: true,
-  phabletDevice: true
-
+  phabletDevice: true,
+  ancestor: ''
 };
 
 export const DEBUG = true;
-export const VERSION = '0.0.3';
-export const SETTING = {
-  language: 'vi'
-}
+export const VERSION = '0.0.4';

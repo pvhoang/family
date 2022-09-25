@@ -28,6 +28,7 @@ export class TreePage implements OnInit {
 
   @ViewChild('ngSelectPeople') ngSelectPeople: NgSelectComponent;
 
+  title: any = '';
   modalDataResponse: any;
   family:Family = Object.create(FAMILY);
   familyView:Family = Object.create(FAMILY);
@@ -76,6 +77,7 @@ export class TreePage implements OnInit {
 
   startFromStorage() {
     this.dataService.readFamily().then((family:any) => {
+      this.title = family.info.description;
       // console.log('FamilyService - startFromStorage - family: ', family);
       let msg = this.familyService.verifyFamily(family);
       if (msg)

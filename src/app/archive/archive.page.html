@@ -1,8 +1,11 @@
 <ion-header>
   <ion-item class="app-ion-item">
-    <ion-col size="1">
+    <ion-col size="3">
+      <ion-title class="ion-text-center app-ion-title-small">{{ title }}</ion-title>
     </ion-col>
-    <ion-col size="6">
+    <!-- <ion-col size="1">
+    </ion-col> -->
+    <ion-col size="4">
       <ng-select 
         [appendTo]="'body'"
         [items]="images" 
@@ -16,10 +19,9 @@
     </ion-col>
     <ion-col size="2">
     </ion-col>
-    <ion-col size="31">
+    <ion-col size="1">
       <div *ngIf="idata && idata.type == 'people'">
         <ion-button class="app-ion-button" title="{{ 'ARCHIVE_HEADER_TOOLTIP_PEOPLE' | translate }}" fill="clear" (click)="show()">
-          <!-- <ion-icon slot="icon-only" name="people" class="app-ion-icon"></ion-icon> -->
           <ion-icon slot="icon-only" src="../../assets/fonts/emoticon-neutral-outline.svg" class="app-ion-icon-material"></ion-icon>
         </ion-button>
       </div>
@@ -30,10 +32,6 @@
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
-
-<!-- <h2> {{detail1}} </h2>
-  <h2> {{detail2}} </h2>
-  <h2> {{detail3}} </h2> -->
 
   <div *ngIf="idata && idata.type == 'html'">
     <div class="app-ion-content">

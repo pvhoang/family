@@ -5,6 +5,7 @@ import { FamilyService } from '../services/family.service';
 import { DataService } from '../services/data.service';
 import { UtilService } from '../services/util.service';
 import { FirebaseService } from '../services/firebase.service';
+import { environment } from '../../environments/environment';
 
 const BLUE_PRIMARY = '#3880ff';
 const RED = '#C10100';
@@ -13,7 +14,7 @@ const ORANGE = '#ffc409';
 const WHITE = '#FFFFFF';
 const GREY = '#808080';
 
-declare var ancestor;
+// declare var ancestor;
 
 @Component({
   selector: 'app-home',
@@ -41,17 +42,9 @@ export class HomePage implements OnInit {
     console.log('HomePage - ngOnInit');
     this.familyService.startFamily().then(status => {
     this.dataService.readFamily().then((family:any) => {
-      // console.log('HomePage - ngOnInit - family: ', family);
-      this.title = this.languageService.getTranslation('HOME_HEADER_TITLE') + ' ' + family.info.family_name;
-      
-      const guideFile = './assets/common/' + this.language.toLowerCase() + '-guide.txt';
-      this.utilService.getLocalTextFile(guideFile).then(html => {
-        this.guideStr = html;
-      });
-      const introFile = './assets/' + ancestor + '/' + this.language.toLowerCase() + '-intro.txt';
-      this.utilService.getLocalTextFile(introFile).then((html:any) => {
-        this.introStr = html;
-      });
+      console.log('HomePage - ngOnInit - family: ', family);
+      this.title = family.info.description;
+      this.setGuide();
     });
     });
   }
@@ -94,13 +87,17 @@ export class HomePage implements OnInit {
       this.language = 'VI'
     }
     this.languageService.setLanguage(this.language.toLowerCase());
+    this.setGuide();
+  }
+
+  setGuide() {
     const guideFile = './assets/common/' + this.language.toLowerCase() + '-guide.txt';
     this.utilService.getLocalTextFile(guideFile).then(html => {
       this.guideStr = html;
     });
-    const introFile = './assets/' + ancestor + '/' + this.language.toLowerCase() + '-intro.txt';
-    this.utilService.getLocalTextFile(introFile).then((html:any) => {
-      this.introStr = html;
+    this.fbService.readJsonDocument(environment.ancestor, 'introduction').subscribe((data:any) => {
+      console.log('HomePage - ngOnInit - data: ', data);
+      this.introStr = data[this.language.toLowerCase()];
     });
   }
 

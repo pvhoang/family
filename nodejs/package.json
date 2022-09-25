@@ -1,0 +1,20 @@
+{
+  "name": "read-excel-file",
+  "version": "1.0.0",
+  "description": "Read Excel File",
+  "main": "uniform.js",
+  "dependencies": {
+    "firebase": "^8.10.1",
+    "nodeplotlib": "^1.0.0",
+    "reflect-metadata": "^0.1.13",
+    "screenshot-desktop": "^1.12.7",
+    "sharp": "^0.30.4",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,21 +1,21 @@
 <ion-header>
   <ion-item class="app-ion-item">
-    <ion-col size="9">
-      <ion-title class="ion-text-center app-ion-title">{{ title }}</ion-title>
+    <ion-col size="3">
+      <ion-title class="ion-text-center app-ion-title-small">{{ title }}</ion-title>
+      <!-- <ion-title class="ion-text-center app-ion-title">{{ title }}</ion-title> -->
+      <!-- <ion-label class="ion-text-wrap app-ion-label">{{ title }}</ion-label> -->
+      <!-- <ion-label class="ion-text-center app-ion-title-small">{{ title }}</ion-label> -->
+    </ion-col>
+    <ion-col size="6">
     </ion-col>
     <ion-col size="3">
       <ion-button class="app-ion-button" title="{{ 'HOME_HEADER_TOOLTIP_MEMORIAL' | translate }}" fill="clear" (click)="onMemorial()">
-        <!-- <ion-icon slot="icon-only" name="ribbon" class="app-ion-icon"></ion-icon> -->
-        <!-- <ion-icon slot="icon-only" class="mdi mdi-account mdi-rotate-45"></ion-icon> -->
-        <!-- <ion-icon slot="icon-only" src="../../assets/fonts/family-tree.svg" size="small" class="app-ion-icon"></ion-icon> -->
         <ion-icon slot="icon-only" src="../../assets/fonts/death-star.svg" class="app-ion-icon-material"></ion-icon>
       </ion-button>
       <ion-button class="app-ion-button" title="{{ 'HOME_HEADER_TOOLTIP_LANGUAGE' | translate }}" fill="clear" (click)="onLanguage()">
-        <!-- <ion-icon slot="icon-only" name="flag" class="app-ion-icon"></ion-icon> -->
         <ion-icon slot="icon-only" src="../../assets/fonts/flag-variant-outline.svg" class="app-ion-icon-material"></ion-icon>
       </ion-button>
       <ion-button class="app-ion-button" title="{{ 'HOME_HEADER_TOOLTIP_THEME' | translate }}" fill="clear" (click)="onStyle()">
-        <!-- <ion-icon slot="icon-only" name="color-palette" class="app-ion-icon"></ion-icon> -->
         <ion-icon slot="icon-only" src="../../assets/fonts/palette.svg" class="app-ion-icon-material"></ion-icon>
       </ion-button>
     </ion-col>
@@ -29,18 +29,14 @@
     &nbsp;{{ 'HOME_INTRO' | translate }}
     </ion-card-header>
     <div class="home-scroll">
-      <!-- <ion-grid class="home-ion-grid-1"> -->
-        <div [innerHtml]="introStr"></div>
-      <!-- </ion-grid> -->
+      <div [innerHtml]="introStr"></div>
     </div>
 
     <ion-card-header class="card-header">
       &nbsp;{{ 'HOME_USER_GUIDE' | translate }}
     </ion-card-header>
     <div class="home-scroll">
-      <!-- <ion-grid class="home-ion-grid-2"> -->
-        <div [innerHtml]="guideStr | keepHtml"></div>
-      <!-- </ion-grid> -->
+      <div [innerHtml]="guideStr | keepHtml"></div>
     </div>
     
   </div>

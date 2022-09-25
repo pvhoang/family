@@ -4,32 +4,35 @@ import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
   {
-    path: 'tabs',
+    // path: 'tabs',
+    path: '',
+    // path: '',
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'home',
         loadChildren: () => import('../home/home.module').then( m => m.HomePageModule)
       },
       {
-        path: 'tab2',
+        path: 'tree',
         loadChildren: () => import('../tree/tree.module').then( m => m.TreePageModule)
       },
       {
-        path: 'tab3',
+        path: 'arch',
         loadChildren: () => import('../archive/archive.module').then( m => m.ArchivePageModule)
       },
       {
-        path: 'tab4',
+        path: 'info',
         loadChildren: () => import('../contact/contact.module').then( m => m.ContactPageModule)
       }
     ]
-  },
-  {
-    path: '',
-    redirectTo: '/tabs/tab1',
-    pathMatch: 'full'
   }
+  // {
+  //   path: '',
+  //   redirectTo: '/tabs/home',
+  //   // redirectTo: '../tab1',
+  //   pathMatch: 'full'
+  // }
 ];
 
 @NgModule({

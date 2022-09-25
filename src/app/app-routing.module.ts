@@ -20,7 +20,20 @@ const routes: Routes = [
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
   {
-    path: 'admin',
+    path: ':mode',
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+  },
+  // {
+  //   path: 'test/:mode',
+  //   loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+  //   // loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
+  // },
+  // {
+  //   path: 'admin5/:mode',
+  //   loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
+  // },
+  {
+    path: 'admin/:mode',
     loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
   }
 ];

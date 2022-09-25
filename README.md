@@ -161,6 +161,19 @@ ion-icon {
   color: blue;
 }
 
+=======================
+# Routing to tabs
+=======================
+
+https://stackoverflow.com/questions/57921846/how-to-implement-routed-tabs-with-angular-material-within-a-child-route
+
+=======================
+# Firestore
+=======================
+
+https://stackoverflow.com/questions/69286935/how-to-get-a-subcollection-inside-a-collection-in-firestore-web-version-9-modul
+
+
 =====================================================================
 # FIREBASE
 =====================================================================
@@ -238,9 +251,9 @@ Hosting URL: https://family-e5c1c.web.app
 . ionic build --prod
 
 . firebase hosting:sites:delete gphphan
-. firebase hosting:sites:create gphphan
-. firebase target:apply hosting gphphan gphphan
-. firebase deploy --only hosting:gphphan
+. firebase hosting:sites:create giapha
+. firebase target:apply hosting giapha giapha
+. firebase deploy --only hosting:giapha
 
 =======================
 # Extensions: Trigger Email - firestore-send-email

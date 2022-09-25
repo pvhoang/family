@@ -4,11 +4,13 @@ import { DataService } from '../services/data.service';
 import { NodeService } from '../services/node.service';
 import { LanguageService } from '../services/language.service';
 import { FirebaseService } from '../services/firebase.service';
+import { environment } from '../../environments/environment';
 
 import { CalendarVietnamese } from 'date-chinese';
 import { Family, Node, NODE } from './family.model';
 
-declare var ancestor;
+// var ancestor = environment.ancestor;
+// declare var ancestor;
 declare var Diff: any;
 
 @Injectable({
@@ -29,6 +31,7 @@ export class FamilyService {
 
   startFamily(): Promise<any> {
     return new Promise((resolve, reject) => {
+      console.log('FamilyService - startFamily - ancestor: ', environment.ancestor);
       // console.log('FamilyService - startFamily');
       // always start by loading ancestor from FB
       this.loadAncestor().then(status => {
@@ -50,8 +53,8 @@ export class FamilyService {
     return new Promise((resolve) => {
       this.dataService.readFamily().then((localFamily:any) => {
         console.log('FamilyService - loadFamily - localFamily: ', localFamily);
-        this.dataService.readLocalJson(ancestor, 'family').then((srcFamily:any) => {
-          // this.fbService.readDocument(ancestor, 'family').subscribe((srcFamily:any) => {
+        // this.dataService.readLocalJson(ancestor, 'family').then((srcFamily:any) => {
+        this.fbService.readJsonDocument(environment.ancestor, 'family').subscribe((srcFamily:any) => {
           console.log('FamilyService - loadFamily - srcFamily: ', srcFamily);
           if (!srcFamily) {
             // set a default family
@@ -88,10 +91,15 @@ export class FamilyService {
   private loadAncestor(): Promise<any> {
     return new Promise((resolve) => {
       // always read ancestor from FB since it may change
-      this.dataService.readLocalJson(ancestor, 'ancestor').then((data:any) => {
-        // this.fbService.readDocument(ancestor, 'ancestor').subscribe((res:any) => {
-        // console.log('FamilyService - loadAncestor - res: ', res);
+      // this.dataService.readLocalJson(ancestor, 'ancestor').then((data:any) => {
+        
+      // this.fbService.readDocument(ancestor, 'ancestor').subscribe((res:any) => {
+      this.fbService.readJsonDocument(environment.ancestor, 'ancestor').subscribe((data:any) => {
+        console.log('FamilyService - loadAncestor - data: ', data);
         // let data = JSON.parse(res.data);
+        // console.log('FamilyService - loadAncestor - data: ', data);
+        // add id to data for local memory
+        data.id = environment.ancestor;
         this.dataService.saveItem('ANCESTOR', data).then((status:any) => {
           resolve (true);
         });
@@ -102,8 +110,8 @@ export class FamilyService {
   startSourceFamily(): Promise<any> {
     return new Promise((resolve) => {
       // read from Firebase
-      this.dataService.readLocalJson(ancestor, 'family').then((family:any) => {
-        // this.fbService.readDocument(ancestor, 'family').subscribe((res:any) => {
+      // this.dataService.readLocalJson(ancestor, 'family').then((family:any) => {
+      this.fbService.readJsonDocument(environment.ancestor, 'family').subscribe((family:any) => {
         // let family = JSON.parse(res.data);
         // const family = data;
         this.dataService.saveFamily(family);
@@ -115,8 +123,8 @@ export class FamilyService {
 
   getSourceFamilyVersion(): Promise<any> {
     return new Promise((resolve) => {
-      this.dataService.readLocalJson(ancestor, 'family').then((family:any) => {
-        // this.fbService.readDocument(ancestor, 'family').subscribe((res:any) => {
+      // this.dataService.readLocalJson(ancestor, 'family').then((family:any) => {
+      this.fbService.readJsonDocument(environment.ancestor, 'family').subscribe((family:any) => {
         // let family = JSON.parse(res.data);
         resolve(family.version);
       });

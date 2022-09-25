@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { collection, collectionData, doc, Firestore, updateDoc, docData } from '@angular/fire/firestore';
 import { getStorage, getDownloadURL, ref, Storage, uploadString } from '@angular/fire/storage';
-import { deleteDoc, setDoc } from 'firebase/firestore';
+import { deleteDoc, setDoc, getDocs } from 'firebase/firestore';
 import { Observable, from } from 'rxjs';
 import { UtilService } from '../services/util.service';
 
@@ -27,8 +27,8 @@ export class FirebaseService {
 	) {
 	}
 
-  saveContent(content: any) {
-    this.addContent(content).then(
+	saveAncestorFamily(ancestor, data: any) {
+    this.addAncestorFamily(ancestor, data).then(
       res => {
 				console.log('res: ', res);
 			},
@@ -38,45 +38,101 @@ export class FirebaseService {
     );
 	}
 
-	getContents(): Observable<Content[]> {
-		const contentRef = collection(this.firestore, 'content');
-		return collectionData(contentRef, { idField: 'id'}) as Observable<Content[]>;
-	}
-
-	getContentDetails(id): Observable<any> {
-		const detail = doc(this.firestore, `content/${id}`);
-		return docData(detail) as Observable<Content>;
-	}
-
-	addContent(data)  {
-		const docRef = doc(this.firestore, "content", data.id);
+	addAncestorFamily(ancestor, data)  {
+		const docRef = doc(this.firestore, ancestor, "update", "family", data.id);
 		return setDoc(docRef, data);
 	}
 
-	deleteContent(id) {
-		const contentRef = doc(this.firestore, `content/${id}`);
-		return deleteDoc(contentRef);
+	deleteAncestorFamily(ancestor, id) {
+		// const docRef = doc(this.firestore, `content/${id}`);
+		const docRef = doc(this.firestore, ancestor, "update", "family", id);
+		return deleteDoc(docRef);
 	}
 
-	updateContent(id, data) {
-		const contentRef = doc(this.firestore, `content/${id}`);
-		return updateDoc(contentRef, data);
+	getAncestorFamilies(ancestor): Observable<[]> {
+		const colRef = collection(this.firestore, ancestor, "update", "family");
+		return collectionData(colRef, { idField: 'id'}) as Observable<[]>;
+	}
+
+  // saveContent(content: any) {
+  //   this.addContent(content).then(
+  //     res => {
+	// 			console.log('res: ', res);
+	// 		},
+  //     async err => {
+	// 			console.log('ERROR: ', err);
+  //     }
+  //   );
+	// }
+
+	// getContents(): Observable<Content[]> {
+	// 	const contentRef = collection(this.firestore, 'content');
+	// 	return collectionData(contentRef, { idField: 'id'}) as Observable<Content[]>;
+	// }
+
+	// getContentDetails(id): Observable<any> {
+	// 	const detail = doc(this.firestore, `content/${id}`);
+	// 	return docData(detail) as Observable<Content>;
+	// }
+
+	// addContent(data)  {
+	// 	const docRef = doc(this.firestore, "content", data.id);
+	// 	return setDoc(docRef, data);
+	// }
+
+	// deleteContent(id) {
+	// 	const contentRef = doc(this.firestore, `content/${id}`);
+	// 	return deleteDoc(contentRef);
+	// }
+
+	// updateContent(id, data) {
+	// 	const contentRef = doc(this.firestore, `content/${id}`);
+	// 	return updateDoc(contentRef, data);
+	// }
+
+	readJsonDocument(collection: string, documentId): Observable<any> {
+		return from(
+				new Promise((resolve, reject) => {
+					this.readDocument(collection, documentId).subscribe(
+					(res:any) => {
+				// console.log('readJsonDocument - collection, res: ', collection, res);
+						// if collection is not valid, use null data 
+						let data = (res) ? JSON.parse(res.data) : null;
+						resolve(data);
+					},
+					(error:any) => {
+						// throw error;
+						reject(error);
+					})
+				})
+			)
+	}
+
+	checkJsonDocument(col:any): Observable<[]> {
+		const colRef = collection(this.firestore, col);
+		return collectionData(colRef) as Observable<[]>;
+	}
+
+	updateJsonDocument(collection: string, documentId, data) {
+  	let document = {id: documentId, data: JSON.stringify(data)};
+		const docRef = doc(this.firestore, collection, documentId);
+		return updateDoc(docRef, document);
 	}
 
 	readDocument(collection: string, documentId): Observable<any> {
 		// --- ASSETS ---
-		return from(
-			new Promise((resolve, reject) => {
-				let jsonFile = './assets/' + collection + '/' + documentId + '.json';
-				this.utilService.getLocalJsonFile(jsonFile).then((json:any) => {
-					resolve(json);
-				});
-			})
-		)
+		// return from(
+		// 	new Promise((resolve, reject) => {
+		// 		let jsonFile = './assets/' + collection + '/' + documentId + '.json';
+		// 		this.utilService.getLocalJsonFile(jsonFile).then((json:any) => {
+		// 			resolve(json);
+		// 		});
+		// 	})
+		// )
 		// --- FIREBASE ---
-		// let id = collection + '/' + documentId;
-		// const data = doc(this.firestore, id);
-		// return docData(data) as any;
+		let id = collection + '/' + documentId;
+		const data = doc(this.firestore, id);
+		return docData(data) as any;
 	}
 
 	saveDocument(collection: string, document: any) {

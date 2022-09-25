@@ -9,20 +9,21 @@ const routes: Routes = [
     component: AdminPage,
     children: [
       {
-        path: 'tab1',
+        path: 'edit',
         loadChildren: () => import('./editor/editor.module').then( m => m.EditorPageModule)
       },
       {
-        path: 'tab2',
+        path: 'file',
         loadChildren: () => import('./file/file.module').then( m => m.FilePageModule)
       },
     ]
   },
-  {
-    path: '',
-    redirectTo: '/admin/tab1',
-    pathMatch: 'full'
-  }
+  // {
+  //   path: '',
+  //   // redirectTo: '/admin1/tab1',
+  //   redirectTo: '/tabs/tab1',
+  //   pathMatch: 'full'
+  // }
 ];
 
 @NgModule({
