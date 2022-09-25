@@ -17,24 +17,8 @@ export const environment = {
   ancestor: ''
 };
 
-// export const MIN_YEAR = 1900;
-// export const MAX_YEAR = 2022;
-// export const GENERATION = 0;
 export const DEBUG = true;
 export const VERSION = '0.0.4';
-// export const CONTACT = {
-//   "phan": {"name": "Phan Viết Hoàng", "email": "pvhoang940@gmail.com"},
-//   "le": {"name": "Lê Xuân Khách", "email": "pvhoang940@gmail.com"},
-//   "doan": {"name": "Đoàn Bảo Hà", "email": "pvhoang940@gmail.com"},
-// }
-
-// declare var ancestor;
-// export const ANCESTOR = ancestor;
-
-// export const SETTING = {
-//   language: 'vi',
-//   // ancestor: ANCESTOR
-// }
 
 /*
  * For easier debugging in development mode, you can import the following file
