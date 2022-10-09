@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FamilyService } from '../../services/family.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
 import { FirebaseService } from '../../services/firebase.service';
 import { LanguageService } from '../../services/language.service';
 import { UtilService } from '../../services/util.service';
-import { environment, VERSION } from '../../../environments/environment';
+import { FONTS_FOLDER, DEBUG_FILE } from '../../../environments/environment';
 
-// declare var ancestor:any;
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-file',
@@ -16,18 +15,31 @@ import { environment, VERSION } from '../../../environments/environment';
 })
 export class FilePage implements OnInit {
 
+  FONTS_FOLDER = FONTS_FOLDER;
   title = '';
   srcVersion = '';
   compareResults = [];
+  compareDocumentId:any = '';
   viewMode = false;
   compareMode = false;
   contents: any[] = [];
   contentMode = false;
   srcFamily: any;
   msgCompare: any;
+  ancestor: any;
+  ancestor_info: any;
+  fileExtension: any = '';
+  fileName: any = '';
+  uploadMode = false;
+  selectedFiles:File[] = [];
+  percentage = 0;
+  previewImageMode = false;
+  previewTextMode = false;
+  storageMode = false;
+  storageFiles: any[] = [];
+  storageViewMode = false;
 
   constructor(
-    private router: Router,
     private familyService: FamilyService,
     private languageService: LanguageService,
     private dataService: DataService,
@@ -36,49 +48,96 @@ export class FilePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('FilePage - ngOnInit');
+    if (DEBUG_FILE)
+      console.log('FilePage - ngOnInit');
     this.dataService.readFamily().then((family:any) => {
       this.title = family.info.description;
+      this.ancestor = family.info.id;
+      this.ancestor_info = family.info;
+      // this.getContents();
     });
-
-    this.getContents();
-    // this.onContent();
   }
 
   ionViewWillEnter() {
-    console.log('EditorPage - ionViewWillEnter');
-    // this.onContent();
+    if (DEBUG_FILE)
+      console.log('EditorPage - ionViewWillEnter');
+    this.getContents();
+    this.resetModes();
   }
 	
 	ionViewWillLeave() {
-    console.log('EditorPage - ionViewWillLeave');
+    if (DEBUG_FILE)
+      console.log('EditorPage - ionViewWillLeave');
 	}
+
+  resetModes() {
+    this.viewMode = false;
+    this.compareMode = false;
+    this.contentMode = false;
+    this.uploadMode = false;
+    this.previewImageMode = false;
+    this.previewTextMode = false;
+    this.storageMode = false;
+    this.storageViewMode = false;
+  }
 
   async getContents() {
 
-    this.fbService.getAncestorFamilies(environment.ancestor).subscribe((contents:any) => {
-
-      console.log('EditorPage - contents: ', contents);
-
-      // this.fbService.getContents().subscribe((contents:any) => {
-      // this.dataService.readLocalJson(ancestor, 'family').then((family:any) => {
-      this.fbService.readJsonDocument(environment.ancestor, 'family').subscribe((srcFamily:any) => {
+    this.fbService.getAncestorFamilies(this.ancestor).subscribe((contents:any) => {
+      this.viewMode = false;
+      this.compareMode = false;
+      // console.log('FilePage - contents: ', contents);
+      this.fbService.readJsonDocument(this.ancestor, 'family').subscribe((srcFamily:any) => {
         this.srcFamily = srcFamily;
+        // console.log('srcFamily: ',  JSON.stringify(srcFamily, null, 4));
         contents.sort((doc1:any, doc2: any) => {
           let time1 = this.utilService.getDateTime(doc1.id);
           let time2 = this.utilService.getDateTime(doc2.id);
           return time2 - time1;
         });
+        this.contents = [];
         contents.forEach((document:any) => {
+          // console.log('EditorPage - getContents - document: ', document);
           let family = JSON.parse(document.data);
+          // add info
+          family.info = this.ancestor_info;
+          let sender = document.info ? document.info : '';
+          // console.log('family: ',  family);
           let results = this.familyService.compareFamilies(srcFamily, family);
-          // this.contents.push({ id: document.id, info: document.info, subject: document.message.subject, text: document.message.text });
-          this.contents.push({ id: document.id, version: family.version, diff: results.length });
+          // console.log('EditorPage - getContents - srcFamily: ', srcFamily);
+          // console.log('EditorPage - getContents - family: ', family);
+          // console.log('EditorPage - getContents - results: ', results);
+          this.contents.push({ id: document.id, sender: sender, version: family.version, diff: results.length, compareResults: results, family: family });
         })
-        // this.srcVersion = this.languageService.getTranslation('FILE_SRC_VERSION') + this.srcFamily.version;
         this.msgCompare = this.languageService.getTranslation('FILE_COMPARE_TREE') + ' (' + this.srcFamily.version + ')';
-        // this.title = this.srcFamily.info.description;
+      });
+    });
+  }
 
+  async getStorageFiles() {
+
+    this.fbService.getAncestorFamilies(this.ancestor).subscribe((contents:any) => {
+
+      this.fbService.readJsonDocument(this.ancestor, 'family').subscribe((srcFamily:any) => {
+        this.srcFamily = srcFamily;
+        // console.log('srcFamily: ',  JSON.stringify(srcFamily, null, 4));
+        contents.sort((doc1:any, doc2: any) => {
+          let time1 = this.utilService.getDateTime(doc1.id);
+          let time2 = this.utilService.getDateTime(doc2.id);
+          return time2 - time1;
+        });
+        this.contents = [];
+        contents.forEach((document:any) => {
+          // console.log('EditorPage - getContents - document: ', document);
+          let family = JSON.parse(document.data);
+          // add info
+          family.info = this.ancestor_info;
+          let sender = document.info ? document.info : '';
+          // console.log('family: ',  family);
+          let results = this.familyService.compareFamilies(srcFamily, family);
+          this.storageFiles.push({ id: document.id, sender: sender, version: family.version, diff: results.length, compareResults: results, family: family });
+        })
+        this.msgCompare = this.languageService.getTranslation('FILE_COMPARE_TREE') + ' (' + this.srcFamily.version + ')';
       });
     });
   }
@@ -89,333 +148,283 @@ export class FilePage implements OnInit {
       this.compareMode = false;
       return;
     }
+    this.resetModes();
     this.viewMode = true;
   }
 
-  // onContent() {
-  //   if (this.contentMode) {
-  //     this.contentMode = false;
-  //     return;
-  //   }
-  //   this.contentMode = true;
-  // }
-
-  // onContent() {
-  //   this.contentMode = true;
-  //   this.compareMode = false;
-  // }
-
   onCompare(content) {
-    console.log('onCompare - content: ', content);
-    // this.contentMode = false;
+    if (this.compareMode) {
+      this.compareMode = false;
+      return;
+    }
+    if (DEBUG_FILE)
+      console.log('onCompare - content: ', content);
     this.compareMode = true;
-
-    let modFamily = JSON.parse(content.text);
-    console.log('onCompare - modFamily: ', modFamily)
-    this.compareResults = this.familyService.compareFamilies(this.srcFamily, modFamily);
-    console.log('onCompare - compareResults: ', this.compareResults)
+    this.compareDocumentId = this.languageService.getTranslation('FILE_ID') + ': ' + content.id;
+    this.compareResults = content.compareResults;
     if (this.compareResults.length == 0) {
       this.utilService.alertMsg('WARNING', 'FILE_FILES_ARE_THE_SAME', 'OK').then((status) => {
-        // this.onContent();
       })
     }
   }
 
   onDelete(content: any) {
-    let message = this.languageService.getTranslation('FILE_DELETE_MESSAGE') + ': ' + content.id;
-    this.utilService.alertConfirm('FILE_DELETE_HEADER', message, 'CANCEL', 'CONTINUE').then((res) => {
-      console.log('onDelete - res:' , res)
+    let msg = this.utilService.getAlertMessage([
+      {name: 'msg', label: 'FILE_DELETE_MESSAGE'},
+      {name: 'data', label: content.id},
+    ]);
+    // let message = this.languageService.getTranslation('FILE_DELETE_MESSAGE') + ': ' + content.id;
+    this.utilService.alertConfirm('FILE_DELETE_HEADER', msg, 'CANCEL', 'CONTINUE').then((res) => {
+      if (DEBUG_FILE)
+        console.log('onDelete - res:' , res)
       if (res.data) {
-        this.fbService.deleteAncestorFamily(environment.ancestor, content.id);
+        this.fbService.deleteAncestorFamily(this.ancestor, content.id);
         this.getContents();
         this.contentMode = false;
       }
     });
   }
 
-  onUpload(event:any) {
-    var file: File = event.target.files[0];
-    // console.log('ContactPage - uploadTree - event: ', event);
-    var myReader: FileReader = new FileReader();
-    myReader.onloadend = ((e:any) => {
-      let json:any = myReader.result;
-      // console.log('onUpload - json: ', json);
-      // this.confirmUploadTree(family);
-      // let fileName = file.name;
-      // console.log('ContactPage - onUpload - file: ', file.name);
-      // console.log('ContactPage - onUpload - json: ', json.toString());
-
-      // always parse json (string) to object
-      this.confirmFileType(JSON.parse(json));
-    });
-    myReader.readAsText(file);
-  }
-
-  async confirmFileType(json?: any) {
-
-    let inputs = [
-      { type: 'radio', label: 'ancestor.json', value: 'ancestor' },
-      { type: 'radio', label: 'archive.json', value: 'archive' },
-      { type: 'radio', label: 'contribution.json', value: 'contribution' },
-      { type: 'radio', label: 'family.json', value: 'family' },
-      { type: 'radio', label: 'introduction.json', value: 'introduction' },
-    ];
-
-    // validate json data
-    if (json) {
-      let id = json.id;
-      for (let i = 0; i < inputs.length; i++) {
-        if (inputs[i].value == id) {
-          inputs[i]['checked'] = true;
-          break;
-        }
-      }
-      console.log('confirmFileType - inputs:' , inputs)
-    }
-
-    
-    this.utilService.alertRadio('FILE_JSON_HEADER', 'FILE_JSON_MESSAGE', inputs , 'CANCEL', 'OK').then((res) => {
-      console.log('confirmFileType - res:' , res)
+  onReplaceSource(content: any) {
+    let version = this.srcFamily.version;
+    let newVersion = (parseFloat(version) + 0.1).toFixed(1);
+    let msg = this.utilService.getAlertMessage([
+      {name: 'msg', label: 'FILE_REPLACE_MESSAGE_1'},
+      {name: 'data', label: content.id},
+      {name: 'msg', label: 'FILE_REPLACE_MESSAGE_2'},
+      {name: 'data', label: version},
+      {name: 'msg', label: 'FILE_REPLACE_MESSAGE_3'},
+      {name: 'data', label: newVersion},
+    ]);
+    this.utilService.alertConfirm('FILE_REPLACE_HEADER', msg, 'CANCEL', 'CONTINUE').then((res) => {
+      if (DEBUG_FILE)
+        console.log('onReplaceSource - res:' , res)
       if (res.data) {
-        let type = res.data;
-        console.log('confirmFileType - type: ', type);
-        if (json) {
-          // upload
-          if (type == 'archive') {
-            console.log('confirmFileType - json.data: ', json.data);
-            this.uploadArchive(json.data).then(data => {
-              console.log('confirmFileType - data: ', data);
-              this.fbService.saveDocument(environment.ancestor, {
-                id: 'archive',
-                data: JSON.stringify(data),
-              });
-              this.utilService.alertMsg(
-                this.languageService.getTranslation('FILE_UPLOAD_HEADER'),
-                this.languageService.getTranslation('FILE_UPLOAD_MESSAGE') + ': ' +  type + '.json.'
-              );
-            });
-          } else {
-            this.fbService.updateJsonDocument(environment.ancestor, type, json.data);
-            this.utilService.alertMsg(
-              this.languageService.getTranslation('FILE_UPLOAD_HEADER'),
-              this.languageService.getTranslation('FILE_UPLOAD_MESSAGE') + ': ' +  type + '.json.'
-            );
-          }
-
-        } else {
-          // download
-          this.fbService.readJsonDocument(environment.ancestor, type).subscribe(
-            (data:any) => {
-              let fileName = type + '.json';
-              let text = JSON.stringify(data, null, 4);
-              this.download(fileName, text);
-            },
-            (error:any) => {
-              // throw error;
-              console.log('Error: ', error)
-            }
-          )
-        }
+        console.log('onReplaceSource - version, newVersion:' , version, newVersion);
+        // filter family
+        let family = this.familyService.getFilterFamily(content.family);
+        family.version = newVersion;
+        family.info = {};
+        if (DEBUG_FILE)
+          console.log('onReplaceSource - family:' , family)
+      	this.fbService.updateJsonDocument(this.ancestor, 'family', family);
+        this.utilService.presentToast('FILE_REPLACE_MESSAGE_4');
       }
     });
   }
 
-  onDownload() {
-    this.confirmFileType();
+  onFileLocal() {
+    if (this.uploadMode) {
+      this.uploadMode = false;
+      return;
+    }
+    this.resetModes();
+    this.uploadMode = true;
   }
 
-  download(fileName: any, text: any) {
-    this.downloadString(text, 'text/json', fileName);
-    this.utilService.alertMsg(
-      this.languageService.getTranslation('FILE_DOWNLOAD_HEADER'),
-      this.languageService.getTranslation('FILE_DOWNLOAD_MESSAGE') + ' [' + fileName + ']'
-    );
+  onFileSelect(event: any): void {
+    this.resetModes();
+    this.uploadMode = true;
+    const files = [...event.target.files]
+    if (this.selectedFiles.length == 0) {
+        this.selectedFiles = files;
+    } else {
+      files.forEach((file:File) => {
+        let index = this.selectedFiles.findIndex((f:File) => f.name == file.name);
+        if (index == -1)
+          this.selectedFiles.push(file);
+      });
+    }
   }
 
-  downloadString(text, fileType, fileName) {
-    var blob = new Blob([text], { type: fileType });
-    var a = document.createElement('a');
-    a.download = fileName;
-    a.href = URL.createObjectURL(blob);
-    a.dataset.downloadurl = [fileType, a.download, a.href].join(':');
-    a.style.display = "none";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(function() { URL.revokeObjectURL(a.href); }, 1500);
-  }
-
-  uploadArchive(data: any) {
-    return new Promise((resolve) => {
-      let promises = [];
-      console.log('SettingPage - processArchive - data: ', data);
-      
-      for (var key of Object.keys(data)) {
-        const type = data[key].type;
-        console.log('SettingPage - processArchive - key, type: ', key, type);
-        const src = data[key].src;
-        // create only if a local file from /assets
-        // if src is a http link, ignore
-        if (src.indexOf('http') >= 0) {
-          if (type == 'image') {
-            promises.push(this.uploadLocalImage(key, src));
-          } else if (type == 'people') {
-            promises.push(this.uploadLocalImage(key, src));
-          } else if (type == 'html') {
-            promises.push(this.uploadLocalHtml(key, src));
-          }
-        }
+  onFileDelete(file:File) {
+    if (DEBUG_FILE)
+      console.log('FilePage - onFileDelete');
+    let index = this.selectedFiles.findIndex((f:File) => f.name == file.name);
+    if (index != -1) {
+      const files:File[] = [];
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        if (i != index)
+          files.push(this.selectedFiles[i])
       }
-      if (promises.length == 0) {
-        // nothing to change
-        resolve(data);
+      this.selectedFiles = files;
+      // this.selectedFiles = this.selectedFiles.splice(index, 1);
+    }
+    // console.log('FilePage - selectFile - this.selectedFiles: ', this.selectedFiles);
+  }
+
+  onFileView(file:File) {
+    if (this.previewImageMode) {
+      this.previewImageMode = false;
+      return;
+    }
+    if (this.previewTextMode) {
+      this.previewTextMode = false;
+      return;
+    }
+    this.resetModes();
+
+    if (DEBUG_FILE)
+      console.log('FilePage - onFileView');
+    this.fileName = file.name;
+    const name:string = file.name;
+    // get extension
+    const type = name.substring(name.lastIndexOf('.')+1);
+    const reader = new FileReader();
+
+    if (type == 'jpeg' || type == 'jpg') {
+      this.previewImageMode = true;
+
+      reader.readAsDataURL(file);
+      reader.onload = ((event:any) => {
+        $('#preview-image').attr('src', event.target.result);
+      });
+
+    } else {
+      this.previewTextMode = true;
+
+      reader.readAsText(file);
+      reader.onload = ((event:any) => {
+        let text = event.target.result;
+
+        if (DEBUG_FILE)
+          console.log('onFileView - type: ', type);
+        if (DEBUG_FILE)
+          console.log('onFileView - text: ', text);
+
+        if (type == 'json') {
+          let json = JSON.parse(text);
+          text = JSON.stringify(json, null, 4);
+          // console.log('text: ', text);
+          text = text.replace(/\n/g, '<br/>')
+          text = text.replace(/    /g, '&nbsp;&nbsp;&nbsp;&nbsp;')
+        }
+        $('#preview-text').html(text);
+      });
+    }
+    
+  }
+
+  onFileUpload(file:File) {
+    console.log('FilePage - onFileUpload');
+    const name:string = file.name;
+    // get extension
+    const type = name.substring(name.lastIndexOf('.')+1);
+
+    this.uploadFile(file, this.ancestor, type).then((res: any) => {
+      if (DEBUG_FILE)
+        console.log('onFileUpload - res: ', res);
+      if (res.text) {
+        // validate json file
+        let json = JSON.parse(res.text);
+        const id = name.substring(0, name.lastIndexOf('.'));
+        if (this.validateJsonFile(id, json)) {
+
+          console.log('FilePage - onFileUpload - json: ', json);
+          console.log('FilePage - onFileUpload - id: ', id);
+
+          if (id == 'family')
+            // must filter data for proper format
+            json = this.familyService.getFilterFamily(json);
+          this.fbService.updateJsonDocument(this.ancestor, id, json);
+          let message = this.languageService.getTranslation('FILE_UPLOAD_FILE') + ': ' + name;
+          this.utilService.presentToast(message);
+        }
       } else {
-        Promise.all(promises).then(resolves => {
-          console.log('resolves = ', resolves);
-          for (let i = 0; i < resolves.length; i++) {
-            let key = resolves[i].key;
-            let urlStorage = resolves[i].urlStorage;
-            // add local src
-            data[key].src_local = data[key].src;
-            data[key].src = urlStorage;
-          }
-          resolve(data);
-        });
+        let message = this.languageService.getTranslation('FILE_UPLOAD_FILE') + ': ' + name;
+          this.utilService.presentToast(message);
       }
     });
   }
 
-  uploadLocalImage(key, url) {
+  validateJsonFile(id: string, json: any) {
+    // console.log('FilePage - validateFile - json: ', json);
+    if (json.id == id) {
+      // console.log('FilePage - validateFile - json is ok!');
+      return true;
+    }
+    return false;
+  }
+
+  uploadFile(file:File, ancestor, type) {
     return new Promise((resolve) => {
-      this.utilService.getLocalImageFile(url).then((blob) => {
-        var myReader: FileReader = new FileReader();
-        myReader.readAsDataURL(blob);
+      const name = file.name;
+      var myReader: FileReader = new FileReader();
+
+      if (type == 'jpeg' || type == 'jpg') {
+        myReader.readAsDataURL(file);
         myReader.onload = ((event:any) => {
           let base64 = event.target.result;
           base64 = base64.replace("data:", "").replace(/^.+,/, "");
-          const id = url.substring(url.lastIndexOf('/')+1);
-
-          const storageId = environment.ancestor + '-' + this.utilService.getDateID(true) + '-' + id;
+          // const id = name.substring(0, name.lastIndexOf('.'));
+          // const storageId = ancestor + '-' + this.utilService.getDateID(true) + '-' + id;
+          // const storageId = ancestor + '/' + id;
+          const storageId = name;
           console.log('uploadLocalImage - storageId: ', storageId);
-          
-          this.fbService.addImage(base64, storageId).then(urlStorage => {
-            resolve({key: key, urlStorage: urlStorage});
+          this.fbService.addImage(base64, ancestor, storageId).then(urlStorage => {
+            resolve({storageId: storageId, urlStorage: 'urlStorage'});
           });
         });
-      });
-    });
-  }
-
-  uploadLocalHtml(key, url) {
-    return new Promise((resolve) => {
-      this.utilService.getLocalTextFile(url).then((data) => {
-        console.log('uploadLocalHtml - data: ', data);
-        const id = url.substring(url.lastIndexOf('/')+1);
-        const storageId = environment.ancestor + '-' + this.utilService.getDateID(true) + '-' + id;
-        console.log('uploadLocalHtml - storageId: ', storageId);
-
-        this.fbService.addText(data, storageId).then(urlStorage => {
-          resolve({key: key, urlStorage: urlStorage});
+        
+      } else {
+        myReader.readAsText(file);
+        myReader.onload = ((event:any) => {
+          let text:any = event.target.result;
+          // always parse json (string) to object
+          if (type == 'json') {
+            resolve({text: text});
+          } else {
+            // const id = name.substring(0, name.lastIndexOf('.'));
+            const storageId = name;
+            this.fbService.addText(text, ancestor, storageId).then(urlStorage => {
+              resolve({storageId: storageId, urlStorage: 'urlStorage'});
+            });
+          }
         });
+      }
+    });
+  }
+
+  onStorageFile(): void {
+    if (DEBUG_FILE)
+      console.log('onStorageFile');
+    if (this.storageMode) {
+      this.storageMode = false;
+      return;
+    }
+    this.resetModes();
+    this.storageMode = true;
+    this.fbService.getFileList(this.ancestor).then((res:any) => {
+      this.storageFiles = res;
+      if (DEBUG_FILE)
+        console.log('onStorageFile - res: ', res);
+    });
+
+  }
+
+  onStorageDelete(file: any) {
+    if (DEBUG_FILE)
+      console.log('onStorageDelete');
+    this.fbService.deleteImage(this.ancestor, file.name).then((status:any) => {
+      this.fbService.getFileList(this.ancestor).then((res:any) => {
+        this.storageFiles = res;
+        console.log('FilePage - res: ', res);
       });
     });
   }
 
+  onStorageView(file: any) {
+    if (DEBUG_FILE)
+      console.log('onStorageView - file: ', file);
+    this.storageViewMode = true;
+    if (file.type.indexOf("image") >= 0) {
+      const img = document.getElementById('storage-image');
+      img.setAttribute('src', file.url);
+    } else {
+      window.open(file.url);
+    }
+  }
 
-
-  // async confirmUpload(family) {
-  //   this.utilService.alertConfirm(
-  //     this.languageService.getTranslation('CONTACT_UPLOAD_HEADER'),
-  //     this.languageService.getTranslation('CONTACT_UPLOAD_MESSAGE'),
-  //     this.languageService.getTranslation('CANCEL'),
-  //     this.languageService.getTranslation('CONTINUE')).then((res) => {
-  //     console.log('confirmUploadTree - res:' , res)
-  //     if (res) {
-  //       this.familyService.saveFamily(JSON.parse(family));
-  //     }
-  //   });
-  // }
-
-  // ancestor.json
-  // archive.json
-  // contribution.json
-  // family.json
-  // intro.json
-
-  // async onAdd() {
-  //   let inputs = [
-  //     {type: 'radio', label: this.languageService.getTranslation('CHILD'), value: 'child' },
-  //     {type: 'radio', label: this.languageService.getTranslation('WIFE'), value: 'wife' },
-  //     {type: 'radio', label: this.languageService.getTranslation('HUSBAND'), value: 'husband' }
-  //   ];
-  //   this.utilService.alertRadio('NODE_ALERT_RELATION_HEADER', 'NODE_ALERT_RELATION_MESSAGE', inputs , 'CANCEL', 'OK').then((res) => {
-  //     // console.log('onAdd - res:' , res)
-  //     if (res) {
-  //       // this.familyService.startSourceFamily().then(status => {});
-  //       let relation = res.data;
-  //       // let name = this.languageService.getTranslation('NODE_CHILD_PLACEHOLDER');
-  //       let name = 'Phan - nhập tên';
-  //       let gender = (relation == 'child') ? 'male' : ((relation == 'wife') ? 'female' : 'male');
-  //       if (relation == 'child')
-  //         this.addChild(this.selectedNode, name, gender, relation);
-  //       else
-  //         this.addSpouse(this.selectedNode, name, gender, relation);
-  //     }
-  //   });
-  // }
-
-  // onDownload() {
-  //   let text = JSON.stringify(this.family, null, 4);
-  //   let fileName = ANCESTOR + '-family-' + this.getDateID() + '.tree';
-  //   this.downloadString(text, 'text/tree', fileName);
-  //   this.utilService.alertMsg(
-  //     this.languageService.getTranslation('CONTACT_DOWNLOAD_HEADER'),
-  //     this.languageService.getTranslation('CONTACT_DOWNLOAD_MESSAGE') + ' [' + fileName + ']'
-  //   );
-  // }
-
-  // downloadString(text, fileType, fileName) {
-  //   var blob = new Blob([text], { type: fileType });
-  //   var a = document.createElement('a');
-  //   a.download = fileName;
-  //   a.href = URL.createObjectURL(blob);
-  //   a.dataset.downloadurl = [fileType, a.download, a.href].join(':');
-  //   a.style.display = "none";
-  //   document.body.appendChild(a);
-  //   a.click();
-  //   document.body.removeChild(a);
-  //   setTimeout(function() { URL.revokeObjectURL(a.href); }, 1500);
-  // }
-
-  // saveFilesToFB() {
-  //   // introduction
-  //   this.utilService.getLocalTextFile('./assets/data/' + environment.ancestor + '-vi-intro.txt').then(viText => {
-  //   this.utilService.getLocalTextFile('./assets/data/' + environment.ancestor + '-en-intro.txt').then(enText => {
-  //     this.fbService.saveDocument(ancestor, {
-  //       id: 'intro',
-  //       vi: viText,
-  //       en: enText
-  //     });
-  //   });
-  //   });
-
-  //   // contribution
-  //   let jsonFile = './assets/data/' + ancestor + '-contribution.json'
-  //   this.utilService.getLocalJsonFile(jsonFile).then(json => {
-  //     this.fbService.saveDocument(ancestor, {
-  //       id: 'contribution',
-  //       data: JSON.stringify(json),
-  //     });
-  //   });
-
-  //   // images
-  //   jsonFile = './assets/data/' + ancestor + '-images.json'
-  //   this.utilService.getLocalJsonFile(jsonFile).then(json => {
-  //     this.fbService.saveDocument(ancestor, {
-  //       id: 'images',
-  //       data: JSON.stringify(json),
-  //     });
-  //   });
-
-  // }
 }
+
+

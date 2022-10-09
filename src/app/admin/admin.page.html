@@ -5,14 +5,14 @@
 
     <ion-tab-button tab="edit" *ngIf="appValid">
       <div class="tab-button-center">
-        <ion-icon src="../../assets/fonts/file-tree-outline.svg" class="tab-icon-material"></ion-icon>
+        <ion-icon src="{{FONTS_FOLDER}}file-tree-outline.svg" class="tab-icon-material"></ion-icon>
         <ion-label class="tab-label">&nbsp;{{ 'TAB_EDITOR' | translate }}</ion-label>
       </div>
     </ion-tab-button>
 
     <ion-tab-button tab="file" *ngIf="appValid">
       <div class="tab-button-center">
-        <ion-icon src="../../assets/fonts/file-replace-outline.svg" class="tab-icon-material"></ion-icon>
+        <ion-icon src="{{FONTS_FOLDER}}file-replace-outline.svg" class="tab-icon-material"></ion-icon>
         <ion-label class="tab-label">&nbsp;{{ 'TAB_FILE' | translate }}</ion-label>
       </div>
     </ion-tab-button>

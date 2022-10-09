@@ -14,27 +14,20 @@ export const environment = {
   },
   production: false,
   phabletDevice: true,
-  ancestor: ''
 };
 
-// export const MIN_YEAR = 1900;
-// export const MAX_YEAR = 2022;
-// export const GENERATION = 0;
-export const DEBUG = true;
-export const VERSION = '0.0.4';
-// export const CONTACT = {
-//   "phan": {"name": "Phan Viết Hoàng", "email": "pvhoang940@gmail.com"},
-//   "le": {"name": "Lê Xuân Khách", "email": "pvhoang940@gmail.com"},
-//   "doan": {"name": "Đoàn Bảo Hà", "email": "pvhoang940@gmail.com"},
-// }
+export const VERSION = '0.0.6';
+export const FONTS_FOLDER = '../../assets/fonts/';
 
-// declare var ancestor;
-// export const ANCESTOR = ancestor;
-
-// export const SETTING = {
-//   language: 'vi',
-//   // ancestor: ANCESTOR
-// }
+export const DEBUG = false;
+export const DEBUG_TABS = false;
+export const DEBUG_HOME = false;
+export const DEBUG_TREE = false;
+export const DEBUG_NODE = false;
+export const DEBUG_ARCHIVE = false;
+export const DEBUG_CONTACT = false;
+export const DEBUG_EDITOR = false;
+export const DEBUG_FILE = false;
 
 /*
  * For easier debugging in development mode, you can import the following file

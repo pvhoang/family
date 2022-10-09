@@ -15,6 +15,100 @@ export class TypeaheadService {
     private utilService: UtilService,
   ) { }
 
+  getEvaluatedName(term: string) {
+    return new Promise((resolve) => {
+      this.dataService.readItem('names').then((result:any) => {
+        console.log('term: ', term);
+
+        let data = result.data;
+
+        let familyNames = data['family'];
+        let midMaleNames = data['middle_male'];
+        let midFemaleNames = data['middle_female'];
+        let firMaleNames = data['first_male'];
+        let firFemaleNames = data['first_female'];
+
+        // break term to words
+        let srcName = term.toLowerCase();
+        let desName = '';
+        let words = srcName.split(' ');
+        let gender = 0;
+        let res:any = [];
+
+        for (let i = 0; i < words.length; i++) {
+          let srcWord = words[i];
+          let word: any;
+          if (i == 0) {
+            // first word, use family name
+            res = this.getWord(gender, familyNames, familyNames, srcWord);
+            // do not set gender
+            res[1] = 0;
+          } else if (i == 1) {
+            if (words.length == 2) {
+              // 2-word name, use first names, try male and female
+              res = this.getWord(gender, firMaleNames, firFemaleNames, srcWord);
+            } else if (words.length >= 3) {
+              // 3-word name, use middle name
+              res = this.getWord(gender, midMaleNames, midFemaleNames, srcWord);
+            }
+          } else if (i == 2) {
+            if (words.length == 3) {
+              // 3-word name, use first name
+              res = this.getWord(gender, firMaleNames, firFemaleNames, srcWord);
+            } else if (words.length >= 4) {
+              // 4-word name, use middle name
+              res = this.getWord(gender, midMaleNames, midFemaleNames, srcWord);
+            }
+          } else {
+            // 4-word or more name, use first name
+            res = this.getWord(gender, firMaleNames, firFemaleNames, srcWord);
+          }
+          word = res[0];
+          gender = res[1];
+          if (word == null) word = srcWord;
+          console.log('i, gender, srcWord, desWord: ', i, gender, srcWord, word);
+          // console.log('word 2: ', word);
+          desName += word + ' ';
+        }
+        desName = desName.trim();
+        resolve(desName);
+      });
+    });
+  }
+
+  private getWord(gender, mNames:any, fNames:any, srcWord: any) {
+    let word:any;
+    let newGender = gender;
+    if (gender == 0) {
+      // neutral
+      word = this.getVNWord(mNames, srcWord);
+      if (word == null) {
+        word = this.getVNWord(fNames, srcWord);
+        newGender = 2;
+      } else {
+        newGender = 1;
+      }
+    } else if (gender == 1) {
+      // male
+      word = this.getVNWord(mNames, srcWord);
+    } else if (gender == 2) {
+      // female
+      word = this.getVNWord(fNames, srcWord);
+    }
+    return [ word, newGender ];
+  }
+
+  private getVNWord(names:any, srcWord: any) {
+    // srcWord: Nguyen, Nguyễn, nguyen, nguyễn, NGUYEN
+    let stripWord = this.utilService.stripVN(srcWord);
+    // check again available VN list
+    for (let i = 0; i < names.length; i++) {
+      if (stripWord == this.utilService.stripVN(names[i].name))
+        return names[i].name;
+    }
+    return null;
+  }
+
   getJsonNames(term: string = null): Observable<string[]> {
 
     return new Observable((observer) => {

@@ -24,7 +24,11 @@ const routes: Routes = [
       {
         path: 'info',
         loadChildren: () => import('../contact/contact.module').then( m => m.ContactPageModule)
-      }
+      },
+      // {
+      //   path: 'admin/:mode',
+      //   loadChildren: () => import('../admin/admin.module').then( m => m.AdminPageModule)
+      // }
     ]
   }
   // {

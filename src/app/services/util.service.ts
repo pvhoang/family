@@ -65,6 +65,31 @@ export class UtilService {
 			// msg += ' ' + JSON.stringify(obj, null, 4);
 	}
 
+	getAlertMessage(options: any, formatMode?) {
+		let message = '';
+		let space = formatMode ? '' : ' ';
+		options.forEach((option:any) => {
+			if (option.name == 'msg')
+				message += space + this.languageService.getTranslation(option.label);
+			else if (option.name == 'data')
+				message += space + '<b>' + option.label + '</b>'
+			if (formatMode)
+				message += '<br/>';
+		})
+		if (formatMode)
+			message = '<pre style="margin-left: 2.0em;">' + message + '<br/><br/></pre>';
+		return message;
+	}
+
+	getAlertTableMessage(options: any) {
+		let message = '';
+		options.forEach((option:any) => {
+			message += '<b>' + option.name + '</b>' + ': &emsp;' + option.value + '<br/>';
+		})
+		message += '<br/><br/>';
+		return message;
+	}
+	
 	async alertMsg(srcHeader, srcMessage, css?) {
 		let header = this.languageService.getTranslation(srcHeader);
 		if (!header)
@@ -210,7 +235,7 @@ export class UtilService {
 						console.log('info: ', info);
 						let msg = '';
 						if (info.length < 5)
-							msg += 'Thông tin liên hệ không được để trống<br>';
+							msg += 'Thông tin phải lớn hơn 10 ký tự!';
 						if (msg != '') {
 							this.presentToast(msg);
 							return false;

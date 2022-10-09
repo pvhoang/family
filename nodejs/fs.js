@@ -18,16 +18,18 @@ if (require.main === module) {
 
 	var args = process.argv.slice(2);
 	console.log('args: ' + args, args.length);
-	if (args.length != 5) {
+	if (args.length != 7) {
 		console.log('--- ERROR ---');
-		console.log('node fs nguyen "Gia phả Nguyễn Tộc" Nguyễn "Nguyễn Văn Dũng"');
+		console.log('node fs phan "hoang" "pvhoang940@gmail.com" 123456 "Gia phả Nguyễn Tộc" Nguyễn "Nguyễn Văn Dũng"');
 		process.exit();
 	}
 	var ancestorID = args[0];
-	var desription = args[1];
-	var familyName = args[2];
-	var rootName = args[3];
-	var contact = args[4];
+	var admin = args[1];
+	var email = args[2];
+	var keycode = args[3];
+	var desription = args[4];
+	var familyName = args[5];
+	var rootName = args[6];
 
 	firebase.initializeApp(firebaseConfig);
 	const db = firebase.firestore();
@@ -36,9 +38,9 @@ if (require.main === module) {
 	let ancestor = {
     "id": "ancestor",
     "data": {
-			"admin":"admin",
-			"email":"admin@gmail.com",
-			"contact": contact,
+			"admin":admin,
+			"email":email,
+			"keycode":keycode,
 			"description": desription,
 			"name": rootName,
 			"family_name": familyName,

@@ -6,6 +6,7 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 import { LanguageService } from '../../services/language.service';
 import { UtilService } from '../../services/util.service';
 import { NodeService } from '../../services/node.service';
+import { FONTS_FOLDER, DEBUG_NODE } from '../../../environments/environment';
 
 @Component({
   selector: 'app-node',
@@ -22,6 +23,7 @@ export class NodePage implements OnInit {
   @ViewChild('ngSelectPOD') ngSelectPOD: NgSelectComponent;
   @ViewChild('ngSelectPOR') ngSelectPOR: NgSelectComponent;
 
+  FONTS_FOLDER = FONTS_FOLDER;
   title: any;
   values: any = {};
   places: Observable<string[]>;
@@ -55,10 +57,11 @@ export class NodePage implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // console.log('NodePage - ngOnInit - node: ', this.node);
+    if (DEBUG_NODE)
+      console.log('NodePage - ngOnInit - node: ', this.node);
     this.title = this.node.name + ' - ' + this.nodeService.getGeneration(this.node);
     this.values = this.nodeService.loadValues(this.node);
-    this.values.nameItem = { name: this.values.name }
+    // this.values.nameItem = { name: this.values.name }
 
     this.genders = [
       { id: 'male', name: this.languageService.getTranslation('MALE') },
@@ -99,29 +102,25 @@ export class NodePage implements OnInit {
   // -------TYPE NEW WORD (Enter) OR SELECT -------
   // -------------------------------------
 
+  keyup(event) {
+    // console.log('TreePage - keyup: ', event.key);
+    if (event.key !== 'Enter')
+      return;
+    this.values.name = event.target.value;
+    console.log('TreePage - keyup: ', this.values.name);
+    this.typeahead.getEvaluatedName(event.target.value).then((name:any) => {
+      this.values.name = name;
+      console.log('TreePage - keyup: ', this.values.name);
+    });
+  }
+
   keydownInDropdown(event) {
     return false;
   }
 
-  clearName() {
-    // console.log('TreePage - clear');
-    this.values.nameItem = null;
-    this.names = this.typeahead.getJsonNames(null);
-  }
-
-  keydownName(event) {
-    if (event.key !== 'Enter')
-      return;
-    this.values.nameItem = {name: event.target.value};
-    this.ngSelectName.close();
-  }
-
-  keyupName(event) {
-    this.names = this.typeahead.getJsonNames(event.target.value);
-  }
-
   clearPOB() {
-    // console.log('TreePage - clear');
+    if (DEBUG_NODE)
+      console.log('NodePage - clear');
     this.values.pob = null;
     // this.places = this.typeahead.getJson(null, 'places');
   }
@@ -138,9 +137,7 @@ export class NodePage implements OnInit {
   }
 
   clearPOD() {
-    // console.log('TreePage - clear');
     this.values.pod = null;
-    // this.places = this.typeahead.getJson(null, 'places');
   }
 
   keydownPOD(event) {
@@ -155,9 +152,7 @@ export class NodePage implements OnInit {
   }
 
   clearPOR() {
-    // console.log('TreePage - clear');
     this.values.por = null;
-    // this.places = this.typeahead.getJson(null, 'places');
   }
 
   keydownPOR(event) {
@@ -172,29 +167,24 @@ export class NodePage implements OnInit {
   }
 
   clearYOB() {
-    // console.log('TreePage - clear');
     this.values.yob = null;
   }
 
   clearYOD() {
-    // console.log('TreePage - clear');
     this.values.yod = null;
   }
 
   clearDOD_DAY() {
-    // console.log('TreePage - clear');
     this.values.dod_day = null;
   }
 
   clearDOD_MONTH() {
-    // console.log('TreePage - clear');
     this.values.dod_month = null;
   }
 
   // --------- END ng-select ----------
 
   async onCancel() {
-    // console.log('NodePage - onCancel - node: ', this.node);
     let values = this.values;
     if (this.nodeService.isNodeChanged(this.node, values)) {
       this.utilService.alertConfirm('NODE_CANCEL_HEADING', 'NODE_CANCEL_MESSAGE', 'CANCEL', 'CONTINUE').then((res) => {
@@ -208,8 +198,6 @@ export class NodePage implements OnInit {
 
   async onSave() {
     let values = this.values;
-    values.name = values.nameItem.name;
-    // console.log('onSave: ', values);
     if (this.nodeService.isNodeChanged(this.node, values) == false) {
       this.utilService.alertMsg('NODE_SAVE_HEADING', 'NODE_SAVE_MESSAGE');
       return;
@@ -223,11 +211,10 @@ export class NodePage implements OnInit {
   }
 
   private validateData(values: any): string {
-
-    // console.log('validateData: values: ', values);
+    if (DEBUG_NODE)
+      console.log('validateData: values: ', values);
     let msg = '';
     let bullet = '&#8226;&nbsp;';
-    // name, nick, gender, dod, desc, yob, yod, pob, pod, por, 
     let nameMsg = '';
     if (values.name == '' || values.name.length < 5)
       nameMsg = bullet + '<b>Ten</b> phai co it nhat 4 ky tu.<br>';
@@ -236,8 +223,6 @@ export class NodePage implements OnInit {
     if (values.dod_day && values.dod_month) {
       if (!values.yod) {
         dodMsg = bullet + "<b>Ngay mat</b> phai de trong. Nam tu chua nhap.<br>";
-      // } else if (values.dod.length != 5 || values.dod.indexOf('/') != 2) {
-      //   dodMsg = bullet + "<b>Ngay mat</b> khong dung mau 'nn/tt'.<br>";
       }
     }
    

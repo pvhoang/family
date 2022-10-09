@@ -1,117 +1,306 @@
+<br/>
+<div class="home-guide-section">
+      &nbsp;&nbsp;Từ vựng
+</div>
+<br/>
+
+<ion-row class="home-guide-icon-symbol">
+	<ion-col size="3">
+		<ion-label class="ion-text-wrap label"><b>Gia phả</b></ion-label>
+	</ion-col>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">tất cả thông tin về gia tộc như phả đồ, phả ký, phả cụ, v.v.</ion-label>
+	</ion-col>
+</ion-row>
+
+<ion-row class="home-guide-icon-symbol">
+	<ion-col size="3">
+		<ion-label class="ion-text-wrap label"><b>Chi</b></ion-label>
+	</ion-col>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">người, thành viên trong gia phả. <b>Chi gốc, chi cội</b>: thành viên đầu tiên (Đời 1). <b>Chi nhánh</b>: chi có con là thành viên. <b>Chi lá</b>: chi cuối trong nhánh.</ion-label>
+	</ion-col>
+</ion-row>
+
+<ion-row class="home-guide-icon-symbol">
+	<ion-col size="3">
+		<ion-label class="ion-text-wrap label"><b>Phả đồ</b></ion-label>
+	</ion-col>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">cây gia tộc của tất cả chi trong dòng họ. <b>Phả chi</b>: cây từ chi gốc đến chi chọn và các nhánh tiếp theo </ion-label>
+	</ion-col>
+</ion-row>
+
+<ion-row class="home-guide-icon-symbol">
+	<ion-col size="3">
+		<ion-label class="ion-text-wrap label"><b>Phả ký</b></ion-label>
+	</ion-col>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">lịch sử của gia tộc gồm tư liệu, hình ảnh bài vị, bia mộ, hình ảnh thành viên.</ion-label>
+	</ion-col>
+</ion-row>
+
+<ion-row class="home-guide-icon-symbol">
+	<ion-col size="3">
+		<ion-label class="ion-text-wrap label"><b>Phả cụ</b></ion-label>
+	</ion-col>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">công cụ dùng để so sánh, lưu trữ, và cập nhật phả đồ.</ion-label>
+	</ion-col>
+</ion-row>
+
+<br/>
+<div class="home-guide-section">
+      &nbsp;&nbsp;Cơ bản
+</div>
+<br/>
+
+<ion-row class="home-guide-icon-symbol">
+	<ion-col size="3">
+		<ion-label class="ion-text-wrap label"><b>Xem ngày giỗ</b></ion-label>
+	</ion-col>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">Nhấn '<b>Ngày mất</b>' để xem ngày giỗ họ trong 7 ngày tới.</ion-label>
+	</ion-col>
+</ion-row>
+
+<ion-row class="home-guide-icon-symbol">
+	<ion-col size="3">
+		<ion-label class="ion-text-wrap label"><b>Thêm chi</b></ion-label>
+	</ion-col>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label"><i>Cách 1 - Một chi</i>. Nhấn '<b>Phả đồ</b>' -> Nhấn chi trên phả đồ -> Nhấn '<b>Chức năng</b>' -> Chọn '<b>Thêm con/vợ/chồng</b>' -> Sau khi hoàn tất, nhấn chi cũ để thoát hoặc nhấn chi khác.</ion-label>
+	</ion-col>
+</ion-row>
+
+<ion-row class="home-guide-icon-symbol">
+	<ion-col size="3">
+		<ion-label class="label"></ion-label>
+	</ion-col>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label"><i>Cách 2 - Nhóm chi</i>. Nhấn '<b>Phả đồ</b>' -> Chọn nhóm chi trên '<b>Chọn nhóm chi theo tên, họ, đời</b>' -> Nhấn '<b>Chi kế</b>' hay '<b>Chi trước</b>' -> Nhấn '<b>Chức năng</b>' -> Chọn '<b>Thêm con/vợ/chồng</b>' -> Sau khi hoàn tất, nhấn '<b>Đóng</b>'.</ion-label>
+	</ion-col>
+</ion-row>
+
 <br>
 <div class="home-guide-section">
-      &nbsp;&nbsp;Xem phả đồ
+      &nbsp;&nbsp;Chức năng gia phả
 </div>
 <br>
 
 <ion-row class="home-guide-tab-symbol">
 	<ion-col size="12">
 		<div class="tab">
-			<ion-icon name="home" class="icon"></ion-icon>
+			<ion-icon src="../../assets/fonts/monitor-dashboard.svg" class="icon"></ion-icon>
 			<span class="label">&nbsp;&nbsp;Phả nhập</span>
 		</div>
 	</ion-col>
 </ion-row>
+
 <ion-row class="home-guide-icon-symbol">
-	<ion-col size="1">
-		<ion-icon name="ribbon" class="icon"></ion-icon>
+	<ion-col size="3">
+		<div class="task">
+			<ion-icon src="../../assets/fonts/death-star.svg" class="icon"></ion-icon>
+			<span class="label">&nbsp;&nbsp;Ngày mất</span>
+		</div>
 	</ion-col>
-	<ion-col size="11">
-		<ion-label class="label">Nhấn để xem <b>Ngày Giỗ</b> của dòng họ trong tuần tới.</ion-label>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">Xem <b>Ngày Giỗ</b> của dòng họ trong tuần tới</ion-label>
 	</ion-col>
 </ion-row>
+
 <ion-row class="home-guide-icon-symbol">
-	<ion-col size="1">
-		<ion-icon name="flag" class="icon"></ion-icon>
+	<ion-col size="3">
+		<div class="task">
+			<ion-icon src="../../assets/fonts/flag-variant-outline.svg" class="icon"></ion-icon>
+			<span class="label">&nbsp;&nbsp;Ngôn ngữ</span>
+		</div>
 	</ion-col>
-	<ion-col size="11">
-		<ion-label class="label">Nhấn để chuyển đổi <b>tiếng Việt</b> thành <b>tiếng Anh</b> và ngược lại.</ion-label>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">Đổi <b>tiếng Việt</b> thành <b>tiếng Anh</b> và ngược lại</ion-label>
 	</ion-col>
 </ion-row>
+
 <ion-row class="home-guide-icon-symbol">
-	<ion-col size="1">
-		<ion-icon name="color-palette" class="icon"></ion-icon>
+	<ion-col size="3">
+		<div class="task">
+			<ion-icon src="../../assets/fonts/palette.svg" class="icon"></ion-icon>
+			<span class="label">&nbsp;&nbsp;Đổi màu</span>
+		</div>
 	</ion-col>
-	<ion-col size="11">
-		<ion-label class="label">Nhấn để chuyển đổi <b>màu giao diện</b>.</ion-label>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">Đổi <b>màu giao diện</b></ion-label>
 	</ion-col>
 </ion-row>
-<br>
+
 
 <ion-row class="home-guide-tab-symbol">
 	<ion-col size="12">
 		<div class="tab">
-			<ion-icon name="list-circle" class="icon"></ion-icon>
+			<ion-icon src="../../assets/fonts/family-tree.svg" class="icon"></ion-icon>
 			<span class="label">&nbsp;&nbsp;Phả đồ</span>
 		</div>
 	</ion-col>
 </ion-row>
+
 <ion-row class="home-guide-icon-symbol">
-	<ion-col size="1">
-		<ion-icon name="home" class="icon"></ion-icon>
+	<ion-col size="3">
+		<div class="task">
+			<ion-icon src="../../assets/fonts/arrow-split-horizontal.svg" class="icon"></ion-icon>
+			<span class="label">&nbsp;&nbsp;Phả đồ</span>
+		</div>
 	</ion-col>
-	<ion-col size="11">
-		<ion-label class="label">Nhấn để xem phả đồ từ chi gốc.</ion-label>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">Xem phả đồ theo <b>chiều ngang</b> hay <b>chiều dọc</b></ion-label>
 	</ion-col>
 </ion-row>
+
 <ion-row class="home-guide-icon-symbol">
-	<ion-col size="1">
-		<ion-icon name="add-circle" class="icon"></ion-icon>
-		<ion-icon name="remove-circle" class="icon"></ion-icon>
+	<ion-col size="3">
+		<div class="task">
+			<ion-icon src="../../assets/fonts/origin.svg" class="icon"></ion-icon>
+			<span class="label">&nbsp;&nbsp;Chi gốc</span>
+		</div>
 	</ion-col>
-	<ion-col size="11">
-		<ion-label class="label">Nhấn để phóng lớn/nhỏ phả đồ.</ion-label>
+	<ion-col size="9">
+		<ion-label class="label">Xem phả đồ từ <b>chi gốc</b></ion-label>
 	</ion-col>
 </ion-row>
+
 <ion-row class="home-guide-icon-symbol">
-	<ion-col size="1">
-		<ion-icon name="tablet-landscape" class="icon-normal"></ion-icon>
+	<ion-col size="3">
+		<div class="task">
+			<ion-icon src="../../assets/fonts/cog-outline.svg" class="icon"></ion-icon>
+			<span class="label">&nbsp;&nbsp;Chức năng</span>
+		</div>
 	</ion-col>
-	<ion-col size="11">
-		<ion-label class="label">Chọn chi trong phả đồ.</ion-label>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">Xem các <b>chức năng</b> của phả đồ</ion-label>
 	</ion-col>
 </ion-row>
+
 <ion-row class="home-guide-icon-symbol">
-	<ion-col size="1">
-		<ion-icon name="reader" class="icon-select"></ion-icon>
-		<ion-icon name="reader" class="icon-male"></ion-icon>
-		<ion-icon name="reader" class="icon-female"></ion-icon>
+	<ion-col size="3">
+		<div class="task">
+			<ion-icon src="../../assets/fonts/tablet.svg" class="icon"></ion-icon>
+			<span class="label">&nbsp;&nbsp;Hộp chọn</span>
+		</div>
 	</ion-col>
-	<ion-col size="11">
-		<ion-label class="label">Chi đang chọn, Chi nam, Chi nữ.</ion-label>
-	</ion-col>
-</ion-row>
-<ion-row class="home-guide-icon-symbol">
-	<ion-col size="1">
-		<ion-icon name="reader" class="icon-normal"></ion-icon>
-	</ion-col>
-	<ion-col size="11">
-		<ion-label class="label">Nhấn 1 lần để <b>sửa</b>, 2 lần để <b>xem</b> thông tin chi.</ion-label>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">Chọn <b>nhóm (hoặc một) chi</b> có sẵn trong phả đồ</ion-label>
 	</ion-col>
 </ion-row>
 
 <ion-row class="home-guide-tab-symbol">
 	<ion-col size="12">
 		<div class="tab">
-			<ion-icon name="image" class="icon"></ion-icon>
+			<span class="label">Thông tin chi</span>
+		</div>
+	</ion-col>
+</ion-row>
+
+<ion-row class="home-guide-icon-symbol">
+	<ion-col size="3">
+		<div class="task">
+			<ion-icon src="../../assets/fonts/page-next-outline.svg" class="icon"></ion-icon>
+			<span class="label">&nbsp;&nbsp;Chi kế</span>
+		</div>
+	</ion-col>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">Xem <b>chi kế</b> trong nhóm chi</b></ion-label>
+	</ion-col>
+</ion-row>
+
+<ion-row class="home-guide-icon-symbol">
+	<ion-col size="3">
+		<div class="task">
+			<ion-icon src="../../assets/fonts/page-previous-outline.svg" class="icon"></ion-icon>
+			<span class="label">&nbsp;&nbsp;Chi trước</span>
+		</div>
+	</ion-col>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">Xem <b>chi trước</b> trong nhóm chi</b></ion-label>
+	</ion-col>
+</ion-row>
+
+<ion-row class="home-guide-icon-symbol">
+	<ion-col size="3">
+		<div class="task">
+			<ion-icon src="../../assets/fonts/file-tree-outline.svg" class="icon"></ion-icon>
+			<span class="label">&nbsp;&nbsp;Phả chi</span>
+		</div>
+	</ion-col>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">Xem <b>phả đồ của chi</b></ion-label>
+	</ion-col>
+</ion-row>
+
+<ion-row class="home-guide-icon-symbol">
+	<ion-col size="3">
+		<div class="task">
+			<ion-icon src="../../assets/fonts/close-circle-outline.svg" class="icon"></ion-icon>
+			<span class="label">&nbsp;&nbsp;Đóng</span>
+		</div>
+	</ion-col>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">Đóng và về lại trang chủ '<b>Phả đồ</b>'</ion-label>
+	</ion-col>
+</ion-row>
+
+<ion-row class="home-guide-icon-symbol">
+	<ion-col size="3">
+		<div class="task">
+			<ion-icon src="../../assets/fonts/cog-outline.svg" class="icon"></ion-icon>
+			<span class="label">&nbsp;&nbsp;Chức năng</span>
+		</div>
+	</ion-col>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">Xem các <b>chức năng</b> của chi</ion-label>
+	</ion-col>
+</ion-row>
+
+<ion-row class="home-guide-tab-symbol">
+	<ion-col size="12">
+		<div class="tab">
+			<ion-icon src="../../assets/fonts/history.svg" class="icon"></ion-icon>
 			<span class="label">&nbsp;&nbsp;Phả ký</span>
 		</div>
 	</ion-col>
 </ion-row>
+
 <ion-row class="home-guide-icon-symbol">
-	<ion-col size="1">
-		<ion-icon name="tablet-landscape" class="icon-normal"></ion-icon>
+	<ion-col size="3">
+		<div class="task">
+			<ion-icon src="../../assets/fonts/tablet.svg" class="icon"></ion-icon>
+			<span class="label">&nbsp;&nbsp;Hộp chọn</span>
+		</div>
 	</ion-col>
-	<ion-col size="11">
-		<ion-label class="label">Chọn phả ký (hình, tư liệu).</ion-label>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">Chọn <b>tư liệu</b> của họ theo dạng hình hay văn bản.</ion-label>
 	</ion-col>
 </ion-row>
+
 <ion-row class="home-guide-icon-symbol">
-	<ion-col size="1">
-		<ion-icon name="people" class="icon"></ion-icon>
+	<ion-col size="3">
+		<div class="task">
+			<ion-icon src="../../assets/fonts/emoticon-neutral-outline.svg" class="icon"></ion-icon>
+			<span class="label">&nbsp;&nbsp;Nhận diện</span>
+		</div>
 	</ion-col>
-	<ion-col size="11">
-		<ion-label class="label">Nhấn để xem <b>nhân vật</b> trong hình.</ion-label>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">Xem <b>nhân vật</b> trong hình</ion-label>
+	</ion-col>
+</ion-row>
+
+<ion-row class="home-guide-icon-symbol">
+	<ion-col size="3">
+		<div class="task">
+			<ion-icon src="../../assets/fonts/close-circle-outline.svg" class="icon"></ion-icon>
+			<span class="label">&nbsp;&nbsp;Đóng</span>
+		</div>
+	</ion-col>
+	<ion-col size="9">
+		<ion-label class="ion-text-wrap label">Đóng và về lại hộp chọn</ion-label>
 	</ion-col>
 </ion-row>
 

@@ -8,13 +8,13 @@
           (click)="_leafSelected(node)" 
           [class]="node.nclass"
           id="{{node.id}}"
-          [innerHtml]="node.span"
+          [innerHtml]="view ? (node.spanDetail ? node.spanDetail : node.span) : node.span"
           >
         </span>
       </div>
       <ul *ngIf="family.children && family.children.length > 0">
         <li *ngFor="let child of family.children" [ngStyle]="{'width': _setWidth(child) ? '100%' : 'auto'}" >
-          <ft-leaf (onLeafSelected)="_leafSelected($event)" [child]="child"></ft-leaf>
+          <ft-leaf (onLeafSelected)="_leafSelected($event)" [view]="view" [child]="child"></ft-leaf>
         </li>
       </ul>
     </li>

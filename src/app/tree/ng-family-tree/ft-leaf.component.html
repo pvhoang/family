@@ -6,11 +6,12 @@
         [class]="node.nclass"
         id="{{node.id}}"
         [innerHtml]="node.span"
+        [innerHtml]="view ? (node.spanDetail ? node.spanDetail : node.span) : node.span"
     >
     </span>
   </div>
   <ul *ngIf="child.children && child.children.length > 0">
     <li *ngFor="let row of child.children" [ngStyle]="{'width': child.children.length === 1 ? '100%' : 'auto'}">
-      <ft-leaf (onLeafSelected)="_leafSelected($event)" [child]="row"></ft-leaf>
+      <ft-leaf (onLeafSelected)="_leafSelected($event)" [view]="view" [child]="row"></ft-leaf>
     </li>
   </ul>

@@ -102,7 +102,7 @@ export class NodeService {
   }
 
   public getGeneration(node: any)  {
-    let genStr = this.languageService.getTranslation('GENERATION') + ' ' + +node.level;
+    let genStr = this.languageService.getTranslation('GENERATION') + ' ' + node.level;
     return genStr;
   }
 
@@ -138,29 +138,101 @@ export class NodeService {
         (node.yod ? node.yod : '') + ',' +
         (node.pob ? node.pob : '') + ',' +
         (node.pod ? node.pod : '') + ',' +
-        (node.por ? node.por : '');
+        (node.por ? node.por : '') + ',' +
+        (node.desc ? node.desc :  '') + ',' +
+        (node.dod ? node.dod : '');
     return str;
   } 
 
-  public compareDetail(mod, src):any  {
-    let mItems = mod.split(',');
+  public compareDetail(src: string, mod: string):any  {
     let sItems = src.split(',');
-    let diff = [];
-    let ids = ["NODE_NAME", "NODE_NICK", "NODE_GENDER", "NODE_YOB", "NODE_YOD", "NODE_POB", "NODE_POD", "NODE_POR"];
+    let mItems = mod.split(',');
+    let ids = ["NODE_NAME", "NODE_NICK", "NODE_GENDER", "NODE_YOB", "NODE_YOD", "NODE_POB", "NODE_POD", "NODE_POR", "NODE_DESC", "NODE_DOD"];
+    let msg = '';
     for (let i = 0; i < sItems.length; i++) {
-      if (mItems[i] != sItems[i])
-        diff.push({item: this.languageService.getTranslation(ids[i]), old: sItems[i], new: mItems[i]})
+      if (mItems[i] != sItems[i]) {
+        if (msg != '')
+          msg += ', ';
+        msg += this.languageService.getTranslation(ids[i]);
+        let str = '(' + sItems[i] + '->' + mItems[i] + ')';
+        msg += str;
+      }
     }
-    return diff;
-  } 
+    return msg;
+  }
+
+  // public compareDetail(mod, src):any  {
+  //   let mItems = mod.split(',');
+  //   let sItems = src.split(',');
+  //   let diff = [];
+  //   let ids = ["NODE_NAME", "NODE_NICK", "NODE_GENDER", "NODE_YOB", "NODE_YOD", "NODE_POB", "NODE_POD", "NODE_POR"];
+  //   for (let i = 0; i < sItems.length; i++) {
+  //     if (mItems[i] != sItems[i])
+  //       diff.push({item: this.languageService.getTranslation(ids[i]), old: sItems[i], new: mItems[i]})
+  //   }
+  //   return diff;
+  // } 
 
   public getSpanStr(node) {
+
+    let yod = (node.yod) ? node.yod : '';
+    let str = '';
+    if (node.family && node.family.children) {
+      str = (yod != '') ? ('<b><i>' + node.name + '</i></b>') : '<b>' + node.name + '</b>';
+    } else {
+      str = (yod != '') ? ('<i>' + node.name + '</i>') : node.name;
+    }
     // let noName = this.languageService.getTranslation('TREE_SELECT_NO_NAME');
     // let header = (node.family.children) ? ' (=>)' : '';
     // let row1 = (node.family && node.family.children) ? '<b>' + node.name + '</b>' : ( node.name.indexOf(noName) > 0 ? '<i>' + node.name + '</i>' : node.name );
-    let row1 = (node.family && node.family.children) ? '<b>' + node.name + '</b>' : node.name;
-    let row2 = ((node.yob) ? node.yob : '') + ' - ' + ((node.yod) ? node.yod : '');
-    return row1 + '<br/>' + row2;
+    // let row1 = (node.family && node.family.children) ? '<b>' + node.name + '</b>' : node.name;
+    // let row2 = ((node.yob) ? node.yob : '') + ' - ' + ((node.yod) ? node.yod : '');
+    // return row1 + '<br/>' + row2;
+    return str;
+  }
+
+  public getSpanDetailStr(node) {
+    let row1 = node.name + ' (' + this.getGeneration(node) + ')';
+    if (node.family && node.family.children)
+      row1 = '<b>' +  row1 + '</b>';
+    let yob = (node.yob) ? node.yob : '';
+    let yod = (node.yod) ? node.yod : '';
+    let por = (node.por) ? node.por : '';
+    let desc = (node.desc) ? node.desc : '';
+
+    let row2 = '';
+    if (yob != '')
+      row2 = '<i>Sinh</i>: ' + yob;
+    if (yod != '') {
+      if (row2 != '')
+        row2 += ' - '
+      row2 += '<i>Tử</i>: ' + yod;
+    }
+
+    let row3 = '';
+    if (por != '')
+      row3 = '<i>Sống</i>: ' + por;
+    if (desc != '') {
+      if (row3 != '')
+        row3 += ' - '
+      // row3 += 'Thông tin khác: ' + desc;
+      row3 += desc;
+    }
+    //   row2  += 'Tử: ' + yod;
+    // if (por != '')
+    //   msg += 'Nơi sống: ' + por;
+    // if (desc != '')
+    //   msg += 'Thông tin khác: ' + desc;
+
+    // let row2 = ((node.yob) ? node.yob : '') + ' - ' + ((node.yod) ? node.yod : '');
+    // let row3 = ((node.por) ? node.por : '') + ' - ' + ((node.desc) ? node.desc : '');
+    let str = row1;
+    if (row2 != '')
+      str += '<br/>' + row2;
+    if (row3 != '')
+      str += '<br/>' + row3;
+    // return row1 + '<br/>' + row2 + '<br/>' + row3;
+    return str;
   }
 
   public fillNode(node) {
@@ -247,7 +319,7 @@ export class NodeService {
     node.id = id;
     node.name = name;
     node.gender = gender;
-    node.level = level;
+    node.level = +level;
     node.profile = this.getSearchKeys(node)
     node.span = this.getSpanStr(node);
     node.nclass = this.updateNclass(node);

@@ -11,7 +11,7 @@
                 "en": "Picture taken at Chánh điện nhà Thờ Phan Tộc, Đồng Hới"
             },
             "type": "image",
-            "src": "../../assets/phan/bai-vi-doi-1.jpg"
+            "name": "bai-vi-doi-1.jpg"
         },
         "i02": {
             "title": {
@@ -23,7 +23,7 @@
                 "en": "Picture taken at lăng Phan Tộc, Đá Bạc, Đồng Sơn, Quảng Bình"
             },
             "type": "image",
-            "src": "../../assets/phan/mo-to-doi-1.jpg"
+            "name": "mo-to-doi-1.jpg"
         },
         "i03": {
             "title": {
@@ -35,9 +35,21 @@
                 "en": "Picture taken at lăng Phan Tộc, Đá Bạc, Đồng Sơn, Quảng Bình"
             },
             "type": "image",
-            "src": "../../assets/phan/mo-to-doi-11.jpg"
+            "name": "mo-to-doi-11.jpg"
         },
-        "i3": {
+        "i04": {
+            "title": {
+                "vi": "1876 - Bài Vị (Đời 11, Chi Phan Lợi Hành)", 
+                "en": "1876 - Bài Vị (Đời 11, Chi Phan Lợi Hành)"
+            },
+            "description": {
+                "vi": "Bài vị ông Phan Lợi Hành ('Tằng tổ khảo Phan Lợi Hạnh/Hành chi thần chủ vị tiền') đang được thờ tại nhà thờ Từ Đường Phan Tộc, Đồng Phú, Quảng Bình", 
+                "en": "Memorial tablet in display at Ancestor House, Đồng Phú, Quảng Bình"
+            },
+            "type": "image",
+            "name": "phan-loi-hanh.jpg"
+        },
+        "p01": {
             "title": {
                 "vi": "1920 - Nhánh Phan Ngọc Luật", 
                 "en": "1920 - Branch Phan Ngọc Luật"
@@ -47,7 +59,7 @@
                 "en": "Picture taken at nhà Từ Đường (Đời 13, Chi Phan Ngọc Luật), thôn Đồng Phú, Quảng Bình"
             },
             "type": "people",
-            "src": "https://giapha.web.app/assets/phan1/doc/phan-ngoc-luat.jpg",
+            "name": "phan-ngoc-luat.jpg",
             "image": {
                 "width": "4320",
                 "height": "2880"
@@ -208,7 +220,7 @@
                 }
             ]
         },
-        "i1": {
+        "p02": {
             "title": {
                 "vi": "1971 - Nhánh Phan Dính", 
                 "en": "1971 - Branch Phan Dính"
@@ -218,7 +230,7 @@
                 "en": "Picture taken in HCMC ((Đời 15, Chi Phan Dính)"
             },
             "type": "people",
-            "src": "../../assets/phan/phan-dinh-1971.jpg",
+            "name": "phan-dinh-1971.jpg",
             "image": {
                 "width": "1200",
                 "height": "900"
@@ -311,7 +323,213 @@
                 }
             ]
         },
-        "i4": {
+        "p03": {
+            "title": {
+                "vi": "2013 - Gặp gỡ tại Quảng Bình", 
+                "en": "1971 - Reunion in Quang Binh"
+            },
+            "description": {
+                "vi": "Chụp tại đại sảnh Sun Spa Resort Quảng Bình ", 
+                "en": "Picture taken in Quang Binh"
+            },
+            "type": "people",
+            "name": "nam-yen.jpg",
+            "image": {
+                "width": "1200",
+                "height": "800"
+            },
+            "areas": [
+                {
+                    "id": "1",
+                    "score": "0.99",
+                    "coords": {
+                        "x": "726",
+                        "y": "214",
+                        "width": "50",
+                        "height": "71"
+                    },
+                    "text": {
+                        "header": "Phan Thanh Dũng",
+                        "message": {
+                            "vi": "Phan Thanh Dũng, định cư ở Quảng Bình",
+                            "en": "english"
+                        }
+                    }
+                },
+                {
+                    "id": "2",
+                    "score": "0.99",
+                    "coords": {
+                        "x": "649",
+                        "y": "259",
+                        "width": "48",
+                        "height": "62"
+                    },
+                    "text": {
+                        "header": "Phan Như Minh",
+                        "message": {
+                            "vi": "Phan Như Minh, định cư ở Tp. HCM",
+                            "en": "english"
+                        }
+                    }
+                },
+                {
+                    "id": "3",
+                    "score": "0.98",
+                    "coords": {
+                        "x": "405",
+                        "y": "297",
+                        "width": "36",
+                        "height": "60"
+                    },
+                    "text": {
+                        "header": "Phan Thị Bạch Yến",
+                        "message": {
+                            "vi": "Phan Thị Bạch Yến, định cư ở Hoa Kỳ",
+                            "en": "english"
+                        }
+                    }
+                },
+                {
+                    "id": "4",
+                    "score": "0.62",
+                    "coords": {
+                        "x": "488",
+                        "y": "291",
+                        "width": "34",
+                        "height": "45"
+                    },
+                    "text": {
+                        "header": "Phan Van Năm",
+                        "message": {
+                            "vi": "Phan Văn Năm, đã mất!",
+                            "en": "english"
+                        }
+                    }
+                }
+            ]
+        },
+        "p04": {
+            "title": {
+                "vi": "2022 - Ngày mất của Phan Văn Năm", 
+                "en": "2022 - Ngày mất của Phan Văn Năm"
+            },
+            "description": {
+                "vi": "Chụp tại mộ gia tộc, Đá Bạc, Quảng Bình", 
+                "en": "Picture taken in Quang Binh"
+            },
+            "type": "people",
+            "name": "nam-pass-away.jpg",
+            "image": {
+                "width": "1200",
+                "height": "900"
+            },
+            "areas": [
+                {
+                    "id": "1",
+                    "score": "0.99",
+                    "coords": {
+                        "x": "374",
+                        "y": "461",
+                        "width": "31",
+                        "height": "44"
+                    },
+                    "text": {
+                        "header": "Phan Thi Mỹ Linh",
+                        "message": {
+                            "vi": "Phan Thi Mỹ Linh, định cư ở Tp. HCM",
+                            "en": "english"
+                        }
+                    }
+                },
+                {
+                    "id": "2",
+                    "score": "0.99",
+                    "coords": {
+                        "x": "446",
+                        "y": "438",
+                        "width": "31",
+                        "height": "43"
+                    },
+                    "text": {
+                        "header": "Phan Viết Hoàng",
+                        "message": {
+                            "vi": "Phan Viết Hoàng, định cư ở Nha Trang",
+                            "en": "english"
+                        }
+                    }
+                },
+                {
+                    "id": "3",
+                    "score": "0.98",
+                    "coords": {
+                        "x": "189",
+                        "y": "461",
+                        "width": "24",
+                        "height": "38"
+                    },
+                    "text": {
+                        "header": "Khong ro",
+                        "message": {
+                            "vi": "",
+                            "en": "english"
+                        }
+                    }
+                },
+                {
+                    "id": "4",
+                    "score": "0.98",
+                    "coords": {
+                        "x": "316",
+                        "y": "417",
+                        "width": "33",
+                        "height": "48"
+                    },
+                    "text": {
+                        "header": "Phan Thanh Dũng",
+                        "message": {
+                            "vi": "Phan Thanh Dũng, định cư ở Quảng Bình",
+                            "en": "english"
+                        }
+                    }
+                },
+                {
+                    "id": "5",
+                    "score": "0.93",
+                    "coords": {
+                        "x": "879",
+                        "y": "431",
+                        "width": "35",
+                        "height": "49"
+                    },
+                    "text": {
+                        "header": "Phan Văn Tám",
+                        "message": {
+                            "vi": "Phan Văn Tám, định cư ở Quảng Bình",
+                            "en": "english"
+                        }
+                    }
+                },
+                {
+                    "id": "6",
+                    "score": "0.78",
+                    "coords": {
+                        "x": "846",
+                        "y": "439",
+                        "width": "35",
+                        "height": "46"
+                    },
+                    "text": {
+                        "header": "Phan Thi Tường Tâm",
+                        "message": {
+                            "vi": "Phan Thi Tường Tâm, định cư ở Tp. HCM",
+                            "en": "english"
+                        }
+                    }
+                }
+            ]
+        },
+        "d01": {
             "title": {
                 "vi": "Ngày giỗ", 
                 "en": "Memorial days"
@@ -321,9 +539,9 @@
                 "en": "Memorial days of the family"
             },
             "type": "html",
-            "src": "../../assets/phan/ngay-gio.html"
+            "name": "ngay-gio.html"
         },
-        "i5": {
+        "d02": {
             "title": {
                 "vi": "Phả đồ", 
                 "en": "Family tree"
@@ -333,7 +551,7 @@
                 "en": "Tree from Mr Phan Ngoc Luat branch"
             },
             "type": "html",
-            "src": "../../assets/phan/gen-11.html"
+            "name": "gen-11.html"
         }
     }
 }

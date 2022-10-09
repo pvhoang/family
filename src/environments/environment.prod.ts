@@ -10,9 +10,19 @@ export const environment = {
   },
   production: true,
   phabletDevice: true,
-  ancestor: ''
 };
 
-export const DEBUG = true;
-export const VERSION = '0.0.4';
+export const VERSION = '0.0.6';
+export const FONTS_FOLDER = '../../assets/fonts/';
+
+export const DEBUG = false;
+export const DEBUG_TABS = false;
+export const DEBUG_HOME = false;
+export const DEBUG_TREE = false;
+export const DEBUG_NODE = false;
+export const DEBUG_ARCHIVE = false;
+export const DEBUG_CONTACT = false;
+export const DEBUG_EDITOR = false;
+export const DEBUG_FILE = false;
+
 // add comment

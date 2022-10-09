@@ -4,6 +4,7 @@ $background_color_male: lightblue;  // primary
 $background_color_female: lightpink;
 $background_color_select: lightgreen; // success
 $background_color_not_complete: lightyellow; // warning in variables.css
+$background_color_node: #e6d8ad;
 
 $border_color: #94a0b4;
 $hover_color: #c8e4f8;
@@ -159,6 +160,9 @@ $hover_color: #c8e4f8;
         }
         &.select {
           background-color: $background_color_select;
+        }
+        &.node-select {
+          background-color: $background_color_node;
         }
         &.not-complete {
           background-color: $background_color_not_complete;

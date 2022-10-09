@@ -168,6 +168,13 @@ ion-icon {
 https://stackoverflow.com/questions/57921846/how-to-implement-routed-tabs-with-angular-material-within-a-child-route
 
 =======================
+# Spash screen - svg color screen - get current url in app.component.ts
+=======================
+https://itnext.io/simple-splash-screen-for-your-angular-web-apps-and-pwas-f4fbf897540b
+https://stackoverflow.com/questions/22252472/how-to-change-the-color-of-an-svg-element
+https://stackoverflow.com/questions/44621887/angular-how-to-get-current-url-in-app-component
+
+=======================
 # Firestore
 =======================
 

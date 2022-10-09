@@ -11,6 +11,7 @@ export class NgFamilyTreeComponent implements OnInit {
 
   @Input() family: any;
   @Input() class: any;
+  @Input() view: any;
   @Output() onLeafSelected: EventEmitter<any> = new EventEmitter();
 
   constructor() { }

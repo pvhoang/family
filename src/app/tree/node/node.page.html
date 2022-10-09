@@ -1,5 +1,27 @@
 <ion-header>
+  
   <ion-item class="app-ion-item">
+    <ion-col size="12">
+      <ion-title class="ion-text-center ion-text-wrap app-ion-title">{{ title }}</ion-title>
+    </ion-col>
+  </ion-item>
+
+  <ion-item class="app-ion-item">
+    <ion-col size="6" class="task-heading" (click)="onSave()">
+      <ion-button class="app-ion-button" title="{{ 'NODE_HEADER_TOOLTIP_SAVE' | translate }}" fill="clear" (click)="onSave()">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}content-save-outline.svg" class="app-ion-icon-material"></ion-icon>
+      </ion-button>
+      <span class="label">{{ 'TASK_SAVE' | translate }}</span>
+    </ion-col>
+    <ion-col size="6" class="task-heading" (click)="onCancel()">
+      <ion-button class="app-ion-button" fill="clear" title="{{ 'NODE_HEADER_TOOLTIP_CANCEL' | translate }}"  (click)="onCancel()">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="app-ion-icon-material"></ion-icon>
+      </ion-button>
+      <span class="label">{{ 'TASK_CANCEL' | translate }}</span>
+    </ion-col>
+  </ion-item>
+
+  <!-- <ion-item class="app-ion-item">
     <ion-col size="1">
     </ion-col>
     <ion-col size="6">
@@ -9,13 +31,14 @@
     </ion-col>
     <ion-col size="1">
         <ion-button class="app-ion-button" title="{{ 'NODE_HEADER_TOOLTIP_SAVE' | translate }}" fill="clear" (click)="onSave()">
-          <ion-icon slot="icon-only" src="../../assets/fonts/content-save-outline.svg" class="app-ion-icon-material"></ion-icon>
+          <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}content-save-outline.svg" class="app-ion-icon-material"></ion-icon>
         </ion-button>
         <ion-button class="app-ion-button" fill="clear" title="{{ 'NODE_HEADER_TOOLTIP_CANCEL' | translate }}"  (click)="onCancel()">
-          <ion-icon slot="icon-only" src="../../assets/fonts/close-circle-outline.svg" class="app-ion-icon-material"></ion-icon>
+          <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="app-ion-icon-material"></ion-icon>
         </ion-button>
     </ion-col>
-  </ion-item>
+  </ion-item> -->
+
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
@@ -27,8 +50,27 @@
     </ion-card-header>
 
     <ion-label class="card-label">{{ 'NODE_NAME' | translate }}</ion-label>
-    <div class="card-select-1">
+    <ion-input clearInput
+      class="card-input"
+      placeholder="{{selectNamesPlaceholder}}"
+      [(ngModel)]="values.name"
+      (keyup)="keyup($event)"
+      >
+    </ion-input>
+    
+    <!-- <ion-input class="card-input" type="text" [(ngModel)]="values.name" placeholder="{{ 'NODE_NICK_PLACEHOLDER' | translate }}" clearInput></ion-input> -->
+    <!-- <ion-input clearInput
+      class="card-input"
+      placeholder="{{selectNamesPlaceholder}}"
+      [(ngModel)]="values.name"
+      (clear)="clear()"
+      (close)="close()"
+      (keydown)="keydown($event)"
+      (keyup)="keyup($event)"
+      >
+    </ion-input> -->
 
+    <!-- <div class="card-select-1">
       <ng-select #ngSelectName
         [items]="names | async" 
         bindLabel="name"
@@ -41,7 +83,7 @@
         [keyDownFn]="keydownInDropdown"
       >
       </ng-select>
-    </div>
+    </div> -->
     
     <ion-label class="card-label">{{ 'NODE_GENDER' | translate }}</ion-label>
     <div class="card-select-1">
@@ -147,7 +189,7 @@
     <ion-label class="card-label">{{ 'NODE_NICK' | translate }}</ion-label>
     <ion-input class="card-input" type="text" [(ngModel)]="values.nick" placeholder="{{ 'NODE_NICK_PLACEHOLDER' | translate }}" clearInput></ion-input>
     <ion-label class="card-label">{{ 'NODE_DESC' | translate }}</ion-label>
-    <ion-textarea class="card-textarea" type="text" rows="3" autosize [(ngModel)]="values.desc" placeholder="{{ 'NODE_DESC_PLACEHOLDER' | translate }}"></ion-textarea>
+    <ion-textarea class="card-textarea" type="text" rows="3" autosize [(ngModel)]="values.desc" placeholder="{{ 'NODE_DESC_PLACEHOLDER' | translate }}" clearInput></ion-textarea>
 
   </div>
 

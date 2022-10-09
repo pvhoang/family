@@ -1,41 +1,59 @@
 <ion-header>
   <ion-item class="app-ion-item">
-    <ion-col size="3">
+    <!-- <ion-col size="3">
       <ion-title class="ion-text-center app-ion-title-small">{{ title }}</ion-title>
-      <!-- <ion-title class="ion-text-center app-ion-title">{{ title }}</ion-title> -->
-      <!-- <ion-label class="ion-text-wrap app-ion-label">{{ title }}</ion-label> -->
-      <!-- <ion-label class="ion-text-center app-ion-title-small">{{ title }}</ion-label> -->
     </ion-col>
     <ion-col size="6">
-    </ion-col>
-    <ion-col size="3">
+    </ion-col> -->
+
+    <ion-col size="4" class="task-heading" (click)="onMemorial()">
       <ion-button class="app-ion-button" title="{{ 'HOME_HEADER_TOOLTIP_MEMORIAL' | translate }}" fill="clear" (click)="onMemorial()">
-        <ion-icon slot="icon-only" src="../../assets/fonts/death-star.svg" class="app-ion-icon-material"></ion-icon>
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}death-star.svg" class="app-ion-icon-material"></ion-icon>
       </ion-button>
+      <span class="label">{{ 'TASK_MEMORIAL' | translate }}</span>
+    </ion-col>
+    <ion-col size="4" class="task-heading"(click)="onLanguage()">
       <ion-button class="app-ion-button" title="{{ 'HOME_HEADER_TOOLTIP_LANGUAGE' | translate }}" fill="clear" (click)="onLanguage()">
-        <ion-icon slot="icon-only" src="../../assets/fonts/flag-variant-outline.svg" class="app-ion-icon-material"></ion-icon>
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}flag-variant-outline.svg" class="app-ion-icon-material"></ion-icon>
       </ion-button>
-      <ion-button class="app-ion-button" title="{{ 'HOME_HEADER_TOOLTIP_THEME' | translate }}" fill="clear" (click)="onStyle()">
-        <ion-icon slot="icon-only" src="../../assets/fonts/palette.svg" class="app-ion-icon-material"></ion-icon>
+      <span class="label">{{ 'TASK_LANGUAGE' | translate }}</span>
+    </ion-col>
+    <ion-col size="4" class="task-heading" (click)="onStyle()">
+        <ion-button class="app-ion-button" title="{{ 'HOME_HEADER_TOOLTIP_THEME' | translate }}" fill="clear" (click)="onStyle()">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}palette.svg" class="app-ion-icon-material"></ion-icon>
       </ion-button>
+      <span class="label">{{ 'TASK_COLOR' | translate }}</span>
     </ion-col>
   </ion-item>
+
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
   <div class="app-ion-content">
 
-    <ion-card-header class="card-header">
-    &nbsp;{{ 'HOME_INTRO' | translate }}
+    <ion-card-header class="card-header" (click)="onIntro()">
+      <ion-button fill="clear" *ngIf="!introMode">
+        <ion-icon src="{{FONTS_FOLDER}}arrow-down-drop-circle-outline.svg" class="home-card-header-icon"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" *ngIf="introMode">
+        <ion-icon src="{{FONTS_FOLDER}}arrow-up-drop-circle-outline.svg" class="home-card-header-icon"></ion-icon>
+      </ion-button>
+      &nbsp;&nbsp;&nbsp;{{ 'HOME_INTRO' | translate }}
     </ion-card-header>
-    <div class="home-scroll">
+    <div class="home-scroll" *ngIf="introMode">
       <div [innerHtml]="introStr"></div>
     </div>
 
-    <ion-card-header class="card-header">
-      &nbsp;{{ 'HOME_USER_GUIDE' | translate }}
+    <ion-card-header class="card-header" (click)="onGuide()">
+      <ion-button fill="clear" *ngIf="!guideMode">
+        <ion-icon src="{{FONTS_FOLDER}}arrow-down-drop-circle-outline.svg" class="home-card-header-icon"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" *ngIf="guideMode">
+        <ion-icon src="{{FONTS_FOLDER}}arrow-up-drop-circle-outline.svg" class="home-card-header-icon"></ion-icon>
+      </ion-button>
+      &nbsp;&nbsp;&nbsp;{{ 'HOME_USER_GUIDE' | translate }}
     </ion-card-header>
-    <div class="home-scroll">
+    <div class="home-scroll" *ngIf="guideMode">
       <div [innerHtml]="guideStr | keepHtml"></div>
     </div>
     

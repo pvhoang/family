@@ -5,7 +5,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FilePageRoutingModule } from './file-routing.module';
-
 import { FilePage } from './file.page';
 
 @NgModule({
@@ -17,6 +16,8 @@ import { FilePage } from './file.page';
     TranslateModule,
     FilePageRoutingModule
   ],
-  declarations: [FilePage]
+  declarations: [
+    FilePage
+  ],
 })
 export class FilePageModule {}

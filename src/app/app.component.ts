@@ -1,30 +1,38 @@
-import { Component } from '@angular/core';
+import { Component, OnInit,  } from '@angular/core';
 import { Platform } from '@ionic/angular';
-// import { FamilyService } from './services/family.service';
-import { environment } from '../environments/environment';
+import { environment, DEBUG} from '../environments/environment';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+  ancestor:any = '';
+
   constructor(
     public platform: Platform,
-    // private familyService: FamilyService,
   ) {
-    console.log('AppComponent - constructor');
+    if (DEBUG)
+      console.log('AppComponent - constructor');
     this.initializeApp();
   }
 
+  async ngOnInit(): Promise<any> {
+
+    if (DEBUG)
+      console.log('AppComponent - ngOnInit');
+
+    let strings = window.location.href.split(window.location.host);
+    let url = strings[strings.length-1];
+    if (DEBUG)
+      console.log('AppComponent - url2: ', url);
+    let params = url.split('/');
+    this.ancestor = params[1];
+  }
+
   initializeApp() {
-    // this.familyService.deleteSetting();
-    // phablet: small smartphone, !phablet: tablet, laptop
     environment.phabletDevice = this.platform.is('phablet');
-    // console.log('platform: ', this.platform.platforms());
-    // let plt = this.platform.platforms();
-    // this.detail1 = plt.join(',');
-    // if (this.platform.is('hybrid')) {
-    // // }
   }
 }

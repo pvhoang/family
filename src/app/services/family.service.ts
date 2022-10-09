@@ -4,14 +4,14 @@ import { DataService } from '../services/data.service';
 import { NodeService } from '../services/node.service';
 import { LanguageService } from '../services/language.service';
 import { FirebaseService } from '../services/firebase.service';
-import { environment } from '../../environments/environment';
+// import { environment } from '../../environments/environment';
 
 import { CalendarVietnamese } from 'date-chinese';
 import { Family, Node, NODE } from './family.model';
 
 // var ancestor = environment.ancestor;
 // declare var ancestor;
-declare var Diff: any;
+// declare var Diff: any;
 
 @Injectable({
 	providedIn: 'root'
@@ -31,11 +31,11 @@ export class FamilyService {
 
   startFamily(): Promise<any> {
     return new Promise((resolve, reject) => {
-      console.log('FamilyService - startFamily - ancestor: ', environment.ancestor);
+      // console.log('FamilyService - startFamily - ancestor: ', environment.ancestor);
       // console.log('FamilyService - startFamily');
       // always start by loading ancestor from FB
-      this.loadAncestor().then(status => {
-        console.log('FamilyService - startFamily - status: ', status);
+      // this.loadAncestor().then(status => {
+        // console.log('FamilyService - startFamily - status: ', status);
         this.loadFamily().then(family => {
           this.dataService.saveFamily(family).then(status => {});
           this.saveFileJson('places').then(status => {});
@@ -45,73 +45,76 @@ export class FamilyService {
           console.log('FamilyService - startFamily - err: ', error);
           reject(false);
         });
-      });
+      // });
     });
   }
 
   private loadFamily(): Promise<any> {
     return new Promise((resolve) => {
       this.dataService.readFamily().then((localFamily:any) => {
-        console.log('FamilyService - loadFamily - localFamily: ', localFamily);
+        // console.log('FamilyService - loadFamily - localFamily: ', localFamily);
         // this.dataService.readLocalJson(ancestor, 'family').then((srcFamily:any) => {
-        this.fbService.readJsonDocument(environment.ancestor, 'family').subscribe((srcFamily:any) => {
-          console.log('FamilyService - loadFamily - srcFamily: ', srcFamily);
-          if (!srcFamily) {
-            // set a default family
-            srcFamily = { version: '0.1', nodes: [ { name: localFamily.info.name, gender: 'male'} ] };
-          } else
-            // srcFamily = JSON.parse(srcFamily.data);
-            srcFamily.info = localFamily.info;
+        this.fbService.readJsonDocument(localFamily.info.id, 'family').subscribe((srcFamily:any) => {
           // console.log('FamilyService - loadFamily - srcFamily: ', srcFamily);
-          // check local version
-            let localVersion = localFamily.version;
-            // console.log('FamilyService - loadFamily - localVersion, srcVersion :' , localVersion, srcFamily.version);
-            if (localVersion == srcFamily.version) {
-              resolve(localFamily);
-            } else {
-              // src is different, ask user
-              let msg = 
-                this.languageService.getTranslation('FAMILY_EDIT_TREE') + ': ' + localVersion + '<br>' +
-                this.languageService.getTranslation('FAMILY_NEW_TREE') + ': ' + srcFamily.version + '<br>' +
-                this.languageService.getTranslation('FAMILY_TREE_WARNING');
-              this.utilService.alertConfirm('FAMILY_SELECT_NEW_TREE', msg, 'CANCEL', 'OK').then((res) => {
-                if (res.data) {
-                  this.dataService.saveFamily(srcFamily).then(status => {});
-                  resolve(srcFamily);
-                } else {
-                  resolve(localFamily);
-                }
-              })
-            } 
-          });
-        });
-    });
-  }
-
-  private loadAncestor(): Promise<any> {
-    return new Promise((resolve) => {
-      // always read ancestor from FB since it may change
-      // this.dataService.readLocalJson(ancestor, 'ancestor').then((data:any) => {
-        
-      // this.fbService.readDocument(ancestor, 'ancestor').subscribe((res:any) => {
-      this.fbService.readJsonDocument(environment.ancestor, 'ancestor').subscribe((data:any) => {
-        console.log('FamilyService - loadAncestor - data: ', data);
-        // let data = JSON.parse(res.data);
-        // console.log('FamilyService - loadAncestor - data: ', data);
-        // add id to data for local memory
-        data.id = environment.ancestor;
-        this.dataService.saveItem('ANCESTOR', data).then((status:any) => {
-          resolve (true);
+          let localVersion = localFamily.version;
+          // console.log('FamilyService - loadFamily - localVersion, srcVersion :' , localVersion, srcFamily.version);
+          if (localVersion == srcFamily.version) {
+            resolve(localFamily);
+          } else {
+            // src is different, ask user
+            // let msg = 
+            //   this.languageService.getTranslation('FAMILY_EDIT_TREE') + ': ' + localVersion + '<br>' +
+            //   this.languageService.getTranslation('FAMILY_NEW_TREE') + ': ' + srcFamily.version + '<br>' +
+            //   this.languageService.getTranslation('FAMILY_TREE_WARNING');
+            let msg = this.utilService.getAlertMessage([
+              {name: 'msg', label: 'FAMILY_EDIT_TREE'},
+              {name: 'data', label: localVersion},
+              {name: 'msg', label: 'FAMILY_NEW_TREE'},
+              {name: 'data', label: srcFamily.version},
+              {name: 'msg', label: 'FAMILY_TREE_WARNING_1'},
+              {name: 'msg', label: 'FAMILY_TREE_WARNING_2'},
+              {name: 'msg', label: 'FAMILY_TREE_WARNING_3'},
+            ]);
+            
+            this.utilService.alertConfirm('FAMILY_SELECT_NEW_TREE', msg, 'CANCEL', 'OK').then((res) => {
+              if (res.data) {
+                this.dataService.saveFamily(srcFamily).then(status => {});
+                resolve(srcFamily);
+              } else {
+                resolve(localFamily);
+              }
+            })
+          } 
         });
       });
     });
   }
 
-  startSourceFamily(): Promise<any> {
+  // private loadAncestor(): Promise<any> {
+  //   return new Promise((resolve) => {
+  //     // always read ancestor from FB since it may change
+  //     // this.dataService.readLocalJson(ancestor, 'ancestor').then((data:any) => {
+        
+  //     // this.fbService.readDocument(ancestor, 'ancestor').subscribe((res:any) => {
+  //     // this.fbService.readJsonDocument(environment.ancestor, 'ancestor').subscribe((data:any) => {
+  //       // console.log('FamilyService - loadAncestor - data: ', data);
+  //       // let data = JSON.parse(res.data);
+  //       // console.log('FamilyService - loadAncestor - data: ', data);
+  //       // add id to data for local memory
+  //       // data.id = environment.ancestor;
+  //       // this.dataService.saveItem('ANCESTOR', data).then((status:any) => {
+  //         // resolve (true);
+  //       // });
+  //     // });
+  //     resolve (true);
+  //   });
+  // }
+
+  startSourceFamily(ancestor: any): Promise<any> {
     return new Promise((resolve) => {
       // read from Firebase
       // this.dataService.readLocalJson(ancestor, 'family').then((family:any) => {
-      this.fbService.readJsonDocument(environment.ancestor, 'family').subscribe((family:any) => {
+      this.fbService.readJsonDocument(ancestor, 'family').subscribe((family:any) => {
         // let family = JSON.parse(res.data);
         // const family = data;
         this.dataService.saveFamily(family);
@@ -121,10 +124,10 @@ export class FamilyService {
     });
   }
 
-  getSourceFamilyVersion(): Promise<any> {
+  getSourceFamilyVersion(ancestor): Promise<any> {
     return new Promise((resolve) => {
       // this.dataService.readLocalJson(ancestor, 'family').then((family:any) => {
-      this.fbService.readJsonDocument(environment.ancestor, 'family').subscribe((family:any) => {
+      this.fbService.readJsonDocument(ancestor, 'family').subscribe((family:any) => {
         // let family = JSON.parse(res.data);
         resolve(family.version);
       });
@@ -156,9 +159,10 @@ export class FamilyService {
         if (nameOnly) {
           data.push(node.name);
         } else {
-          data.push(node.name);
-          data.push(node.pob); data.push(node.pod); data.push(node.por);
-          data.push(node.yob); data.push(node.yod);
+          // create a front name
+          this.pushName(data, node);
+          // data.push(node.pob); data.push(node.pod); data.push(node.por);
+          // data.push(node.yob); data.push(node.yod);
           data.push(this.nodeService.getGeneration(node));
         }
       } else if (json == 'places') {
@@ -194,16 +198,16 @@ export class FamilyService {
 		return await true;
 	}
   
-  private saveJsonChild(family:any, data:any, nodeLevel: any, json:any, nameOnly: any) {
+  private saveJsonChild(family:any, data:any, nodeLevel: number, json:any, nameOnly: any) {
     family.nodes.forEach((node: any) => {
       if (json == 'people') {
         node.level = nodeLevel;
         if (nameOnly) {
           data.push(node.name);
         } else {
-          data.push(node.name);
-          data.push(node.pob); data.push(node.pod); data.push(node.por);
-          data.push(node.yob); data.push(node.yod);
+          this.pushName(data, node);
+          // data.push(node.pob); data.push(node.pod); data.push(node.por);
+          // data.push(node.yob); data.push(node.yod);
           data.push(this.nodeService.getGeneration(node));
         }
       } else if (json == 'places') {
@@ -219,6 +223,15 @@ export class FamilyService {
         this.saveJsonChild(child, data, nodeLevel, json, nameOnly);
       })
     }
+  }
+
+  private pushName(data:any, node: any) {
+    let words = node.name.split(' ');
+    data.push(words[0]);
+    if (words.length > 2) 
+      // add 1st and middle name
+      data.push(words[0] + ' ' + words[1]);
+    data.push(node.name + ' (' + this.nodeService.getGeneration(node) + ')');
   }
 
   private saveFileJson(json) {
@@ -279,8 +292,17 @@ export class FamilyService {
         let msg = [];
         let nodeLevel = +family.info.generation;
         family.nodes.forEach(node => {
-          if (this.isMemorialComing(node.dod)) {
-            msg.push([node.name, ''+nodeLevel, node.dod]);
+          const dayCount = this.isMemorialComing(node.dod);
+          if (dayCount >= 0 && dayCount < 7) {
+          // if (this.isMemorialComing(node.dod)) {
+            let name = node.name + ' (' + this.languageService.getTranslation('GENERATION') +  ' ' + nodeLevel + ')';
+            // msg.push([node.name, ''+nodeLevel, node.dod]);
+            let dod = node.dod;
+            if (dayCount == 0) {
+              name = '<b>' + name + '</b>';
+              dod = '<b>' + dod + '</b>';
+            }
+            msg.push([name, dod, dayCount]);
           }
         })
         if (family['children']) {
@@ -301,8 +323,15 @@ export class FamilyService {
 
   private passAwayFamilyNode(family:any, nodeLevel: any, msg: any) {
     family.nodes.forEach(node => {
-      if (this.isMemorialComing(node.dod)) {
-        msg.push([node.name, nodeLevel, node.dod]);
+      const dayCount = this.isMemorialComing(node.dod);
+      if (dayCount >= 0 && dayCount < 7) {
+        let name = node.name + ' (' + this.languageService.getTranslation('GENERATION') +  ' ' + nodeLevel + ')';
+        let dod = node.dod;
+        if (dayCount == 0) {
+          name = '<b>' + name + '</b>';
+          dod = '<b>' + dod + '</b>';
+        }
+        msg.push([name, dod, dayCount]);
       }
     })
     if (family['children']) {
@@ -315,7 +344,7 @@ export class FamilyService {
 
   private isMemorialComing(dod: any) {
     if (!dod || dod == '')
-      return false;
+      return -1;
     let d = new Date();
     let cal = new CalendarVietnamese()
     cal.fromGregorian(d.getFullYear(), d.getMonth()+1, d.getDate())
@@ -323,71 +352,189 @@ export class FamilyService {
     let todayCount = cdate[2] * 30 + cdate[4];
     let ary = dod.split('/');
     let dodCount = +ary[1] * 30 + +ary[0];
-    return dodCount > todayCount && dodCount < todayCount + 7;
+    return dodCount - todayCount;
+    // return dodCount >= todayCount && dodCount < todayCount + 7;
   }
 
   // --- compareFamilies
 
   public compareFamilies(srcFamily:any, modFamily:any): any[] {
 
-    // console.log('compareFamilies');
-    let src = JSON.stringify(srcFamily, null, 4);
-    let mod = JSON.stringify(modFamily, null, 4);
-    var diff = Diff.diffLines(src, mod, { ignoreWhitespace: true, newlineIsToken: true });
-    // console.log('diff: ', diff);
-
-    let srcLines = src.split('\n');
-    let modLines = mod.split('\n');
+    let modNodes = this.nodeService.getFamilyNodes(modFamily);
+    // add info to srcFamily for level calculation
+    srcFamily.info = modFamily.info;
+    let srcNodes = this.nodeService.getFamilyNodes(srcFamily);
 
     let results = [];
-    diff.forEach((part:any) => {
-        const mode = part.added ? 'ADD' : part.removed ? 'REMOVE' : 'COMMON';
-        // console.log('mode: ', mode);
-        if (mode !== 'COMMON' && part.value.length > 4) {
-          let row = 0;
-          if (part.oldPos) {
-            // get line number
-            row = +part.oldPos + 1;
-          } else if (part.newPos) {
-            row = +part.newPos + 1;
-          }
-          // console.log('mode, row, value: ', mode, row, part.value);
-          let result = {};
-          let lines: any;
-          let old = '';
-          let n = '';
-          if (mode == 'REMOVE') {
-            lines = srcLines;
-            old = part.value;
-          } else if (mode == 'ADD') {
-            // console.log('line: ', modLines[row-1])
-            // results.push({name: mode, item: row, old: '', new: part.value});
-            lines = modLines;
-            n = part.value;
-          }
-          // search backward for name
-          let name = '';
-          for (let i = row - 1; i > row - 6 && i >= 0; i--) {
-            let line = lines[i]
-            if (line.indexOf('"name"') >= 0) {
-              let idx1 = line.indexOf(': "') + 3;
-              let idx2 = line.indexOf('"', idx1);
-              name = line.substring(idx1, idx2);
-              break;
-            }
-          }
-          // console.log('line: ', srcLines[row-1]);
-          if (name != '')
-            results.push({name: name, item: mode, old: old, new: n});
+    // build diff based src and mod nodes
+    let mNodes = {};
+    modNodes.forEach((node:any) => {
+      // let modName = node.name + ' (' + this.nodeService.getGeneration(node) + ')';
+      let name = node.name + '_' + node.level;
+      mNodes[name] = node;
+    })
+    // console.log('compareFamilies - mNodes: ', mNodes);
+
+    let sNodes = {};
+    srcNodes.forEach((node:any) => {
+      // let modName = node.name + ' (' + this.nodeService.getGeneration(node) + ')';
+      let name = node.name + '_' + node.level;
+      sNodes[name] = node;
+    })
+    // console.log('compareFamilies - sNodes: ', sNodes);
+
+    // get new nodes
+    for (var key of Object.keys(mNodes)) {
+      let mNode = mNodes[key]
+      let mName = mNode.name + ' (' + this.nodeService.getGeneration(mNode) + ')';
+      if (!sNodes[key]) {
+        results.push({name: mName, item: this.languageService.getTranslation('ADD'), level: mNode.level });
+      } else {
+        // available in both, now compare data
+        let mStr = this.nodeService.getDetailStr(mNodes[key]);
+        let sStr = this.nodeService.getDetailStr(sNodes[key]);
+        if (mStr != sStr) {
+          let item = this.languageService.getTranslation('MODIFY') + ' - ' + this.nodeService.compareDetail(sStr, mStr);
+          results.push({name: mName, item: item, level: mNode.level});
         }
-    });
-    // console.log('results: ', results);
+      }
+    }
+    // console.log('compareFamilies - results: ', results);
+
+    // get old nodes
+    for (var key of Object.keys(sNodes)) {
+      let sNode = sNodes[key]
+      let sName = sNode.name + ' (' + this.nodeService.getGeneration(sNode) + ')';
+      if (!mNodes[key])
+        results.push({name: sName, item: this.languageService.getTranslation('REMOVE'), level: sNode.level});
+    }
+
+    // now sort by level
+    results.sort((a, b) => {
+      return a.level - b.level;
+    })
+
+    // console.log('compareFamilies - results: ', results);
     return results;
   }
 
+  // public compareFamilies1(srcFamily:any, modFamily:any): any[] {
+
+  //   // console.log('compareFamilies');
+  //   console.log('compareFamilies - srcFamily: ', srcFamily);
+  //   console.log('compareFamilies - modFamily: ', modFamily);
+
+  //   let fSrcFamily = this.getFilterFamily(srcFamily);
+  //   let fModFamily = this.getFilterFamily(modFamily);
+
+  //   let src = JSON.stringify(fSrcFamily, null, 4);
+  //   let mod = JSON.stringify(fModFamily, null, 4);
+  //   var diff = Diff.diffLines(src, mod, { ignoreWhitespace: true, newlineIsToken: true });
+  //   console.log('diff: ', diff);
+    
+  //   let srcLines = src.split('\n');
+  //   let modLines = mod.split('\n');
+  //   let results = [];
+  //   let names = [];
+  //   diff.forEach((part:any) => {
+  //       const mode = part.added ? 'ADD' : (part.removed ? 'REMOVE' : 'COMMON');
+  //       if (mode !== 'COMMON' && part.value.length > 4) {
+  //         // console.log('part: ', part);
+  //         let row = 0;
+  //         if (part.oldPos) {
+  //           // get line number
+  //           row = +part.oldPos + 1;
+  //         } else if (part.newPos) {
+  //           row = +part.newPos + 1;
+  //         }
+  //         // console.log('mode, row, value: ', mode, row, part.value);
+  //         // let result = {};
+  //         let lines: any;
+  //         let old = '';
+  //         let n = '';
+  //         let name: any = '';
+  //         if (mode == 'REMOVE') {
+  //           lines = srcLines;
+  //           old = part.value;
+  //           // search for name on 'old'. Name may be there
+  //           if (old.indexOf('"name"') >= 0) {
+  //             let idx1 = old.indexOf(': "') + 3;
+  //             let idx2 = old.indexOf('"', idx1);
+  //             name = old.substring(idx1, idx2);
+  //           }
+  //         } else if (mode == 'ADD') {
+  //           // console.log('line: ', modLines[row-1])
+  //           lines = modLines;
+  //           n = part.value;
+  //           // console.log('line: ', srcLines[row-1]);
+  //           // search backward for name
+  //           for (let i = row; i > row - 6 && i >= 0; i--) {
+  //             let line = lines[i]
+  //             // console.log('line: ', line)
+  //             if (line.indexOf('"name"') >= 0) {
+  //               let idx1 = line.indexOf(': "') + 3;
+  //               let idx2 = line.indexOf('"', idx1);
+  //               name = line.substring(idx1, idx2);
+  //               break;
+  //             }
+  //           }
+  //         }
+  //         // console.log('name: ', name);
+  //         if (name != '') {
+  //           results.push({name: name, item: mode, status: status, old: old, new: n});
+  //           names.push(name);
+  //         }
+  //       }
+  //   });
+  //   // filter name and check
+  //   let uniqueData = [];
+  //   names.forEach((element) => {
+  //     if (element && element != '' && !uniqueData.includes(element)) {
+  //       uniqueData.push(element);
+  //     }
+  //   });
+  //   uniqueData.sort();
+  //   // if name exist in old and new
+  //   let modNodes = this.nodeService.getFamilyNodes(modFamily);
+  //   // add info to srcFamily for level calculation
+  //   srcFamily.info = modFamily.info;
+  //   let srcNodes = this.nodeService.getFamilyNodes(srcFamily);
+
+  //   results = [];
+  //   uniqueData.forEach((name:any) => {
+  //     // console.log('name: ', name);
+  //     const srcResult = srcNodes.filter((node:any) => node.name == name );
+  //     const modResult = modNodes.filter((node:any) => node.name == name );
+  //     let stat = '';
+  //     let node: any = null;
+  //     if (srcResult.length > 0 && modResult.length > 0) {
+  //       node = modResult[0];
+  //       stat = 'MODIFY';
+  //     } else if (srcResult.length > 0 && modResult.length == 0) {
+  //       node = srcResult[0];
+  //       stat = 'REMOVE';
+  //       console.log('node REMOVE: ', node);
+
+  //     } else if (srcResult.length == 0 && modResult.length > 0) {
+  //       node = modResult[0];
+  //       stat = 'ADD';
+  //     } else {
+  //       node = null;
+  //       stat = 'UNKNOWN';
+  //     }
+  //     let modName = (node) ? (node.name + ' (' + this.nodeService.getGeneration(node) + ')') : '';
+  //     let level = (node) ? node.level : '';
+  //     results.push({name: modName, item: stat, level: level });
+  //   });
+  //   results.sort((a, b) => { return a.level - b.level});
+
+  //   // console.log('results: ', results);
+  //   return results;
+  // }
+
   // --- getFilterFamily
 
-  private getFilterFamily(family) {
+  getFilterFamily(family) {
     let filterFamily:any = {};
     filterFamily.version = family.version;
     // console.log('getFilterFamilyNode - family: ', family);
@@ -501,10 +648,12 @@ export class FamilyService {
   getSelectedFamily(family: any, srcNode: any) {
     let filterFamily:any = {};
     filterFamily.version = family.version;
+    filterFamily.info = family.info;
     let nodes = [];
     // search backward till root
     let node = srcNode;
     while (node) {
+      // node.spanDetail = this.nodeService.getSpanDetailStr(node);
       nodes.push(node);
       node = node.pnode;
     }
@@ -522,7 +671,11 @@ export class FamilyService {
         ffam = fam;
       }
     }
-    // console.log('filterFamily = ', filterFamily);
+    nodes = this.nodeService.getFamilyNodes(filterFamily);
+    console.log('getSelectedFamily - nodes: ', nodes);
+    nodes.forEach((node:any) => {
+      node.spanDetail = this.nodeService.getSpanDetailStr(node);
+    })
     return filterFamily;
   }
 
@@ -546,7 +699,7 @@ export class FamilyService {
       node = this.nodeService.fillNode(node);
       node.id = '' + childIdx + '-' + nodeIdx++;
       node.idlevel = 'level-' + nodeLevel;
-      node.level = '' + nodeLevel;
+      node.level = nodeLevel;
       node.nclass = this.nodeService.updateNclass(node);
       node.pnode = null;
       node.family = family;
@@ -565,13 +718,13 @@ export class FamilyService {
     return family;
   }
 
-  private buildChildNodes(pnode: any, family: any, nodeLevel: any, childIdx) {
+  private buildChildNodes(pnode: any, family: any, nodeLevel: number, childIdx) {
     let nodeIdx = 1;
     family.nodes.forEach(node => {
       node = this.nodeService.fillNode(node);
       node.id = pnode.id + '-' + childIdx + '-' + nodeIdx++;
       node.idlevel = 'level-' + nodeLevel;
-      node.level = '' + nodeLevel;
+      node.level = nodeLevel;
       node.nclass = this.nodeService.updateNclass(node);
       node.pnode = pnode;
       node.family = family;

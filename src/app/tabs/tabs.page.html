@@ -6,7 +6,7 @@
     <!-- <ion-tab-button tab="home"> -->
     <ion-tab-button tab="home" *ngIf="appValid">
       <div class="tab-button-center">
-        <ion-icon src="../../assets/fonts/monitor-dashboard.svg" class="tab-icon-material"></ion-icon>
+        <ion-icon src="{{FONTS_FOLDER}}monitor-dashboard.svg" class="tab-icon-material"></ion-icon>
         <ion-label class="tab-label">&nbsp;{{ 'TAB_HOME' | translate }}</ion-label>
       </div>
     </ion-tab-button>
@@ -14,7 +14,7 @@
     <!-- <ion-tab-button tab="tree"> -->
     <ion-tab-button tab="tree" *ngIf="appValid">
       <div class="tab-button-center">
-        <ion-icon src="../../assets/fonts/family-tree.svg" class="tab-icon-material"></ion-icon>
+        <ion-icon src="{{FONTS_FOLDER}}family-tree.svg" class="tab-icon-material"></ion-icon>
         <ion-label class="tab-label">&nbsp;{{ 'TAB_TREE' | translate }}</ion-label>
       </div>
     </ion-tab-button>
@@ -22,7 +22,7 @@
     <!-- <ion-tab-button tab="arch"> -->
     <ion-tab-button tab="arch" *ngIf="appValid">
       <div class="tab-button-center">
-        <ion-icon src="../../assets/fonts/history.svg" class="tab-icon-material"></ion-icon>
+        <ion-icon src="{{FONTS_FOLDER}}history.svg" class="tab-icon-material"></ion-icon>
         <ion-label class="tab-label">&nbsp;{{ 'TAB_ARCHIVE' | translate }}</ion-label>
       </div>
     </ion-tab-button>
@@ -30,7 +30,7 @@
     <!-- <ion-tab-button tab="info"> -->
     <ion-tab-button tab="info" *ngIf="appValid">
       <div class="tab-button-center">
-        <ion-icon src="../../assets/fonts/toolbox-outline.svg" class="tab-icon-material"></ion-icon>
+        <ion-icon src="{{FONTS_FOLDER}}toolbox-outline.svg" class="tab-icon-material"></ion-icon>
         <ion-label class="tab-label">&nbsp;{{ 'TAB_INFO' | translate }}</ion-label>
       </div>
     </ion-tab-button>

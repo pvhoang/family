@@ -9,6 +9,7 @@ import { NodePage } from '../../tree/node/node.page';
 import { TypeaheadService } from '../../services/typeahead.service';
 import { Family, Node, FAMILY} from '../../services/family.model';
 import { NgSelectComponent } from '@ng-select/ng-select';
+import { FONTS_FOLDER } from '../../../environments/environment';
 
 @Component({
   selector: 'app-editor',
@@ -18,6 +19,7 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 export class EditorPage implements OnInit {
 
   @ViewChild('ngSelectPeople') ngSelectPeople: NgSelectComponent;
+  FONTS_FOLDER = FONTS_FOLDER;
 
   modalDataResponse: any;
   family:Family = Object.create(FAMILY);
@@ -37,6 +39,8 @@ export class EditorPage implements OnInit {
   doubleClicked = false;
   selectedNode: any = null;
   selectedNodeName: any = '';
+  fullView = true;
+  itemView = false;
 
   constructor(
     public modalCtrl: ModalController,
@@ -49,25 +53,22 @@ export class EditorPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('EditorPage - ngOnInit');
-    // this.title = this.languageService.getTranslation('EDITOR_HEADER_TITLE');
-
+    // console.log('EditorPage - ngOnInit');
     this.startFromStorage();
   }
 
   ionViewWillEnter() {
-    console.log('EditorPage - ionViewWillEnter');
+    // console.log('EditorPage - ionViewWillEnter');
     this.startFromStorage();
   }
 	
 	ionViewWillLeave() {
-    console.log('EditorPage - ionViewWillLeave');
+    // console.log('EditorPage - ionViewWillLeave');
 	}
 
   startFromStorage() {
     this.dataService.readFamily().then((family:any) => {
       this.title = family.info.description;
-
       // verify data
       let msg = this.familyService.verifyFamily(family);
       if (msg)
@@ -78,21 +79,22 @@ export class EditorPage implements OnInit {
   }
 
   start(family: any) {
+    this.closeView();
     this.family = this.familyService.buildFullFamily(family);
-    console.log('FamilyService - start -fullFamily: ', this.family);
+    // console.log('FamilyService - start -fullFamily: ', this.family);
 
     this.familyService.savePeopleJson(family, 'people', true).then(status => {
       this.typeahead.getJsonPeople().then((data:any) => {
         this.peopleNodes = data;
+        // console.log('FamilyService - start - peopleNodes: ', this.peopleNodes);
       })
     });
+    this.fullView = true;
+    this.itemView = false;
     this.familyView = this.family;
     this.selectPeoplePlaceholder = this.languageService.getTranslation('EDITOR_SEARCH_PLACEHOLDER');
-    // this.selectPeopleNotFoundText = this.languageService.getTranslation('EDITOR_SEARCH_ITEM_NOT_FOUND');
     this.childNodes = [];
     this.selectPeople = null;
-
-    // reset search
   }
 
   // ------------- ng-select -------------
@@ -100,6 +102,7 @@ export class EditorPage implements OnInit {
   // ------------------------------------- 
 
   clearPeopleNodes() {
+    this.childNodes = [];
     this.selectPeople = null;
   }
 
@@ -108,6 +111,12 @@ export class EditorPage implements OnInit {
     this.startSearch(this.selectPeople.name);
   }
   
+  closeView() {
+    this.fullView = true;
+    this.itemView = false;
+    this.selectPeople = null;
+  }
+
   // --------- END ng-select ----------
 
   startSearch(searchStr) {
@@ -134,6 +143,9 @@ export class EditorPage implements OnInit {
     this.selectedNode = node;
     this.selectedNodeName = node.name;
 
+    this.fullView = false;
+    this.itemView = true;
+
     this.updateChildren();
   }
   
@@ -143,15 +155,12 @@ export class EditorPage implements OnInit {
     let childNodes = [];
     // get spouse and children
     let data:any = this.getChildren(node);
-    console.log('getChildren: ', data);
-    
-    // node.relation = this.languageService.getTranslation('SELF');
+    // console.log('getChildren: ', data);
     node.relation = '';
     node.genderText = this.languageService.getTranslation(node.gender);
+    node.nameText = node.name;
     childNodes.push(node);
-
     if (data.spouses) {
-      // data.spouse.genderText = this.languageService.getTranslation(data.spouse.gender);
       let result = data.spouses.sort((a:any, b:any) => {
         let a1: any = (a.yob == '') ? 2050 : +a.yob;
         let a2: any = (b.yob == '') ? 2050 : +b.yob;
@@ -159,6 +168,7 @@ export class EditorPage implements OnInit {
       });
       result.forEach((spouse:any) => {
         spouse.genderText = this.languageService.getTranslation(spouse.gender);
+        spouse.nameText = spouse.name;
         childNodes.push(spouse);
       })
     }
@@ -172,6 +182,7 @@ export class EditorPage implements OnInit {
       });
       result.forEach((child:any) => {
         child.genderText = this.languageService.getTranslation(child.gender);
+        child.nameText = (child.family && child.family.children) ? ('<b>' +  child.name + '</b>') : child.name;
         childNodes.push(child);
       })
     }
@@ -180,16 +191,14 @@ export class EditorPage implements OnInit {
 
   async onAdd() {
     let inputs = [
-      {type: 'radio', label: this.languageService.getTranslation('CHILD'), value: 'child' },
+      {type: 'radio', label: this.languageService.getTranslation('CHILD'), value: 'child', checked: true },
       {type: 'radio', label: this.languageService.getTranslation('WIFE'), value: 'wife' },
       {type: 'radio', label: this.languageService.getTranslation('HUSBAND'), value: 'husband' }
     ];
     this.utilService.alertRadio('NODE_ALERT_RELATION_HEADER', 'NODE_ALERT_RELATION_MESSAGE', inputs , 'CANCEL', 'OK').then((res) => {
-      // console.log('onAdd - res:' , res)
-      if (res) {
-        // this.familyService.startSourceFamily().then(status => {});
+      console.log('onAdd- res: ', res);
+      if (res.data) {
         let relation = res.data;
-        // let name = this.languageService.getTranslation('NODE_CHILD_PLACEHOLDER');
         let name = 'Phan - nhập tên';
         let gender = (relation == 'child') ? 'male' : ((relation == 'wife') ? 'female' : 'male');
         if (relation == 'child')
@@ -206,22 +215,33 @@ export class EditorPage implements OnInit {
   }
 
   onDelete(node: any) {
-    // if (node.family.nodes[0].name == node.name) {
-      // console.log('NodePage - onDelete - children: ', node.family.children);
-        // this is main Node, check children
+      // this is main Node, check children
       if (node.family.children && node.family.children.length > 0) {
-        let message = this.languageService.getTranslation('EDITOR_ALERT_MESSAGE_DELETE_NODE_HAS_CHILDREN') + '[' + node.name + ']';
-        this.utilService.alertMsg('EDITOR_ALERT_HEADER_DELETE_NODE_HAS_CHILDREN', message);
+        // let message = this.languageService.getTranslation('EDITOR_ALERT_MESSAGE_DELETE_NODE_HAS_CHILDREN') + '[' + node.name + ']';
+        let msg = this.utilService.getAlertMessage([
+          {name: 'msg', label: 'EDITOR_ALERT_MESSAGE_DELETE_NODE_HAS_CHILDREN'},
+          {name: 'data', label: node.name},
+        ]);
+        this.utilService.alertMsg('EDITOR_ALERT_HEADER_DELETE_NODE_HAS_CHILDREN', msg);
         return;
       }
     // }
-    let message = this.languageService.getTranslation('EDITOR_CONFIRM_MESSAGE_DELETE_NODE') + ': ' + node.name;
-    this.utilService.alertConfirm('EDITOR_CONFIRM_HEADER_DELETE_NODE', message, 'CANCEL', 'OK').then((res) => {
+    // let message = this.languageService.getTranslation('EDITOR_CONFIRM_MESSAGE_DELETE_NODE') + ': ' + node.name;
+    let msg = this.utilService.getAlertMessage([
+      {name: 'msg', label: 'EDITOR_CONFIRM_MESSAGE_DELETE_NODE'},
+      {name: 'data', label: node.name},
+    ]);
+
+    this.utilService.alertConfirm('EDITOR_CONFIRM_HEADER_DELETE_NODE', msg, 'CANCEL', 'OK').then((res) => {
       console.log('onDelete - res:' , res)
       if (res.data) {
         this.deleteNode(node);
         this.updateSystemData(node);
-        this.updateChildren();
+        if (node == this.selectedNode)
+          // reset search box
+          this.clearPeopleNodes()
+        else 
+          this.updateChildren();
       }
     });
   }
@@ -303,8 +323,6 @@ export class EditorPage implements OnInit {
         }
       });
       results.spouses = snodes;
-      // node.family.nodes[1].relation = this.languageService.getTranslation('WIFE');
-      // results.spouse = node.family.nodes[1];
     }
     if (node.family.children) {
       // get children
@@ -332,7 +350,6 @@ export class EditorPage implements OnInit {
     newNode.family = newFamily;
     newNode.relation = this.languageService.getTranslation(relation);
     node.family.children.push(newFamily);
-
     this.updateChildren();
   }
 
@@ -357,8 +374,13 @@ export class EditorPage implements OnInit {
     // update data for node
     node.span = this.nodeService.getSpanStr(node);
     // save full family to local memory and json
-    // console.log('TreePage - updateSystemData : save: ', node);
     this.familyService.saveFullFamily(this.family).then(status => {});
+    // update people nodes
+    this.familyService.savePeopleJson(this.family, 'people', true).then(status => {
+      this.typeahead.getJsonPeople().then((data:any) => {
+        this.peopleNodes = data;
+      })
+    });
   }
 
 }

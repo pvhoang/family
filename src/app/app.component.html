@@ -1,3 +1,4 @@
 <ion-app>
+  <splash-screen *ngIf="ancestor != 'admin'" [ancestor]="ancestor"></splash-screen>
   <ion-router-outlet></ion-router-outlet>
 </ion-app>
