@@ -5,22 +5,7 @@
     <ion-item class="app-ion-item">
       <ion-col size="3">
       </ion-col>
-      <!-- <ion-col size="10" class="task-heading"> -->
       <ion-col size="6">
-        <!-- <ng-select #ngSelectPeople
-          [appendTo]="'body'"
-          [items]="people | async" 
-          bindLabel="name"
-          notFoundText="{{selectPeopleNotFoundText}}"
-          placeholder="{{selectPeoplePlaceholder}}"
-          [(ngModel)]="selectPeople"
-          (clear)="clearPeople()"
-          (close)="closePeople()"
-          (keydown)="keydownPeople($event)"
-          (keyup)="keyupPeople($event)"
-          [keyDownFn]="keydownInDropdownPeople"
-        >
-        </ng-select> -->
         <ng-select #ngSelectPeople
           [appendTo]="'body'"
           [items]="newPeople" 
@@ -31,34 +16,13 @@
           (close)="closeNewPeople()"
         >
         </ng-select>
-        
-        <!-- <span class="label">&nbsp;&nbsp;&nbsp;{{ 'TASK_SELECT' | translate }}</span> -->
       </ion-col>
       <ion-col size="3">
       </ion-col>
     </ion-item>
 
     <ion-item class="app-ion-item">
-      <!-- <ion-col size="3" class="task-heading">
-        <ng-select #ngSelectPeople
-          [appendTo]="'body'"
-          [items]="people | async" 
-          bindLabel="name"
-          notFoundText="{{selectPeopleNotFoundText}}"
-          placeholder="{{selectPeoplePlaceholder}}"
-          [(ngModel)]="selectPeople"
-          (clear)="clearPeople()"
-          (close)="closePeople()"
-          (keydown)="keydownPeople($event)"
-          (keyup)="keyupPeople($event)"
-          [keyDownFn]="keydownInDropdownPeople"
-        >
-        </ng-select>
-        <span class="label">&nbsp;{{ 'TASK_SELECT' | translate }}</span>
-      </ion-col> -->
-
       <ion-col size="4" class="task-heading" *ngIf="treeClass == 'vertical-tree'" (click)="onChangeTree()">
-      <!-- <ion-col size="2" *ngIf="treeClass == 'vertical-tree'"> -->
         <ion-button *ngIf="treeClass == 'vertical-tree'" class="app-ion-button" title="{{ 'TREE_HEADER_TOOLTIP_SELECT_HORIZONTAL' | translate }}" fill="clear">
           <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}arrow-split-horizontal.svg" class="app-ion-icon-material"></ion-icon>
         </ion-button>
@@ -71,20 +35,6 @@
         </ion-button>
         <span class="label">{{ 'TASK_VERTICAL' | translate }}</span>
       </ion-col>
-
-      <!-- <ion-col size="2" class="task-heading" (click)="onZoom(1)">
-        <ion-button class="app-ion-button" title="{{ 'TREE_HEADER_TOOLTIP_ZOOM_OUT' | translate }}" fill="clear" [disabled]="scaleStyle == 11">
-          <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-plus-outline.svg" class="app-ion-icon-material"></ion-icon>
-        </ion-button>
-        <span class="label">{{ 'TASK_ZOOM_OUT' | translate }}</span>
-      </ion-col> -->
-
-      <!-- <ion-col size="2" class="task-heading" (click)="onZoom(-1)">
-        <ion-button class="app-ion-button" title="{{ 'TREE_HEADER_TOOLTIP_ZOOM_IN' | translate }}" fill="clear" [disabled]="scaleStyle == 7">
-          <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-minus-outline.svg" class="app-ion-icon-material"></ion-icon>
-        </ion-button>
-        <span class="label">{{ 'TASK_ZOOM_IN' | translate }}</span>
-      </ion-col> -->
 
       <ion-col size="4" class="task-heading" (click)="onHome()">
         <ion-button class="app-ion-button" title="{{ 'TREE_HEADER_TOOLTIP_HOME' | translate }}" fill="clear">
@@ -120,48 +70,14 @@
     <ion-item class="app-ion-item">
       <ion-col size="4">
       </ion-col>
-      <!-- <ion-col size="10" class="ion-text-center"> -->
       <ion-col size="4">
-        <!-- <ion-title class="ion-text-center ion-text-wrap app-ion-title"><i>{{ searchPercent }}</i></ion-title> -->
-        <!-- <ion-title class="ion-text-center ion-text-wrap app-ion-title-select">{{ searchPercent }}</ion-title> -->
-        <!-- <ion-label class="ion-text-center ion-text-wrap app-ion-label-header"><b>{{searchPercent}}</b></ion-label> -->
-      <!-- <ion-item class="home-guide-tab-symbol-test-3 ion-text-center"> -->
-          <ion-label class="app-ion-label-title-select ion-text-center">{{searchPercent}}</ion-label>
-      <!-- </ion-item> -->
-          <!-- <div class="app-title-span-select">
-            <span>Phả nhập</span>
-          </div> -->
-          <!-- <div class="home-guide-tab-symbol-test">
-              <div class="tab">
-                <!-- <ion-icon src="{{FONTS_FOLDER}}monitor-dashboard.svg" class="icon"></ion-icon> -->
-                <!-- <ion-label class="label ion-text-center ion-text-wrap">{{searchPercent}}</ion-label>
-              </div> -->
-
+        <ion-label class="app-ion-label-title-select ion-text-center">{{searchPercent}}</ion-label>
       </ion-col>
-      <!-- <ion-col size="10" class="task-heading">
-        <span class="label">{{searchPercent}}</span>
-        <ion-label><b>{{searchPercent}}</b></ion-label>
-      </ion-col> -->
-      <!-- <ion-title class="ion-text-center ion-text-wrap app-ion-title">{{ searchPercent }}</ion-title> -->
-      <!-- <ion-col size="10" class="task-heading">
-        <ion-item>
-          <ion-label><b>{{searchPercent}}</b></ion-label>
-        </ion-item>
-      </ion-col> -->
       <ion-col size="4">
       </ion-col>
     </ion-item>
 
     <ion-item class="app-ion-item">
-      <!-- <ion-col size="3">
-        <ion-title class="ion-text-center app-ion-title-small">{{ title }}</ion-title>
-      </ion-col> -->
-      <!-- <ion-col size="2" class="task-heading">
-        <ion-item>
-          <ion-label><b>{{searchPercent}}</b></ion-label>
-        </ion-item>
-      </ion-col> -->
-      
       <ion-col size="2" class="task-heading" (click)="nextSearch()">
         <ion-button [disabled]="searchDisabled" class="app-ion-button" title="{{ 'TREE_SELECT_NEXT_NODE' | translate }}" fill="clear">
           <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}page-next-outline.svg" class="app-ion-icon-material"></ion-icon>
@@ -252,7 +168,6 @@
         </ion-col>
         <ion-col size="4">
           <ion-label class="app-ion-label-title-node ion-text-center">{{selectedNodeName}}</ion-label>
-          <!-- <ion-title class="ion-text-center ion-text-wrap app-ion-title">{{ selectedNodeName }}</ion-title> -->
         </ion-col>
         <ion-col size="4">
         </ion-col>

@@ -40,33 +40,6 @@
       </ion-col>
     </ion-item>
   </div>
-
-  <!-- <ion-item class="app-ion-item">
-      <ion-col size="3">
-      </ion-col>
-      <ion-col size="6">
-        <ng-select #ngSelectPeople
-          [appendTo]="'body'"
-          [items]="peopleNodes" 
-          bindLabel="name"
-          placeholder="{{selectPeoplePlaceholder}}"
-          [(ngModel)]="selectPeople"
-          (clear)="clearPeopleNodes()"
-          (close)="closePeopleNodes()"
-        >
-        </ng-select>
-      </ion-col>
-      <ion-col size="4" class="task-heading" *ngIf="selectPeople">
-        <span class="label">&nbsp;&nbsp;{{ selectedNodeName }}</span>
-      </ion-col>
-      <ion-col size="4" class="task-heading" (click)="onAdd()" *ngIf="selectPeople">
-        <ion-button class="app-ion-button" title="{{ 'EDITOR_HEADER_TOOLTIP_ADD' | translate }}" fill="clear" (click)="onAdd()">
-          <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}account-plus-outline.svg" class="app-ion-icon-material"></ion-icon>
-        </ion-button>
-        <span class="label">&nbsp;&nbsp;{{ 'ADD' | translate }}</span>
-      </ion-col>
-  </ion-item> -->
-
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
@@ -109,7 +82,6 @@
     </ion-row>
     <ion-row *ngFor="let node of childNodes">
       <ion-col size="1"> {{ node.relation }} </ion-col>
-      <!-- <ion-col size="2" [innerHtml]="node.nameText"> {{ node.nameText }} </ion-col> -->
       <ion-col size="2" [innerHtml]="node.nameText"></ion-col>
       <ion-col size="1"> {{ node.genderText }} </ion-col>
       <ion-col size="1"> {{ node.yob }} - {{ node.yod }} </ion-col>
