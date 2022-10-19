@@ -6,6 +6,7 @@ import { DataService } from '../services/data.service';
 import { UtilService } from '../services/util.service';
 import { FirebaseService } from '../services/firebase.service';
 import { environment, FONTS_FOLDER, DEBUG_HOME } from '../../environments/environment';
+import { HilitePage } from '../hilite/hilite.page';
 
 const ORANGE = '#fee8b9';
 const BLUE_PRIMARY = '#063970';
@@ -74,6 +75,34 @@ export class HomePage implements OnInit {
     }
     this.introMode = false;
     this.guideMode = false;
+  }
+
+  onHilite() {
+
+    let inputs = [
+      {type: 'radio', label: this.languageService.getTranslation('HILITE_VIEW_MEMORIAL'), value: '1', checked: true, 
+        handler: (input: any) => {
+          // console.log('handler: ', input.value);
+          this.onMemorial();
+        }
+      },
+      {type: 'radio', label: this.languageService.getTranslation('HILITE_CHANGE_DATE'), value: '2',
+        handler: (input: any) => {
+          this.openHiliteModal();
+        }
+      },
+    ];
+    this.utilService.alertRadio('HILITE_HEADER', 'HILITE_MESSAGE', inputs , 'CANCEL', 'OK').then((res) => {
+      console.log('viewOptions - res:' , res)
+      if (res.data) {
+        let option = res.data;
+        console.log('onAdd - option:' , option)
+        if (option == '1')
+          this.onMemorial();
+        else if (option == '2')
+          this.openHiliteModal();
+      }
+    });
   }
 
   onMemorial() {
@@ -154,5 +183,36 @@ export class HomePage implements OnInit {
       root.style.setProperty('--app-background-color', RED);
       root.style.setProperty('--ion-color-medium', RED);
     }
+  }
+
+  async openHiliteModal() {
+    // console.log('openNodeModal - node : ', node);
+    const modal = await this.modalCtrl.create({
+      component: HilitePage,
+      componentProps: {
+        'caller': 'home',
+      }
+    });
+
+    modal.onDidDismiss().then((resp) => {
+      // console.log('onDidDismiss : ', resp);
+      let status = resp.data.status;
+      if (status == 'cancel') {
+        // do nothing
+      } else if (status == 'save') {
+        // update node from values
+        // let values = resp.data.values;
+        // console.log('Editor - values : ', values);
+        // console.log('Editor - node : ', node);
+        // let change = this.nodeService.updateNode(node, values);
+        // if (change) {
+        //   // there is change
+        //   // console.log('TreePage - onDidDismiss : change');
+        //   this.updateSystemData(node);
+        //   this.updateChildren();
+        // }
+      }
+    });
+    return await modal.present();
   }
 }

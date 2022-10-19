@@ -106,7 +106,13 @@ export class UtilService {
 			cssClass: css,
 			buttons: ['OK']
 		});
-		alert.present();
+		// alert.present();
+		await alert.present();
+		let choice:any;
+    await alert.onDidDismiss().then((data) => {
+			choice = data;
+    })
+    return choice;
 	}
 
 	async alertConfirm(srcHeader, srcMessage, cancelText, okText, css?) {
@@ -365,6 +371,22 @@ export class UtilService {
 			months.push({name: month});
 		}
 		return months;
+	}
+
+	public getCareers() {
+		let careers = [
+			{ name: 'Công chức' },
+			{ name: 'Công nhân' },
+			{ name: 'Giáo chức' },
+			{ name: 'Học sinh' },
+			{ name: 'Nội trợ' },
+			{ name: 'Nông dân' },
+			{ name: 'Quân nhân' },
+			{ name: 'Sinh viên' },
+			{ name: 'Thương gia' },
+			{ name: 'Tư chức' },
+		];
+		return careers;
 	}
 
 	public stripVN(str) {

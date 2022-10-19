@@ -1,18 +1,24 @@
 <ion-header>
   <ion-item class="app-ion-item">
-    <ion-col size="4" class="task-heading" (click)="onMemorial()">
+    <ion-col size="3" class="task-heading" (click)="onHilite()">
+      <ion-button class="app-ion-button" title="{{ 'HOME_HEADER_TOOLTIP_MEMORIAL' | translate }}" fill="clear">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}image-filter-center-focus.svg" class="app-ion-icon-material"></ion-icon>
+      </ion-button>
+      <span class="label">{{ 'TASK_HILITE' | translate }}</span>
+    </ion-col>
+    <ion-col size="3" class="task-heading" (click)="onMemorial()">
       <ion-button class="app-ion-button" title="{{ 'HOME_HEADER_TOOLTIP_MEMORIAL' | translate }}" fill="clear" (click)="onMemorial()">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}death-star.svg" class="app-ion-icon-material"></ion-icon>
       </ion-button>
       <span class="label">{{ 'TASK_MEMORIAL' | translate }}</span>
     </ion-col>
-    <ion-col size="4" class="task-heading"(click)="onLanguage()">
+    <ion-col size="3" class="task-heading"(click)="onLanguage()">
       <ion-button class="app-ion-button" title="{{ 'HOME_HEADER_TOOLTIP_LANGUAGE' | translate }}" fill="clear" (click)="onLanguage()">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}flag-variant-outline.svg" class="app-ion-icon-material"></ion-icon>
       </ion-button>
       <span class="label">{{ 'TASK_LANGUAGE' | translate }}</span>
     </ion-col>
-    <ion-col size="4" class="task-heading" (click)="onStyle()">
+    <ion-col size="3" class="task-heading" (click)="onStyle()">
         <ion-button class="app-ion-button" title="{{ 'HOME_HEADER_TOOLTIP_THEME' | translate }}" fill="clear" (click)="onStyle()">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}palette.svg" class="app-ion-icon-material"></ion-icon>
       </ion-button>

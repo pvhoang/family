@@ -35,7 +35,11 @@ const routes: Routes = [
   {
     path: 'admin/:mode',
     loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
-  }
+  },
+  // {
+  //   path: 'hilite',
+  //   loadChildren: () => import('./hilite/hilite.module').then( m => m.HilitePageModule)
+  // }
 ];
 @NgModule({
   imports: [
