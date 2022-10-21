@@ -219,6 +219,7 @@ export class HilitePage implements OnInit {
       this.values.dod_day = null;
     else if (type == 'dod_month')
       this.values.dod_month = null;
+      this.updateNode(type);
   }
 
   closeYear(type) {
@@ -232,6 +233,7 @@ export class HilitePage implements OnInit {
       this.values.por = null;
     else if (type == 'desc')
       this.values.desc = null;
+    this.updateNode(type);
   }
 
   closePlace(type) {
@@ -242,6 +244,7 @@ export class HilitePage implements OnInit {
     // let node = this.selectedNode;
     if (type == 'career')
       this.values.desc = this.values.career.name;
+    // console.log('HilitePage - type, values: ', type, this.values);
     let change = this.nodeService.updateNode(this.selectedNode, this.values);
     if (change) {
       // there is change
