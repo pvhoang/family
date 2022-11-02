@@ -17,7 +17,7 @@ export class NodeService {
   // --- getFamilyNodes
 
   getFamilyNodes(family: any) {
-    let nodeLevel = +family.info.generation;
+    let nodeLevel = +family.info.data.generation;
     let nodes = [];
     family.nodes.forEach((node: any) => {
       node.level = nodeLevel;

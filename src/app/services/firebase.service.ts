@@ -177,7 +177,7 @@ export class FirebaseService {
 			const storageRef = ref(this.storage, storageFolder + '/' + storageId);
 			deleteObject(storageRef)
 			.then(() => {
-				console.log("File deleted successfully");
+				// console.log("File deleted successfully");
 				resolve(true);
 			})
 			.catch((error) => {
@@ -191,9 +191,9 @@ export class FirebaseService {
 		return new Promise((resolve) => {
 			const storageRef = ref(this.storage, storageFolder + '/' + storageId);
 			uploadString(storageRef, text).then((snapshot) => {
-				console.log('addText - snapshot: ', snapshot);
+				// console.log('addText - snapshot: ', snapshot);
 				getDownloadURL(snapshot.ref).then(url => {
-					console.log('addText - url: ', url);
+					// console.log('addText - url: ', url);
 					resolve(url);
 				});
 			})
@@ -213,7 +213,6 @@ export class FirebaseService {
 				// Insert url into an <img> tag to "download"
 				// const img = document.getElementById(imageId);
 				// img.setAttribute('src', url);
-				console.log('url: ', url);
 				resolve(url);
 			})
 			.catch((error) => {

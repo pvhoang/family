@@ -105,10 +105,10 @@ export class TreePage implements OnInit {
       if (DEBUG_TREE)
         console.log('TreePage - startFromStorage - family: ', family);
       let msg = this.familyService.verifyFamily(family);
-      if (msg)
-        this.utilService.alertMsg('WARNING', msg);
       if (DEBUG_TREE)
         console.log('TreePage - startFromStorage - msg: ', msg);
+      if (msg)
+        this.utilService.alertMsg('WARNING', msg);
       this.start(family);
     });
   }

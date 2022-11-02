@@ -4,7 +4,7 @@ import { DataService } from '../services/data.service';
 import { NodeService } from '../services/node.service';
 import { LanguageService } from '../services/language.service';
 import { FirebaseService } from '../services/firebase.service';
-// import { environment } from '../../environments/environment';
+import { DEBUG_FAMILY_SERVICE } from '../../environments/environment';
 
 import { CalendarVietnamese } from 'date-chinese';
 import { Family, Node, NODE } from './family.model';
@@ -152,7 +152,7 @@ export class FamilyService {
 
   public async savePeopleJson(family:any, json, nameOnly?: any) {
     let data = [];
-    let nodeLevel = +family.info.generation;
+    let nodeLevel = +family.info.data.generation;
     family.nodes.forEach((node: any) => {
       if (json == 'people') {
         node.level = nodeLevel;
@@ -249,7 +249,11 @@ export class FamilyService {
 
   verifyFamily(family: any) {
     let msg = [];
-    let family_name = this.utilService.stripVN(family.info.family_name);
+    let family_name = this.utilService.stripVN(family.info.data.family_name);
+
+    if (DEBUG_FAMILY_SERVICE)
+      console.log('FamilyService - verifyFamily - family: ', family);
+
     let name = family.nodes[0].name;
     let keys = this.utilService.stripVN(name).split(' ');
     // console.log('family root, name, keys: ', family, name, keys);
@@ -264,7 +268,9 @@ export class FamilyService {
         this.verifyFamilyNode(family_name, child, msg);
       })
     }
-    // console.log('msg: ', msg);
+    if (DEBUG_FAMILY_SERVICE)
+      console.log('FamilyService - verifyFamily - msg: ', msg);
+
     return msg.length == 0 ? null : msg.join('\n');
   }
 
@@ -290,7 +296,7 @@ export class FamilyService {
     return new Promise((resolve) => {
       this.dataService.readFamily().then((family:any) => {
         let msg = [];
-        let nodeLevel = +family.info.generation;
+        let nodeLevel = +family.info.data.generation;
         family.nodes.forEach(node => {
           const dayCount = this.isMemorialComing(node.dod);
           if (dayCount >= 0 && dayCount < 7) {
@@ -691,7 +697,7 @@ export class FamilyService {
 
   buildFullFamily(family: any): Family {
     // start at root
-    let nodeLevel = +family.info.generation;
+    let nodeLevel = +family.info.data.generation;
     let childIdx = 1;
     let nodeIdx = 1;
 

@@ -21,14 +21,16 @@ export const FONTS_FOLDER = '../../assets/fonts/';
 
 export const DEBUG = false;
 export const DEBUG_TABS = false;
+export const DEBUG_SPLASH = false;
 export const DEBUG_HOME = false;
-export const DEBUG_HILITE = true;
-export const DEBUG_TREE = false;
+export const DEBUG_HILITE = false;
+export const DEBUG_TREE = true;
 export const DEBUG_NODE = false;
 export const DEBUG_ARCHIVE = false;
 export const DEBUG_CONTACT = false;
 export const DEBUG_EDITOR = false;
 export const DEBUG_FILE = false;
+export const DEBUG_FAMILY_SERVICE = true;
 
 /*
  * For easier debugging in development mode, you can import the following file

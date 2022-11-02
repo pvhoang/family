@@ -282,8 +282,7 @@ https://betterprogramming.pub/how-to-send-emails-from-firebase-with-the-trigger-
 
 . open GitHub.com
 . create an empty res: 'pvhoang/family'
-. rename /family to /family-1
-. create an empty res: 'pvhoang/family'
+. rename c:\dev\family to c:\dev\family-1
 . create a local folder: c:\dev\family
 . cd /dev/family
 . copy README.md from another project.

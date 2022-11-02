@@ -48,7 +48,10 @@ export class HomePage implements OnInit {
       console.log('HomePage - ngOnInit');
     this.familyService.startFamily().then(status => {
       this.dataService.readFamily().then((family:any) => {
-        console.log('HomePage - ngOnInit - family: ', family);
+        if (DEBUG_HOME)
+          console.log('HomePage - ngOnInit - family: ', family);
+          // console.log('HomePage - ngOnInit - family: ', JSON.stringify(family, null, 4));
+
         this.title = family.info.description;
         this.ancestor = family.info.id;
         this.start();
