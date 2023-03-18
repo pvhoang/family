@@ -4,6 +4,7 @@
   "description": "Read Excel File",
   "main": "uniform.js",
   "dependencies": {
+    "exif": "^0.6.0",
     "firebase": "^8.10.1",
     "nodeplotlib": "^1.0.0",
     "reflect-metadata": "^0.1.13",
