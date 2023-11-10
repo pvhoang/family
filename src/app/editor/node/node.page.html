@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-item class="header-top">
+    <ion-col size="1">
+    </ion-col>
+    <ion-col size="10">
+      <ng-select
+        [appendTo]="'body'"
+        [items]="peopleNodes" 
+        placeholder="{{selectPeoplePlaceholder}}"
+        [(ngModel)]="selectPeople"
+        (close)="closePeopleNodes()"
+        (clear)="clearPeopleNodes()"
+        (keyup)="keyupPeopleNodes($event)"
+      >
+      </ng-select>
+    </ion-col>
+    <ion-col size="1">
+    </ion-col>
+  </ion-item>
+
+  <ion-item class="header-bottom">
+    <ion-col size="6" class="heading">
+      <!-- <span class="label">{{ nodeItemMessage }}</span> -->
+      <span class="label" [innerHtml]="nodeItemMessage"></span>
+    </ion-col>
+    <ion-col size="6" class="heading" id="info-popover">
+      <ion-button class="button" fill="clear" title="{{ nodeItemPlaceholder }}" >
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}cog-outline.svg" class="icon"></ion-icon>
+      </ion-button>
+      <span class="label">{{ 'MISSING' | translate }}</span>
+      <ion-popover 
+        trigger="info-popover" triggerAction="click" 
+        [dismissOnSelect]="true" side="right" alignment="start" size="auto">
+        <ng-template>
+          <ion-content class="ion-padding ng-select-popover">
+            <ion-item *ngFor="let item of nodeItems" (click)="onNodeInfoPopover(item)">
+              <ion-button class="button" fill="clear">{{item.name}}</ion-button>
+            </ion-item>
+          </ion-content>
+        </ng-template>
+      </ion-popover>
+    </ion-col>
+  </ion-item>
+
+</ion-header>
+
+<ion-content [fullscreen]="false" class="ion-padding">
+  <div class="screen-node" id="full-tree">
+    <div [ngStyle]="getZoomStyle()">
+      <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
+    </div>
+  </div>
+
+</ion-content>

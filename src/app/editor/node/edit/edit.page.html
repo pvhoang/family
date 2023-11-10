@@ -1,0 +1,271 @@
+<ion-header>
+ 
+  <ion-item class="header-top">
+    <ion-col size="12" class="heading">
+      <span class="label">{{ title }}</span>
+    </ion-col>
+  </ion-item>
+
+  <ion-item class="header-bottom">
+    <ion-col size="6" class="heading" (click)="onCancel()">
+      <ion-button class="button" fill="clear" (click)="onCancel()">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
+      </ion-button>
+      <span class="label">{{ 'CANCEL' | translate }}</span>
+    </ion-col>
+    <ion-col size="6" class="heading" (click)="onSave()">
+      <ion-button class="button" fill="clear" (click)="onSave()">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}content-save-outline.svg" class="icon"></ion-icon>
+      </ion-button>
+      <span class="label">{{ 'SAVE' | translate }}</span>
+    </ion-col>
+  </ion-item>
+
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  
+  <div class="screen-node editor">
+
+    <ion-card-header class="section">
+      <span class="span">&nbsp;{{ 'NODE_PHOTO' | translate }}</span>
+    </ion-card-header>
+    <br>
+
+    <ion-item>
+      <ion-col size="4" class="center">
+        <div class="hilite_button span" (click)="getPicture('camera')">
+          <ion-button class="button" fill="clear">
+            <ion-icon name="camera" slot="icon-only" src="{{FONTS_FOLDER}}select-multiple.svg" class="icon"></ion-icon>
+          </ion-button>
+          <span class="label">{{ 'SELECT' | translate }}</span>
+        </div>
+      </ion-col>
+
+      <ion-col size="4" *ngIf="photoBase64 != ''" class="center">
+        <div class="hilite_button span" (click)="editPhoto()">
+          <ion-button class="button" fill="clear">
+            <ion-icon name="camera" slot="icon-only" src="{{FONTS_FOLDER}}file-document-edit-outline.svg" class="icon"></ion-icon>
+          </ion-button>
+          <span class="label">{{ 'MODIFY' | translate }}</span>
+        </div>
+      </ion-col>
+
+      <ion-col size="4" *ngIf="photoBase64 != ''" class="center">
+        <div class="hilite_button span" (click)="deletePhoto()">
+          <ion-button class="button" fill="clear">
+            <ion-icon name="camera" slot="icon-only" src="{{FONTS_FOLDER}}delete-outline.svg" class="icon"></ion-icon>
+          </ion-button>
+          <span class="label">{{ 'DELETE' | translate }}</span>
+        </div>
+      </ion-col>
+    
+    </ion-item>
+    
+    <ion-card *ngIf="photoBase64 != ''">
+      <ion-card-content >
+        <div class="imageContainer center">  
+          <img class="image" [src]="photoBase64">
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <br>
+
+    <ion-card-header class="section span">
+      <span class="span">&nbsp;{{ 'EDIT_GROUP_BASIC' | translate }}</span>
+    </ion-card-header>
+    
+    <br>
+    <ion-label class="label">{{ 'NODE_NAME' | translate }}</ion-label>
+    <!-- placeholder="{{selectNamesPlaceholder}}" -->
+    <ion-input clearInput
+      class="input"
+      [(ngModel)]="values.name"
+      (keyup)="keyupItem($event, 'name')"
+      trigger="click-trigger"
+      title="{{ 'EDIT_NAME_TOOLTIP' | translate }}"
+      >
+    </ion-input>
+
+    <ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
+      <ng-template>
+        <ion-content class="ion-padding ng-select-popover">
+          <ion-item *ngFor="let name of searchNames" (click)="onName(name)">
+            <ion-button class="button" fill="clear">{{name}}</ion-button>
+          </ion-item>
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+
+    <ion-row>
+      <!-- placeholder="{{selectGenderPlaceholder}}" -->
+      <ion-col size="6">
+        <ion-label class="label">{{ 'NODE_GENDER' | translate }}</ion-label>
+        <div class="select">
+          <ng-select 
+            class="selectGender"
+            [items]="genders" 
+            bindLabel="name"
+            bindValue="id"
+            [(ngModel)]="values.gender"
+            title="{{ 'EDIT_GENDER_TOOLTIP' | translate }}"
+          >
+          </ng-select>
+        </div>
+      </ion-col>
+      <!-- placeholder="{{ 'EDIT_NICK_PLACEHOLDER' | translate }}" -->
+      <ion-col size="6">
+        <ion-label class="label">{{ 'NODE_NICK' | translate }}</ion-label>
+        <ion-input clearInput class="input" 
+          type="text" 
+          [(ngModel)]="values.nick" 
+          title="{{ 'EDIT_NICK_TOOLTIP' | translate }}"
+        ></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <!-- placeholder="{{selectYearsPlaceholder}}" -->
+      <ion-col size="6">
+        <ion-label class="label">{{ 'NODE_YOB' | translate }}</ion-label>
+        <div class="select">
+          <ng-select 
+            [items]="yobYears" 
+            placeholder=""
+            [(ngModel)]="values.yob"
+            (clear)="clearItem('yob')"
+            title="{{ 'EDIT_YOB_TOOLTIP' | translate }}"
+          >
+          </ng-select>
+        </div>
+      </ion-col>
+      <!-- placeholder="{{selectPlacesPlaceholder}}" -->
+      <ion-col size="6">
+        <ion-label class="label">{{ 'NODE_POB' | translate }}</ion-label>
+        <div class="select-input" >
+          <ng-select #ngSelectPOB
+            [items]="locations" 
+            [(ngModel)]="values.pob"
+            (clear)="clearItem('pob')"
+            (keyup)="keyupItem($event, 'pob')"
+            placeholder=""
+            title="{{ 'EDIT_POB_TOOLTIP' | translate }}"
+          >
+          </ng-select>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <!-- placeholder="{{selectJobsPlaceholder}}" -->
+      <ion-col size="6">
+        <ion-label class="label">{{ 'NODE_JOB' | translate }}</ion-label>
+        <div class="select-input">
+          <ng-select #ngSelectJOB 
+            [items]="jobs" 
+            [(ngModel)]="values.job"
+            (clear)="clearItem('job')"
+            (keyup)="keyupItem($event, 'job')"
+            title="{{ 'EDIT_JOB_TOOLTIP' | translate }}"
+          >
+          </ng-select>
+        </div>
+      </ion-col>
+      <!-- placeholder="{{selectPlacesPlaceholder}}" -->
+      <ion-col size="6">
+        <ion-label class="label">{{ 'NODE_POR' | translate }}</ion-label>
+        <div class="select-input">
+          <ng-select  #ngSelectPOR 
+            [items]="locations" 
+            [(ngModel)]="values.por"
+            (clear)="clearItem('por')"
+            (keyup)="keyupItem($event, 'por')"
+            title="{{ 'EDIT_POR_TOOLTIP' | translate }}"
+          >
+          </ng-select>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <!-- placeholder="{{selectYearsPlaceholder}}" -->
+      <ion-col size="6">
+        <ion-label class="label">{{ 'NODE_YOD' | translate }}</ion-label>
+        <div class="select">
+          <ng-select 
+            [items]="yobYears" 
+            [(ngModel)]="values.yod"
+            (clear)="clearYOD()"
+            (close)="closeYOD()"
+            title="{{ 'EDIT_YOD_TOOLTIP' | translate }}"
+          >
+          </ng-select>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <div *ngIf="passAway">
+          <!-- placeholder="{{selectPlacesPlaceholder}}" -->
+          <ion-label class="label">{{ 'NODE_POD' | translate }}</ion-label>
+          <div class="select-input">
+            <ng-select  #ngSelectPOD 
+              [items]="locations" 
+              [(ngModel)]="values.pod"
+              (clear)="clearItem('pod')"
+              (keyup)="keyupItem($event, 'pod')"
+              title="{{ 'EDIT_POD_TOOLTIP' | translate }}"
+            >
+            </ng-select>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    
+    <div *ngIf="passAway">
+      <ion-label class="label">{{ 'NODE_DOD' | translate }}</ion-label>
+      <div class="select">
+      <ion-row>
+        <!-- placeholder="{{selectDaysPlaceholder}}" -->
+        <ion-col size="6">
+          <ng-select 
+            [items]="days" 
+            [(ngModel)]="values.dod_day"
+            (clear)="clearItem('dod_day')"
+            title="{{ 'EDIT_DOD_TOOLTIP' | translate }}"
+          >
+          </ng-select>
+        </ion-col>
+        <!-- placeholder="{{selectMonthsPlaceholder}}" -->
+        <ion-col size="6">
+          <ng-select 
+            [items]="months" 
+            [(ngModel)]="values.dod_month"
+            (clear)="clearItem('dod_month')"
+          >
+          </ng-select>
+        </ion-col>
+      </ion-row>
+      </div>
+    </div>
+    <br>
+
+    <ion-card-header class="section">
+      <span class="span">&nbsp;{{ 'EDIT_GROUP_OTHER' | translate }}</span>
+    </ion-card-header>
+    <br>
+
+    <ion-label class="label">{{ 'NODE_DESC' | translate }}</ion-label>
+    <!-- placeholder="{{ 'EDIT_DESC_PLACEHOLDER' | translate }}"> -->
+    <ion-textarea clearInput class="textarea" 
+      type="text" 
+      rows="10" 
+      autosize 
+      [(ngModel)]="values.desc"
+      title="{{ 'EDIT_DESC_TOOLTIP' | translate }}"
+    >
+    </ion-textarea>
+    <br>
+
+  </div>
+
+</ion-content>

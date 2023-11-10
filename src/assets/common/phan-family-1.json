@@ -1,0 +1,3167 @@
+{
+	"version": 10,
+	"nodes": [
+		{
+			"name": "Phan Lợi Hành",
+			"nick": "Phan Văn Tự",
+			"gender": "male",
+			"yob": "1829",
+			"yod": "1876",
+			"pob": "Quảng Bình",
+			"pod": "Quảng Bình",
+			"por": "",
+			"job": "",
+			"desc": "Làm quan\n",
+			"photo": "",
+			"dod": "29/10",
+			"level": 1,
+			"id": "1-1",
+			"idlevel": "1-1"
+		},
+		{
+			"name": "Trần Thị Khương",
+			"nick": "",
+			"gender": "female",
+			"yob": "",
+			"yod": "1839",
+			"pob": "Quảng Bình",
+			"pod": "Quảng Bình",
+			"por": "",
+			"job": "",
+			"desc": "Nội trợ",
+			"photo": "",
+			"dod": "27/02",
+			"level": 1,
+			"id": "1-2",
+			"idlevel": "1-1"
+		}
+	],
+	"children": [
+		{
+			"nodes": [
+				{
+					"name": "Phan Khắc Tuần",
+					"nick": "",
+					"gender": "male",
+					"yob": "1898",
+					"yod": "",
+					"pob": "",
+					"pod": "",
+					"por": "",
+					"job": "",
+					"desc": "",
+					"photo": "",
+					"dod": "",
+					"level": 2,
+					"id": "1-1",
+					"idlevel": "2-1"
+				}
+			],
+			"children": [
+				{
+					"nodes": [
+						{
+							"name": "Phan Me",
+							"nick": "",
+							"gender": "male",
+							"yob": "",
+							"yod": "",
+							"pob": "",
+							"pod": "",
+							"por": "",
+							"job": "",
+							"desc": "",
+							"photo": "",
+							"dod": "",
+							"level": 3,
+							"id": "1-1",
+							"idlevel": "3-1"
+						}
+					],
+					"children": [
+						{
+							"nodes": [
+								{
+									"name": "Phan Bình An",
+									"nick": "",
+									"gender": "male",
+									"yob": "1904",
+									"yod": "1905",
+									"pob": "Cao Bằng",
+									"pod": "Tp Hồ Chí Minh",
+									"por": "Tp Hồ Chí Minh",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "06/07",
+									"level": 4,
+									"id": "1-1",
+									"idlevel": "4-1"
+								},
+								{
+									"name": "Phan Thị Tên",
+									"nick": "",
+									"gender": "female",
+									"yob": "1901",
+									"yod": "1904",
+									"pob": "Điện Biên",
+									"pod": "Canada",
+									"por": "Japan",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "02/06",
+									"level": 4,
+									"id": "1-2",
+									"idlevel": "4-1"
+								}
+							],
+							"children": [
+								{
+									"nodes": [
+										{
+											"name": "Phan Ngọc Tuấn",
+											"nick": "",
+											"gender": "male",
+											"yob": "1948",
+											"yod": "2001",
+											"pob": "Quảng Bình",
+											"pod": "America",
+											"por": "America",
+											"job": "Tư chức",
+											"desc": "",
+											"photo": "",
+											"dod": "02/03",
+											"level": 5,
+											"id": "1-1",
+											"idlevel": "5-1"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Ngọc Ái",
+											"nick": "",
+											"gender": "male",
+											"yob": "",
+											"yod": "2005",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "Đại tá QĐVNCH\n",
+											"photo": "",
+											"dod": "05/12",
+											"level": 5,
+											"id": "2-1",
+											"idlevel": "5-2"
+										}
+									],
+									"children": [
+										{
+											"nodes": [
+												{
+													"name": "Phan Ngọc Mỹ Dung",
+													"nick": "",
+													"gender": "female",
+													"yob": "1967",
+													"yod": "",
+													"pob": "Tp Hồ Chí Minh",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "1-1",
+													"idlevel": "6-1"
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Phan Ngọc Mỹ Hạnh",
+													"nick": "",
+													"gender": "female",
+													"yob": "1969",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "2-1",
+													"idlevel": "6-2"
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Phan Ngọc Mỹ Phượng",
+													"nick": "",
+													"gender": "female",
+													"yob": "1971",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "3-1",
+													"idlevel": "6-3"
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Phan Ngọc Quý",
+													"nick": "",
+													"gender": "male",
+													"yob": "1973",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "4-1",
+													"idlevel": "6-4"
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Phan Ngọc Mỹ Quyên",
+													"nick": "",
+													"gender": "female",
+													"yob": "1975",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "5-1",
+													"idlevel": "6-5"
+												}
+											]
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Ngọc Ân",
+											"nick": "",
+											"gender": "male",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "3-1",
+											"idlevel": "5-3"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thi Việt Bích",
+											"nick": "",
+											"gender": "female",
+											"yob": "",
+											"yod": "",
+											"pob": "Tp Hồ Chí Minh",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "4-1",
+											"idlevel": "5-4"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Giáng Hương",
+											"nick": "",
+											"gender": "female",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "5-1",
+											"idlevel": "5-5"
+										}
+									]
+								}
+							]
+						},
+						{
+							"nodes": [
+								{
+									"name": "Phan Hòa",
+									"nick": "",
+									"gender": "male",
+									"yob": "",
+									"yod": "",
+									"pob": "Quảng Bình",
+									"pod": "",
+									"por": "",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "",
+									"level": 4,
+									"id": "2-1",
+									"idlevel": "4-2"
+								}
+							]
+						},
+						{
+							"nodes": [
+								{
+									"name": "Phan Thị Kha",
+									"nick": "",
+									"gender": "female",
+									"yob": "",
+									"yod": "",
+									"pob": "Quảng Bình",
+									"pod": "",
+									"por": "",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "",
+									"level": 4,
+									"id": "3-1",
+									"idlevel": "4-3"
+								}
+							]
+						},
+						{
+							"nodes": [
+								{
+									"name": "Phan Phú Định",
+									"nick": "",
+									"gender": "male",
+									"yob": "",
+									"yod": "",
+									"pob": "",
+									"pod": "",
+									"por": "",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "",
+									"level": 4,
+									"id": "4-1",
+									"idlevel": "4-4"
+								}
+							],
+							"children": [
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Kim Oanh",
+											"nick": "",
+											"gender": "female",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "1-1",
+											"idlevel": "5-6"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Phi Loan",
+											"nick": "",
+											"gender": "female",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "2-1",
+											"idlevel": "5-7"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Ngọc Yến",
+											"nick": "",
+											"gender": "female",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "3-1",
+											"idlevel": "5-8"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Phú Đạt",
+											"nick": "",
+											"gender": "male",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "4-1",
+											"idlevel": "5-9"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Anh Ngọc",
+											"nick": "",
+											"gender": "male",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "5-1",
+											"idlevel": "5-10"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Anh Tuấn",
+											"nick": "",
+											"gender": "male",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "6-1",
+											"idlevel": "5-11"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Kim Anh",
+											"nick": "",
+											"gender": "female",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "7-1",
+											"idlevel": "5-12"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Thuý Nga",
+											"nick": "",
+											"gender": "female",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "8-1",
+											"idlevel": "5-13"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Ngọc Lan",
+											"nick": "",
+											"gender": "female",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "Tp Hồ Chí Minh",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "9-1",
+											"idlevel": "5-14"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"nodes": [
+				{
+					"name": "Phan Tặng",
+					"nick": "",
+					"gender": "male",
+					"yob": "1916",
+					"yod": "",
+					"pob": "",
+					"pod": "",
+					"por": "",
+					"job": "",
+					"desc": "",
+					"photo": "",
+					"dod": "",
+					"level": 2,
+					"id": "2-1",
+					"idlevel": "2-2"
+				}
+			]
+		},
+		{
+			"nodes": [
+				{
+					"name": "Phan Uyển",
+					"nick": "",
+					"gender": "male",
+					"yob": "",
+					"yod": "",
+					"pob": "",
+					"pod": "",
+					"por": "",
+					"job": "",
+					"desc": "",
+					"photo": "",
+					"dod": "",
+					"level": 2,
+					"id": "3-1",
+					"idlevel": "2-3"
+				}
+			]
+		},
+		{
+			"nodes": [
+				{
+					"name": "Phan Khắc Tuần",
+					"nick": "Cựu Diễn",
+					"gender": "male",
+					"yob": 1855,
+					"yod": 1886,
+					"pob": "Quảng Bình",
+					"pod": "Minh Hóa, Quảng Bình",
+					"por": "Quảng Bình",
+					"job": "Công chức",
+					"desc": "",
+					"photo": "",
+					"dod": "01/03",
+					"level": 2,
+					"id": "4-1",
+					"idlevel": "2-4"
+				}
+			],
+			"children": [
+				{
+					"nodes": [
+						{
+							"name": "Phan Ngọc Luật",
+							"nick": "",
+							"gender": "male",
+							"yob": "1881",
+							"yod": "1941",
+							"pob": "Quảng Bình",
+							"pod": "Quảng Bình",
+							"por": "Quảng Bình",
+							"job": "",
+							"desc": "",
+							"photo": "",
+							"dod": "15/01",
+							"level": 3,
+							"id": "1-1",
+							"idlevel": "3-2"
+						},
+						{
+							"name": "Võ Thị Ngàn",
+							"nick": "",
+							"gender": "female",
+							"yob": "1883",
+							"yod": "1927",
+							"pob": "",
+							"pod": "",
+							"por": "",
+							"job": "",
+							"desc": "",
+							"photo": "",
+							"dod": "14/08",
+							"level": 3,
+							"id": "1-2",
+							"idlevel": "3-2"
+						},
+						{
+							"name": "Trần Thị Lan",
+							"nick": "",
+							"gender": "female",
+							"yob": "1905",
+							"yod": "1979",
+							"pob": "Quảng Bình",
+							"pod": "Quảng Bình",
+							"por": "Hà Nội",
+							"job": "",
+							"desc": "",
+							"photo": "",
+							"dod": "20/02",
+							"level": 3,
+							"id": "1-3",
+							"idlevel": "3-2"
+						}
+					],
+					"children": [
+						{
+							"nodes": [
+								{
+									"name": "Phan Thị Kế",
+									"nick": "",
+									"gender": "female",
+									"yob": "1910",
+									"yod": "",
+									"pob": "",
+									"pod": "",
+									"por": "",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "",
+									"level": 4,
+									"id": "1-1",
+									"idlevel": "4-5"
+								},
+								{
+									"name": "Hoàng Thung",
+									"nick": "",
+									"gender": "male",
+									"yob": 1800,
+									"yod": "",
+									"pob": "",
+									"pod": "",
+									"por": "",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "",
+									"level": 4,
+									"id": "1-2",
+									"idlevel": "4-5"
+								}
+							]
+						},
+						{
+							"nodes": [
+								{
+									"name": "Phan Thị Quý Thu",
+									"nick": "",
+									"gender": "female",
+									"yob": "1911",
+									"yod": "1997",
+									"pob": "Quảng Bình",
+									"pod": "America",
+									"por": "America",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "07/03",
+									"level": 4,
+									"id": "2-1",
+									"idlevel": "4-6"
+								},
+								{
+									"name": "Phan Văn Thanh",
+									"nick": "",
+									"gender": "male",
+									"yob": "",
+									"yod": "",
+									"pob": "",
+									"pod": "",
+									"por": "",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "",
+									"level": 4,
+									"id": "2-2",
+									"idlevel": "4-6"
+								}
+							],
+							"children": [
+								{
+									"nodes": [
+										{
+											"name": "Phan Văn Ky",
+											"nick": "",
+											"gender": "male",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "1-1",
+											"idlevel": "5-15"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Văn Tô",
+											"nick": "",
+											"gender": "male",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "2-1",
+											"idlevel": "5-16"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Bạch Vân",
+											"nick": "",
+											"gender": "female",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "3-1",
+											"idlevel": "5-17"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Liên",
+											"nick": "",
+											"gender": "female",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "4-1",
+											"idlevel": "5-18"
+										}
+									]
+								}
+							]
+						},
+						{
+							"nodes": [
+								{
+									"name": "Phan Duấn",
+									"nick": "",
+									"gender": "male",
+									"yob": "1912",
+									"yod": "1985",
+									"pob": "Quảng Bình",
+									"pod": "Tp Hồ Chí Minh",
+									"por": "Tp Hồ Chí Minh",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "27/04",
+									"level": 4,
+									"id": "3-1",
+									"idlevel": "4-7"
+								},
+								{
+									"name": "Phan Thị Quyên",
+									"nick": "",
+									"gender": "female",
+									"yob": "1913",
+									"yod": "2012",
+									"pob": "Quảng Bình",
+									"pod": "Tp Hồ Chí Minh",
+									"por": "Tp Hồ Chí Minh",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "04/03",
+									"level": 4,
+									"id": "3-2",
+									"idlevel": "4-7"
+								}
+							],
+							"children": [
+								{
+									"nodes": [
+										{
+											"name": "Phan Văn Phùng",
+											"nick": "",
+											"gender": "male",
+											"yob": "1937",
+											"yod": "",
+											"pob": "Quảng Bình",
+											"pod": "",
+											"por": "Tp Hồ Chí Minh",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "1-1",
+											"idlevel": "5-19"
+										}
+									],
+									"children": [
+										{
+											"nodes": [
+												{
+													"name": "Phan Như Minh",
+													"nick": "",
+													"gender": "male",
+													"yob": "1975",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "1-1",
+													"idlevel": "6-6"
+												}
+											]
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Bạch Yến",
+											"nick": "",
+											"gender": "female",
+											"yob": "1941",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "2-1",
+											"idlevel": "5-20"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Khắc Hưng",
+											"nick": "",
+											"gender": "male",
+											"yob": "1948",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "3-1",
+											"idlevel": "5-21"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Nhạn",
+											"nick": "Thu Sương",
+											"gender": "female",
+											"yob": "1950",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "4-1",
+											"idlevel": "5-22"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Văn Trường",
+											"nick": "",
+											"gender": "male",
+											"yob": "",
+											"yod": "1947",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "5-1",
+											"idlevel": "5-23"
+										}
+									]
+								}
+							]
+						},
+						{
+							"nodes": [
+								{
+									"name": "Phan Thị Chút",
+									"nick": "",
+									"gender": "female",
+									"yob": "1913",
+									"yod": "1914",
+									"pob": "Quảng Bình",
+									"pod": "Quảng Bình",
+									"por": "Quảng Bình",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "18/03",
+									"level": 4,
+									"id": "4-1",
+									"idlevel": "4-8"
+								}
+							]
+						},
+						{
+							"nodes": [
+								{
+									"name": "Phan Dính",
+									"nick": "",
+									"gender": "male",
+									"yob": "1915",
+									"yod": "1975",
+									"pob": "Quảng Bình",
+									"pod": "Quảng Ngãi",
+									"por": "Quảng Ngãi",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "12/09",
+									"level": 4,
+									"id": "5-1",
+									"idlevel": "4-9"
+								},
+								{
+									"name": "Đoàn Thị Thí",
+									"nick": "",
+									"gender": "female",
+									"yob": "1916",
+									"yod": "2001",
+									"pob": "Quảng Bình",
+									"pod": "Quảng Ngãi",
+									"por": "Quảng Ngãi",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "14/01",
+									"level": 4,
+									"id": "5-2",
+									"idlevel": "4-9"
+								}
+							],
+							"children": [
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Kim Hải",
+											"nick": "Ni",
+											"gender": "female",
+											"yob": "1942",
+											"yod": "2018",
+											"pob": "Quảng Bình",
+											"pod": "Tp Hồ Chí Minh",
+											"por": "Tp Hồ Chí Minh",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "10/08",
+											"level": 5,
+											"id": "1-1",
+											"idlevel": "5-24"
+										},
+										{
+											"name": "Trần Bông",
+											"nick": "",
+											"gender": "male",
+											"yob": "",
+											"yod": "1973",
+											"pob": "Thừa Thiên",
+											"pod": "Quảng Ngãi",
+											"por": "Quảng Ngãi",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "1-2",
+											"idlevel": "5-24"
+										}
+									],
+									"children": [
+										{
+											"nodes": [
+												{
+													"name": "Trần Trung Bảo",
+													"nick": "",
+													"gender": "male",
+													"yob": "1967",
+													"yod": "",
+													"pob": "Quảng Ngãi",
+													"pod": "",
+													"por": "Tp Hồ Chí Minh",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "1-1",
+													"idlevel": "6-7"
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Trần Thị Ngân Hà",
+													"nick": "",
+													"gender": "female",
+													"yob": "1969",
+													"yod": "",
+													"pob": "Quảng Ngãi",
+													"pod": "",
+													"por": "America",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "2-1",
+													"idlevel": "6-8"
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Trần Thị Vân",
+													"nick": "",
+													"gender": "female",
+													"yob": "1971",
+													"yod": "",
+													"pob": "Quảng Ngãi",
+													"pod": "",
+													"por": "America",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "3-1",
+													"idlevel": "6-9"
+												}
+											]
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Viết Châu",
+											"nick": "Nô",
+											"gender": "male",
+											"yob": "1944",
+											"yod": "2019",
+											"pob": "Quảng Bình",
+											"pod": "Quảng Ngãi",
+											"por": "Quảng Ngãi",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "10/08",
+											"level": 5,
+											"id": "2-1",
+											"idlevel": "5-25"
+										},
+										{
+											"name": "Nguyễn Thị Hương",
+											"nick": "",
+											"gender": "female",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "2-2",
+											"idlevel": "5-25"
+										}
+									],
+									"children": [
+										{
+											"nodes": [
+												{
+													"name": "Phan Chánh Pháp",
+													"nick": "Xỉn",
+													"gender": "male",
+													"yob": "1988",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "Canada",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "1-1",
+													"idlevel": "6-10"
+												}
+											]
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Tuyết",
+											"nick": "",
+											"gender": "female",
+											"yob": "1945",
+											"yod": "",
+											"pob": "Quảng Bình",
+											"pod": "",
+											"por": "Richmond, USA",
+											"job": "Nội trợ",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "3-1",
+											"idlevel": "5-26"
+										},
+										{
+											"name": "Nguyễn Văn Bản",
+											"nick": "",
+											"gender": "male",
+											"yob": "1941",
+											"yod": "2017",
+											"pob": "Quảng Bình",
+											"pod": "Richmond, USA",
+											"por": "Richmond, USA",
+											"job": "Giáo chức",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "3-2",
+											"idlevel": "5-26"
+										}
+									],
+									"children": [
+										{
+											"nodes": [
+												{
+													"name": "Nguyễn Phan Bình",
+													"nick": "",
+													"gender": "male",
+													"yob": "1969",
+													"yod": "",
+													"pob": "Đà Nẵng",
+													"pod": "",
+													"por": "Washington DC, USA",
+													"job": "Chuyên gia",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "1-1",
+													"idlevel": "6-11"
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Nguyễn Phan Hoàng Nam",
+													"nick": "",
+													"gender": "male",
+													"yob": "1971",
+													"yod": "",
+													"pob": "Đà Nẵng",
+													"pod": "",
+													"por": "Hong Kong",
+													"job": "Chuyên gia",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "2-1",
+													"idlevel": "6-12"
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Nguyễn Phan Việt Bắc",
+													"nick": "Tea",
+													"gender": "male",
+													"yob": "1973",
+													"yod": "",
+													"pob": "Đà Nẵng",
+													"pod": "",
+													"por": "Richmond, USA",
+													"job": "Chuyên gia",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "3-1",
+													"idlevel": "6-13"
+												}
+											]
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Viết Anh",
+											"nick": "",
+											"gender": "male",
+											"yob": "1947",
+											"yod": "",
+											"pob": "Quảng Bình",
+											"pod": "",
+											"por": "Los Angeles, USA",
+											"job": "",
+											"desc": "",
+											"photo": "phan_viet_anh_1947_1685092949289",
+											"dod": "",
+											"level": 5,
+											"id": "4-1",
+											"idlevel": "5-27"
+										},
+										{
+											"name": "Nguyễn Thị Thái Phương",
+											"nick": "",
+											"gender": "female",
+											"yob": "1952",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "4-2",
+											"idlevel": "5-27"
+										}
+									],
+									"children": [
+										{
+											"nodes": [
+												{
+													"name": "Phan Thị Phương Thư",
+													"nick": "",
+													"gender": "female",
+													"yob": "",
+													"yod": "",
+													"pob": "Khánh Hòa",
+													"pod": "",
+													"por": "America",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "1-1",
+													"idlevel": "6-14"
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Phan Nhật Huy",
+													"nick": "",
+													"gender": "male",
+													"yob": "",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "2-1",
+													"idlevel": "6-15"
+												}
+											]
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Ngọc Danh",
+											"nick": "",
+											"gender": "male",
+											"yob": "1949",
+											"yod": "",
+											"pob": "Quảng Bình",
+											"pod": "",
+											"por": "Anaheim, USA",
+											"job": "Chuyên gia",
+											"desc": "",
+											"photo": "phan_ngoc_danh_1949_1685092907806",
+											"dod": "",
+											"level": 5,
+											"id": "5-1",
+											"idlevel": "5-28"
+										},
+										{
+											"name": "Nguyễn Thị Thu Hương",
+											"nick": "",
+											"gender": "female",
+											"yob": "1951",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "5-2",
+											"idlevel": "5-28"
+										}
+									],
+									"children": [
+										{
+											"nodes": [
+												{
+													"name": "Phan Đỗ Quyên",
+													"nick": "Tí Tàu",
+													"gender": "female",
+													"yob": "1981",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "1-1",
+													"idlevel": "6-16"
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Phan Lam Duy",
+													"nick": "Nghé",
+													"gender": "male",
+													"yob": "",
+													"yod": "",
+													"pob": "America",
+													"pod": "",
+													"por": "America",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "2-1",
+													"idlevel": "6-17"
+												}
+											]
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Văn Vĩnh",
+											"nick": "",
+											"gender": "male",
+											"yob": "1950",
+											"yod": "1974",
+											"pob": "Quảng Bình",
+											"pod": "Quảng Ngãi",
+											"por": "Quảng Ngãi",
+											"job": "Quân nhân",
+											"desc": "",
+											"photo": "phan_van_vinh_1950_1685092731054",
+											"dod": "28/03",
+											"level": 5,
+											"id": "6-1",
+											"idlevel": "5-29"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Viết Hoàng",
+											"nick": "Bảy",
+											"gender": "male",
+											"yob": "1953",
+											"yod": "",
+											"pob": "Quảng Bình",
+											"pod": "",
+											"por": "Khánh Hòa",
+											"job": "Giáo chức",
+											"desc": "Nhà giáo",
+											"photo": "phan_viet_hoang_1953_1686213633741",
+											"dod": "",
+											"level": 5,
+											"id": "7-1",
+											"idlevel": "5-30"
+										}
+									],
+									"children": [
+										{
+											"nodes": [
+												{
+													"name": "Phan Anh Quân",
+													"nick": "Bờm",
+													"gender": "male",
+													"yob": "1981",
+													"yod": "",
+													"pob": "America",
+													"pod": "",
+													"por": "America",
+													"job": "Tư chức",
+													"desc": "",
+													"photo": "phan_anh_quan_1981_123456789012.jpg",
+													"dod": "",
+													"level": 6,
+													"id": "1-1",
+													"idlevel": "6-18"
+												}
+											]
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Cẩm Thành",
+											"nick": "",
+											"gender": "female",
+											"yob": "1957",
+											"yod": "",
+											"pob": "Quảng Ngãi",
+											"pod": "",
+											"por": "Quảng Ngãi",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "8-1",
+											"idlevel": "5-31"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Minh Tâm",
+											"nick": "Nhung",
+											"gender": "female",
+											"yob": "1958",
+											"yod": "",
+											"pob": "Quảng Ngãi",
+											"pod": "",
+											"por": "America",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "9-1",
+											"idlevel": "5-32"
+										},
+										{
+											"name": "Huỳnh Lễ",
+											"nick": "",
+											"gender": "male",
+											"yob": "",
+											"yod": "",
+											"pob": "Quảng Ngãi",
+											"pod": "",
+											"por": "America",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "9-2",
+											"idlevel": "5-32"
+										}
+									],
+									"children": [
+										{
+											"nodes": [
+												{
+													"name": "Huỳnh Thị Lộc",
+													"nick": "",
+													"gender": "female",
+													"yob": "1985",
+													"yod": "",
+													"pob": "America",
+													"pod": "",
+													"por": "America",
+													"job": "Tư chức",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "1-1",
+													"idlevel": "6-19"
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Huỳnh Thị Thanh Nhàn",
+													"nick": "",
+													"gender": "female",
+													"yob": "",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "California, USA",
+													"job": "",
+													"desc": "Tư chức",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "2-1",
+													"idlevel": "6-20"
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Huỳnh Thị Lộ",
+													"nick": "",
+													"gender": "female",
+													"yob": "",
+													"yod": "",
+													"pob": "Quảng Ngãi",
+													"pod": "",
+													"por": "America",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "3-1",
+													"idlevel": "6-21"
+												}
+											]
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Cẩm Phương",
+											"nick": "Xíu",
+											"gender": "female",
+											"yob": "1962",
+											"yod": "",
+											"pob": "Quảng Ngãi",
+											"pod": "",
+											"por": "Quảng Ngãi",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "10-1",
+											"idlevel": "5-33"
+										},
+										{
+											"name": "Nguyễn Đăng Dung",
+											"nick": "",
+											"gender": "male",
+											"yob": "1962",
+											"yod": "",
+											"pob": "Quảng Ngãi",
+											"pod": "",
+											"por": "Quảng Ngãi",
+											"job": "",
+											"desc": "Nhà giáo",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "10-2",
+											"idlevel": "5-33"
+										}
+									],
+									"children": [
+										{
+											"nodes": [
+												{
+													"name": "Nguyễn Đăng Hưng",
+													"nick": "Tin",
+													"gender": "male",
+													"yob": "1989",
+													"yod": "",
+													"pob": "Quảng Ngãi",
+													"pod": "",
+													"por": "America",
+													"job": "",
+													"desc": "Nhà giáo",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "1-1",
+													"idlevel": "6-22"
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Nguyễn Đăng Thịnh",
+													"nick": "Tí",
+													"gender": "male",
+													"yob": "1997",
+													"yod": "",
+													"pob": "Quảng Ngãi",
+													"pod": "",
+													"por": "Quảng Ngãi",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "2-1",
+													"idlevel": "6-23"
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"nodes": [
+								{
+									"name": "Phan Quang Ngự",
+									"nick": "",
+									"gender": "male",
+									"yob": "1918",
+									"yod": "1997",
+									"pob": "Quảng Bình",
+									"pod": "Quảng Bình",
+									"por": "Quảng Bình",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "29/04",
+									"level": 4,
+									"id": "6-1",
+									"idlevel": "4-10"
+								},
+								{
+									"name": "Trần Thị Cút",
+									"nick": "",
+									"gender": "female",
+									"yob": "1921",
+									"yod": "2004",
+									"pob": "Quảng Bình",
+									"pod": "Quảng Bình",
+									"por": "Quảng Bình",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "17/05",
+									"level": 4,
+									"id": "6-2",
+									"idlevel": "4-10"
+								}
+							],
+							"children": [
+								{
+									"nodes": [
+										{
+											"name": "Phan Văn Ba",
+											"nick": "",
+											"gender": "male",
+											"yob": "1944",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "1-1",
+											"idlevel": "5-34"
+										}
+									],
+									"children": [
+										{
+											"nodes": [
+												{
+													"name": "Phan Thanh Sơn",
+													"nick": "",
+													"gender": "male",
+													"yob": "",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "1-1",
+													"idlevel": "6-24"
+												}
+											],
+											"children": [
+												{
+													"nodes": [
+														{
+															"name": "Phan Văn Vũ",
+															"nick": "",
+															"gender": "male",
+															"yob": "",
+															"yod": "",
+															"pob": "",
+															"pod": "",
+															"por": "",
+															"job": "",
+															"desc": "",
+															"photo": "",
+															"dod": "",
+															"level": 7,
+															"id": "1-1",
+															"idlevel": "7-1"
+														}
+													]
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Phan Thanh Lâm",
+													"nick": "",
+													"gender": "male",
+													"yob": "",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "2-1",
+													"idlevel": "6-25"
+												}
+											],
+											"children": [
+												{
+													"nodes": [
+														{
+															"name": "Phan Đức Anh",
+															"nick": "",
+															"gender": "male",
+															"yob": "",
+															"yod": "",
+															"pob": "",
+															"pod": "",
+															"por": "",
+															"job": "",
+															"desc": "",
+															"photo": "",
+															"dod": "",
+															"level": 7,
+															"id": "1-1",
+															"idlevel": "7-2"
+														}
+													]
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Phan Thanh Hùng",
+													"nick": "",
+													"gender": "male",
+													"yob": "",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "3-1",
+													"idlevel": "6-26"
+												}
+											],
+											"children": [
+												{
+													"nodes": [
+														{
+															"name": "Phan Thành Thái",
+															"nick": "",
+															"gender": "male",
+															"yob": "",
+															"yod": "",
+															"pob": "",
+															"pod": "",
+															"por": "",
+															"job": "",
+															"desc": "",
+															"photo": "",
+															"dod": "",
+															"level": 7,
+															"id": "1-1",
+															"idlevel": "7-3"
+														}
+													]
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Phan Trần Mỹ Lệ",
+													"nick": "",
+													"gender": "female",
+													"yob": "",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "4-1",
+													"idlevel": "6-27"
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Phan Thanh Dũng",
+													"nick": "",
+													"gender": "male",
+													"yob": "",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "5-1",
+													"idlevel": "6-28"
+												}
+											],
+											"children": [
+												{
+													"nodes": [
+														{
+															"name": "Phan Lê Minh Nhật",
+															"nick": "",
+															"gender": "male",
+															"yob": "",
+															"yod": "",
+															"pob": "",
+															"pod": "",
+															"por": "",
+															"job": "",
+															"desc": "",
+															"photo": "",
+															"dod": "",
+															"level": 7,
+															"id": "1-1",
+															"idlevel": "7-4"
+														}
+													]
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Phan Trường Nghĩa",
+													"nick": "",
+													"gender": "male",
+													"yob": "",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "6-1",
+													"idlevel": "6-29"
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Phan Trần Nhân",
+													"nick": "",
+													"gender": "male",
+													"yob": "",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "7-1",
+													"idlevel": "6-30"
+												}
+											]
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Tư",
+											"nick": "",
+											"gender": "female",
+											"yob": "1949",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "2-1",
+											"idlevel": "5-35"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Văn Năm",
+											"nick": "",
+											"gender": "male",
+											"yob": "1951",
+											"yod": "2022",
+											"pob": "Quảng Bình",
+											"pod": "Quảng Bình",
+											"por": "Quảng Bình",
+											"job": "Công nhân",
+											"desc": "",
+											"photo": "phan_van_nam_1951_123456789012.jpg",
+											"dod": "13/06",
+											"level": 5,
+											"id": "3-1",
+											"idlevel": "5-36"
+										}
+									],
+									"children": [
+										{
+											"nodes": [
+												{
+													"name": "Phan Thị Mỹ Lệ",
+													"nick": "",
+													"gender": "female",
+													"yob": "",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "1-1",
+													"idlevel": "6-31"
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Phan Thanh Hải",
+													"nick": "",
+													"gender": "male",
+													"yob": "",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "2-1",
+													"idlevel": "6-32"
+												}
+											],
+											"children": [
+												{
+													"nodes": [
+														{
+															"name": "Phan Thị Thanh Thảo",
+															"nick": "",
+															"gender": "female",
+															"yob": "",
+															"yod": "",
+															"pob": "",
+															"pod": "",
+															"por": "",
+															"job": "",
+															"desc": "",
+															"photo": "",
+															"dod": "",
+															"level": 7,
+															"id": "1-1",
+															"idlevel": "7-5"
+														}
+													]
+												},
+												{
+													"nodes": [
+														{
+															"name": "Phan Thanh Thành",
+															"nick": "",
+															"gender": "male",
+															"yob": "",
+															"yod": "",
+															"pob": "",
+															"pod": "",
+															"por": "",
+															"job": "",
+															"desc": "",
+															"photo": "",
+															"dod": "",
+															"level": 7,
+															"id": "2-1",
+															"idlevel": "7-6"
+														}
+													]
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Phan Thanh Hậu",
+													"nick": "",
+													"gender": "male",
+													"yob": "",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "3-1",
+													"idlevel": "6-33"
+												}
+											],
+											"children": [
+												{
+													"nodes": [
+														{
+															"name": "Phan Thành Hiếu",
+															"nick": "",
+															"gender": "male",
+															"yob": "",
+															"yod": "",
+															"pob": "",
+															"pod": "",
+															"por": "",
+															"job": "",
+															"desc": "",
+															"photo": "",
+															"dod": "",
+															"level": 7,
+															"id": "1-1",
+															"idlevel": "7-7"
+														}
+													]
+												},
+												{
+													"nodes": [
+														{
+															"name": "Phan Bạch Gia Hưng",
+															"nick": "",
+															"gender": "male",
+															"yob": "",
+															"yod": "",
+															"pob": "",
+															"pod": "",
+															"por": "",
+															"job": "",
+															"desc": "",
+															"photo": "",
+															"dod": "",
+															"level": 7,
+															"id": "2-1",
+															"idlevel": "7-8"
+														}
+													]
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Phan Thị Mỹ Linh",
+													"nick": "",
+													"gender": "female",
+													"yob": "",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "4-1",
+													"idlevel": "6-34"
+												}
+											]
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Văn Sáu",
+											"nick": "",
+											"gender": "male",
+											"yob": "1958",
+											"yod": "",
+											"pob": "Quảng Bình",
+											"pod": "",
+											"por": "Quảng Bình",
+											"job": "",
+											"desc": "",
+											"photo": "phan_van_sau_1955_012345678901.jpg",
+											"dod": "",
+											"level": 5,
+											"id": "4-1",
+											"idlevel": "5-37"
+										},
+										{
+											"name": "Nguyễn Thị Hương",
+											"nick": "",
+											"gender": "female",
+											"yob": "1962",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "4-2",
+											"idlevel": "5-37"
+										}
+									],
+									"children": [
+										{
+											"nodes": [
+												{
+													"name": "Phan Thị Thúy Hằng",
+													"nick": "",
+													"gender": "male",
+													"yob": "",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "1-1",
+													"idlevel": "6-35"
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Phan Ngọc Hải Long",
+													"nick": "",
+													"gender": "male",
+													"yob": "",
+													"yod": "",
+													"pob": "",
+													"pod": "",
+													"por": "",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "2-1",
+													"idlevel": "6-36"
+												}
+											]
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Văn Bảy",
+											"nick": "",
+											"gender": "male",
+											"yob": "1960",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "5-1",
+											"idlevel": "5-38"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Văn Tám",
+											"nick": "",
+											"gender": "male",
+											"yob": "1961",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "6-1",
+											"idlevel": "5-39"
+										}
+									],
+									"children": [
+										{
+											"nodes": [
+												{
+													"name": "Phan Kiều Bảo Trang",
+													"nick": "Hai",
+													"gender": "female",
+													"yob": "1990",
+													"yod": "",
+													"pob": "Bà Rịa",
+													"pod": "",
+													"por": "Bà Rịa",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "1-1",
+													"idlevel": "6-37"
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Phan Bảo Kiều Trang",
+													"nick": "Sim",
+													"gender": "female",
+													"yob": "1996",
+													"yod": "",
+													"pob": "Bà Rịa",
+													"pod": "",
+													"por": "Bà Rịa",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "2-1",
+													"idlevel": "6-38"
+												}
+											]
+										},
+										{
+											"nodes": [
+												{
+													"name": "Phan Bảo Hoài Nam",
+													"nick": "Heo",
+													"gender": "male",
+													"yob": "1999",
+													"yod": "",
+													"pob": "Bà Rịa",
+													"pod": "",
+													"por": "Bà Rịa",
+													"job": "",
+													"desc": "",
+													"photo": "",
+													"dod": "",
+													"level": 6,
+													"id": "3-1",
+													"idlevel": "6-39"
+												}
+											]
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Chín",
+											"nick": "",
+											"gender": "female",
+											"yob": "1964",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "7-1",
+											"idlevel": "5-40"
+										}
+									]
+								}
+							]
+						},
+						{
+							"nodes": [
+								{
+									"name": "Phan Khắc Phúc",
+									"nick": "",
+									"gender": "male",
+									"yob": "1923",
+									"yod": "1990",
+									"pob": "Quảng Bình",
+									"pod": "America",
+									"por": "America",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "23/06",
+									"level": 4,
+									"id": "7-1",
+									"idlevel": "4-11"
+								},
+								{
+									"name": "Nguyễn Thị Thuận",
+									"nick": "",
+									"gender": "female",
+									"yob": "1925",
+									"yod": "",
+									"pob": "",
+									"pod": "America",
+									"por": "America",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "",
+									"level": 4,
+									"id": "7-2",
+									"idlevel": "4-11"
+								}
+							],
+							"children": [
+								{
+									"nodes": [
+										{
+											"name": "Phan Ngọc Trinh",
+											"nick": "",
+											"gender": "female",
+											"yob": "1949",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "America",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "1-1",
+											"idlevel": "5-41"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Ngọc Minh",
+											"nick": "",
+											"gender": "female",
+											"yob": "1951",
+											"yod": "",
+											"pob": "Tp Hồ Chí Minh",
+											"pod": "",
+											"por": "America",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "2-1",
+											"idlevel": "5-42"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Anh Dũng",
+											"nick": "",
+											"gender": "male",
+											"yob": "1953",
+											"yod": "",
+											"pob": "Tp Hồ Chí Minh",
+											"pod": "",
+											"por": "America",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "3-1",
+											"idlevel": "5-43"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Ngọc Mai",
+											"nick": "",
+											"gender": "female",
+											"yob": "1954",
+											"yod": "",
+											"pob": "Tp Hồ Chí Minh",
+											"pod": "",
+											"por": "America",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "4-1",
+											"idlevel": "5-44"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Ngọc Trâm",
+											"nick": "",
+											"gender": "female",
+											"yob": "1958",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "5-1",
+											"idlevel": "5-45"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Anh Tuấn",
+											"nick": "",
+											"gender": "male",
+											"yob": "1960",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "6-1",
+											"idlevel": "5-46"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Anh Ngọc",
+											"nick": "",
+											"gender": "male",
+											"yob": "1962",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "7-1",
+											"idlevel": "5-47"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Anh Tùng",
+											"nick": "",
+											"gender": "male",
+											"yob": "1964",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "8-1",
+											"idlevel": "5-48"
+										}
+									]
+								}
+							]
+						},
+						{
+							"nodes": [
+								{
+									"name": "Phan Ngọc Tường",
+									"nick": "",
+									"gender": "male",
+									"yob": "1929",
+									"yod": "1997",
+									"pob": "Quảng Bình",
+									"pod": "Hà Nội",
+									"por": "Hà Nội",
+									"job": "",
+									"desc": "",
+									"photo": "phan_ngoc_tuong_1929_1684126850565",
+									"dod": "14/05",
+									"level": 4,
+									"id": "8-1",
+									"idlevel": "4-12"
+								},
+								{
+									"name": "Lê Thị Xuân Mỹ",
+									"nick": "",
+									"gender": "female",
+									"yob": "1932",
+									"yod": "",
+									"pob": "",
+									"pod": "",
+									"por": "",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "",
+									"level": 4,
+									"id": "8-2",
+									"idlevel": "4-12"
+								}
+							],
+							"children": [
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Mỹ Linh",
+											"nick": "",
+											"gender": "female",
+											"yob": "1959",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "1-1",
+											"idlevel": "5-49"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Tường Tâm",
+											"nick": "",
+											"gender": "female",
+											"yob": "1961",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "2-1",
+											"idlevel": "5-50"
+										}
+									]
+								}
+							]
+						},
+						{
+							"nodes": [
+								{
+									"name": "Phan Thị Bẹp",
+									"nick": "",
+									"gender": "female",
+									"yob": "1933",
+									"yod": "",
+									"pob": "",
+									"pod": "",
+									"por": "",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "",
+									"level": 4,
+									"id": "9-1",
+									"idlevel": "4-13"
+								}
+							]
+						}
+					]
+				},
+				{
+					"nodes": [
+						{
+							"name": "Phan Quang Triệt",
+							"nick": "",
+							"gender": "male",
+							"yob": "",
+							"yod": "",
+							"pob": "",
+							"pod": "",
+							"por": "",
+							"job": "",
+							"desc": "",
+							"photo": "",
+							"dod": "",
+							"level": 3,
+							"id": "2-1",
+							"idlevel": "3-3"
+						}
+					],
+					"children": [
+						{
+							"nodes": [
+								{
+									"name": "Phan Thị Giượng",
+									"nick": "",
+									"gender": "female",
+									"yob": "",
+									"yod": "",
+									"pob": "",
+									"pod": "",
+									"por": "",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "",
+									"level": 4,
+									"id": "1-1",
+									"idlevel": "4-14"
+								}
+							]
+						},
+						{
+							"nodes": [
+								{
+									"name": "Phan Khắc Phục",
+									"nick": "",
+									"gender": "male",
+									"yob": "",
+									"yod": "",
+									"pob": "",
+									"pod": "",
+									"por": "",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "",
+									"level": 4,
+									"id": "2-1",
+									"idlevel": "4-15"
+								}
+							],
+							"children": [
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Lượng",
+											"nick": "",
+											"gender": "female",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "1-1",
+											"idlevel": "5-51"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Khắc Kiện",
+											"nick": "",
+											"gender": "male",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "2-1",
+											"idlevel": "5-52"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Khắc Nam",
+											"nick": "",
+											"gender": "male",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "3-1",
+											"idlevel": "5-53"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Quảng",
+											"nick": "",
+											"gender": "female",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "4-1",
+											"idlevel": "5-54"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Phú",
+											"nick": "",
+											"gender": "female",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "5-1",
+											"idlevel": "5-55"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Luận",
+											"nick": "",
+											"gender": "female",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "6-1",
+											"idlevel": "5-56"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Văn Sĩ",
+											"nick": "",
+											"gender": "male",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "7-1",
+											"idlevel": "5-57"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thị Trang",
+											"nick": "",
+											"gender": "female",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "8-1",
+											"idlevel": "5-58"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thế Đại",
+											"nick": "",
+											"gender": "male",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "9-1",
+											"idlevel": "5-59"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Thế Phiệt",
+											"nick": "",
+											"gender": "male",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "10-1",
+											"idlevel": "5-60"
+										}
+									]
+								},
+								{
+									"nodes": [
+										{
+											"name": "Phan Khắc Quý",
+											"nick": "",
+											"gender": "male",
+											"yob": "",
+											"yod": "",
+											"pob": "",
+											"pod": "",
+											"por": "",
+											"job": "",
+											"desc": "",
+											"photo": "",
+											"dod": "",
+											"level": 5,
+											"id": "11-1",
+											"idlevel": "5-61"
+										}
+									]
+								}
+							]
+						},
+						{
+							"nodes": [
+								{
+									"name": "Phan Thị Mẹt",
+									"nick": "",
+									"gender": "female",
+									"yob": "",
+									"yod": "",
+									"pob": "",
+									"pod": "",
+									"por": "",
+									"job": "",
+									"desc": "",
+									"photo": "",
+									"dod": "",
+									"level": 4,
+									"id": "3-1",
+									"idlevel": "4-16"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
+

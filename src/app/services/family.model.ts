@@ -1,5 +1,6 @@
 export class Node {
   id: string = '';
+  
   relationship: string = '';
   name: string = '';
   level: string = '';
@@ -10,8 +11,17 @@ export class Node {
   pob: string = '';
   pod: string = '';
   por: string = '';
+  job: string = '';
   desc: string = '';
+  photo: string = '';
   dod: string = '';
+
+  profile: string = '';
+  span: string = '';
+  nclass: string = '';
+  pnode: any = null;
+  visible: boolean = false;
+
 }
 
 export const NODE = {
@@ -25,7 +35,9 @@ export const NODE = {
   pob: '',
   pod: '',
   por: '',
+  job: '',
   desc: '',
+  photo: '',
   dod: ''
 }
 

@@ -9,23 +9,33 @@ export const environment = {
     messagingSenderId: '123668295235',
   },
   production: true,
-  phabletDevice: true,
+  android: false,
+  version: '3'
 };
 
-export const VERSION = '0.0.6';
+// export const VERSION = '0.1.4';
+
 export const FONTS_FOLDER = '../../assets/fonts/';
 
-export const DEBUG = false;
-export const DEBUG_TABS = false;
-export const DEBUG_SPLASH = false;
-export const DEBUG_HOME = false;
-export const DEBUG_HILITE = false;
-export const DEBUG_TREE = false;
-export const DEBUG_NODE = false;
-export const DEBUG_ARCHIVE = false;
-export const DEBUG_CONTACT = false;
-export const DEBUG_EDITOR = false;
-export const DEBUG_FILE = false;
-export const DEBUG_FAMILY_SERVICE = false;
+export const DEBUGS = {
+  'APP': true,
+  'SPLASH': true,
+  'TABS': true,
+  'MEMORY': true,
+  'NODE': true,
+  'TREE': true,
+  'EDIT': true,
+  'CROPPER': true,
+  'FILE': true,
+  'FAMILY_SERVICE': true,
+  'UTIL_SERVICE': true,
+  'DATA_SERVICE': true,
+  'FIREBASE_SERVICE': true,
+};
 
-// add comment
+export const DRAGON = 'dragon';
+export const VILLAGE = 'village';
+export const TREE = 'tree';
+export const COUNTRY = 'country';
+
+

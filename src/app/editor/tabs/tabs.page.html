@@ -1,0 +1,22 @@
+<ion-tabs>
+  <ion-tab-bar slot="top">
+    <ion-tab-button tab="node">
+      <div class="tab-button-center" (click)="onNode()">
+        <ion-icon class="tab-icon" src="{{FONTS_FOLDER}}family-tree.svg"></ion-icon>
+        <ion-label class="tab-label">&nbsp;{{ 'TAB_NODE' | translate }}</ion-label>
+      </div>
+    </ion-tab-button>
+    <ion-tab-button tab="doc">
+      <div class="tab-button-center" (click)="onDoc()">
+        <ion-icon class="tab-icon" src="{{FONTS_FOLDER}}text-box-outline.svg"></ion-icon>
+        <ion-label class="tab-label">&nbsp;{{ 'TAB_DOC' | translate }}</ion-label>
+      </div>
+    </ion-tab-button>
+    <ion-tab-button tab="file">
+      <div class="tab-button-center" (click)="onFile()">
+        <ion-icon  class="tab-icon" src="{{FONTS_FOLDER}}content-save-outline.svg"></ion-icon>
+        <ion-label class="tab-label">&nbsp;{{ 'TAB_FILE' | translate }}</ion-label>
+      </div>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

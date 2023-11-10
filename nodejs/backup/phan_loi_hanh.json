@@ -1,0 +1,1450 @@
+[
+  {
+    "nodes": [
+      {
+        "name": "Phan Loi Hanh (sinh:1829",
+        "id": "1-1"
+      }
+    ],
+    "children": [
+      {
+        "nodes": [
+          {
+            "name": "Phan Gia Trung",
+            "id": "2-1"
+          }
+        ],
+        "children": [
+          {
+            "nodes": [
+              {
+                "name": "Phan Tat Dac (lanh the)",
+                "id": "3-1",
+                "yob": "1880"
+              },
+              {
+                "name": "TRẦN THỊ CHÚT",
+                "id": "3-2"
+              },
+              {
+                "name": "NGUYỄN THỊ THƯƠNG",
+                "id": "3-3"
+              },
+              {
+                "name": "TRẦN THỊ NẬY",
+                "id": "3-4",
+                "yob": "1884"
+              },
+              {
+                "name": "THỊ TRÚC",
+                "id": "3-5"
+              }
+            ],
+            "children": [
+              {
+                "nodes": [
+                  {
+                    "name": "NGUYỄN THỊ THƯƠNG",
+                    "id": "4-1"
+                  }
+                ],
+                "children": []
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Thị Lợi",
+                    "id": "4-1"
+                  }
+                ],
+                "children": []
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Thị Châu",
+                    "id": "4-1"
+                  }
+                ],
+                "children": []
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Văn Đai mất giờ thìn 1-12-Ất Mẹo",
+                    "id": "4-1"
+                  }
+                ],
+                "children": []
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Thị Thỉu mất giờ Sửu 3-02-Giáp Dần",
+                    "id": "4-1"
+                  }
+                ],
+                "children": []
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Thị Kha mất giờ Thìn 02-02 Bính Thìn",
+                    "id": "4-1"
+                  }
+                ],
+                "children": []
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Binh An",
+                    "id": "4-1"
+                  }
+                ],
+                "children": [
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Ngọc Ai",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Ngọc An",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Viet Bich",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Ngọc Tuan",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Giang Huong",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Phu Dinh",
+                    "id": "4-1"
+                  }
+                ],
+                "children": [
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Kim Oanh",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Phi Loan",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Ngọc Yen",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Phu Dat",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Anh Ngọc",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Anh Tuan",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Kim Anh",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Thuy Nga",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Ngọc Lan",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Thị Tép",
+                    "id": "4-1"
+                  }
+                ],
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "nodes": [
+          {
+            "name": "Phan Văn Trung (Gia Trung)",
+            "id": "2-1",
+            "yob": "1860"
+          },
+          {
+            "name": "Hoang Thị Tha",
+            "id": "2-2",
+            "yob": "1855"
+          }
+        ],
+        "children": [
+          {
+            "nodes": [
+              {
+                "name": "Phan Ba Kieu",
+                "id": "3-1",
+                "yob": "1878"
+              }
+            ],
+            "children": []
+          },
+          {
+            "nodes": [
+              {
+                "name": "Phan Tat Dac (tuc:Lanh The",
+                "id": "3-1"
+              }
+            ],
+            "children": []
+          }
+        ]
+      },
+      {
+        "nodes": [
+          {
+            "name": "Phan Văn Nghia",
+            "id": "2-1"
+          }
+        ],
+        "children": []
+      },
+      {
+        "nodes": [
+          {
+            "name": "Phan Khac Tuan (Cuu Dien)",
+            "id": "2-1"
+          }
+        ],
+        "children": [
+          {
+            "nodes": [
+              {
+                "name": "Phan Quang Triet",
+                "id": "3-1"
+              }
+            ],
+            "children": [
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Quang Phuc",
+                    "id": "4-1"
+                  }
+                ],
+                "children": [
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Luong",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Khac Kien",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Khac Nam",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Quang",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Phu",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Luan",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Văn Si",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Trang",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan The Dai",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan The Phiet",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Khac Quy",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Thị Nhuong",
+                    "id": "4-1"
+                  }
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "nodes": [
+              {
+                "name": "Phan Ngọc Luat",
+                "id": "3-1"
+              }
+            ],
+            "children": [
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Thị Cao (o Thu)",
+                    "id": "4-1"
+                  }
+                ],
+                "children": []
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Thị Ke",
+                    "id": "4-1"
+                  }
+                ],
+                "children": []
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Duan",
+                    "id": "4-1"
+                  }
+                ],
+                "children": [
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Văn Phung",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Bach Yen",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Văn Truong",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Khac Hung",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Nhan (suong)",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Dinh - Doan Thị Thi",
+                    "id": "4-1"
+                  }
+                ],
+                "children": [
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Kim Hai (ni)",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Viết Chau (no)",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Tuyet - Nguyen Van Ban",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": [
+                      {
+                        "nodes": [
+                          {
+                            "name": "Nguyen Phan Binh",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      },
+                      {
+                        "nodes": [
+                          {
+                            "name": "Nguyen Phan Hoang Nam",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      },
+                      {
+                        "nodes": [
+                          {
+                            "name": "Nguyen Phan Viết Bac",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Viết Anh - Nguyen Thị Thai Phuong",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": [
+                      {
+                        "nodes": [
+                          {
+                            "name": "Phan Thị Phuong Thu",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      },
+                      {
+                        "nodes": [
+                          {
+                            "name": "Phan Nhat Huy",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Ngọc Danh - Nguyen Thị Thu Huong",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": [
+                      {
+                        "nodes": [
+                          {
+                            "name": "Phan Thị Do Quyen",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      },
+                      {
+                        "nodes": [
+                          {
+                            "name": "Phan Lam Duy",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Viết Hoang",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": [
+                      {
+                        "nodes": [
+                          {
+                            "name": "Phan Anh Quan",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Văn Vinh",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Cam Thanh",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Cam Nhung - Huynh Le",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": [
+                      {
+                        "nodes": [
+                          {
+                            "name": "Huynh Thị Lo",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      },
+                      {
+                        "nodes": [
+                          {
+                            "name": "Huynh Thị Nhan",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      },
+                      {
+                        "nodes": [
+                          {
+                            "name": "Huynh Thị Loc",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Cam Phuong - Nguyen Dang Dung",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": [
+                      {
+                        "nodes": [
+                          {
+                            "name": "Nguyen Dang Hung",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      },
+                      {
+                        "nodes": [
+                          {
+                            "name": "Nguyen Dang Thinh",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Quang Ngu",
+                    "id": "4-1"
+                  }
+                ],
+                "children": [
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Văn Ba",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": [
+                      {
+                        "nodes": [
+                          {
+                            "name": "Phan Thị Le",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      },
+                      {
+                        "nodes": [
+                          {
+                            "name": "Phan Văn Hung",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      },
+                      {
+                        "nodes": [
+                          {
+                            "name": "Phan Văn DUng",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      },
+                      {
+                        "nodes": [
+                          {
+                            "name": "Phan Văn Son",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      },
+                      {
+                        "nodes": [
+                          {
+                            "name": "Phan Văn Lam",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      },
+                      {
+                        "nodes": [
+                          {
+                            "name": "Phan Văn Nghia",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Tu",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Văn Nam",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thanh Sau",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Văn Bay",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Văn Tam",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Chin",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Khac Phuc",
+                    "id": "4-1"
+                  }
+                ],
+                "children": [
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Ngọc TRinh",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Ngọc Minh",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Anh Dung",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Ngọc Mai",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Ngọc Tram",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Anh Tuan",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Anh Ngọc",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Anh Tung",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Ngọc Tuong - Le Thị Xuan Mỹ",
+                    "id": "4-1"
+                  }
+                ],
+                "children": [
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Mỹ Linh",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Tuong Tam",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Duan",
+                    "id": "4-1"
+                  }
+                ],
+                "children": [
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Văn Phung",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Bach Yen",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Văn Truong",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Khac Hung",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Nhan (suong)",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Dinh - Doan Thị Thi",
+                    "id": "4-1"
+                  }
+                ],
+                "children": [
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Kim Hai (ni)",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Viết Chau (no)",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Tuyet",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Viết Anh",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Ngọc Danh",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Viết Hoang",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Văn Vinh",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Cam Thanh",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Cam Nhung",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Cam Phuong",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Quang Ngu",
+                    "id": "4-1"
+                  }
+                ],
+                "children": [
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Văn Ba",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": [
+                      {
+                        "nodes": [
+                          {
+                            "name": "Phan Thị Le",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      },
+                      {
+                        "nodes": [
+                          {
+                            "name": "Phan Văn Hung",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      },
+                      {
+                        "nodes": [
+                          {
+                            "name": "Phan Văn DUng",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      },
+                      {
+                        "nodes": [
+                          {
+                            "name": "Phan Văn Son",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      },
+                      {
+                        "nodes": [
+                          {
+                            "name": "Phan Văn Lam",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      },
+                      {
+                        "nodes": [
+                          {
+                            "name": "Phan Văn Nghia",
+                            "id": "6-1"
+                          }
+                        ],
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Tu",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Văn Nam",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thanh Sau",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Văn Bay",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Văn Tam",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Chin",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Khac Phuc",
+                    "id": "4-1"
+                  }
+                ],
+                "children": [
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Ngọc TRinh",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Ngọc Minh",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Anh Dung",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Ngọc Mai",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Ngọc Tram",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Anh Tuan",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Anh Ngọc",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Anh Tung",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Ngọc Tuong - Le Thị Xuan Mỹ",
+                    "id": "4-1"
+                  }
+                ],
+                "children": [
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Mỹ Linh",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  },
+                  {
+                    "nodes": [
+                      {
+                        "name": "Phan Thị Tuong Tam",
+                        "id": "5-1"
+                      }
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Thị Cao (o Thu)",
+                    "id": "4-1"
+                  }
+                ],
+                "children": []
+              },
+              {
+                "nodes": [
+                  {
+                    "name": "Phan Thị Ke",
+                    "id": "4-1"
+                  }
+                ],
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "nodes": [
+          {
+            "name": "Phan Thị Lien (me: TRan Thị Ninh)",
+            "id": "2-1"
+          }
+        ],
+        "children": []
+      },
+      {
+        "nodes": [
+          {
+            "name": "Phan Tuan Duc (me: TRan Thị Ninh",
+            "id": "2-1"
+          }
+        ],
+        "children": []
+      },
+      {
+        "nodes": [
+          {
+            "name": "Phan Ham (me: Tran Thị Ninh",
+            "id": "2-1"
+          }
+        ],
+        "children": []
+      },
+      {
+        "nodes": [
+          {
+            "name": "Phan Thị Nhan (tuc:Muon",
+            "id": "2-1"
+          }
+        ],
+        "children": []
+      },
+      {
+        "nodes": [
+          {
+            "name": "Phan Văn Nuong (tuc: Hanh",
+            "id": "2-1"
+          }
+        ],
+        "children": []
+      },
+      {
+        "nodes": [
+          {
+            "name": "Phan Thị Doi",
+            "id": "2-1"
+          }
+        ],
+        "children": []
+      }
+    ]
+  }
+]

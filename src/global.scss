@@ -25,7 +25,6 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-
 // http://ionicframework.com/docs/theming/
 @import url('https://fonts.googleapis.com/css?family=Rubik:300,400,500,700');
 
@@ -51,249 +50,87 @@
 // PROJECT GLOBAL STYLES
 @import "~@ng-select/ng-select/themes/default.theme.css";
 
+// https://enappd-apps.gitbook.io/apps/ionic-4-full-app/startup-features/using-custom-fonts
+// https://www.dafontfree.net/font-viet-nam.htm
 
-// --- color ---
+@font-face {
+  font-family: 'Family Tree';
+  font-size: 48px;
+  font-style: italic;
+  font-weight: bold;
+  src: url('./assets/ttf/family-tree.ttf');
+}
+@font-face {
+  font-family: 'Milleniale';
+  font-size: 48px;
+  font-style: italic;
+  font-weight: bold;
+  src: url('./assets/ttf/MillenialePersonalUseOnly-LdYG.ttf');
+}
+@font-face {
+  font-family: 'FiryanaBeauty';
+  font-size: 48px;
+  font-style: italic;
+  font-weight: bold;
+  src: url('./assets/ttf/FiryanaBeauty-zPlD.ttf');
+}
+@font-face {
+  font-family: 'Pacifico';
+  font-style: italic;
+  font-weight: bold;
+  src: url('./assets/ttf/Pacifico-Regular.ttf');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: regular;
+  src: url('./assets/ttf/Roboto-Regular.ttf');
+}
+@font-face {
+  font-family: 'Dancing';
+  font-style: normal;
+  font-weight: regular;
+  // src: url('./assets/ttf/DancingScript-Medium.ttf');
+  src: url('./assets/ttf/DancingScript-Bold.ttf');
+  // src: url('./assets/ttf/DancingScript-VariableFont_wght.ttf');
+}
+@font-face {
+  font-family: 'Poltawski Nowy', serif;
+  font-style: normal;
+  font-weight: regular;
+  src: url('./assets/ttf/PoltawskiNowy-SemiBoldItalic.ttf');
+}
+@font-face {
+  font-family: 'BraahOne';
+  font-style: normal;
+  font-weight: regular;
+  src: url('./assets/ttf/BraahOne-Regular.ttf');
+}
 
-// $base_color: yellow;
-// $base_background_color: #C10100;
 
+// --- color for tree ---
 $background_color_male: lightblue;  // primary
 $background_color_female: lightpink;
 $background_color_select: lightgreen; // success
 $background_color_not_complete: lightyellow; // warning in variables.css
 $background_color_node: #e6d8ad;
+$color: #666;
+$over_color: #000;
+$border_color: #94a0b4;
+$hover_color: #c8e4f8;
+// ------
 
-$text_font_size_large: 20px;
-$text_font_size_medium: 18px;
-// $text_font_size_small: 16px;
-// $text_font_size_tiny: 14px;
-// $text_font_size_extra_tiny: 12px;
-$text_font_size_small: 18px;
-$text_font_size_tiny: 16px;
-$text_font_size_extra_tiny: 16px;
-
-
-$icon_font_size_material_large: 24px;
-// $icon_font_size_material_small: 18px;
-$icon_font_size_material_small: 20px;
-$icon_font_size_large: 24px;
-// $icon_font_size_small: 18px;
-$icon_font_size_small: 20px;
-
-// --- ng-select ---
-
-.ng-select-container {
-  // border-bottom: 3px solid blue !important;
-  border: 2px solid var(--app-color) !important;
-  // color: #1CBC88 !important;
-  // box-shadow: none;
-  font-size: $text_font_size_tiny !important;
-  font-weight: bold !important;
-}
-
-// svg {
-//   color: yellow
-// }
-
-// --- app ---
-
-.app-ion-content {
-	position: relative;
-}
-
-.app-ion-content::before {
-	content: "";
-  background-image: var(--url-ion-content);
-	background-size: cover;
-	position: absolute;
-	top: 0px;
-	right: 0px;
-	bottom: 0px;
-	left: 0px;
-	opacity: 0.20;
-}
-
-// .app-ion-title {
-//   font-size: $text_font_size_medium;
-//   // color: var(--app-color);
-//   color: $background_color_select;
-//   font-weight: bold;
-//   font-style: italic;
-// }
-
-// .app-title-span-select {
-//   background: var(--app-background-color);
-//   width: 100px; 
-//   display: flex; 
-//   align-items: center;
-//   justify-content: center;
-//   font-size: $text_font_size_tiny;
-//   color: var(--app-color);
-// }
-
-// .app-ion-title-select {
-//   font-size: $text_font_size_medium;
-//   color: $background_color_select;
-//   font-weight: bold;
-//   font-style: italic;
-//   background: var(--app-background-color);
-//     width: 100px; 
-//     display: flex; 
-//     align-items: center;
-
-//   .tab {
-//     background: var(--app-background-color);
-//     width: 100px; 
-//     display: flex; 
-//     align-items: center;
-//     .icon {
-//       font-size: $icon_font_size_large;
-//       color: var(--app-color);
-//     }
-//     .label {
-//       font-size: $text_font_size_tiny;
-//       color: var(--app-color);
-//     }
-//   }
-// }
-
-
-
-// .home-guide-tab-symbol-test {
-//   // margin-left:20px;
-//   // margin-left:0px;
-//   // margin-top:5px;
-//   // margin-bottom:5px;
-//   // justify-content: center;
-//   .tab {
-//     background: $background_color_select;
-//     width: 300px; 
-//     display: flex; 
-//     align-items: center;
-//     justify-content: center;
-//     // .icon {
-//     //   font-size: $icon_font_size_large;
-//     //   color: var(--app-color);
-//     // }
-//     .label {
-//       font-size: $text_font_size_tiny;
-//       // color: var(--app-color);
-//       font-weight: bold;
-//     }
-//   }
-// }
-
-.app-ion-title {
-  font-size: $text_font_size_medium;
-  color: var(--app-color);
-}
-
-.app-ion-title-small {
-  font-size: $text_font_size_small;
-  color: var(--app-color);
-}
-
-
-.app-ion-icon {
-  font-size: $icon_font_size_large;
-  color: var(--app-color);
-}
-
-.app-ion-icon-material {
-  font-size: $icon_font_size_material_large;
-  color: var(--app-color);
-}
-
-.app-ion-icon-small {
-  font-size: $icon_font_size_small;
-  color: var(--app-color);
-}
-
-.app-ion-button {
-  --padding-start: 5px;
-  --padding-end: 5px;
-}
-
-.app-ion-row {
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.app-ion-label-title-select {
-  background: $background_color_select;
-  margin-top:10px;
-  margin-bottom:10px;
-  border: 2px solid var(--app-color);
-  border-radius: 4px;
-  padding: 5px 5px;
-  // width: 250px; 
-  display: flex; 
-  align-items: center;
-  justify-content: center;
-  font-size: $text_font_size_small;
-  // font-weight: bold;
-}
-
-.app-ion-label-title-node {
-  background: $background_color_node;
-  margin-top:10px;
-  margin-bottom:10px;
-  border: 2px solid var(--app-color);
-  border-radius: 4px;
-  padding: 5px 5px;
-  display: flex; 
-  align-items: center;
-  justify-content: center;
-  font-size: $text_font_size_small;
-}
-
-
-.app-ion-label {
-  font-size: $text_font_size_small;
-}
-
-.app-ion-label-header {
-  font-size: $text_font_size_large;
-  background: var(--app-background-color);
-  color: var(--app-color);
-}
-
-.app-ion-item {
-  // --background: var(--url-ion-item) center / 100%;
-  // --background: url("./assets/imgs/dragon.webp") center / 100%;
-  --background: var(--app-background-color) center / 100%;
-  --padding-start: 0px;
-  --padding-end: 0px;
-  --padding-top: 0px;
-  --padding-bottom: 0px;
-  --inner-padding-start: 0px;
-  --inner-padding-end: 0px;
-  --inner-padding-top: 0px;
-  --inner-padding-bottom: 0px;
-}
-
-.app-popover {
-  padding-top: 15px;
-  margin-left: 20px;
-  .label {
-    font-size: $text_font_size_tiny;
-  }
-  .icon {
-    background: var(--app-background-color);
-    font-size: $icon_font_size_small;
-    color: var(--app-color);
-  }
-}
-
-// --- tab ---
+// --- TAB ---
 
 ion-tab-bar {
-  // --background: var(--url-ion-tab-bar) center / 100%;
   --background: var(--app-background-color) center / 100%;
-  height: 50px;
+  height: 35px;
   display: flex; 
   align-items: center;
+  margin-top:0px;
+  margin-bottom:0px;
+  margin-left:20px;
+  margin-right:20px;
 }
 
 ion-tab-button {
@@ -308,451 +145,1097 @@ ion-tab-button {
 }
 
 .tab-icon {
-  font-size: $icon_font_size_large;
-  color: var(--app-color);
-}
-
-.tab-icon-material {
-  font-size: $icon_font_size_material_large;
+  font-size: var(--app-icon-font-size-large);
   color: var(--app-color);
 }
 
 .tab-label {
-  font-size: $text_font_size_medium;
+  font-size: var(--app-text-font-size-large);
   color: var(--app-color);
 }
 
-.task-heading {
-  background: var(--app-background-color);
-  width: 100px; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .icon {
-    font-size: $icon_font_size_large;
-    color: var(--app-color);
-  }
-  .label {
-    font-size: $text_font_size_medium;
-    color: var(--app-color);
-  }
-}
+// --- HEADER ---
 
-// --- home ---
-
-.home-card-header-icon {
-  font-size: $icon_font_size_large;
-  color: white;
-  background: var(--app-background-color);
-}
-
-.home-scroll {
-  word-wrap: break-word;
-}
-
-.home-guide-section {
-  background: var(--app-background-color);
-  color: white;
-  width: 180px;
-  font-size: $text_font_size_small;
-  display: flex; 
-  align-items: center;
-  margin-left:0px;
-}
-
-.home-guide-tab-symbol {
-  // margin-left:20px;
-  margin-left:0px;
-  margin-top:5px;
-  margin-bottom:5px;
-  .tab {
+.header-top {
+  --background: var(--app-background-color) center / 100%;
+  height: 45px;
+  margin-top:0px;
+  margin-bottom:0px;
+  margin-left:20px;
+  margin-right:20px;
+  flex-direction: column;
+  .heading {
     background: var(--app-background-color);
     width: 100px; 
-    display: flex; 
+    display: flex;
     align-items: center;
+    justify-content: center;
     .icon {
-      font-size: $icon_font_size_large;
+      font-size: var(--app-icon-font-size-medium);
       color: var(--app-color);
     }
     .label {
-      font-size: $text_font_size_tiny;
+      font-size: var(--app-text-font-size-medium);
+      // color: $background_color_node;
       color: var(--app-color);
+    }
+    .button {
+      --padding-start: 5px;
+      --padding-end: 5px;
     }
   }
 }
 
-// .home-guide-task-symbol {
-//   // margin-left:20px;
-//   // margin-top:5px;
-//   // margin-bottom:5px;
-//   .task {
-//     background: var(--app-background-color);
-//     width: 100px; 
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     .icon {
-//       font-size: $icon_font_size_large;
-//       color: var(--app-color);
-//     }
-//     .label {
-//       font-size: $text_font_size_tiny;
-//       color: var(--app-color);
-//     }
-//   }
-// }
+.header-bottom {
+  --background: var(--app-background-color) center / 100%;
+  height: 45px;
+  margin-top:0px;
+  margin-bottom:0px;
+  margin-left:20px;
+  margin-right:20px;
+  flex-direction: column;
+  .heading {
+    background: var(--app-background-color);
+    width: 100px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .icon {
+      font-size: var(--app-icon-font-size-medium);
+      color: var(--app-color);
+    }
+    .label {
+      font-size: var(--app-text-font-size-medium);
+      // color: $background_color_node;
+      color: var(--app-color);
+    }
+    .button {
+      --padding-start: 5px;
+      --padding-end: 5px;
+    }
+  }
+}
 
-// .home-guide-task-symbol-guide {
-//   margin-left:20px;
-//   margin-top:5px;
-//   margin-bottom:5px;
-//   .task {
-//     background: var(--app-background-color);
-//     width: 100px; 
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     .icon {
-//       font-size: $icon_font_size_large;
-//       color: var(--app-color);
-//     }
-//     .label {
-//       font-size: $text_font_size_tiny;
-//       color: var(--app-color);
-//     }
-//   }
+.header-book {
+  --background: var(--app-background-color) center / 100%;
+  height: 45px;
+  margin-top:0px;
+  margin-bottom:0px;
+  margin-left:20px;
+  margin-right:20px;
+  flex-direction: column;
+  .heading {
+    background: var(--app-background-color);
+    width: 100px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .icon {
+      font-size: var(--app-icon-font-size-extra-large);
+      color: var(--app-color);
+    }
+    .label {
+      font-size: var(--app-text-font-size-large);
+      // color: $background_color_node;
+      color: var(--app-color);
+    }
+    .button {
+      --padding-start: 5px;
+      --padding-end: 5px;
+    }
+  }
+}
 
-// }
 
-.home-guide-icon-symbol {
-  // margin-left:30px;
-  margin-left:0px;
-  .task {
-    // background: var(--app-background-color);
-    width: 120px; 
+// --- EDIT ---
+
+.editor {
+  .section{
+    background: var(--app-background-color);
+    color: white;
+    font-size: var(--app-text-font-size-medium);
+    height:26px;
+    // margin-top: 10px;
+    // margin-bottom: 10px;
+    position: relative; 
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: left;
+    // margin: auto;
+    .span{
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+  }
+  .label{
+    font-weight: bold;
+    font-size: var(--app-text-font-size-small);
+  }
+  .image{
+    width: 80px; // 4/3 w/h to match cropper-modal
+    height: 60px;
+  }
+  .imageContainer > img:hover {
+    width: 240px;
+    height: 180px;
+  }
+
+  .input{
+    border: solid 1px red;
+    border-radius: 5px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: var(--app-text-font-size-small);
+  }
+  .textarea{
+    border: solid 1px red;
+    border-radius: 5px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: var(--app-text-font-size-small);
+  }
+  .select-input{
+    border: solid 1px red !important;
+    border-radius: 5px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: var(--app-text-font-size-small) !important;
+  }
+  .select{
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: var(--app-text-font-size-small);
+  }
+  .text-scroll{
+    word-wrap: break-word;
+  }
+  .hilite_button {
+    background: var(--app-background-color);
+    width: 100px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
     .icon {
-      font-size: $icon_font_size_small;
-      // color: var(--app-color);
+      font-size: var(--app-icon-font-size-small);
+      color: var(--app-color);
     }
     .label {
-      font-size: $text_font_size_extra_tiny;
-      // color: var(--app-color);
+      font-size: var(--app-text-font-size-small);
+      // color: $background_color_node;
+      color: var(--app-color);
+    }
+    .button {
+      --padding-start: 5px;
+      --padding-end: 5px;
     }
   }
-  .label {
-    font-size: $text_font_size_tiny;
-  }
-  .label-icon {
-    font-size: $text_font_size_tiny;
-    background: var(--app-background-color);
-    color: var(--app-color);
-  }
-  .icon {
-    background: var(--app-background-color);
-    font-size: $icon_font_size_small;
-    color: var(--app-color);
-  }
-  .icon-normal {
-    background: var(--app-background-color);
-    font-size: $icon_font_size_small;
-    color: white;
-  }
-  .icon-select {
-    background: var(--app-background-color);
-    font-size: $icon_font_size_small;
-    color: lightgreen;
-  }
-  .icon-male {
-    background: var(--app-background-color);
-    font-size: $icon_font_size_small;
-    color: lightblue;
-  }
-  .icon-female {
-    background: var(--app-background-color);
-    font-size: $icon_font_size_small;
-    color: lightpink;
-  }
-  .icon-not-complete {
-    background: var(--app-background-color);
-    font-size: $icon_font_size_small;
-    color: lightyellow;
-  }
 }
 
-// --- archive ---
+// --- BACKGROUND ---
+// https://stackoverflow.com/questions/2643305/centering-a-background-image-using-css
+// https://coder-coder.com/background-image-opacity/
 
-.archive-icon {
-  font-size: $icon_font_size_large;
-  color: var(--app-color);
-  background: var(--app-background-color);
-}
-
-.archive-ion-row {
-  padding-bottom: 10px;
+.screen-memory {
+  position: relative; 
+  height: var(--app-screen-height);
   width: 100%;
+}
+.screen-memory::before {    
+  content: "";
+  background-image: var(--url-ion-content-memory);
+  background-size: cover;
+  background-position: center center;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.20;
+}
+
+.screen-node {
+  position: relative; 
+  height: var(--app-screen-height);
+  width: 100%;
+}
+.screen-node::before {    
+  content: "";
+  background-image: var(--url-ion-content-node);
+  background-size: cover;
+  background-position: center center;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.20;
+}
+
+.screen-file {
+  position: relative; 
+  height: var(--app-screen-height);
+  width: 100%;
+}
+.screen-file::before {    
+  content: "";
+  background-image: var(--url-ion-content-file);
+  background-size: cover;
+  background-position: center center;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.20;
+}
+
+.screen-vertical-tree {
+  position: relative; 
+  height: var(--app-screen-height-vertical-tree);
+  width: 100%;
+}
+.screen-vertical-tree::before {    
+  content: "";
+  background-image: var(--url-ion-content-node);
+  background-size: cover;
+  background-position: center center;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.20;
+}
+
+// --- COLUMN ---
+
+.center {
   display: flex;
-  align-items: center;
+  justify-content: center;
 }
 
-// --- contact ---
+// --- ALERT ---
 
-.contact-icon {
-  font-size: $icon_font_size_large;
-  color: var(--app-color);
-  background: var(--app-background-color);
-}
-
-.contact-icon-material {
-  font-size: $icon_font_size_material_large;
-  color: var(--app-color);
-  background: var(--app-background-color);
-}
-
-.contact-icon-material-small{
-  font-size: $icon_font_size_material_small;
-  color: var(--app-color);
-  background: var(--app-background-color);
-}
-
-.contact-icon-small {
-  font-size: $icon_font_size_small;
-  color: var(--app-color);
-  background: var(--app-background-color);
-}
-
-.contact-grid {
-  --ion-grid-column-padding: 10px;
-  border-collapse: collapse;
-  border-style: hidden;
-	font-size: $text_font_size_small;
-  
-  ion-row:first-child {
-    // background-color:  #2dd36f;
-    font-weight: bold;
-    color: white;
-    background-color: var(--app-background-color);
-    font-size: $text_font_size_small;
-  }
-  ion-col {
-    border: 1px solid black;
-    border-bottom: 0;
-    border-right: 0;
-  }
-  ion-col:last-child {
-    border-right: 1px solid black;
-  }
-  
-  ion-row:last-child {
-    border-bottom: 1px solid black;
-  }
-}
-
-.contact-grid-small {
-  --ion-grid-column-padding: 10px;
-  border-collapse: collapse;
-  border-style: hidden;
-	font-size: $text_font_size_tiny;
-  
-  ion-row:first-child {
-    // background-color:  #2dd36f;
-    font-weight: bold;
-    color: white;
-    background-color: var(--app-background-color);
-    font-size: $text_font_size_tiny;
-  }
-  ion-col {
-    border: 1px solid black;
-    border-bottom: 0;
-    border-right: 0;
-  }
-  ion-col:last-child {
-    border-right: 1px solid black;
-  }
-  
-  ion-row:last-child {
-    border-bottom: 1px solid black;
-  }
-}
-
-// --- util ---
-
-.alert-small {
-// --background: var(--url-ion-item) top / 100%;
-  --height: 400px;
-//   --height: 500px;
+.alert-dialog {
+  --height: var(--app-alert-height);
   .alert-wrapper {
-    min-width: 350px !important;
-//  min-width: 500px !important;
-    .alert-button:first-child {
-      color: grey;
-    }
-    .alert-head {
-      // header styling here eg. background
-      margin-top: 10px;
-      margin-bottom: 10px;
+    background-image: var(--url-ion-content-alert);
+    background-position: center center;
+    min-width: var(--app-alert-width);
+    .alert-head{
+      background: var(--app-background-color);
+      height:40px;
+      width: 90%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top:10px;
+      margin-bottom:10px;
+      margin-left:20px;
       h2 {
         color: white;
         background-color: var(--app-background-color);
-        // font-weight: bold;
-        font-size: $text_font_size_medium;
+        font-size: var(--app-alert-font-size);
       }
+    }
+    .alert-message {
+      text-align: left;
+      font-size: var(--app-alert-font-size);
+      color: black;
+      line-height: 120%;
     }
     .alert-button-group {
       justify-content: center;
+      height: 26px;
+      margin-top: 26px;
+    }
+    .alert-button:first-child {
+      color: white;
+      background-color: var(--app-background-color);
+      height: 26px;
+      text-transform: none;
     }
     .alert-button:nth-child(1){
-      // color: red;
-      color: grey;
+      color: white;
+      background-color: var(--app-background-color);
+      height: 26px;
+      text-transform: none;
     }
     .alert-button:nth-child(2){
+      background-color: var(--app-background-color);
+      color: white;
+      height: 26px;
+      text-transform: none;
+    }
+    .alert-image{
+      // height: 150px;
+      // width: 80%;
+      // justify-content: center;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+    }
+  }
+}
+
+.toast-dialog {
+  // --min-height: var(--app-alert-height);
+  // --min-width: var(--app-alert-min-width);
+  --height: var(--app-toast-height);
+  --width: var(--app-toast-width);
+  // --height: var(--app-alert-height);
+  // --width: var(--app-alert-min-width);
+  --background: var(--app-background-color);
+  &::part(message) {
+    text-align: center;
+    font-size: var(--app-toast-font-size);
+  }
+}
+
+.toast-wait {
+  --height: 70px;
+  color: white;
+  font-size: var(--app-toast-font-size);
+
+  .toast-wrapper {
+    min-width: var(--app-toast-width) !important;
+    .toast-button:first-child {
+      color: grey;
+    }
+    .toast-head {
+      h2 {
+        color: white;
+        background-color: var(--app-background-color);
+        font-size: var(--app-toast-font-size);
+      }
+    }
+    .toast-button-group {
+      justify-content: center;
+    }
+    .toast-button:nth-child(1){
+      // color: red;
+      color: var(--app-background-color);
+    }
+    .toast-button:nth-child(2){
       // color: blue;
       color: grey;
     }
   }
-  // .alert-message {
-  //   // width: 450px;
-  //   text-align: left;
-  //   font-size: $text_font_size_small;
-  //   color: grey;
-  // }
+  &::part(message) {
+    text-align: center;
+    font-size: var(--app-toast-font-size);
+  }
 }
 
-.alert-big {
-    --height: 450px;
-    .alert-wrapper {
-      // min-width: 350px !important;
-      min-width: 400px !important;
-      .alert-button:first-child {
-        color: grey;
-      }
-      .alert-head {
-        // header styling here eg. background
-        margin-top: 10px;
-        margin-bottom: 10px;
-        h2 {
-          color: white;
-          background-color: var(--app-background-color);
-          // font-weight: bold;
-          font-size: $text_font_size_small;
-        }
-      }
-      .alert-button-group {
-        justify-content: center;
-      }
-      .alert-button:nth-child(1){
-        // color: red;
-        color: grey;
-      }
-      .alert-button:nth-child(2){
-        // color: blue;
-        color: grey;
+// .toast-dialog (part::message) { text-align: center; }
+
+// --- POPOVER ---
+
+.popover {
+  --min-height: var(--app-alert-height) !important;
+  --min-width: var(--app-alert-min-width) !important;
+  .popover-heading {
+    .label {
+      font-size: var(--app-text-font-size-medium);
+    }
+    .icon {
+      background: var(--app-background-color);
+      font-size: var(--app-icon-font-size-medium);
+      color: var(--app-color);
+    }
+    .span {
+      background-color: var(--app-background-color);
+      color: white;
+      height: 30px;
+      font-size: var(--app-text-font-size-medium);
+      padding-top: 0px;
+      padding-bottom: 10px;
+      padding-right: 10px;
+      padding-left: 10px;
+    }
+  }
+  .message {
+    margin-left:20px;
+    margin-right:10px;
+    font-size: var(--app-icon-font-size-medium);
+  }
+  .image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+  }
+}
+
+.image-person {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding-left: 150px;
+}
+
+// .popover-history {
+//   --min-height: var(--app-alert-height) !important;
+//   --min-width: var(--app-alert-min-width) !important;
+//   .popover-heading {
+//     .label {
+//       font-size: var(--app-text-font-size-medium);
+//     }
+//     .icon {
+//       background: var(--app-background-color);
+//       font-size: var(--app-icon-font-size-medium);
+//       color: var(--app-color);
+//     }
+//     .span {
+//       background-color: var(--app-background-color);
+//       color: white;
+//       height: 30px;
+//       font-size: var(--app-text-font-size-medium);
+//       padding-top: 0px;
+//       padding-bottom: 10px;
+//       padding-right: 10px;
+//       padding-left: 10px;
+//     }
+//   }
+//   .message {
+//     margin-left:20px;
+//     margin-right:10px;
+//     font-size: var(--app-icon-font-size-medium);
+//   }
+//   .image {
+//     display: block;
+//     margin-left: auto;
+//     margin-right: auto;
+//     width: 80%;
+//   }
+// }
+
+// --- GRID ---
+
+.grid {
+  --ion-grid-column-padding: 10px;
+  width: 100%;
+  font-size: var(--app-text-font-size-medium);
+  ion-row:first-child {
+    font-weight: bold;
+    color: white;
+    background-color: var(--app-background-color);
+    font-size: var(--app-text-font-size-medium);
+  }
+  ion-col {
+    border: 1px solid black;
+    border-bottom: 0;
+    border-right: 0;
+  }
+  ion-col:last-child {
+    border-right: 1px solid black;
+  }
+  ion-row:last-child {
+    border-bottom: 1px solid black;
+  }
+}
+
+// --- NG-SELECT ---
+
+.ng-select-container {
+  // border: 2px solid var(--app-color) !important;
+  border: 1px solid var(--ion-color-medium-shade) !important;
+  box-shadow: none;
+  font-size: var(--app-text-font-size-medium) !important;
+  height: 20px;
+}
+
+html .ng-dropdown-panel .ng-dropdown-panel-items {
+  max-height: 200px;
+  overflow: scroll;
+  font-size: var(--app-text-font-size-medium) !important;
+  // border: 1px solid red !important;
+  border: 1px solid var(--ion-color-medium-tint) !important;
+}
+
+.ng-select-popover {
+  border: 1px solid red;
+  border-radius: 5px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  width:100%;
+  .button {
+    font-size: var(--app-text-font-size-medium);
+    color: black;
+    text-align: left;
+    text-transform: none;
+    --padding-start: 0px;
+  }
+}
+
+// --- HORIZONTAL TREE ---
+
+.tree {
+  display: flex;
+  justify-content: center;
+  // white-space: nowrap;
+  white-space: nowrap;
+  overflow-x: scroll;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  ul {
+    display: flex;
+    width:100%;
+    padding-top: 20px;
+    position: relative;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    ul {
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        border-left: 2px solid #ccc;
+        width: 0;
+        height: 20px;
       }
     }
   }
-
-
-.toast {
-    --height: 100px;
-    background: var(--app-background-color);
-    color: white;
-    font-size: $text_font_size_small;
-
-    // .toast-wrapper {
-    //   min-width: 350px !important;
-    //   .toast-button:first-child {
-    //     color: grey;
-    //   }
-    //   .toast-head {
-    //     h2 {
-    //       color: white;
-    //       background-color: var(--app-background-color);
-    //       font-size: 18px;
-    //     }
-    //   }
-    //   .toast-button-group {
-    //     justify-content: center;
-    //   }
-    //   .toast-button:nth-child(1){
-    //     // color: red;
-    //     color: var(--app-background-color);
-    //   }
-    //   .toast-button:nth-child(2){
-    //     // color: blue;
-    //     color: grey;
-    //   }
-    // }
+  li {
+    float: left;
+    text-align: center;
+    list-style-type: none;
+    position: relative;
+    padding: 20px 5px 0 5px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 50%;
+      border-top: 2px solid #ccc;
+      width: 50%;
+      height: 20px;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 50%;
+      border-top: 2px solid #ccc;
+      width: 50%;
+      height: 20px;
+      right: auto;
+      left: 50%;
+      border-left: 2px solid #ccc;
+    }
+    &:only-child {
+      &::after {
+        display: none;
+      }
+      &::before {
+        display: none;
+      }
+      padding-top: 0;
+    }
+    &:first-child {
+      &::before {
+        border: 0 none;
+      }
+      &::after {
+        border-radius: 5px 0 0 0;
+        -webkit-border-radius: 5px 0 0 0;
+        -moz-border-radius: 5px 0 0 0;
+      }
+    }
+    &:last-child {
+      &::after {
+        border: 0 none;
+      }
+      &::before {
+        border-right: 2px solid #ccc;
+        border-radius: 0 5px 0 0;
+        -webkit-border-radius: 0 5px 0 0;
+        -moz-border-radius: 0 5px 0 0;
+      }
+    }
+    div {
+      border: 1px solid #C10100;
+      padding: 5px 5px;
+      text-decoration: none;
+      color: $color;
+      font-size: var(--app-text-font-size-small);
+      display: inline-block;
+      min-width: 50px;
+      min-height: 30px;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      transition: all 0.5s;
+      -webkit-transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      .node {
+        display: inline-block;
+        min-width: 40px;
+        padding: 5px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        margin: 0px 2px;
+        &.male {
+          background-color: $background_color_male;
+        }
+        &.female {
+          background-color: $background_color_female;
+        }
+        &.select {
+          background-color: $background_color_select;
+        }
+        &.node-select {
+          background-color: $background_color_node;
+        }
+        &.not-complete {
+          background-color: $background_color_not_complete;
+        }
+      }
+      &:hover {
+        background: $hover_color;
+        color: $over_color;
+        border: 1px solid $border_color;
+        &+ul {
+          li {
+            div {
+              background: $hover_color;
+              color: $over_color;
+              border: 1px solid $border_color;
+            }
+            &::after {
+              border-color: $border_color;
+            }
+            &::before {
+              border-color: $border_color;
+            }
+          }
+          &::before {
+            border-color: $border_color;
+          }
+          ul {
+            &::before {
+              border-color: $border_color;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
-// --- card ---
+// --- VERTICAL TREE ---
 
-.card-header{
-  background: var(--app-background-color);
-  color: white;
-  font-size: $text_font_size_medium;
-  height:26px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-  position: relative; 
-  width: 100%;
+.vertical-tree {
   display: flex;
-  align-items: center;
-  justify-content: left;
-}
-
-.card-header-small {
-  background: var(--app-background-color);
-  color: white;
-  font-size: $text_font_size_small;
-  height:20px;
-	margin-top: 5px;
-	margin-bottom: 5px;
-  position: relative; 
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: left;
-}
-
-.card-label{
-  font-weight: bold;
-  font-size: $text_font_size_small;
-}
-
-.card-input{
-	margin-top: 8px;
-	border: solid 1px grey;
-	margin-bottom: 8px;
-  font-size: $text_font_size_small;
-}
-
-.card-textarea{
-	margin-top: 8px;
-	border: solid 1px grey;
-	margin-bottom: 8px;
-  font-size: $text_font_size_small;
-}
-
-.card-select{
-	margin-top: 8px;
-  font-size: $text_font_size_small;
-}
-
-.card-select-1{
-	margin-top: 8px;
-	margin-bottom: 8px;
-  font-size: $text_font_size_small;
-}
-
-// --- modal ---
-
-.child-modal {
-  align-items: center;
   justify-content: center;
-  --min-height: 80%; 
-  --min-width: 50%;
-  --max-height: 80%; 
-  --max-width: 50%;
+  white-space: nowrap;
+  // overflow-x: scroll;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  
+  // https://stackoverflow.com/questions/26681059/create-a-circle-avatar-from-a-rectangle-image-keeping-proportions-and-just-using
+
+  img {
+    object-fit: cover;
+    border-radius: 3px; 
+    width: 60px;
+    height: 45px;
+  }
+
+  ul {
+    padding-left: 10px;
+  }
+  li {
+    margin: 0px 0;
+    list-style-type: none;
+    position: relative;
+    padding: 20px 10px 0px 10px;
+    &::before {
+      content: '';
+      position: absolute; 
+      top: 0;
+      width: 1px; 
+      height: 100%;
+      right: auto; 
+      left: -5px;
+      border-left: 2px solid #ccc;
+      bottom: 50px;
+    }
+    &::after {
+      content: '';
+      position: absolute; 
+      top: 45px; 
+      width: 15px; 
+      height: 20px;
+      right: auto; 
+      left: -5px;
+      border-top: 2px solid #ccc;
+    }
+    div {
+      border: 1px solid #C10100;
+      padding: 5px 5px;
+      text-decoration: none;
+      color: $color;
+      // font-size: var(--app-text-font-size-large);
+      font-size: var(--app-text-font-size-small);
+      min-width: 50px;
+      min-height: 30px;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      transition: all 0.5s;
+      -webkit-transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      // display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      .image {
+        width: 100px; // 4/3 w/h to match cropper-modal
+        height: 75px;
+        // width: 60px; // 4/3 w/h to match cropper-modal
+        // height: 45px;
+        // width: 40px; // 4/3 w/h to match cropper-modal
+        // height: 30px;
+        // https://www.educative.io/answers/how-to-enlarge-an-image-on-hover-in-html
+        &:hover{
+          transform:scale(2.0);
+        }
+      }
+      .node {
+        display: inline-block;
+        text-align: center;
+        min-width: 40px;
+        padding: 5px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        margin: 0px 2px;
+        &.male {
+          background-color: $background_color_male;
+        }
+        &.female {
+          background-color: $background_color_female;
+        }
+        &.select {
+          background-color: $background_color_select;
+        }
+        &.node-select {
+          background-color: $background_color_node;
+        }
+        &.not-complete {
+          background-color: $background_color_not_complete;
+        }
+      }
+      &:hover {
+        background: $hover_color;
+        color: $over_color;
+        border: 1px solid $border_color;
+        &+ul {
+          li {
+            div {
+              background: $hover_color;
+              color: $over_color;
+              border: 1px solid $border_color;
+            }
+            &::after {
+              border-color: $border_color;
+            }
+            &::before {
+              border-color: $border_color;
+            }
+          }
+          &::before {
+            border-color: $border_color;
+          }
+          ul {
+            &::before {
+              border-color: $border_color;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// --- PERSON TREE ---
+
+.person-tree-1 {
+  display: flex;
+  justify-content: center;
+  white-space: nowrap;
+  // overflow-x: scroll;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  
+  // https://stackoverflow.com/questions/26681059/create-a-circle-avatar-from-a-rectangle-image-keeping-proportions-and-just-using
+
+  img {
+    object-fit: cover;
+    border-radius: 3px; 
+    width: 60px;
+    height: 45px;
+  }
+
+  ul {
+    padding-left: 10px;
+  }
+  li {
+    margin: 0px 0;
+    list-style-type: none;
+    position: relative;
+    padding: 0px 10px 0px 10px;
+    &::before {
+      content: '';
+      position: absolute; 
+      top: 0;
+      width: 1px; 
+      height: 100%;
+      right: auto; 
+      left: -5px;
+      // border-left: 2px solid #ccc;
+      bottom: 50px;
+    }
+    &::after {
+      content: '';
+      position: absolute; 
+      top: 45px; 
+      width: 15px; 
+      height: 20px;
+      right: auto; 
+      left: -5px;
+      // border-top: 2px solid #ccc;
+    }
+    div {
+      border: 1px solid #C10100;
+      padding: 5px 5px;
+      text-decoration: none;
+      color: $color;
+      font-size: var(--app-text-font-size-small);
+      min-width: 50px;
+      min-height: 30px;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      transition: all 0.5s;
+      -webkit-transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      // display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      .image {
+        width: 100px; // 4/3 w/h to match cropper-modal
+        height: 75px;
+        // width: 60px; // 4/3 w/h to match cropper-modal
+        // height: 45px;
+        // width: 40px; // 4/3 w/h to match cropper-modal
+        // height: 30px;
+        // https://www.educative.io/answers/how-to-enlarge-an-image-on-hover-in-html
+        &:hover{
+          transform:scale(5.0);
+        }
+      }
+      .node {
+        display: inline-block;
+        text-align: center;
+        min-width: 40px;
+        padding: 5px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        margin: 0px 2px;
+        &.male {
+          background-color: $background_color_male;
+        }
+        &.female {
+          background-color: $background_color_female;
+        }
+        &.select {
+          background-color: $background_color_select;
+        }
+        &.node-select {
+          background-color: $background_color_node;
+        }
+        &.not-complete {
+          background-color: $background_color_not_complete;
+        }
+      }
+      &:hover {
+        background: $hover_color;
+        color: $over_color;
+        border: 1px solid $border_color;
+        &+ul {
+          li {
+            div {
+              background: $hover_color;
+              color: $over_color;
+              border: 1px solid $border_color;
+            }
+            &::after {
+              border-color: $border_color;
+            }
+            &::before {
+              border-color: $border_color;
+            }
+          }
+          &::before {
+            border-color: $border_color;
+          }
+          ul {
+            &::before {
+              border-color: $border_color;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.person-tree-2 {
+  display: flex;
+  justify-content: center;
+  white-space: nowrap;
+  // overflow-x: scroll;
+  padding-top: 0px;
+  padding-bottom: 10px;
+  
+  // https://stackoverflow.com/questions/26681059/create-a-circle-avatar-from-a-rectangle-image-keeping-proportions-and-just-using
+
+  img {
+    object-fit: cover;
+    border-radius: 3px; 
+    width: 60px;
+    height: 45px;
+  }
+
+  ul {
+    padding-left: 10px;
+  }
+  li {
+    margin: 0px 0;
+    list-style-type: none;
+    position: relative;
+    padding: 20px 10px 0px 10px;
+    &::before {
+      content: '';
+      position: absolute; 
+      top: 0;
+      width: 1px; 
+      height: 100%;
+      right: auto; 
+      left: -5px;
+      border-left: 2px solid #ccc;
+      bottom: 50px;
+    }
+    &::after {
+      content: '';
+      position: absolute; 
+      top: 45px; 
+      width: 15px; 
+      height: 20px;
+      right: auto; 
+      left: -5px;
+      border-top: 2px solid #ccc;
+    }
+    div {
+      border: 1px solid #C10100;
+      padding: 5px 5px;
+      text-decoration: none;
+      color: $color;
+      font-size: var(--app-text-font-size-small);
+      min-width: 50px;
+      min-height: 30px;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      transition: all 0.5s;
+      -webkit-transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      // display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      .image {
+        width: 100px; // 4/3 w/h to match cropper-modal
+        height: 75px;
+        // width: 60px; // 4/3 w/h to match cropper-modal
+        // height: 45px;
+        // width: 40px; // 4/3 w/h to match cropper-modal
+        // height: 30px;
+        // https://www.educative.io/answers/how-to-enlarge-an-image-on-hover-in-html
+        &:hover{
+          transform:scale(5.0);
+        }
+      }
+      .node {
+        display: inline-block;
+        text-align: center;
+        min-width: 40px;
+        padding: 5px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        margin: 0px 2px;
+        &.male {
+          background-color: $background_color_male;
+        }
+        &.female {
+          background-color: $background_color_female;
+        }
+        &.select {
+          background-color: $background_color_select;
+        }
+        &.node-select {
+          background-color: $background_color_node;
+        }
+        &.not-complete {
+          background-color: $background_color_not_complete;
+        }
+      }
+      &:hover {
+        background: $hover_color;
+        color: $over_color;
+        border: 1px solid $border_color;
+        &+ul {
+          li {
+            div {
+              background: $hover_color;
+              color: $over_color;
+              border: 1px solid $border_color;
+            }
+            &::after {
+              border-color: $border_color;
+            }
+            &::before {
+              border-color: $border_color;
+            }
+          }
+          &::before {
+            border-color: $border_color;
+          }
+          ul {
+            &::before {
+              border-color: $border_color;
+            }
+          }
+        }
+      }
+    }
+  }
 }

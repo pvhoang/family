@@ -1,11 +1,16 @@
 .app-splash-screen {
   /* background: white; */
-  background-image: var(--url-ion-content);
+  background-image: var(--url-ion-content-splash);
+  background-position: center center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
 
+  /* background-size: cover; */
+  
   /* background: #d1367d; */
   /* background: red; */
+  /* padding: 50px 50px; */
+
   position: fixed;
   top: 0;
   left: 0;
@@ -17,7 +22,8 @@
   width: 100%;
   height: 100%;
   z-index: 100;
-  transition: left 0.5s;
+  /* transition: left 0.5s; */
+  /* transition: left 0.1s; */
 }
 
 /* .app-splash-screen-1 {
@@ -47,42 +53,91 @@
 
 .app-logo {
   margin-top: 100px;
-  background: url("./../../../assets/icon/gia-pha.png");
+  /* background: url("./../../../assets/icon/gia-pha.png"); */
+  background: var(--app-logo);
   background-repeat: no-repeat;
   max-width: 100%;
   background-position: center;
   background-size: contain;
-  width: 100px;
+  /* width: 1085px; */
+  /* height: 381px; */
+  width: 300px;
   height: 100px;
 }
 
-.app-label-1 {
-  margin-top: 50px;
-  /* color: #fff; */
-  /* color: var(--app-color); */
+.app-heading {
+  margin-top: 30px;
   color: var(--app-background-color);
-  /* font-size: 2.5em; */
   font-size: 2.5em;
   font-family: "Pacifico", cursive;
 }
-
+.app-label-1 {
+  margin-top: 30px;
+  /* color: #fff; */
+  /* color: var(--app-color); */
+  color: var(--app-background-color);
+  font-size: 2.0em;
+  /* font-family: var(--ion-font-family); */
+  font-family: "Pacifico", cursive;
+}
 .app-label-2 {
-  margin-top: 40px;
+  margin-top: 20px;
   /* color: #fff; */
   /* color: var(--app-color); */
   color: var(--app-background-color);
   /* font-size: 2.5em; */
   font-size: 2.0em;
+  /* font-family: var(--ion-font-family); */
   font-family: "Pacifico", cursive;
+}
+.app-version {
+  margin-top: 30px;
+  /* color: #fff; */
+  /* color: var(--app-color); */
+  color: var(--app-background-color);
+  /* font-size: 2.5em; */
+  font-size: 1.5em;
+  /* font-family: "Pacifico", cursive; */
+  font-family: var(--ion-font-family);
+}
+.app-mode {
+  margin-top: 20px;
+  color: var(--app-background-color);
+  font-size: 1.5em;
+  font-weight: bold;
+  font-family: var(--ion-font-family);
 }
 
 .app-loader {
-  margin-top: 50px;
-  background: url("./../../../assets/icon/three-dots.svg");
+  margin-top: 40px;
+  background: var(--app-three-dots);
   background-repeat: no-repeat;
   max-width: 100%;
   background-position: center;
   background-size: contain;
   width: 80px;
   height: 80px;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: var(--app-background-color);
+  color: var(--app-color);
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }

@@ -1,0 +1,503 @@
+{
+  "nodes": [
+    {
+      "name": "Phan Văn Nghi",
+      "gender": "male"
+    },
+    {
+      "name": "Thái Thị Tôn Nương",
+      "gender": "female"
+    }
+  ],
+  "children": [
+    {
+      "nodes": [
+        {
+          "name": "Phan Văn Nguyễn",
+          "gender": "male",
+          "yob": "Giáp Tuất",
+          "dod": "07/05"
+        },
+        {
+          "name": "Hà Thị Để",
+          "gender": "female",
+          "nick": "Đê",
+          "yob": "Kỷ mùi",
+          "dod": "16/05"
+        },
+        {
+          "name": "Hà Thị Nghiêm",
+          "gender": "female",
+          "nick": "Nguyên"
+        },
+        {
+          "name": "Hà Thị Ố",
+          "gender": "female",
+          "dod": "06/06"
+        }
+      ],
+      "children": [
+        {
+          "nodes": [
+            {
+              "name": "Phan Văn Vu",
+              "gender": "male",
+              "desc": "Mẹ: HÀ THỊ ĐÊ",
+              "dod": "04/02"
+            },
+            {
+              "name": "Nguyễn Thị Thai",
+              "gender": "female",
+              "dod": "18/06"
+            }
+          ],
+          "children": [
+            {
+              "nodes": [
+                {
+                  "name": "Phan Văn Giai",
+                  "gender": "male",
+                  "nick": "Quế",
+                  "dod": "25/02"
+                },
+                {
+                  "name": "Hoang Thị Nghinh",
+                  "gender": "female",
+                  "dod": "10/05"
+                }
+              ],
+              "children": [
+                {
+                  "nodes": [
+                    {
+                      "name": "Phan Thị Duc",
+                      "gender": "female",
+                      "yob": "GiapTy",
+                      "dod": "29/01"
+                    }
+                  ],
+                  "children": []
+                },
+                {
+                  "nodes": [
+                    {
+                      "name": "Phan Văn Gian",
+                      "gender": "male",
+                      "dod": "15/08"
+                    }
+                  ],
+                  "children": []
+                },
+                {
+                  "nodes": [
+                    {
+                      "name": "Phan Văn Vien",
+                      "gender": "male",
+                      "dod": "21/09"
+                    }
+                  ],
+                  "children": []
+                },
+                {
+                  "nodes": [
+                    {
+                      "name": "Phan Văn Trac",
+                      "gender": "male",
+                      "yob": "1871",
+                      "dod": "07/01"
+                    },
+                    {
+                      "name": "Trần Thị Nhung",
+                      "gender": "female",
+                      "yob": "1871",
+                      "dod": "11/06"
+                    }
+                  ],
+                  "children": [
+                    {
+                      "nodes": [
+                        {
+                          "name": "Phan Văn Nhưng",
+                          "gender": "male",
+                          "dod": "01/12"
+                        }
+                      ],
+                      "children": []
+                    },
+                    {
+                      "nodes": [
+                        {
+                          "name": "Phan Văn Thất",
+                          "gender": "male",
+                          "yob": "1900"
+                        },
+                        {
+                          "name": "Lê Thị Mượn",
+                          "gender": "female",
+                          "yob": "Ất tỵ",
+                          "dod": "14/03"
+                        },
+                        {
+                          "name": "Trần Thị Tuyệt",
+                          "gender": "female",
+                          "dod": "13/09"
+                        }
+                      ],
+                      "children": [
+                        {
+                          "nodes": [
+                            {
+                              "name": "Phan Văn Kỷ",
+                              "gender": "male",
+                              "desc": "Mẹ: Lê Thị Mượn",
+                              "dod": "15/03"
+                            }
+                          ],
+                          "children": []
+                        },
+                        {
+                          "nodes": [
+                            {
+                              "name": "Phan Văn Vọng",
+                              "gender": "male",
+                              "desc": "Mẹ: Lê Thị Mượn",
+                              "nick": "Cang",
+                              "yob": "Canh Ngọ"
+                            }
+                          ],
+                          "children": []
+                        },
+                        {
+                          "nodes": [
+                            {
+                              "name": "Phan Thị Cẩm",
+                              "gender": "female",
+                              "nick": "Nghêu",
+                              "desc": "Mẹ: Lê Thị Mượn",
+                              "yob": "Quý Dậu"
+                            }
+                          ],
+                          "children": []
+                        },
+                        {
+                          "nodes": [
+                            {
+                              "name": "Phan Thị Liềng",
+                              "gender": "female",
+                              "desc": "Mẹ: Lê Thị Mượn",
+                              "nick": "Liên",
+                              "yob": "Bính Tý",
+                              "dod": "02/09"
+                            }
+                          ],
+                          "children": []
+                        },
+                        {
+                          "nodes": [
+                            {
+                              "name": "Phan Thị Huệ",
+                              "gender": "female",
+                              "desc": "Mẹ: Lê Thị Mượn",
+                              "yob": "Canh Thìn"
+                            }
+                          ],
+                          "children": []
+                        },
+                        {
+                          "nodes": [
+                            {
+                              "name": "Phan Lượng",
+                              "gender": "male",
+                              "desc": "Mẹ: Lê Thị Mượn",
+                              "yob": "1944"
+                            },
+                            {
+                              "name": "Nguyễn Thị Hường",
+                              "gender": "female"
+                            }
+                          ],
+                          "children": []
+                        },
+                        {
+                          "nodes": [
+                            {
+                              "name": "Phan Văn Cân",
+                              "gender": "male",
+                              "desc": "Mẹ: Trần Thị Tuyệt",
+                              "yob": "1944"
+                            }
+                          ],
+                          "children": []
+                        },
+                        {
+                          "nodes": [
+                            {
+                              "name": "Phan Văn Ky",
+                              "gender": "male",
+                              "desc": "Mẹ: Trần Thị Tuyệt"
+                            }
+                          ],
+                          "children": []
+                        },
+                        {
+                          "nodes": [
+                            {
+                              "name": "Phan Văn Vong",
+                              "gender": "male",
+                              "desc": "Mẹ: Trần Thị Tuyệt"
+                            }
+                          ],
+                          "children": []
+                        },
+                        {
+                          "nodes": [
+                            {
+                              "name": "Phan Văn Luong",
+                              "gender": "male",
+                              "desc": "Mẹ: Trần Thị Tuyệt"
+                            }
+                          ],
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "nodes": [
+                        {
+                          "name": "Phan Thị Diêm",
+                          "gender": "female",
+                          "dod": "02/08"
+                        }
+                      ],
+                      "children": []
+                    },
+                    {
+                      "nodes": [
+                        {
+                          "name": "Phan Thị Thiếc",
+                          "gender": "female",
+                          "yob": "Ất Tỵ",
+                          "dod": "14/05"
+                        }
+                      ],
+                      "children": []
+                    },
+                    {
+                      "nodes": [
+                        {
+                          "name": "Phan Thị Mạnh",
+                          "gender": "female",
+                          "dod": "18/01"
+                        }
+                      ],
+                      "children": []
+                    },
+                    {
+                      "nodes": [
+                        {
+                          "name": "Phan Thị Chót",
+                          "gender": "female",
+                          "dod": "26/01"
+                        }
+                      ],
+                      "children": []
+                    },
+                    {
+                      "nodes": [
+                        {
+                          "name": "Phan Thị Chiu",
+                          "gender": "female"
+                        }
+                      ],
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "nodes": [
+                    {
+                      "name": "Phan Văn Y",
+                      "gender": "male",
+                      "nick": "Ky",
+                      "dod": "10/12"
+                    }
+                  ],
+                  "children": []
+                },
+                {
+                  "nodes": [
+                    {
+                      "name": "Phan Văn Han",
+                      "gender": "male",
+                      "dod": "27/07"
+                    }
+                  ],
+                  "children": []
+                }
+              ]
+            },
+            {
+              "nodes": [
+                {
+                  "name": "Phan Văn Thuong",
+                  "gender": "male",
+                  "nick": "Duong",
+                  "dod": "05/10"
+                },
+                {
+                  "name": "Nguyễn Thị Hue",
+                  "gender": "female",
+                  "dod": "28/10"
+                }
+              ],
+              "children": [
+                {
+                  "nodes": [
+                    {
+                      "name": "Phan Văn Cong",
+                      "gender": "male",
+                      "yob": "Giap Ty"
+                    }
+                  ],
+                  "children": []
+                },
+                {
+                  "nodes": [
+                    {
+                      "name": "Phan Văn Ấu",
+                      "gender": "male",
+                      "yob": "30-12",
+                      "dod": "16/06"
+                    },
+                    {
+                      "name": "Trần Thị Yêm",
+                      "gender": "female",
+                      "dod": "09/07"
+                    }
+                  ],
+                  "children": []
+                },
+                {
+                  "nodes": [
+                    {
+                      "name": "Phan Văn Dang",
+                      "gender": "male",
+                      "dod": "21/02"
+                    }
+                  ],
+                  "children": []
+                },
+                {
+                  "nodes": [
+                    {
+                      "name": "Phan Văn Hoa",
+                      "gender": "male",
+                      "dod": "04/11"
+                    },
+                    {
+                      "name": "Trần Thị Khan",
+                      "gender": "female",
+                      "dod": "04/01"
+                    }
+                  ],
+                  "children": [
+                    {
+                      "nodes": [
+                        {
+                          "name": "Phan Trang",
+                          "gender": "male",
+                          "dod": "21/06"
+                        }
+                      ],
+                      "children": []
+                    },
+                    {
+                      "nodes": [
+                        {
+                          "name": "Phan Tây",
+                          "gender": "male"
+                        }
+                      ],
+                      "children": []
+                    },
+                    {
+                      "nodes": [
+                        {
+                          "name": "Phan Lưởng",
+                          "gender": "male",
+                          "dod": "29/08"
+                        }
+                      ],
+                      "children": []
+                    },
+                    {
+                      "nodes": [
+                        {
+                          "name": "Phan Thị Thế",
+                          "gender": "female",
+                          "nick": "Du"
+                        }
+                      ],
+                      "children": []
+                    },
+                    {
+                      "nodes": [
+                        {
+                          "name": "Phan Văn Uông",
+                          "gender": "male",
+                          "nick": "Côi",
+                          "dod": "24/11"
+                        }
+                      ],
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodes": [
+                {
+                  "name": "Phan Thị Tung",
+                  "gender": "female",
+                  "dod": "11/01"
+                }
+              ],
+              "children": []
+            },
+            {
+              "nodes": [
+                {
+                  "name": "Phan Thị Bach",
+                  "gender": "female",
+                  "dod": " 09/09"
+                }
+              ],
+              "children": []
+            }
+          ]
+        },
+        {
+          "nodes": [
+            {
+              "name": "Phan Văn Duong (tuc:rang",
+              "gender": "male"
+            }
+          ],
+          "children": [
+            {
+              "nodes": [
+                {
+                  "name": "Phan Loi Hanh (sinh:1829",
+                  "gender": "male"
+                }
+              ],
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "version": "11"
+}

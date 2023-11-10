@@ -1,0 +1,19 @@
+<div *ngFor="let node of child.nodes">
+  <span *ngIf="(view == 1 || view == 2) || ((view == 0) && node.visible)"
+      class="node"
+      [ngClass]="node.relationship ? node.relationship + '-leaf' : ''"
+      [class]="node.nclass"
+      (click)="_leafSelected(node)"
+      id="{{node.id}}"
+      [innerHtml]="(view == 1 || view == 2) ? (node.spanDetail ? node.spanDetail : node.span) : node.span"
+  >
+  </span>
+  <img class="image" *ngIf="(view == 2) && (node.photoUrl != '')" [src]="node.photoUrl">
+</div>
+<ul *ngIf="child.children && child.children.length > 0">
+  <li *ngFor="let row of child.children" [ngStyle]="{'width': child.children.length === 1 ? '100%' : 'auto'}">
+    <ft-leaf (onLeafSelected)="_leafSelected($event)" [view]="view" [child]="row"></ft-leaf>
+  </li>
+</ul>
+
+

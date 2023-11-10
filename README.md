@@ -56,6 +56,7 @@ element.scrollIntoView
 =======================
 http://www.giaphavietnam.vn/default.aspx?lang=vi-VN&cp=news-detail&cid=38
 http://www.giaphavietnam.vn/default.aspx?cp=phado&id=307
+https://holaivietnam.com/index.php/tai-lieu-dong-ho/gia-pha-la-gi-noi-dung-cau-truc-va-cach-trinh-bay-gia-pha-29.html
 
 =======================
 # Resizing, set coordinates on images
@@ -73,6 +74,8 @@ https://www.npmjs.com/package/html-to-image
 # Shade image as background
 =======================
 https://coder-coder.com/background-image-opacity/
+https://onlinepngtools.com/change-png-opacity
+20%
 
 =======================
 # Download a text file
@@ -104,8 +107,40 @@ https://stackoverflow.com/questions/48295288/how-to-handle-single-click-and-doub
 =======================
 https://dev.to/_mnavarros/how-to-convert-html-to-pdf-using-angular-3jj8
 https://stackoverflow.com/questions/59885556/how-to-add-and-set-a-font-in-jspdf
+
 http://raw.githack.com/MrRio/jsPDF/master/docs/index.html
+https://raw.githack.com/MrRio/jsPDF/master/index.html
+
 https://www.npmjs.com/package/html-to-image
+
+https://github.com/tsayen/dom-to-image
+
+https://stackoverflow.com/questions/64268184/convert-image-url-to-base-64-string
+https://stackoverflow.com/questions/29578721/image-in-pdf-cut-off-how-to-make-a-canvas-fit-entirely-in-a-pdf-page
+
+=======================
+# FONT for jsPdf and font-face
+=======================
+
+https://fonts.google.com/?subset=vietnamese&noto.script=Latn
+. select Pacifico
+. download to Pacifico.zip -> c:/dev/family/src/assets/ttf/Pacifico-Regular.ttf
+. run https://rawgit.com/MrRio/jsPDF/master/fontconverter/fontconverter.html
+. convert 'Pacifico-Regular.ttf' to c:/dev/family/src/assets/js/Pacifico-Regular-normal.js
+
+import '../../../assets/js/Pacifico-Regular-normal.js';
+...
+doc.setFont('Pacifico-Regular'); // set custom font
+
+@font-face {
+  font-family: 'Pacifico';
+  font-style: italic;
+  font-weight: bold;
+  src: url('./assets/ttf/Pacifico-Regular.ttf');
+}
+--ion-font-family: 'Pacifico'
+
+
 
 =======================
 # DOC to HTM
@@ -145,7 +180,7 @@ https://github.com/kpdecker/jsdiff/tree/master/src/diff
 https://hoten.org/100-ho-pho-bien-nhat/
 
 =======================
-# Metrial Designs Font
+# Material Designs Font
 =======================
 . https://materialdesignicons.com/
 . search 'tree'
@@ -179,6 +214,33 @@ https://stackoverflow.com/questions/44621887/angular-how-to-get-current-url-in-a
 =======================
 
 https://stackoverflow.com/questions/69286935/how-to-get-a-subcollection-inside-a-collection-in-firestore-web-version-9-modul
+
+=======================
+# CORS
+=======================
+
+https://www.techiediaries.com/enable-cors-angular-14/
+https://www.stackhawk.com/blog/angular-cors-guide-examples-and-how-to-enable-it/
+
+
+=======================
+# FIRESTORAGE CORS
+=======================
+https://firebase.google.com/docs/storage/web/download-files
+https://cloud.google.com/storage/docs/gsutil_install
+https://cloud.google.com/sdk/auth_success
+
+gcloud init --skip-diagnostics
+
+You are logged in as: [pvhoang940@gmail.com].
+
+Pick cloud project to use:
+ [3] family-c5b45
+
+C:\Users\Hoang\AppData\Local\Google\Cloud SDK>gsutil cors set c:/dev/family/cors.json gs://family-c5b45.appspot.com
+Setting CORS on gs://family-c5b45.appspot.com/...
+
+C:\Users\Hoang\AppData\Local\Google\Cloud SDK>
 
 
 =====================================================================

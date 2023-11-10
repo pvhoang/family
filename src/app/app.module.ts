@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,6 +17,14 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
 
+// import { BookComponent } from './components/book/book.component';
+// import { MemoryPageModule } from './memory/memory.module';
+// import { NodePageModule } from './node/node.module';
+// import { FilePageModule } from './file/file.module';
+// import { MemoryPage } from './memory/memory.page';
+// import { NodePage } from './node/node.page';
+// import { FilePage } from './file/file.page';
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -23,11 +32,13 @@ export function createTranslateLoader(http: HttpClient) {
 @NgModule({
     declarations: [
         AppComponent, 
-        SplashScreenComponent,
+        SplashScreenComponent
     ],
     imports: [
         BrowserModule,
-        IonicModule.forRoot(),
+        IonicModule.forRoot({
+            sanitizerEnabled: true
+        }),
         AppRoutingModule,
         HttpClientModule,
         TranslateModule.forRoot({
@@ -37,11 +48,20 @@ export function createTranslateLoader(http: HttpClient) {
                 deps: [HttpClient]
             }
         }),
+        // RouterModule.forRoot([
+        //     { path: 'memory', component: MemoryPage },
+        //     { path: 'node', component: NodePage },
+        //     { path: 'file', component: FilePage }
+        // ]),
         provideFirebaseApp(() => initializeApp(environment.firebase)),
         provideFirestore(() => getFirestore()),
         provideAuth(() => getAuth()),
         provideStorage(() => getStorage()),
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        // MemoryPageModule,
+        // NodePageModule,
+        // FilePageModule,
+        
     ],
     providers: [{
             provide: RouteReuseStrategy,

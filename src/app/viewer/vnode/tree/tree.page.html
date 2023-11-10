@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-item class="header-top">
+    <ion-col size="12" class="heading">
+      <span class="label">{{ title }}</span>
+    </ion-col>
+  </ion-item>
+  <ion-item class="header-bottom">
+    <ion-col size="4" class="heading" (click)="onCancel()">
+      <ion-button class="button" fill="clear" (click)="onCancel()">
+        <ion-icon slot="icon-only" class="icon" src="{{FONTS_FOLDER}}close-circle-outline.svg" ></ion-icon>
+      </ion-button>
+      <span class="label">{{ 'CANCEL' | translate }}</span>
+      <!-- <span class="label">{{ CANCEL }}</span> -->
+    </ion-col>
+    <ion-col size="4" class="heading" (click)="onJPG()">
+      <!-- <ion-button class="button" title="{{ 'JPG' | translate }}" fill="clear" (click)="onJPG()"> -->
+      <ion-button class="button" title="{{ JPG }}" fill="clear" (click)="onJPG()">
+        <ion-icon slot="icon-only" class="icon" src="{{FONTS_FOLDER}}file-jpg-box.svg"></ion-icon>
+      </ion-button>
+      <!-- <span class="label">{{ 'TREE_POPOVER_PRINT_JPG' | translate }}</span> -->
+      <span class="label">{{ TREE_POPOVER_PRINT_JPG }}</span>
+    </ion-col>
+    <ion-col size="4" class="heading" (click)="onPDF()">
+      <ion-button class="button" title="{{ PDF }}" fill="clear" (click)="onPDF()">
+        <!-- <ion-button class="button" title="{{ PDF }}" fill="clear" (click)="onPDF()"> -->
+        <ion-icon slot="icon-only" class="icon" src="{{FONTS_FOLDER}}file-pdf-box.svg"></ion-icon>
+      </ion-button>
+      <!-- <span class="label">{{ 'TREE_POPOVER_PRINT_PDF' | translate }}</span> -->
+      <span class="label">{{ TREE_POPOVER_PRINT_PDF }}</span>
+    </ion-col>
+  </ion-item>
+</ion-header>
+
+<ion-content [fullscreen]="false" class="ion-padding">
+  <div class="screen-vertical-tree">
+    <div [ngStyle]="getZoomStyle()" id="screen">
+      <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
+    </div>
+  </div>
+</ion-content>

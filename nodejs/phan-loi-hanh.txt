@@ -1,0 +1,16 @@
+[Phan Loi Hanh|yob:1829|yod:1876|dod:29/10] - Tran Thị Khuong (tuc:Khang|sinh:1892|NHamThin|mat:27/02/MayNgo) - Tran Thị Ninh(vo|sinh:1839|mat:22/07)]
+	[Phan Gia Trung]
+		{phan-tat-dac}
+	[Phan Văn Trung (Gia Trung)|yob:1860|yod:1903] [Hoang Thị Tha|yob:1855|yod:At Dau,1860]
+		[Phan Ba Kieu|yob:1878|yod:1878]
+		[Phan Tat Dac|nick:Lanh The|yob:Canh Thin,1860|dod:08/04|yod:1947]
+	[Phan Văn Nghia|Dinh Ty|26/02| me:Tran Thị Khuong]
+	[Phan Khac Tuan|nick:Cuu Dien|yod:At Hoi,1860]
+		{phan-quang-triet}
+		{phan-ngoc-luat}
+	[Phan Thị Lien (me: Tran Thị Ninh)]
+	[Phan Tuan Duc (me: TRan Thị Ninh| sinh:1868)]
+	[Phan Ham (me: Tran Thị Ninh|yob:1863|dod:22/09)]
+	[Phan Thị Nhan|nick:Muon|desc: Me Tran Thị Ninh| yob:1870]
+	[Phan Văn Nuong|nick:Hanh]
+	[Phan Thị Doi]

@@ -80,6 +80,11 @@
 
   /* Set the font family of the entire app */
   --ion-font-family: 'Rubik', sans-serif;
+  // https://allfont.net/download/family-tree/
+  // --ion-font-family: 'Family Tree', arial;
+  // font-family: 'Family Tree', arial;
+  // --ion-font-family: 'FiryanaBeauty'!important;
+  // --ion-font-family: 'Milleniale'!important;
 
   --app-background: #FFFFFF;
   --app-background-shade: var(--ion-background-color-step-50, #F2F2F2);
@@ -94,7 +99,9 @@
   --app-fair-radius: 8px;
   --app-broad-radius: 12px;
 
-  --url-ion-content: url("../assets/common/dragon.webp");
+  // --url-ion-content: url("../assets/common/country-side.jpg");
+  // --url-ion-content-20: url("../assets/common/country-side-20.png");
+
   // --url-ion-item: url("../assets/imgs/image-1.jpg");
   // --url-ion-tab-bar: url("../assets/imgs/image-1.jpg");
   --url-ion-item: --app-background-color;
@@ -104,8 +111,45 @@
 
   // --base_color: yellow;
   // --base_background_color: #C10100;
-  --app-color: yellow;
-  --app-background-color: #C10100;
+
+  --app-color: #fee8b9;
+  --app-background-color: #063970;
+
+  
+
+  --app-screen-height: 700px;
+  --app-screen-height-vertical-tree: 700px;
+
+  --app-logo: url("../assets/icon/gia-pha-dragon.png");
+  --app-three-dots: url("../assets/icon/three-dots-red.svg");
+
+
+  --app-text-font-size-tiny: 10px;
+  --app-text-font-size-small: 12px;
+  --app-text-font-size-medium: 14px;
+  --app-text-font-size-large: 16px;
+  --app-text-font-size-extra-large: 18px;
+
+  --app-alert-font-size: 14px;
+  --app-alert-width: 350px;
+  --app-alert-height: 150px;
+
+  --app-toast-font-size: 14px;
+  --app-toast-height: 50px;
+  --app-toast-width: 350px;
+
+  --app-icon-font-size-tiny: 10px;
+  --app-icon-font-size-small: 12px;
+  --app-icon-font-size-medium: 14px;
+  --app-icon-font-size-large: 16px;
+  --app-icon-font-size-extra-large: 18px;
+
+  --url-ion-content: url("../assets/common/tree/tree.png");
+  --url-ion-content-splash: url("../assets/common/tree/tree.png");
+  --url-ion-content-memory: url("../assets/common/tree/tree.png");
+  --url-ion-content-node: url("../assets/common/tree/tree.png");
+  --url-ion-content-file: url("../assets/common/tree/tree.png");
+  --url-ion-content-alert: url("../assets/common/tree/tree-20.png");
 
 }
 

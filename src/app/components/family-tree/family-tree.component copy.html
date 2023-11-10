@@ -1,0 +1,28 @@
+          <!-- [innerHtml]="(view != 0) ? (node.spanDetail ? node.spanDetail : node.span) : node.span" -->
+        <!-- <span *ngIf="(view != 0) || ((view == 0) && node.visible)" -->
+          <!-- <img class="image" *ngIf="(view == 2 ) && node.photoUrl != ''" [src]="node.photoUrl"> -->
+
+
+<div class="{{class}}" id="{{class}}">
+  <ul>
+    <li>
+      <div *ngFor="let node of family.nodes">
+        <span *ngIf="(class != 'tree') || ((class == 'tree') && node.visible)"
+          class="node"
+          [ngClass]="node.relationship ? node.relationship + '-leaf' : ''"
+          [class]="node.nclass"
+          (click)="_leafSelected(node)" 
+          id="{{node.id}}"
+          [innerHtml]="(class != 'tree') ? (node.spanDetail ? node.spanDetail : node.span) : node.span"
+          >
+        </span>
+        <img class="image" *ngIf="(class == 'vertical-tree' ) && node.photoUrl != ''" [src]="node.photoUrl">
+      </div>
+      <ul *ngIf="family.children && family.children.length > 0">
+        <li *ngFor="let child of family.children" [ngStyle]="{'width': _setWidth(child) ? '100%' : 'auto'}" >
+          <ft-leaf (onLeafSelected)="_leafSelected($event)" [view]="view" [child]="child"></ft-leaf>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

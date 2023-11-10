@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FamilyService } from '../services/family.service';
 import { UtilService } from '../services/util.service';
 import { DataService } from '../services/data.service';
 
@@ -11,15 +10,17 @@ export class TypeaheadService {
 
   constructor(
     private dataService: DataService,
-    private familyService: FamilyService,
     private utilService: UtilService,
   ) { }
 
   getEvaluatedName(term: string) {
     return new Promise((resolve) => {
       this.dataService.readItem('names').then((result:any) => {
-        console.log('term: ', term);
-
+        // console.log('getEvaluatedName - term: ', term);
+        let sterm = this.utilService.stripVN(term);
+        if (term != sterm) {
+          resolve([term]);
+        }
         let data = result.data;
 
         let familyNames = data['family'];
@@ -30,10 +31,11 @@ export class TypeaheadService {
 
         // break term to words
         let srcName = term.toLowerCase();
-        let desName = '';
+        // let desNames = '';
         let words = srcName.split(' ');
         let gender = 0;
         let res:any = [];
+        let resNames:any = [];
 
         for (let i = 0; i < words.length; i++) {
           let srcWord = words[i];
@@ -63,50 +65,88 @@ export class TypeaheadService {
             // 4-word or more name, use first name
             res = this.getWord(gender, firMaleNames, firFemaleNames, srcWord);
           }
-          word = res[0];
-          gender = res[1];
-          if (word == null) word = srcWord;
-          console.log('i, gender, srcWord, desWord: ', i, gender, srcWord, word);
-          // console.log('word 2: ', word);
-          desName += word + ' ';
+          // gender = res[1];
+          if (res[0].length == 0) {
+            // capitalize src
+            let c = srcWord.charAt(0);
+            word = c.toUpperCase() + srcWord.substring(1);
+            resNames[i] = [word];
+          } else {
+            resNames[i] = res[0];
+          }
         }
-        desName = desName.trim();
-        resolve(desName);
+        // console.log('getEvaluatedName - srcName, resNames: ', srcName, resNames);
+        let names = [];
+        for (let i = 0; i < resNames[0].length; i++) {
+          // let name = '';
+          let familyName = resNames[0][i];
+          // name = familyName;
+          if (resNames.length == 1) {
+            names.push(familyName);
+            continue;
+          }
+          // loop middle name
+          for (let j = 0; j < resNames[1].length; j++) {
+            let middleName = resNames[1][j];
+            // name += ' ' + middleName;
+            if (resNames.length >= 3) {
+              // 3-word name
+              for (let k = 0; k < resNames[2].length; k++) {
+                let firstName1 = resNames[2][k];
+                // name += ' ' + firstName1;
+                if (resNames.length == 4) {
+                  for (let l = 0; l < resNames[3].length; l++) {
+                    let firstName2 = resNames[3][l];
+                    // name += ' ' + firstName2;
+                    names.push(familyName + ' ' + middleName + ' ' + firstName1 + ' ' + firstName2);
+                  }
+                } else {
+                  names.push(familyName + ' ' + middleName + ' ' + firstName1);
+                }
+              }
+            } else {
+              names.push(familyName + ' ' + middleName);
+            }
+          }
+        }
+        // console.log('getEvaluatedName - names: ', names);
+        resolve(names);
       });
     });
   }
 
   private getWord(gender, mNames:any, fNames:any, srcWord: any) {
-    let word:any;
+    let words:any;
     let newGender = gender;
     if (gender == 0) {
       // neutral
-      word = this.getVNWord(mNames, srcWord);
-      if (word == null) {
-        word = this.getVNWord(fNames, srcWord);
+      words = this.getVNWord(mNames, srcWord);
+      if (words.length == 0) {
+        words = this.getVNWord(fNames, srcWord);
         newGender = 2;
       } else {
         newGender = 1;
       }
     } else if (gender == 1) {
       // male
-      word = this.getVNWord(mNames, srcWord);
+      words = this.getVNWord(mNames, srcWord);
     } else if (gender == 2) {
       // female
-      word = this.getVNWord(fNames, srcWord);
+      words = this.getVNWord(fNames, srcWord);
     }
-    return [ word, newGender ];
+    return [ words, newGender ];
   }
 
   private getVNWord(names:any, srcWord: any) {
     // srcWord: Nguyen, Nguyễn, nguyen, nguyễn, NGUYEN
     let stripWord = this.utilService.stripVN(srcWord);
+    let words = [];
     // check again available VN list
     for (let i = 0; i < names.length; i++) {
-      if (stripWord == this.utilService.stripVN(names[i].name))
-        return names[i].name;
+      if (stripWord == this.utilService.stripVN(names[i]))
+        words.push(names[i]);
     }
-    return null;
+    return words;
   }
 
   getJsonNames(term: string = null): Observable<string[]> {
@@ -139,10 +179,10 @@ export class TypeaheadService {
           // one word, must be Family name
           if (words.length == 1) {
             term = words[0];
-            let famNames = familyNames.filter((x:any) => this.utilService.stripVN(x.name).indexOf(term) > -1);
+            let famNames = familyNames.filter((x:any) => this.utilService.stripVN(x).indexOf(term) > -1);
             // add some common middle and first name
             for (let i = 0; i < famNames.length; i++) {
-              let familyName = famNames[i].name;
+              let familyName = famNames[i];
               names.push({ name: familyName + ' Văn Tên' });
               names.push({ name: familyName + ' Thị Tên' });
             }
@@ -151,21 +191,21 @@ export class TypeaheadService {
           } else if (words.length == 2) {
             let familyName = words[0];
             term = words[1];
-            let famNames = familyNames.filter((x:any) => this.utilService.stripVN(x.name) == familyName);
+            let famNames = familyNames.filter((x:any) => this.utilService.stripVN(x) == familyName);
             // filter middle names
-            let mMaleNames = midMaleNames.filter((x:any) => this.utilService.stripVN(x.name).indexOf(term) > -1);
-            let mFemaleNames = midFemaleNames.filter((x:any) => this.utilService.stripVN(x.name).indexOf(term) > -1);
+            let mMaleNames = midMaleNames.filter((x:any) => this.utilService.stripVN(x).indexOf(term) > -1);
+            let mFemaleNames = midFemaleNames.filter((x:any) => this.utilService.stripVN(x).indexOf(term) > -1);
             // select  a full name from Family and Middle
             for (let i = 0; i < famNames.length; i++) {
-              familyName = famNames[i].name;
+              familyName = famNames[i];
               for (let j = 0; j < mMaleNames.length; j++) {
-                let middleName = mMaleNames[j].name;
-                let firstName = firMaleNames[j].name;
+                let middleName = mMaleNames[j];
+                let firstName = firMaleNames[j];
                 names.push({ name: familyName + ' ' + middleName + ' ' + firstName });
               }
               for (let j = 0; j < mFemaleNames.length; j++) {
-                let middleName = mFemaleNames[j].name;
-                let firstName = firMaleNames[j].name;
+                let middleName = mFemaleNames[j];
+                let firstName = firMaleNames[j];
                 names.push({ name: familyName + ' ' + middleName + ' ' + firstName });
               }
             }
@@ -176,25 +216,25 @@ export class TypeaheadService {
             let familyName = words[0];
             let middleName = words[1];
             term = words[2];
-            let famNames = familyNames.filter((x:any) => this.utilService.stripVN(x.name) == familyName);
-            let mMaleNames = midMaleNames.filter((x:any) => this.utilService.stripVN(x.name) == middleName);
-            let mFemaleNames = midFemaleNames.filter((x:any) => this.utilService.stripVN(x.name) == middleName);
-            let fMaleNames = firMaleNames.filter((x:any) => this.utilService.stripVN(x.name).indexOf(term) > -1);
-            let fFemaleNames = firFemaleNames.filter((x:any) => this.utilService.stripVN(x.name).indexOf(term) > -1);
+            let famNames = familyNames.filter((x:any) => this.utilService.stripVN(x) == familyName);
+            let mMaleNames = midMaleNames.filter((x:any) => this.utilService.stripVN(x) == middleName);
+            let mFemaleNames = midFemaleNames.filter((x:any) => this.utilService.stripVN(x) == middleName);
+            let fMaleNames = firMaleNames.filter((x:any) => this.utilService.stripVN(x).indexOf(term) > -1);
+            let fFemaleNames = firFemaleNames.filter((x:any) => this.utilService.stripVN(x).indexOf(term) > -1);
  
             for (let i = 0; i < famNames.length; i++) {
-              familyName = famNames[i].name;
+              familyName = famNames[i];
               for (let j = 0; j < mMaleNames.length; j++) {
-                let middleName = mMaleNames[j].name;
+                let middleName = mMaleNames[j];
                 for (let k = 0; k < fMaleNames.length; k++) {
-                  let firstName = fMaleNames[k].name;
+                  let firstName = fMaleNames[k];
                   names.push({ name: familyName + ' ' + middleName + ' ' + firstName });
                 }
               }
               for (let j = 0; j < mFemaleNames.length; j++) {
-                let middleName = mFemaleNames[j].name;
+                let middleName = mFemaleNames[j];
                 for (let k = 0; k < fFemaleNames.length; k++) {
-                  let firstName = fFemaleNames[k].name;
+                  let firstName = fFemaleNames[k];
                   names.push({ name: familyName + ' ' + middleName + ' ' + firstName });
                 }
               }
@@ -208,7 +248,6 @@ export class TypeaheadService {
   }
 
   getJson(term: string = null, json: string): Observable<string[]> {
-    // console.log('NodePage - getJson: ', json);
     return new Observable((observer) => {
       let getJsonPromise: Promise<any>;
       getJsonPromise = new Promise((resolve) => {
@@ -225,16 +264,12 @@ export class TypeaheadService {
           values = data;
         } else {
           term = this.utilService.stripVN(term);
-          values = data.filter((x:any) => this.utilService.stripVN(x.name).indexOf(term) > -1);
+          values = data.filter((x:any) => this.utilService.stripVN(x).indexOf(term) > -1);
         }
         observer.next(values);
       });
     });
   }
-
-  // async getJsonPlaces() {
-  //   return await this.dataService.readItem('places');
-  // }
 
   getJsonPlaces(): any {
     return new Promise((resolve) => {
@@ -244,19 +279,11 @@ export class TypeaheadService {
     });
   }
 
-  getJsonPeople(): any {
-    return new Promise((resolve) => {
-      this.dataService.readItem('people').then((data:any) => {
-        resolve(data['data']);
-      });
-    });
-  }
-
   private sortName(names: any) {
     let d = [];
     names.forEach((element:any) => {
-      if (element && element.name != '' && !d.includes(element.name))
-        d.push(element.name);
+      if (element && element != '' && !d.includes(element))
+        d.push(element);
     });
     d.sort();
     let data = [];

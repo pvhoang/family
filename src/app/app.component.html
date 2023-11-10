@@ -1,4 +1,4 @@
 <ion-app>
-  <splash-screen *ngIf="ancestor != 'admin'" [ancestor]="ancestor"></splash-screen>
-  <ion-router-outlet></ion-router-outlet>
+  <splash-screen *ngIf="startUp" (onComplete)="onSplashComplete($event)" [url]="url" [mode]="mode"></splash-screen>
+  <ion-router-outlet *ngIf="startApp"></ion-router-outlet>
 </ion-app>

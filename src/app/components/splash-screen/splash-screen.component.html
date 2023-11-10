@@ -1,12 +1,13 @@
-<div
-  class="app-splash-screen"
-  [ngStyle]="{ left: windowWidth }"
-  *ngIf="showSplash"
->
+<div class="app-splash-screen" [ngStyle]="{ left: windowWidth }" *ngIf="showSplash">
   <div class="app-splash-inner">
-    <div class="app-logo"></div>
+    <!-- <div class="app-logo"></div> -->
+    <div class="app-heading">Gia Phả</div>
     <div *ngIf="firstTitle" class="app-label-1">{{firstTitle}}</div>
     <div *ngIf="secTitle" class="app-label-2">{{secTitle}}</div>
-    <div *ngIf="firstTitle" class="app-loader"></div>
+    <div *ngIf="version" class="app-version">{{version}}</div>
+    <div *ngIf="appMode" class="app-mode">{{appMode}}</div>
+    <div *ngIf="firstTitle" class="app-loader tooltip" (click)="onDone()">
+      <span class="tooltiptext">{{clickStr}}</span>
+    </div>
   </div>
 </div>

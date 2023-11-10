@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-item class="header-top">
+    <ion-col size="1">
+    </ion-col>
+    <ion-col size="7">
+      <ng-select
+        [appendTo]="'body'"
+        [items]="peopleNodes" 
+        placeholder="{{selectPeoplePlaceholder}}"
+        [(ngModel)]="selectPeople"
+        (close)="closePeopleNodes()"
+        (clear)="clearPeopleNodes()"
+        (keyup)="keyupPeopleNodes($event)"
+      >
+      </ng-select>
+    </ion-col>
+    <ion-col size="1">
+    </ion-col>
+    <ion-col size="3" class="heading" (click)="onExit()">
+      <ion-button class="button" fill="clear" (click)="onExit()">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
+      </ion-button>
+      <span class="label">{{ 'CANCEL' | translate }}</span>
+    </ion-col>
+  </ion-item>
+
+</ion-header>
+
+<ion-content [fullscreen]="false" class="ion-padding">
+
+  <div class="screen-node" id="full-tree">
+    
+    <div class="image-person" *ngIf="selectedNode && selectedNode.yod != ''">
+      <canvas #canvasContainer width="250px" height="300px"></canvas>
+    </div>
+
+    <div [ngStyle]="getZoomStyle()">
+      <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
+    </div>
+    <br>
+    <div *ngIf="selectedNode" class="editor">
+      <ion-card-header class="section">
+        <span class="span">&nbsp;{{ 'EDIT_GROUP_OTHER' | translate }}</span>
+      </ion-card-header>
+      <br>
+      <ion-label class="label">{{ 'NODE_DESC' | translate }}</ion-label>
+      <ion-textarea clearInput class="textarea" type="text" rows="10" autosize [(ngModel)]="selectedNode.desc" placeholder="{{ 'EDIT_DESC_PLACEHOLDER' | translate }}" clearInput></ion-textarea>
+      <br>
+    </div>
+  </div>
+
+</ion-content>

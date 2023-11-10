@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-item class="header-bottom">
+    <ion-col size="6" class="heading" (click)="onCancel()">
+      <ion-button class="app-ion-button" fill="clear" (click)="onCancel()">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="app-ion-icon-material"></ion-icon>
+      </ion-button>
+      <span class="label">{{ 'CANCEL' | translate }}</span>
+    </ion-col>
+    <ion-col size="6" class="heading" (click)="onSave()">
+      <ion-button class="app-ion-button" fill="clear" (click)="onSave()">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}content-save-outline.svg" class="app-ion-icon-material"></ion-icon>
+      </ion-button>
+      <span class="label">{{ 'SAVE' | translate }}</span>
+    </ion-col>
+  </ion-item>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="url">
+    <image-cropper
+      [imageChangedEvent]="imageChangedEvent"
+      [imageURL]="data"
+      [maintainAspectRatio]="true"
+      [aspectRatio]="4 / 3"
+      format="png"
+      (imageCropped)="imageCropped($event)"
+      (imageLoaded)="imageLoaded()"
+      (cropperReady)="cropperReady($event)"
+      (loadImageFailed)="loadImageFailed()"
+      [resizeToWidth]="128"
+      [cropperMinWidth]="128"
+      [onlyScaleDown]="true"
+      [roundCropper]="false"
+    ></image-cropper>
+  </div>
+  <div *ngIf="!url">
+    <image-cropper
+      [imageChangedEvent]="imageChangedEvent"
+      [imageBase64]="data"
+      [maintainAspectRatio]="true"
+      [aspectRatio]="4 / 3"
+      format="png"
+      (imageCropped)="imageCropped($event)"
+      (imageLoaded)="imageLoaded()"
+      (cropperReady)="cropperReady($event)"
+      (loadImageFailed)="loadImageFailed()"
+      [resizeToWidth]="128"
+      [cropperMinWidth]="128"
+      [onlyScaleDown]="true"
+      [roundCropper]="false"
+    ></image-cropper>
+  </div>
+  
+  <img [src]="croppedImage" />
+  
+</ion-content>
+
