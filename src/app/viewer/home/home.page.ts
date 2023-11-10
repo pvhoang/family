@@ -85,10 +85,12 @@ export class HomePage implements OnInit{
 					// break into various page
 					let pages = [];
 					let texts = text.split('/PAGE/');
-					let title = data.title;
+					// let title = data.title;
+					let pcount = 1;
 					texts.forEach((txt:string) => {
+						let title = (texts.length == 1) ? data.title : data.title + ' (' + pcount++ + ')';
 						pages.push({ title: title, text: txt, index: count++});
-						title = '';
+						// title = '';
 					})
 					specialPageData[key] = pages;
 				} else {

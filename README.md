@@ -54,6 +54,7 @@ element.scrollIntoView
 =======================
 # Gia Pha reference
 =======================
+https://giaphadongtoc.com/noi-dung-trong-cuon-gia-pha-mau/
 http://www.giaphavietnam.vn/default.aspx?lang=vi-VN&cp=news-detail&cid=38
 http://www.giaphavietnam.vn/default.aspx?cp=phado&id=307
 https://holaivietnam.com/index.php/tai-lieu-dong-ho/gia-pha-la-gi-noi-dung-cau-truc-va-cach-trinh-bay-gia-pha-29.html
