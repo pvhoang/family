@@ -26,6 +26,15 @@
     </ion-col>
   </ion-item>
 
+  <ion-item *ngIf="isAddBranchOK" class="popover-heading" (click)="onAddBranch()">
+    <ion-col size="2" class="center">
+      <ion-icon class="icon" src="{{FONTS_FOLDER}}account-plus-outline.svg" ></ion-icon>
+    </ion-col>
+    <ion-col size="10" class="center">
+      <ion-label class="label">{{ 'NODE_POPOVER_ADD_BRANCH' | translate }}</ion-label>
+    </ion-col>
+  </ion-item>
+
   <ion-item *ngIf="isDeleteOK" class="popover-heading" (click)="onDelete()">
     <ion-col size="2" class="center" >
       <ion-icon class="icon" src="{{FONTS_FOLDER}}account-remove-outline.svg" ></ion-icon>

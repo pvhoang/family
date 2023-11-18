@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController, PopoverController } from '@ionic/angular';
 import { PopoverComponent } from '../../components/popover/popover.component';
 import { UtilService } from '../../services/util.service';
@@ -6,37 +6,35 @@ import { LanguageService } from '../../services/language.service';
 import { FamilyService } from '../../services/family.service';
 import { NodeService } from '../../services/node.service';
 import { DataService } from '../../services/data.service';
-import { EditPage } from './edit/edit.page';
-import { TypeaheadService } from '../../services/typeahead.service';
+import { EditPage } from '../node/edit/edit.page';
 import { ThemeService } from '../../services/theme.service';
 import { Family, Node, FAMILY} from '../../services/family.model';
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
 
 const WAIT_TIME = 500;
 
-// http://www.giaphavietnam.vn/default.aspx?lang=vi-VN&cp=news-detail&cid=38
-
 @Component({
-  selector: 'app-node',
-  templateUrl: './node.page.html',
-  styleUrls: ['./node.page.scss'],
+  selector: 'app-branch',
+  templateUrl: './branch.page.html',
+  styleUrls: ['./branch.page.scss'],
 })
-export class NodePage implements OnInit {
+export class BranchPage implements OnInit {
 
   FONTS_FOLDER = FONTS_FOLDER;
   modalDataResponse: any;
   family:Family = FAMILY;
   familyView:Family = FAMILY;
-  selectPeople: string = null;
-  selectPeoplePlaceholder: string = null;
+  
+  branches: any[] = [];
+  selectBranch: any = null;
+  currentBranch: any = null;
+
   title: string = '';
-  peopleNodes: Node[] = [];
   justClicked = false;
   doubleClicked = false;
-  selectedNode: Node = null;
-  selectedNodeName: string = '';
   isChildOK = false;
 
+  selectedNode: Node = null;
   viewMode = 0;
   treeClass = 'tree';
 
@@ -58,75 +56,44 @@ export class NodePage implements OnInit {
     private dataService: DataService,
     private languageService: LanguageService,
     private themeService: ThemeService,
-    private typeahead: TypeaheadService,
   ) {}
 
   ngOnInit() {
-    if (DEBUGS.NODE)
-      console.log('NodePage - ngOnInit');
+    if (DEBUGS.BRANCH)
+      console.log('BranchPage - ngOnInit');
     this.startFromStorage();
   }
 
   ionViewWillEnter() {
-    if (DEBUGS.NODE)
-      console.log('NodePage - ionViewWillEnter');
+    if (DEBUGS.BRANCH)
+      console.log('BranchPage - ionViewWillEnter');
     this.startFromStorage();
+    // this.read(this.selectBranch);
   }
 	
 	ionViewWillLeave() {
-    if (DEBUGS.NODE)
-      console.log('NodePage - ionViewWillLeave');
+    if (DEBUGS.BRANCH)
+      console.log('BranchPage - ionViewWillLeave');
+    this.save(this.selectBranch);
 	}
 
   startFromStorage() {
-    this.dataService.readFamilyAndInfo().then((data:any) => {
-      if (DEBUGS.NODE)
-        console.log('NodePage - startFromStorage - data: ', data);
-      this.info = data.info;
-      this.title = this.info.description;
-      this.start(data.family);
+    this.dataService.readInfo().then((info: any) => {
+      this.info = info;
+      this.title = info.description;
+      // read branches
+      this.dataService.readBranchNames().then((branches:[]) => {
+        this.branches = branches;
+        if (!this.selectBranch)
+          this.selectBranch = this.branches.length > 0 ? this.branches[0] : null;
+        this.select(this.selectBranch);
+      });
     });
-  }
-
-  start(family: any) {
-    this.family = this.familyService.buildFullFamily(family);
-    console.log('NodePage - family: ', family);
-
-    this.peopleNodes = this.getPeopleNodes (this.family);
-    this.nodeItems = this.nodeService.getInfoList();
-    this.nodeItem = null;
-    this.nodeItemMessage = this.languageService.getTranslation('NODE_NUM_NODES') + this.peopleNodes.length;
-    this.familyView = this.family;
-    this.selectPeoplePlaceholder = this.languageService.getTranslation('NODE_SELECT');
-    this.selectPeople = null;
-    this.nodeItemPlaceholder = this.languageService.getTranslation('NODE_SELECT_EMPTY_DATA');
-  }
-
-  getPeopleNodes (family: any, item?: any) {
-    let nodes = this.nodeService.getFamilyNodes(family);
-    if (DEBUGS.NODE)
-      console.log('NodePage - getPeopleNodes - nodes: ', nodes.length);
-    nodes.forEach(node => {
-      if (!item)
-        // all visible
-        node.visible = true;
-      else {
-        // visible only if item == ''
-        node.visible = (node[item] == '');
-        if (item == 'pod' || item == 'dod') {
-          // show if yod != ''
-          if (node.visible && node.yod == '')
-            node.visible = false;
-        }
-      }       
-    })
-    return this.familyService.getPeopleList(family);
   }
 
   //
   // ------------- TREE -------------
   //
-
   getZoomStyle() {
     let scale = this.scaleStyle / 10;
     let styles = {
@@ -163,100 +130,126 @@ export class NodePage implements OnInit {
   // -------TYPE NEW WORD (Enter) OR SELECT -------
   // ------------------------------------- 
 
-  clearPeopleNodes() {
-    this.selectPeople = null;
+  clear() {
+    this.selectBranch = null;
   }
 
-  closePeopleNodes() {
-    if (DEBUGS.NODE)
-      console.log('NodePage - closePeopleNodes - selectPeople: ', this.selectPeople);
-    this.selectedNode = null;
-    if (this.selectPeople)
-      this.startSearch(this.selectPeople);
+  close() {
+		if (this.currentBranch)
+			this.save(this.currentBranch);
+    this.select(this.selectBranch);
   }
   
-  keyupPeopleNodes(event) {
-    if (DEBUGS.NODE)
-      console.log('NodePage - keyup: ', event.target.value);
-    if (event.key !== 'Enter')
-      return;
+  save(branch: string) {
+		if (DEBUGS.BRANCH)
+			console.log('BranchPage - save: ', branch);
+		if (branch) {
+			let family = this.familyService.getFilterFamily(this.family);
+			this.dataService.saveBranch(branch, family).then(status => {});
+		}
   }
 
-  onNodeInfoPopover(item: any) {
-    if (DEBUGS.NODE)
-      console.log('NodePage - onNodeInfoPopover: ', item);
-    this.nodeItem = item.id;
-    if (this.nodeItem == 'all')
-      this.nodeItem = null;
-    this.peopleNodes = this.getPeopleNodes (this.family, this.nodeItem)
-    this.selectPeople = null;
-    if (this.nodeItem == null) {
-      this.nodeItemMessage = this.languageService.getTranslation('NODE_NUM_NODES') + this.peopleNodes.length;
-    } else {
-    this.nodeItemMessage = this.languageService.getTranslation('NODE_MISSING_ITEM_1') + item.name +
-    this.languageService.getTranslation('NODE_MISSING_ITEM_2') + this.peopleNodes.length;
-    }
+	select(branch: string) {
+		if (DEBUGS.BRANCH)
+			console.log('BranchPage - select: ', branch);
+		if (branch) {
+			this.dataService.readBranch(branch).then((family: Family) => {
+				if (DEBUGS.BRANCH)
+					console.log('BranchPage - select: family: ', family);
+				this.family = this.familyService.buildFullFamily(family);
+				this.familyView = this.family;
+				// set visible
+				let nodes = this.nodeService.getFamilyNodes(this.family);
+				nodes.forEach(node => {
+						node.visible = true;
+				})
+				this.onNodeSelect(family.nodes[0]);
+				this.currentBranch = branch;
+			});
+		} else {
+			this.family = FAMILY;
+			this.familyView = this.family;
+		}
   }
 
-  // --------- END ng-select ----------
+  add() {
+    let title = this.languageService.getTranslation('NODE_ADD_BRANCH');
+    let cancel = this.languageService.getTranslation('CANCEL');
+    let ok = this.languageService.getTranslation('OK');
+    let inputs = [
+      {   placeholder: this.languageService.getTranslation('NODE_NAME_BRANCH'),
+          attributes: { maxlength: 50 },
+      }
+    ]
+    this.utilService.alertText(title, inputs , cancel, ok, 'alert-dialog').then(result => {
+      console.log('getAncestor - add - result: ', result);
+      if (result.data) {
+        let bname = result.data[0];
+        // let name = 'Phan-' + (this.branches.length + 1);
+        let name = this.info.family_name + ' ...';
+        let gender = 'male';
+        let id = '1';
+        let level = '1'
+        let newNode = this.nodeService.getEmptyNode(id, level, name, gender);
+        newNode.visible = true;
+        let family = new Family();
+        family.nodes = [newNode];
 
-  startSearch(searchStr) {
-    if (DEBUGS.NODE)
-      console.log('NodePage - startSearch - searchStr: ', searchStr)
-    // remove Generation
-    // name: Đoàn Văn Phê
-    searchStr = searchStr.substring(0, searchStr.indexOf(' ('));
-    let parentName = '';
-    // remove Parent if any
-    let idx = searchStr.indexOf('(');
-    if (idx > 0) {
-      // this is node with parent name
-      parentName = searchStr.substring(idx+1, searchStr.length-1)
-      searchStr = searchStr.substring(0, idx)
-    }
-    if (DEBUGS.NODE)
-      console.log('NodePage - startSearch - searchStr, parentName: ', searchStr, parentName);
-    let sNodes:Node[] = [];
-    // search thru all nodes
-    let nodes:Node[] = this.nodeService.getFamilyNodes(this.family);
-    nodes.forEach((node:Node) => {
-      // reset nclass
-      node.nclass = this.nodeService.updateNclass(node);
-      let strProfile = node.name;
-      if (strProfile.indexOf(searchStr) >= 0) {
-        if (parentName != '') {
-          // get real node
-          let words = node.pnode.name.split(' ');
-          let pname = (words.length > 2) ? words[2] : words[1];
-          if (pname == parentName) {
-            // found the node
-            sNodes.push(node);
-          }
-        } else
-          sNodes.push(node);
+        // console.log('BranchPage - onNewBranch - family: ', family);
+        this.dataService.saveBranch(bname, family).then(status => {
+					if (DEBUGS.BRANCH)
+						console.log('BranchPage - add - save old, add new: ', this.currentBranch, bname);
+					this.save(this.currentBranch);
+          this.branches = [...this.branches, bname];
+          this.selectBranch = bname;
+          this.select(this.selectBranch);
+        });
+      } else {
+        // this.presentToast(['APP_NO_ANCESTOR']);
+        // this.utilService.presentToast("Hello");
       }
     })
-    if (DEBUGS.NODE)
-      console.log('NodePage - startSearch - sNodes: ', sNodes)
-      // set select on 1st node
-    sNodes[0]['nclass'] = 'select'
-    this.onNodeSelect(sNodes[0]);
   }
-  
+
+  delete() {
+    // let node = this.selectedNode;
+    let msg = this.utilService.getAlertMessage([
+      {name: 'msg', label: 'NODE_DELETE_NODE_MESSAGE_1'},
+      {name: 'data', label: this.selectBranch},
+      {name: 'msg', label: 'NODE_DELETE_NODE_MESSAGE_2'},
+    ]);
+    this.utilService.alertConfirm('NODE_DELETE_NODE_MESSAGE', msg, 'CANCEL', 'OK').then((result) => {
+      console.log('getAncestor - delete - result: ', result);
+      if (result.data) {
+        let sbranch = this.selectBranch;
+        this.dataService.deleteBranch(sbranch).then(status => {
+          this.branches = this.branches.filter(branch => {
+            return branch != sbranch;
+          })
+          this.selectBranch = (this.branches.length > 0) ? this.branches[0] : null;
+					if (DEBUGS.BRANCH)
+						console.log('BranchPage - add - delete current, select top: ', sbranch, this.selectBranch);
+          this.select(this.selectBranch);
+        });
+      }
+    });
+  }
+
   onNodeSelect(node: Node, openTask?: any) {
 
-    if (DEBUGS.NODE)
-      console.log('NodePage - onNodeSelect - node: ', node);
+    if (DEBUGS.BRANCH)
+      console.log('BranchPage - onNodeSelect - node: ', node);
     // reset nclass
     if (this.selectedNode)
       this.selectedNode.nclass = this.nodeService.updateNclass(this.selectedNode);
 
     this.selectedNode = node;
-    this.selectedNodeName = node.name;
-    this.selectPeople = node.name + this.nodeService.getFullDetail(node)
+    // this.selectedNodeName = node.name;
+    // this.selectPeople = node.name + this.nodeService.getFullDetail(node)
     let ancestorName = this.info.family_name;
     this.isChildOK = this.nodeService.isAncestorName(ancestorName, node);
     this.selectedNode.nclass = 'node-select';
+    this.selectedNode.visible = true;
 
     setTimeout(() => {
       this.scrollToNode(this.selectedNode);
@@ -272,7 +265,6 @@ export class NodePage implements OnInit {
       componentProps: {
         'node': this.selectedNode,
         'isChildOK': this.isChildOK,
-        'isBranchOK': this.isChildOK,
         'header': this.languageService.getTranslation('NODE_POPOVER_HEADER')
       },
       cssClass:'popover',
@@ -284,7 +276,7 @@ export class NodePage implements OnInit {
       backdropDismiss: true
     });
     popover.onDidDismiss().then((result) => {
-      if (DEBUGS.NODE)
+      if (DEBUGS.BRANCH)
         console.log('NodePage - presentSelectPopover - result: ', result);
       this.isPopover = false;
       switch (result.data) {
@@ -294,9 +286,6 @@ export class NodePage implements OnInit {
         case 'onAdd':
           this.onAdd();
           break;
-        case 'onAddBranch':
-            this.onAddBranch();
-            break;
         case 'onDelete':
           this.onDelete();
           break;
@@ -310,7 +299,7 @@ export class NodePage implements OnInit {
   }
 
   async openEditModal(node: Node) {
-    if (DEBUGS.NODE)
+    if (DEBUGS.BRANCH)
       console.log('NodePage - openEditModal - node: ', node);
     const modal = await this.modalCtrl.create({
       component: EditPage,
@@ -329,16 +318,16 @@ export class NodePage implements OnInit {
       } else if (status == 'save') {
         // update node from values
         let values = resp.data.values;
-        if (DEBUGS.NODE)
+        if (DEBUGS.BRANCH)
           console.log('NodePage - openEditModal - values, node : ', values, node);
         let change = this.nodeService.updateNode(node, values);
         if (change) {
           // there is change
-          if (DEBUGS.NODE)
+          if (DEBUGS.BRANCH)
             console.log('TreePage - onDidDismiss : change');
           this.updateSystemData(node);
-          this.selectPeople = node.name + this.nodeService.getFullDetail(node);
-          if (DEBUGS.NODE)
+          // this.selectPeople = node.name + this.nodeService.getFullDetail(node);
+          if (DEBUGS.BRANCH)
             console.log('TreePage - onDidDismiss : OK');
         }
       }
@@ -393,46 +382,6 @@ export class NodePage implements OnInit {
     });
   }
 
-  async onAddBranch() {
-
-    let node: Node = this.selectedNode;
-    console.log('NodePage - onAddBranch - node: ', node);
-
-    this.dataService.readBranchNames().then((names:[]) => {
-      console.log('NodePage - onAddBranch - names: ', names);
-
-      let inputs = [];
-      names.forEach((name: string) => {
-        inputs.push({type: 'radio', label: name, value: name, checked: false });
-      })
-      console.log('NodePage - onAddBranch - inputs: ', inputs);
-
-      this.utilService.alertRadio('NODE_ADD_RELATION_HEADER', '', inputs , 'CANCEL', 'OK').then((res) => {
-        console.log('onAddBranch - res: ', res);
-        if (res.data) {
-          let branch = res.data;
-          this.dataService.readBranch(branch).then((bFamily: Family) => {
-            console.log('NodePage - onAddBranch - bFamily: ', bFamily);
-            let bNode: any = bFamily.nodes[0];
-            let relation = 'SON';
-            bNode.pnode = node;
-            bNode.family = bFamily;
-            bNode.relation = this.languageService.getTranslation(relation);
-            node.family.children.push(bFamily);
-
-						// rebuild family with new nodes
-						this.family = this.familyService.buildFullFamily(this.family);
-            this.familyView = this.family;
-
-						// and update
-            this.updateSystemData(node);
-            this.onNodeSelect(node);
-          });
-        }
-      });
-    });
-  }
-
   onDelete() {
     let node = this.selectedNode;
     let msg = this.utilService.getAlertMessage([
@@ -445,25 +394,22 @@ export class NodePage implements OnInit {
       if (res.data) {
         this.nodeService.deleteNode(this.family, node);
         this.updateSystemData(node);
-        if (node == this.selectedNode)
-          // reset search box
-          this.clearPeopleNodes();
+        // if (node == this.selectedNode)
+        //   // reset search box
+        //   this.clearPeopleNodes();
       }
     });
   }
 
   addFather(name: string) {
-    // this.dataService.readFamily().then((family:any) => {
-    //   let node: Node = { name: name, gender: 'male', yob: '1900' } 
-    //   let newFamily: Family= {
-    //     version: family.version,
-    //     nodes: [ node ],
-    //     children: [ { nodes: family.nodes, children: family.children } ]
-    //   };
-    //   this.dataService.saveFamily(newFamily).then(status => {
-    //     this.startFromStorage();
-    //   });
-    // });
+    this.dataService.readFamily().then((family:any) => {
+      let node = { name: name, gender: 'male', yob: '1900' } 
+      let newFamily = {
+        version: family.version,
+        nodes: [ node ],
+        children: [ { nodes: family.nodes, children: family.children } ]
+      };
+    });
   }
 
   updateSystemData(node: any) {
@@ -471,7 +417,6 @@ export class NodePage implements OnInit {
     node.span = this.nodeService.getSpanStr(node);
     // save full family to local memory and update people list
     this.familyService.saveFullFamily(this.family).then(status => {
-      this.peopleNodes = this.getPeopleNodes (this.family);
     });
   }
 

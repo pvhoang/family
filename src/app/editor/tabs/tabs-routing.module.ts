@@ -12,6 +12,10 @@ const routes: Routes = [
         loadChildren: () => import('../node/node.module').then( m => m.NodePageModule)
       },
       {
+        path: 'branch',
+        loadChildren: () => import('../branch/branch.module').then( m => m.BranchPageModule)
+      },
+      {
         path: 'doc',
         loadChildren: () => import('../doc/doc.module').then( m => m.DocPageModule)
       },

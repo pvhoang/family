@@ -21,6 +21,7 @@ export class Node {
   nclass: string = '';
   pnode: any = null;
   visible: boolean = false;
+  family: Family = null;
 
 }
 

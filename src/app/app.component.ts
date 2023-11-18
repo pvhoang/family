@@ -410,11 +410,13 @@ export class AppComponent implements OnInit {
 	}
 
   private setJsonPhanFamily() {
+
     return new Promise((resolve) => {
       let jsonFile = './assets/common/phan-family.json';
       this.utilService.getLocalJsonFile(jsonFile).then((family:any) => {
         console.log('family: ', family);
         this.dataService.saveFamily(family).then((fam:any) => {
+					// this.dataService.deleteAllBranches();
           this.dataService.readItem('ANCESTOR_DATA').then((sdata:any) => {
             console.log('sdata: ', sdata);
           });

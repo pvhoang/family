@@ -38,6 +38,13 @@ export class TabsPage implements OnInit {
     // this.router.navigate(['/memory']);
   }
 
+  onBranch() {
+    if (DEBUGS.TABS)
+      console.log('TabsPage - onBranch clicked!');
+    // this.router.navigate(['node'], { relativeTo: this.route });
+    // this.router.navigate(['/node']);
+  }
+
   onNode() {
     if (DEBUGS.TABS)
       console.log('TabsPage - onNode clicked!');

@@ -51,6 +51,7 @@
   "TAB_MEMORY": "Phả ký",
   "TAB_MEMORY_MEMORIAL": "Húy kỵ",
   "TAB_MEMORY_SUMMARY": "Phả tộc",
+  "TAB_BRANCH": "Phả nhánh",
   "TAB_NODE": "Phả đồ",
   "TAB_DOC": "Phả nhập",
   "TAB_FILE": "Phả lưu",
@@ -106,6 +107,7 @@
   "NODE_POPOVER_VIEW": "Tiểu sử",
   "NODE_POPOVER_EDIT": "Phả cập",
   "NODE_POPOVER_ADD": "Thêm hệ",
+  "NODE_POPOVER_ADD_BRANCH": "Thêm nhánh",
   "NODE_POPOVER_DELETE": "Xóa hệ",
   "NODE_POPOVER_TREE": "Phả đồ",
   "NODE_VIEW_NAME": "Hệ",
@@ -120,6 +122,12 @@
   "NODE_DELETE_NODE_MESSAGE_1": "Hệ: ",
   "NODE_DELETE_NODE_MESSAGE_2": " xóa sẽ không phục hồi được!",
   "NODE_DELETE_NODE_MESSAGE": "Cảnh báo",
+  "NODE_ADD_BRANCH_TOOLTIP": "Thêm nhánh",
+  "NODE_ADD_BRANCH": "Thêm nhánh",
+  "NODE_NAME_BRANCH": "Tên nhánh",
+  "NODE_DELETE_BRANCH": "Xóa nhánh",
+
+  "BRANCH_SELECT": "Nhánh",
   
   "EDIT_SELECT_PEOPLE_PLACEHOLDER": "Nhập tên",
   "EDIT_SELECT_PLACES_PLACEHOLDER": "Chọn hay nhập nơi + (Enter hoặc .)",

@@ -1,4 +1,26 @@
 =====================================================================
+# USAGE
+=====================================================================
+
+https://giapha.web.app
+
+// superadmin
+const URL_DELETE_OPEN = '/sopen';   // delete current ancestor and open an existing one
+const URL_DELETE_NEW = '/snew';     // delete current ancestor and create a new one
+
+// admin
+const URL_UPDATE_VERSION = '/aupd'; // update current version
+const URL_EDIT = 'aedit';           // edit ancestor content
+
+// user
+const URL_ANCESTOR = '/phan'        // sign up ancestor after superadmin's approval
+const URL_USAGE = '/'               // use the system after ancestor is signed up
+const URL_THEME = '/utheme'         // change interface theme
+const URL_LANGUAGE = '/ulang'       // change interface language
+const URL_DELETE = '/udel';         // delete local memory
+
+
+=====================================================================
 # TOOLS, PLUGINS
 =====================================================================
 
@@ -30,12 +52,21 @@ https://blog.logrocket.com/creating-beautiful-tooltips-with-only-css/
 // https://ionicframework.com/docs/api/toast
 
 =======================
+# popover with PopoverComponent
+=======================
+
+// https://edupala.com/ionic-popover-example/
+// https://ionicframework.com/docs/api/popover
+
+=======================
 # ng-select with typeahead
 =======================
 @ng-select/ng-select
 // https://www.freakyjolly.com/ng-select-typeahead-with-debouncetime-fetch-server-response
 // https://www.omdbapi.com
 // https://github.com/ng-select/ng-select
+
+https://github.com/ng-select/ng-select#change-detection
 
 =======================
 # Scrolling into view
@@ -55,6 +86,7 @@ element.scrollIntoView
 # Gia Pha reference
 =======================
 https://giaphadongtoc.com/noi-dung-trong-cuon-gia-pha-mau/
+https://giaphadaiviet.com/chi-nhanh-phai-canh-trong-gia-pha/
 http://www.giaphavietnam.vn/default.aspx?lang=vi-VN&cp=news-detail&cid=38
 http://www.giaphavietnam.vn/default.aspx?cp=phado&id=307
 https://holaivietnam.com/index.php/tai-lieu-dong-ho/gia-pha-la-gi-noi-dung-cau-truc-va-cach-trinh-bay-gia-pha-29.html
@@ -359,3 +391,9 @@ https://betterprogramming.pub/how-to-send-emails-from-firebase-with-the-trigger-
 
 . open SourceTree
 . copy files from /family-1 to /family
+
+=====================================================================
+# Visual Studio
+=====================================================================
+
+https://bobbyhadz.com/blog/vscode-change-indentation

@@ -12,9 +12,11 @@ export class PopoverComponent implements OnInit {
   @Input() header: any;
   @Input() node: any;
   @Input() isChildOK: any;
+  @Input() isBranchOK: any;
 
   isDeleteOK = false;
   isAddOK = false;
+  isAddBranchOK = false;
 
   FONTS_FOLDER = FONTS_FOLDER;
 
@@ -24,6 +26,7 @@ export class PopoverComponent implements OnInit {
     // ok to delele leaf node
     this.isDeleteOK = !this.node.family.children || this.node.family.children.length == 0;
     this.isAddOK = this.isChildOK;
+    this.isAddBranchOK = this.isBranchOK;
   }
   onView() {
     this.popoverController.dismiss('onView');
@@ -33,6 +36,9 @@ export class PopoverComponent implements OnInit {
   }
   onAdd() {
     this.popoverController.dismiss('onAdd');
+  }
+  onAddBranch() {
+    this.popoverController.dismiss('onAddBranch');
   }
   onDelete() {
     this.popoverController.dismiss('onDelete');
