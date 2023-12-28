@@ -8,6 +8,8 @@ import { LanguageService } from './services/language.service';
 import { NodeService } from './services/node.service';
 import { FirebaseService } from './services/firebase.service';
 
+const RESET_DATA = true;
+
 const VIEW_MODE = 'view';
 const EDIT_MODE = 'edit';
 
@@ -60,7 +62,8 @@ export class AppComponent implements OnInit {
 
     this.themeService.setTheme(VILLAGE, true);
 
-    this.setJsonPhanFamily().then((status) => {});
+    if (RESET_DATA)
+			this.setJsonPhanFamily().then((status) => {});
 
     if (url == URL_DELETE)
       this.deleteLocal();
@@ -336,7 +339,8 @@ export class AppComponent implements OnInit {
   updateVersionData() {
     return new Promise((resolve) => {
       this.fbService.readAppData().then((rdata:any) => {
-        // this.setJsonData('pages-1').then((stat2:any) => {});
+				if (RESET_DATA)
+					this.setJsonData('docs').then((stat2:any) => {});
         let remoteVersion = rdata.version;
         if (remoteVersion !== environment.version) {
           // must refresh cache
@@ -400,21 +404,23 @@ export class AppComponent implements OnInit {
     return new Promise((resolve) => {
       let jsonFile = './assets/common/' + json + '.json';
       this.utilService.getLocalJsonFile(jsonFile).then((jsonData:any) => {
-        if (json == 'pages-1') {
-          console.log('pages-1: ', JSON.stringify(jsonData));
-        }
-        this.dataService.saveItem(json, jsonData).then((status:any) => {});
+        if (json == 'docs') {
+          console.log('docs: ', JSON.stringify(jsonData));
+					this.dataService.saveDocs(jsonData).then((status:any) => {});
+        } else {
+					this.dataService.saveItem(json, jsonData).then((status:any) => {});
+				}
         resolve(true);
       });
     });
 	}
 
   private setJsonPhanFamily() {
-
     return new Promise((resolve) => {
       let jsonFile = './assets/common/phan-family.json';
       this.utilService.getLocalJsonFile(jsonFile).then((family:any) => {
-        console.log('family: ', family);
+				if (DEBUGS.APP)
+					console.log('AppComponent - setJsonPhanFamily -  family: ', family);
         this.dataService.saveFamily(family).then((fam:any) => {
 					// this.dataService.deleteAllBranches();
           this.dataService.readItem('ANCESTOR_DATA').then((sdata:any) => {

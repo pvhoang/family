@@ -6,7 +6,7 @@ import { LanguageService } from '../services/language.service';
 import { DEBUGS } from '../../environments/environment';
 
 import { CalendarVietnamese } from 'date-chinese';
-import { Family } from './family.model';
+import { Family, Node} from './family.model';
 
 @Injectable({
 	providedIn: 'root'
@@ -372,7 +372,7 @@ export class FamilyService {
 
   // --- getFilterFamily
 
-  getFilterFamily(family) {
+  getFilterFamily(family: Family) {
     let filterFamily:any = {};
     filterFamily.version = family.version;
     filterFamily['nodes'] = [];
@@ -393,7 +393,7 @@ export class FamilyService {
     return filterFamily;
   }
 
-  private getFilterFamilyNode(family) {
+  private getFilterFamilyNode(family: Family) {
     let filterFamily:any = {};
     filterFamily['nodes'] = [];
     if (family['nodes'].length > 0) {
@@ -425,7 +425,7 @@ export class FamilyService {
     return filterFamily;
   }
   
-  getSelectedFamily(family: any, srcNode: any) {
+  getSelectedFamily(family: Family, srcNode: Node) {
     let filterFamily:any = {};
     // filterFamily.version = family.version;
     let nodes = [];

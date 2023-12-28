@@ -6,8 +6,11 @@ import { UtilService } from '../../services/util.service';
 
 import { FirebaseService } from '../../services/firebase.service';
 
-import { Editor, EditorSettings } from '../../../assets/js/tinymce.min.js';
+import { Editor, EditorSettings } from '../../../assets/js/tinymce/tinymce.min.5.10.9.js';
+// import { Editor, EditorSettings } from '../../../assets/js/tinymce.min.js';
+// import { Editor, EditorSettings } from 'test/node_modules/tinymce/tinymce.min.js';
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
+
 
 @Component({
   selector: 'app-doc',
@@ -24,6 +27,10 @@ export class DocPage implements OnInit {
   editor: Editor;
   settings: EditorSettings;
   pageData: any;
+  
+	currentData: any;
+  newData: any;
+
   currentText: any;
   // docChange = false;
   message = "";
@@ -46,29 +53,31 @@ export class DocPage implements OnInit {
   ionViewWillEnter() {
     if (DEBUGS.NODE)
       console.log('DocPage - ionViewWillEnter');
+		// this.setupEditor();
     this.startFromStorage();
   }
 	
 	ionViewWillLeave() {
     if (DEBUGS.NODE)
       console.log('DocPage - ionViewWillLeave');
+		// save new data
+		this.saveDocs();
+		// if (this.changedDocCount > 0)
+		// this.updateCurrentDoc();
+		// this.dataService.saveDocs(this.pageData).then((status:any) => {});
 	}
 
   startFromStorage() {
-    this.dataService.readDocs().then((docs:any) => {
+    this.dataService.readDocs().then((currentData:any) => {
       if (DEBUGS.NODE)
-        console.log('DocPage - startFromStorage - docs: ', docs);
-      this.start(docs);
+        console.log('DocPage - startFromStorage - currentData: ', currentData);
+			this.currentData = currentData;
+      this.start(currentData);
     });
   }
 
-  start(docs: any) {
-
-    this.pageData = docs;
-    for (let key of Object.keys(this.pageData)) {
-      this.pageData[key].change = false;
-    };
-
+  start(data: any) {
+		this.newData = JSON.parse(JSON.stringify(data));
     this.docs = [
       { id: 'pha_nhap', name: this.languageService.getTranslation('DOC_INTRO') },
       { id: 'pha_ky', name: this.languageService.getTranslation('DOC_NOTE') },
@@ -78,7 +87,9 @@ export class DocPage implements OnInit {
       { id: 'phu_khao', name: this.languageService.getTranslation('DOC_INFO') }
     ];
     this.selectDoc = this.docs[0].id;
-    this.setDoc(this.selectDoc);
+		console.log('DocPage - startFromStorage - text: ', this.newData[this.selectDoc].text);
+		this.editor.setContent(this.newData[this.selectDoc].text);
+		this.currentDoc = this.selectDoc;
   }
 
   setupEditor() {
@@ -88,9 +99,14 @@ export class DocPage implements OnInit {
       height: 600,
       plugins: [
       'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-      'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-      'insertdatetime', 'media', 'table', 'help', 'addTab', 'wordcount', 'footnotes',
-      'paste' ],
+      'anchor', 'searchreplace', 'visualblocks', 'code', 
+			// 'fullscreen',
+      'insertdatetime', 'media', 'table', 'help', 
+			// 'addTab', 
+			// 'wordcount', 
+			// 'footnotes',
+      // 'paste' 
+			],
       toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright alignjustify | indent outdent | paste ',
       help_tabs: [
         {
@@ -105,12 +121,14 @@ export class DocPage implements OnInit {
               type: 'htmlpanel',
               html: '<p>Dùng Ctrl-C/V để chép và thêm chữ và hình</p>',
             },
-
           ]
         },
         'shortcuts', // the default shortcuts tab
       ],
       paste_data_images: true,
+			external_plugins: {
+				// 'wordcount': '../../../assets/js/tinymce/plugins/wordcount/plugin.min.js',
+			},
       content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
       setup: (editor: Editor) => {
         this.editor = editor;
@@ -118,15 +136,40 @@ export class DocPage implements OnInit {
     };
   }
 
-  onSave() {
-    this.saveDocs();
+	// save docs to local and firebase
+	saveDocs() {
 
-    // const newText = this.editor.getContent({ format: 'html' });
-    // if (newText != this.currentText) {
-    //   this.pageData[this.selectDoc].text = newText;
-    //   this.docChange = true;
-    // }
-  }
+		// save current doc
+		const text = this.editor.getContent({ format: 'html' });
+		this.newData[this.currentDoc].text = text;
+		// set message
+    let msg = this.languageService.getTranslation('DOC_CHANGED');
+    let count = 0;
+    for (let doc of Object.keys(this.newData)) {
+			if (this.newData[doc].text.trim() != this.currentData[doc].text.trim()) {
+				count++;
+				let docName = '';
+				for (let i = 0; i < this.docs.length; i++) {
+          if (doc == this.docs[i].id) {
+            docName = this.docs[i].name;
+            break;
+          }
+        }
+				msg += docName;
+			}
+		}
+
+		if (count > 0) {
+			this.utilService.alertConfirm('NODE_DELETE_NODE_MESSAGE', msg, 'CANCEL', 'OK').then((result) => {
+				if (result.data) {
+					// save to local memory and firebase
+					this.dataService.saveDocs(this.newData).then((status:any) => {
+						this.saveDocsToFirebase();
+					});
+				}
+			});
+		}
+	}
 
   // ------------- ng-select -------------
   // -------TYPE NEW WORD (Enter) OR SELECT -------
@@ -137,65 +180,25 @@ export class DocPage implements OnInit {
   }
 
   closeDocs() {
-    // if (DEBUGS.NODE)
-    console.log('DocPage - closeDocs - selectDoc: ', this.selectDoc);
-    if (this.currentDoc && this.selectDoc != this.currentDoc)
-      this.updateCurrentDoc();
-    this.setDoc(this.selectDoc);
+    if (DEBUGS.NODE)
+			console.log('DocPage - closeDocs - selectDoc: ', this.selectDoc);
+
+		const text = this.editor.getContent({ format: 'html' });
+		this.newData[this.currentDoc].text = text;
+		this.editor.setContent(this.newData[this.selectDoc].text);
+		this.currentDoc = this.selectDoc;
   }
   
   // --------- END ng-select ----------
 
-  updateCurrentDoc() {
-    const text = this.editor.getContent({ format: 'html' });
-    // console.log('DocPage - updateCurrentDoc - doc, text: ', this.currentDoc, text);
-    if (this.pageData[this.currentDoc].text != text.trim()) {
-      this.pageData[this.currentDoc].text = text;
-      this.pageData[this.currentDoc].change = true;
-      // console.log('DocPage - updateCurrentDoc - doc, change = true: ', this.currentDoc);
-      // this.message += 'Change ' + this.currentDoc;
-      this.setMessage();
-    }
-      // this.docChange = true;
-  }
-
-  setDoc(doc: any) {
-    this.editor.setContent(this.pageData[doc].text);
-    // console.log('DocPage - setDoc - doc, text: ', doc, this.pageData[doc].text);
-    this.currentDoc = doc;
-  }
-  
-  setMessage() {
-    let msg = this.languageService.getTranslation('DOC_CHANGED');
-    let count = 0;
-    for (let doc of Object.keys(this.pageData)) {
-      if (this.pageData[doc].change) {
-        console.log('DocPage - setMessage - doc: ', doc);
-        for (let i = 0; i < this.docs.length; i++) {
-          if (doc == this.docs[i].id) {
-            doc = this.docs[i].name;
-            break;
-          }
-        }
-        if (count != 0)
-          msg += ', ';
-        msg += doc;
-        count++;
-      }
-    }
-    console.log('DocPage - setMessage - msg: ', msg);
-    this.message = msg;
-    this.changedDocCount = count;
-  }
-
-  async saveDocs() {
+  async saveDocsToFirebase() {
     this.dataService.readItem('ANCESTOR_DATA').then((adata:any) => {
       let info = adata.info;
       let ancestor = info.id;
-      adata.docs = this.pageData;
+      adata.docs = this.newData;
       let id = this.utilService.getDateID();
       this.fbService.saveAncestorData(adata).then((status:any) => {
-        this.fbService.saveBackupDocs(ancestor, this.pageData, id).then((status:any) => {
+        this.fbService.saveBackupDocs(ancestor, this.newData, id).then((status:any) => {
           this.dataService.saveItem('ANCESTOR_DATA', adata).then((status:any) => {
             this.utilService.dismissLoading();
             let message = this.utilService.getAlertMessage([
@@ -204,6 +207,9 @@ export class DocPage implements OnInit {
               {name: 'msg', label: 'DOC_MESSAGE_2'},
             ]);
             this.utilService.presentToast(message);
+						// this.message = "";
+						// this.changedDocCount = 0;
+						// this.dataService.saveDocs(this.pageData).then((status:any) => {});
           });
         });
       });

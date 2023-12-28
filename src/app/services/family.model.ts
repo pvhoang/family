@@ -19,7 +19,7 @@ export class Node {
   profile: string = '';
   span: string = '';
   nclass: string = '';
-  pnode: any = null;
+  pnode: Node = null;
   visible: boolean = false;
   family: Family = null;
 
@@ -43,6 +43,7 @@ export const NODE = {
 }
 
 export const FAMILY = {
+  version: '',
   generation: '',
   iddom: '',
   nodes: [],
@@ -50,6 +51,7 @@ export const FAMILY = {
 }
 
 export class Family {
+  version: string = '';
   generation: string = '';
   iddom: string = '';
   nodes: Node[] = [];

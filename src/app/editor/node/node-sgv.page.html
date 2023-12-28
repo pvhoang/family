@@ -1,0 +1,116 @@
+<ion-header>
+
+  <ion-item class="header-top">
+    <ion-col size="1">
+    </ion-col>
+    <ion-col size="10">
+      <ng-select
+        [appendTo]="'body'"
+        [items]="peopleNodes" 
+        placeholder="{{selectPeoplePlaceholder}}"
+        [(ngModel)]="selectPeople"
+        (close)="closePeopleNodes()"
+        (clear)="clearPeopleNodes()"
+        (keyup)="keyupPeopleNodes($event)"
+      >
+      </ng-select>
+    </ion-col>
+    <ion-col size="1">
+    </ion-col>
+  </ion-item>
+
+  <ion-item class="header-bottom">
+    <ion-col size="6" class="heading">
+      <span class="label" [innerHtml]="nodeItemMessage"></span>
+    </ion-col>
+
+    <ion-col size="6" class="heading" id="info-popover">
+      <ion-button class="button" fill="clear" title="{{ nodeItemPlaceholder }}" >
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}cog-outline.svg" class="icon"></ion-icon>
+      </ion-button>
+      <span class="label">{{ 'MISSING' | translate }}</span>
+      <ion-popover 
+        trigger="info-popover" triggerAction="click" 
+        [dismissOnSelect]="true" side="right" alignment="start" size="auto">
+        <ng-template>
+          <ion-content class="ion-padding ng-select-popover">
+            <ion-item *ngFor="let item of nodeItems" (click)="onNodeInfoPopover(item)">
+              <ion-button class="button" fill="clear">{{item.name}}</ion-button>
+            </ion-item>
+          </ion-content>
+        </ng-template>
+      </ion-popover>
+    </ion-col>
+  </ion-item>
+
+</ion-header>
+
+<ion-content [fullscreen]="false" class="ion-padding">
+	<div class="screen-node" id="full-tree">
+		
+		<!-- <app-tree-view (onNodeSelected)="onNodeSelected($event)" [tree]="tree"></app-tree-view> -->
+
+		<div class="svg-tree-view" *ngIf="tree.width > 0 && tree.height > 0">
+			<!-- <svg id="viz"/> -->
+			<!-- <svg id="viz" [style.width]="tree.width+'px'" [style.height]="tree.height+'px'" /> -->
+
+		<!-- <div class="svg-tree-view"> -->
+			<svg id="svg-id" class="svg-tree-link" [style.width]="tree.width+'px'" [style.height]="tree.height+'px'">
+			<!-- <svg class="svg-tree-link"> -->
+				<g>
+					<path *ngFor="let node of tree.nDatabaseNodes;let i=index" 
+						[attr.stroke]="node.linkColor || null"
+						[attr.d]="!node._isAncestorCollapsed()?node._drawChildrenLinks(tree):null" 
+					>
+					</path>
+		
+					<rect *ngFor="let node of tree.nDatabaseNodes;let i=index" class="item"
+						[attr.x] = "!node._isAncestorCollapsed() ? node.XPosition : null"
+						[attr.y] = "node.YPosition" 
+						[attr.width] = "node.w"
+						[attr.height] = "node.h"
+						[attr.style] = "getRectStyle(node)"
+					>
+					</rect>
+		
+					<text *ngFor="let node of tree.nDatabaseNodes;let i=index" class="item"
+						[attr.id] = "getElementID(node)"
+						[attr.x] = "!node._isAncestorCollapsed() ? node.XPosition : null"
+						[attr.y] = "node.YPosition" 
+						[attr.width] = "node.w"
+						[attr.height] = "node.h"
+						(click)="onNodeSelected(node, 'select')"
+					>
+					</text>
+		
+					<image *ngFor="let node of tree.nDatabaseNodes;let i=index" class="item"
+						[attr.x] = "!node._isAncestorCollapsed() ? node.XPosition : null"
+						[attr.y] = "node.YPosition" 
+						[attr.width] = "node.w / 8"
+						[attr.height] = "node.h / 4"
+						[attr.href] = "getImageUrl(node, 'collapse')"
+						text-anchor="start"
+						dominant-baseline="central"
+						(click)="onNodeSelected(node, 'collapse')"
+					>
+					</image>
+
+					<image *ngFor="let node of tree.nDatabaseNodes;let i=index" class="item"
+						[attr.x] = "!node._isAncestorCollapsed() ? (node.XPosition + node.w / 2 + node.w / 4) : null"
+						[attr.y] = "node.YPosition + node.h / 4" 
+						[attr.width] = "node.w / 4"
+						[attr.height] = "node.h / 2"
+						[attr.href] = "getImageUrl(node, 'avatar')"
+						text-anchor="start"
+						dominant-baseline="central"
+						(click)="onNodeSelected(node, 'avatar')"
+					>
+					</image>
+				</g>
+			</svg>
+
+		</div>
+
+	</div>
+</ion-content>
+

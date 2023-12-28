@@ -24,21 +24,30 @@
 							<li><span class="page-span" (click)="toPage('phu_khao')"><u><i>Phụ khảo</i></u></span></li>
 						</ul>
 					</div>
-					<!-- <div class="page-footer">{{pageData.muc_luc.index}}</div> -->
-					<div class="page-footer"></div>
+					<div class="page-footer"><u><i>ML</i></u></div>
+					<!-- <div class="page-footer"></div> -->
 				</div>
 			</div>
 
 			<div *ngFor="let page of specialPageData.pha_nhap">
+
 				<div class="page">
+
 					<div class="page-content">
+					<!-- <div> -->
 						<h2 class="page-header">{{page.title}}</h2>
+						<!-- <h2 >{{page.title}}</h2> -->
 						<div class="w3-container">
 							<span [innerHtml]="page.text"></span>
 						</div>
+						<!-- <span [innerHtml]="page.text"></span> -->
 						<div class="page-footer">{{page.index}} - <span class="page-span" (click)="toPage('root')"><u><i>ML</i></u></span></div>
 					</div>
+
+					<!-- <div class="page-footer">{{page.index}} - <span class="page-span" (click)="toPage('root')"><u><i>ML</i></u></span></div> -->
+
 				</div>
+
 			</div>
 
 			<div *ngFor="let page of specialPageData.pha_ky">
