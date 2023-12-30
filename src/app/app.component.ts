@@ -1,14 +1,16 @@
-import { Component, OnInit,  } from '@angular/core';
+import { Component, OnInit, ViewChild  } from '@angular/core';
 import { Platform } from '@ionic/angular';
+import { DomSanitizer } from '@angular/platform-browser';
 import { environment, DEBUGS, DRAGON, VILLAGE, TREE, COUNTRY } from '../environments/environment';
 import { DataService } from './services/data.service';
 import { UtilService } from './services/util.service';
 import { ThemeService } from './services/theme.service';
 import { LanguageService } from './services/language.service';
 import { NodeService } from './services/node.service';
+import { FamilyService } from './services/family.service';
 import { FirebaseService } from './services/firebase.service';
 
-const RESET_DATA = true;
+const RESET_DATA = false;
 
 const VIEW_MODE = 'view';
 const EDIT_MODE = 'edit';
@@ -18,8 +20,10 @@ const URL_DELETE_OPEN = '/sopen';
 const URL_DELETE_NEW = '/snew';
 
 // admin
-const URL_UPDATE_VERSION = '/aupd';
+const URL_UPDATE_VERSION = '/aupdate';
 const URL_EDIT = 'aedit';
+const URL_DOWNLOAD = '/adownload';
+const URL_UPLOAD = '/aupload';
 
 // user
 const URL_THEME = '/utheme'
@@ -37,6 +41,12 @@ export class AppComponent implements OnInit {
   mode:any = VIEW_MODE;
   startUp:any = false;
   startApp:any = false;
+	fileUrl: any;
+	fileName: any;
+	uploadMode = false;
+	downloadMode = false;
+	@ViewChild('popover') popover: any;
+	isOpen = false;
 
   constructor(
     public platform: Platform,
@@ -45,7 +55,10 @@ export class AppComponent implements OnInit {
     private themeService: ThemeService,
     private languageService: LanguageService,
     private nodeService: NodeService,
+    private familyService: FamilyService,
     private fbService: FirebaseService,
+		private sanitizer: DomSanitizer,
+
   ) {
     if (DEBUGS.APP)
       console.log('AppComponent - constructor');
@@ -77,6 +90,11 @@ export class AppComponent implements OnInit {
       this.selectTheme();
     else if (url == URL_LANGUAGE)
       this.selectLanguage();
+		else if (url == URL_DOWNLOAD)
+			this.download();
+		else if (url == URL_UPLOAD)
+			this.upload();
+
     else {
       this.selectAncestor(url).then((status) => {
         if (status)
@@ -120,6 +138,103 @@ export class AppComponent implements OnInit {
     this.fbService.saveAppData(data).then((status:any) => {
       this.presentToast(['APP_NEW_VERSION_IS_UPDATED', environment.version]);
     });
+  }
+
+	
+	download() {
+		// download family data from Firebase to local file for editing
+		this.dataService.readFamilyAndInfo().then((data:any) => {
+      let family = data.family;
+      let info = data.info;
+			let ancestor = info.id;
+			this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
+				// clean family data before save to local
+				let cleanFamily = this.familyService.getFilterFamily(rdata.family, true);
+				let data = JSON.stringify(cleanFamily, null, 2);
+				// console.log('data: ', data);
+				const blob = new Blob([data], {
+					type: 'application/octet-stream'
+				});
+				this.fileName = ancestor + '-' + family.version + '.json';
+				this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+				this.downloadMode = true;
+			});
+		});
+  }
+
+	upload() {
+		this.uploadMode = true;
+	}
+
+	presentPopover(e: Event) {
+    this.popover.event = e;
+    this.isOpen = true;
+  }
+	
+	onFileSelect(event: any): void {
+    const files = [...event.target.files]
+		const file = files[0];
+		this.fileName = file.name;
+		console.log('file: ', file);
+		this.onFileUpload(file);
+  }
+
+	onFileUpload(file:File) {
+    console.log('FilePage - onFileUpload');
+    const name:string = file.name;
+    // get extension
+    const type = name.substring(name.lastIndexOf('.')+1);
+		console.log('type: ', type);
+    this.uploadFile(file).then((res: any) => {
+      if (DEBUGS.APP)
+        console.log('onFileUpload - res: ', res);
+      if (res.text) {
+        // validate json file
+        // let family = JSON.parse(res.text);
+				// console.log('FilePage - onFileUpload - family: ', family);
+				let family = this.getValidateData(res.text);
+        if (family) {
+					this.dataService.readFamilyAndInfo().then((ldata:any) => {
+						let ancestor = ldata.info.id;
+						this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
+							rdata.family = family;
+							this.fbService.saveAncestorData(rdata).then((status:any) => {
+								this.presentToast(['APP_UPLOAD', name]);
+							});
+						});
+					});
+        } else {
+					this.presentToast(['APP_FILE_INVALID', name]);
+				}
+      } else {
+				this.presentToast(['APP_FILE_EMPTY', name]);
+      }
+    });
+  }
+
+	uploadFile(file:File) {
+    return new Promise((resolve) => {
+      const name = file.name;
+      var myReader: FileReader = new FileReader();
+			myReader.readAsText(file);
+			myReader.onload = ((event:any) => {
+				let text:any = event.target.result;
+			// always parse json (string) to object
+				resolve({text: text});
+			});
+    });
+  }
+
+	getValidateData(text: any) {
+		let family: any = null;
+		try {
+			family = JSON.parse(text);
+			if (!family.version || !family.nodes || !family.children)
+				return null;
+		} catch (error) {
+			console.log('getValidateData - error: ', error);
+		}		
+    return family;
   }
 
   deleteOpen (open: boolean) {
@@ -270,6 +385,23 @@ export class AppComponent implements OnInit {
               this.presentToast(['APP_EMPTY_ANCESTOR']);
               resolve(false);
             } else {
+							// localhost:8100 - sdata is available
+							// check on family data version
+							let fversion = sdata.family.version;
+							if (DEBUGS.APP)
+								console.log('AppComponent - selectAncestor - fversion: ', fversion);
+								// now check remote version
+								this.fbService.readAncestorData(sdata.info.id).subscribe((rdata:any) => {
+									let rversion = rdata.family.version;
+									console.log('AppComponent - selectAncestor - fversion, rversion: ', fversion, rversion);
+									if (rversion != fversion) {
+										this.presentToast(['APP_NEW_FAMILY', rversion]);
+										this.dataService.saveItem('ANCESTOR_DATA', rdata).then((status:any) => {
+											resolve (true);
+										});
+									}
+									resolve(true);
+								});
               resolve(true);
             }
           });
@@ -289,7 +421,6 @@ export class AppComponent implements OnInit {
         }
       }
     });
-    
   }
 
   async validateAncestor(ancestorID: any) {
@@ -342,6 +473,9 @@ export class AppComponent implements OnInit {
 				if (RESET_DATA)
 					this.setJsonData('docs').then((stat2:any) => {});
         let remoteVersion = rdata.version;
+				if (DEBUGS.APP) {
+					console.log('AppComponent - updateVersionData -  remote app version: ', remoteVersion);
+				}
         if (remoteVersion !== environment.version) {
           // must refresh cache
           let msg = ' (A.' + environment.version + '). ';
@@ -366,8 +500,8 @@ export class AppComponent implements OnInit {
     this.dataService.readFamilyAndInfo().then((data:any) => {
       let family = data.family;
       let info = data.info;
-      // if (DEBUGS.APP)
-      //   console.log('AppComponent - updateAppData -  family: ', family);
+      if (DEBUGS.APP)
+        console.log('AppComponent - updateAppData - local family version: ', family.version);
       // update screen height
       let nodes = this.nodeService.getFamilyNodes(family);
       this.themeService.setScreenSize(nodes);
@@ -559,6 +693,12 @@ export class AppComponent implements OnInit {
       "APP_LANGUAGE_VIETNAMESE": "Tiếng Việt",
       "APP_LANGUAGE_ENGLISH": "Tiếng Anh",
 
+			"APP_NEW_FAMILY": "Hệ thống dùng dữ liệu mới. Ấn bản: ",
+
+      "APP_UPLOAD": "Upload file lên Firebase: ",
+      "APP_FILE_INVALID": "File không hợp lệ!",
+      "APP_FILE_EMPTY": "File không có dữ liệu!",
+			
       "INFO": "Thông báo",
       "ERROR": "Lỗi",
       "WARNING": "Cảnh báo",

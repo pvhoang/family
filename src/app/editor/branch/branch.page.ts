@@ -320,7 +320,7 @@ export class BranchPage implements OnInit {
         let values = resp.data.values;
         if (DEBUGS.BRANCH)
           console.log('NodePage - openEditModal - values, node : ', values, node);
-        let change = this.nodeService.updateNode(node, values);
+        let change = this.nodeService.saveValues(node, values);
         if (change) {
           // there is change
           if (DEBUGS.BRANCH)

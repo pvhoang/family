@@ -22,14 +22,15 @@ export const DEBUGS = {
   'MEMORY': false,
   'PERSON': true,
   'NODE': true,
-  'BRANCH': true,
+  'BRANCH': false,
+  'DOCS': true,
   'TREE': false,
   'EDIT': false,
   'CROPPER': false,
   'FILE': false,
   'FAMILY_SERVICE': false,
   'UTIL_SERVICE': false,
-  'DATA_SERVICE': true,
+  'DATA_SERVICE': false,
   'FIREBASE_SERVICE': false,
 };
 

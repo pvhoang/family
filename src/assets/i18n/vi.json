@@ -105,7 +105,7 @@
   "NODE_MISSING_ITEM_2": "': ",
   "NODE_POPOVER_HEADER": "Phả hệ",
   "NODE_POPOVER_VIEW": "Tiểu sử",
-  "NODE_POPOVER_EDIT": "Phả cập",
+  "NODE_POPOVER_EDIT": "Sửa hệ",
   "NODE_POPOVER_ADD": "Thêm hệ",
   "NODE_POPOVER_ADD_BRANCH": "Thêm nhánh",
   "NODE_POPOVER_DELETE": "Xóa hệ",
@@ -194,6 +194,7 @@
   "FILE_SYNC_NOT_1": "Gia phả nguồn '",
   "FILE_SYNC_NOT_2": "' được giữ!",
   
+  "DOC_SELECT": "Chọn trang",
   "DOC_INTRO": "Lời mở đầu",
   "DOC_NOTE": "Phả ký",
   "DOC_NODE": "Phả hệ",
@@ -202,5 +203,7 @@
   "DOC_INFO": "Phụ khảo",
   "DOC_CHANGED": "Nội dung thay đổi: ",
   "DOC_MESSAGE_1": "Nội dung gia phả đã được cập nhật. Ấn bản mới: '",
-  "DOC_MESSAGE_2": "'."
+  "DOC_MESSAGE_2": "'.",
+  "DOC_NOT_CHANGED": "Nội dung không thay đổi!"
+
 }

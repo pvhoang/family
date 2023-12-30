@@ -23,7 +23,7 @@ export class FamilyService {
 
   // --- Family ---
 
-  async saveFullFamily(family:any) {
+  async saveFullFamily(family:Family) {
 		family = this.getFilterFamily(family);
     if (DEBUGS.FAMILY_SERVICE)
       console.log('FamilyService - saveFullFamily -  family: ', family);
@@ -31,7 +31,7 @@ export class FamilyService {
 		return true;
 	}
 
-  buildFullFamily(family: any): Family {
+  buildFullFamily(family:Family): Family {
     // start at root
     let nodeLevel = 1;
     let childIdx = 1;
@@ -82,13 +82,13 @@ export class FamilyService {
       node.span = this.nodeService.getSpanStr(node);
     }
     // console.log('getSelectedPerson - nodes3: ', nodes);
-    console.log('buildFullFamily - family: ', family);
+    // console.log('buildFullFamily - family: ', family);
     return family;
   }
 
-  private buildChildNodes(pnode: any, family: any, nodeLevel: number, childIdx) {
+  private buildChildNodes(pnode: Node, family: Family, nodeLevel: number, childIdx: number) {
     let nodeIdx = 1;
-    family.nodes.forEach(node => {
+    family.nodes.forEach((node: any) => {
       node = this.nodeService.fillNode(node);
       node.id = pnode.id + '-' + childIdx + '-' + nodeIdx++;
       node.idlevel = 'level-' + nodeLevel;
@@ -112,7 +112,7 @@ export class FamilyService {
   
   // --- People ---
 
-  public getPeopleList(family:any): any {
+  public getPeopleList(family:Family): any {
     let data = [];
     let nodeLevel = 1;
     family.nodes.forEach((node: any) => {
@@ -164,7 +164,7 @@ export class FamilyService {
     return uniqueData;
 	}
   
-  private getPeopleListChild(family:any, data:any, nodeLevel: number) {
+  private getPeopleListChild(family:Family, data:any, nodeLevel: number) {
     family.nodes.forEach((node: any) => {
       if (node.visible) {
         node.level = nodeLevel;
@@ -216,7 +216,7 @@ export class FamilyService {
     });
   }
 
-  private passAwayFamilyNode(family:any, nodeLevel: any, msg: any) {
+  private passAwayFamilyNode(family:Family, nodeLevel: number, msg: any[]) {
     family.nodes.forEach(node => {
       const dayCount = this.isMemorialComing(node.dod);
       if (dayCount >= 0 && dayCount < 15) {
@@ -233,7 +233,7 @@ export class FamilyService {
     }
   }
 
-  private isMemorialComing(dod: any) {
+  private isMemorialComing(dod: string) {
     if (!dod || dod == '')
       return -1;
     let d = new Date();
@@ -270,11 +270,15 @@ export class FamilyService {
     // build diff based src and mod nodes
     let mNodes = {};
     modNodes.forEach((node:any) => {
+			if (node.name == 'Trần Thị Nhung')
+				console.log('compareFamilies - modNodes: ', node)
       let name = node.name + '_' + node.level;
       mNodes[name] = node;
     })
     let sNodes = {};
     srcNodes.forEach((node:any) => {
+			if (node.name == 'Trần Thị Nhung')
+				console.log('compareFamilies - srcNodes: ', node)
       let name = node.name + '_' + node.level;
       sNodes[name] = node;
     })
@@ -371,21 +375,23 @@ export class FamilyService {
   }
 
   // --- getFilterFamily
-
-  getFilterFamily(family: Family) {
+  getFilterFamily(family: Family, clean?: any) {
     let filterFamily:any = {};
     filterFamily.version = family.version;
     filterFamily['nodes'] = [];
     if (family['nodes'].length > 0) {
       family['nodes'].forEach(node => {
-        filterFamily['nodes'].push(this.nodeService.cloneNode(node));
+        if (clean)
+					filterFamily['nodes'].push(this.nodeService.getCleanNode(node));
+				else
+					filterFamily['nodes'].push(this.nodeService.cloneNode(node));
       });
     }
     if (family['children']) {
       filterFamily['children'] = [];
       family['children'].forEach(fam => {
         if (fam.nodes.length > 0) {
-          let nFamily = this.getFilterFamilyNode(fam);
+          let nFamily = this.getFilterFamilyNode(fam, clean);
           filterFamily['children'].push(nFamily);
         }
       })
@@ -393,12 +399,15 @@ export class FamilyService {
     return filterFamily;
   }
 
-  private getFilterFamilyNode(family: Family) {
+  private getFilterFamilyNode(family: Family, clean?: any) {
     let filterFamily:any = {};
     filterFamily['nodes'] = [];
     if (family['nodes'].length > 0) {
       family['nodes'].forEach(node => {
-        filterFamily['nodes'].push(this.nodeService.cloneNode(node));
+				if (clean)
+					filterFamily['nodes'].push(this.nodeService.getCleanNode(node));
+				else
+					filterFamily['nodes'].push(this.nodeService.cloneNode(node));
       });
     }
     if (family['children']) {
@@ -409,15 +418,17 @@ export class FamilyService {
         if (fam.nodes.length > 0)
           sortNodes.push({ node: fam.nodes[0], family: fam });
       })
-      sortNodes.sort((item1:any, item2:any) => {
-        let a1: any = (item1.node.yob == '') ? 2050 : +item1.node.yob;
-        let a2: any = (item2.node.yob == '') ? 2050 : +item2.node.yob;
-        return a1 - a2;
-      });
+      if (clean) {
+				sortNodes.sort((item1:any, item2:any) => {
+					let a1: any = (item1.node.yob == '') ? 2050 : +item1.node.yob;
+					let a2: any = (item2.node.yob == '') ? 2050 : +item2.node.yob;
+					return a1 - a2;
+				});
+			}
       sortNodes.forEach(item => {
         let fam = item.family;
         if (fam.nodes.length > 0) {
-          let nFamily = this.getFilterFamilyNode(fam);
+          let nFamily = this.getFilterFamilyNode(fam, clean);
           filterFamily['children'].push(nFamily);
         }
       })

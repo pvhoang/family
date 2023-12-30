@@ -199,7 +199,7 @@ export class EditPage implements OnInit {
 
   async onCancel() {
     let values = this.values;
-    if (this.nodeService.isNodeChanged(this.node, values)) {
+    if (this.nodeService.areValuesChanged(this.node, values)) {
       this.utilService.alertConfirm('EDIT_CANCEL_HEADING', 'EDIT_CANCEL_MESSAGE', 'RETURN', 'CONTINUE').then((res) => {
         if (res.data)
           this.modalCtrl.dismiss({status: 'cancel'});
@@ -215,7 +215,7 @@ export class EditPage implements OnInit {
 
     this.savePhotoBase64();
     let values = this.values;
-    if (this.nodeService.isNodeChanged(this.node, values) == false) {
+    if (this.nodeService.areValuesChanged(this.node, values) == false) {
       this.utilService.alertMsg('EDIT_SAVE_HEADING', 'EDIT_SAVE_MESSAGE', 'RETURN', { width: 350, height: 400 }).then(choice => {});
       return;
     }

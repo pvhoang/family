@@ -331,7 +331,7 @@ export class NodePage implements OnInit {
         let values = resp.data.values;
         if (DEBUGS.NODE)
           console.log('NodePage - openEditModal - values, node : ', values, node);
-        let change = this.nodeService.updateNode(node, values);
+        let change = this.nodeService.saveValues(node, values);
         if (change) {
           // there is change
           if (DEBUGS.NODE)

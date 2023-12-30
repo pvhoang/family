@@ -3,14 +3,9 @@ import { ModalController, PopoverController } from '@ionic/angular';
 import { LanguageService } from '../../services/language.service';
 import { DataService } from '../../services/data.service';
 import { UtilService } from '../../services/util.service';
-
 import { FirebaseService } from '../../services/firebase.service';
-
 import { Editor, EditorSettings } from '../../../assets/js/tinymce/tinymce.min.5.10.9.js';
-// import { Editor, EditorSettings } from '../../../assets/js/tinymce.min.js';
-// import { Editor, EditorSettings } from 'test/node_modules/tinymce/tinymce.min.js';
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
-
 
 @Component({
   selector: 'app-doc',
@@ -44,24 +39,24 @@ export class DocPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (DEBUGS.NODE)
+    if (DEBUGS.DOCS)
       console.log('DocPage - ngOnInit');
     this.setupEditor();
     this.startFromStorage();
   }
 
   ionViewWillEnter() {
-    if (DEBUGS.NODE)
+    if (DEBUGS.DOCS)
       console.log('DocPage - ionViewWillEnter');
 		// this.setupEditor();
     this.startFromStorage();
   }
 	
 	ionViewWillLeave() {
-    if (DEBUGS.NODE)
+    if (DEBUGS.DOCS)
       console.log('DocPage - ionViewWillLeave');
 		// save new data
-		this.saveDocs();
+		// this.saveDocs();
 		// if (this.changedDocCount > 0)
 		// this.updateCurrentDoc();
 		// this.dataService.saveDocs(this.pageData).then((status:any) => {});
@@ -79,6 +74,7 @@ export class DocPage implements OnInit {
   start(data: any) {
 		this.newData = JSON.parse(JSON.stringify(data));
     this.docs = [
+      { id: 'chon', name: this.languageService.getTranslation('DOC_SELECT') },
       { id: 'pha_nhap', name: this.languageService.getTranslation('DOC_INTRO') },
       { id: 'pha_ky', name: this.languageService.getTranslation('DOC_NOTE') },
       { id: 'pha_he', name: this.languageService.getTranslation('DOC_NODE') },
@@ -87,8 +83,9 @@ export class DocPage implements OnInit {
       { id: 'phu_khao', name: this.languageService.getTranslation('DOC_INFO') }
     ];
     this.selectDoc = this.docs[0].id;
-		console.log('DocPage - startFromStorage - text: ', this.newData[this.selectDoc].text);
-		this.editor.setContent(this.newData[this.selectDoc].text);
+		// console.log('DocPage - startFromStorage - text: ', this.newData[this.selectDoc].text);
+		let text = (this.selectDoc == 'chon') ? '' : this.newData[this.selectDoc].text;
+		this.editor.setContent(text);
 		this.currentDoc = this.selectDoc;
   }
 
@@ -159,6 +156,12 @@ export class DocPage implements OnInit {
 			}
 		}
 
+		if (count == 0) {
+			msg = this.languageService.getTranslation('DOC_NOT_CHANGED');
+			this.utilService.presentToast(msg, 1000);
+			return;
+		}
+		
 		if (count > 0) {
 			this.utilService.alertConfirm('NODE_DELETE_NODE_MESSAGE', msg, 'CANCEL', 'OK').then((result) => {
 				if (result.data) {
@@ -176,16 +179,26 @@ export class DocPage implements OnInit {
   // ------------------------------------- 
 
   clearDocs() {
+		if (DEBUGS.DOCS)
+			console.log('DocPage - clearDocs - selectDoc: ', this.selectDoc);
     this.selectDoc = null;
   }
 
   closeDocs() {
-    if (DEBUGS.NODE)
+    if (DEBUGS.DOCS) {
 			console.log('DocPage - closeDocs - selectDoc: ', this.selectDoc);
-
-		const text = this.editor.getContent({ format: 'html' });
-		this.newData[this.currentDoc].text = text;
-		this.editor.setContent(this.newData[this.selectDoc].text);
+			// console.log('DocPage - closeDocs - text: ', this.newData[this.selectDoc].text);
+		}
+		// const text = this.editor.getContent({ format: 'html' });
+		if (this.currentDoc != 'chon') {
+			this.newData[this.currentDoc].text = this.editor.getContent({ format: 'html' });
+		}
+		if (this.selectDoc == 'chon') {
+			this.editor.setContent('');
+		} else {
+			this.editor.setContent(this.newData[this.selectDoc].text);
+		}
+		// this.editor.setContent(this.newData[this.selectDoc].text);
 		this.currentDoc = this.selectDoc;
   }
   

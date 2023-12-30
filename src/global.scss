@@ -247,7 +247,6 @@ ion-tab-button {
   }
 }
 
-
 // --- EDIT ---
 
 .editor {
@@ -413,11 +412,22 @@ ion-tab-button {
   opacity: 0.20;
 }
 
+
 // --- COLUMN ---
 
 .center {
   display: flex;
   justify-content: center;
+}
+
+.center-both {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.center-both div {
+  width: 100px;
+  height: 200px;
 }
 
 // --- ALERT ---

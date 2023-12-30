@@ -79,7 +79,7 @@ export class HomePage implements OnInit{
 		for (var key of Object.keys(docs)) {
 			if (key != 'gia_pha' && key != 'ket_thuc') {
 				let data = docs[key];
-				console.log('updatePageData - data: ', data);
+				// console.log('updatePageData - data: ', data);
 				let text = data.text;
 				if (key == 'pha_nhap' || key == 'pha_ky' || key == 'ngoai_pha' || key == 'phu_khao') {
 					// break into various page
@@ -103,8 +103,8 @@ export class HomePage implements OnInit{
 		this.pageData = pageData;
 		this.specialPageData = specialPageData;
 
-		console.log('updatePageData - pageData: ', pageData);
-		console.log('updatePageData - specialPageData: ', specialPageData);
+		// console.log('updatePageData - pageData: ', pageData);
+		// console.log('updatePageData - specialPageData: ', specialPageData);
 
 	}
 

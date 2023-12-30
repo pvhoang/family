@@ -317,17 +317,18 @@ export class UtilService {
 		return await toast.onDidDismiss();
   }
 
-	async presentToast(srcMessage) {
+	async presentToast(srcMessage, waitTime?: any) {
 		let message = this.languageService.getTranslation(srcMessage);
 		if (!message)
 			message = srcMessage;
+		let time = (waitTime) ? waitTime : 5000;
 		this.themeService.setAlertSize({ width: 350, height: 100 });
 		let css = 'toast-dialog';
     const toast = await this.toastController.create({
       message: message,
 			cssClass: css,
       position: 'middle',
-      duration: 10000,
+      duration: time,
 			mode: "md"
     });
     await toast.present();

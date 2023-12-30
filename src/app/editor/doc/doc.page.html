@@ -18,20 +18,21 @@
     </ion-col>
   </ion-item>
 
-  <!-- <ion-item class="header-bottom">
+  <ion-item class="header-bottom">
     <ion-col size="6" class="heading">
       <span class="label" [innerHtml]="message"></span>
     </ion-col>
-    <ion-col *ngIf="changedDocCount > 0" size="6" class="heading" (click)="onSave()">
-      <ion-button class="button" fill="clear" (click)="onSave()">
+    <ion-col size="6" class="heading" (click)="onSave()">
+      <ion-button class="button" fill="clear" (click)="saveDocs()">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}content-save-outline.svg" class="icon"></ion-icon>
       </ion-button>
       <span class="label">{{ 'SAVE' | translate }}</span>
     </ion-col>
-  </ion-item> -->
+  </ion-item>
 
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
+  <!-- <editor apiKey="td9cz0rc9qe4wcd36a5kwudebvfeblv4nsjyzyqv55udust7" [init]="settings"></editor> -->
   <editor [init]="settings"></editor>
 </ion-content>

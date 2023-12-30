@@ -139,24 +139,6 @@ export class NodeService {
     return genStr;
   }
   
-  // public getGenerationOrder(node: any) {
-  //   let indexes = node.id.split('-');
-  //   // pair of 2
-  //   // console.log('indexes: ', indexes)
-
-  //   console.log('name: ', node.name)
-  //   let gen = 1;
-  //   for (let i = 0; i < indexes.length; i += 2) {
-  //     let childIdx = indexes[i];
-  //     let nodeIdx = indexes[i+1];
-  //     console.log('gen, order, spouse: ', gen, childIdx, nodeIdx )
-  //     gen++;
-  //   }
-  //   // console.log('gen: ', indexes.length / 2);
-
-
-  // }
-
   public getPhotoName(node: any, storageName?)  {
     let name = this.utilService.stripVN(node.name);
     name = name.replace(/ /g, '_');
@@ -168,13 +150,7 @@ export class NodeService {
   }
 
   public getFullDetail(node: any)  {
-    let str = ' (' + this.getGeneration(node);
-    // let str = ' (' + this.languageService.getTranslation('GENERATION_SHORT') + node.level;
-    if (node.dod != '') str += ', ⚱'
-    // if (node.photo != '') str += ', <b>☺</b>'
-    if (node.photo != '') str += ', ☺'
-    str += ')';
-    return str;
+    return ' (' + this.getGeneration(node) + ')';
   }
 
   public updateNclass(node: any): string {
@@ -274,82 +250,42 @@ export class NodeService {
     }
   }
 
-  public getSpanStr(node) {
-    // let str = node.name + '-' + node.idlevel;
-    let str = node.name;
-    if (node.yod != '' && node.photo != '') str += ' (☺,⚱)';
-    else if (node.yod != '') str += ' (⚱)';
-    else if (node.photo != '') str += ' (☺)';
-    return str;
+// ---
+// 	NGUYỄN VĂN TÂM (☺)
+// ---
+//  NGUYỄN VĂN TÂM
+//       (1920)
+//   Sống: Xã An Nhơn
+// ---
+// 	NGUYỄN VĂN TÂM (☺)
+//     (1920-1985)
+//   Giỗ: 25/8 Âm lịch
+//     Mộ: Xã An Nhơn
+
+	public getSpanStr(node: Node) {
+    let str = '<b>' + node.name;
+    str += (node.photo != '') ? ' (☺)</b>' : '</b>';
+
+		if (node.yob != '' && node.yod == '') {
+			str += '<br/><i>(' + node.yob + ')</i>';
+			str += '<br/>Sống: ' + node.por;
+		} else if (node.yod != '') {
+			str += '<br/><i>(' + node.yob + '-' + node.yod + ')</i>';
+			str += '<br/>Giỗ: ' + node.dod + ' (Âm lịch)'
+			str += '<br/>Mộ: ' + node.pod;
+		}
+		return str;
   }
 
-  public getSpanNodeStr(node) {
-    let row1 = node.name + ' (' + this.getGeneration(node) + ')';
-    if (node.family && node.family.children)
-      row1 = '<b>' +  row1 + '</b>';
-    let yob = (node.yob) ? node.yob : '';
-    let yod = (node.yod) ? node.yod : '';
-    let pod = (node.pod) ? node.pod : '';
-    let por = (node.por) ? node.por : '';
-    let job = (node.job) ? node.job : '';
-    // let desc = (node.desc) ? node.desc : '';
-    let str = row1 + '<br/>' + '<i>Sinh</i>: ' + yob + ' - ' + '<i>Sống</i>: ' + por;
-    if (yod != '')
-      str += '<br/>' + '<i>Tử</i>: ' + yod + ' - ' + '<i>Mộ</i>: ' + pod;
-    if (job != '')
-      str += '<br/>' + '<b>' +  job + '</b>'
-    return str;
+  public getSpanNodeStr(node: Node) {
+		return this.getSpanStr(node);
   }
 
-  public getSpanPersonStr(node) {
-    let str = '';
-    let row1 = node.name + ' (' + this.getGeneration(node) + ')';
-    let row2 = '';
-    let row3 = '';
-    let row4 = '';
-    let row5 = '';
-
-    if (node.nclass == 'node-select') {
-      row2 = '<b>Sinh</b>: ' + node.yob + ' - ' + ((node.yob != '') ? this.utilService.getLunarYear(+node.yob) : '');
-      if (node.yod != '') {
-        row3 = '<b>Tử</b>: ' + node.yod + ' - ' + ((node.yod != '') ? this.utilService.getLunarYear(+node.yod) : '');
-        row4 = '<b>Giỗ</b>: ' + node.dod + ' (ÂL)';
-        row5 = '<b>Mộ</b>: ' + node.pod;
-      }
-    } else {
-      row2 = '(' + node.yob + ' - ' + node.yod + ')';
-    }
-    str = row1 + '<br/>' + row2;
-    if (row3 != '') str += '<br/>' + row3;
-    if (row4 != '') str += '<br/>' + row4;
-    if (row5 != '') str += '<br/>' + row5;
-    
-    // if (node.family && node.family.children)
-    //   row1 = '<b>' +  row1 + '</b>';
-    // let yob = (node.yob) ? node.yob : '';
-    // let yod = (node.yod) ? node.yod : '';
-    // let row2 = '( ' + node.yob + ' - ' + this.utilService.getLunarYear(+node.yob).yod + ' )';
-    // let str = row1 + '<br/>' + row2;
-    // if (node.nclass == 'node-select') {
-    //   if (node.yod != '') {
-    //     let row3 = '<br/><b>Giỗ</b>: ' + node.dod + ' (ÂL)';
-    //     let row4 = '<b>Mộ</b>: ' + node.pod;
-    //     str += row3 + '<br/>' + row4
-    //   }
-    // }
-    // let pod = (node.pod) ? node.pod : '';
-    // let por = (node.por) ? node.por : '';
-    // let job = (node.job) ? node.job : '';
-    // // let desc = (node.desc) ? node.desc : '';
-    // let str =  + '<i>Sinh</i>: ' + yob + ' - ' + '<i>Sống</i>: ' + por;
-    // if (yod != '')
-    //   str += '<br/>' + '<i>Tử</i>: ' + yod + ' - ' + '<i>Mộ</i>: ' + pod;
-    // if (job != '')
-    //   str += '<br/>' + '<b>' +  job + '</b>'
-    return str;
+  public getSpanPersonStr(node: Node) {
+		return this.getSpanStr(node);
   }
 
-  public fillNode(node) {
+  public fillNode(node: Node) {
     if (!node.id) node.id = '';
     if (!node.relationship) node.relationship = '';
     if (!node.name) node.name = '';
@@ -381,15 +317,21 @@ export class NodeService {
     values.job = (node.job == '') ? null : node.job;
     values.desc = node.desc;
     values.photo = (node.photo) ? node.photo : '';
-    values.dod_day = (node.dod == '') ? null : node.dod.substring(0,2);
-    values.dod_month = (node.dod == '') ? null : node.dod.substring(3);
-
+		let dod = node.dod;
+		let idx = dod.indexOf('/');
+		if (idx > 0) {
+			values.dod_day = dod.substring(0, idx);
+			values.dod_month = dod.substring(idx + 1);
+		} else {
+			values.dod_day = null;
+			values.dod_month = null;
+		}
     return values;
   }
 
-  public updateNode(node: any, values: any) {
+  public saveValues(node: any, values: any) {
     // console.log('values: ', values);
-    let change = this.isNodeChanged(node, values);
+    let change = this.areValuesChanged(node, values);
 
     let yob = values.yob ? values.yob : '';
     let yod = values.yod ? values.yod : '';
@@ -397,6 +339,8 @@ export class NodeService {
     let pod = values.pod ? values.pod : '';
     let por = values.por ? values.por : '';
     let job = values.job ? values.job : '';
+		let dod_day = values.dod_day ? values.dod_day : '';
+		let dod_month = values.dod_month ? values.dod_month : '';
 
     node.name = values.name;
     node.nick = values.nick;
@@ -409,19 +353,20 @@ export class NodeService {
     node.job = job;
     node.desc = values.desc;
     node.photo = values.photo;
-    // node.dod = values.dod;
-    node.dod = (values.dod_day && values.dod_month) ? (values.dod_day + '/' + values.dod_month) : '';
+    node.dod = (dod_day == '' && dod_month == '') ? '' : dod_day + '/' + dod_month;
     return change;
   }
 
-  public isNodeChanged(node: any, values:any) {
+  public areValuesChanged(node: any, values:any) {
     let yob = values.yob ? values.yob : '';
     let yod = values.yod ? values.yod : '';
     let pob = values.pob ? values.pob : '';
     let pod = values.pod ? values.pod : '';
     let por = values.por ? values.por : '';
     let job = values.job ? values.job : '';
-    let dod = (values.dod_day && values.dod_month) ? (values.dod_day + '/' + values.dod_month) : '';
+		let dod_day = values.dod_day ? values.dod_day : '';
+		let dod_month = values.dod_month ? values.dod_month : '';
+		let dod = (dod_day == '' && dod_month == '') ? '' : dod_day + '/' + dod_month;
 
     let change = 
       (node.name != values.name) ||
@@ -458,6 +403,25 @@ export class NodeService {
       node.idlevel = srcNode.idlevel;
       node.nclass = srcNode.nclass;
     }
+    return node;
+  }
+
+	public getCleanNode(srcNode: any) {
+		let node:any = {};
+		// must have values
+    node.name = srcNode.name;
+    node.gender = srcNode.gender;
+		// remove empty data
+		if (srcNode.nick != '') node.nick = srcNode.nick;
+		if (srcNode.yob != '') node.yob = srcNode.yob;
+		if (srcNode.yod != '') node.yob = srcNode.yod;
+		if (srcNode.pob != '') node.pob = srcNode.pob;
+		if (srcNode.pod != '') node.pod = srcNode.pod;
+		if (srcNode.por != '') node.por = srcNode.por;
+		if (srcNode.job != '') node.job = srcNode.job;
+		if (srcNode.desc != '') node.desc = srcNode.desc;
+		if (srcNode.photo != '') node.photo = srcNode.photo;
+		if (srcNode.dod != '') node.dod = srcNode.dod;
     return node;
   }
 
