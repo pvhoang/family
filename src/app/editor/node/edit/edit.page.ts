@@ -2,13 +2,12 @@ import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ModalController, Platform } from '@ionic/angular';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { TypeaheadService } from '../../../services/typeahead.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import { LanguageService } from '../../../services/language.service';
-import { CropperModalPage } from './cropper-modal/cropper-modal.page';
 import { UtilService } from '../../../services/util.service';
+import { DataService } from '../../../services/data.service';
 import { NodeService } from '../../../services/node.service';
 import { FirebaseService } from '../../../services/firebase.service';
 import { FONTS_FOLDER, DEBUGS, environment } from '../../../../environments/environment';
@@ -29,6 +28,7 @@ export class EditPage implements OnInit {
   @ViewChild('ngSelectPOD') ngSelectPOD: NgSelectComponent;
   @ViewChild('ngSelectPOR') ngSelectPOR: NgSelectComponent;
   @ViewChild('ngSelectJOB') ngSelectJOB: NgSelectComponent;
+  @ViewChild('ngSelectPHOTO') ngSelectPHOTO: NgSelectComponent;
 
   @ViewChild('popover') popover:any;
 
@@ -51,7 +51,8 @@ export class EditPage implements OnInit {
   locations: Array<any> = [];
   isOpen = false;
   yobYears: any;
-  jobs: any
+  jobs: any;
+  photos: any;
   passAway = false;
   selectYearsPlaceholder: any = '';
   selectDaysPlaceholder: any = '';
@@ -61,16 +62,15 @@ export class EditPage implements OnInit {
   names: Observable<string[]>;
   searchNames = [];
   selectGenderPlaceholder: any = '';
-  photoBase64: any;
-  photoNew = false;
+  // photoBase64: any;
+  // photoNew = false;
 
   constructor(
     private modalCtrl: ModalController,
     public platform: Platform,
-    private sanitizer: DomSanitizer,
     private languageService: LanguageService,
     private utilService: UtilService,
-    private fbService: FirebaseService,
+    private dataService: DataService,
     private nodeService: NodeService,
     private typeahead: TypeaheadService,
   ) { 
@@ -84,7 +84,7 @@ export class EditPage implements OnInit {
     this.ancestor = this.info.id;
 
     this.values = this.nodeService.loadValues(this.node);
-    this.getPhotoBase64();
+    // this.getPhotoBase64();
 
     this.genders = [
       { id: 'male', name: this.languageService.getTranslation('MALE') },
@@ -94,12 +94,16 @@ export class EditPage implements OnInit {
     this.typeahead.getJsonPlaces().then((data:any) => {
       this.locations = data;
     })
-
     this.years = this.utilService.getYears();
     this.days = this.utilService.getDays();
     this.months = this.utilService.getMonths();
     this.yobYears = this.years;
     this.jobs = this.utilService.getJobs();
+
+		this.dataService.readItem('photos').then((photos:any) => {
+			// console.log('photos: ', photos)
+			this.photos = photos.data;
+		});
     
     this.selectPlacesNotFoundText = null;
     this.selectNamesPlaceholder = this.languageService.getTranslation('EDIT_SELECT_PEOPLE_PLACEHOLDER');
@@ -173,6 +177,7 @@ export class EditPage implements OnInit {
       if (item == 'por') this.ngSelectPOR.close();
       if (item == 'pod') this.ngSelectPOD.close();
       if (item == 'job') this.ngSelectJOB.close();
+      if (item == 'photo') this.ngSelectPHOTO.close();
     }
   }
   
@@ -213,7 +218,7 @@ export class EditPage implements OnInit {
     if (DEBUGS.EDIT)
       console.log('EditPage - onSave - values: ', this.values);
 
-    this.savePhotoBase64();
+    // this.savePhotoBase64();
     let values = this.values;
     if (this.nodeService.areValuesChanged(this.node, values) == false) {
       this.utilService.alertMsg('EDIT_SAVE_HEADING', 'EDIT_SAVE_MESSAGE', 'RETURN', { width: 350, height: 400 }).then(choice => {});
@@ -238,82 +243,5 @@ export class EditPage implements OnInit {
     msg = yodMsg;
     return msg;
   }
-
-  // --------- photo ----------
-
-  // https://edupala.com/ionic-capacitor-camera/
-  private getPhotoBase64() {
-    this.photoBase64 = '';
-    this.photoNew = false;
-    if (this.values.photo != '') {
-      let photoName = this.values.photo;
-      console.log('getPhoto: ', photoName);
-      this.fbService.downloadImage(this.ancestor, photoName).then((imageURL:any) => {
-        this.photoBase64 = this.sanitizer.bypassSecurityTrustResourceUrl(imageURL);
-      })
-    }
-  }
-
-  private savePhotoBase64() {
-    // save new photo
-    if (this.photoNew) {
-      if (this.photoBase64 != '') {
-        let photoName = this.nodeService.getPhotoName(this.node, true);
-        let base64 = this.photoBase64;
-        let type = base64.substring('data:'.length, base64.indexOf(';'));
-        base64 = base64.replace("data:", "").replace(/^.+,/, "");
-        this.fbService.addImage(base64, type, this.ancestor, photoName).then(urlStorage => {});
-        this.values.photo =  photoName;
-      } else {
-        // reset empty photo
-        this.values.photo = '';
-      }
-    }
-  }
-
-  deletePhoto() {
-    this.photoBase64 = '';
-    this.photoNew = true;
-  }
-
-  editPhoto() {
-    this.openCropperModal(this.photoBase64, true);
-  }
-
-  async getPicture(type: any) {
-    console.log('EditPage - getPicture - type: ', type);
-    const image = await Camera.getPhoto({
-      quality: 100,
-      width: 400,
-      allowEditing: false,
-      resultType: CameraResultType.DataUrl,
-      source: CameraSource.Prompt,
-      saveToGallery: true,
-      promptLabelHeader: this.languageService.getTranslation('EDIT_CAMERA_HEADER'),
-      promptLabelCancel: this.languageService.getTranslation('EDIT_CAMERA_CANCEL'),
-      promptLabelPhoto: this.languageService.getTranslation('EDIT_CAMERA_SELECT'),
-      promptLabelPicture: this.languageService.getTranslation('EDIT_CAMERA_CAPTURE')
-    });
-    this.photoBase64 = image.dataUrl;
-    this.photoNew = true;
-  }
-
-  async openCropperModal(photoBase64: any, url: any) {
-    const cropperModal = await this.modalCtrl.create({
-      component: CropperModalPage,
-      componentProps: {
-        'caller': 'NodePage',
-        'data': photoBase64,
-        'url': url
-      },
-    });
-    await cropperModal.present();
-    const { data } = await cropperModal.onDidDismiss();
-    if (data.result) {
-      this.photoBase64 = data.result;
-      this.photoNew = true;
-    }
-  }
-
 }
 

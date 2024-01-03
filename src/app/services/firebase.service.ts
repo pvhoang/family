@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { collection, collectionData, doc, Firestore, updateDoc, docData } from '@angular/fire/firestore';
-import { getStorage, getDownloadURL, ref, deleteObject, getBlob, listAll, Storage, uploadString } from '@angular/fire/storage';
+import { getStorage, getDownloadURL, ref, getMetadata, deleteObject, getBlob, listAll, Storage, uploadString } from '@angular/fire/storage';
 import { deleteDoc, setDoc } from 'firebase/firestore';
 import { Observable, from } from 'rxjs';
 import { UtilService } from './util.service';
+
+// import { getStorage, getDownloadURL, ref, getMetadata, deleteObject, listAll, Storage, uploadString } from '@angular/fire/storage';
 
 const ROOT_COLLECTION = 'giapha';
 
@@ -146,6 +148,56 @@ export class FirebaseService {
 
 	// -----------
 
+	updateJsonDocument(collection: string, documentId, data) {
+  	let document = {id: documentId, data: JSON.stringify(data)};
+		const docRef = doc(this.firestore, collection, documentId);
+		return updateDoc(docRef, document);
+	}
+
+	// addImage(base64: string, storageFolder, storageId: string) {
+	// 	return new Promise((resolve) => {
+	// 		const storageRef = ref(this.storage, storageFolder + '/' + storageId);
+	// 		uploadString(storageRef, base64, 'base64', {
+	// 			contentType: 'image/jpeg'
+	// 		}).then((snapshot) => {
+	// 			// console.log('Uploaded a base64 string!');
+	// 			getDownloadURL(snapshot.ref).then(url => {
+	// 				// console.log('addImage - url: ', url);
+	// 				resolve(url);
+	// 			});
+	// 		})
+	// 	})
+	// }
+
+	deleteImage(storageFolder, storageId: string) {
+		return new Promise((resolve) => {
+			const storageRef = ref(this.storage, storageFolder + '/' + storageId);
+			deleteObject(storageRef)
+			.then(() => {
+				// console.log("File deleted successfully");
+				resolve(true);
+			})
+			.catch((error) => {
+				console.log(error.message);
+				resolve(false);
+			});
+		});
+	}
+
+
+	addText(text: string, storageFolder:string, storageId: string) {
+		return new Promise((resolve) => {
+			const storageRef = ref(this.storage, storageFolder + '/' + storageId);
+			uploadString(storageRef, text).then((snapshot) => {
+				// console.log('addText - snapshot: ', snapshot);
+				getDownloadURL(snapshot.ref).then(url => {
+					// console.log('addText - url: ', url);
+					resolve(url);
+				});
+			})
+		})
+	}
+
 	addImage(base64: string, type: any, storageFolder, storageId: string) {
 		return new Promise((resolve) => {
 			// console.log('addImage - storageFolder: ', storageFolder);
@@ -242,6 +294,24 @@ export class FirebaseService {
 		})
 	}
 	
+	getPhotoNames(storageFolder:string) {
+		return new Promise((resolve) => {
+			const storage = getStorage();
+			const r = ref(storage, storageFolder + '/');
+			listAll(r).then((data) => {
+				let names = [];
+				for (let i = 0; i < data.items.length; i++) {
+					let name = data.items[i].name;
+					if (name.indexOf('.png') > 0 || name.indexOf('.jpg') > 0 || name.indexOf('.jpeg') > 0) {
+						console.log('name1: ', name)
+						names.push(name);
+					}
+				}
+				resolve(names);
+			});
+		});
+	}
+
 	getPhotoList(storageFolder:string) {
 		return new Promise((resolve) => {
 			const storage = getStorage();
@@ -261,6 +331,49 @@ export class FirebaseService {
 					}
 				}
 				resolve(photolist);
+			});
+		});
+	}
+
+	getFileList(storageFolder:string) {
+		return new Promise((resolve) => {
+			const storage = getStorage();
+			let filelist = []
+			const r = ref(storage, storageFolder + '/');
+			listAll(r).then((data) => {
+				// console.log('data: ', data);
+				for (let i = 0; i < data.items.length; i++) {
+				// console.log('data: ', data.items[i]);
+
+					let name = data.items[i].name;
+					let newref = ref(storage, storageFolder + '/' + data.items[i].name);
+
+					getMetadata(newref).then((metadata) => {
+						// Metadata now contains the metadata for 'images/forest.jpg'
+						console.log('metadata: ', metadata);
+						let type = metadata.contentType;
+						let size = metadata.size;
+						type = (type.indexOf('image') >= 0) ? 'jpg' : 'html';
+						getDownloadURL(newref).then((url) => {
+							filelist.push({
+								name: name,
+								size: size,
+								type: type,
+								url: url
+							});
+						});
+
+					}).catch((error) => {
+						// Uh-oh, an error occurred!
+					});
+					// let url = getDownloadURL(newref).then((data) => {
+					// 	filelist.push({
+					// 		name: name,
+					// 		url: data
+					// 	});
+					// });
+				}
+				resolve(filelist);
 			});
 		});
 	}

@@ -5,6 +5,21 @@
   background-size: cover;
 }
 
+.container {
+  display: inline-block;
+	// display: block; 
+	// margin-left: auto; 
+	// margin-right: auto
+}
+
+.no-expand {
+  box-sizing: border-box;
+  width: 0px;
+  min-width: 100%;
+  background: pink;
+  padding: 10px;
+}
+
 .page {
   padding: 20px;
   // background-image: url('../../../assets/common/dragon/dragon-20.png');

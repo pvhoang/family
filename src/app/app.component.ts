@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild  } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { DomSanitizer } from '@angular/platform-browser';
-import { environment, DEBUGS, DRAGON, VILLAGE, TREE, COUNTRY } from '../environments/environment';
+import { environment, FONTS_FOLDER, DEBUGS, DRAGON, VILLAGE, TREE, COUNTRY } from '../environments/environment';
 import { DataService } from './services/data.service';
 import { UtilService } from './services/util.service';
 import { ThemeService } from './services/theme.service';
@@ -22,8 +22,6 @@ const URL_DELETE_NEW = '/snew';
 // admin
 const URL_UPDATE_VERSION = '/aupdate';
 const URL_EDIT = 'aedit';
-const URL_DOWNLOAD = '/adownload';
-const URL_UPLOAD = '/aupload';
 
 // user
 const URL_THEME = '/utheme'
@@ -43,8 +41,6 @@ export class AppComponent implements OnInit {
   startApp:any = false;
 	fileUrl: any;
 	fileName: any;
-	uploadMode = false;
-	downloadMode = false;
 	@ViewChild('popover') popover: any;
 	isOpen = false;
 
@@ -90,11 +86,6 @@ export class AppComponent implements OnInit {
       this.selectTheme();
     else if (url == URL_LANGUAGE)
       this.selectLanguage();
-		else if (url == URL_DOWNLOAD)
-			this.download();
-		else if (url == URL_UPLOAD)
-			this.upload();
-
     else {
       this.selectAncestor(url).then((status) => {
         if (status)
@@ -139,104 +130,7 @@ export class AppComponent implements OnInit {
       this.presentToast(['APP_NEW_VERSION_IS_UPDATED', environment.version]);
     });
   }
-
 	
-	download() {
-		// download family data from Firebase to local file for editing
-		this.dataService.readFamilyAndInfo().then((data:any) => {
-      let family = data.family;
-      let info = data.info;
-			let ancestor = info.id;
-			this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
-				// clean family data before save to local
-				let cleanFamily = this.familyService.getFilterFamily(rdata.family, true);
-				let data = JSON.stringify(cleanFamily, null, 2);
-				// console.log('data: ', data);
-				const blob = new Blob([data], {
-					type: 'application/octet-stream'
-				});
-				this.fileName = ancestor + '-' + family.version + '.json';
-				this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
-				this.downloadMode = true;
-			});
-		});
-  }
-
-	upload() {
-		this.uploadMode = true;
-	}
-
-	presentPopover(e: Event) {
-    this.popover.event = e;
-    this.isOpen = true;
-  }
-	
-	onFileSelect(event: any): void {
-    const files = [...event.target.files]
-		const file = files[0];
-		this.fileName = file.name;
-		console.log('file: ', file);
-		this.onFileUpload(file);
-  }
-
-	onFileUpload(file:File) {
-    console.log('FilePage - onFileUpload');
-    const name:string = file.name;
-    // get extension
-    const type = name.substring(name.lastIndexOf('.')+1);
-		console.log('type: ', type);
-    this.uploadFile(file).then((res: any) => {
-      if (DEBUGS.APP)
-        console.log('onFileUpload - res: ', res);
-      if (res.text) {
-        // validate json file
-        // let family = JSON.parse(res.text);
-				// console.log('FilePage - onFileUpload - family: ', family);
-				let family = this.getValidateData(res.text);
-        if (family) {
-					this.dataService.readFamilyAndInfo().then((ldata:any) => {
-						let ancestor = ldata.info.id;
-						this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
-							rdata.family = family;
-							this.fbService.saveAncestorData(rdata).then((status:any) => {
-								this.presentToast(['APP_UPLOAD', name]);
-							});
-						});
-					});
-        } else {
-					this.presentToast(['APP_FILE_INVALID', name]);
-				}
-      } else {
-				this.presentToast(['APP_FILE_EMPTY', name]);
-      }
-    });
-  }
-
-	uploadFile(file:File) {
-    return new Promise((resolve) => {
-      const name = file.name;
-      var myReader: FileReader = new FileReader();
-			myReader.readAsText(file);
-			myReader.onload = ((event:any) => {
-				let text:any = event.target.result;
-			// always parse json (string) to object
-				resolve({text: text});
-			});
-    });
-  }
-
-	getValidateData(text: any) {
-		let family: any = null;
-		try {
-			family = JSON.parse(text);
-			if (!family.version || !family.nodes || !family.children)
-				return null;
-		} catch (error) {
-			console.log('getValidateData - error: ', error);
-		}		
-    return family;
-  }
-
   deleteOpen (open: boolean) {
     this.dataService.deleteItem('ANCESTOR_DATA').then(status => {
       if (open)
@@ -378,7 +272,7 @@ export class AppComponent implements OnInit {
         if (ancestorID == URL_EDIT) {
           this.mode = EDIT_MODE;
           resolve(true);
-        } else if (ancestorID == '') {
+				} else if (ancestorID == '') {
           this.dataService.readItem('ANCESTOR_DATA').then((sdata:any) => {
             // console.log('sdata: ', JSON.stringify(sdata, null, 2));
             if (!sdata) {
@@ -470,9 +364,11 @@ export class AppComponent implements OnInit {
   updateVersionData() {
     return new Promise((resolve) => {
       this.fbService.readAppData().then((rdata:any) => {
+				// always read docs from Firebase and parse data before go to home.page.ts
 				if (RESET_DATA)
 					this.setJsonData('docs').then((stat2:any) => {});
-        let remoteVersion = rdata.version;
+
+				let remoteVersion = rdata.version;
 				if (DEBUGS.APP) {
 					console.log('AppComponent - updateVersionData -  remote app version: ', remoteVersion);
 				}
@@ -506,44 +402,106 @@ export class AppComponent implements OnInit {
       let nodes = this.nodeService.getFamilyNodes(family);
       this.themeService.setScreenSize(nodes);
       // this.themeService.setScreen();
-
-      // update photo for all nodes from firestore
+      // get photo names from Storage
       let ancestor = info.id;
-      this.fbService.getPhotoList(ancestor).then((photoList:any) => {
-        // if (DEBUGS.APP)
-        //   console.log('AppComponent - updateAppData -  photoList: ', photoList);
-        nodes.forEach(node => {
-          let photoName = this.nodeService.getPhotoName(node);
-          let list = photoList.filter((item:any) => {
-            // separate yob and level
-            let name = photoName.substring(0, photoName.lastIndexOf('_'));
-            return (item[0].indexOf(name) == 0);
-          });
-          if (list.length > 0) {
-            // if (DEBUGS.APP)
-            //   console.log('AppComponent - updateAppData -  list: ', list);
-            list.sort((item1: any, item2:any) => {
-              return (+item2[1]) - (+item1[1]);
-            })
-            node.photo = list[0][0] + '_' + list[0][1];
-          } else 
-            node.photo = '';
-        });
-        this.dataService.saveFamily(family).then((family:any) => {});
+      this.fbService.getPhotoNames(ancestor).then((names:any) => {
+				this.dataService.saveItem('photos', { "id": "photos",	"data": names }).then((status:any) => {});
       })
+			// always update docs data from Firebase
+			this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
+				let docs = rdata.docs;
+				// parse docs
+				this.updateDocs(ancestor, docs);
+			});
     });
+  }
+	
+	updateDocs(ancestor: any, docs: any) {
+		let newDocs:any = {};
+		// collect all image files: "[abc.png]"
+		let images = [];
+		for (var key of Object.keys(docs)) {
+			let data = docs[key];
+			newDocs[key] = data;
+			// collect all images data between quotation ""
+			const matches = data.text.match(/"(.*?)"/g);
+			if (matches) {
+				for (let i = 0; i < matches.length; ++i) {
+					const match = matches[i];
+					// match include ""
+					if (match.charAt(1) == '[' && match.charAt(match.length - 2) == ']') {
+						// this is an image file name with options: image, size, caption
+						let imageStr = match.substring(2, match.length - 2);
+						if (images.indexOf(imageStr) == -1) {
+							images.push(imageStr);
+					}
+					}
+				}
+			}
+		}
+		// now convert to url from Firebase storage
+		let promises = [];
+		images.forEach(imageStr => {
+			promises.push(
+				new Promise((resolve) => {
+					// break down detail: image,size,caption
+					let items = imageStr.split(',');
+					let image = items[0];
+					let size = '1';
+					if (items.length > 1)
+						size = items[1];
+					let caption = (items.length > 2) ? items[2] : '';
+					this.fbService.downloadImage(ancestor, image).then((imageURL:any) => {
+						// <img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600">
+						let html = '<img src="' + imageURL + '"';
+						let width = 300;
+						let height = 200;
+						if (size == '2') {
+							width = 350;
+							height = 250;
+						} else if (size == '3') {
+							width = 400;
+							height = 300;
+						}
+						// https://stackoverflow.com/questions/30686191/how-to-make-image-caption-width-to-match-image-width
+						html += ' width="' + width + '" height="' + height + '" alt="' + image + '">'
+						if (caption != '')
+							html = '<div class="home-container">' + html + '<div class="home-no-expand">' + caption + '</div>'
+						resolve({imageStr: '"[' + imageStr + ']"', html: html});
+					})
+					.catch((error) => {
+						resolve(null);
+					});
+				})
+			)
+		})
+		Promise.all(promises).then(resolves => {
+			console.log('resolves = ', resolves);
+			for (let i = 0; i < resolves.length; i++) {
+				let data = resolves[i];
+				let imageStr = data.imageStr;
+				let html = data.html;
+				// if (!data) {
+					// search for "[image]", replace with html
+					for (var key of Object.keys(docs)) {
+						let data = docs[key];
+						let text = data.text;
+						let newText = text.replaceAll(imageStr,html);
+						newDocs[key].text = newText;
+					}
+				// }
+			}
+			this.dataService.saveDocs([docs, newDocs]).then((docs:any) => {});
+		});
   }
 
   private setJsonData(json: string) {
     return new Promise((resolve) => {
       let jsonFile = './assets/common/' + json + '.json';
       this.utilService.getLocalJsonFile(jsonFile).then((jsonData:any) => {
-        if (json == 'docs') {
-          console.log('docs: ', JSON.stringify(jsonData));
-					this.dataService.saveDocs(jsonData).then((status:any) => {});
-        } else {
-					this.dataService.saveItem(json, jsonData).then((status:any) => {});
-				}
+				// console.log('setJsonData data: ', jsonData.data);
+				// console.log('setJsonData data: ', jsonData.data.toString());
+				this.dataService.saveItem(json, jsonData).then((status:any) => {});
         resolve(true);
       });
     });

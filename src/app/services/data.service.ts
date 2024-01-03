@@ -32,7 +32,7 @@ export class DataService {
 
   async readItem(key: any) {
     let value = localStorage.getItem(key);
-    if (value) 
+		if (value) 
       value = JSON.parse(value);
     return value;
   }
@@ -165,10 +165,10 @@ export class DataService {
     })
   }
 
-  readDocs() {
+  readDocs(converted?) {
     return new Promise((resolve) => {
       this.readItem('ANCESTOR_DATA').then((adata:any) => {
-        resolve(adata.docs);
+        resolve(converted ? adata.docs[1] : adata.docs[0]);
       });
     })
   }

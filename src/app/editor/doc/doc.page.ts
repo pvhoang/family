@@ -4,7 +4,6 @@ import { LanguageService } from '../../services/language.service';
 import { DataService } from '../../services/data.service';
 import { UtilService } from '../../services/util.service';
 import { FirebaseService } from '../../services/firebase.service';
-import { Editor, EditorSettings } from '../../../assets/js/tinymce/tinymce.min.5.10.9.js';
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
 
 @Component({
@@ -19,10 +18,9 @@ export class DocPage implements OnInit {
   currentDoc: string = null;
 
   docs: any[] = [];
-  editor: Editor;
-  settings: EditorSettings;
+  editor: any;
+  settings: any;
   pageData: any;
-  
 	currentData: any;
   newData: any;
 
@@ -48,18 +46,13 @@ export class DocPage implements OnInit {
   ionViewWillEnter() {
     if (DEBUGS.DOCS)
       console.log('DocPage - ionViewWillEnter');
-		// this.setupEditor();
+		this.setupEditor();
     this.startFromStorage();
   }
 	
 	ionViewWillLeave() {
     if (DEBUGS.DOCS)
       console.log('DocPage - ionViewWillLeave');
-		// save new data
-		// this.saveDocs();
-		// if (this.changedDocCount > 0)
-		// this.updateCurrentDoc();
-		// this.dataService.saveDocs(this.pageData).then((status:any) => {});
 	}
 
   startFromStorage() {
@@ -84,10 +77,12 @@ export class DocPage implements OnInit {
     ];
     this.selectDoc = this.docs[0].id;
 		// console.log('DocPage - startFromStorage - text: ', this.newData[this.selectDoc].text);
-		let text = (this.selectDoc == 'chon') ? '' : this.newData[this.selectDoc].text;
+		let text = (this.selectDoc == 'chon') ? 'hello world' : this.newData[this.selectDoc].text;
 		this.editor.setContent(text);
 		this.currentDoc = this.selectDoc;
   }
+
+	// https://www.tiny.cloud/docs/integrations/angular/#tinymceangulartechnicalreference
 
   setupEditor() {
     this.settings = {
@@ -96,14 +91,14 @@ export class DocPage implements OnInit {
       height: 600,
       plugins: [
       'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-      'anchor', 'searchreplace', 'visualblocks', 'code', 
-			// 'fullscreen',
+      'anchor', 'searchreplace', 'visualblocks', 'code',
       'insertdatetime', 'media', 'table', 'help', 
-			// 'addTab', 
-			// 'wordcount', 
-			// 'footnotes',
-      // 'paste' 
+			// 'fullscreen', 'contextmenu', 'addTab', 'wordcount', 'footnotes', 'paste' 
 			],
+			menu: {
+				images: { title: 'Hình', items: 'nesteditem' }
+			},
+			menubar: 'file edit view indert format tools table help images',
       toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright alignjustify | indent outdent | paste ',
       help_tabs: [
         {
@@ -113,6 +108,10 @@ export class DocPage implements OnInit {
             {
               type: 'htmlpanel',
               html: '<p>Thêm /PAGE/ để thêm trang.</p>',
+            },
+						{
+              type: 'htmlpanel',
+              html: '<p>Thêm "[hinh.jpg,Cỡ,Chữ]" để thêm hình. Cỡ: 1/2/3. Chữ: dòng chữ dưới hình. Ví dụ: "[mo_to.jpg,1,Mộ tổ tại Đá Bạc]"</p>',
             },
             {
               type: 'htmlpanel',
@@ -127,15 +126,37 @@ export class DocPage implements OnInit {
 				// 'wordcount': '../../../assets/js/tinymce/plugins/wordcount/plugin.min.js',
 			},
       content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
-      setup: (editor: Editor) => {
+      setup: (editor: any) => {
         this.editor = editor;
+				let subitems = this.getImageItems(editor);
+				// https://www.tiny.cloud/docs/tinymce/latest/creating-custom-menu-items/
+				editor.ui.registry.addNestedMenuItem('nesteditem', {
+					text: 'Chọn hình',
+					getSubmenuItems: () => subitems
+				});
       }
     };
-  }
+	}
+
+	getImageItems(editor: any) {
+		let imageItems = [];
+		this.dataService.readItem('photos').then((photos:any) => {
+			// console.log('photos: ', photos)
+			photos.data.forEach(photo => {
+				let sub = {
+					type: 'menuitem',
+					text: photo,
+					onAction: () => editor.insertContent(`"[` + photo + `,1,` + photo + `]"`)
+				};
+				imageItems.push(sub);
+			})
+			return imageItems;
+		});
+		return imageItems;
+	}
 
 	// save docs to local and firebase
 	saveDocs() {
-
 		// save current doc
 		const text = this.editor.getContent({ format: 'html' });
 		this.newData[this.currentDoc].text = text;
@@ -212,18 +233,18 @@ export class DocPage implements OnInit {
       let id = this.utilService.getDateID();
       this.fbService.saveAncestorData(adata).then((status:any) => {
         this.fbService.saveBackupDocs(ancestor, this.newData, id).then((status:any) => {
-          this.dataService.saveItem('ANCESTOR_DATA', adata).then((status:any) => {
+          // this.dataService.saveItem('ANCESTOR_DATA', adata).then((status:any) => {
             this.utilService.dismissLoading();
             let message = this.utilService.getAlertMessage([
               {name: 'msg', label: 'DOC_MESSAGE_1'},
               {name: 'data', label: 'ID: ' + id},
               {name: 'msg', label: 'DOC_MESSAGE_2'},
             ]);
-            this.utilService.presentToast(message);
+            this.utilService.presentToast(message, 3000);
 						// this.message = "";
 						// this.changedDocCount = 0;
 						// this.dataService.saveDocs(this.pageData).then((status:any) => {});
-          });
+          // });
         });
       });
     });

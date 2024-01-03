@@ -319,7 +319,8 @@ export class NodePage implements OnInit {
         'node': node,
         'family': this.family,
         'info': this.info,
-      }
+      },
+			backdropDismiss:false
     });
 
     modal.onDidDismiss().then((resp) => {

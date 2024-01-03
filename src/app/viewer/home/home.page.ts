@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 // import { ActivatedRoute, Router } from '@angular/router'; 
 import { ModalController } from '@ionic/angular';
+import { DomSanitizer } from '@angular/platform-browser';
 import { environment, FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
 import { PageFlip } from 'page-flip';
 import { DataService } from '../../services/data.service';
@@ -26,6 +27,7 @@ export class HomePage implements OnInit{
 	pageRoot: string = 'muc_luc';
 	pageIndex: number = 0;
 	pageFlip: any;
+	ancestor: any;
 
 	pageData = {
 		"muc_luc": { title: "", index: 0   },
@@ -44,6 +46,7 @@ export class HomePage implements OnInit{
 		// private route: ActivatedRoute,
 		// private router: Router,
 		public modalCtrl: ModalController,
+		private sanitizer: DomSanitizer,
 		private dataService: DataService,
     private fbService: FirebaseService,
   ) {
@@ -57,17 +60,18 @@ export class HomePage implements OnInit{
   }
 
 	start() {
-		this.dataService.readDocs().then((docs:any) => {
+		this.dataService.readDocs(true).then((docs:any) => {
 			console.log('HomePage - docs: ', docs)
 			// this.pageData = docs;
 			this.dataService.readFamilyAndInfo().then((dat:any) => {
 				let family = dat.family;
 				let info = dat.info;
+				this.ancestor = info.id;
 				// this.title1 = info.name;
 				// this.title2 = info.location;
 				// this.title3 = 'A.' + environment.version + ' (D.' + family.version + ')';
+				this.updatePageData(docs);
 			});
-			this.updatePageData(docs);
 		});
 	}
 	
@@ -79,7 +83,6 @@ export class HomePage implements OnInit{
 		for (var key of Object.keys(docs)) {
 			if (key != 'gia_pha' && key != 'ket_thuc') {
 				let data = docs[key];
-				// console.log('updatePageData - data: ', data);
 				let text = data.text;
 				if (key == 'pha_nhap' || key == 'pha_ky' || key == 'ngoai_pha' || key == 'phu_khao') {
 					// break into various page
@@ -98,15 +101,30 @@ export class HomePage implements OnInit{
 					data.index = count++;
 					pageData[key] = data;
 				}
+				// });
 			}
 		};
 		this.pageData = pageData;
 		this.specialPageData = specialPageData;
-
-		// console.log('updatePageData - pageData: ', pageData);
-		// console.log('updatePageData - specialPageData: ', specialPageData);
-
 	}
+
+	// parseText2(text: string) {
+	// 	if (text.indexOf('[QuanPhan.jpeg]') > 0) {
+	// 		text = 'Hello <img src="https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2Fphan_viet_hoang_1953_1686213633741?alt=media&token=faf5baa6-84fc-4843-b949-a6d44dc3f52c">';
+	// 	}
+	// 	return text;
+	// }
+
+// 	'there goes "something here", and "here" and I have "nothing else to say"'.match(/".*?"/g)
+// 	const text = 'Example words: "ABC" and "DEF".';
+// 	const matches = text.match(/"(.*?)"/g);
+// 	if (matches) {
+// 		for (let i = 0; i < matches.length; ++i) {
+// 			const match = matches[i];
+// 					const substring = match.substring(1, match.length - 1);  // quotation mark removing
+// 			console.log(substring);  
+// 		}
+// 	}
 
 	// https://nodlik.github.io/StPageFlip/demo.html
   
@@ -173,8 +191,9 @@ export class HomePage implements OnInit{
 			// component: NodePage,
 			component: VnodePage,
 			componentProps: {
-			'caller': 'home',
-			}
+				'caller': 'home',
+			},
+			backdropDismiss:false
 		});
 		modal.onDidDismiss().then((resp) => {
 			let status = resp.data.status;
@@ -189,7 +208,8 @@ export class HomePage implements OnInit{
 			component: PersonPage,
 			componentProps: {
 			'caller': 'home',
-			}
+			},
+			backdropDismiss:false
 		});
 		modal.onDidDismiss().then((resp) => {
 			let status = resp.data.status;

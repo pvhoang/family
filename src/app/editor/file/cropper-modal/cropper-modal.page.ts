@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Dimensions, ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
-import { UtilService } from '../../../../services/util.service';
+import { UtilService } from '../../../services/util.service';
 import { ModalController } from '@ionic/angular';
-import { FONTS_FOLDER, DEBUGS, environment } from '../../../../../environments/environment';
-
+import { FONTS_FOLDER, DEBUGS, environment } from '../../../../environments/environment';
 
 // https://www.positronx.io/angular-image-upload-preview-crop-zoom-and-scale-example/
 

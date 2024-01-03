@@ -1,50 +1,5 @@
 <ion-app>
   <splash-screen *ngIf="startUp" (onComplete)="onSplashComplete($event)" [url]="url" [mode]="mode"></splash-screen>
   <ion-router-outlet *ngIf="startApp"></ion-router-outlet>
-
-	<div *ngIf="downloadMode">
-
-		<div class="center-both">
-			<div></div>
-		</div>
-		<ion-grid class="center-both">
-			<ion-row>
-				<ion-col size="12">
-					<ion-button (click)="presentPopover($event)" style="text-transform: none;">Download file: {{fileName}}</ion-button>
-				</ion-col>
-			</ion-row>
-		</ion-grid>
-		<ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
-			<ng-template>
-				<ion-content class="ion-padding">
-					<a [href]="fileUrl" download="{{fileName}}">Download</a>
-				</ion-content>
-			</ng-template>
-		</ion-popover>
-		<!-- <a [href]="fileUrl" download="{{fileName}}">Download File: {{fileName}}</a> -->
-	</div>
-
-	<div *ngIf="uploadMode">
-
-		<div class="center-both">
-			<div></div>
-		</div>
-		<ion-grid class="center-both">
-			<ion-row>
-				<ion-col size="12">
-					<ion-button (click)="presentPopover($event)" style="text-transform: none;">Upload file: {{fileName}}</ion-button>
-				</ion-col>
-			</ion-row>
-		</ion-grid>
-		<ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
-			<ng-template>
-				<ion-content class="ion-padding">
-					<input type="file" (change)="onFileSelect($event)" title=" " accept=".json"/>
-				</ion-content>
-			</ng-template>
-		</ion-popover>
-		<!-- <input type="file" (change)="onFileSelect($event)" title=" " accept=".json"/> -->
-	</div>
-
 </ion-app>
 

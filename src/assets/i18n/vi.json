@@ -150,6 +150,7 @@
   "EDIT_CAMERA_SELECT": "Chọn hình trong máy",
   "EDIT_CAMERA_CAPTURE": "Chụp hình với camera",
   "EDIT_GROUP_BASIC": "Thông tin cơ bản",
+  "EDIT_GROUP_PHOTO": "Thông tin hình ảnh",
   "EDIT_GROUP_OTHER": "Thông tin khác",
   
   "EDIT_NAME_TOOLTIP": "NHẬP NHANH TÊN VIỆT: 1. Nhấn X; 2. Đánh tên/họ chữ thường không dấu; 3. Nhấn ↵ hoặc .",
@@ -173,13 +174,62 @@
   "TREE_VIEW_NAME": "Hệ",
   "TREE_VIEW_GENERATION": "Đời",
 
-  "FILE_COMPARE": "Phả đối",
+  "FILE_COMPARE": "So sánh dữ liệu",
+  "FILE_COMPARE_TOOLTIP": "So sánh dữ liệu trong máy và mạng",
+  "FILE_COMPARE_NAME": "Hệ",
+  "FILE_COMPARE_DETAIL": "Chi tiết",
+  "FILE_COMPARE_SOURCE": "Nguồn",
+  "FILE_COMPARE_LOCAL": "Máy",
+  "FILE_COMPARE_NEW_OK": "Chọn máy",
+
+  "FILE_MANAGE": "Quản lý file",
+  "FILE_MANAGE_TOOLTIP": "Quản lý file trong hệ thống",
+
+  "FILE_MODIFY": "Sửa",
+  "FILE_MODIFY_TOOLTIP": "Tải dữ liệu từ mạng để sửa nhanh",
+	"FILE_MODIFY_DOWNLOAD": "Download dữ liệu Gia phả từ mạng xuống máy",
+  "FILE_MODIFY_DOWNLOAD_START": "Bắt đầu",
+  "FILE_MODIFY_DOWNLOAD_COMPLETE": "File đã được tải xuống máy: ",
+	"FILE_MODIFY_UPLOAD": "Upload dữ liệu Gia phả từ máy lên mạng",
+	"FILE_MODIFY_EXPLAIN": "Công việc",
+	"FILE_MODIFY_ACTION": "Thi hành",
+	"FILE_MODIFY_FILE_INVALID": "File không hợp lệ!",
+	"FILE_MODIFY_FILE_EMPTY": "File không có dữ liệu!",
+
+  "FILE_PHOTO": "Tạo hình",
+  "FILE_PHOTO_NAME": "Tên hình",
+  "FILE_PHOTO_NAME_TOOLTIP": "Tên hình trên mạng",
+  "FILE_PHOTO_ADD": "Tạo mới",
+  "FILE_PHOTO_SAVE": "Hình upload lên mạng: ",
+
+  "FILE_IMAGE": "Hình ảnh",
+  "FILE_IMAGE_TOOLTIP": "Tải hình ảnh lên mạng để thêm vào nội dung gia phả",
+	"FILE_IMAGE_READ_LOCAL": "Đọc file từ máy",
+  "FILE_IMAGE_NAME": "File",
+  "FILE_IMAGE_SIZE": "Dung lượng",
+  "FILE_IMAGE_IGNORE": "Xoá",
+  "FILE_IMAGE_VIEW": "Xem",
+  "FILE_IMAGE_UPLOAD": "Tải",
+	
+	"FILE_STORAGE": "Quản lý",
+  "FILE_STORAGE_TOOLTIP": "Xử lý hình ảnh trên mạng",
+	"FILE_STORAGE_READ_REMOTE": "Đọc file từ mạng",
+	"FILE_STORAGE_READ": "Đọc",
+  "FILE_STORAGE_HEADER": "Tên",
+  "FILE_STORAGE_SIZE": "Dung lượng",
+  "FILE_STORAGE_TYPE": "Loại",
+  "FILE_STORAGE_VIEW": "Xem",
+  "FILE_STORAGE_DELETE": "Xoá",
+
+
   "FILE_NODE": "Phả hệ",
   "FILE_NOTE": "Phả ký",
+
   "FILE_CHANGE_NUMBER": "Số hệ có thông tin thay đổi trên máy: ",
   "FILE_ROOT_CHANGE_1": "Hệ tổ đã thay đổi - Hệ cũ: '",
   "FILE_ROOT_CHANGE_2": "' - Hệ mới: '",
   "FILE_ROOT_CHANGE_3": "'",
+
   "FILE_NAME": "Hệ",
   "FILE_STATUS": "Tình trạng",
   "FILE_DETAIL": "Chi tiết",
@@ -193,7 +243,8 @@
   "FILE_SYNC_TREE_2": "'.",
   "FILE_SYNC_NOT_1": "Gia phả nguồn '",
   "FILE_SYNC_NOT_2": "' được giữ!",
-  
+
+
   "DOC_SELECT": "Chọn trang",
   "DOC_INTRO": "Lời mở đầu",
   "DOC_NOTE": "Phả ký",

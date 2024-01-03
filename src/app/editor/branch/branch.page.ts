@@ -308,7 +308,8 @@ export class BranchPage implements OnInit {
         'node': node,
         'family': this.family,
         'info': this.info,
-      }
+      },
+			backdropDismiss:false
     });
 
     modal.onDidDismiss().then((resp) => {

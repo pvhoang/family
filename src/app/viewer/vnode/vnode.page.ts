@@ -283,7 +283,8 @@ export class VnodePage implements OnInit {
         'nodeId': nodeId,
         'familyView': familyView,
         'info': info,
-      }
+      },
+			backdropDismiss:false
     });
 
     modal.onDidDismiss().then((resp) => {

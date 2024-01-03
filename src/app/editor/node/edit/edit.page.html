@@ -27,56 +27,12 @@
   
   <div class="screen-node editor">
 
-    <ion-card-header class="section">
-      <span class="span">&nbsp;{{ 'NODE_PHOTO' | translate }}</span>
-    </ion-card-header>
-    <br>
-
-    <ion-item>
-      <ion-col size="4" class="center">
-        <div class="hilite_button span" (click)="getPicture('camera')">
-          <ion-button class="button" fill="clear">
-            <ion-icon name="camera" slot="icon-only" src="{{FONTS_FOLDER}}select-multiple.svg" class="icon"></ion-icon>
-          </ion-button>
-          <span class="label">{{ 'SELECT' | translate }}</span>
-        </div>
-      </ion-col>
-
-      <ion-col size="4" *ngIf="photoBase64 != ''" class="center">
-        <div class="hilite_button span" (click)="editPhoto()">
-          <ion-button class="button" fill="clear">
-            <ion-icon name="camera" slot="icon-only" src="{{FONTS_FOLDER}}file-document-edit-outline.svg" class="icon"></ion-icon>
-          </ion-button>
-          <span class="label">{{ 'MODIFY' | translate }}</span>
-        </div>
-      </ion-col>
-
-      <ion-col size="4" *ngIf="photoBase64 != ''" class="center">
-        <div class="hilite_button span" (click)="deletePhoto()">
-          <ion-button class="button" fill="clear">
-            <ion-icon name="camera" slot="icon-only" src="{{FONTS_FOLDER}}delete-outline.svg" class="icon"></ion-icon>
-          </ion-button>
-          <span class="label">{{ 'DELETE' | translate }}</span>
-        </div>
-      </ion-col>
-    
-    </ion-item>
-    
-    <ion-card *ngIf="photoBase64 != ''">
-      <ion-card-content >
-        <div class="imageContainer center">  
-          <img class="image" [src]="photoBase64">
-        </div>
-      </ion-card-content>
-    </ion-card>
-
-    <br>
-
-    <ion-card-header class="section span">
+		<br>
+		<ion-card-header class="section span">
       <span class="span">&nbsp;{{ 'EDIT_GROUP_BASIC' | translate }}</span>
     </ion-card-header>
-    
     <br>
+
     <ion-label class="label">{{ 'NODE_NAME' | translate }}</ion-label>
     <!-- placeholder="{{selectNamesPlaceholder}}" -->
     <ion-input clearInput
@@ -125,7 +81,24 @@
       </ion-col>
     </ion-row>
 
-    <ion-row>
+		<ion-row>
+      <!-- placeholder="{{selectGenderPlaceholder}}" -->
+			<ion-col size="12">
+        <ion-label class="label">{{ 'NODE_PHOTO' | translate }}</ion-label>
+        <div class="select" >
+          <ng-select #ngSelectPHOTO
+            [items]="photos"
+            [(ngModel)]="values.photo"
+            (clear)="clearItem('photo')"
+            placeholder=""
+            title="{{ 'EDIT_PHOTO_TOOLTIP' | translate }}"
+          >
+          </ng-select>
+        </div>
+      </ion-col>
+    </ion-row>
+
+		<ion-row>
       <!-- placeholder="{{selectYearsPlaceholder}}" -->
       <ion-col size="6">
         <ion-label class="label">{{ 'NODE_YOB' | translate }}</ion-label>
@@ -247,13 +220,14 @@
       </ion-row>
       </div>
     </div>
-    <br>
 
+		<br>
     <ion-card-header class="section">
       <span class="span">&nbsp;{{ 'EDIT_GROUP_OTHER' | translate }}</span>
     </ion-card-header>
     <br>
 
+		
     <ion-label class="label">{{ 'NODE_DESC' | translate }}</ion-label>
     <!-- placeholder="{{ 'EDIT_DESC_PLACEHOLDER' | translate }}"> -->
     <ion-textarea clearInput class="textarea" 

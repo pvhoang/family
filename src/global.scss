@@ -247,9 +247,9 @@ ion-tab-button {
   }
 }
 
-// --- EDIT ---
+// --- FILE ---
 
-.editor {
+.file {
   .section{
     background: var(--app-background-color);
     color: white;
@@ -285,6 +285,148 @@ ion-tab-button {
     height: 180px;
   }
 
+  .input{
+    border: solid 1px red;
+    border-radius: 5px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: var(--app-text-font-size-small);
+  }
+  .textarea{
+    border: solid 1px red;
+    border-radius: 5px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: var(--app-text-font-size-small);
+  }
+  .select-input{
+    border: solid 1px red !important;
+    border-radius: 5px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: var(--app-text-font-size-small) !important;
+  }
+  .select{
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: var(--app-text-font-size-small);
+  }
+  .text-scroll{
+    word-wrap: break-word;
+  }
+  .hilite_button {
+    background: var(--app-background-color);
+    width: 100px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .icon {
+      font-size: var(--app-icon-font-size-small);
+      color: var(--app-color);
+    }
+    .label {
+      font-size: var(--app-text-font-size-small);
+      // color: $background_color_node;
+      color: var(--app-color);
+    }
+    .button {
+      --padding-start: 5px;
+      --padding-end: 5px;
+    }
+  }
+	.grid {
+		--ion-grid-column-padding: 10px;
+		width: 100%;
+		font-size: var(--app-text-font-size-medium);
+		ion-row:first-child {
+			font-weight: bold;
+			color: white;
+			background-color: var(--app-background-color);
+			font-size: var(--app-text-font-size-medium);
+		}
+		ion-col {
+			border: 1px solid black;
+			border-bottom: 0;
+			border-right: 0;
+		}
+		ion-col:last-child {
+			border-right: 1px solid black;
+		}
+		ion-row:last-child {
+			border-bottom: 1px solid black;
+		}
+		.button {
+      --padding-start: 0px;
+      --padding-end: 0px;
+			.icon {
+				background-color: var(--app-background-color);
+				font-size: var(--app-icon-font-size-medium);
+				color: var(--app-color);
+			}
+    }
+		
+	}
+}
+
+// --- HOME.PAGE.HTML ---
+
+.home-container {
+  display: inline-block;
+}
+
+.home-no-expand {
+  box-sizing: border-box;
+  width: 0px;
+  min-width: 100%;
+  background: pink;
+  padding: 10px;
+	text-align:center;
+}
+
+// --- EDIT ---
+
+.editor {
+  .section{
+    background: var(--app-background-color);
+    color: white;
+    font-size: var(--app-text-font-size-medium);
+    height:26px;
+    // margin-top: 10px;
+    // margin-bottom: 10px;
+    position: relative; 
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    // margin: auto;
+    .span{
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+  }
+  .label{
+    font-weight: bold;
+    font-size: var(--app-text-font-size-small);
+  }
+	.label-box{
+    border: solid 1px black;
+    border-radius: 5px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: var(--app-text-font-size-small);
+  }
+  .image{
+    width: 80px; // 4/3 w/h to match cropper-modal
+    height: 60px;
+  }
+  .imageContainer > img:hover {
+    width: 240px;
+    height: 180px;
+  }
   .input{
     border: solid 1px red;
     border-radius: 5px;
