@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-// import { ActivatedRoute, Router } from '@angular/router'; 
 import { ModalController } from '@ionic/angular';
-import { DomSanitizer } from '@angular/platform-browser';
 import { environment, FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
 import { PageFlip } from 'page-flip';
 import { DataService } from '../../services/data.service';
-import { FirebaseService } from '../../services/firebase.service';
 import { VnodePage } from '../vnode/vnode.page';
 import { PersonPage } from '../person/person.page';
 
@@ -43,12 +40,8 @@ export class HomePage implements OnInit{
 	}
 
 	constructor(
-		// private route: ActivatedRoute,
-		// private router: Router,
 		public modalCtrl: ModalController,
-		private sanitizer: DomSanitizer,
 		private dataService: DataService,
-    private fbService: FirebaseService,
   ) {
   }
 
@@ -60,7 +53,7 @@ export class HomePage implements OnInit{
   }
 
 	start() {
-		this.dataService.readDocs(true).then((docs:any) => {
+		this.dataService.readDocs().then((docs:any) => {
 			console.log('HomePage - docs: ', docs)
 			// this.pageData = docs;
 			this.dataService.readFamilyAndInfo().then((dat:any) => {
@@ -83,7 +76,9 @@ export class HomePage implements OnInit{
 		for (var key of Object.keys(docs)) {
 			if (key != 'gia_pha' && key != 'ket_thuc') {
 				let data = docs[key];
-				let text = data.text;
+				// let text = data.text;
+				// use html data
+				let text = data.newText;
 				if (key == 'pha_nhap' || key == 'pha_ky' || key == 'ngoai_pha' || key == 'phu_khao') {
 					// break into various page
 					let pages = [];
@@ -107,24 +102,6 @@ export class HomePage implements OnInit{
 		this.pageData = pageData;
 		this.specialPageData = specialPageData;
 	}
-
-	// parseText2(text: string) {
-	// 	if (text.indexOf('[QuanPhan.jpeg]') > 0) {
-	// 		text = 'Hello <img src="https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2Fphan_viet_hoang_1953_1686213633741?alt=media&token=faf5baa6-84fc-4843-b949-a6d44dc3f52c">';
-	// 	}
-	// 	return text;
-	// }
-
-// 	'there goes "something here", and "here" and I have "nothing else to say"'.match(/".*?"/g)
-// 	const text = 'Example words: "ABC" and "DEF".';
-// 	const matches = text.match(/"(.*?)"/g);
-// 	if (matches) {
-// 		for (let i = 0; i < matches.length; ++i) {
-// 			const match = matches[i];
-// 					const substring = match.substring(1, match.length - 1);  // quotation mark removing
-// 			console.log(substring);  
-// 		}
-// 	}
 
 	// https://nodlik.github.io/StPageFlip/demo.html
   

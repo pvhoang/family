@@ -280,14 +280,16 @@ export class NodePage implements OnInit {
       alignment: 'end',
       // translucent: true,
       dismissOnSelect: true,
-      // backdropDismiss: false
-      backdropDismiss: true
+      backdropDismiss: false
+      // backdropDismiss: true
     });
     popover.onDidDismiss().then((result) => {
       if (DEBUGS.NODE)
         console.log('NodePage - presentSelectPopover - result: ', result);
       this.isPopover = false;
       switch (result.data) {
+				case 'onCancel':
+          break;
         case 'onEdit':
           this.onEdit();
           break;

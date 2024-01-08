@@ -28,6 +28,9 @@ export class PopoverComponent implements OnInit {
     this.isAddOK = this.isChildOK;
     this.isAddBranchOK = this.isBranchOK;
   }
+	onCancel() {
+    this.popoverController.dismiss('onCancel');
+  }
   onView() {
     this.popoverController.dismiss('onView');
   }

@@ -38,6 +38,9 @@ export const DRAGON = 'dragon';
 export const VILLAGE = 'village';
 export const TREE = 'tree';
 export const COUNTRY = 'country';
+export const SMALL_SIZE = 'small';
+export const MEDIUM_SIZE = 'medium';
+export const LARGE_SIZE = 'large';
 
 
 

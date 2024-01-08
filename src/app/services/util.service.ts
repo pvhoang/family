@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { AlertController, PopoverController, ToastController, LoadingController, IonicSafeString } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { DEBUGS } from '../../environments/environment';
+import { SelectComponent } from '../components/select/select.component';
 import { LanguageService } from '../services/language.service';
 import { ThemeService } from '../services/theme.service';
 
@@ -20,6 +22,7 @@ export class UtilService {
     public toastController: ToastController,
     public loadingController: LoadingController,
     public popoverController: PopoverController,
+    public modalCtrl: ModalController,
 	) { }
 
 	getLocalJsonFile(url: string): Promise<any> {
@@ -74,7 +77,7 @@ export class UtilService {
 	// ALERT
 
 	getAlertMessage(items: any) {
-		let message = '';
+		let message = '<br/>';
 		items.forEach((item:any) => {
 			if (item.name == 'msg') {
 				let msg = this.languageService.getTranslation(item.label);
@@ -257,6 +260,34 @@ export class UtilService {
     await alert.present();
 		return await alert.onDidDismiss();
 	}
+
+	async alertSelect(srcHeader: any, selects: any[], cancelText, okText, css?: any) {
+
+		let root = document.documentElement;
+		console.log('--app-background-color: ', 
+			root.style.getPropertyValue('--app-background-color'));
+
+		let header = this.languageService.getTranslation(srcHeader);
+		if (!header)
+			header = srcHeader;
+		cancelText = this.languageService.getTranslation(cancelText);
+		okText = this.languageService.getTranslation(okText);
+		if (!css)
+			css = 'alert-dialog';
+		// css = 'alert-test';
+		this.themeService.setAlertSize({ width: 350, height: 400 });
+    const modal = await this.modalCtrl.create({
+      component: SelectComponent,
+      componentProps: {
+        'selects': selects,
+      },
+			cssClass: css,
+			backdropDismiss:false,
+			mode: "md",
+    });
+    await modal.present();
+		return await modal.onDidDismiss();
+  }
 
 	// LOADING
 

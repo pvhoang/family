@@ -57,7 +57,7 @@ export class DocPage implements OnInit {
 
   startFromStorage() {
     this.dataService.readDocs().then((currentData:any) => {
-      if (DEBUGS.NODE)
+      if (DEBUGS.DOCS)
         console.log('DocPage - startFromStorage - currentData: ', currentData);
 			this.currentData = currentData;
       this.start(currentData);
@@ -77,7 +77,7 @@ export class DocPage implements OnInit {
     ];
     this.selectDoc = this.docs[0].id;
 		// console.log('DocPage - startFromStorage - text: ', this.newData[this.selectDoc].text);
-		let text = (this.selectDoc == 'chon') ? 'hello world' : this.newData[this.selectDoc].text;
+		let text = (this.selectDoc == 'chon') ? '' : this.newData[this.selectDoc].text;
 		this.editor.setContent(text);
 		this.currentDoc = this.selectDoc;
   }
@@ -111,7 +111,7 @@ export class DocPage implements OnInit {
             },
 						{
               type: 'htmlpanel',
-              html: '<p>Thêm "[hinh.jpg,Cỡ,Chữ]" để thêm hình. Cỡ: 1/2/3. Chữ: dòng chữ dưới hình. Ví dụ: "[mo_to.jpg,1,Mộ tổ tại Đá Bạc]"</p>',
+              html: '<p>Thêm "[hinh.jpg,Cỡ-Format,Chữ]" để thêm hình. Cỡ: 1/2/3-left/center/right. Chữ: dòng chữ dưới hình. Ví dụ: "[mo_to.jpg,1,Mộ tổ tại Đá Bạc]"</p>',
             },
             {
               type: 'htmlpanel',
@@ -143,10 +143,13 @@ export class DocPage implements OnInit {
 		this.dataService.readItem('photos').then((photos:any) => {
 			// console.log('photos: ', photos)
 			photos.data.forEach(photo => {
+				let dat = photo.split('|');
+				let name = dat[0];
+				let caption = (dat.length > 1) ? dat[1] : '';
 				let sub = {
 					type: 'menuitem',
-					text: photo,
-					onAction: () => editor.insertContent(`"[` + photo + `,1,` + photo + `]"`)
+					text: name,
+					onAction: () => editor.insertContent(`"[` + name + `,1,` + caption + `]"`)
 				};
 				imageItems.push(sub);
 			})
@@ -226,27 +229,17 @@ export class DocPage implements OnInit {
   // --------- END ng-select ----------
 
   async saveDocsToFirebase() {
-    this.dataService.readItem('ANCESTOR_DATA').then((adata:any) => {
-      let info = adata.info;
+    this.dataService.readInfo().then((info:any) => {
       let ancestor = info.id;
-      adata.docs = this.newData;
-      let id = this.utilService.getDateID();
-      this.fbService.saveAncestorData(adata).then((status:any) => {
-        this.fbService.saveBackupDocs(ancestor, this.newData, id).then((status:any) => {
-          // this.dataService.saveItem('ANCESTOR_DATA', adata).then((status:any) => {
-            this.utilService.dismissLoading();
-            let message = this.utilService.getAlertMessage([
-              {name: 'msg', label: 'DOC_MESSAGE_1'},
-              {name: 'data', label: 'ID: ' + id},
-              {name: 'msg', label: 'DOC_MESSAGE_2'},
-            ]);
-            this.utilService.presentToast(message, 3000);
-						// this.message = "";
-						// this.changedDocCount = 0;
-						// this.dataService.saveDocs(this.pageData).then((status:any) => {});
-          // });
-        });
-      });
-    });
+			this.fbService.saveDocsData(ancestor, this.newData).then((status:any) => {
+				this.fbService.saveBackupDocs(ancestor, this.newData).then((status:any) => {
+					this.utilService.dismissLoading();
+					let message = this.utilService.getAlertMessage([
+						{name: 'msg', label: 'DOC_MESSAGE'},
+					]);
+					this.utilService.presentToast(message, 3000);
+				});
+			});
+		})
   }
 }

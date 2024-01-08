@@ -312,8 +312,6 @@ export class PersonPage implements OnInit {
   }
 
   drawTomb() {
-
-
     let node = this.selectedNode;
     const img = new Image();
     img.src = "../assets/icon/tomb-1.png";

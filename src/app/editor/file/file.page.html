@@ -1,40 +1,18 @@
 <ion-header>
 
   <ion-item class="header-top">
-    
 		<ion-col size="6" class="heading" title="{{ 'FILE_COMPARE_TOOLTIP' | translate }}" (click)="onCompareFamily()">
       <ion-button class="button" fill="clear">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-replace-outline.svg" class="icon"></ion-icon>
       </ion-button>
       <span class="label">{{ 'FILE_COMPARE' | translate }}</span>
     </ion-col>
-
 		<ion-col size="6" class="heading" title="{{ 'FILE_MANAGE_TOOLTIP' | translate }}" (click)="onManageFiles()">
       <ion-button class="button" fill="clear">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-replace-outline.svg" class="icon"></ion-icon>
       </ion-button>
       <span class="label">{{ 'FILE_MANAGE' | translate }}</span>
     </ion-col>
-
-		<!-- <ion-col size="3" class="heading" title="{{ 'FILE_DOWNLOAD_TOOLTIP' | translate }}" (click)="onModifyFamily()">
-      <ion-button class="button" fill="clear">
-        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-replace-outline.svg" class="icon"></ion-icon>
-      </ion-button>
-      <span class="label">{{ 'FILE_MODIFY' | translate }}</span>
-    </ion-col>
-    <ion-col size="3" class="heading" title="{{ 'FILE_UPLOAD_TOOLTIP' | translate }}" (click)="onUploadImages()">
-      <ion-button class="button" fill="clear">
-        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-replace-outline.svg" class="icon"></ion-icon>
-      </ion-button>
-      <span class="label">{{ 'FILE_IMAGE' | translate }}</span>
-    </ion-col>
-		<ion-col size="3" class="heading" title="{{ 'FILE_STORAGE_TOOLTIP' | translate }}" (click)="onManageStorage()">
-      <ion-button class="button" fill="clear">
-        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-replace-outline.svg" class="icon"></ion-icon>
-      </ion-button>
-      <span class="label">{{ 'FILE_STORAGE' | translate }}</span>
-    </ion-col> -->
-		
   </ion-item> 
 
 	<div *ngIf="compareMode">
@@ -49,28 +27,29 @@
 				<span class="label">{{ 'UPDATE' | translate }}</span>
 			</ion-col>
 		</ion-item>
+
 		<ion-item class="header-bottom" *ngIf="!rootChanged">
 			<ion-col size="6" class="heading">
 				<span class="label">{{ message }}</span>
 			</ion-col>
-			<ion-col size="6" class="heading">
+			<ion-col size="6" *ngIf="compareCount >  0" class="heading" (click)="compareSetSyncFamily()">
+				<ion-button class="button" fill="clear">
+					<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-replace-outline.svg" class="icon"></ion-icon>
+				</ion-button>
+				<span class="label">{{ 'UPDATE' | translate }}</span>
 			</ion-col>
 		</ion-item>
+
+		<!-- <ion-item class="header-bottom" *ngIf="!rootChanged">
+			<ion-col size="6" class="heading">
+				<span class="label">{{ message }}</span>
+			</ion-col>
+			<ion-col size="6" class="heading">
+
+			</ion-col>
+		</ion-item> -->
 	</div>
 
-	<!-- <div *ngIf="storageMode">
-		<ion-item class="header-bottom">
-			<ion-col size="6" class="heading">
-			</ion-col>
-			<ion-col size="6" class="heading" (click)="onCreatePhoto()">
-				<ion-button class="button" fill="clear">
-					<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-edit-outline.svg" class="icon"></ion-icon>
-				</ion-button>
-				<span class="label">{{ 'ADD' | translate }}</span>
-			</ion-col>
-		</ion-item>
-	</div> -->
-	
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
@@ -79,29 +58,30 @@
 	<div *ngIf="compareMode">
     <ion-grid class="grid" *ngIf="!rootChanged">
       <ion-row>
-        <ion-col size="4" class="center">
+        <ion-col size="4" class="column">
           {{ 'FILE_COMPARE_NAME' | translate }}
         </ion-col>
-        <ion-col size="2" class="center">
+        <ion-col size="2" class="column">
           {{ 'FILE_COMPARE_DETAIL' | translate }}
         </ion-col>
-        <ion-col size="2" class="center">
-          {{ 'FILE_COMPARE_SOURCE' | translate }} &nbsp;(D.{{srcVersion}})
-        </ion-col>
-        <ion-col size="2" class="center">
+        <ion-col size="2" class="column">
           {{ 'FILE_COMPARE_LOCAL' | translate }} &nbsp;(D.{{modVersion}})
         </ion-col>
-        <ion-col size="2" *ngIf="compareResults.length > 0" class="center">
-          {{ 'FILE_COMPARE_NEW_OK' | translate }}
-          &nbsp;&nbsp;<ion-checkbox checked="false" (ionChange)="compareOnCheckAll($event)"></ion-checkbox>
+        <ion-col size="2" class="column">
+          {{ 'FILE_COMPARE_SOURCE' | translate }} &nbsp;(D.{{srcVersion}})
+        </ion-col>
+        <ion-col size="2" *ngIf="compareResults.length > 0" class="column">
+          {{ 'FILE_COMPARE_NEW_OK_1' | translate }}
+          &nbsp;<ion-checkbox checked="false" (ionChange)="compareOnCheckAll($event)"></ion-checkbox>
+					&nbsp;{{ 'FILE_COMPARE_NEW_OK_2' | translate }}
         </ion-col>
       </ion-row>
       <ion-row *ngFor="let row of compareResults">
-        <ion-col size="4" class="center"> {{ row.name }} </ion-col>
-        <ion-col size="2" class="ion-text-center"> {{ row.label }} </ion-col>
-        <ion-col size="2" class="ion-text-center"> {{ row.old }} </ion-col>
-        <ion-col size="2" class="ion-text-center"> {{ row.new }} </ion-col>
-        <ion-col size="2" class="ion-text-center">
+        <ion-col size="4" class="column"> {{ row.name }} </ion-col>
+        <ion-col size="2" class="column"> {{ row.label }} </ion-col>
+        <ion-col size="2" class="column"> {{ row.new }} </ion-col>
+        <ion-col size="2" class="column"> {{ row.old }} </ion-col>
+        <ion-col size="2" class="column">
           <ion-checkbox checked="{{row.select}}" (ionChange)="compareOnCheck($event, row)"></ion-checkbox>
         </ion-col>
       </ion-row>
@@ -109,166 +89,199 @@
 	</div>
 
 	<div *ngIf="manageMode">
-
 		<ion-grid class="grid">
-      
 			<ion-row>
-        <ion-col size="6" class="center">
-          {{ 'FILE_MODIFY_EXPLAIN' | translate }}
+        <ion-col size="6" class="column">
+					<span class="label">{{ 'FILE_EXPLAIN' | translate }}</span>
         </ion-col>
-				<ion-col size="6" class="center">
-          {{ 'FILE_MODIFY_ACTION' | translate }}
+				<ion-col size="6" class="column">
+					<span class="label">{{ 'FILE_ACTION' | translate }}</span>
+        </ion-col>
+      </ion-row>
+			
+			<ion-row >
+        <ion-col size="6" class="column">
+					<span class="label">{{ 'FILE_DOWNLOAD' | translate }} (File: {{modifyFileName}})</span>
+        </ion-col>
+				<ion-col size="6" class="column"> 
+          <ion-button class="button" fill="clear" (click)="downloadOnClick()">
+            <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+          </ion-button>
+					<a id="modify-download" [href]="modifyFileUrl" download="{{modifyFileName}}" style="display:none;"></a>
+					<span class="label">{{ 'FILE_DOWNLOAD_START' | translate }}</span>
         </ion-col>
       </ion-row>
 			
 			<ion-row>
-        <ion-col size="6" class="center">
-          {{ 'FILE_MODIFY_DOWNLOAD' | translate }} ({{modifyFileName}})
+        <ion-col size="6" class="column">
+					<span class="label">{{ 'FILE_UPLOAD' | translate }} (File: {{modifyFileName}})</span>
         </ion-col>
-				<ion-col size="6" class="center">
-					<a [href]="modifyFileUrl" download="{{modifyFileName}}" (click)="modifyOnDownloadComplete()">[{{ 'FILE_MODIFY_DOWNLOAD_START' | translate }}]</a>
-				</ion-col>
-      </ion-row>
-			
-			<ion-row>
-        <ion-col size="6" class="center">
-          {{ 'FILE_MODIFY_UPLOAD' | translate }}
-        </ion-col>
-				<ion-col size="6" class="center">
-					<input type="file" (change)="modifyOnFileSelect($event)" title=" " accept=".json"/>
-					<!-- <ion-button *ngIf="modifyFileObject" class="button" fill="clear" (click)="modifyOnFileUpload()">
-						<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-replace-outline.svg" class="icon"></ion-icon>
-					</ion-button> -->
+				<ion-col size="6" class="column">
+					<ion-button class="button" fill="clear" (click)="uploadOnClick()">
+            <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+          </ion-button>
+					<!-- <a (click)="modifyOnUpload()">[{{ 'FILE_DOWNLOAD_START' | translate }}]</a> -->
+					<input id="modify-upload" type="file" (change)="uploadOnFileSelect($event)" style="display:none;" title=" " accept=".json"/>
+					<span class="label">{{ 'FILE_UPLOAD_START' | translate }}</span>
+					<!-- <input type="file" (change)="modifyOnFileSelect($event)" title=" " accept=".json"/> -->
         </ion-col>
       </ion-row>
 
 			<ion-row>
-				<ion-col size="6" class="center">
-          {{ 'FILE_PHOTO' | translate }}
+				<ion-col size="6" class="column">
+					<span class="label">{{ 'FILE_PHOTO' | translate }}</span>
 				</ion-col>
-				<ion-col size="6" class="center">
-					<a class="span" (click)="onCreatePhoto()">[{{ 'FILE_PHOTO_ADD' | translate }}]</a>
+				<ion-col size="6" class="column">
+					<ion-button class="button" fill="clear" (click)="photoCreate(true)">
+            <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+          </ion-button>
+					<span class="label">{{ 'FILE_PHOTO_ADD' | translate }}</span>
 				</ion-col>
 			</ion-row>
 
 			<ion-row>
-        <ion-col size="6" class="center">
-          {{ 'FILE_IMAGE_READ_LOCAL' | translate }}
+        <ion-col size="6" class="column">
+					<span class="label">{{ 'FILE_IMAGE' | translate }}</span>
         </ion-col>
-				<ion-col size="6" class="center">
-					<input type="file" (change)="imageOnSelect($event)" multiple title=" " accept=".png, .jpg, .jpeg"/>
+				<ion-col size="6" class="column">
+					<ion-button class="button" fill="clear" (click)="imageOnClick(true)">
+            <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+          </ion-button>
+					<span class="label">{{ 'FILE_IMAGE_ADD' | translate }}</span>
 				</ion-col>
       </ion-row>
 			
 			<ion-row>
-        <ion-col size="6" class="center">
-          {{ 'FILE_STORAGE_READ_REMOTE' | translate }}
+        <ion-col size="6" class="column">
+					<span class="label">{{ 'FILE_STORAGE' | translate }}</span>
         </ion-col>
-				<ion-col size="6" class="center">
-					<a class="span" (click)="storageReadFiles()">[{{ 'FILE_STORAGE_READ' | translate }}]</a>
+				<ion-col size="6" class="column">
+					<ion-button class="button" fill="clear" (click)="storageReadFiles()">
+            <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+          </ion-button>
+					<span class="label">{{ 'FILE_STORAGE_READ' | translate }}</span>
 				</ion-col>
       </ion-row>
 
     </ion-grid>
+		<!-- </div> -->
 	</div>
 
-	<div *ngIf="modifyMode">
+	<input id="photo-image" type="file" (change)="photoGetFile($event)" title=" " accept=".png, .jpg, .jpeg" style="display:none;"/>
+
+	<div *ngIf="photoMode">
 
 		<ion-grid class="grid">
       <ion-row>
-        <ion-col size="6" class="center">
-          {{ 'FILE_MODIFY_EXPLAIN' | translate }}
+        <ion-col size="6" class="column">
+					<span class="label">{{ 'FILE_PHOTO' | translate }}</span>
         </ion-col>
-				<ion-col size="6" class="center">
-          {{ 'FILE_MODIFY_ACTION' | translate }}
-        </ion-col>
-      </ion-row>
-			<ion-row>
-        <ion-col size="6" class="center">
-          {{ 'FILE_MODIFY_DOWNLOAD' | translate }} ({{modifyFileName}})
-        </ion-col>
-				<ion-col size="6" class="center">
-					<a [href]="modifyFileUrl" download="{{modifyFileName}}">[{{ 'FILE_MODIFY_DOWNLOAD_START' | translate }}]</a>
+				<ion-col size="6" class="column">
+					<ion-button class="button" fill="clear" (click)="photoCreate(false)">
+            <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+          </ion-button>
+					<span class="label">{{ 'FILE_PHOTO_ADD' | translate }}</span>
 				</ion-col>
       </ion-row>
-			<ion-row>
-        <ion-col size="6" class="center">
-          {{ 'FILE_MODIFY_UPLOAD' | translate }}
+    </ion-grid>
+		<br/>
+
+		<ion-grid class="grid">
+      <ion-row>
+        <ion-col size="4" class="column">
+					<span class="label">{{ 'FILE_PHOTO_MODIFY' | translate }}</span>
         </ion-col>
-				<ion-col size="6" class="center">
-					<input type="file" (change)="modifyOnFileSelect($event)" title=" " accept=".json"/>
-					<ion-button *ngIf="modifyFileObject" class="button" fill="clear" (click)="modifyOnFileUpload()">
-						<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-replace-outline.svg" class="icon"></ion-icon>
-					</ion-button>
+        <ion-col size="4" class="column">
+					<span class="label">{{ 'FILE_PHOTO_DELETE' | translate }}</span>
+        </ion-col>
+        <ion-col size="4" class="column">
+					<span class="label">{{ 'FILE_PHOTO_UPLOAD' | translate }}</span>
         </ion-col>
       </ion-row>
+			
+			<ion-row>
+				<ion-col size="4" *ngIf="photoBase64 != ''" class="column"> 
+          <ion-button class="button" fill="clear" (click)="photoEdit()">
+						<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+					</ion-button>
+        </ion-col>
+				<ion-col size="4" *ngIf="photoBase64 != ''" class="column"> 
+          <ion-button class="button" fill="clear" (click)="photoDelete()">
+						<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+					</ion-button>
+        </ion-col>
+				<ion-col size="4" *ngIf="photoBase64 != '' && photo != ''" class="column"> 
+          <ion-button class="button" fill="clear" (click)="photoSave()">
+						<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+					</ion-button>
+        </ion-col>
+			</ion-row>
     </ion-grid>
-
+		
+		<form *ngIf="photoBase64 != ''">
+			<p></p>
+			<p style="text-align:center;">{{photo}}</p>
+			<p></p>
+			<img [src]="photoBase64" width="500" height="400" style="display: block; margin-left: auto; margin-right: auto;" alt="{{photo}}" />
+		</form>
 	</div>
+
+	<input id="modify-image" type="file" (change)="imageOnSelect($event)" multiple title=" " accept=".png, .jpg, .jpeg" style="display:none;"/>
 
 	<div *ngIf="imageMode">
 
-		<!-- <ion-grid class="grid">
-      <ion-row>
-        <ion-col size="6" class="center">
-          {{ 'FILE_MODIFY_EXPLAIN' | translate }}
-        </ion-col>
-				<ion-col size="6" class="center">
-          {{ 'FILE_MODIFY_ACTION' | translate }}
-        </ion-col>
-      </ion-row>
-			<ion-row>
-        <ion-col size="6" class="center">
-          {{ 'FILE_IMAGE_READ_LOCAL' | translate }}
-        </ion-col>
-				<ion-col size="6" class="center">
-					<input type="file" (change)="imageOnSelect($event)" multiple title=" " accept=".png, .jpg, .jpeg"/>
-				</ion-col>
-      </ion-row>
-    </ion-grid> -->
-
-		<br/>
 		<ion-grid class="grid">
       <ion-row>
-        <ion-col size="12" class="center">
-          {{ 'FILE_IMAGE_READ_LOCAL' | translate }}
+        <ion-col size="6" class="column">
+					<span class="label">{{ 'FILE_IMAGE' | translate }}</span>
         </ion-col>
+				<ion-col size="6" class="column">
+					<ion-button class="button" fill="clear" (click)="imageOnClick(false)">
+            <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+          </ion-button>
+					<!-- <input id="modify-image-2" type="file" (change)="imageOnSelect($event)" multiple title=" " accept=".png, .jpg, .jpeg" style="display:none;"/> -->
+					<span class="label">{{ 'FILE_IMAGE_ADD' | translate }}</span>
+				</ion-col>
       </ion-row>
     </ion-grid>
 		<br/>
 
     <ion-grid class="grid">
       <ion-row>
-        <ion-col size="3" class="center">
-          {{ 'FILE_IMAGE_NAME' | translate }}
+        <ion-col size="3" class="column">
+					<span class="label">{{ 'FILE_IMAGE_NAME' | translate }}</span>
         </ion-col>
-        <ion-col size="3" class="center">
-          {{ 'FILE_IMAGE_SIZE' | translate }}
+        <ion-col size="3" class="column">
+					<span class="label">{{ 'FILE_IMAGE_SIZE' | translate }}</span>
         </ion-col>
-        <ion-col size="2" class="center">
-          {{ 'FILE_IMAGE_IGNORE' | translate }}
+        <ion-col size="2" class="column">
+					<span class="label">{{ 'FILE_IMAGE_IGNORE' | translate }}</span>
         </ion-col>
-        <ion-col size="2" class="center">
-          {{ 'FILE_IMAGE_VIEW' | translate }}
+        <ion-col size="2" class="column">
+					<span class="label">{{ 'FILE_IMAGE_VIEW' | translate }}</span>
         </ion-col>
-        <ion-col size="2" class="center">
-          {{ 'FILE_IMAGE_UPLOAD' | translate }}
+        <ion-col size="2" class="column">
+					<span class="label">{{ 'FILE_IMAGE_UPLOAD' | translate }}</span>
         </ion-col>
       </ion-row>
       <ion-row *ngFor="let file of imageFiles">
-        <ion-col size="3" class="center"> {{ file.name }} </ion-col>
-        <ion-col size="3" class="center"> {{ file.size }} </ion-col>
-        <ion-col size="2" class="center"> 
+        <ion-col size="3" class="column">
+					<span class="label">{{ file.name }}</span>
+				</ion-col>
+        <ion-col size="3" class="column">
+					<span class="label">{{ file.size }}</span>
+				</ion-col>
+        <ion-col size="2" class="column"> 
           <ion-button fill="clear" (click)="imageOnDelete(file)">
             <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
           </ion-button>
         </ion-col>
-        <ion-col size="2" class="center"> 
+        <ion-col size="2" class="column"> 
           <ion-button class="button" fill="clear" (click)="imageOnView(file)">
             <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
           </ion-button>
         </ion-col>
-        <ion-col size="2" class="center"> 
+        <ion-col size="2" class="column"> 
           <ion-button class="button" fill="clear" (click)="imageOnUpload(file)">
             <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-replace-outline.svg" class="icon"></ion-icon>
           </ion-button>
@@ -282,68 +295,53 @@
 			<p></p>
 			<img id="image-view" src="" width="500" height="400" style="display: block; margin-left: auto; margin-right: auto;" alt="{{imageFileName}}" />
 		</form>
-
 	</div>
 
 	<div *ngIf="storageMode">
-<!-- 
-		<ion-grid class="grid">
-      <ion-row>
-        <ion-col size="6" class="center">
-          {{ 'FILE_MODIFY_EXPLAIN' | translate }}
-        </ion-col>
-				<ion-col size="6" class="center">
-          {{ 'FILE_MODIFY_ACTION' | translate }}
-        </ion-col>
-      </ion-row>
-			<ion-row>
-        <ion-col size="6" class="center">
-          {{ 'FILE_STORAGE_READ_REMOTE' | translate }}
-        </ion-col>
-				<ion-col size="6" class="center">
-					<a class="span" (click)="storageReadFiles()">[{{ 'FILE_STORAGE_READ' | translate }}]</a>
-				</ion-col>
-      </ion-row>
-    </ion-grid> -->
 
-		<br/>
 		<ion-grid class="grid">
       <ion-row>
-        <ion-col size="12" class="center">
-          {{ 'FILE_STORAGE_READ_REMOTE' | translate }}
+        <ion-col size="6" class="column">
+					<span class="label">{{ 'FILE_STORAGE' | translate }}</span>
         </ion-col>
+				<ion-col size="6" class="column">
+					<ion-button class="button" fill="clear" (click)="storageReadFiles()">
+            <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+          </ion-button>
+					<span class="label">{{ 'FILE_STORAGE_READ' | translate }}</span>
+				</ion-col>
       </ion-row>
     </ion-grid>
 		<br/>
 		
     <ion-grid class="grid">
       <ion-row>
-        <ion-col size="3" class="center">
-          {{ 'FILE_STORAGE_HEADER' | translate }}
+        <ion-col size="3" class="column">
+					<span class="label">{{ 'FILE_STORAGE_HEADER' | translate }}</span>
         </ion-col>
-        <ion-col size="3" class="center">
-          {{ 'FILE_STORAGE_SIZE' | translate }}
+        <ion-col size="3" class="column">
+					<span class="label">{{ 'FILE_STORAGE_SIZE' | translate }}</span>
         </ion-col>
-        <ion-col size="2" class="center">
-          {{ 'FILE_STORAGE_TYPE' | translate }}
+        <ion-col size="2" class="column">
+					<span class="label">{{ 'FILE_STORAGE_TYPE' | translate }}</span>
         </ion-col>
-        <ion-col size="2" class="center">
-          {{ 'FILE_STORAGE_DELETE' | translate }}
+        <ion-col size="2" class="column">
+					<span class="label">{{ 'FILE_STORAGE_DELETE' | translate }}</span>
         </ion-col>
-        <ion-col size="2" class="center">
-          {{ 'FILE_STORAGE_VIEW' | translate }}
+        <ion-col size="2" class="column">
+					<span class="label">{{ 'FILE_STORAGE_VIEW' | translate }}</span>
         </ion-col>
       </ion-row>
       <ion-row *ngFor="let file of storageFiles">
-        <ion-col size="3" class="center"> {{ file.name }} </ion-col>
-        <ion-col size="3" class="center"> {{ file.size }} </ion-col>
-        <ion-col size="2" class="center"> {{ file.type }} </ion-col>
-        <ion-col size="2" class="center"> 
+        <ion-col size="3" class="column"> {{ file.name }} </ion-col>
+        <ion-col size="3" class="column"> {{ file.size }} </ion-col>
+        <ion-col size="2" class="column"> {{ file.type }} </ion-col>
+        <ion-col size="2" class="column"> 
           <ion-button class="button" fill="clear" (click)="storageOnDelete(file)">
             <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
           </ion-button>
         </ion-col>
-        <ion-col size="2" class="center"> 
+        <ion-col size="2" class="column"> 
           <ion-button class="button" fill="clear" (click)="storageOnView(file)">
             <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-edit-outline.svg" class="icon"></ion-icon>
           </ion-button>
@@ -352,90 +350,14 @@
     </ion-grid>
 
 		<form *ngIf="storageFileName != ''">
-			<!-- <img id="storage-view" src="#" width="300" height="200" alt="{{storageFileName}}" /> -->
 			<p></p>
 			<p style="text-align:center;">{{storageFileName}}</p>
 			<p></p>
-			<!-- <img id="storage-view" src="#" style="display: block; margin-left: auto; margin-right: auto; width:50%;" alt="{{storageFileName}}" /> -->
 			<img id="storage-view" src="#" width="500" height="400" style="display: block; margin-left: auto; margin-right: auto;" alt="{{storageFileName}}" />
 		</form>
 
 	</div>
 
-	<div *ngIf="photoMode">
-
-		<br/>
-		<ion-grid class="grid">
-      <ion-row>
-        <ion-col size="12" class="center">
-          {{ 'FILE_PHOTO' | translate }}
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-		<br/>
-
-
-		<!-- <ion-card-header class="section">
-			<span class="span">&nbsp;{{ 'NODE_PHOTO' | translate }}</span>
-		</ion-card-header>
-		<br> -->
-
-		<ion-row>
-      <ion-col size="3">
-        <ion-label class="label">{{ 'FILE_PHOTO_NAME' | translate }}</ion-label>
-        <ion-input clearInput class="input" 
-          type="text" 
-          [(ngModel)]="photo" 
-          title="{{ 'FILE_PHOTO_NAME_TOOLTIP' | translate }}"
-        ></ion-input>
-      </ion-col>
-			<ion-col size="9">
-      </ion-col>
-    </ion-row>
-
-		<ion-row>
-			<ion-col size="3" class="center">
-				<input type="file" (change)="photoGetFile($event)" title=" " accept=".png, .jpg, .jpeg"/>
-			</ion-col>
-			
-			<ion-col size="3" *ngIf="photoBase64 != ''" class="center">
-				<div class="hilite_button span" (click)="photoEdit()">
-					<ion-button class="button" fill="clear">
-						<ion-icon name="camera" slot="icon-only" src="{{FONTS_FOLDER}}file-document-edit-outline.svg" class="icon"></ion-icon>
-					</ion-button>
-					<span class="label">{{ 'MODIFY' | translate }}</span>
-				</div>
-			</ion-col>
 	
-			<ion-col size="3" *ngIf="photoBase64 != ''" class="center">
-				<div class="hilite_button span" (click)="photoDelete()">
-					<ion-button class="button" fill="clear">
-						<ion-icon name="camera" slot="icon-only" src="{{FONTS_FOLDER}}delete-outline.svg" class="icon"></ion-icon>
-					</ion-button>
-					<span class="label">{{ 'DELETE' | translate }}</span>
-				</div>
-			</ion-col>
-		
-			<ion-col size="3" *ngIf="photoBase64 != '' && photo != ''" class="center">
-        <div class="hilite_button span"  (click)="photoSave()">
-					<ion-button class="button" fill="clear">
-						<ion-icon name="camera" slot="icon-only" src="{{FONTS_FOLDER}}file-document-edit-outline.svg" class="icon"></ion-icon>
-					</ion-button>
-					<span class="label">{{ 'UPLOAD' | translate }}</span>
-				</div>
-      </ion-col>
-
-		</ion-row>
-		
-		<ion-card *ngIf="photoBase64 != ''">
-			<ion-card-content >
-				<div class="imageContainer center">  
-					<img class="image" [src]="photoBase64">
-				</div>
-			</ion-card-content>
-		</ion-card>
-
-	</div>
-
-  </div>
+</div>
 </ion-content>

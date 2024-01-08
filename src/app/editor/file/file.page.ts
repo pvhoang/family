@@ -6,6 +6,7 @@ import { CropperModalPage } from './cropper-modal/cropper-modal.page';
 import { LanguageService } from '../../services/language.service';
 import { FirebaseService } from '../../services/firebase.service';
 import { FamilyService } from '../../services/family.service';
+import { NodeService } from '../../services/node.service';
 import { UtilService } from '../../services/util.service';
 import { DataService } from '../../services/data.service';
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
@@ -23,6 +24,7 @@ export class FilePage implements OnInit {
   compareResults: any[] = [];
   cResults: any[] = [];
   rootChanged: any = false;
+	compareCount = 0;
   isCompare: any = false;
   isSync: any = false;
   srcVersion: any;
@@ -53,6 +55,7 @@ export class FilePage implements OnInit {
 	photoBase64: any = '';
 	photoNew: any = false;
 	photo: any = '';
+	photoCaption: any = '';
  
   // contents: any[] = [];
   // contentMode = false;
@@ -66,6 +69,7 @@ export class FilePage implements OnInit {
     private modalCtrl: ModalController,
 		private sanitizer: DomSanitizer,
     private familyService: FamilyService,
+    private nodeService: NodeService,
     private dataService: DataService,
     private languageService: LanguageService,
     private fbService: FirebaseService,
@@ -76,7 +80,7 @@ export class FilePage implements OnInit {
     if (DEBUGS.FILE)
       console.log('FilePage - ngOnInit');
     this.start();
-		this.modifySetDownloadFile();
+		this.downloadSetFile();
   }
 
   ionViewWillEnter() {
@@ -139,19 +143,22 @@ export class FilePage implements OnInit {
 		console.log('storage, compare: ', this.storageMode, this.compareMode);
 	}
 
-	onCreatePhoto() {
-		this.resetModes();
-		this.manageMode = true;
-		this.photoMode = true;
-		this.photoBase64 = '';
-		this.photoNew = true;
-		this.photo = '';
-	}
+	// onCreatePhoto() {
+	// 	this.resetModes();
+	// 	this.manageMode = true;
+	// 	this.photoMode = true;
+	// 	this.photoBase64 = '';
+	// 	this.photoNew = true;
+	// 	this.photo = '';
+	// 	this.photoCaption = '';
+	// }
 
 	// --- compareMode ---
 
   async compareOnSync() {
     this.rootChanged = false;
+    this.compareCount = 0;
+
     this.dataService.readFamilyAndInfo().then((data:any) => {
       let localFamily = data.family;
       let info = data.info;
@@ -159,24 +166,32 @@ export class FilePage implements OnInit {
       this.ancestor = ancestor;
       this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
         let remoteFamily = rdata.family;
+				this.comparePrintNode('compareOnSync', localFamily, remoteFamily);
+
         this.srcVersion = remoteFamily.version;
         this.modVersion = localFamily.version;
         this.compareResults = this.familyService.compareFamilies(remoteFamily, localFamily);
+				
+				console.log('compareOnSync - compareResults:' , this.compareResults);
+
         if (this.compareResults.length == 1 && this.compareResults[0].srcName) {
           // different root
-          this.message = this.languageService.getTranslation('FILE_ROOT_CHANGE_1') + this.compareResults[0].srcName + this.languageService.getTranslation('FILE_ROOT_CHANGE_2') + this.compareResults[0].desName + this.languageService.getTranslation('FILE_ROOT_CHANGE_3');
+          this.message = this.languageService.getTranslation('FILE_COMPARE_ROOT_CHANGE_1') + this.compareResults[0].srcName + this.languageService.getTranslation('FILE_COMPARE_ROOT_CHANGE_2') + this.compareResults[0].desName + this.languageService.getTranslation('FILE_COMPARE_ROOT_CHANGE_3');
           this.rootChanged = true;
         } else {
           // data changed
-          this.message = this.languageService.getTranslation('FILE_CHANGE_NUMBER') + this.compareResults.length;
+          this.message = this.languageService.getTranslation('FILE_COMPARE_CHANGE_NUMBER') + this.compareResults.length;
           this.compareResults = this.compareGetSyncResults(this.compareResults);
+					// console.log('compareSetSyncFamily - compareResults:' , this.compareResults);
         }
+				this.comparePrintNode('compareOnSync', localFamily, remoteFamily);
       });
     });
   }
 
   compareOnCheck(event: any, row: any) {
     row.select = event.detail.checked;
+		this.compareCount = this.compareSelectCount();
   }
 
   compareOnCheckAll(event: any) {
@@ -186,6 +201,14 @@ export class FilePage implements OnInit {
         this.compareResults[i].select = event.detail.checked;
     if (DEBUGS.FILE)
       console.log('FilePage - onCheckAll - this.compareResults: ', this.compareResults);
+		this.compareCount = this.compareSelectCount();
+  }
+
+	compareSelectCount() {
+		let count = 0;
+		for (let i = 0; i < this.compareResults.length; i++)
+			count += this.compareResults[i].select ? 1 : 0;
+		return count;
   }
 
   private compareGetSyncResults(results: any) {
@@ -217,72 +240,105 @@ export class FilePage implements OnInit {
     return res;
   }
 
+  comparePrintNode(message, localFamily, remoteFamily, newFamily?) {
+		let remoteNodes = this.nodeService.getFamilyNodes(remoteFamily, true);
+		let machineNodes = this.nodeService.getFamilyNodes(localFamily, true);
+		const remoteNode = remoteNodes.find((element) => element.name == 'Phan Dính');
+		const machineNode = machineNodes.find((element) => element.name == 'Phan Dính');
+		console.log('comparePrintNode - message: ' , message);
+		console.log('comparePrintNode - remote Node:' , remoteNode);
+		console.log('comparePrintNode - machine Node:' , machineNode);
+		if (newFamily) {
+			let newNodes = this.nodeService.getFamilyNodes(newFamily, true);
+			const newNode = newNodes.find((element) => element.name == 'Phan Dính');
+			console.log('comparePrintNode - new Node:' , newNode);
+		}
+	}
+
   async compareSetSyncFamily() {
+
+		// console.log('compareSetSyncFamily - compareResults:' , this.compareResults);
+		// if (DEBUGS.FILE)
+    //       console.log('compareSetSyncFamily - rootChanged:' , this.rootChanged);
+
     if (!this.rootChanged) {
-      // check if compareResults is selected
-      let selCount = 0;
-      for (let i = 0; i < this.compareResults.length; i++)
-        if (this.compareResults[i].select)
-          selCount++;
-      if (selCount == 0) {
-        // copy source back
-        let message = this.utilService.getAlertMessage([
-          {name: 'msg', label: 'FILE_SYNC_NOT_1'},
-          {name: 'data', label: 'V.'+this.srcVersion},
-          {name: 'msg', label: 'FILE_SYNC_NOT_2'},
-        ]);
-        this.utilService.presentToast(message);
+      // check number of changes selected
+      // let selCount = 0;
+      // for (let i = 0; i < this.compareResults.length; i++)
+      //   if (this.compareResults[i].select)
+      //     selCount++;
+
+			// if (DEBUGS.FILE)
+      //     console.log('compareSetSyncFamily - selCount:' , this.compareCount);
+
+			if (this.compareCount == 0) {
+        // copy data from source back to local
+        this.utilService.presentLoading();
         this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
           this.dataService.saveItem('ANCESTOR_DATA', rdata).then((status:any) => {
             this.utilService.dismissLoading();
+						let message = this.utilService.getAlertMessage([
+							{name: 'msg', label: 'FILE_COMPARE_SYNC_TREE_1'},
+							{name: 'data', label: 'V.'+this.srcVersion},
+							{name: 'msg', label: 'FILE_COMPARE_SYNC_TREE_2'},
+						]);
+						this.utilService.presentToast(message);
           });
         });
         return;
       }
-      if (selCount == this.compareResults.length)
+      // if (this.compareCount == this.compareResults.length)
         // use all modified data, reset rootChanged
-        this.rootChanged = true;
+        // this.rootChanged = true;
     }
     
     this.dataService.readFamilyAndInfo().then((data:any) => {
       let localFamily = data.family;
       let info = data.info;
-      this.utilService.presentLoading();
+      // this.utilService.presentLoading();
       let ancestor = info.id;
       this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
         let remoteFamily = rdata.family;
-        // if rootChanged just copy over
-        let family = this.rootChanged ? localFamily : this.familyService.getSyncFamily(remoteFamily, localFamily, this.compareResults, info);
-        // get new version
+				// this.comparePrintNode('compareSetSyncFamily', localFamily, remoteFamily);
+        // if rootChanged = true just copy all local to source
+				// console.log('compareSetSyncFamily - before getSyncFamily', this.rootChanged);
+				let family = this.rootChanged ? localFamily : this.familyService.getSyncFamily(remoteFamily, localFamily, this.compareResults, info);
+				// get new version
         let lVersion = +localFamily.version;
         let rVersion = +remoteFamily.version;
         let nVersion = (lVersion > rVersion) ? lVersion : rVersion;
         nVersion++;
         let versionLabel = this.familyService.getVersionLabel(nVersion);
         family.version = nVersion;
-        rdata.family = family;
-        if (DEBUGS.FILE)
-          console.log('setSyncFamily - family:' , family);
+				// reset 'family' in rdata
+				// clean family before save
+				let cleanFamily = this.familyService.getFilterFamily(family, true);
+        rdata.family = cleanFamily;
+        // if (DEBUGS.FILE)
+        //   console.log('compareSetSyncFamily - new family:' , family);
+				// this.comparePrintNode('compareSetSyncFamily', localFamily, family, cleanFamily);
+				this.utilService.presentLoading();
         this.fbService.saveAncestorData(rdata).then((status:any) => {
-          this.fbService.saveBackupFamily(ancestor, family, versionLabel).then((status:any) => {
-            this.dataService.saveItem('ANCESTOR_DATA', rdata).then((status:any) => {
+          this.fbService.saveBackupFamily(ancestor, cleanFamily, versionLabel).then((status:any) => {
+            // this.dataService.saveItem('ANCESTOR_DATA', rdata).then((status:any) => {
               this.utilService.dismissLoading();
               let message = this.utilService.getAlertMessage([
-                {name: 'msg', label: 'FILE_SYNC_TREE_1'},
+                {name: 'msg', label: 'FILE_COMPARE_SYNC_TREE_1'},
                 {name: 'data', label: 'V.'+family.version},
-                {name: 'msg', label: 'FILE_SYNC_TREE_2'},
+                {name: 'msg', label: 'FILE_COMPARE_SYNC_TREE_2'},
               ]);
               this.utilService.presentToast(message);
-            });
+            // });
           });
         });
+
       });
     });
   }
 	
-	// --- modifyMode ---
+	// --- downloadMode ---
 
-	modifySetDownloadFile() {
+	downloadSetFile() {
 		// download family data from Firebase to local file for editing
 		this.dataService.readFamilyAndInfo().then((data:any) => {
       let family = data.family;
@@ -304,51 +360,93 @@ export class FilePage implements OnInit {
 		this.modifyFileObject = null;
   }
 
-	modifyOnDownloadComplete() {
-		this.utilService.presentToast(this.languageService.getTranslation('FILE_MODIFY_DOWNLOAD_COMPLETE') + this.modifyFileName, 5000);
+	downloadOnClick() {
+		let msg = this.utilService.getAlertMessage([
+			{name: 'msg', label: 'FILE_DOWNLOAD_MESSAGE_1'},
+			{name: 'data', label: this.modifyFileName},
+			{name: 'msg', label: 'FILE_DOWNLOAD_MESSAGE_2'},
+		]);
+		this.utilService.alertConfirm('FILE_DOWNLOAD_START', msg, 'CANCEL', 'OK').then((res) => {
+			// console.log('onDelete - res:' , res)
+			if (res.data) {
+				// https://stackoverflow.com/questions/11620698/how-to-trigger-a-file-download-when-clicking-an-html-button-or-javascript
+				document.getElementById("modify-download").click()
+				this.utilService.presentToast(this.languageService.getTranslation('FILE_DOWNLOAD_COMPLETE'), 5000);
+			}
+		});
 	}
 
-	modifyOnFileSelect(event: any): void {
+	// --- uploadMode ---
+
+	uploadOnClick() {
+		let msg = this.utilService.getAlertMessage([
+			{name: 'msg', label: 'FILE_UPLOAD_MESSAGE_1'},
+			{name: 'data', label: this.modifyFileName},
+			{name: 'msg', label: 'FILE_UPLOAD_MESSAGE_2'},
+		]);
+		this.utilService.alertConfirm('FILE_UPLOAD_START', msg, 'CANCEL', 'OK').then((res) => {
+			// console.log('modifyOnUpload - res:' , res)
+			if (res.data) {
+				// https://stackoverflow.com/questions/11620698/how-to-trigger-a-file-download-when-clicking-an-html-button-or-javascript
+				document.getElementById("modify-upload").click()
+			}
+		});
+	}
+
+	// downloadOnComplete() {
+	// 	this.utilService.presentToast(this.languageService.getTranslation('FILE_MODIFY_DOWNLOAD_COMPLETE') + this.modifyFileName, 5000);
+	// }
+
+	uploadOnFileSelect(event: any): void {
     const files = [...event.target.files]
 		const file = files[0];
 		this.modifyFileObject = file;
 		// console.log('file: ', file);
-		this.modifyOnFileUpload(file);
+		this.uploadOnFileUpload(file);
   }
 
-	modifyOnFileUpload(file: any) {
+	private uploadOnFileUpload(file: any) {
     // console.log('FilePage - onDownloadFileUpload');
 		// let file: File = this.modifyFileObject;
     const name:string = file.name;
     // get extension
     const type = name.substring(name.lastIndexOf('.')+1);
-		console.log('type: ', type);
-    this.modifyUploadFile(file).then((res: any) => {
-      if (DEBUGS.APP)
-        console.log('modifyOnFileUpload - res: ', res);
+		// console.log('type: ', type);
+    this.uploadGetTextFile(file).then((res: any) => {
+      // if (DEBUGS.APP)
+      //   console.log('modifyOnFileUpload - res: ', res);
       if (res.text) {
         // validate json file
-				let family = this.modifyGetValidateData(res.text);
+				let family = this.uploadValidateData(res.text);
         if (family) {
-					this.dataService.readFamilyAndInfo().then((ldata:any) => {
-						let ancestor = ldata.info.id;
-						this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
-							rdata.family = family;
-							this.fbService.saveAncestorData(rdata).then((status:any) => {
-								this.utilService.presentToast(this.languageService.getTranslation('FILE_DOWNLOAD_UPLOAD'), 1000);
+					// let msg = this.utilService.getAlertMessage([
+					// 	{name: 'msg', label: 'NODE_DELETE_NODE_MESSAGE_1'},
+					// 	{name: 'data', label: file.name},
+					// 	{name: 'msg', label: 'NODE_DELETE_NODE_MESSAGE_2'},
+					// ]);
+					// this.utilService.alertConfirm('NODE_DELETE_NODE_MESSAGE', msg, 'CANCEL', 'OK').then((res) => {
+					// 	console.log('onDelete - res:' , res)
+					// 	if (res.data) {
+						this.dataService.readFamilyAndInfo().then((ldata:any) => {
+							let ancestor = ldata.info.id;
+							this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
+								let cleanFamily = this.familyService.getFilterFamily(family, true);
+								rdata.family = cleanFamily;
+								this.fbService.saveAncestorData(rdata).then((status:any) => {
+									this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_COMPLETE'), 1000);
+								});
 							});
-						});
 					});
         } else {
-					this.utilService.presentToast(this.languageService.getTranslation('FILE_DOWNLOAD_FILE_INVALID'), 1000);
+					this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_INVALID'), 1000);
 				}
       } else {
-				this.utilService.presentToast(this.languageService.getTranslation('FILE_DOWNLOAD_FILE_EMPTY'), 1000);
+				this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_EMPTY'), 1000);
       }
     });
   }
 
-	modifyUploadFile(file:File) {
+	private uploadGetTextFile(file:File) {
     return new Promise((resolve) => {
       const name = file.name;
       var myReader: FileReader = new FileReader();
@@ -361,7 +459,7 @@ export class FilePage implements OnInit {
     });
   }
 
-	modifyGetValidateData(text: any) {
+	private uploadValidateData(text: any) {
 		let family: any = null;
 		try {
 			family = JSON.parse(text);
@@ -373,16 +471,192 @@ export class FilePage implements OnInit {
     return family;
   }
 
+// --------- photoMode ----------
+	
+photoCreate(start: boolean) {
+	if (start) {
+		this.resetModes();
+		this.manageMode = false;
+		this.photoMode = true;
+		this.photoBase64 = '';
+		this.photo = '';
+	}
+	document.getElementById("photo-image").click();
+}
+
+//  onCreatePhoto() {
+	// 	this.resetModes();
+	// 	this.manageMode = true;
+	// 	this.photoMode = true;
+	// 	this.photoBase64 = '';
+	// 	this.photoNew = true;
+	// 	this.photo = '';
+	// 	this.photoCaption = '';
+	// }
+
+photoGetFile(event: any): void {
+	const files = [...event.target.files]
+	const file = files[0];
+	this.modifyFileObject = file;
+	// console.log('file: ', file);
+	const name = file.name;
+	const myReader: FileReader = new FileReader();
+	myReader.readAsDataURL(file);
+	myReader.onload = ((event:any) => {
+		let base64 = event.target.result;
+		// base64 = base64.replace("data:", "").replace(/^.+,/, "");
+		// console.log('fileName: ', name)
+		this.photoBase64 = base64;
+		// this.photoNew = true;
+		this.photo = name;
+	});
+}
+
+photoSave() {
+	// save new photo
+	if (this.photoBase64 != '')
+		this.photoUpload( this.photo, this.ancestor, this.photoBase64, null);
+
+	// if (this.photoBase64 != '' && this.photo != '') {
+	// 	let photoName = this.photo;
+	// 	let base64 = this.photoBase64;
+	// 	let type = base64.substring('data:'.length, base64.indexOf(';'));
+	// 	base64 = base64.replace("data:", "").replace(/^.+,/, "");
+	// 	this.fbService.addImage(base64, type, this.ancestor, photoName).then(urlStorage => {
+	// 		// add caption
+	// 		if (this.photoCaption != '') {
+	// 			let captionFile = photoName.substring(0, photoName.indexOf('.')) + '.txt';
+	// 			this.fbService.addText(this.photoCaption, this.ancestor, captionFile).then(urlStorage => {});
+	// 		}
+	// 		this.utilService.presentToast(this.languageService.getTranslation('FILE_PHOTO_SAVE') + photoName, 5000);
+	// 	});
+	// } else {
+	// }
+}
+
+photoDelete() {
+	this.photoBase64 = '';
+	this.photoNew = true;
+	this.photo = '';
+}
+
+photoEdit() {
+	this.openCropperModal(this.photoBase64, true);
+}
+
+async openCropperModal(photoBase64: any, url: any) {
+	const cropperModal = await this.modalCtrl.create({
+		component: CropperModalPage,
+		componentProps: {
+			'caller': 'NodePage',
+			'data': photoBase64,
+			'url': url
+		},
+		backdropDismiss:false
+	});
+	await cropperModal.present();
+	const { data } = await cropperModal.onDidDismiss();
+	if (data.result) {
+		this.photoBase64 = data.result;
+		this.photoNew = true;
+	}
+}
+
+private photoUpload(photo: string, ancestor:string, photoBase64: string, file:File) {
+
+	let title = this.languageService.getTranslation('FILE_PHOTO_UPLOAD');
+	let cancel = this.languageService.getTranslation('CANCEL');
+	let ok = this.languageService.getTranslation('OK');
+	let inputs = [
+		{   label: this.languageService.getTranslation('FILE_PHOTO_NAME'),
+				value: photo,
+				placeholder: this.languageService.getTranslation('FILE_PHOTO_NAME'),
+				attributes: { maxlength: 50 },
+		},
+		{   label: this.languageService.getTranslation('FILE_PHOTO_CAPTION'),
+				value: '',
+				placeholder: this.languageService.getTranslation('FILE_PHOTO_CAPTION'),
+				attributes: { maxlength: 50 },
+		}
+	]
+	this.utilService.alertText(title, inputs, cancel, ok, 'alert-dialog').then(result => {
+		// console.log('saveImage - result: ', result);
+		if (result.data) {
+			let photoName = result.data[0];
+			let photoCaption = result.data[1];
+			if (photoName != '') {
+				// remove . if there is any
+				let idx = photoName.indexOf('.');
+				if (idx > 0) {
+					photoName = photoName.substring(0, idx);
+					if (photoBase64) {
+						this.loadImage(photoBase64, photoName, photoCaption, ancestor);
+					} else {
+						// const name = file.name;
+						var myReader: FileReader = new FileReader();
+						myReader.readAsDataURL(file);
+						myReader.onload = ((event:any) => {
+							let base64 = event.target.result;
+							this.loadImage(base64, photoName, photoCaption, ancestor);
+						});
+					}
+				}
+			} else {
+				this.utilService.presentToast(this.languageService.getTranslation('FILE_PHOTO_NAME_INVALID'), 3000);
+			}
+		}
+	})
+}
+
+private loadImage(base64: string, photoName: string, photoCaption: any, ancestor:string) {
+	let type = base64.substring('data:'.length, base64.indexOf(';'));
+	// type: 'image/jpeg'
+	let extension = type.substring('image/'.length);
+	base64 = base64.replace("data:", "").replace(/^.+,/, "");
+	photoName += '.' + extension;
+	this.fbService.addImage(base64, type, ancestor, photoName).then(urlStorage => {
+		// add caption
+		if (photoCaption != '') {
+			let captionFile = photoName + '.txt';
+			this.fbService.addText(photoCaption, ancestor, captionFile).then(data => {});
+		}
+		this.utilService.presentToast(this.languageService.getTranslation('FILE_PHOTO_COMPLETE') + photoName, 5000);
+	});
+}
+
+
 	// --- imageMode ---
 
+	imageOnClick(start: boolean) {
+
+		if (start) {
+			this.resetModes();
+			this.manageMode = false;
+			this.imageMode = true;
+			this.imageFiles = [];
+		}
+		document.getElementById("modify-image").click();
+		// } else
+		// 	document.getElementById("modify-image-2").click();
+
+
+		// let msg = this.utilService.getAlertMessage([
+		// 	{name: 'msg', label: 'NODE_DELETE_NODE_MESSAGE_1'},
+		// 	{name: 'msg', label: 'NODE_DELETE_NODE_MESSAGE_2'},
+		// ]);
+		// this.utilService.alertConfirm('NODE_DELETE_NODE_MESSAGE', msg, 'CANCEL', 'OK').then((res) => {
+		// 	console.log('onDelete - res:' , res)
+		// 	if (res.data) {
+		// 		// https://stackoverflow.com/questions/11620698/how-to-trigger-a-file-download-when-clicking-an-html-button-or-javascript
+		// 		document.getElementById("modify-image").click()
+		// 		// this.utilService.presentToast(this.languageService.getTranslation('FILE_MODIFY_DOWNLOAD_COMPLETE'), 5000);
+		// 	}
+		// });
+	}
+
   imageOnSelect(event: any): void {
-
-		this.resetModes();
-
-		this.manageMode = true;
-		this.imageMode = true;
-
     const files = [...event.target.files]
+		// console.log('imageOnSelect - files: ', files);
     if (this.imageFiles.length == 0) {
         this.imageFiles = files;
     } else {
@@ -392,11 +666,13 @@ export class FilePage implements OnInit {
           this.imageFiles.push(file);
       });
     }
+		// console.log('imageOnSelect - imageFiles: ', this.imageFiles);
+		event.target.value = null;
   }
 
   imageOnDelete(file:File) {
     if (DEBUGS.FILE)
-      console.log('FilePage - onFileDelete');
+      console.log('FilePage - imageOnDelete: ', this.imageFiles);
     let index = this.imageFiles.findIndex((f:File) => f.name == file.name);
     if (index != -1) {
       const files:File[] = [];
@@ -405,16 +681,8 @@ export class FilePage implements OnInit {
           files.push(this.imageFiles[i])
       }
       this.imageFiles = files;
+			// console.log('imageOnDelete - imageFiles: ', this.imageFiles);
     }
-  }
-
-	imageOnView1(file: any) {
-		if (DEBUGS.FILE)
-      console.log('imageViewMode - file: ', file);
-    this.imageViewMode = true;
-    this.imageFileName = file.name;
-		const img = document.getElementById('image-view');
-		img.setAttribute('src', file.url);
   }
 
   imageOnView(file:File) {
@@ -433,35 +701,37 @@ export class FilePage implements OnInit {
   }
 
   imageOnUpload(file:File) {
-    console.log('FilePage - onFileUpload');
-    const name:string = file.name;
-    this.imageUploadFile(file, this.ancestor).then((res: any) => {
-      if (DEBUGS.FILE)
-        console.log('onFileUpload - res: ', res);
-			let message = this.languageService.getTranslation('FILE_UPLOAD_FILE') + ': ' + name;
-			this.utilService.presentToast(message);
-    });
+    console.log('FilePage - imageOnUpload');
+    const photo:string = file.name;
+		this.photoUpload(photo, this.ancestor, null, file);
+		// ????
+    // this.imageUploadFile(file, this.ancestor).then((res: any) => {
+    //   if (DEBUGS.FILE)
+    //     console.log('onFileUpload - res: ', res);
+		// 	let message = this.languageService.getTranslation('FILE_UPLOAD_FILE') + ': ' + name;
+		// 	this.utilService.presentToast(message);
+    // });
   }
 
-  imageUploadFile(file:File, ancestor) {
-    return new Promise((resolve) => {
-      const name = file.name;
-      var myReader: FileReader = new FileReader();
-			myReader.readAsDataURL(file);
-			myReader.onload = ((event:any) => {
-				let base64 = event.target.result;
-				base64 = base64.replace("data:", "").replace(/^.+,/, "");
-				// const id = name.substring(0, name.lastIndexOf('.'));
-				// const storageId = ancestor + '-' + this.utilService.getDateID(true) + '-' + id;
-				// const storageId = ancestor + '/' + id;
-				const storageId = name;
-				console.log('uploadLocalImage - storageId: ', storageId);
-				this.fbService.addImage(base64, 1, ancestor, storageId).then(urlStorage => {
-					resolve({storageId: storageId, urlStorage: 'urlStorage'});
-				});
-			});
-    });
-  }
+  // imageUploadFile(file:File, ancestor) {
+  //   return new Promise((resolve) => {
+  //     const name = file.name;
+  //     var myReader: FileReader = new FileReader();
+	// 		myReader.readAsDataURL(file);
+	// 		myReader.onload = ((event:any) => {
+	// 			let base64 = event.target.result;
+	// 			base64 = base64.replace("data:", "").replace(/^.+,/, "");
+	// 			// const id = name.substring(0, name.lastIndexOf('.'));
+	// 			// const storageId = ancestor + '-' + this.utilService.getDateID(true) + '-' + id;
+	// 			// const storageId = ancestor + '/' + id;
+	// 			const storageId = name;
+	// 			console.log('uploadLocalImage - storageId: ', storageId);
+	// 			this.fbService.addImage(base64, 1, ancestor, storageId).then(urlStorage => {
+	// 				resolve({storageId: storageId, urlStorage: 'urlStorage'});
+	// 			});
+	// 		});
+  //   });
+  // }
 
 	// --- storageMode ---
 
@@ -473,8 +743,9 @@ export class FilePage implements OnInit {
     //   return;
     // }
     this.resetModes();
-    this.manageMode = true;
+    this.manageMode = false;
     this.storageMode = true;
+
 		// console.log('storageReadFiles - storageMode: ', this.storageMode);
 
     this.fbService.getFileList(this.ancestor).then((res:any) => {
@@ -482,17 +753,27 @@ export class FilePage implements OnInit {
       if (DEBUGS.FILE)
         console.log('onStorageFile - res: ', res);
     });
-
   }
 
   storageOnDelete(file: any) {
     if (DEBUGS.FILE)
       console.log('onStorageDelete');
-    this.fbService.deleteImage(this.ancestor, file.name).then((status:any) => {
-      this.fbService.getFileList(this.ancestor).then((res:any) => {
-        this.storageFiles = res;
-        console.log('FilePage - res: ', res);
-      });
+
+		let msg = this.utilService.getAlertMessage([
+			{name: 'msg', label: 'FILE_STORAGE_DELETE_1'},
+			{name: 'data', label: file.name},
+			{name: 'msg', label: 'FILE_STORAGE_DELETE_2'},
+		]);
+    this.utilService.alertConfirm('FILE_STORAGE_DELETE', msg, 'CANCEL', 'OK').then((res) => {
+      // console.log('onDelete - res:' , res)
+      if (res.data) {
+				this.fbService.deleteImage(this.ancestor, file.name).then((status:any) => {
+					this.fbService.getFileList(this.ancestor).then((res:any) => {
+						this.storageFiles = res;
+						// console.log('FilePage - res: ', res);
+					});
+				});
+      }
     });
   }
 
@@ -502,7 +783,7 @@ export class FilePage implements OnInit {
     this.storageViewMode = true;
     this.storageFileName = file.name;
 		if (['png', 'jpg', 'jpeg'].indexOf(file.type) > -1) {
-      console.log('onStorageView - type: ', file.type);
+      // console.log('onStorageView - type: ', file.type);
       let img = document.getElementById('storage-view');
 			if (!img) {
 				// some time too early to activate dom, wait 200 ms
@@ -516,68 +797,6 @@ export class FilePage implements OnInit {
       window.open(file.url);
     }
   }
-
-	 // --------- photo ----------
-	
-  photoSave() {
-    // save new photo
-		if (this.photoBase64 != '' && this.photo != '') {
-			// let photoName = this.nodeService.getPhotoName(this.node, true);
-			let photoName = this.photo;
-			let base64 = this.photoBase64;
-			let type = base64.substring('data:'.length, base64.indexOf(';'));
-			base64 = base64.replace("data:", "").replace(/^.+,/, "");
-			this.fbService.addImage(base64, type, this.ancestor, photoName).then(urlStorage => {
-				this.utilService.presentToast(this.languageService.getTranslation('FILE_PHOTO_SAVE') + photoName, 5000);
-			});
-		} else {
-		}
-  }
-
-  photoDelete() {
-    this.photoBase64 = '';
-    this.photoNew = true;
-		this.photo = '';
-  }
-
-  photoEdit() {
-    this.openCropperModal(this.photoBase64, true);
-  }
-
-	photoGetFile(event: any): void {
-    const files = [...event.target.files]
-		const file = files[0];
-		this.modifyFileObject = file;
-		// console.log('file: ', file);
-		const name = file.name;
-		const myReader: FileReader = new FileReader();
-		myReader.readAsDataURL(file);
-		myReader.onload = ((event:any) => {
-			let base64 = event.target.result;
-			// base64 = base64.replace("data:", "").replace(/^.+,/, "");
-			// console.log('fileName: ', name)
-			this.photoBase64 = base64;
-			this.photoNew = true;
-			this.photo = name;
-		});
-  }
-
-  async openCropperModal(photoBase64: any, url: any) {
-    const cropperModal = await this.modalCtrl.create({
-      component: CropperModalPage,
-      componentProps: {
-        'caller': 'NodePage',
-        'data': photoBase64,
-        'url': url
-      },
-			backdropDismiss:false
-    });
-    await cropperModal.present();
-    const { data } = await cropperModal.onDidDismiss();
-    if (data.result) {
-      this.photoBase64 = data.result;
-      this.photoNew = true;
-    }
-  }
+	 
 }
 

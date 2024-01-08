@@ -268,11 +268,11 @@ export class NodeService {
 
 		if (node.yob != '' && node.yod == '') {
 			str += '<br/><i>(' + node.yob + ')</i>';
-			str += '<br/>Sống: ' + node.por;
+			str += '<br/><b>Sống:</b> ' + node.por;
 		} else if (node.yod != '') {
 			str += '<br/><i>(' + node.yob + '-' + node.yod + ')</i>';
-			str += '<br/>Giỗ: ' + node.dod + ' (Âm lịch)'
-			str += '<br/>Mộ: ' + node.pod;
+			str += '<br/><b>Giỗ:</b> ' + node.dod + ' (Âm lịch)'
+			str += '<br/><b>Mộ:</b> ' + node.pod;
 		}
 		return str;
   }
@@ -414,7 +414,7 @@ export class NodeService {
 		// remove empty data
 		if (srcNode.nick != '') node.nick = srcNode.nick;
 		if (srcNode.yob != '') node.yob = srcNode.yob;
-		if (srcNode.yod != '') node.yob = srcNode.yod;
+		if (srcNode.yod != '') node.yod = srcNode.yod;
 		if (srcNode.pob != '') node.pob = srcNode.pob;
 		if (srcNode.pod != '') node.pod = srcNode.pod;
 		if (srcNode.por != '') node.por = srcNode.por;

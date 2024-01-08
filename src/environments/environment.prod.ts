@@ -19,23 +19,30 @@ export const FONTS_FOLDER = '../../assets/fonts/';
 
 export const DEBUGS = {
   'APP': true,
-  'SPLASH': true,
-  'TABS': true,
-  'MEMORY': true,
+  'SPLASH': false,
+  'TABS': false,
+  'MEMORY': false,
+  'PERSON': true,
   'NODE': true,
-  'TREE': true,
-  'EDIT': true,
-  'CROPPER': true,
+  'BRANCH': false,
+  'DOCS': true,
+  'TREE': false,
+  'EDIT': false,
+  'CROPPER': false,
   'FILE': true,
-  'FAMILY_SERVICE': true,
-  'UTIL_SERVICE': true,
-  'DATA_SERVICE': true,
-  'FIREBASE_SERVICE': true,
+  'FAMILY_SERVICE': false,
+  'UTIL_SERVICE': false,
+  'DATA_SERVICE': false,
+  'FIREBASE_SERVICE': false,
 };
 
 export const DRAGON = 'dragon';
 export const VILLAGE = 'village';
 export const TREE = 'tree';
 export const COUNTRY = 'country';
+export const SMALL_SIZE = 'small';
+export const MEDIUM_SIZE = 'medium';
+export const LARGE_SIZE = 'large';
+
 
 

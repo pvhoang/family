@@ -81,6 +81,17 @@ export class FirebaseService {
 		});
 	}
 
+	async saveDocsData(ancestor: any, docs: any) {
+		return new Promise((resolve) => {
+      this.readAncestorData(ancestor).subscribe((rdata:any) => {
+				rdata.docs = docs;
+				this.saveAncestorData(rdata).then((status:any) => {
+          resolve(true);
+        });
+			});
+		});
+	}
+
 	readAncestorData(ancestor: string): Observable<any> {
 		return from(
 			new Promise((resolve, reject) => {
@@ -97,17 +108,6 @@ export class FirebaseService {
 			})
 		)
 	}
-
-	// async saveDocsData(ancestor, data: any) {
-	// 	return new Promise((resolve, reject) => {
-	// 		let rdata = {};
-	// 		for (var key of Object.keys(data))
-	// 			rdata[key] = JSON.stringify(data[key]);
-	// 		this.setDocsData(ancestor, rdata).then((res:any) => {
-	// 			resolve(true);
-	// 		});
-	// 	});
-	// }
 
 	async saveAppData(data: any) {
 		return new Promise((resolve, reject) => {
@@ -131,15 +131,23 @@ export class FirebaseService {
 	}
 
 	async saveBackupFamily(ancestor: any, family: any, id: any) {
-		return new Promise((resolve, reject) => {
-			this.setBackupFamily(ancestor, family, id).then((res:any) => {
+		return new Promise((resolve) => {
+			let rfamily = {};
+			for (var key of Object.keys(family))
+				rfamily[key] = JSON.stringify(family[key]);
+			this.setBackupFamily(ancestor, rfamily, id).then((res:any) => {
 				resolve(true);
+			})
+			.catch((error) => {
+				console.log('saveBackupFamily - ', error.message);
+				resolve(false);
 			});
 		});
 	}
 
-	async saveBackupDocs(ancestor: any, docs: any, id: any) {
-		return new Promise((resolve, reject) => {
+	async saveBackupDocs(ancestor: any, docs: any) {
+		let id = this.utilService.getDateID();
+		return new Promise((resolve) => {
 			this.setBackupDocs(ancestor, docs, id).then((res:any) => {
 				resolve(true);
 			});
@@ -153,21 +161,6 @@ export class FirebaseService {
 		const docRef = doc(this.firestore, collection, documentId);
 		return updateDoc(docRef, document);
 	}
-
-	// addImage(base64: string, storageFolder, storageId: string) {
-	// 	return new Promise((resolve) => {
-	// 		const storageRef = ref(this.storage, storageFolder + '/' + storageId);
-	// 		uploadString(storageRef, base64, 'base64', {
-	// 			contentType: 'image/jpeg'
-	// 		}).then((snapshot) => {
-	// 			// console.log('Uploaded a base64 string!');
-	// 			getDownloadURL(snapshot.ref).then(url => {
-	// 				// console.log('addImage - url: ', url);
-	// 				resolve(url);
-	// 			});
-	// 		})
-	// 	})
-	// }
 
 	deleteImage(storageFolder, storageId: string) {
 		return new Promise((resolve) => {
@@ -183,7 +176,6 @@ export class FirebaseService {
 			});
 		});
 	}
-
 
 	addText(text: string, storageFolder:string, storageId: string) {
 		return new Promise((resolve) => {
@@ -210,9 +202,9 @@ export class FirebaseService {
 				contentType: type
 			})
 			.then((snapshot) => {
-				console.log('Uploaded a base64 string!');
+				// console.log('Uploaded a base64 string!');
 				getDownloadURL(snapshot.ref).then(url => {
-					console.log('addImage - url: ', url);
+					// console.log('addImage - url: ', url);
 					resolve(url);
 				});
 			})
@@ -239,16 +231,16 @@ export class FirebaseService {
 				// https://firebase.google.com/docs/storage/web/handle-errors
 				switch (error.code) {
 					case 'storage/object-not-found':
-						console.log('File does not exist');
+						console.log('ERROR - File does not exist');
 						break;
 					case 'storage/unauthorized':
-						console.log('User does not have permission to access the object');
+						console.log('ERROR - User does not have permission to access the object');
 						break;
 					case 'storage/canceled':
-						console.log('User canceled the upload');
+						console.log('ERROR - User canceled the upload');
 						break;
 					case 'storage/unknown':
-						console.log('Unknown error occurred, inspect the server response');
+						console.log('ERROR - Unknown error occurred, inspect the server response');
 						break;
 				}
 				resolve(null);
@@ -277,23 +269,66 @@ export class FirebaseService {
 				// https://firebase.google.com/docs/storage/web/handle-errors
 				switch (error.code) {
 					case 'storage/object-not-found':
-						console.log('File does not exist');
+						console.log('ERROR - File does not exist');
 						break;
 					case 'storage/unauthorized':
-						console.log('User does not have permission to access the object');
+						console.log('ERROR - User does not have permission to access the object');
 						break;
 					case 'storage/canceled':
-						console.log('User canceled the upload');
+						console.log('ERROR - User canceled the upload');
 						break;
 					case 'storage/unknown':
-						console.log('Unknown error occurred, inspect the server response');
+						console.log('ERROR - Unknown error occurred, inspect the server response');
 						break;
 				}
 				resolve(null);
 			});
 		})
 	}
-	
+
+	// getPhotoNames1(storageFolder:string) {
+	// 	return new Promise((res) => {
+	// 		const storage = getStorage();
+	// 		const r = ref(storage, storageFolder + '/');
+	// 		listAll(r).then((data) => {
+	// 			let promises = [];
+	// 			for (let i = 0; i < data.items.length; i++) {
+	// 				promises.push(
+	// 					new Promise((resolve) => {
+	// 						let name = data.items[i].name;
+	// 						if (name.indexOf('.png') > 0 || name.indexOf('.jpg') > 0 || name.indexOf('.jpeg') > 0) {
+	// 							console.log('name1: ', name)
+	// 							let sname = name.substring(0, name.indexOf('.'));
+	// 							let textFile = sname + '.txt';
+	// 							console.log('textFile: ', textFile)
+	// 							this.downloadText(storageFolder, textFile).then(text => {
+	// 								if (text) {
+	// 									console.log('text: ', text)
+	// 									// there is some caption data, add to name
+	// 									name += '|' + text;
+	// 								}
+	// 								// names.push(name);
+	// 								resolve(name);
+	// 							})
+	// 						}
+	// 						// resolve(null);
+	// 					})
+	// 				)
+	// 			}
+	// 			Promise.all(promises).then(resolves => {
+	// 				let names = [];
+	// 				console.log('resolves = ', resolves);
+	// 				for (let i = 0; i < resolves.length; i++) {
+	// 					let name = resolves[i];
+	// 					if (name)
+	// 						names.push(name);
+	// 				}
+	// 				res(names);
+	// 			});
+	// 		})
+	// 	});
+	// }
+
 	getPhotoNames(storageFolder:string) {
 		return new Promise((resolve) => {
 			const storage = getStorage();
@@ -302,13 +337,23 @@ export class FirebaseService {
 				let names = [];
 				for (let i = 0; i < data.items.length; i++) {
 					let name = data.items[i].name;
-					if (name.indexOf('.png') > 0 || name.indexOf('.jpg') > 0 || name.indexOf('.jpeg') > 0) {
-						console.log('name1: ', name)
+					if (name.indexOf('.png') > 0 || name.indexOf('.jpg') > 0 || name.indexOf('.jpeg') > 0)
 						names.push(name);
+				}
+				for (let i = 0; i < names.length; i++) {
+					let name = names[i];
+					let sname = name.substring(0, name.indexOf('.'));
+					let textFile = sname + '.txt';
+					for (let j = 0; j < data.items.length; j++) {
+						let srcName = data.items[j].name;
+						if (srcName.indexOf(textFile) == 0) {
+							names[i] += '|' + textFile;
+							break;
+						}
 					}
 				}
 				resolve(names);
-			});
+			})
 		});
 	}
 
@@ -344,16 +389,14 @@ export class FirebaseService {
 				// console.log('data: ', data);
 				for (let i = 0; i < data.items.length; i++) {
 				// console.log('data: ', data.items[i]);
-
 					let name = data.items[i].name;
 					let newref = ref(storage, storageFolder + '/' + data.items[i].name);
-
 					getMetadata(newref).then((metadata) => {
 						// Metadata now contains the metadata for 'images/forest.jpg'
-						console.log('metadata: ', metadata);
+						// console.log('metadata: ', metadata);
 						let type = metadata.contentType;
-						let size = metadata.size;
-						type = (type.indexOf('image') >= 0) ? 'jpg' : 'html';
+						let size = metadata.size.toLocaleString('vn-VN');
+						// type = (type.indexOf('image') >= 0) ? 'jpg' : 'html';
 						getDownloadURL(newref).then((url) => {
 							filelist.push({
 								name: name,
@@ -364,6 +407,7 @@ export class FirebaseService {
 						});
 
 					}).catch((error) => {
+						console.log('ERROR - FirebaseService - getFileList:', error)
 						// Uh-oh, an error occurred!
 					});
 					// let url = getDownloadURL(newref).then((data) => {

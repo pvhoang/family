@@ -249,98 +249,16 @@ ion-tab-button {
 
 // --- FILE ---
 
-.file {
-  .section{
-    background: var(--app-background-color);
-    color: white;
-    font-size: var(--app-text-font-size-medium);
-    height:26px;
-    // margin-top: 10px;
-    // margin-bottom: 10px;
-    position: relative; 
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    // margin: auto;
-    .span{
-      margin: 0;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      -ms-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
-    }
-  }
-  .label{
-    font-weight: bold;
-    font-size: var(--app-text-font-size-small);
-  }
-  .image{
-    width: 80px; // 4/3 w/h to match cropper-modal
-    height: 60px;
-  }
-  .imageContainer > img:hover {
-    width: 240px;
-    height: 180px;
-  }
 
-  .input{
-    border: solid 1px red;
-    border-radius: 5px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    font-size: var(--app-text-font-size-small);
-  }
-  .textarea{
-    border: solid 1px red;
-    border-radius: 5px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    font-size: var(--app-text-font-size-small);
-  }
-  .select-input{
-    border: solid 1px red !important;
-    border-radius: 5px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-    font-size: var(--app-text-font-size-small) !important;
-  }
-  .select{
-    margin-top: 8px;
-    margin-bottom: 8px;
-    font-size: var(--app-text-font-size-small);
-  }
-  .text-scroll{
-    word-wrap: break-word;
-  }
-  .hilite_button {
-    background: var(--app-background-color);
-    width: 100px; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .icon {
-      font-size: var(--app-icon-font-size-small);
-      color: var(--app-color);
-    }
-    .label {
-      font-size: var(--app-text-font-size-small);
-      // color: $background_color_node;
-      color: var(--app-color);
-    }
-    .button {
-      --padding-start: 5px;
-      --padding-end: 5px;
-    }
-  }
+.file {
 	.grid {
 		--ion-grid-column-padding: 10px;
 		width: 100%;
 		font-size: var(--app-text-font-size-medium);
 		ion-row:first-child {
 			font-weight: bold;
-			color: white;
+			// color: white;
+			color: var(--app-color);
 			background-color: var(--app-background-color);
 			font-size: var(--app-text-font-size-medium);
 		}
@@ -355,32 +273,59 @@ ion-tab-button {
 		ion-row:last-child {
 			border-bottom: 1px solid black;
 		}
-		.button {
-      --padding-start: 0px;
-      --padding-end: 0px;
+		.row-heading {
+			// background: var(--app-background-color);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		.column {
+			width: 100px; 
+			display: flex;
+			align-items: center;
+			justify-content: center;
 			.icon {
-				background-color: var(--app-background-color);
 				font-size: var(--app-icon-font-size-medium);
 				color: var(--app-color);
+				background: var(--app-background-color);
 			}
-    }
-		
+			.label {
+				font-size: var(--app-text-font-size-medium);
+				// color: $background_color_node;
+				// color: var(--app-color);
+			}
+			.button {
+				--padding-start: 5px;
+				--padding-end: 5px;
+			}
+		}
 	}
 }
 
 // --- HOME.PAGE.HTML ---
 
-.home-container {
-  display: inline-block;
+.home-container-left{
+	display: flex;
+	justify-content: left;
+}
+.home-container-center {
+	display: flex;
+	justify-content: center;
+}
+.home-container-right {
+	display: flex;
+	justify-content: right;
 }
 
 .home-no-expand {
   box-sizing: border-box;
   width: 0px;
   min-width: 100%;
-  background: pink;
+  // background: pink;
   padding: 10px;
 	text-align:center;
+	// color: var(--app-background-color);
+	font-size: var(--app-text-font-size-medium);
 }
 
 // --- EDIT ---
@@ -388,7 +333,8 @@ ion-tab-button {
 .editor {
   .section{
     background: var(--app-background-color);
-    color: white;
+    // color: white;
+		color: var(--app-color);
     font-size: var(--app-text-font-size-medium);
     height:26px;
     // margin-top: 10px;
@@ -482,6 +428,24 @@ ion-tab-button {
 // https://stackoverflow.com/questions/2643305/centering-a-background-image-using-css
 // https://coder-coder.com/background-image-opacity/
 
+.screen-app {
+  position: relative; 
+  height: var(--app-screen-height);
+  width: 100%;
+}
+.screen-app::before {    
+  content: "";
+  background-image: var(--url-ion-content-node);
+  background-size: cover;
+  background-position: center center;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.20;
+}
+
 .screen-memory {
   position: relative; 
   height: var(--app-screen-height);
@@ -562,6 +526,11 @@ ion-tab-button {
   justify-content: center;
 }
 
+.center-both-way {
+  display: flex;
+  align-items: center;
+}
+
 .center-both {
   display: flex;
   align-items: center;
@@ -591,15 +560,17 @@ ion-tab-button {
       margin-bottom:10px;
       margin-left:20px;
       h2 {
-        color: white;
+        // color: white;
         background-color: var(--app-background-color);
         font-size: var(--app-alert-font-size);
+				color: var(--app-color);
       }
     }
     .alert-message {
       text-align: left;
       font-size: var(--app-alert-font-size);
       color: black;
+			// color: var(--app-color);
       line-height: 120%;
     }
     .alert-button-group {
@@ -608,20 +579,23 @@ ion-tab-button {
       margin-top: 26px;
     }
     .alert-button:first-child {
-      color: white;
+      // color: white;
+			color: var(--app-color);
       background-color: var(--app-background-color);
       height: 26px;
       text-transform: none;
     }
     .alert-button:nth-child(1){
-      color: white;
+      // color: white;
+			color: var(--app-color);
       background-color: var(--app-background-color);
       height: 26px;
       text-transform: none;
     }
     .alert-button:nth-child(2){
       background-color: var(--app-background-color);
-      color: white;
+      // color: white;
+			color: var(--app-color);
       height: 26px;
       text-transform: none;
     }
@@ -634,16 +608,67 @@ ion-tab-button {
       margin-right: auto;
       width: 50%;
     }
+
+  }
+
+	.bottom-button-group {
+		justify-content: center;
+		height: 60px;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		.bottom {
+			position: relative;
+			display: inline-block;
+		}
+		
+		.bottom .label {
+			width: 100px;
+			background-color: var(--app-background-color);
+			color: var(--app-color);
+			text-align: center;
+			padding: 5px 0;
+			border-radius: 6px;
+			position: absolute;
+			z-index: 1;
+		}
+		
+		.bottom .button {
+			--padding-start: 5px;
+			--padding-end: 5px;
+		}
+	}
+
+	
+	/* Show the tooltip text when you mouse over the tooltip container */
+	.bottom:hover .label {
+		visibility: visible;
+	}
+
+	.label {
+		// font-size: var(--app-text-font-size-medium);
+		font-size: var(--app-text-font-size-large);
+		// color: $background_color_node;
+		color: var(--app-color);
+	}
+	.button {
+		--padding-start: 5px;
+		--padding-end: 5px;
+	}
+}
+
+.alert-test-1 {
+  --height: var(--app-alert-height);
+  --width: var(--app-alert-width);
+  --background: var(--app-background-color);
+	&::part(message) {
+    text-align: center;
+    font-size: var(--app-toast-font-size);
   }
 }
 
 .toast-dialog {
-  // --min-height: var(--app-alert-height);
-  // --min-width: var(--app-alert-min-width);
   --height: var(--app-toast-height);
   --width: var(--app-toast-width);
-  // --height: var(--app-alert-height);
-  // --width: var(--app-alert-min-width);
   --background: var(--app-background-color);
   &::part(message) {
     text-align: center;
@@ -653,7 +678,8 @@ ion-tab-button {
 
 .toast-wait {
   --height: 70px;
-  color: white;
+  // color: white;
+	color: var(--app-color);
   font-size: var(--app-toast-font-size);
 
   .toast-wrapper {
@@ -663,7 +689,8 @@ ion-tab-button {
     }
     .toast-head {
       h2 {
-        color: white;
+        // color: white;
+				color: var(--app-color);
         background-color: var(--app-background-color);
         font-size: var(--app-toast-font-size);
       }
@@ -704,7 +731,8 @@ ion-tab-button {
     }
     .span {
       background-color: var(--app-background-color);
-      color: white;
+      // color: white;
+			color: var(--app-color);
       height: 30px;
       font-size: var(--app-text-font-size-medium);
       padding-top: 0px;
@@ -734,41 +762,6 @@ ion-tab-button {
   padding-left: 150px;
 }
 
-// .popover-history {
-//   --min-height: var(--app-alert-height) !important;
-//   --min-width: var(--app-alert-min-width) !important;
-//   .popover-heading {
-//     .label {
-//       font-size: var(--app-text-font-size-medium);
-//     }
-//     .icon {
-//       background: var(--app-background-color);
-//       font-size: var(--app-icon-font-size-medium);
-//       color: var(--app-color);
-//     }
-//     .span {
-//       background-color: var(--app-background-color);
-//       color: white;
-//       height: 30px;
-//       font-size: var(--app-text-font-size-medium);
-//       padding-top: 0px;
-//       padding-bottom: 10px;
-//       padding-right: 10px;
-//       padding-left: 10px;
-//     }
-//   }
-//   .message {
-//     margin-left:20px;
-//     margin-right:10px;
-//     font-size: var(--app-icon-font-size-medium);
-//   }
-//   .image {
-//     display: block;
-//     margin-left: auto;
-//     margin-right: auto;
-//     width: 80%;
-//   }
-// }
 
 // --- GRID ---
 
@@ -778,7 +771,8 @@ ion-tab-button {
   font-size: var(--app-text-font-size-medium);
   ion-row:first-child {
     font-weight: bold;
-    color: white;
+    // color: white;
+		color: var(--app-color);
     background-color: var(--app-background-color);
     font-size: var(--app-text-font-size-medium);
   }
@@ -1327,10 +1321,6 @@ html .ng-dropdown-panel .ng-dropdown-panel-items {
       .image {
         width: 100px; // 4/3 w/h to match cropper-modal
         height: 75px;
-        // width: 60px; // 4/3 w/h to match cropper-modal
-        // height: 45px;
-        // width: 40px; // 4/3 w/h to match cropper-modal
-        // height: 30px;
         // https://www.educative.io/answers/how-to-enlarge-an-image-on-hover-in-html
         &:hover{
           transform:scale(5.0);

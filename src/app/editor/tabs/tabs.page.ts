@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router'; 
-// import { TranslateService } from '@ngx-translate/core';
 import { UtilService } from '../../services/util.service';
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
 
@@ -16,7 +15,6 @@ export class TabsPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    // public translate: TranslateService,
     private utilService: UtilService,
   ) {}
 

@@ -270,15 +270,15 @@ export class FamilyService {
     // build diff based src and mod nodes
     let mNodes = {};
     modNodes.forEach((node:any) => {
-			if (node.name == 'Trần Thị Nhung')
-				console.log('compareFamilies - modNodes: ', node)
+			// if (node.name == 'Trần Thị Nhung')
+			// 	console.log('compareFamilies - modNodes: ', node)
       let name = node.name + '_' + node.level;
       mNodes[name] = node;
     })
     let sNodes = {};
     srcNodes.forEach((node:any) => {
-			if (node.name == 'Trần Thị Nhung')
-				console.log('compareFamilies - srcNodes: ', node)
+			// if (node.name == 'Trần Thị Nhung')
+			// 	console.log('compareFamilies - srcNodes: ', node)
       let name = node.name + '_' + node.level;
       sNodes[name] = node;
     })
@@ -315,12 +315,31 @@ export class FamilyService {
     return results;
   }
 
+
+	comparePrintNode(message, localFamily, remoteFamily, newFamily?) {
+		let remoteNodes = this.nodeService.getFamilyNodes(remoteFamily, true);
+		let machineNodes = this.nodeService.getFamilyNodes(localFamily, true);
+		const remoteNode = remoteNodes.find((element) => element.name == 'Phan Dính');
+		const machineNode = machineNodes.find((element) => element.name == 'Phan Dính');
+		console.log('comparePrintNode - message: ' , message);
+		console.log('remote Node:' , remoteNode);
+		console.log('machine Node:' , machineNode);
+		if (newFamily) {
+			let newNodes = this.nodeService.getFamilyNodes(newFamily, true);
+			const newNode = newNodes.find((element) => element.name == 'Phan Dính');
+			console.log('new Node:' , newNode);
+		}
+	}
+
   public getSyncFamily(srcFamily:any, modFamily:any, compareResults:any, info: any) {
 
     let srcFullFamily = this.buildFullFamily(srcFamily);
     let modFullFamily = this.buildFullFamily(modFamily);
     let modNodes = this.nodeService.getFamilyNodes(modFullFamily, true);
     let srcNodes = this.nodeService.getFamilyNodes(srcFullFamily, true);
+
+		// this.comparePrintNode('getSyncFamily - start', modFamily, srcFamily);
+		// console.log('compareResults:' , compareResults);
 
     // build diff based src and mod nodes
     let sNodes = {};
@@ -359,6 +378,7 @@ export class FamilyService {
         }
       }
     }
+		// this.comparePrintNode('getSyncFamily - end', modFamily, srcFamily);
     let family = this.getFilterFamily(modFullFamily);
     return family;
   }
@@ -371,6 +391,7 @@ export class FamilyService {
       v = '00' + version;
     else if (version < 1000)
       v = '0' + version;
+    // return v + '-' + this.utilService.getShortDateID();
     return v + '-' + this.utilService.getShortDateID();
   }
 
@@ -466,7 +487,7 @@ export class FamilyService {
       }
     }
     nodes = this.nodeService.getFamilyNodes(filterFamily);
-    console.log('getSelectedFamily - nodes: ', nodes);
+    // console.log('getSelectedFamily - nodes: ', nodes);
     nodes.forEach((node:any) => {
       node.spanDetail = this.nodeService.getSpanNodeStr(node);
     })
@@ -501,9 +522,9 @@ export class FamilyService {
       })
     }
 
-    console.log('getSelectedPerson - filterFamily: ', filterFamily);
+    // console.log('getSelectedPerson - filterFamily: ', filterFamily);
     let nodes = this.nodeService.getFamilyNodes(filterFamily);
-    console.log('getSelectedPerson - nodes2: ', nodes);
+    // console.log('getSelectedPerson - nodes2: ', nodes);
     nodes.forEach((node:any) => {
       node.spanDetail = this.nodeService.getSpanPersonStr(node);
     })

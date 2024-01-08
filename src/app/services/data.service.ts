@@ -165,15 +165,15 @@ export class DataService {
     })
   }
 
-  readDocs(converted?) {
+  readDocs() {
     return new Promise((resolve) => {
       this.readItem('ANCESTOR_DATA').then((adata:any) => {
-        resolve(converted ? adata.docs[1] : adata.docs[0]);
+        resolve(adata.docs);
       });
     })
   }
 
-  saveDocs(docs) {
+  saveDocs(docs: any) {
     return new Promise((resolve) => {
       this.readItem('ANCESTOR_DATA').then((adata:any) => {
         adata.docs = docs;

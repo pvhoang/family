@@ -6,8 +6,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FamilyTreeModule } from '../../components/family-tree/family-tree.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { HomePage } from './home.page';
-// import { PersonPage } from '../person/person.page';
-// import { NodePage } from '../node/vnode.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 

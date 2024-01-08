@@ -1,14 +1,21 @@
 import { Component, OnInit, ViewChild  } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { DomSanitizer } from '@angular/platform-browser';
-import { environment, FONTS_FOLDER, DEBUGS, DRAGON, VILLAGE, TREE, COUNTRY } from '../environments/environment';
+import { environment, FONTS_FOLDER, DEBUGS, DRAGON, VILLAGE, TREE, COUNTRY, SMALL_SIZE, MEDIUM_SIZE, LARGE_SIZE } from '../environments/environment';
 import { DataService } from './services/data.service';
 import { UtilService } from './services/util.service';
 import { ThemeService } from './services/theme.service';
 import { LanguageService } from './services/language.service';
+import { TranslateService } from "@ngx-translate/core";
 import { NodeService } from './services/node.service';
 import { FamilyService } from './services/family.service';
 import { FirebaseService } from './services/firebase.service';
+
+const THEME = 'theme';
+const LANGUAGE = 'language';
+const SIZE = 'size';
+const VIETNAMESE = 'vi';
+const ENGLISH = 'en';
 
 const RESET_DATA = false;
 
@@ -24,8 +31,7 @@ const URL_UPDATE_VERSION = '/aupdate';
 const URL_EDIT = 'aedit';
 
 // user
-const URL_THEME = '/utheme'
-const URL_LANGUAGE = '/ulang'
+const URL_SETTING = '/usetting'
 const URL_DELETE = '/udel';
 
 @Component({
@@ -41,6 +47,10 @@ export class AppComponent implements OnInit {
   startApp:any = false;
 	fileUrl: any;
 	fileName: any;
+	theme: any;
+	language: any;
+	size: any;
+
 	@ViewChild('popover') popover: any;
 	isOpen = false;
 
@@ -50,11 +60,11 @@ export class AppComponent implements OnInit {
     private utilService: UtilService,
     private themeService: ThemeService,
     private languageService: LanguageService,
+    private translate: TranslateService,
     private nodeService: NodeService,
     private familyService: FamilyService,
     private fbService: FirebaseService,
 		private sanitizer: DomSanitizer,
-
   ) {
     if (DEBUGS.APP)
       console.log('AppComponent - constructor');
@@ -64,35 +74,48 @@ export class AppComponent implements OnInit {
     // get URL
     let strings = window.location.href.split(window.location.host);
     let url = strings[strings.length-1];
-
     if (DEBUGS.APP)
       console.log('AppComponent - ngOnInit -  url: ', url);
     this.url = url;
-
-    this.themeService.setTheme(VILLAGE, true);
-
-    if (RESET_DATA)
-			this.setJsonPhanFamily().then((status) => {});
-
-    if (url == URL_DELETE)
-      this.deleteLocal();
-    else if (url == URL_DELETE_OPEN)
-      this.deleteOpen(true);
-    else if (url == URL_DELETE_NEW)
-      this.deleteOpen(false);
-    else if (url == URL_UPDATE_VERSION)
-      this.updateVersion();
-    else if (url == URL_THEME)
-      this.selectTheme();
-    else if (url == URL_LANGUAGE)
-      this.selectLanguage();
-    else {
-      this.selectAncestor(url).then((status) => {
-        if (status)
-          this.initializeApp();
-      })
-    }
+		this.initializeUI().then((status) => {
+			if (RESET_DATA)
+				this.setJsonPhanFamily().then((status) => {});
+			if (url == URL_DELETE)
+				this.deleteLocal();
+			else if (url == URL_DELETE_OPEN)
+				this.deleteOpen(true);
+			else if (url == URL_DELETE_NEW)
+				this.deleteOpen(false);
+			else if (url == URL_UPDATE_VERSION)
+				this.updateVersion();
+			else if (url == URL_SETTING)
+				// this.createAncestor();
+				this.setSetting();
+			else {
+				this.selectAncestor(url).then((status) => {
+					if (status)
+						this.initializeApp();
+				})
+			}
+		});
   }
+
+  initializeUI() {
+		return new Promise((resolve) => {
+			this.loadTheme().then((theme:any) => {
+				this.theme = theme;
+				this.loadLanguage().then((language:any) => {
+					this.language = language;
+					this.loadSize().then((size:any) => {
+						this.size = size;
+						if (DEBUGS.APP)
+							console.log('theme, language, size: ', this.theme, this.language, this.size)
+						resolve (true);
+					});
+				});
+			});
+		});
+	}
 
   initializeApp() {
     // let str = this.platform.platforms().toString();
@@ -103,11 +126,10 @@ export class AppComponent implements OnInit {
     // ios: iphone, ios, phablet, mobile, mobileweb
     environment.android = this.platform.is('android');
     this.updateVersionData().then(stat => {
-      this.updateAppData();
-      // load app theme and language
-      this.loadTheme().then((stat:any) => {});
-      this.loadLanguage().then((stat:any) => {});
-      this.startUp = true;
+      this.updateAppData().then(status => {
+				if (status)
+					this.startUp = true;
+			});
     });
   }
 
@@ -140,73 +162,83 @@ export class AppComponent implements OnInit {
     });
   }
 
-  selectTheme() {
-    let inputs = [
-      { type: 'radio', label: this.getTranslation('APP_THEME_DRAGON'), value: DRAGON, checked: true },
-      { type: 'radio', label: this.getTranslation('APP_THEME_VILLAGE'), value: VILLAGE, checked: false },
-      { type: 'radio', label: this.getTranslation('APP_THEME_TREE'), value: TREE, checked: false },
-      { type: 'radio', label: this.getTranslation('APP_THEME_COUNTRY'), value: COUNTRY, checked: false }
-    ];
-    this.utilService.alertRadio(this.getTranslation('APP_THEME'), '', inputs , this.getTranslation('CANCEL'), this.getTranslation('OK')).then(result => {
-      if (DEBUGS.APP)
-        console.log('AppComponent - selectThemes - result: ', result);
-      if (result.data) {
-        let theme = result.data;
-
-        console.log('AppComponent - selectTheme - theme: ', theme);
-
-        this.dataService.saveItem('THEME', theme).then((status:any) => {
-          let themeText = '';
-          for (let i = 0; i < inputs.length; i++) {
-            if (theme == inputs[i].value) {
-              themeText = inputs[i].label;
-              break;
-            }
-          }
-          this.presentToast(['APP_NEW_THEME', themeText]);
-        });
+	async setSetting() {
+		let title = this.translate_instant('APP_SETTING');
+    let cancel = this.translate_instant('CANCEL');
+    let ok = this.translate_instant('OK');
+    let selects = [
+      {   id: THEME,
+					value: this.theme,
+					label: this.translate_instant('APP_THEME'),
+					placeholder: this.translate_instant('APP_THEME'),
+					items: [
+						{ label: this.translate_instant('APP_THEME_DRAGON'), value: DRAGON },
+						{ label: this.translate_instant('APP_THEME_VILLAGE'), value: VILLAGE },
+						{ label: this.translate_instant('APP_THEME_TREE'), value: TREE },
+						{ label: this.translate_instant('APP_THEME_COUNTRY'), value: COUNTRY },
+					]
+      },
+			{   id: LANGUAGE,
+					value: this.language,
+					label: this.translate_instant('APP_LANGUAGE'),
+					placeholder: this.translate_instant('APP_LANGUAGE'),
+					items: [
+						{ label: this.translate_instant('APP_LANGUAGE_VIETNAMESE'), value: VIETNAMESE },
+						{ label:  this.translate_instant('APP_LANGUAGE_ENGLISH'), value: ENGLISH },
+					]
+      },
+			{   id: SIZE,
+					value: this.size,
+					label: this.translate_instant('APP_SIZE'),
+					placeholder: this.translate_instant('APP_SIZE'),
+					items: [
+						{ label: this.translate_instant('APP_SMALL_SIZE'), value: SMALL_SIZE },
+						{ label: this.translate_instant('APP_MEDIUM_SIZE'), value: MEDIUM_SIZE },
+						{ label: this.translate_instant('APP_LARGE_SIZE'), value: LARGE_SIZE },
+					]
       }
-    });
-  }
-
-  selectLanguage() {
-    let inputs = [
-      { type: 'radio', label: this.getTranslation('APP_LANGUAGE_VIETNAMESE'), value: 'vi', checked: true },
-      { type: 'radio', label:  this.getTranslation('APP_LANGUAGE_ENGLISH'), value: 'en', checked: false },
-    ];
-    this.utilService.alertRadio(this.getTranslation('APP_LANGUAGE'), '', inputs , this.getTranslation('CANCEL'), this.getTranslation('OK')).then(result => {
-      if (DEBUGS.APP)
-        console.log('AppComponent - selectLanguage - result: ', result);
+    ]
+    this.utilService.alertSelect(title, selects , cancel, ok, 'alert-dialog').then((result:any) => {
       if (result.data) {
-        let lang = result.data;
-        // this.languageService.setLanguage(lan);
-        this.dataService.saveItem('LANGUAGE', lang).then((status:any) => {
-          let langStr = (lang == 'vi') ? this.getTranslation('APP_LANGUAGE_VIETNAMESE') : this.getTranslation('APP_LANGUAGE_ENGLISH');
-          this.presentToast(['APP_NEW_LANGUAGE', langStr]);
-        });
+				console.log('AppComponent - setSetting - data: ', result.data);
+				if (result.data.status == 'save') {
+					let values = result.data.values;
+					let theme = values[THEME];
+					console.log('AppComponent - setSetting - theme: ', theme);
+					if (theme)
+						this.dataService.saveItem(THEME, theme).then((status:any) => {});
+					let language = values[LANGUAGE];
+					if (language)
+						this.dataService.saveItem(LANGUAGE, language).then((status:any) => {});
+					let size = values[SIZE];
+					if (size)
+						this.dataService.saveItem(SIZE, size).then((status:any) => {});
+				} else {
+				}
+				this.presentToast(['APP_NEW_SETTING']);
       }
-    });
+    })
   }
-
+  
   createAncestor() {
-    let title = this.getTranslation('APP_ANCESTOR');
-    let cancel = this.getTranslation('CANCEL');
-    let ok = this.getTranslation('OK');
+    let title = this.translate_instant('APP_ANCESTOR');
+    let cancel = this.translate_instant('CANCEL');
+    let ok = this.translate_instant('OK');
 
     let inputs = [
-      {   placeholder: this.getTranslation('APP_ANCESTOR_NAME'),
+      {   placeholder: this.translate_instant('APP_ANCESTOR_NAME'),
           attributes: { maxlength: 30 },
       },
-      {   placeholder: this.getTranslation('APP_ANCESTOR_LOCATION'),
+      {   placeholder: this.translate_instant('APP_ANCESTOR_LOCATION'),
           attributes: { maxlength: 30 },
       },
-      {   placeholder: this.getTranslation('APP_ANCESTOR_DESCRIPTION'),
+      {   placeholder: this.translate_instant('APP_ANCESTOR_DESCRIPTION'),
           attributes: { maxlength: 30 },
       },
-      {   placeholder: this.getTranslation('APP_ANCESTOR_ROOT_NAME'),
+      {   placeholder: this.translate_instant('APP_ANCESTOR_ROOT_NAME'),
           attributes: { maxlength: 30 },
       },
-      {   placeholder: this.getTranslation('APP_ANCESTOR_ROOT_YEAR'),
+      {   placeholder: this.translate_instant('APP_ANCESTOR_ROOT_YEAR'),
           attributes: { maxlength: 30 },
       },
     ]
@@ -244,7 +276,7 @@ export class AppComponent implements OnInit {
             inputs.push({ type: 'radio', label: label, value: info.id, checked: checked })
           }
         })
-        this.utilService.alertRadio('ANCESTOR', '', inputs , this.getTranslation('CANCEL'), this.getTranslation('OK')).then(result => {
+        this.utilService.alertRadio('ANCESTOR', '', inputs , this.translate_instant('CANCEL'), this.translate_instant('OK')).then(result => {
           if (DEBUGS.APP)
             console.log('AppComponent - selectAncestor - result: ', result);
           if (result.data) {
@@ -284,18 +316,18 @@ export class AppComponent implements OnInit {
 							let fversion = sdata.family.version;
 							if (DEBUGS.APP)
 								console.log('AppComponent - selectAncestor - fversion: ', fversion);
-								// now check remote version
-								this.fbService.readAncestorData(sdata.info.id).subscribe((rdata:any) => {
-									let rversion = rdata.family.version;
-									console.log('AppComponent - selectAncestor - fversion, rversion: ', fversion, rversion);
-									if (rversion != fversion) {
-										this.presentToast(['APP_NEW_FAMILY', rversion]);
-										this.dataService.saveItem('ANCESTOR_DATA', rdata).then((status:any) => {
-											resolve (true);
-										});
-									}
-									resolve(true);
-								});
+							// now check remote version
+							this.fbService.readAncestorData(sdata.info.id).subscribe((rdata:any) => {
+								let rversion = rdata.family.version;
+								console.log('AppComponent - selectAncestor - fversion, rversion: ', fversion, rversion);
+								if (rversion != fversion) {
+									this.presentToast(['APP_NEW_FAMILY', rversion]);
+									this.dataService.saveItem('ANCESTOR_DATA', rdata).then((status:any) => {
+										resolve (true);
+									});
+								}
+								resolve(true);
+							});
               resolve(true);
             }
           });
@@ -336,27 +368,40 @@ export class AppComponent implements OnInit {
 
   loadTheme() {
     return new Promise((resolve) => {
-      this.dataService.readItem('THEME').then((theme:any) => {
+      this.dataService.readItem(THEME).then((theme:any) => {
         console.log('AppComponent - loadTheme - theme: ', theme);
         if (!theme) {
           this.themeService.setTheme(DRAGON);
         } else
           this.themeService.setTheme(theme);
-        resolve (true);
+        resolve (theme);
+      });
+    })
+  }
+
+	loadSize() {
+    return new Promise((resolve) => {
+      this.dataService.readItem(SIZE).then((size:any) => {
+        console.log('AppComponent - loadSize - size: ', size);
+        if (!size) {
+          this.themeService.setSize(MEDIUM_SIZE);
+        } else
+          this.themeService.setSize(size);
+        resolve (size);
       });
     })
   }
 
   loadLanguage() {
     return new Promise((resolve) => {
-      this.dataService.readItem('LANGUAGE').then((language:any) => {
+      this.dataService.readItem(LANGUAGE).then((language:any) => {
         console.log('AppComponent - loadLanguage - language: ', language);
         if (!language) {
-          language = 'vi';
-          this.dataService.saveItem('LANGUAGE', 'vi').then((status:any) => {});
+          language = VIETNAMESE;
+          this.dataService.saveItem(LANGUAGE, 'vi').then((status:any) => {});
         }
         this.languageService.setLanguage(language);
-        resolve (true);
+        resolve (language);
       });
     })
   }
@@ -393,36 +438,44 @@ export class AppComponent implements OnInit {
   }
 
   updateAppData() {
-    this.dataService.readFamilyAndInfo().then((data:any) => {
-      let family = data.family;
-      let info = data.info;
-      if (DEBUGS.APP)
-        console.log('AppComponent - updateAppData - local family version: ', family.version);
-      // update screen height
-      let nodes = this.nodeService.getFamilyNodes(family);
-      this.themeService.setScreenSize(nodes);
-      // this.themeService.setScreen();
-      // get photo names from Storage
-      let ancestor = info.id;
-      this.fbService.getPhotoNames(ancestor).then((names:any) => {
-				this.dataService.saveItem('photos', { "id": "photos",	"data": names }).then((status:any) => {});
-      })
-			// always update docs data from Firebase
-			this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
-				let docs = rdata.docs;
-				// parse docs
-				this.updateDocs(ancestor, docs);
+    return new Promise((resolve) => {
+			this.dataService.readFamilyAndInfo().then((data:any) => {
+				let family = data.family;
+				let info = data.info;
+				if (DEBUGS.APP)
+					console.log('AppComponent - updateAppData - local family version: ', family.version);
+				// update screen height
+				let nodes = this.nodeService.getFamilyNodes(family);
+				this.themeService.setScreenSize(nodes);
+				// this.themeService.setScreen();
+				// get photo names from Storage
+				let ancestor = info.id;
+				this.fbService.getPhotoNames(ancestor).then((names:any) => {
+					this.dataService.saveItem('photos', { "id": "photos",	"data": names }).then((status:any) => {});
+				})
+				// always update docs data from Firebase
+				this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
+					if (DEBUGS.APP)
+						console.log('AppComponent - updateAppData - rdata: ', rdata);
+					let docs = rdata.docs;
+					// parse docs
+					this.updateDocs(ancestor, docs);
+					resolve(true);
+				});
 			});
-    });
+		});
   }
 	
 	updateDocs(ancestor: any, docs: any) {
+		if (DEBUGS.APP)
+        console.log('AppComponent - updateDocs - docs: ', docs);
 		let newDocs:any = {};
-		// collect all image files: "[abc.png]"
+		// collect all image files: '"[abc.png]"'
 		let images = [];
 		for (var key of Object.keys(docs)) {
 			let data = docs[key];
-			newDocs[key] = data;
+			// create new text for all docs
+			docs[key].newText = data.text.slice(0);
 			// collect all images data between quotation ""
 			const matches = data.text.match(/"(.*?)"/g);
 			if (matches) {
@@ -445,29 +498,67 @@ export class AppComponent implements OnInit {
 			promises.push(
 				new Promise((resolve) => {
 					// break down detail: image,size,caption
+					console.log('imageStr: ', imageStr);
+					// phan-loi-hanh.jpg,small,Hello Gia pha
+					// phan-loi-hanh.jpg,2,phan-loi-hanh.txt
+
 					let items = imageStr.split(',');
-					let image = items[0];
-					let size = '1';
+					let imageFile = items[0];
+					let style = '1';
 					if (items.length > 1)
-						size = items[1];
-					let caption = (items.length > 2) ? items[2] : '';
-					this.fbService.downloadImage(ancestor, image).then((imageURL:any) => {
+						style = items[1];
+					let captionStr: string = (items.length > 2) ? items[2] : '';
+					// check if captionStr is text file
+					let captionFile = (captionStr.endsWith('.txt')) ? captionStr : '';
+
+					// caption is file txt
+					this.fbService.downloadImage(ancestor, imageFile).then((imageURL:any) => {
 						// <img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600">
 						let html = '<img src="' + imageURL + '"';
-						let width = 300;
-						let height = 200;
+						
+						let size = style.charAt(0);
+						let justify = 'center';
+						if (style.length > 1)
+							justify = style.charAt(1) == 'l' ? 'left' : (style.charAt(1) == 'c' ? 'center' : 'right');
+						let container = (justify == 'center' ? 'home-container-center' : (justify == 'left' ? 'home-container-left' : 'home-container-right'));
+
+						let width = 200;
+						let height = 150;
 						if (size == '2') {
-							width = 350;
-							height = 250;
+							width = 250;
+							height = 200;
 						} else if (size == '3') {
-							width = 400;
-							height = 300;
+							width = 300;
+							height = 200;
 						}
 						// https://stackoverflow.com/questions/30686191/how-to-make-image-caption-width-to-match-image-width
-						html += ' width="' + width + '" height="' + height + '" alt="' + image + '">'
-						if (caption != '')
-							html = '<div class="home-container">' + html + '<div class="home-no-expand">' + caption + '</div>'
-						resolve({imageStr: '"[' + imageStr + ']"', html: html});
+						html += ' width="' + width + '" height="' + height + '" alt="' + imageFile + '">'
+						if (captionFile != '') {
+							this.fbService.downloadText(ancestor, captionFile).then((text:any) => {
+								captionStr = text;
+								html = 
+								'<br/>' +
+								'<div class="' + container + '">' + html + '/div>' +
+								'<div class="' + + container + ' home-no-expand">' + captionStr + '</div>' +
+								'<br/>'
+								resolve({imageStr: '"[' + imageStr + ']"', html: html});
+							});
+						} else {
+							html = 
+								'<br/>' + 
+								'<div class="' + container + '">' + html + '</div>';
+							if (captionStr != '')
+								html += 
+								'<div class="' + container + ' home-no-expand">' + captionStr + '</div>';
+							html += '<br/>'
+							console.log('html = ', html);
+							resolve({imageStr: '"[' + imageStr + ']"', html: html});
+						}
+						
+						// if (captionStr != '')
+						// 	html = '<div class="home-container">' + html + '<div class="home-no-expand">' + captionStr + '</div>'
+						// resolve({imageStr: '"[' + imageStr + ']"', html: html});
+
 					})
 					.catch((error) => {
 						resolve(null);
@@ -481,17 +572,14 @@ export class AppComponent implements OnInit {
 				let data = resolves[i];
 				let imageStr = data.imageStr;
 				let html = data.html;
-				// if (!data) {
-					// search for "[image]", replace with html
-					for (var key of Object.keys(docs)) {
-						let data = docs[key];
-						let text = data.text;
-						let newText = text.replaceAll(imageStr,html);
-						newDocs[key].text = newText;
-					}
-				// }
+				for (var key of Object.keys(docs)) {
+					let data = docs[key];
+					let text = data.text.slice(0);
+					let newText = text.replaceAll(imageStr,html);
+					docs[key].newText = newText;
+				}
 			}
-			this.dataService.saveDocs([docs, newDocs]).then((docs:any) => {});
+			this.dataService.saveDocs(docs).then((docs:any) => {});
 		});
   }
 
@@ -603,20 +691,21 @@ export class AppComponent implements OnInit {
 
   presentToast(keys: any) {
     let msgs = [];
-    msgs.push({name: 'msg', label: this.getTranslation(keys[0])});
+    msgs.push({name: 'msg', label: this.translate_instant(keys[0])});
     if (keys.length > 1)
       msgs.push({name: 'data', label: keys[1]});
     if (keys.length > 2)
-      msgs.push({name: 'msg', label: this.getTranslation(keys[2])});
+      msgs.push({name: 'msg', label: this.translate_instant(keys[2])});
     let message = this.utilService.getAlertMessage(msgs);
     this.utilService.presentToast(message);
-    // this.utilService.presentToastWait(this.getTranslation('INFO'), message, this.getTranslation('OK') );
+    // this.utilService.presentToastWait(this.translate_instant('INFO'), message, this.translate_instant('OK') );
   }
 
-  getTranslation(key:any) {
+	translate_instant(key:any) {
     // get temp translation till language service is activated
     const vi = {
-      "APP_ANCESTOR": "Phả tộc",
+
+			"APP_ANCESTOR": "Phả tộc",
       "APP_NO_ANCESTOR": "Phả tộc chưa được tạo!",
       "APP_OK_ANCESTOR": "Phả tộc mới đã được tạo. ID: ",
       "APP_LOCAL_MEMORY_DELETED": "Dữ liệu trong máy đã được xóa!",
@@ -639,6 +728,8 @@ export class AppComponent implements OnInit {
       "APP_ANCESTOR_ROOT_NAME": "Hệ bắt đầu (vd. Phan Viết Hoàng)",
       "APP_ANCESTOR_ROOT_YEAR": "Năm sinh (vd. 1953)",
 
+      "APP_SETTING": "Thông số",
+
       "APP_NEW_THEME": "Hệ thống dùng theme mới: ",
       "APP_THEME": "Theme",
       "APP_THEME_VILLAGE": "Làng",
@@ -651,18 +742,53 @@ export class AppComponent implements OnInit {
       "APP_LANGUAGE_VIETNAMESE": "Tiếng Việt",
       "APP_LANGUAGE_ENGLISH": "Tiếng Anh",
 
-			"APP_NEW_FAMILY": "Hệ thống dùng dữ liệu mới. Ấn bản: ",
+			"APP_NEW_SIZE": "Hệ thống dùng font size mới: ",
+      "APP_SIZE": "Cỡ font",
+      "APP_SMALL_SIZE": "Nhỏ",
+      "APP_MEDIUM_SIZE": "Vừa",
+      "APP_LARGE_SIZE": "Lớn",
 
-      "APP_UPLOAD": "Upload file lên Firebase: ",
-      "APP_FILE_INVALID": "File không hợp lệ!",
-      "APP_FILE_EMPTY": "File không có dữ liệu!",
-			
       "INFO": "Thông báo",
       "ERROR": "Lỗi",
       "WARNING": "Cảnh báo",
       "OK": "OK",
       "CANCEL": "Thoát",
+
+      // "APP_ANCESTOR": "Phả tộc",
+
+			// "APP_LOCAL_MEMORY_DELETED": "Dữ liệu trong máy đã được xóa!",
+			// "APP_NEW_VERSION_IS_UPDATED": "Ấn bản mới đã được cập nhật!",
+			// "APP_OK_ANCESTOR": "Phả tộc mới đã được tạo. ID: ",
+			// "APP_NO_ANCESTOR": "Phả tộc chưa được tạo!",
+			// "APP_NA_LINK_1": "Đường dẫn '",
+			// "APP_NA_LINK_2": "' không hợp lệ!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
+			// "APP_EMPTY_ANCESTOR": "Phả tộc chưa được kích hoạt trong hệ thống!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.'",
+			// "APP_NEW_FAMILY": "Hệ thống dùng dữ liệu mới. Ấn bản: ",
+			// "APP_NA_ANCESTOR_1": "Phả tộc '",
+			// "APP_NA_ANCESTOR_2": "' không có trong hệ thống!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
+			// "APP_NEW_ANCESTOR_1": "Phả tộc '",
+			// "APP_NEW_ANCESTOR_2": "' đã được khởi động!<br/>Kết nối: <i>giapha.web.app</i>",
+			// "APP_APP_VERSIONS_NOT_SAME_1": "Ấn bản trên máy đã cũ: ",
+			// "APP_APP_VERSIONS_NOT_SAME_2": ". Yêu cầu xóa cache và chạy lại (F5)!",
+			// "APP_NEW_THEME": "Hệ thống dùng theme mới: ",
+			// "APP_THEME": "Theme",
+			// "APP_THEME_VILLAGE": "Làng",
+			// "APP_THEME_TREE": "Cây",
+			// "APP_THEME_DRAGON": "Rồng",
+			// "APP_THEME_COUNTRY": "Quê",
+			// "APP_LANGUAGE_NEW": "Hệ thống dùng ngôn ngữ mới: ",
+			// "APP_LANGUAGE": "Ngôn ngữ",
+			// "APP_LANGUAGE_VIETNAMESE": "Tiếng Việt",
+			// "APP_LANGUAGE_ENGLISH": "Tiếng Anh",
+
+      // "INFO": "Thông báo",
+      // "ERROR": "Lỗi",
+      // "WARNING": "Cảnh báo",
+      // "OK": "OK",
+      // "CANCEL": "Thoát",
     }
-    return vi[key];
+
+    return vi[key] ? vi[key] : key;
   }
+  
 }

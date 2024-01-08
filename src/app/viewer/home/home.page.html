@@ -2,16 +2,7 @@
 
 <div id="book">
 	<div class="flip-book">
-  <!-- <div class="page-screen"> -->
-	  
-			<!-- <div class="page page-cover page-cover-top" data-density="hard">
-				<div class="page-content">
-					<h2 class="page-header-cover">{{pageData.gia_pha.title}}</h2>
-				</div>
-			</div> -->
-
 			<div class="page page-cover page-cover-top" data-density="hard">
-			<!-- <div class="page"> -->
 				<div class="page-content">
 					<h2 class="page-header-cover">{{pageData.muc_luc.title}}</h2>
 					<div class="page-list">
@@ -25,36 +16,26 @@
 						</ul>
 					</div>
 					<div class="page-footer"><u><i>ML</i></u></div>
-					<!-- <div class="page-footer"></div> -->
 				</div>
 			</div>
 
 			<div *ngFor="let page of specialPageData.pha_nhap">
-
 				<div class="page">
-
 					<div class="page-content">
-					<!-- <div> -->
 						<h2 class="page-header">{{page.title}}</h2>
-						<!-- <h2 >{{page.title}}</h2> -->
-						<div class="w3-container">
+						<div class="w3-container page-text scroll">
 							<span [innerHtml]="page.text"></span>
 						</div>
-						<!-- <span [innerHtml]="page.text"></span> -->
 						<div class="page-footer">{{page.index}} - <span class="page-span" (click)="toPage('root')"><u><i>ML</i></u></span></div>
 					</div>
-
-					<!-- <div class="page-footer">{{page.index}} - <span class="page-span" (click)="toPage('root')"><u><i>ML</i></u></span></div> -->
-
 				</div>
-
 			</div>
 
 			<div *ngFor="let page of specialPageData.pha_ky">
 				<div class="page">
 					<div class="page-content">
 						<h2 class="page-header">{{page.title}}</h2>
-						<div class="w3-container">
+						<div class="w3-container page-text">
 							<span [innerHtml]="page.text"></span>
 						</div>
 						<div class="page-footer">{{page.index}} - <span class="page-span" (click)="toPage('root')"><u><i>ML</i></u></span></div>
@@ -65,31 +46,21 @@
 			<div class="page">
 				<div class="page-content">
 					<h2 class="page-header">{{pageData.pha_he.title}}</h2>
-					<div class="w3-container">
-
-							<!-- <ion-card-header class="section" >
-								<ion-button class="button" fill="clear" (click)="onPhaHe()">
-									<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}cog-outline.svg" class="icon"></ion-icon>
-								</ion-button>
-								<span class="span">&nbsp;{{ 'HOME_VIEW_NODE' | translate }}</span>
-							</ion-card-header> -->
-							
-								<ion-item class="header-book">
-									<ion-col size="4" class="heading">
-									</ion-col>
-									<ion-col size="4" class="heading" (click)="onPhaHe()">
-										<ion-button class="button" fill="clear">
-											<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}account-multiple-outline.svg" class="icon"></ion-icon>
-										</ion-button>
-										<span class="label">{{ 'HOME_VIEW_NODE' | translate }}</span>
-									</ion-col>
-									<ion-col size="4" class="heading">
-									</ion-col>
-								</ion-item>
-
-						<br>
-						<br>
+					<div class="w3-container page-text">
 						<span [innerHtml]="pageData.pha_he.text"></span>
+						<br>
+						<ion-item class="header-book">
+							<ion-col size="4" class="heading">
+							</ion-col>
+							<ion-col size="4" class="heading" (click)="onPhaHe()">
+								<ion-button class="button" fill="clear">
+									<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}account-multiple-outline.svg" class="icon"></ion-icon>
+								</ion-button>
+								<span class="label">{{ 'HOME_VIEW_NODE' | translate }}</span>
+							</ion-col>
+							<ion-col size="4" class="heading">
+							</ion-col>
+						</ion-item>
 					</div>
 					<div class="page-footer">{{pageData.pha_he.index}} - <span class="page-span" (click)="toPage('root')"><u><i>ML</i></u></span></div>
 				</div>
@@ -98,8 +69,14 @@
 			<div class="page">
 				<div class="page-content">
 					<h2 class="page-header">{{pageData.pha_do.title}}</h2>
-					<div class="w3-container">
-						
+					<div class="w3-container page-text">
+						<!-- <div class="editor">
+							<ion-card-header class="section" (click)="onPhaDo()">
+								<span class="span">&nbsp;{{ 'HOME_VIEW_TREE' | translate }}</span>
+							</ion-card-header>
+						</div> -->
+						<span [innerHtml]="pageData.pha_do.text"></span>
+						<br>
 						<ion-item class="header-book">
 							<ion-col size="4" class="heading">
 							</ion-col>
@@ -112,15 +89,6 @@
 							<ion-col size="4" class="heading">
 							</ion-col>
 						</ion-item>
-
-						<!-- <div class="editor">
-							<ion-card-header class="section" (click)="onPhaDo()">
-								<span class="span">&nbsp;{{ 'HOME_VIEW_TREE' | translate }}</span>
-							</ion-card-header>
-						</div> -->
-						<br>
-						<br>
-						<span [innerHtml]="pageData.pha_do.text"></span>
 					</div>
 					<div class="page-footer">{{pageData.pha_do.index}} - <span class="page-span" (click)="toPage('root')"><u><i>ML</i></u></span></div>
 				</div>
@@ -130,7 +98,7 @@
 				<div class="page">
 					<div class="page-content">
 						<h2 class="page-header">{{page.title}}</h2>
-						<div class="w3-container">
+						<div class="w3-container page-text">
 							<span [innerHtml]="page.text"></span>
 						</div>
 						<div class="page-footer">{{page.index}} - <span class="page-span" (click)="toPage('root')"><u><i>ML</i></u></span></div>
@@ -142,7 +110,7 @@
 				<div class="page">
 					<div class="page-content">
 						<h2 class="page-header">{{page.title}}</h2>
-						<div class="w3-container">
+						<div class="w3-container page-text">
 							<span [innerHtml]="page.text"></span>
 						</div>
 						<div class="page-footer">{{page.index}} - <span class="page-span" (click)="toPage('root')"><u><i>ML</i></u></span></div>

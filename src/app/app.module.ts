@@ -15,16 +15,23 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
 import { CropperModalPageModule } from './editor/file/cropper-modal/cropper-modal.module';
+import { PopoverComponent } from './components/popover/popover.component';
+import { SelectComponent } from './components/select/select.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
+
 @NgModule({
     declarations: [
         AppComponent, 
-        SplashScreenComponent
+        SplashScreenComponent,
+				PopoverComponent,
+    SelectComponent
     ],
+		schemas: [CUSTOM_ELEMENTS_SCHEMA],
     imports: [
 			BrowserModule,
 			IonicModule.forRoot({
@@ -33,7 +40,6 @@ export function createTranslateLoader(http: HttpClient) {
 			AppRoutingModule,
 			HttpClientModule,
 			CropperModalPageModule,
-
 			TranslateModule.forRoot({
 					loader: {
 							provide: TranslateLoader,

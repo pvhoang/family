@@ -22,8 +22,8 @@
     <ion-col size="6" class="heading">
       <span class="label" [innerHtml]="message"></span>
     </ion-col>
-    <ion-col size="6" class="heading" (click)="onSave()">
-      <ion-button class="button" fill="clear" (click)="saveDocs()">
+    <ion-col size="6" class="heading" (click)="saveDocs()">
+      <ion-button class="button" fill="clear">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}content-save-outline.svg" class="icon"></ion-icon>
       </ion-button>
       <span class="label">{{ 'SAVE' | translate }}</span>

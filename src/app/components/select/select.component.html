@@ -1,0 +1,44 @@
+<ion-header>
+	<ion-item class="header-top">
+    <ion-col size="12" class="heading">
+      <span class="label">{{ title }}</span>
+    </ion-col>
+  </ion-item>
+</ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+	<div class="screen-node editor">
+		<div *ngFor="let select of selects">
+			<ion-item>
+				<ion-label position="stacked">
+					{{select.label}}
+				</ion-label>
+				<!-- https://stackoverflow.com/questions/66121348/cant-set-default-value-to-ion-select-ionic-v4 -->
+				<!-- <ion-select value="{{select.value}}" [(ngModel)]="select.value" placeholder="{{select.placeholder}}" -->
+				<ion-select value="{{select.value}}" placeholder="{{select.placeholder}}"
+					(ionChange)="handleChange($event, select)"
+					(ionCancel)="handleCancel()"
+					(ionDismiss)="handleDismiss()"
+				>
+					<!-- <ion-select-option *ngFor="let item of select.items" [value]="employee" value="{{item.value}}" [selected]="true">{{item.label}}</ion-select-option> -->
+					<ion-select-option *ngFor="let item of select.items" value="{{item.value}}">{{item.label}}</ion-select-option>
+				</ion-select>
+			</ion-item>
+		</div>
+
+		<ion-item class="alert-dialog bottom-button-group">
+			<ion-col size="6" class="bottom" (click)="onCancel()">
+				<!-- <ion-button class="button" fill="clear" (click)="onCancel()">
+					<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
+				</ion-button> -->
+				<span class="label">{{ 'CANCEL' | translate }}</span>
+			</ion-col>
+			<ion-col size="6" class="bottom" (click)="onSave()">
+				<!-- <ion-button class="button" fill="clear" (click)="onSave()">
+					<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}content-save-outline.svg" class="icon"></ion-icon>
+				</ion-button> -->
+				<span class="label">{{ 'SAVE' | translate }}</span>
+			</ion-col>
+		</ion-item>
+	</div>
+
+</ion-content>

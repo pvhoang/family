@@ -1,14 +1,14 @@
 <ion-header>
   <ion-item class="header-bottom">
-    <ion-col size="6" class="heading" (click)="onCancel()">
-      <ion-button class="app-ion-button" fill="clear" (click)="onCancel()">
-        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="app-ion-icon-material"></ion-icon>
-      </ion-button>
-      <span class="label">{{ 'CANCEL' | translate }}</span>
-    </ion-col>
+		<ion-col size="6" class="heading" (click)="onCancel()">
+			<ion-button class="button" fill="clear">
+				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
+			</ion-button>
+			<span class="label">{{ 'CANCEL' | translate }}</span>
+		</ion-col>
     <ion-col size="6" class="heading" (click)="onSave()">
-      <ion-button class="app-ion-button" fill="clear" (click)="onSave()">
-        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}content-save-outline.svg" class="app-ion-icon-material"></ion-icon>
+      <ion-button class="button" fill="clear">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}content-save-outline.svg" class="icon"></ion-icon>
       </ion-button>
       <span class="label">{{ 'SAVE' | translate }}</span>
     </ion-col>

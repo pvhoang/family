@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FamilyTreeModule } from '../../components/family-tree/family-tree.module';
-import { PopoverComponent } from '../../components/popover/popover.component';
+// import { PopoverComponent } from '../../components/popover/popover.component';
 
 import { BranchPageRoutingModule } from './branch-routing.module';
 
@@ -22,6 +22,7 @@ import { BranchPage } from './branch.page';
     TranslateModule,
     BranchPageRoutingModule
   ],
-  declarations: [BranchPage, PopoverComponent]
+  // declarations: [BranchPage, PopoverComponent]
+  declarations: [BranchPage]
 })
 export class BranchPageModule {}

@@ -115,34 +115,31 @@
   --app-color: #fee8b9;
   --app-background-color: #063970;
 
-  
-
   --app-screen-height: 700px;
   --app-screen-height-vertical-tree: 700px;
 
   --app-logo: url("../assets/icon/gia-pha-dragon.png");
   --app-three-dots: url("../assets/icon/three-dots-red.svg");
 
+  --app-text-font-size-tiny: 12px;			// 10px
+  --app-text-font-size-small: 14px;
+  --app-text-font-size-medium: 16px;
+  --app-text-font-size-large: 18px;
+  --app-text-font-size-extra-large: 20px;
 
-  --app-text-font-size-tiny: 10px;
-  --app-text-font-size-small: 12px;
-  --app-text-font-size-medium: 14px;
-  --app-text-font-size-large: 16px;
-  --app-text-font-size-extra-large: 18px;
-
-  --app-alert-font-size: 14px;
+  --app-alert-font-size: 16px;		// 14px;
   --app-alert-width: 350px;
   --app-alert-height: 150px;
 
-  --app-toast-font-size: 14px;
+  --app-toast-font-size: 16px;		// 14px;
   --app-toast-height: 50px;
   --app-toast-width: 350px;
 
-  --app-icon-font-size-tiny: 10px;
-  --app-icon-font-size-small: 12px;
-  --app-icon-font-size-medium: 14px;
-  --app-icon-font-size-large: 16px;
-  --app-icon-font-size-extra-large: 18px;
+  --app-icon-font-size-tiny: 12px;	// 10px;
+  --app-icon-font-size-small: 14px;
+  --app-icon-font-size-medium: 16px;
+  --app-icon-font-size-large: 18px;
+  --app-icon-font-size-extra-large: 20px;
 
   --url-ion-content: url("../assets/common/tree/tree.png");
   --url-ion-content-splash: url("../assets/common/tree/tree.png");
