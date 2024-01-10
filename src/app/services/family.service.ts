@@ -8,6 +8,8 @@ import { DEBUGS } from '../../environments/environment';
 import { CalendarVietnamese } from 'date-chinese';
 import { Family, Node} from './family.model';
 
+const DAY_COUNT = 2;
+
 @Injectable({
 	providedIn: 'root'
 })
@@ -188,7 +190,7 @@ export class FamilyService {
         let nodeLevel = 1;
         family.nodes.forEach(node => {
           const dayCount = this.isMemorialComing(node.dod);
-          if (dayCount >= 0 && dayCount < 15) {
+          if (dayCount >= 0 && dayCount < DAY_COUNT) {
             let name = node.name + ' (' + this.languageService.getTranslation('GENERATION_SHORT') + nodeLevel + ')';
             let dod = node.dod;
             msg.push([name, dod, dayCount]);
@@ -219,7 +221,7 @@ export class FamilyService {
   private passAwayFamilyNode(family:Family, nodeLevel: number, msg: any[]) {
     family.nodes.forEach(node => {
       const dayCount = this.isMemorialComing(node.dod);
-      if (dayCount >= 0 && dayCount < 15) {
+      if (dayCount >= 0 && dayCount < DAY_COUNT) {
         let name = node.name + ' (' + this.languageService.getTranslation('GENERATION_SHORT') + nodeLevel + ')';
         let dod = node.dod;
         msg.push([name, dod, dayCount]);

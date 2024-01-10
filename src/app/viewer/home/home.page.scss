@@ -96,11 +96,14 @@
     .page-text {
 			height: 100%;
       flex-grow: 1;
-      font-size: 120%;
+      font-size: var(--app-icon-font-size-medium);
+      // font-size: 60%;
       text-align: justify;
       margin-top: 10px;
       padding-top: 10px;
       box-sizing: border-box;
+      // font-family: "Milleniale";
+      font-family: var('--ion-font-family');
     }
 
     .page-footer {

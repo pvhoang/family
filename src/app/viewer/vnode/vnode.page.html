@@ -1,6 +1,12 @@
 <ion-header>
   <ion-item class="header-top">
-    <ion-col size="1">
+    <ion-col size="3" class="heading" (click)="onExit()">
+      <ion-button class="button" fill="clear" (click)="onExit()">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
+      </ion-button>
+      <span class="label">{{ 'CANCEL' | translate }}</span>
+    </ion-col>
+		<ion-col size="1">
     </ion-col>
     <ion-col size="7">
       <ng-select
@@ -15,12 +21,6 @@
       </ng-select>
     </ion-col>
     <ion-col size="1">
-    </ion-col>
-    <ion-col size="3" class="heading" (click)="onExit()">
-      <ion-button class="button" fill="clear" (click)="onExit()">
-        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
-      </ion-button>
-      <span class="label">{{ 'CANCEL' | translate }}</span>
     </ion-col>
   </ion-item>
 

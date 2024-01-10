@@ -4,15 +4,15 @@
 	<div class="flip-book">
 			<div class="page page-cover page-cover-top" data-density="hard">
 				<div class="page-content">
-					<h2 class="page-header-cover">{{pageData.muc_luc.title}}</h2>
+					<h2 class="page-header-cover">{{ 'HOME_TITLE' | translate }}</h2>
 					<div class="page-list">
 						<ul class="list">
-							<li><span class="page-span" (click)="toPage('pha_nhap')"><u><i>Lời mở đầu</i></u></span></li>
-							<li><span class="page-span" (click)="toPage('pha_ky')"><u><i>Phả ký</i></u></span></li>
-							<li><span class="page-span" (click)="toPage('pha_he')"><u><i>Phả hệ</i></u></span></li>
-							<li><span class="page-span" (click)="toPage('pha_do')"><u><i>Phả đồ</i></u></span></li>
-							<li><span class="page-span" (click)="toPage('ngoai_pha')"><u><i>Ngoại phả</i></u></span></li>
-							<li><span class="page-span" (click)="toPage('phu_khao')"><u><i>Phụ khảo</i></u></span></li>
+							<li><span class="page-span" (click)="toPage('pha_nhap')"><u><i>{{ 'HOME_pha_nhap' | translate }}</i></u></span></li>
+							<li><span class="page-span" (click)="toPage('pha_ky')"><u><i>{{ 'HOME_pha_ky' | translate }}</i></u></span></li>
+							<li><span class="page-span" (click)="toPage('pha_he')"><u><i>{{ 'HOME_pha_he' | translate }}</i></u></span></li>
+							<li><span class="page-span" (click)="toPage('pha_do')"><u><i>{{ 'HOME_pha_do' | translate }}</i></u></span></li>
+							<li><span class="page-span" (click)="toPage('ngoai_pha')"><u><i>{{ 'HOME_ngoai_pha' | translate }}</i></u></span></li>
+							<li><span class="page-span" (click)="toPage('phu_khao')"><u><i>{{ 'HOME_phu_khao' | translate }}</i></u></span></li>
 						</ul>
 					</div>
 					<div class="page-footer"><u><i>ML</i></u></div>
@@ -22,7 +22,7 @@
 			<div *ngFor="let page of specialPageData.pha_nhap">
 				<div class="page">
 					<div class="page-content">
-						<h2 class="page-header">{{page.title}}</h2>
+						<h2 class="page-header">{{page.titleText}}</h2>
 						<div class="w3-container page-text scroll">
 							<span [innerHtml]="page.text"></span>
 						</div>
@@ -34,7 +34,7 @@
 			<div *ngFor="let page of specialPageData.pha_ky">
 				<div class="page">
 					<div class="page-content">
-						<h2 class="page-header">{{page.title}}</h2>
+						<h2 class="page-header">{{page.titleText}}</h2>
 						<div class="w3-container page-text">
 							<span [innerHtml]="page.text"></span>
 						</div>
@@ -45,7 +45,7 @@
 
 			<div class="page">
 				<div class="page-content">
-					<h2 class="page-header">{{pageData.pha_he.title}}</h2>
+					<h2 class="page-header">{{pageData.pha_he.titleText}}</h2>
 					<div class="w3-container page-text">
 						<span [innerHtml]="pageData.pha_he.text"></span>
 						<br>
@@ -68,7 +68,7 @@
 
 			<div class="page">
 				<div class="page-content">
-					<h2 class="page-header">{{pageData.pha_do.title}}</h2>
+					<h2 class="page-header">{{pageData.pha_do.titleText}}</h2>
 					<div class="w3-container page-text">
 						<!-- <div class="editor">
 							<ion-card-header class="section" (click)="onPhaDo()">
@@ -97,7 +97,7 @@
 			<div *ngFor="let page of specialPageData.ngoai_pha">
 				<div class="page">
 					<div class="page-content">
-						<h2 class="page-header">{{page.title}}</h2>
+						<h2 class="page-header">{{page.titleText}}</h2>
 						<div class="w3-container page-text">
 							<span [innerHtml]="page.text"></span>
 						</div>
@@ -109,7 +109,7 @@
 			<div *ngFor="let page of specialPageData.phu_khao">
 				<div class="page">
 					<div class="page-content">
-						<h2 class="page-header">{{page.title}}</h2>
+						<h2 class="page-header">{{page.titleText}}</h2>
 						<div class="w3-container page-text">
 							<span [innerHtml]="page.text"></span>
 						</div>

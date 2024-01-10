@@ -410,7 +410,7 @@ export class NodePage implements OnInit {
       })
       console.log('NodePage - onAddBranch - inputs: ', inputs);
 
-      this.utilService.alertRadio('NODE_ADD_RELATION_HEADER', '', inputs , 'CANCEL', 'OK').then((res) => {
+      this.utilService.alertRadio('NODE_ADD_BRANCH', '', inputs , 'CANCEL', 'OK').then((res) => {
         console.log('onAddBranch - res: ', res);
         if (res.data) {
           let branch = res.data;

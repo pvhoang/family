@@ -6,6 +6,8 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 // import { CropperModalPageModule } from './cropper-modal/cropper-modal.module';
+import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
+
 
 import { EditPageRoutingModule } from './edit-routing.module';
 
@@ -18,6 +20,7 @@ import { EditPage } from './edit.page';
     IonicModule,
     TranslateModule,
     NgSelectModule,
+    EditorModule,
     // CropperModalPageModule,
     EditPageRoutingModule
   ],

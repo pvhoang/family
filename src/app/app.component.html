@@ -12,7 +12,7 @@
 	</div>
 </div> -->
 
-<splash-screen *ngIf="startUp" (onComplete)="onSplashComplete($event)" [url]="url" [mode]="mode"></splash-screen>
+<splash-screen *ngIf="startUp" (onComplete)="onSplashComplete($event)" [url]="url" [mode]="mode" [title]="splashTitle" [lang]="language"></splash-screen>
 <ion-router-outlet *ngIf="startApp"></ion-router-outlet>
 
 </ion-app>

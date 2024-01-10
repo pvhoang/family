@@ -101,20 +101,20 @@
 			
 			<ion-row >
         <ion-col size="6" class="column">
-					<span class="label">{{ 'FILE_DOWNLOAD' | translate }} (File: {{modifyFileName}})</span>
+					<span class="label">{{ 'FILE_DOWNLOAD' | translate }} (File: {{downloadFileName}})</span>
         </ion-col>
 				<ion-col size="6" class="column"> 
           <ion-button class="button" fill="clear" (click)="downloadOnClick()">
             <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
           </ion-button>
-					<a id="modify-download" [href]="modifyFileUrl" download="{{modifyFileName}}" style="display:none;"></a>
+					<a id="modify-download" [href]="downloadFileUrl" download="{{downloadFileName}}" style="display:none;"></a>
 					<span class="label">{{ 'FILE_DOWNLOAD_START' | translate }}</span>
         </ion-col>
       </ion-row>
 			
 			<ion-row>
         <ion-col size="6" class="column">
-					<span class="label">{{ 'FILE_UPLOAD' | translate }} (File: {{modifyFileName}})</span>
+					<span class="label">{{ 'FILE_UPLOAD' | translate }}</span>
         </ion-col>
 				<ion-col size="6" class="column">
 					<ion-button class="button" fill="clear" (click)="uploadOnClick()">

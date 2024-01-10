@@ -230,14 +230,20 @@
 		
     <ion-label class="label">{{ 'NODE_DESC' | translate }}</ion-label>
     <!-- placeholder="{{ 'EDIT_DESC_PLACEHOLDER' | translate }}"> -->
-    <ion-textarea clearInput class="textarea" 
+    <!-- <ion-textarea clearInput class="textarea" 
       type="text" 
       rows="10" 
       autosize 
       [(ngModel)]="values.desc"
       title="{{ 'EDIT_DESC_TOOLTIP' | translate }}"
     >
-    </ion-textarea>
+    </ion-textarea> -->
+
+		<editor 
+			apiKey="td9cz0rc9qe4wcd36a5kwudebvfeblv4nsjyzyqv55udust7" 
+			[init]="settings"
+		></editor>
+
     <br>
 
   </div>

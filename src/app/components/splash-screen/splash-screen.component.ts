@@ -9,8 +9,10 @@ import { environment, DEBUGS } from '../../../environments/environment';
 })
 export class SplashScreenComponent implements OnInit {
 
+  @Input() title: any;
   @Input() url: any;
   @Input() mode: any;
+  @Input() lang: any;
   @Output() onComplete: EventEmitter<any> = new EventEmitter();
 
   windowWidth: string;
@@ -29,6 +31,7 @@ export class SplashScreenComponent implements OnInit {
   ngOnInit(): void {
     if (DEBUGS.SPLASH)
       console.log('SplashScreenComponent - ngOnInit - url: ', this.url);
+
     if (navigator.onLine) {
       this.dataService.readItem('ANCESTOR_DATA').then((adata:any) => {
       // console.log('SplashScreenComponent - ngOnInit - adata: ', adata);
@@ -58,7 +61,7 @@ export class SplashScreenComponent implements OnInit {
       // }, 1000);
       // this.onComplete.emit();
       this.onDone();
-    }, 8000);
+    }, 5000);
   }
 
   onDone() {
@@ -76,6 +79,13 @@ export class SplashScreenComponent implements OnInit {
       "VIEW": "THÔNG TIN",
       "EDIT": "ĐIỀU CHỈNH"
     }
-    return vi[key];
+		const en = {
+      "CLICK": "Press",
+      "VIEW": "VIEWER",
+      "EDIT": "EDITOR"
+    }
+		if (this.lang == 'vi')
+			return vi[key] ? vi[key] : key;
+		return en[key] ? en[key] : key;
   }
 }

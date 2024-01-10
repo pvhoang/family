@@ -40,11 +40,16 @@
     <br>
     <div *ngIf="selectedNode" class="editor">
       <ion-card-header class="section">
-        <span class="span">&nbsp;{{ 'EDIT_GROUP_OTHER' | translate }}</span>
+        <span class="span">&nbsp;{{ 'PERSON_INFO' | translate }}</span>
       </ion-card-header>
       <br>
       <!-- <ion-label class="label">{{ 'NODE_DESC' | translate }}</ion-label> -->
-      <ion-textarea clearInput class="textarea" type="text" rows="10" autosize [(ngModel)]="selectedNode.desc" clearInput></ion-textarea>
+      <!-- <ion-textarea clearInput class="textarea" type="text" rows="10" autosize [(ngModel)]="selectedNode.desc" clearInput></ion-textarea> -->
+      <ion-textarea 
+				clearInput class="textarea" 
+				type="text" rows="10" autosize 
+				[innerHtml]="selectedNode.desc" >
+			</ion-textarea>
       <br>
     </div>
   </div>

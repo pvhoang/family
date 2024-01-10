@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Input} from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { LanguageService } from '../../services/language.service';
+// import { LanguageService } from '../../services/language.service';
 import { FONTS_FOLDER } from '../../../environments/environment';
 
 @Component({
@@ -11,26 +11,26 @@ import { FONTS_FOLDER } from '../../../environments/environment';
 export class SelectComponent implements OnInit {
 
 	@Input() selects: any;
+	@Input() header: any;
+	@Input() cancelText: any;
+	@Input() okText: any;
 
   FONTS_FOLDER = FONTS_FOLDER;
 
-  title: any;
 	values: any = {};
 	defaultValue: any;
 
 	constructor(
     private modalCtrl: ModalController,
-    private languageService: LanguageService,
+    // private languageService: LanguageService,
   ) { 
   }
 
 	ngOnInit(): void {
-		this.title = "Hello";
 		console.log('selects: ', this.selects)
 		let select = this.selects[0];
 		this.defaultValue = select.value;
-		console.log('defaultValue: ', this.defaultValue)
-
+		// console.log('defaultValue: ', this.defaultValue)
 	}
 	
   async onCancel() {
@@ -43,17 +43,17 @@ export class SelectComponent implements OnInit {
 
 	handleChange(e: any, sel: any) {
     // console.log('ionChange fired with value: ', e);
-    console.log('ionChange fired with value: ' + e.detail.value);
-    console.log('ionChange fired with sel: ', e.detail.value, sel);
+    // console.log('ionChange fired with value: ' + e.detail.value);
+    // console.log('ionChange fired with sel: ', e.detail.value, sel);
 		this.values[sel.id] = e.detail.value;
   }
 
   handleCancel() {
-    console.log('ionCancel fired');
+    // console.log('ionCancel fired');
   }
 
   handleDismiss() {
-    console.log('ionDismiss fired');
+    // console.log('ionDismiss fired');
   }
 
 }

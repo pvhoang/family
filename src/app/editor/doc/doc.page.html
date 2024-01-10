@@ -33,5 +33,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
-  <editor apiKey="td9cz0rc9qe4wcd36a5kwudebvfeblv4nsjyzyqv55udust7" [init]="settings"></editor>
+	<div *ngIf="editorOK">
+		<editor apiKey="td9cz0rc9qe4wcd36a5kwudebvfeblv4nsjyzyqv55udust7" [init]="settings"></editor>
+	</div>
 </ion-content>

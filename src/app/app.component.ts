@@ -28,11 +28,11 @@ const URL_DELETE_NEW = '/snew';
 
 // admin
 const URL_UPDATE_VERSION = '/aupdate';
-const URL_EDIT = 'aedit';
+const URL_EDIT = 'aedit';				// no slash !important
 
 // user
-const URL_SETTING = '/usetting'
-const URL_DELETE = '/udel';
+const URL_SETTING = '/uset'
+const URL_DELETE = '/udelete';
 
 @Component({
   selector: 'app-root',
@@ -50,6 +50,7 @@ export class AppComponent implements OnInit {
 	theme: any;
 	language: any;
 	size: any;
+	splashTitle: any;
 
 	@ViewChild('popover') popover: any;
 	isOpen = false;
@@ -110,6 +111,8 @@ export class AppComponent implements OnInit {
 						this.size = size;
 						if (DEBUGS.APP)
 							console.log('theme, language, size: ', this.theme, this.language, this.size)
+						this.utilService.printVariable('initializeUI', '--app-text-font-size-medium');
+
 						resolve (true);
 					});
 				});
@@ -127,8 +130,10 @@ export class AppComponent implements OnInit {
     environment.android = this.platform.is('android');
     this.updateVersionData().then(stat => {
       this.updateAppData().then(status => {
-				if (status)
+				if (status) {
+					this.splashTitle = this.translate_instant('APP_FAMILY_TREE')
 					this.startUp = true;
+				}
 			});
     });
   }
@@ -166,6 +171,9 @@ export class AppComponent implements OnInit {
 		let title = this.translate_instant('APP_SETTING');
     let cancel = this.translate_instant('CANCEL');
     let ok = this.translate_instant('OK');
+
+		this.utilService.printVariable('before alertSelect', '--app-text-font-size-medium');
+
     let selects = [
       {   id: THEME,
 					value: this.theme,
@@ -202,20 +210,32 @@ export class AppComponent implements OnInit {
       if (result.data) {
 				console.log('AppComponent - setSetting - data: ', result.data);
 				if (result.data.status == 'save') {
+					console.log('AppComponent - setSetting - before: ', this.theme, this.language, this.size);
 					let values = result.data.values;
-					let theme = values[THEME];
-					console.log('AppComponent - setSetting - theme: ', theme);
-					if (theme)
-						this.dataService.saveItem(THEME, theme).then((status:any) => {});
-					let language = values[LANGUAGE];
-					if (language)
-						this.dataService.saveItem(LANGUAGE, language).then((status:any) => {});
-					let size = values[SIZE];
-					if (size)
-						this.dataService.saveItem(SIZE, size).then((status:any) => {});
+					console.log('AppComponent - setSetting - after: ', values);
+					let count = 0;
+					if (values[THEME] && values[THEME] != this.theme) {
+						this.dataService.saveItem(THEME, values[THEME]).then((status:any) => {});
+						count++;
+					}
+					if (values[LANGUAGE] && values[LANGUAGE] != this.language) {
+						this.dataService.saveItem(LANGUAGE, values[LANGUAGE]).then((status:any) => {});
+						count++;
+					}
+					if (values[SIZE] && values[SIZE] != this.size) {
+						this.dataService.saveItem(SIZE, values[SIZE]).then((status:any) => {});
+						count++;
+					}
+					
+					this.utilService.printVariable('after alertSelect', '--app-text-font-size-medium');
+					if (count > 0)
+						this.presentToast(['APP_NEW_SETTING']);
+					else
+						this.presentToast(['APP_SAME_SETTING']);
 				} else {
+					this.presentToast(['APP_SAME_SETTING']);
 				}
-				this.presentToast(['APP_NEW_SETTING']);
+
       }
     })
   }
@@ -458,8 +478,12 @@ export class AppComponent implements OnInit {
 					if (DEBUGS.APP)
 						console.log('AppComponent - updateAppData - rdata: ', rdata);
 					let docs = rdata.docs;
+					// docs by language
+					console.log('AppComponent - updateAppData - language: ', this.language);
+
 					// parse docs
-					this.updateDocs(ancestor, docs);
+					let language = this.languageService.getLanguage();
+					this.updateDocs(ancestor, docs[language]);
 					resolve(true);
 				});
 			});
@@ -697,6 +721,7 @@ export class AppComponent implements OnInit {
     if (keys.length > 2)
       msgs.push({name: 'msg', label: this.translate_instant(keys[2])});
     let message = this.utilService.getAlertMessage(msgs);
+		console.log('message: ', message);
     this.utilService.presentToast(message);
     // this.utilService.presentToastWait(this.translate_instant('INFO'), message, this.translate_instant('OK') );
   }
@@ -704,58 +729,92 @@ export class AppComponent implements OnInit {
 	translate_instant(key:any) {
     // get temp translation till language service is activated
     const vi = {
-
+			"APP_FAMILY_TREE": "Gia Phả",
+			"APP_LOCAL_MEMORY_DELETED": "Dữ liệu trong máy đã được xóa!",
+			"APP_NEW_VERSION_IS_UPDATED": "Ấn bản mới đã được cập nhật!",
+			"APP_SETTING": "Thông số",
+			"APP_NEW_SETTING": "Thông số mới đã được chọn.",
+			"APP_SAME_SETTING": "Thông số không thay đổi!",
+			"APP_THEME": "Giao diện",
+			"APP_THEME_VILLAGE": "Làng",
+			"APP_THEME_TREE": "Cây",
+			"APP_THEME_DRAGON": "Rồng",
+			"APP_THEME_COUNTRY": "Quê",
+			"APP_LANGUAGE": "Ngôn ngữ",
+			"APP_LANGUAGE_VIETNAMESE": "Tiếng Việt",
+			"APP_LANGUAGE_ENGLISH": "Tiếng Anh",
+			"APP_SIZE": "Kích thước chữ",
+			"APP_SMALL_SIZE": "Nhỏ",
+			"APP_MEDIUM_SIZE": "Vừa",
+			"APP_LARGE_SIZE": "Lớn",
 			"APP_ANCESTOR": "Phả tộc",
-      "APP_NO_ANCESTOR": "Phả tộc chưa được tạo!",
-      "APP_OK_ANCESTOR": "Phả tộc mới đã được tạo. ID: ",
-      "APP_LOCAL_MEMORY_DELETED": "Dữ liệu trong máy đã được xóa!",
-      "APP_NEW_VERSION_IS_UPDATED": "Ấn bản mới đã được cập nhật!",
-      "APP_APP_VERSIONS_NOT_SAME_1": "Ấn bản trên máy đã cũ: ",
-      "APP_APP_VERSIONS_NOT_SAME_2": ". Yêu cầu xóa cache và chạy lại (F5)!",
-
-      "APP_NA_LINK_1": "Đường dẫn '",
-      "APP_NA_LINK_2": "' không hợp lệ!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
-
-      "APP_NA_ANCESTOR_1": "Phả tộc '",
-      "APP_NA_ANCESTOR_2": "' không có trong hệ thống!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
-      "APP_NEW_ANCESTOR_1": "Phả tộc '",
-      "APP_NEW_ANCESTOR_2": "' đã được khởi động!<br/>Kết nối: <i>giapha.web.app</i>",
-      "APP_EMPTY_ANCESTOR": "Phả tộc chưa được kích hoạt trong hệ thống!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.'",
-
-      "APP_ANCESTOR_NAME": "Gia tộc (vd. Phan Tộc)",
-      "APP_ANCESTOR_LOCATION": "Quê quán (vd. Đồng Hới, Quảng Bình)",
-      "APP_ANCESTOR_DESCRIPTION": "Giải thích (vd. Tộc gốc Thanh Hóa)",
-      "APP_ANCESTOR_ROOT_NAME": "Hệ bắt đầu (vd. Phan Viết Hoàng)",
-      "APP_ANCESTOR_ROOT_YEAR": "Năm sinh (vd. 1953)",
-
-      "APP_SETTING": "Thông số",
-
-      "APP_NEW_THEME": "Hệ thống dùng theme mới: ",
-      "APP_THEME": "Theme",
-      "APP_THEME_VILLAGE": "Làng",
-      "APP_THEME_TREE": "Cây",
-      "APP_THEME_DRAGON": "Rồng",
-      "APP_THEME_COUNTRY": "Quê",
-
-      "APP_NEW_LANGUAGE": "Hệ thống dùng ngôn ngữ mới: ",
-      "APP_LANGUAGE": "Ngôn ngữ",
-      "APP_LANGUAGE_VIETNAMESE": "Tiếng Việt",
-      "APP_LANGUAGE_ENGLISH": "Tiếng Anh",
-
-			"APP_NEW_SIZE": "Hệ thống dùng font size mới: ",
-      "APP_SIZE": "Cỡ font",
-      "APP_SMALL_SIZE": "Nhỏ",
-      "APP_MEDIUM_SIZE": "Vừa",
-      "APP_LARGE_SIZE": "Lớn",
-
-      "INFO": "Thông báo",
+			"APP_ANCESTOR_NAME": "Gia tộc (vd. Phan Tộc)",
+			"APP_ANCESTOR_LOCATION": "Quê quán (vd. Đồng Hới, Quảng Bình)",
+			"APP_ANCESTOR_DESCRIPTION": "Giải thích (vd. Tộc gốc Thanh Hóa)",
+			"APP_ANCESTOR_ROOT_NAME": "Hệ bắt đầu (vd. Phan Viết Hoàng)",
+			"APP_ANCESTOR_ROOT_YEAR": "Năm sinh (vd. 1953)",
+			"APP_OK_ANCESTOR": "Phả tộc mới đã được tạo. ID: ",
+			"APP_NO_ANCESTOR": "Phả tộc chưa được tạo!",
+			"APP_NEW_ANCESTOR_1": "Phả tộc '",
+			"APP_NEW_ANCESTOR_2": "' đã được khởi động!<br/>Kết nối: <i>giapha.web.app</i>",
+			"APP_NA_LINK_1": "Đường dẫn '",
+			"APP_NA_LINK_2": "' không hợp lệ!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
+			"APP_EMPTY_ANCESTOR": "Phả tộc chưa được kích hoạt trong hệ thống!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.'",
+			"APP_NEW_FAMILY": "Hệ thống dùng dữ liệu mới. Ấn bản: ",
+			"APP_NA_ANCESTOR_1": "Phả tộc '",
+			"APP_NA_ANCESTOR_2": "' không có trong hệ thống!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
+			"APP_APP_VERSIONS_NOT_SAME_1": "Ấn bản trên máy đã cũ: ",
+			"APP_APP_VERSIONS_NOT_SAME_2": ". Yêu cầu xóa cache và chạy lại (F5)!",
+			"INFO": "Thông báo",
       "ERROR": "Lỗi",
       "WARNING": "Cảnh báo",
       "OK": "OK",
       "CANCEL": "Thoát",
 
-      // "APP_ANCESTOR": "Phả tộc",
+			// "APP_ANCESTOR": "Phả tộc",
+      // "APP_NO_ANCESTOR": "Phả tộc chưa được tạo!",
+      // "APP_OK_ANCESTOR": "Phả tộc mới đã được tạo. ID: ",
+      // "APP_LOCAL_MEMORY_DELETED": "Dữ liệu trong máy đã được xóa!",
+      // "APP_NEW_VERSION_IS_UPDATED": "Ấn bản mới đã được cập nhật!",
+      // "APP_APP_VERSIONS_NOT_SAME_1": "Ấn bản trên máy đã cũ: ",
+      // "APP_APP_VERSIONS_NOT_SAME_2": ". Yêu cầu xóa cache và chạy lại (F5)!",
 
+      // "APP_NA_LINK_1": "Đường dẫn '",
+      // "APP_NA_LINK_2": "' không hợp lệ!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
+
+      // "APP_NA_ANCESTOR_1": "Phả tộc '",
+      // "APP_NA_ANCESTOR_2": "' không có trong hệ thống!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
+      // "APP_NEW_ANCESTOR_1": "Phả tộc '",
+      // "APP_NEW_ANCESTOR_2": "' đã được khởi động!<br/>Kết nối: <i>giapha.web.app</i>",
+      // "APP_EMPTY_ANCESTOR": "Phả tộc chưa được kích hoạt trong hệ thống!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.'",
+
+      // "APP_ANCESTOR_NAME": "Gia tộc (vd. Phan Tộc)",
+      // "APP_ANCESTOR_LOCATION": "Quê quán (vd. Đồng Hới, Quảng Bình)",
+      // "APP_ANCESTOR_DESCRIPTION": "Giải thích (vd. Tộc gốc Thanh Hóa)",
+      // "APP_ANCESTOR_ROOT_NAME": "Hệ bắt đầu (vd. Phan Viết Hoàng)",
+      // "APP_ANCESTOR_ROOT_YEAR": "Năm sinh (vd. 1953)",
+
+      // "APP_SETTING": "Thông số",
+
+      // "APP_NEW_THEME": "Hệ thống dùng theme mới: ",
+      // "APP_THEME": "Theme",
+      // "APP_THEME_VILLAGE": "Làng",
+      // "APP_THEME_TREE": "Cây",
+      // "APP_THEME_DRAGON": "Rồng",
+      // "APP_THEME_COUNTRY": "Quê",
+
+      // "APP_NEW_LANGUAGE": "Hệ thống dùng ngôn ngữ mới: ",
+      // "APP_LANGUAGE": "Ngôn ngữ",
+      // "APP_LANGUAGE_VIETNAMESE": "Tiếng Việt",
+      // "APP_LANGUAGE_ENGLISH": "Tiếng Anh",
+
+			// "APP_NEW_SIZE": "Hệ thống dùng font size mới: ",
+      // "APP_SIZE": "Cỡ font",
+      // "APP_SMALL_SIZE": "Nhỏ",
+      // "APP_MEDIUM_SIZE": "Vừa",
+      // "APP_LARGE_SIZE": "Lớn",
+
+      // "APP_ANCESTOR": "Phả tộc",
 			// "APP_LOCAL_MEMORY_DELETED": "Dữ liệu trong máy đã được xóa!",
 			// "APP_NEW_VERSION_IS_UPDATED": "Ấn bản mới đã được cập nhật!",
 			// "APP_OK_ANCESTOR": "Phả tộc mới đã được tạo. ID: ",
@@ -787,8 +846,53 @@ export class AppComponent implements OnInit {
       // "OK": "OK",
       // "CANCEL": "Thoát",
     }
-
-    return vi[key] ? vi[key] : key;
+		
+		const en = {
+			"APP_FAMILY_TREE": "Family Tree",
+			"APP_LOCAL_MEMORY_DELETED": "Local data in the machine was deleted!",
+			"APP_NEW_VERSION_IS_UPDATED": "New app version is updated!",
+			"APP_SETTING": "Setting",
+			"APP_NEW_SETTING": "New setting is selected.",
+			"APP_SAME_SETTING": "Setting not changed!",
+			"APP_THEME": "Theme",
+			"APP_THEME_VILLAGE": "Village",
+			"APP_THEME_TREE": "Tree",
+			"APP_THEME_DRAGON": "Dragon",
+			"APP_THEME_COUNTRY": "Countryside",
+			"APP_LANGUAGE": "Language",
+			"APP_LANGUAGE_VIETNAMESE": "Vietnamese",
+			"APP_LANGUAGE_ENGLISH": "English",
+			"APP_SIZE": "Text size",
+			"APP_SMALL_SIZE": "Small",
+			"APP_MEDIUM_SIZE": "Normal",
+			"APP_LARGE_SIZE": "Large",
+			"APP_ANCESTOR": "Ancestor",
+			"APP_ANCESTOR_NAME": "Name (eg. Phan Tộc)",
+			"APP_ANCESTOR_LOCATION": "Location (eg. Đồng Hới, Quảng Bình)",
+			"APP_ANCESTOR_DESCRIPTION": "Note (eg. Tộc gốc Thanh Hóa)",
+			"APP_ANCESTOR_ROOT_NAME": "Root member (eg. Phan Viết Hoàng))",
+			"APP_ANCESTOR_ROOT_YEAR": "Root year (eg. 1953)",
+			"APP_OK_ANCESTOR": "New ancestor is created. ID: ",
+			"APP_NO_ANCESTOR": "Ancestor is not available!",
+			"APP_NEW_ANCESTOR_1": "Ancestor: '",
+			"APP_NEW_ANCESTOR_2": "' has been chosen! <br/>Link: <i>giapha.web.app</i>",
+			"APP_NA_LINK_1": "Link '",
+			"APP_NA_LINK_2": "' is not valid!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
+			"APP_EMPTY_ANCESTOR": "Ancestor is not available!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.'",
+			"APP_NEW_FAMILY": "New family data is used. Version: ",
+			"APP_NA_ANCESTOR_1": "Ancestor: '",
+			"APP_NA_ANCESTOR_2": "' is not available!<br/>Contact <i>pvhoang940@gmail.com</i>.",
+			"APP_APP_VERSIONS_NOT_SAME_1": "App is old: ",
+			"APP_APP_VERSIONS_NOT_SAME_2": ". Please refresh memory (F5)!",
+			 "INFO": "Information",
+			 "ERROR": "Error",
+			 "WARNING": "Warning",
+			"OK": "OK",
+			"CANCEL": "Cancel",
+    }
+		if (this.language == 'vi')
+			return vi[key] ? vi[key] : key;
+		return en[key] ? en[key] : key;
   }
   
 }

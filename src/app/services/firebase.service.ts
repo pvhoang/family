@@ -81,13 +81,15 @@ export class FirebaseService {
 		});
 	}
 
-	async saveDocsData(ancestor: any, docs: any) {
+	async saveDocsData(ancestor: any, language: any, docs: any) {
 		return new Promise((resolve) => {
       this.readAncestorData(ancestor).subscribe((rdata:any) => {
-				rdata.docs = docs;
+				rdata.docs[language] = docs;
 				this.saveAncestorData(rdata).then((status:any) => {
-          resolve(true);
-        });
+					this.saveBackupDocs(ancestor, rdata.docs).then((status:any) => {
+						resolve(true);
+					});
+				});
 			});
 		});
 	}
@@ -145,7 +147,7 @@ export class FirebaseService {
 		});
 	}
 
-	async saveBackupDocs(ancestor: any, docs: any) {
+	private async saveBackupDocs(ancestor: any, docs: any) {
 		let id = this.utilService.getDateID();
 		return new Promise((resolve) => {
 			this.setBackupDocs(ancestor, docs, id).then((res:any) => {

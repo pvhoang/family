@@ -77,7 +77,8 @@ export class UtilService {
 	// ALERT
 
 	getAlertMessage(items: any) {
-		let message = '<br/>';
+		// let message = '<br/>';
+		let message = '';
 		items.forEach((item:any) => {
 			if (item.name == 'msg') {
 				let msg = this.languageService.getTranslation(item.label);
@@ -261,11 +262,13 @@ export class UtilService {
 		return await alert.onDidDismiss();
 	}
 
-	async alertSelect(srcHeader: any, selects: any[], cancelText, okText, css?: any) {
-
+	printVariable(msg: any, variable: any) {
 		let root = document.documentElement;
-		console.log('--app-background-color: ', 
-			root.style.getPropertyValue('--app-background-color'));
+		let value = root.style.getPropertyValue(variable);
+		console.log('printVariable: ' + msg + ' - ' + variable + ' : ' + value);
+	}
+
+	async alertSelect(srcHeader: any, selects: any[], cancelText, okText, css?: any) {
 
 		let header = this.languageService.getTranslation(srcHeader);
 		if (!header)
@@ -275,11 +278,14 @@ export class UtilService {
 		if (!css)
 			css = 'alert-dialog';
 		// css = 'alert-test';
-		this.themeService.setAlertSize({ width: 350, height: 400 });
+		this.themeService.setAlertSize({ width: 350, height: 350 });
     const modal = await this.modalCtrl.create({
       component: SelectComponent,
       componentProps: {
+				'header': header,
         'selects': selects,
+				'cancelText': cancelText,
+				'okText': okText,
       },
 			cssClass: css,
 			backdropDismiss:false,
@@ -323,16 +329,19 @@ export class UtilService {
 		let message = this.languageService.getTranslation(srcMessage);
 		if (!message)
 			message = srcMessage;
+		let time = 3000;
 		this.themeService.setAlertSize({ width: 350, height: 100 });
 		okText = this.languageService.getTranslation(okText);
 		let css = 'toast-wait';
     const toast = await this.toastController.create({
-      header: header,
+      // header: header,
       message: message,
-      icon: 'information-circle',
+      // icon: 'information-circle',
       position: 'middle',
+      // position: 'bottom',
       color: 'medium',
 			cssClass: css,
+      duration: time,
 			mode: "md",
       buttons: [
 				{
@@ -348,12 +357,12 @@ export class UtilService {
 		return await toast.onDidDismiss();
   }
 
-	async presentToast(srcMessage, waitTime?: any) {
+	async presentToast(srcMessage: string, waitTime?: number) {
 		let message = this.languageService.getTranslation(srcMessage);
 		if (!message)
 			message = srcMessage;
-		let time = (waitTime) ? waitTime : 5000;
-		this.themeService.setAlertSize({ width: 350, height: 100 });
+		let time = (waitTime) ? waitTime : 3000;
+		this.themeService.setToastSize(message);
 		let css = 'toast-dialog';
     const toast = await this.toastController.create({
       message: message,

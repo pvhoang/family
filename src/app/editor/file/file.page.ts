@@ -41,9 +41,12 @@ export class FilePage implements OnInit {
   storageMode = false;
   photoMode = false;
 
-	modifyFileUrl: any;
-	modifyFileName: any;
-	modifyFileObject: any;
+	downloadFileUrl: any;
+	downloadFileName: any;
+
+	// modifyFileUrl: any;
+	// modifyFileName: any;
+	// modifyFileObject: any;
 
 	imageFileName: any = '';
   imageViewMode = false;
@@ -80,7 +83,7 @@ export class FilePage implements OnInit {
     if (DEBUGS.FILE)
       console.log('FilePage - ngOnInit');
     this.start();
-		this.downloadSetFile();
+		// this.downloadSetFile();
   }
 
   ionViewWillEnter() {
@@ -164,6 +167,7 @@ export class FilePage implements OnInit {
       let info = data.info;
       let ancestor = info.id;
       this.ancestor = ancestor;
+			this.downloadFileName = ancestor + '.json';
       this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
         let remoteFamily = rdata.family;
 				this.comparePrintNode('compareOnSync', localFamily, remoteFamily);
@@ -215,11 +219,11 @@ export class FilePage implements OnInit {
     let res = [];
     results.forEach(row => {
       if (row.mode == 'ADD') {
-        let newNode = this.languageService.getTranslation('FILE_NEW_NODE');
+        let newNode = this.languageService.getTranslation('FILE_COMPARE_NEW_NODE');
         let add = this.languageService.getTranslation('ADD')
         res.push({name: row.name, item: '', key: row.key, mode: row.mode, label: newNode, id: '', old: '', new: add, select: false });
       } else if (row.mode == 'REMOVE') {
-        let oldNode = this.languageService.getTranslation('FILE_OLD_NODE');
+        let oldNode = this.languageService.getTranslation('FILE_COMPARE_OLD_NODE');
         let remove = this.languageService.getTranslation('REMOVE')
         res.push({name: row.name, item: '', key: row.key, mode: row.mode, label: oldNode, id: '', old: '', new: remove, select: false });
       } else if (row.mode == 'MODIFY') {
@@ -338,40 +342,53 @@ export class FilePage implements OnInit {
 	
 	// --- downloadMode ---
 
-	downloadSetFile() {
-		// download family data from Firebase to local file for editing
-		this.dataService.readFamilyAndInfo().then((data:any) => {
-      let family = data.family;
-      let info = data.info;
-			let ancestor = info.id;
-			this.modifyFileName = ancestor + '.json';
-			this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
-				// clean family data before save to local
-				let cleanFamily = this.familyService.getFilterFamily(rdata.family, true);
-				let data = JSON.stringify(cleanFamily, null, 2);
-				// console.log('data: ', data);
-				const blob = new Blob([data], {
-					type: 'application/octet-stream'
-				});
-				this.modifyFileName = ancestor + '-' + family.version + '.json';
-				this.modifyFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
-			});
-		});
-		this.modifyFileObject = null;
-  }
+	// downloadSetFile() {
+	// 	// download family data from Firebase to local file for editing
+	// 	this.dataService.readFamilyAndInfo().then((data:any) => {
+  //     let family = data.family;
+  //     let info = data.info;
+	// 		let ancestor = info.id;
+	// 		this.modifyFileName = ancestor + '.json';
+	// 		this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
+	// 			// clean family data before save to local
+	// 			let cleanFamily = this.familyService.getFilterFamily(rdata.family, true);
+	// 			let data = JSON.stringify(cleanFamily, null, 2);
+	// 			// console.log('data: ', data);
+	// 			const blob = new Blob([data], {
+	// 				type: 'application/octet-stream'
+	// 			});
+	// 			this.modifyFileName = ancestor + '-' + family.version + '.json';
+	// 			this.modifyFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+	// 		});
+	// 	});
+	// 	this.modifyFileObject = null;
+  // }
 
 	downloadOnClick() {
 		let msg = this.utilService.getAlertMessage([
 			{name: 'msg', label: 'FILE_DOWNLOAD_MESSAGE_1'},
-			{name: 'data', label: this.modifyFileName},
+			{name: 'data', label: this.downloadFileName},
 			{name: 'msg', label: 'FILE_DOWNLOAD_MESSAGE_2'},
 		]);
 		this.utilService.alertConfirm('FILE_DOWNLOAD_START', msg, 'CANCEL', 'OK').then((res) => {
 			// console.log('onDelete - res:' , res)
 			if (res.data) {
-				// https://stackoverflow.com/questions/11620698/how-to-trigger-a-file-download-when-clicking-an-html-button-or-javascript
-				document.getElementById("modify-download").click()
-				this.utilService.presentToast(this.languageService.getTranslation('FILE_DOWNLOAD_COMPLETE'), 5000);
+				this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
+					// clean family data before save to local
+					let cleanFamily = this.familyService.getFilterFamily(rdata.family, true);
+					let data = JSON.stringify(cleanFamily, null, 2);
+					// console.log('data: ', data);
+					const blob = new Blob([data], {
+						type: 'application/octet-stream'
+					});
+					// this.modifyFileName = this.ancestor + '.json';
+					this.downloadFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+					// https://stackoverflow.com/questions/11620698/how-to-trigger-a-file-download-when-clicking-an-html-button-or-javascript
+					setTimeout(() => {
+						document.getElementById("modify-download").click();
+						this.utilService.presentToast(this.languageService.getTranslation('FILE_DOWNLOAD_COMPLETE'), 5000);
+					}, 200);
+				});
 			}
 		});
 	}
@@ -380,9 +397,10 @@ export class FilePage implements OnInit {
 
 	uploadOnClick() {
 		let msg = this.utilService.getAlertMessage([
-			{name: 'msg', label: 'FILE_UPLOAD_MESSAGE_1'},
-			{name: 'data', label: this.modifyFileName},
-			{name: 'msg', label: 'FILE_UPLOAD_MESSAGE_2'},
+			{name: 'msg', label: 'FILE_UPLOAD_MESSAGE'}
+			// {name: 'msg', label: 'FILE_UPLOAD_MESSAGE_1'},
+			// {name: 'data', label: this.modifyFileName},
+			// {name: 'msg', label: 'FILE_UPLOAD_MESSAGE_2'},
 		]);
 		this.utilService.alertConfirm('FILE_UPLOAD_START', msg, 'CANCEL', 'OK').then((res) => {
 			// console.log('modifyOnUpload - res:' , res)
@@ -400,12 +418,12 @@ export class FilePage implements OnInit {
 	uploadOnFileSelect(event: any): void {
     const files = [...event.target.files]
 		const file = files[0];
-		this.modifyFileObject = file;
+		// this.modifyFileObject = file;
 		// console.log('file: ', file);
-		this.uploadOnFileUpload(file);
+		this.uploadOnFile(file);
   }
 
-	private uploadOnFileUpload(file: any) {
+	private uploadOnFile(file: any) {
     // console.log('FilePage - onDownloadFileUpload');
 		// let file: File = this.modifyFileObject;
     const name:string = file.name;
@@ -433,15 +451,15 @@ export class FilePage implements OnInit {
 								let cleanFamily = this.familyService.getFilterFamily(family, true);
 								rdata.family = cleanFamily;
 								this.fbService.saveAncestorData(rdata).then((status:any) => {
-									this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_COMPLETE'), 1000);
+									this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_COMPLETE'));
 								});
 							});
 					});
         } else {
-					this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_INVALID'), 1000);
+					this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_INVALID'));
 				}
       } else {
-				this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_EMPTY'), 1000);
+				this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_EMPTY'));
       }
     });
   }
@@ -463,7 +481,8 @@ export class FilePage implements OnInit {
 		let family: any = null;
 		try {
 			family = JSON.parse(text);
-			if (!family.version || !family.nodes || !family.children)
+			// must be version match expected ?
+			if (!family.version || family.version == this.family.version)
 				return null;
 		} catch (error) {
 			console.log('getValidateData - error: ', error);
@@ -497,7 +516,7 @@ photoCreate(start: boolean) {
 photoGetFile(event: any): void {
 	const files = [...event.target.files]
 	const file = files[0];
-	this.modifyFileObject = file;
+	// this.modifyFileObject = file;
 	// console.log('file: ', file);
 	const name = file.name;
 	const myReader: FileReader = new FileReader();

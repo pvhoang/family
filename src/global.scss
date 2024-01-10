@@ -541,6 +541,39 @@ ion-tab-button {
   height: 200px;
 }
 
+// .bottom .label {
+// 	width: 100px;
+// 	font-size: var(--app-text-font-size-medium);
+// 	background-color: var(--app-background-color);
+// 	color: var(--app-color);
+// 	text-align: center;
+// 	padding: 5px 0;
+// 	border-radius: 6px;
+// 	position: absolute;
+// 	z-index: 1;
+// }
+
+.button-icon-label {
+	background: var(--app-background-color);
+	display: flex;
+	border-radius: 6px;
+	align-items: center;
+	justify-content: center;
+	.icon {
+		font-size: var(--app-icon-font-size-medium);
+		color: var(--app-color);
+	}
+	.label {
+		font-size: var(--app-text-font-size-medium);
+		// color: $background_color_node;
+		color: var(--app-color);
+	}
+	.button {
+		--padding-start: 5px;
+		--padding-end: 5px;
+	}
+}
+
 // --- ALERT ---
 
 .alert-dialog {
@@ -623,6 +656,7 @@ ion-tab-button {
 		
 		.bottom .label {
 			width: 100px;
+      font-size: var(--app-text-font-size-medium);
 			background-color: var(--app-background-color);
 			color: var(--app-color);
 			text-align: center;
@@ -640,20 +674,20 @@ ion-tab-button {
 
 	
 	/* Show the tooltip text when you mouse over the tooltip container */
-	.bottom:hover .label {
-		visibility: visible;
-	}
+	// .bottom:hover .label {
+	// 	visibility: visible;
+	// }
 
-	.label {
-		// font-size: var(--app-text-font-size-medium);
-		font-size: var(--app-text-font-size-large);
-		// color: $background_color_node;
-		color: var(--app-color);
-	}
-	.button {
-		--padding-start: 5px;
-		--padding-end: 5px;
-	}
+	// .label {
+	// 	// font-size: var(--app-text-font-size-medium);
+	// 	font-size: var(--app-text-font-size-large);
+	// 	// color: $background_color_node;
+	// 	color: var(--app-color);
+	// }
+	// .button {
+	// 	--padding-start: 5px;
+	// 	--padding-end: 5px;
+	// }
 }
 
 .alert-test-1 {

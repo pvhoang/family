@@ -1,7 +1,7 @@
 <ion-header>
 	<ion-item class="header-top">
     <ion-col size="12" class="heading">
-      <span class="label">{{ title }}</span>
+      <span class="label">{{header}}</span>
     </ion-col>
   </ion-item>
 </ion-header>
@@ -18,6 +18,8 @@
 					(ionChange)="handleChange($event, select)"
 					(ionCancel)="handleCancel()"
 					(ionDismiss)="handleDismiss()"
+					cancelText="{{cancelText}}"
+					okText="{{okText}}"
 				>
 					<!-- <ion-select-option *ngFor="let item of select.items" [value]="employee" value="{{item.value}}" [selected]="true">{{item.label}}</ion-select-option> -->
 					<ion-select-option *ngFor="let item of select.items" value="{{item.value}}">{{item.label}}</ion-select-option>
@@ -26,19 +28,31 @@
 		</div>
 
 		<ion-item class="alert-dialog bottom-button-group">
+
 			<ion-col size="6" class="bottom" (click)="onCancel()">
 				<!-- <ion-button class="button" fill="clear" (click)="onCancel()">
 					<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
 				</ion-button> -->
-				<span class="label">{{ 'CANCEL' | translate }}</span>
+				<span class="label">{{cancelText}}</span>
 			</ion-col>
 			<ion-col size="6" class="bottom" (click)="onSave()">
 				<!-- <ion-button class="button" fill="clear" (click)="onSave()">
 					<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}content-save-outline.svg" class="icon"></ion-icon>
 				</ion-button> -->
-				<span class="label">{{ 'SAVE' | translate }}</span>
+				<span class="label">{{okText}}</span>
 			</ion-col>
+		
 		</ion-item>
+
+		<!-- <ion-item>
+			<ion-col size="6" class="button-icon-label" (click)="onCancel()">
+				<span class="label">{{cancelText}}</span>
+			</ion-col>
+			<ion-col size="6" class="button-icon-label" (click)="onSave()">
+				<span class="label">{{okText}}</span>
+			</ion-col>
+		</ion-item> -->
+
 	</div>
 
 </ion-content>

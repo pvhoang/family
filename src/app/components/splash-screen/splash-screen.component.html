@@ -1,7 +1,7 @@
 <div class="app-splash-screen" [ngStyle]="{ left: windowWidth }" *ngIf="showSplash">
   <div class="app-splash-inner">
     <!-- <div class="app-logo"></div> -->
-    <div class="app-heading">Gia Phả</div>
+    <div class="app-heading">{{title}}</div>
     <div *ngIf="firstTitle" class="app-label-1">{{firstTitle}}</div>
     <div *ngIf="secTitle" class="app-label-2">{{secTitle}}</div>
     <div *ngIf="version" class="app-version">{{version}}</div>

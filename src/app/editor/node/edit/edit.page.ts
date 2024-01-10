@@ -65,6 +65,9 @@ export class EditPage implements OnInit {
   // photoBase64: any;
   // photoNew = false;
 
+	editor: any;
+  settings: any;
+
   constructor(
     private modalCtrl: ModalController,
     public platform: Platform,
@@ -86,6 +89,8 @@ export class EditPage implements OnInit {
     this.values = this.nodeService.loadValues(this.node);
     // this.getPhotoBase64();
 
+		this.setupEditor(this.values.desc);
+	
     this.genders = [
       { id: 'male', name: this.languageService.getTranslation('MALE') },
       { id: 'female', name: this.languageService.getTranslation('FEMALE') }
@@ -116,7 +121,7 @@ export class EditPage implements OnInit {
     this.selectMonthsPlaceholder = this.languageService.getTranslation('EDIT_SELECT_MONTHS_PLACEHOLDER');
     this.selectGenderPlaceholder = this.languageService.getTranslation('EDIT_SELECT_GENDER_PLACEHOLDER');
 
-    if (DEBUGS.EDIT)
+    // if (DEBUGS.EDIT)
       console.log('EditPage - ngOnInit - values: ', this.values);
 
     this.passAway = this.values.yod != null;
@@ -130,6 +135,7 @@ export class EditPage implements OnInit {
       // spouse node, can not add child
       this.canAddChild = false;
     }
+
   }
 
   // ------------- ng-select -------------
@@ -218,6 +224,8 @@ export class EditPage implements OnInit {
     if (DEBUGS.EDIT)
       console.log('EditPage - onSave - values: ', this.values);
 
+		this.values.desc = this.editor.getContent({ format: 'html' });
+
     // this.savePhotoBase64();
     let values = this.values;
     if (this.nodeService.areValuesChanged(this.node, values) == false) {
@@ -243,5 +251,85 @@ export class EditPage implements OnInit {
     msg = yodMsg;
     return msg;
   }
+
+	setupEditor(text: any) {
+    this.settings = {
+      base_url: '/tinymce',
+      suffix: '.min',
+      height: 600,
+      plugins: [
+      'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+      'anchor', 'searchreplace', 'visualblocks', 'code',
+      'insertdatetime', 'media', 'table', 'help', 
+			// 'fullscreen', 'contextmenu', 'addTab', 'wordcount', 'footnotes', 'paste' 
+			],
+			menu: {
+				images: { title: 'Hình', items: 'nesteditem' }
+			},
+			menubar: 'file edit view indert format tools table help images',
+      toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright alignjustify | indent outdent | paste ',
+      help_tabs: [
+        {
+          name: 'custom1', // new tab called custom1
+          title: 'Cách sử dụng',
+          items: [
+            {
+              type: 'htmlpanel',
+              html: '<p>Thêm /PAGE/ để thêm trang.</p>',
+            },
+						{
+              type: 'htmlpanel',
+              html: '<p>Thêm "[hinh.jpg,Cỡ-Format,Chữ]" để thêm hình. Cỡ: 1/2/3-left/center/right. Chữ: dòng chữ dưới hình. Ví dụ: "[mo_to.jpg,1,Mộ tổ tại Đá Bạc]"</p>',
+            },
+            {
+              type: 'htmlpanel',
+              html: '<p>Dùng Ctrl-C/V để chép và thêm chữ và hình</p>',
+            },
+          ]
+        },
+        'shortcuts', // the default shortcuts tab
+      ],
+      paste_data_images: true,
+			external_plugins: {
+				// 'wordcount': '../../../assets/js/tinymce/plugins/wordcount/plugin.min.js',
+			},
+      content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
+      setup: (editor: any) => {
+        this.editor = editor;
+				let subitems = this.getImageItems(editor);
+				// https://www.tiny.cloud/docs/tinymce/latest/creating-custom-menu-items/
+				editor.ui.registry.addNestedMenuItem('nesteditem', {
+					text: 'Chọn hình',
+					getSubmenuItems: () => subitems
+				});
+				// this.editor.setCursorLocation();
+				console.log('text: ', text);
+				editor.on('init', function (e) {
+					editor.setContent(text);
+				});
+				// this.editor.setContent(text);
+      }
+    };
+	}
+
+	getImageItems(editor: any) {
+		let imageItems = [];
+		this.dataService.readItem('photos').then((photos:any) => {
+			// console.log('photos: ', photos)
+			photos.data.forEach(photo => {
+				let dat = photo.split('|');
+				let name = dat[0];
+				let caption = (dat.length > 1) ? dat[1] : '';
+				let sub = {
+					type: 'menuitem',
+					text: name,
+					onAction: () => editor.insertContent(`"[` + name + `,1,` + caption + `]"`)
+				};
+				imageItems.push(sub);
+			})
+			return imageItems;
+		});
+		return imageItems;
+	}
 }
 

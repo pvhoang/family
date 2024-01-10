@@ -13,57 +13,6 @@ const YELLOW = '#FFFF00';
 const themes = {
 
   dragon : {
-    // 'android': [
-    //   ['--ion-font-family', 'Roboto' ],
-    //   ['--app-text-font-size-tiny', '10px' ],
-    //   ['--app-text-font-size-small', '12px' ],
-    //   ['--app-text-font-size-medium', '14px' ],
-    //   ['--app-text-font-size-large', '16px' ],
-
-    //   ['--app-alert-font-size', '12px' ],
-    //   ['--app-toast-font-size', '12px' ],
-
-    //   ['--app-icon-font-size-tiny', '10px' ],
-    //   ['--app-icon-font-size-small', '12px' ],
-    //   ['--app-icon-font-size-medium', '14px' ],
-    //   ['--app-icon-font-size-large', '16px' ],
-
-    //   ['--app-color', YELLOW ],
-    //   ['--app-background-color', RED ],
-    //   ['--ion-color-medium', RED ],
-    //   ['--app-logo', 'url("./../../../assets/common/dragon/gia-pha.jpg")'],
-    //   ['--app-three-dots', 'url("./../../../assets/icon/three-dots-red.svg")'],
-    //   ['--url-ion-content-splash', 'url("../assets/common/dragon/dragon-20.png")' ],
-    //   ['--url-ion-content-node', 'url("../assets/common/dragon/dragon-100.png")' ],
-    //   ['--url-ion-content-file', 'url("../assets/common/dragon/dragon-20.png")' ],
-    //   ['--url-ion-content-alert', 'url("../assets/common/dragon/dragon-20.png")' ],
-    // ],
-    // 'ios': [
-    //   ['--ion-font-family', 'Roboto' ],
-
-    //   ['--app-text-font-size-tiny', '10px' ],
-    //   ['--app-text-font-size-small', '12px' ],
-    //   ['--app-text-font-size-medium', '14px' ],
-    //   ['--app-text-font-size-large', '16px' ],
-
-    //   ['--app-alert-font-size', '12px' ],
-    //   ['--app-toast-font-size', '12px' ],
-
-    //   ['--app-icon-font-size-tiny', '10px' ],
-    //   ['--app-icon-font-size-small', '12px' ],
-    //   ['--app-icon-font-size-medium', '14px' ],
-    //   ['--app-icon-font-size-large', '16px' ],
-      
-    //   ['--app-color', YELLOW ],
-    //   ['--app-background-color', RED ],
-    //   ['--ion-color-medium', RED ],
-    //   ['--app-logo', 'url("./../../../assets/common/dragon/gia-pha.jpg")'],
-    //   ['--app-three-dots', 'url("./../../../assets/icon/three-dots-red.svg")'],
-    //   ['--url-ion-content-splash', 'url("../assets/common/dragon/dragon-20.png")' ],
-    //   ['--url-ion-content-node', 'url("../assets/common/dragon/dragon-100.png")' ],
-    //   ['--url-ion-content-file', 'url("../assets/common/dragon/dragon-20.png")' ],
-    //   ['--url-ion-content-alert', 'url("../assets/common/dragon/dragon-20.png")' ],
-    // ],
     'css': [
       ['--ion-font-family', 'Roboto' ],
 
@@ -77,13 +26,12 @@ const themes = {
       ['--app-icon-font-size-small', '12px' ],
       ['--app-icon-font-size-medium', '14px' ],
       ['--app-icon-font-size-large', '16px' ],
-      ['--app-icon-font-size-extra-large', '16px' ],
+      ['--app-icon-font-size-extra-large', '18px' ],
       
-      // ['--app-alert-font-size', '14px' ],
+			['--app-alert-font-size', '16px' ],
+      ['--app-toast-font-size', '16px' ],
       ['--app-alert-width', '350px'],
       ['--app-alert-height', '150px' ],
-
-      // ['--app-toast-font-size', '18px' ],
       ['--app-toast-height', '100px' ],
       ['--app-toast-width', '400px' ],
 
@@ -94,12 +42,6 @@ const themes = {
       // ['--app-logo', 'url("./../../../assets/icon/gia-pha-dragon.png")'],
       ['--app-logo', 'url("./../../../assets/common/dragon/gia-pha.jpg")'],
       ['--app-three-dots', 'url("./../../../assets/icon/three-dots-red.svg")'],
-
-      // ['--url-ion-content-splash', 'url("../assets/common/dragon/1.jpg")' ],
-      // ['--url-ion-content-memory', 'url("../assets/common/dragon/2.jpg")' ],
-      // ['--url-ion-content-node', 'url("../assets/common/dragon/3.jpg")' ],
-      // ['--url-ion-content-file', 'url("../assets/common/dragon/4.jpg")' ],
-      // ['--url-ion-content-alert', 'url("../assets/common/dragon/dragon-20.jpg")' ],
 
       ['--url-ion-content-splash', 'url("../assets/common/dragon/dragon-20.png")' ],
       ['--url-ion-content-memory', 'url("../assets/common/dragon/dragon-20.png")' ],
@@ -112,68 +54,6 @@ const themes = {
   },
 
   village: { 
-    // 'android': [
-    //   ['--ion-font-family', 'Roboto' ],
-
-    //   ['--app-text-font-size-tiny', '16px' ],
-    //   ['--app-text-font-size-small', '18px' ],
-    //   ['--app-text-font-size-medium', '19px' ],
-    //   ['--app-text-font-size-large', '20px' ],
-    //   ['--app-text-font-size-extra-large', '22px' ],
-      
-    //   ['--app-icon-font-size-tiny', '16px' ],
-    //   ['--app-icon-font-size-small', '18px' ],
-    //   ['--app-icon-font-size-medium', '19px' ],
-    //   ['--app-icon-font-size-large', '20px' ],
-    //   ['--app-icon-font-size-extra-large', '22px' ],
-
-    //   ['--app-alert-font-size', '14px' ],
-    //   ['--app-alert-width', '350px'],
-    //   ['--app-alert-height', '150px' ],
-
-    //   ['--app-toast-font-size', '18px' ],
-    //   ['--app-toast-height', '100px' ],
-    //   ['--app-toast-width', '400px' ],
-
-    //   ['--app-color', ORANGE ],
-    //   ['--app-background-color', BLUE_PRIMARY ],
-    //   ['--ion-color-medium', BLUE_PRIMARY ],
-    //   ['--app-logo', 'url("./../../../assets/icon/gia-pha-village.png")'],
-    //   ['--app-three-dots', 'url("./../../../assets/icon/three-dots-blue.svg")'],
-      
-    //   ['--url-ion-content-splash', 'url("../assets/common/village/5-20.png")' ],
-    //   ['--url-ion-content-memory', 'url("../assets/common/village/2.jpg")' ],
-    //   ['--url-ion-content-node', 'url("../assets/common/village/3.jpg")' ],
-    //   ['--url-ion-content-file', 'url("../assets/common/village/4.jpg")' ],
-    //   ['--url-ion-content-alert', 'url("../assets/common/village/5-20.png")' ],
-    // ],
-    // 'ios': [
-    //   ['--ion-font-family', 'Roboto' ],
-
-    //   ['--app-text-font-size-tiny', '16px' ],
-    //   ['--app-text-font-size-small', '18px' ],
-    //   ['--app-text-font-size-medium', '19px' ],
-    //   ['--app-text-font-size-large', '20px' ],
-    //   ['--app-text-font-size-extra-large', '22px' ],
-      
-    //   ['--app-icon-font-size-tiny', '16px' ],
-    //   ['--app-icon-font-size-small', '18px' ],
-    //   ['--app-icon-font-size-medium', '19px' ],
-    //   ['--app-icon-font-size-large', '20px' ],
-    //   ['--app-icon-font-size-extra-large', '22px' ],
-
-    //   ['--app-color', ORANGE ],
-    //   ['--app-background-color', BLUE_PRIMARY ],
-    //   ['--ion-color-medium', BLUE_PRIMARY ],
-    //   ['--app-logo', 'url("./../../../assets/icon/gia-pha-village.png")'],
-    //   ['--app-three-dots', 'url("./../../../assets/icon/three-dots-blue.svg")'],
-      
-    //   ['--url-ion-content-splash', 'url("../assets/common/village/5-20.png")' ],
-    //   ['--url-ion-content-memory', 'url("../assets/common/village/2.jpg")' ],
-    //   ['--url-ion-content-node', 'url("../assets/common/village/3.jpg")' ],
-    //   ['--url-ion-content-file', 'url("../assets/common/village/4.jpg")' ],
-    //   ['--url-ion-content-alert', 'url("../assets/common/village/5-20.png")' ],
-    // ],
     'css': [
       // ['--ion-font-family', 'Pacifico' ],
       ['--ion-font-family', 'Roboto' ],
@@ -190,11 +70,10 @@ const themes = {
       ['--app-icon-font-size-large', '20px' ],
       ['--app-icon-font-size-extra-large', '22px' ],
 
-      // ['--app-alert-font-size', '14px' ],
+      ['--app-alert-font-size', '16px' ],
+      ['--app-toast-font-size', '16px' ],
       ['--app-alert-width', '350px'],
       ['--app-alert-height', '150px' ],
-
-      // ['--app-toast-font-size', '18px' ],
       ['--app-toast-height', '100px' ],
       ['--app-toast-width', '400px' ],
 
@@ -233,6 +112,8 @@ const themes = {
       ['--app-icon-font-size-large', '22px' ],
       ['--app-icon-font-size-extra-large', '24px' ],
       
+			['--app-alert-font-size', '16px' ],
+      ['--app-toast-font-size', '16px' ],
 			['--app-alert-width', '350px'],
       ['--app-alert-height', '150px' ],
       ['--app-toast-height', '100px' ],
@@ -272,6 +153,8 @@ const themes = {
       ['--app-icon-font-size-large', '18px' ],
       ['--app-icon-font-size-extra-large', '20px' ],
       
+			['--app-alert-font-size', '16px' ],
+      ['--app-toast-font-size', '16px' ],
 			['--app-alert-width', '350px'],
       ['--app-alert-height', '150px' ],
       ['--app-toast-height', '100px' ],
@@ -364,7 +247,7 @@ export class ThemeService {
 			['--app-icon-font-size-extra-large', root.style.getPropertyValue('--app-icon-font-size-extra-large')]
 		];
 		console.log('systemSizes: ', systemSizes);
-		let diff = (size == SMALL_SIZE) ? -2 : ((size == MEDIUM_SIZE) ? 0 : 2);
+		let diff = (size == SMALL_SIZE) ? -1 : ((size == MEDIUM_SIZE) ? 2 : 5);
 		systemSizes.forEach(item => {
 			let pixel = item[1].substring(0, item[1].length - 2);
 			root.style.setProperty(item[0], '' + (+pixel + diff) + 'px');
@@ -377,6 +260,30 @@ export class ThemeService {
   setTreeBackground() {
     return themes[this.theme]['tree-bg'];
   }
+
+	setRootProperties(values: any) {
+    let root = document.documentElement;
+		values.forEach(prop => {
+			root.style.setProperty(prop[0], prop[1]);
+		})
+  }
+
+	setToastSize(message) {
+    console.log('setToastSize: ', message);
+		let lines = message.split('br/');
+		let lineChars = 0;
+		lines.forEach(line => {
+			if (line.length > lineChars)
+				lineChars = line.length;
+		})
+    console.log('setToastSize: line: ', lines);
+    console.log('setToastSize: lineChars: ', lineChars);
+		let height = (lines.length == 1) ? 40 : ((lines.length == 2) ? 60 : 80);
+		let width = (lineChars < 30) ? 300 : ((lineChars < 50) ? 400 : 500);
+    let root = document.documentElement;
+    root.style.setProperty('--app-toast-height', height + 'px');
+    root.style.setProperty('--app-toast-width', width + 'px');
+	}
 
   setAlertSize(dimension?: any) {
     if (!dimension)
