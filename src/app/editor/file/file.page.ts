@@ -571,6 +571,7 @@ async openCropperModal(photoBase64: any, url: any) {
 			'data': photoBase64,
 			'url': url
 		},
+		cssClass: 'modal-dialog',
 		backdropDismiss:false
 	});
 	await cropperModal.present();
@@ -592,17 +593,18 @@ private photoUpload(photo: string, ancestor:string, photoBase64: string, file:Fi
 				placeholder: this.languageService.getTranslation('FILE_PHOTO_NAME'),
 				attributes: { maxlength: 50 },
 		},
-		{   label: this.languageService.getTranslation('FILE_PHOTO_CAPTION'),
-				value: '',
-				placeholder: this.languageService.getTranslation('FILE_PHOTO_CAPTION'),
-				attributes: { maxlength: 50 },
-		}
+		// {   label: this.languageService.getTranslation('FILE_PHOTO_CAPTION'),
+		// 		value: '',
+		// 		placeholder: this.languageService.getTranslation('FILE_PHOTO_CAPTION'),
+		// 		attributes: { maxlength: 50 },
+		// }
 	]
 	this.utilService.alertText(title, inputs, cancel, ok, 'alert-dialog').then(result => {
 		// console.log('saveImage - result: ', result);
 		if (result.data) {
 			let photoName = result.data[0];
-			let photoCaption = result.data[1];
+			// let photoCaption = result.data[1];
+			let photoCaption = ''
 			if (photoName != '') {
 				// remove . if there is any
 				let idx = photoName.indexOf('.');

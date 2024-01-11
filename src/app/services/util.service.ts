@@ -276,8 +276,7 @@ export class UtilService {
 		cancelText = this.languageService.getTranslation(cancelText);
 		okText = this.languageService.getTranslation(okText);
 		if (!css)
-			css = 'alert-dialog';
-		// css = 'alert-test';
+			css = 'modal-dialog';
 		this.themeService.setAlertSize({ width: 350, height: 350 });
     const modal = await this.modalCtrl.create({
       component: SelectComponent,
@@ -287,7 +286,7 @@ export class UtilService {
 				'cancelText': cancelText,
 				'okText': okText,
       },
-			cssClass: css,
+			cssClass: 'modal-dialog',
 			backdropDismiss:false,
 			mode: "md",
     });

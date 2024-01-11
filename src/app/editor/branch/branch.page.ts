@@ -309,6 +309,7 @@ export class BranchPage implements OnInit {
         'family': this.family,
         'info': this.info,
       },
+			cssClass: 'modal-dialog',
 			backdropDismiss:false
     });
 

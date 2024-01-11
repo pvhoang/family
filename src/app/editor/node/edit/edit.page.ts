@@ -323,7 +323,7 @@ export class EditPage implements OnInit {
 				let sub = {
 					type: 'menuitem',
 					text: name,
-					onAction: () => editor.insertContent(`"[` + name + `,1,` + caption + `]"`)
+					onAction: () => editor.insertContent(`"[` + name + `,1,c,` + caption + `]"`)
 				};
 				imageItems.push(sub);
 			})

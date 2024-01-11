@@ -942,6 +942,7 @@ export class NodePage implements OnInit, AfterViewInit {
         'family': this.family,
         'info': this.info,
       },
+			cssClass: 'modal-dialog',
 			backdropDismiss:false
     });
 

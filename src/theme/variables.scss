@@ -135,12 +135,17 @@
   --app-toast-height: 50px;
   --app-toast-width: 350px;
 
+	--app-modal-font-size: 16px;		// 14px;
+  --app-modal-width: 500;
+  --app-modal-height: 400px;
+
   --app-icon-font-size-tiny: 12px;	// 10px;
   --app-icon-font-size-small: 14px;
   --app-icon-font-size-medium: 16px;
   --app-icon-font-size-large: 18px;
   --app-icon-font-size-extra-large: 20px;
 
+	--app-justify: center;
   --url-ion-content: url("../assets/common/tree/tree.png");
   --url-ion-content-splash: url("../assets/common/tree/tree.png");
   --url-ion-content-memory: url("../assets/common/tree/tree.png");

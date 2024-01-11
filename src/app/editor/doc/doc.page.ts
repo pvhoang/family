@@ -160,11 +160,12 @@ export class DocPage implements OnInit {
 			photos.data.forEach(photo => {
 				let dat = photo.split('|');
 				let name = dat[0];
-				let caption = (dat.length > 1) ? dat[1] : '';
+				// let caption = (dat.length > 1) ? dat[1] : '';
+				let caption = (dat.length > 1) ? dat[1] : name;
 				let sub = {
 					type: 'menuitem',
 					text: name,
-					onAction: () => editor.insertContent(`"[` + name + `,1,` + caption + `]"`)
+					onAction: () => editor.insertContent(`"[` + name + `,1,c,` + caption + `]"`)
 				};
 				imageItems.push(sub);
 			})

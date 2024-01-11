@@ -342,18 +342,19 @@ export class FirebaseService {
 					if (name.indexOf('.png') > 0 || name.indexOf('.jpg') > 0 || name.indexOf('.jpeg') > 0)
 						names.push(name);
 				}
-				for (let i = 0; i < names.length; i++) {
-					let name = names[i];
-					let sname = name.substring(0, name.indexOf('.'));
-					let textFile = sname + '.txt';
-					for (let j = 0; j < data.items.length; j++) {
-						let srcName = data.items[j].name;
-						if (srcName.indexOf(textFile) == 0) {
-							names[i] += '|' + textFile;
-							break;
-						}
-					}
-				}
+				
+				// for (let i = 0; i < names.length; i++) {
+				// 	let name = names[i];
+				// 	let sname = name.substring(0, name.indexOf('.'));
+				// 	let textFile = sname + '.txt';
+				// 	for (let j = 0; j < data.items.length; j++) {
+				// 		let srcName = data.items[j].name;
+				// 		if (srcName.indexOf(textFile) == 0) {
+				// 			names[i] += '|' + textFile;
+				// 			break;
+				// 		}
+				// 	}
+				// }
 				resolve(names);
 			})
 		});

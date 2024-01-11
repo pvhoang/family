@@ -4,6 +4,7 @@ import { UtilService } from '../../services/util.service';
 import { LanguageService } from '../../services/language.service';
 import { FamilyService } from '../../services/family.service';
 import { NodeService } from '../../services/node.service';
+import { EditorService } from '../../services/editor.service';
 import { DataService } from '../../services/data.service';
 import { FirebaseService } from '../../services/firebase.service';
 import { TypeaheadService } from '../../services/typeahead.service';
@@ -59,6 +60,7 @@ export class PersonPage implements OnInit {
     private fbService: FirebaseService,
     private familyService: FamilyService,
     private nodeService: NodeService,
+    private editorService: EditorService,
     private dataService: DataService,
     private languageService: LanguageService,
     private themeService: ThemeService,
@@ -213,13 +215,38 @@ export class PersonPage implements OnInit {
     this.selectedNode = node;
 	
 		// if (node.name == 'Phan Viên')
-			// node.desc = "<b>Hello</b> there!<br/>New line";
-			// node.desc = '<b>Hello</b> there!<br/>New line<br/><img src="../assets/icon/male-avatar.jpg"/><br/>';
-		// convert desc to proper format
+		// 	// node.desc = "<b>Hello</b> there!<br/>New line";
+		// 	// node.desc = '<b>Hello</b> there!<br/>New line<br/><img src="../assets/icon/male-avatar.jpg"/><br/>';
+		// 	node.desc = '<b>Hello</b> there!<br/>New line<br/><img src="https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2FQuanPhan.jpeg?alt=media&token=68aaedc7-5a72-4eb4-9024-441c5c5271cd"/><br/>';
+
+		// node.desc = "<b>Hello</b> there!<br/>New line" +
+	// 	'<div id="img-div">' +
+  //   '<img src="https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2FQuanPhan.jpeg?alt=media&token=68aaedc7-5a72-4eb4-9024-441c5c5271cd" width="200" height="150" alt="hello" id="image">' +
+  //  '<caption id="image-caption">Some caption</caption>' +
+  // '</div>';
+
+	// '<div id="id-img-div" class="id-center">' +
+	// 	'<img id="id-img" src="https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2FQuanPhan.jpeg?alt=media&token=68aaedc7-5a72-4eb4-9024-441c5c5271cd" alt="Ludwig_Wittgenstein">' +
+	// 	'<div id="id-img-caption">Wittgenstein Life and Work</div>' +
+	// '</div>'
+
+// if (node.name == 'Phan Viên') {
+// 	node.desc = '<b>Hello</b>' +
+// 	'<br/><div class="home-container-center"><img src="https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2FQuanPhan.jpeg?alt=media&token=68aaedc7-5a72-4eb4-9024-441c5c5271cd" width="200" height="150" alt="QuanPhan.jpeg"/></div>' +
+// 	'<div class="home-container-left home-no-expand">QuanPhan</div><br/>'
+// }
+
+		// https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2FQuanPhan.jpeg?alt=media&token=68aaedc7-5a72-4eb4-9024-441c5c5271cd
+
+		// if (node.name == 'Phan Viên')
+
+		// node.desc = '<b>Hello</b> there!<br/>New line' + '"[QuanPhan.jpeg,3,1,QuanPhan]"' + '<br/>';
+
 		let ancestor = this.info.id;
-		this.updateDescText(ancestor, node.desc).then((newText:any) => {
+		this.editorService.getHtmlText(ancestor, node.desc).then((result:any) => {
 			// this.selectedNode.desc = newText;
-			node.desc = newText;
+			// console.log('newText: ', result.newText);
+			node.desc = result.newText;
 		})
 
     this.selectedNodeName = node.name;
@@ -446,118 +473,5 @@ export class PersonPage implements OnInit {
     return lineArray;
   }
 
-	updateDescText(ancestor: any, text: any) {
-		return new Promise((resolve, reject) => {
-
-			if (DEBUGS.APP)
-					console.log('AppComponent - updateDescText - text: ', text);
-			
-			// collect all image files: '"[abc.png]"'
-			let images = [];
-				// create new text
-			// let newText = text.slice(0);
-			// collect all images data between quotation ""
-			const matches = text.match(/"(.*?)"/g);
-			if (matches) {
-				for (let i = 0; i < matches.length; ++i) {
-					const match = matches[i];
-					// match include ""
-					if (match.charAt(1) == '[' && match.charAt(match.length - 2) == ']') {
-						// this is an image file name with options: image, size, caption
-						let imageStr = match.substring(2, match.length - 2);
-						if (images.indexOf(imageStr) == -1) {
-							images.push(imageStr);
-					}
-					}
-				}
-			}
-
-			// now convert to url from Firebase storage
-			let promises = [];
-			images.forEach(imageStr => {
-				promises.push(
-					new Promise((resolve) => {
-						// break down detail: image,size,caption
-						console.log('imageStr: ', imageStr);
-						// phan-loi-hanh.jpg,small,Hello Gia pha
-						// phan-loi-hanh.jpg,2,phan-loi-hanh.txt
-
-						let items = imageStr.split(',');
-						let imageFile = items[0];
-						let style = '1';
-						if (items.length > 1)
-							style = items[1];
-						let captionStr: string = (items.length > 2) ? items[2] : '';
-						// check if captionStr is text file
-						let captionFile = (captionStr.endsWith('.txt')) ? captionStr : '';
-
-						// caption is file txt
-						this.fbService.downloadImage(ancestor, imageFile).then((imageURL:any) => {
-							// <img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600">
-							let html = '<img src="' + imageURL + '"';
-							
-							let size = style.charAt(0);
-							let justify = 'center';
-							if (style.length > 1)
-								justify = style.charAt(1) == 'l' ? 'left' : (style.charAt(1) == 'c' ? 'center' : 'right');
-							let container = (justify == 'center' ? 'home-container-center' : (justify == 'left' ? 'home-container-left' : 'home-container-right'));
-
-							let width = 200;
-							let height = 150;
-							if (size == '2') {
-								width = 250;
-								height = 200;
-							} else if (size == '3') {
-								width = 300;
-								height = 200;
-							}
-							// https://stackoverflow.com/questions/30686191/how-to-make-image-caption-width-to-match-image-width
-							html += ' width="' + width + '" height="' + height + '" alt="' + imageFile + '">'
-							if (captionFile != '') {
-								this.fbService.downloadText(ancestor, captionFile).then((text:any) => {
-									captionStr = text;
-									html = 
-									'<br/>' +
-									'<div class="' + container + '">' + html + '/div>' +
-									'<div class="' + + container + ' home-no-expand">' + captionStr + '</div>' +
-									'<br/>'
-									resolve({imageStr: '"[' + imageStr + ']"', html: html});
-								});
-							} else {
-								html = 
-									'<br/>' + 
-									'<div class="' + container + '">' + html + '</div>';
-								if (captionStr != '')
-									html += 
-									'<div class="' + container + ' home-no-expand">' + captionStr + '</div>';
-								html += '<br/>'
-								console.log('html = ', html);
-								resolve({imageStr: '"[' + imageStr + ']"', html: html});
-							}
-							
-							// if (captionStr != '')
-							// 	html = '<div class="home-container">' + html + '<div class="home-no-expand">' + captionStr + '</div>'
-							// resolve({imageStr: '"[' + imageStr + ']"', html: html});
-
-						})
-						.catch((error) => {
-							resolve(null);
-						});
-					})
-				)
-			});
-
-			Promise.all(promises).then(resolves => {
-				console.log('resolves = ', resolves);
-				let newText = text.slice(0);
-				for (let i = 0; i < resolves.length; i++) {
-					let data = resolves[i];
-					let imageStr = data.imageStr;
-					let html = data.html;
-					newText = newText.replaceAll(imageStr,html);
-				}
-				resolve(newText);
-			});
-		});
-	}
+	
 }

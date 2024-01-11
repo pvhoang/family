@@ -260,6 +260,7 @@ export class HomePage implements OnInit{
 			componentProps: {
 			'caller': 'home',
 			},
+			cssClass: 'modal-dialog',
 			backdropDismiss:false
 		});
 		modal.onDidDismiss().then((resp) => {

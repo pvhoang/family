@@ -304,26 +304,72 @@ ion-tab-button {
 
 // --- HOME.PAGE.HTML ---
 
-.home-container-left{
-	display: flex;
-	justify-content: left;
-}
-.home-container-center {
-	display: flex;
-	justify-content: center;
-}
-.home-container-right {
-	display: flex;
-	justify-content: right;
-}
+// #id-img {
+// display:block;
+//  margin-left: auto;
+//  margin-right: auto;
+//  max-width: 100%;
+//  padding-bottom: 15px;
+// }
+// #id-img-div {
+//   margin: auto;
+// 	align-items: center;
+// 	justify-content: center;
+// }
+// #id-img-caption{
+// 	font-size: 80%;
+// 	text-align: center;
+// }
+// .id-center {
+// 	display: block;
+// 	margin-left: auto;
+// 	margin-right: auto;
+// 	width: 50%;
+// }
+// #img-div{
+//   text-align:center;
+// }
+// #image-caption{
+//   text-align: center;}
+// .container {
+//   display: inline-block;
+// 	// display: block; 
+// 	// margin-left: auto; 
+// 	// margin-right: auto
+// }
+// .no-expand {
+//   box-sizing: border-box;
+//   width: 0px;
+//   min-width: 100%;
+//   // background: pink;
+//   padding: 10px;
+// 	text-align:center;
+// }
 
+// .home-container-left{
+// 	display: flex;
+// 	justify-content: left;
+// }
+// .home-container-center {
+// 	display: flex;
+// 	justify-content: center;
+// }
+// .home-container-right {
+// 	display: flex;
+// 	justify-content: right;
+// }
+
+.home-container{
+	display: flex;
+	justify-content: var(--app-justify);
+}
 .home-no-expand {
   box-sizing: border-box;
   width: 0px;
   min-width: 100%;
   // background: pink;
   padding: 10px;
-	text-align:center;
+	text-align: var(--app-justify);
 	// color: var(--app-background-color);
 	font-size: var(--app-text-font-size-medium);
 }
@@ -331,6 +377,7 @@ ion-tab-button {
 // --- EDIT ---
 
 .editor {
+	width: var(--app-modal-width);
   .section{
     background: var(--app-background-color);
     // color: white;
@@ -467,6 +514,7 @@ ion-tab-button {
 .screen-node {
   position: relative; 
   height: var(--app-screen-height);
+  // width: 100%;
   width: 100%;
 }
 .screen-node::before {    
@@ -575,6 +623,20 @@ ion-tab-button {
 }
 
 // --- ALERT ---
+
+// https://forum.ionicframework.com/t/ion-modal-width/188685
+
+.modal-dialog {
+  --height: var(--app-modal-height);
+  --width: var(--app-modal-width);
+  .modal-wrapper {
+    background-image: var(--url-ion-content-alert);
+    background-position: center center;
+    min-width: var(--app-modal-width);
+    // min-width: 800px;
+		// width: 90%;
+  }
+}
 
 .alert-dialog {
   --height: var(--app-alert-height);

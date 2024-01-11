@@ -4,6 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { environment, FONTS_FOLDER, DEBUGS, DRAGON, VILLAGE, TREE, COUNTRY, SMALL_SIZE, MEDIUM_SIZE, LARGE_SIZE } from '../environments/environment';
 import { DataService } from './services/data.service';
 import { UtilService } from './services/util.service';
+import { EditorService } from './services/editor.service';
 import { ThemeService } from './services/theme.service';
 import { LanguageService } from './services/language.service';
 import { TranslateService } from "@ngx-translate/core";
@@ -65,6 +66,7 @@ export class AppComponent implements OnInit {
     private nodeService: NodeService,
     private familyService: FamilyService,
     private fbService: FirebaseService,
+    private editorService: EditorService,
 		private sanitizer: DomSanitizer,
   ) {
     if (DEBUGS.APP)
@@ -480,132 +482,163 @@ export class AppComponent implements OnInit {
 					let docs = rdata.docs;
 					// docs by language
 					console.log('AppComponent - updateAppData - language: ', this.language);
-
 					// parse docs
 					let language = this.languageService.getLanguage();
-					this.updateDocs(ancestor, docs[language]);
-					resolve(true);
+					this.updateDocs(ancestor, docs[language]).then(status => {
+						resolve(true);
+					});
 				});
 			});
 		});
   }
-	
+
 	updateDocs(ancestor: any, docs: any) {
-		if (DEBUGS.APP)
-        console.log('AppComponent - updateDocs - docs: ', docs);
-		let newDocs:any = {};
-		// collect all image files: '"[abc.png]"'
-		let images = [];
-		for (var key of Object.keys(docs)) {
-			let data = docs[key];
-			// create new text for all docs
-			docs[key].newText = data.text.slice(0);
-			// collect all images data between quotation ""
-			const matches = data.text.match(/"(.*?)"/g);
-			if (matches) {
-				for (let i = 0; i < matches.length; ++i) {
-					const match = matches[i];
-					// match include ""
-					if (match.charAt(1) == '[' && match.charAt(match.length - 2) == ']') {
-						// this is an image file name with options: image, size, caption
-						let imageStr = match.substring(2, match.length - 2);
-						if (images.indexOf(imageStr) == -1) {
-							images.push(imageStr);
-					}
-					}
-				}
-			}
-		}
-		// now convert to url from Firebase storage
-		let promises = [];
-		images.forEach(imageStr => {
-			promises.push(
-				new Promise((resolve) => {
-					// break down detail: image,size,caption
-					console.log('imageStr: ', imageStr);
-					// phan-loi-hanh.jpg,small,Hello Gia pha
-					// phan-loi-hanh.jpg,2,phan-loi-hanh.txt
-
-					let items = imageStr.split(',');
-					let imageFile = items[0];
-					let style = '1';
-					if (items.length > 1)
-						style = items[1];
-					let captionStr: string = (items.length > 2) ? items[2] : '';
-					// check if captionStr is text file
-					let captionFile = (captionStr.endsWith('.txt')) ? captionStr : '';
-
-					// caption is file txt
-					this.fbService.downloadImage(ancestor, imageFile).then((imageURL:any) => {
-						// <img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600">
-						let html = '<img src="' + imageURL + '"';
-						
-						let size = style.charAt(0);
-						let justify = 'center';
-						if (style.length > 1)
-							justify = style.charAt(1) == 'l' ? 'left' : (style.charAt(1) == 'c' ? 'center' : 'right');
-						let container = (justify == 'center' ? 'home-container-center' : (justify == 'left' ? 'home-container-left' : 'home-container-right'));
-
-						let width = 200;
-						let height = 150;
-						if (size == '2') {
-							width = 250;
-							height = 200;
-						} else if (size == '3') {
-							width = 300;
-							height = 200;
-						}
-						// https://stackoverflow.com/questions/30686191/how-to-make-image-caption-width-to-match-image-width
-						html += ' width="' + width + '" height="' + height + '" alt="' + imageFile + '">'
-						if (captionFile != '') {
-							this.fbService.downloadText(ancestor, captionFile).then((text:any) => {
-								captionStr = text;
-								html = 
-								'<br/>' +
-								'<div class="' + container + '">' + html + '/div>' +
-								'<div class="' + + container + ' home-no-expand">' + captionStr + '</div>' +
-								'<br/>'
-								resolve({imageStr: '"[' + imageStr + ']"', html: html});
-							});
-						} else {
-							html = 
-								'<br/>' + 
-								'<div class="' + container + '">' + html + '</div>';
-							if (captionStr != '')
-								html += 
-								'<div class="' + container + ' home-no-expand">' + captionStr + '</div>';
-							html += '<br/>'
-							console.log('html = ', html);
-							resolve({imageStr: '"[' + imageStr + ']"', html: html});
-						}
-						
-						// if (captionStr != '')
-						// 	html = '<div class="home-container">' + html + '<div class="home-no-expand">' + captionStr + '</div>'
-						// resolve({imageStr: '"[' + imageStr + ']"', html: html});
-
-					})
-					.catch((error) => {
-						resolve(null);
-					});
-				})
-			)
-		})
-		Promise.all(promises).then(resolves => {
-			console.log('resolves = ', resolves);
-			for (let i = 0; i < resolves.length; i++) {
-				let data = resolves[i];
-				let imageStr = data.imageStr;
-				let html = data.html;
+			return new Promise((resolve) => {
+				if (DEBUGS.APP)
+					console.log('AppComponent - updateDocs - docs: ', docs);
+				// collect all image files: '"[abc.png]"'
 				for (var key of Object.keys(docs)) {
-					let data = docs[key];
-					let text = data.text.slice(0);
-					let newText = text.replaceAll(imageStr,html);
-					docs[key].newText = newText;
+					this.editorService.getHtmlText(ancestor, docs[key].text, key).then((result:any) => {
+						console.log('AppComponent - updateDocs - newText: ', result.key, result.newText);
+						docs[result.key].newText = result.newText;
+					})
 				}
-			}
-			this.dataService.saveDocs(docs).then((docs:any) => {});
-		});
-  }
+				// console.log('AppComponent - updateDocs - after docs 1: ', docs);
+				setTimeout(() => {
+				this.dataService.saveDocs(docs).then((status:any) => {
+					console.log('AppComponent - updateDocs - after docs: ', docs);
+					resolve(true);
+				});
+				}, 1000);
+		})
+	}
+	
+	// updateDocsSAVE(ancestor: any, docs: any) {
+	// 	if (DEBUGS.APP)
+  //       console.log('AppComponent - updateDocs - docs: ', docs);
+	// 	let newDocs:any = {};
+	// 	// collect all image files: '"[abc.png]"'
+	// 	let images = [];
+	// 	for (var key of Object.keys(docs)) {
+	// 		let data = docs[key];
+	// 		// create new text for all docs
+	// 		docs[key].newText = data.text.slice(0);
+	// 		// collect all images data between quotation ""
+	// 		const matches = data.text.match(/"(.*?)"/g);
+	// 		if (matches) {
+	// 			for (let i = 0; i < matches.length; ++i) {
+	// 				const match = matches[i];
+	// 				// match include ""
+	// 				if (match.charAt(1) == '[' && match.charAt(match.length - 2) == ']') {
+	// 					// this is an image file name with options: image, size, caption
+	// 					let imageStr = match.substring(2, match.length - 2);
+	// 					if (images.indexOf(imageStr) == -1) {
+	// 						images.push(imageStr);
+	// 				}
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// 	// now convert to url from Firebase storage
+	// 	let promises = [];
+	// 	images.forEach(imageStr => {
+	// 		promises.push(
+	// 			new Promise((resolve) => {
+	// 				// break down detail: image,size,caption
+	// 				console.log('imageStr: ', imageStr);
+	// 				// phan-loi-hanh.jpg,small,Hello Gia pha
+	// 				// phan-loi-hanh.jpg,2,phan-loi-hanh.txt
+
+	// 				let items = imageStr.split(',');
+	// 				let imageFile = items[0];
+					
+	// 				let size = '1';
+	// 				if (items.length > 1)	size = items[1];
+	// 				let width = 200;
+	// 				let height = 150;
+	// 				if (size == '2') {
+	// 					width = 250;
+	// 					height = 200;
+	// 				} else if (size == '3') {
+	// 					width = 300;
+	// 					height = 200;
+	// 				}
+
+	// 				let justify = 'c';
+	// 				if (items.length > 2) justify = items[2];
+	// 				let container = (justify == 'c' ? 'home-container-center' : (justify == 'l' ? 'home-container-left' : 'home-container-right'));
+
+	// 				let captionStr: string = '';
+	// 				if (items.length > 3) captionStr = items[3];
+
+	// 				// check if captionStr is text file
+	// 				// let captionFile = (captionStr.endsWith('.txt')) ? captionStr : '';
+	// 				let captionFile = '';
+
+	// 				// caption is file txt
+	// 				this.fbService.downloadImage(ancestor, imageFile).then((imageURL:any) => {
+	// 					// <img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600">
+
+	// 					let html = '<img src="' + imageURL + '"';
+						
+	// 					// let size = style.charAt(0);
+	// 					// let justify = 'center';
+	// 					// if (style.length > 1)
+	// 						// justify = style.charAt(1) == 'l' ? 'left' : (style.charAt(1) == 'c' ? 'center' : 'right');
+						
+	// 					// let container = (justify == 'c' ? 'home-container-center' : (justify == 'l' ? 'home-container-left' : 'home-container-right'));
+					
+	// 					// https://stackoverflow.com/questions/30686191/how-to-make-image-caption-width-to-match-image-width
+	// 					html += ' width="' + width + '" height="' + height + '" alt="' + imageFile + '">'
+	// 					if (captionFile != '') {
+	// 						this.fbService.downloadText(ancestor, captionFile).then((text:any) => {
+	// 							captionStr = text;
+	// 							html = 
+	// 							'<br/>' +
+	// 							'<div class="' + container + '">' + html + '/div>' +
+	// 							'<div class="' + + container + ' home-no-expand">' + captionStr + '</div>' +
+	// 							'<br/>'
+	// 							resolve({imageStr: '"[' + imageStr + ']"', html: html});
+	// 						});
+	// 					} else {
+	// 						html = 
+	// 							'<br/>' + 
+	// 							'<div class="' + container + '">' + html + '</div>';
+	// 						if (captionStr != '')
+	// 							html += 
+	// 							'<div class="' + container + ' home-no-expand">' + captionStr + '</div>';
+	// 						html += '<br/>'
+	// 						console.log('html = ', html);
+	// 						resolve({imageStr: '"[' + imageStr + ']"', html: html});
+	// 					}
+						
+	// 					// if (captionStr != '')
+	// 					// 	html = '<div class="home-container">' + html + '<div class="home-no-expand">' + captionStr + '</div>'
+	// 					// resolve({imageStr: '"[' + imageStr + ']"', html: html});
+
+	// 				})
+	// 				.catch((error) => {
+	// 					resolve(null);
+	// 				});
+	// 			})
+	// 		)
+	// 	})
+	// 	Promise.all(promises).then(resolves => {
+	// 		console.log('resolves = ', resolves);
+	// 		for (let i = 0; i < resolves.length; i++) {
+	// 			let data = resolves[i];
+	// 			let imageStr = data.imageStr;
+	// 			let html = data.html;
+	// 			for (var key of Object.keys(docs)) {
+	// 				let data = docs[key];
+	// 				let text = data.text.slice(0);
+	// 				let newText = text.replaceAll(imageStr,html);
+	// 				docs[key].newText = newText;
+	// 			}
+	// 		}
+	// 		this.dataService.saveDocs(docs).then((docs:any) => {});
+	// 	});
+  // }
 
   private setJsonData(json: string) {
     return new Promise((resolve) => {

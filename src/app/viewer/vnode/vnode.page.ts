@@ -284,6 +284,7 @@ export class VnodePage implements OnInit {
         'familyView': familyView,
         'info': info,
       },
+			cssClass: 'modal-dialog',
 			backdropDismiss:false
     });
 
