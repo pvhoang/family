@@ -126,7 +126,7 @@
 
 .tooltip .tooltiptext {
   visibility: hidden;
-  width: 120px;
+  width: 100px;
   background-color: var(--app-background-color);
   color: var(--app-color);
   text-align: center;

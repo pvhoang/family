@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { AlertController, PopoverController, ToastController, LoadingController, IonicSafeString } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
-import { DEBUGS } from '../../environments/environment';
+import { DEBUGS, VietnameseEntities } from '../../environments/environment';
 import { SelectComponent } from '../components/select/select.component';
 import { LanguageService } from '../services/language.service';
 import { ThemeService } from '../services/theme.service';
@@ -268,16 +268,13 @@ export class UtilService {
 		console.log('printVariable: ' + msg + ' - ' + variable + ' : ' + value);
 	}
 
-	async alertSelect(srcHeader: any, selects: any[], cancelText, okText, css?: any) {
-
+	async alertSelect(srcHeader: any, selects: any[], cancelText: any, okText: any) {
 		let header = this.languageService.getTranslation(srcHeader);
 		if (!header)
 			header = srcHeader;
 		cancelText = this.languageService.getTranslation(cancelText);
 		okText = this.languageService.getTranslation(okText);
-		if (!css)
-			css = 'modal-dialog';
-		this.themeService.setAlertSize({ width: 350, height: 350 });
+		this.themeService.setRootProperties([['--app-modal-height', '300px']]);
     const modal = await this.modalCtrl.create({
       component: SelectComponent,
       componentProps: {
@@ -321,19 +318,23 @@ export class UtilService {
 
 	// TOAST
 
-	async presentToastWait(srcHeader, srcMessage, okText) {
-		let header = this.languageService.getTranslation(srcHeader);
-		if (!header)
-			header = srcHeader;
+	async presentToastWait(srcHeader: any, srcMessage: any, okText, waitTime?: number) {
+		
+		let header = null;
+		if (!srcHeader) {
+			let header = this.languageService.getTranslation(srcHeader);
+			if (!header)
+				header = srcHeader;
+		}
 		let message = this.languageService.getTranslation(srcMessage);
 		if (!message)
 			message = srcMessage;
-		let time = 3000;
-		this.themeService.setAlertSize({ width: 350, height: 100 });
+		let time = (waitTime) ? waitTime : 3000;
+		this.themeService.setToastSize(message);
 		okText = this.languageService.getTranslation(okText);
-		let css = 'toast-wait';
+		let css = 'toast-dialog';
     const toast = await this.toastController.create({
-      // header: header,
+      header: header,
       message: message,
       // icon: 'information-circle',
       position: 'middle',
@@ -397,42 +398,6 @@ export class UtilService {
 		let lYear = canArray[can] + ' ' + chiArray[chi];
 		return lYear;
 	}
-
-	public getWesternYear(canchi: string) {
-
-		let canArray = ["Giáp","Ất","Bính","Đinh","Mậu","Kỉ","Canh","Tân","Nhâm","Quý"]
-		let chiArray = ["Tý","Sửu","Dần","Mão","Thìn","Tỵ","Ngọ","Mùi","Thân","Dậu","Tuất","Hợi"];
-		let array = [
-			['04','  ','16','  ','28','  ','40','  ','52','  '],
-			['  ','05','  ','17','  ','29','  ','41','  ','53'],
-			['54','  ','06','  ','18','  ','30','  ','42','  '],
-			['  ','55','  ','07','  ','19','  ','31','  ','43'],
-			['44','  ','56','  ','08','  ','20','  ','32','  '],
-			['  ','45','  ','57','  ','09','  ','21','  ','33'],
-			['34','  ','46','  ','58','  ','10','  ','22','  '],
-			['  ','35','  ','47','  ','59','  ','11','  ','23'],
-			['24','  ','36','  ','48','  ','00','  ','12','  '],
-			['  ','25','  ','37','  ','49','  ','01','  ','13'],
-			['14','  ','26','  ','38','  ','50','  ','02','  '],
-			['  ','15','  ','27','  ','39','  ','51','  ','03'],
-		]
-
-		let ary = canchi.split(' ');
-		let can = canchi[0];
-		let chi = canchi[1];
-
-		for (let i = 0; i < canArray.length; i++)
-			if (can == canArray[i]) {
-				for (let j = 0; j < chiArray.length; j++) {
-					if (chi == chiArray[i]) {
-
-					}
-				}
-			}
-
-
-	}
-
 
 	public getMonths() {
 		let months = [];
@@ -508,6 +473,32 @@ export class UtilService {
 	
 	getCurrentTime() {
 		return new Date().getTime();
+	}
+
+	decodeEntities(str: string) {
+		let res = '';
+		let idx1 = 0;
+		for (;idx1 < str.length;) {
+			let idx2 = str.indexOf('&', idx1);
+			if (idx2 < 0) {
+				res += str.substring(idx1);
+				break;
+			} else {
+				res += str.substring(idx1, idx2);
+			}
+			let idx3 = str.indexOf(';', idx2);
+			if (idx3 > idx2) {
+				let entity = str.substring(idx2, idx3+1);
+				let vnChar = VietnameseEntities[entity];
+				res += (vnChar) ? vnChar : entity;
+				idx1 = idx3 + 1;
+			} else {
+				res += str.substring(idx2);
+				break;
+			}
+		}
+		// console.log('str, res: ', str, res)
+		return res;
 	}
 
 }

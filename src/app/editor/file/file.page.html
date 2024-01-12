@@ -39,15 +39,6 @@
 				<span class="label">{{ 'UPDATE' | translate }}</span>
 			</ion-col>
 		</ion-item>
-
-		<!-- <ion-item class="header-bottom" *ngIf="!rootChanged">
-			<ion-col size="6" class="heading">
-				<span class="label">{{ message }}</span>
-			</ion-col>
-			<ion-col size="6" class="heading">
-
-			</ion-col>
-		</ion-item> -->
 	</div>
 
 </ion-header>
@@ -120,10 +111,8 @@
 					<ion-button class="button" fill="clear" (click)="uploadOnClick()">
             <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
           </ion-button>
-					<!-- <a (click)="modifyOnUpload()">[{{ 'FILE_DOWNLOAD_START' | translate }}]</a> -->
 					<input id="modify-upload" type="file" (change)="uploadOnFileSelect($event)" style="display:none;" title=" " accept=".json"/>
 					<span class="label">{{ 'FILE_UPLOAD_START' | translate }}</span>
-					<!-- <input type="file" (change)="modifyOnFileSelect($event)" title=" " accept=".json"/> -->
         </ion-col>
       </ion-row>
 
@@ -239,7 +228,6 @@
 					<ion-button class="button" fill="clear" (click)="imageOnClick(false)">
             <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
           </ion-button>
-					<!-- <input id="modify-image-2" type="file" (change)="imageOnSelect($event)" multiple title=" " accept=".png, .jpg, .jpeg" style="display:none;"/> -->
 					<span class="label">{{ 'FILE_IMAGE_ADD' | translate }}</span>
 				</ion-col>
       </ion-row>
@@ -357,7 +345,6 @@
 		</form>
 
 	</div>
-
 	
 </div>
 </ion-content>

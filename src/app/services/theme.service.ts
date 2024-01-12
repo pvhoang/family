@@ -280,6 +280,11 @@ export class ThemeService {
 		})
   }
 
+	getRootProperty(property: any) {
+    let root = document.documentElement;
+		return root.style.getPropertyValue(property)
+  }
+
 	setToastSize(message) {
     console.log('setToastSize: ', message);
 		let lines = message.split('br/');
@@ -290,7 +295,7 @@ export class ThemeService {
 		})
     console.log('setToastSize: line: ', lines);
     console.log('setToastSize: lineChars: ', lineChars);
-		let height = (lines.length == 1) ? 40 : ((lines.length == 2) ? 60 : 80);
+		let height = (lines.length == 1) ? 40 : ((lines.length == 2) ? 60 : 120);
 		let width = (lineChars < 30) ? 300 : ((lineChars < 50) ? 400 : 500);
     let root = document.documentElement;
     root.style.setProperty('--app-toast-height', height + 'px');

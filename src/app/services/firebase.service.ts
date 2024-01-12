@@ -339,9 +339,18 @@ export class FirebaseService {
 				let names = [];
 				for (let i = 0; i < data.items.length; i++) {
 					let name = data.items[i].name;
-					if (name.indexOf('.png') > 0 || name.indexOf('.jpg') > 0 || name.indexOf('.jpeg') > 0)
-						names.push(name);
+					let newref = ref(storage, storageFolder + '/' + data.items[i].name);
+					getMetadata(newref).then((metadata) => {
+						let type = metadata.contentType;
+						if (type.indexOf('image') >= 0)
+							names.push(name);
+					})
+					// if (name.indexOf('.png') > 0 || name.indexOf('.jpg') > 0 || name.indexOf('.jpeg') > 0)
+					// 	names.push(name);
 				}
+				setTimeout(() => {
+					resolve(names);
+				}, 500);
 				
 				// for (let i = 0; i < names.length; i++) {
 				// 	let name = names[i];
@@ -355,33 +364,33 @@ export class FirebaseService {
 				// 		}
 				// 	}
 				// }
-				resolve(names);
+				// resolve(names);
 			})
 		});
 	}
 
-	getPhotoList(storageFolder:string) {
-		return new Promise((resolve) => {
-			const storage = getStorage();
-			const r = ref(storage, storageFolder + '/');
-			listAll(r).then((data) => {
-				let photolist = []
-				for (let i = 0; i < data.items.length; i++) {
-					let name = data.items[i].name;
-					if (name.lastIndexOf('_') > 0) {
-						let photoTime = name.substring(name.lastIndexOf('_')+1);
-						if (photoTime.length > 12) {
-							let time = photoTime;
-							let photoName = name.substring(0, name.lastIndexOf('_'));
-							// photolist.push({ photoName: photoTime })
-							photolist.push( [photoName, time] )
-						}
-					}
-				}
-				resolve(photolist);
-			});
-		});
-	}
+	// getPhotoList(storageFolder:string) {
+	// 	return new Promise((resolve) => {
+	// 		const storage = getStorage();
+	// 		const r = ref(storage, storageFolder + '/');
+	// 		listAll(r).then((data) => {
+	// 			let photolist = []
+	// 			for (let i = 0; i < data.items.length; i++) {
+	// 				let name = data.items[i].name;
+	// 				if (name.lastIndexOf('_') > 0) {
+	// 					let photoTime = name.substring(name.lastIndexOf('_')+1);
+	// 					if (photoTime.length > 12) {
+	// 						let time = photoTime;
+	// 						let photoName = name.substring(0, name.lastIndexOf('_'));
+	// 						// photolist.push({ photoName: photoTime })
+	// 						photolist.push( [photoName, time] )
+	// 					}
+	// 				}
+	// 			}
+	// 			resolve(photolist);
+	// 		});
+	// 	});
+	// }
 
 	getFileList(storageFolder:string) {
 		return new Promise((resolve) => {

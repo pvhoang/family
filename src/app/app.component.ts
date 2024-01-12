@@ -208,7 +208,7 @@ export class AppComponent implements OnInit {
 					]
       }
     ]
-    this.utilService.alertSelect(title, selects , cancel, ok, 'alert-dialog').then((result:any) => {
+    this.utilService.alertSelect(title, selects , cancel, ok).then((result:any) => {
       if (result.data) {
 				console.log('AppComponent - setSetting - data: ', result.data);
 				if (result.data.status == 'save') {
@@ -499,6 +499,7 @@ export class AppComponent implements OnInit {
 				// collect all image files: '"[abc.png]"'
 				for (var key of Object.keys(docs)) {
 					this.editorService.getHtmlText(ancestor, docs[key].text, key).then((result:any) => {
+						// update 
 						console.log('AppComponent - updateDocs - newText: ', result.key, result.newText);
 						docs[result.key].newText = result.newText;
 					})

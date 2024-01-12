@@ -443,9 +443,11 @@ export class FamilyService {
       })
       if (clean) {
 				sortNodes.sort((item1:any, item2:any) => {
-					let a1: any = (item1.node.yob == '') ? 2050 : +item1.node.yob;
-					let a2: any = (item2.node.yob == '') ? 2050 : +item2.node.yob;
-					return a1 - a2;
+					// let a1: any = (item1.node.yob == '') ? 2050 : +item1.node.yob;
+					// let a2: any = (item2.node.yob == '') ? 2050 : +item2.node.yob;
+					// return a1 - a2;
+					// no sort for now, 12/01/24, DOB can be filled in later. Keep input order
+					return 0;
 				});
 			}
       sortNodes.forEach(item => {

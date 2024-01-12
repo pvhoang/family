@@ -4,6 +4,7 @@ import { environment, FONTS_FOLDER, DEBUGS } from '../../../environments/environ
 import { LanguageService } from '../../services/language.service';
 import { UtilService } from '../../services/util.service';
 import { FamilyService } from '../../services/family.service';
+import { NodeService } from '../../services/node.service';
 import { PageFlip } from 'page-flip';
 import { DataService } from '../../services/data.service';
 import { VnodePage } from '../vnode/vnode.page';
@@ -28,6 +29,8 @@ export class HomePage implements OnInit{
 	pageIndex: number = 0;
 	pageFlip: any;
 	ancestor: any;
+	nodes: any;
+	levels: any;
 
 	pageData = {
 		"muc_luc": { title: "", text: "", index: 0, titleText: "" },
@@ -47,6 +50,7 @@ export class HomePage implements OnInit{
     private languageService: LanguageService,
 		private dataService: DataService,
 		private utilService: UtilService,
+		private nodeService: NodeService,
 		private familyService: FamilyService,
   ) {
   }
@@ -67,6 +71,40 @@ export class HomePage implements OnInit{
 				let family = dat.family;
 				let info = dat.info;
 				this.ancestor = info.id;
+				let data = this.getSystemData(family);
+				this.nodes = data.nodes;
+				this.levels = data.levels;
+
+				// let nodes = this.nodeService.getFamilyNodes(family, true);
+				// console.log('nodes: ', nodes);
+
+				// let maxLevel = 0;
+				// let minLevel = 0;
+				
+				// nodes.forEach(node => {
+				// 	if (node.level > maxLevel)
+				// 		maxLevel = node.level;
+				// 	if (node.yob != '' && node.yob < yobMin)
+				// 		yobMin = node.yob;
+				// 	if (node.yob != '' && node.yob > yobMax)
+				// 		yobMax = node.yob;
+				// })
+				// let yobMin = 0;
+				// let yobMax = 0;
+				// nodes.forEach(node => {
+				// 	if (node.level > maxLevel)
+				// 		maxLevel = node.level;
+				// 	if (node.yob != '' && node.yob < yobMin)
+				// 		yobMin = node.yob;
+				// 	if (node.yob != '' && node.yob > yobMax)
+				// 		yobMax = node.yob;
+				// })
+
+
+
+				// this.nodes = nodes.length;
+				// this.levels = maxLevel + '(' + ((yobMin == 0) ? '' : ''+yobMin) + '-' + ((yobMax == 0) ? '' : ''+yobMax) + ')';
+
 				// this.title1 = info.name;
 				// this.title2 = info.location;
 				// this.title3 = 'A.' + environment.version + ' (D.' + family.version + ')';
@@ -76,54 +114,81 @@ export class HomePage implements OnInit{
 		});
 	}
 	
-	onMemorial1() {
-    let msg = this.utilService.getAlertMessage([
-      {name: 'msg', label: 'NODE_DELETE_NODE_MESSAGE_1'},
-      {name: 'data', label: "hello"},
-      {name: 'msg', label: 'NODE_DELETE_NODE_MESSAGE_2'},
-    ]);
-		this.utilService.presentToast(msg, 3000);
-  }
+	private getSystemData(family) {
+	
+		let nodes = this.nodeService.getFamilyNodes(family, true);
+		let minLevel = 100;
+		let maxLevel = 0;
+		nodes.forEach(node => {
+			if (node.level > maxLevel)
+				maxLevel = node.level;
+			if (node.level < minLevel)
+				minLevel = node.level;
+		})
+		let yobMin = 3000;
+		let yobMax = 0;
+		nodes.forEach(node => {
+			if (node.level == minLevel && node.yob != '' && node.yob < yobMin)
+				yobMin = node.yob;
+			if (node.level == maxLevel && node.yob != '' && node.yob > yobMax)
+				yobMax = node.yob;
+		})
+		return {
+			nodes: nodes.length,
+			levels: maxLevel + ' ( ' + yobMin + '-' + yobMax + ' )'
+		}
+	}
 
 	onMemorial() {
     this.familyService.passAwayFamily().then((data:any) => {
       if (DEBUGS.DOCS)
         console.log('HomePage - onMemorial - data: ', data);
       let today = data.today;
-      let header =
-      '<b>' + this.languageService.getTranslation('HOME_MEMORY_TODAY') + '</b>: &emsp;' + today + '<br/><br/>';
-      let msg = '';
-      if (data.persons.length > 0) {
-        msg = '<i>' + this.languageService.getTranslation('HOME_MEMORY_NAME') + 
-        '</i>\t\t\t<i>' + this.languageService.getTranslation('HOME_MEMORY_DOD') + '</i>' + '<br/>';
+      let msg = '<b>' + this.languageService.getTranslation('HOME_MEMORY_HEADER') + '</b><br/><br/>' +
+					'<i>' + this.languageService.getTranslation('HOME_MEMORY_TODAY') + ':  ' + today + '</i><br/></br>';
+      // let msg = '<i>' + this.languageService.getTranslation('HOME_MEMORY_TODAY') + '</i>:&emsp;' + today + '<br/>';
+      // let msg = '<br/>';
+			if (data.persons.length > 0) {
         data.persons.forEach(person => {
-          let str = '';
-          // check number of words in name
-          let words = person[0].split(' ');
-          if (words.length > 3) {
-            str = person[0] + '\t' + person[1]
-          } else {
-            str = person[0] + '\t\t' + person[1];
-          }
-          msg += str + '<br/>';
-        })
+					msg += person[0] + ':&emsp;:&emsp;' + person[1] + '<br/>'
+				});
       } else {
-        msg = this.languageService.getTranslation('HOME_MEMORY_NO_DOD');
+        msg += this.languageService.getTranslation('HOME_MEMORY_NO_DOD');
       }
-      // msg += '<br/><br/>';
-      msg = header + msg;
-			console.log('HomePage - onMemorial - msg: ', msg);
-      // this.utilService.alertMsg('HOME_ALERT_MEMORIAL_HEADER', msg, 'alert-small');
-			this.utilService.presentToast(msg, 5000);
-			// this.utilService.presentToastWait("MEMORIAL", msg, 'OK');
+			this.utilService.presentToastWait(null, msg, 'OK', 8000);
     });
   }
 
-	updatePageData(docs: any) {
+	// onMemorial1() {
+  //   let msg = this.utilService.getAlertMessage([
+  //     {name: 'msg', label: 'NODE_DELETE_NODE_MESSAGE_1'},
+  //     {name: 'data', label: "hello"},
+  //     {name: 'msg', label: 'NODE_DELETE_NODE_MESSAGE_2'},
+  //   ]);
+	// 	this.utilService.presentToast(msg, 3000);
+  // }
 
-		// let root = document.documentElement;
-		// let value = root.style.getPropertyValue('--app-icon-font-size-medium')
-		// let fontSize = +value.substring(0, value.length - 2);
+	// onMemorial2() {
+  //   this.familyService.passAwayFamily().then((data:any) => {
+  //     if (DEBUGS.DOCS)
+  //       console.log('HomePage - onMemorial - data: ', data);
+  //     let today = data.today;
+  //     let header = this.languageService.getTranslation('HOME_MEMORY_HEADER') +
+	// 				'       (' + this.languageService.getTranslation('HOME_MEMORY_TODAY') + ':  ' + today + ')';
+  //     // let msg = '<i>' + this.languageService.getTranslation('HOME_MEMORY_TODAY') + '</i>:&emsp;' + today + '<br/>';
+  //     let msg = '<br/>';
+	// 		if (data.persons.length > 0) {
+  //       data.persons.forEach(person => {
+	// 				msg += person[0] + ':&emsp;' + person[1] + '<br/>'
+	// 			});
+  //     } else {
+  //       msg = this.languageService.getTranslation('HOME_MEMORY_NO_DOD');
+  //     }
+	// 		this.utilService.presentToastWait(header, msg, 'OK', 8000);
+  //   });
+  // }
+
+	updatePageData(docs: any) {
 
 		let titles = { 
 			'gia_pha': this.languageService.getTranslation('HOME_TITLE'),
@@ -146,7 +211,16 @@ export class HomePage implements OnInit{
 
 				// let text = data.text;
 				// use html data
+				// replace special param with real values
 				let text = data.newText;
+				if (key == 'pha_he') {
+					console.log('text1: ', text);
+					text = text.replaceAll('"[NODES]"', '<b>' + this.nodes +'</b>');
+					text = text.replaceAll('"[LEVELS]"', '<b>' + this.levels + '</b>');
+					// console.log('text2: ', text);
+					data.text = text;
+				}
+
 				if (key == 'pha_nhap' || key == 'pha_ky' || key == 'ngoai_pha' || key == 'phu_khao') {
 					// break into various page
 					// let p = this.getPages(text);
@@ -155,7 +229,6 @@ export class HomePage implements OnInit{
 					let texts = text.split('/PAGE/');
 					// var(--app-icon-font-size-medium);
 					// let texts = this.getPages(text, fontSize);
-
 					// let title = data.title;
 					let pcount = 1;
 					texts.forEach((txt:string) => {
@@ -272,27 +345,27 @@ export class HomePage implements OnInit{
 	}
 
 	// https://stackoverflow.com/questions/62483639/split-long-string-into-small-chunks-without-breaking-html-tags-and-words
-	getPages(text: any, fontSize: number) {
-		let wordsArray = text.split(" ")
-		let chunks = Array()
-		const wordsInChunkCount = this.getWordsPerPage(1, fontSize);
-		console.log('wordsInChunkCount, fontSize:', wordsInChunkCount, fontSize);
-		let temp = wordsInChunkCount
-		let str = ''
-		wordsArray.forEach(item => {
-			if (temp > 0) {
-				str += ' ' + item
-				temp--
-			} else {
-				chunks.push(str)
-				str = ''
-				temp = wordsInChunkCount
-			}
-		})
-		console.log('chunks:', chunks);
+	// getPages(text: any, fontSize: number) {
+	// 	let wordsArray = text.split(" ")
+	// 	let chunks = Array()
+	// 	const wordsInChunkCount = this.getWordsPerPage(1, fontSize);
+	// 	console.log('wordsInChunkCount, fontSize:', wordsInChunkCount, fontSize);
+	// 	let temp = wordsInChunkCount
+	// 	let str = ''
+	// 	wordsArray.forEach(item => {
+	// 		if (temp > 0) {
+	// 			str += ' ' + item
+	// 			temp--
+	// 		} else {
+	// 			chunks.push(str)
+	// 			str = ''
+	// 			temp = wordsInChunkCount
+	// 		}
+	// 	})
+	// 	console.log('chunks:', chunks);
 
-		return chunks;
-	}
+	// 	return chunks;
+	// }
 
 // https://www.bookdesignmadesimple.com/calculate-book-page-count-using-word-count/
 // To calculate the page count for a 5″ × 8″ book:
@@ -310,25 +383,18 @@ export class HomePage implements OnInit{
 // 11 pt type – divide your word count by 500
 // 12 pt type – divide your word count by 425
 
-	getWordsPerPage(pageSize, fontSize) {
-		let size = { 
-			'10': 300,
-			'12': 280, 
-			'14': 250, 
-			'16': 220, 
-			'18': 200, 
-			'20': 180, 
-			'22': 150, 
-		}
-		return size[''+fontSize];
-
-		// fontSize = (fontSize > 16) ? 12 : 11;
-		// if (pageSize == 1)
-		// 	return (fontSize == 10) ? 400 : ((fontSize == 11) ? 100 : 300);
-		// else if (pageSize == 2)
-		// 	return (fontSize == 10) ? 475 : ((fontSize == 11) ? 425 : 350);
-		// return (fontSize == 10) ? 600 : ((fontSize == 11) ? 500 : 425);
-	}
+	// getWordsPerPage(pageSize, fontSize) {
+	// 	let size = { 
+	// 		'10': 300,
+	// 		'12': 280, 
+	// 		'14': 250, 
+	// 		'16': 220, 
+	// 		'18': 200, 
+	// 		'20': 180, 
+	// 		'22': 150, 
+	// 	}
+	// 	return size[''+fontSize];
+	// }
 
 	
 }

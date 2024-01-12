@@ -8,6 +8,7 @@ import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import { LanguageService } from '../../../services/language.service';
 import { UtilService } from '../../../services/util.service';
 import { DataService } from '../../../services/data.service';
+import { EditorService } from '../../../services/editor.service';
 import { NodeService } from '../../../services/node.service';
 import { FirebaseService } from '../../../services/firebase.service';
 import { FONTS_FOLDER, DEBUGS, environment } from '../../../../environments/environment';
@@ -74,6 +75,7 @@ export class EditPage implements OnInit {
     private languageService: LanguageService,
     private utilService: UtilService,
     private dataService: DataService,
+    private editorService: EditorService,
     private nodeService: NodeService,
     private typeahead: TypeaheadService,
   ) { 
@@ -296,7 +298,7 @@ export class EditPage implements OnInit {
       content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
       setup: (editor: any) => {
         this.editor = editor;
-				let subitems = this.getImageItems(editor);
+				let subitems = this.editorService.getImageItems(editor);
 				// https://www.tiny.cloud/docs/tinymce/latest/creating-custom-menu-items/
 				editor.ui.registry.addNestedMenuItem('nesteditem', {
 					text: 'Chọn hình',
@@ -312,24 +314,24 @@ export class EditPage implements OnInit {
     };
 	}
 
-	getImageItems(editor: any) {
-		let imageItems = [];
-		this.dataService.readItem('photos').then((photos:any) => {
-			// console.log('photos: ', photos)
-			photos.data.forEach(photo => {
-				let dat = photo.split('|');
-				let name = dat[0];
-				let caption = (dat.length > 1) ? dat[1] : '';
-				let sub = {
-					type: 'menuitem',
-					text: name,
-					onAction: () => editor.insertContent(`"[` + name + `,1,c,` + caption + `]"`)
-				};
-				imageItems.push(sub);
-			})
-			return imageItems;
-		});
-		return imageItems;
-	}
+	// getImageItems(editor: any) {
+	// 	let imageItems = [];
+	// 	this.dataService.readItem('photos').then((photos:any) => {
+	// 		// console.log('photos: ', photos)
+	// 		photos.data.forEach(photo => {
+	// 			let dat = photo.split('|');
+	// 			let name = dat[0];
+	// 			let caption = (dat.length > 1) ? dat[1] : '';
+	// 			let sub = {
+	// 				type: 'menuitem',
+	// 				text: name,
+	// 				onAction: () => editor.insertContent(`"[` + name + `,1,c,` + caption + `]"`)
+	// 			};
+	// 			imageItems.push(sub);
+	// 		})
+	// 		return imageItems;
+	// 	});
+	// 	return imageItems;
+	// }
 }
 

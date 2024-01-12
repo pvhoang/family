@@ -42,6 +42,42 @@ export const SMALL_SIZE = 'small';
 export const MEDIUM_SIZE = 'medium';
 export const LARGE_SIZE = 'large';
 
+// https://usefulwebtool.com/characters-vietnamese
+export const VietnameseEntities = {
+	'&Agrave;': 'À',
+	'&Aacute;': 'Á',
+	'&Acirc;': 'Â',
+	'&Atilde;': 'Ã',
+	'&Egrave;': 'È',
+	'&Eacute;': 'É',
+	'&Ecirc;': 'Ê',
+	'&Igrave;': 'Ì',
+	'&Iacute;': 'Í',
+	'&Ograve;': 'Ò',
+	'&Oacute;': 'Ó',
+	'&Ocirc;': 'Ô',
+	'&Otilde;': 'Õ',
+	'&Ugrave;': 'Ù',
+	'&Uacute;': 'Ú',
+	'&Yacute;': 'Ý',
+	'&agrave;': 'à',
+	'&aacute;': 'á',
+	'&acirc;': 'â',
+	'&atilde;': 'ã',
+	'&egrave;': 'è',
+	'&eacute;': 'é',
+	'&ecirc;': 'ê',
+	'&igrave;': 'ì',
+	'&iacute;': 'í',
+	'&ograve;': 'ò',
+	'&oacute;': 'ó',
+	'&ocirc;': 'ô',
+	'&otilde;': 'õ',
+	'&ugrave;': 'ù',
+	'&uacute;': 'ú'
+};
+
+
 
 
 
