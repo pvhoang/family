@@ -3,28 +3,12 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':mode',
     loadChildren: () => import('./viewer/home/home.module').then(m => m.HomePageModule)
   },
   {
-    path: ':mode',
+    path: ':ancestor/aedit',
     loadChildren: () => import('./editor/tabs/tabs.module').then(m => m.TabsPageModule)
-  },
-  {
-    path: ':mode1/:mode2',
-    loadChildren: () => import('./editor/tabs/tabs.module').then(m => m.TabsPageModule)
-  },
-  {
-    path: 'node',
-    loadChildren: () => import('./editor/node/node.module').then( m => m.NodePageModule)
-  },
-  {
-    path: 'doc',
-    loadChildren: () => import('./editor/doc/doc.module').then( m => m.DocPageModule)
-  },
-  {
-    path: 'file',
-    loadChildren: () => import('./editor/file/file.module').then( m => m.FilePageModule)
   },
   {
     path: 'person',

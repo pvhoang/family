@@ -231,7 +231,10 @@ export class DocPage implements OnInit {
 			console.log('DocPage - closeDocs - selectDoc: ', this.selectDoc);
 			// console.log('DocPage - closeDocs - text: ', this.newData[this.selectDoc].text);
 		}
+		
 		// const text = this.editor.getContent({ format: 'html' });
+		// this.editorService.convertDocsText(text);
+
 		this.newData[this.currentDoc].text = this.editor.getContent({ format: 'html' });
 		this.editor.setContent(this.newData[this.selectDoc].text);
 		// this.editor.setContent(this.newData[this.selectDoc].text);

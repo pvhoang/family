@@ -18,22 +18,18 @@ const SIZE = 'size';
 const VIETNAMESE = 'vi';
 const ENGLISH = 'en';
 
-const RESET_DATA = false;
-
 const VIEW_MODE = 'view';
 const EDIT_MODE = 'edit';
 
 // superadmin
 const URL_DELETE_OPEN = '/sopen';
 const URL_DELETE_NEW = '/snew';
-
 // admin
-const URL_UPDATE_VERSION = '/aupdate';
+const URL_UPDATE_VERSION = 'aupdate';
 const URL_EDIT = 'aedit';				// no slash !important
-
 // user
-const URL_SETTING = '/uset'
-const URL_DELETE = '/udelete';
+const URL_SETTING = 'uset'
+const URL_DELETE = 'udelete';
 
 @Component({
   selector: 'app-root',
@@ -77,29 +73,47 @@ export class AppComponent implements OnInit {
     // get URL
     let strings = window.location.href.split(window.location.host);
     let url = strings[strings.length-1];
-    if (DEBUGS.APP)
-      console.log('AppComponent - ngOnInit -  url: ', url);
-    this.url = url;
+		let dat = url.split('/');
+		if (DEBUGS.APP)
+			console.log('AppComponent - ngOnInit - url, dat: ', url, dat);
+		// url must have format: '/ancestor/option'
+		let ancestor = dat[1];
+		let option = (dat.length > 2) ? dat[2] : '';
+		this.url = url;
+
+		if (url == URL_DELETE_OPEN)
+			this.deleteOpen(true);
+		else if (url == URL_DELETE_NEW)
+			this.deleteOpen(false);
+
+		
+		// setup UI
 		this.initializeUI().then((status) => {
-			if (RESET_DATA)
-				this.setJsonPhanFamily().then((status) => {});
-			if (url == URL_DELETE)
-				this.deleteLocal();
-			else if (url == URL_DELETE_OPEN)
-				this.deleteOpen(true);
-			else if (url == URL_DELETE_NEW)
-				this.deleteOpen(false);
-			else if (url == URL_UPDATE_VERSION)
-				this.updateVersion();
-			else if (url == URL_SETTING)
-				// this.createAncestor();
-				this.setSetting();
-			else {
-				this.selectAncestor(url).then((status) => {
-					if (status)
-						this.initializeApp();
-				})
-			}
+			if (ancestor == '') {
+				this.presentToast(['APP_NA_ANCESTOR']);
+				return;
+			} 
+			// ancestor must be valid before doing anything else
+			this.startAncestor(ancestor).then((stat) => {
+				if (!stat) {
+					this.presentToast(['APP_NA_ANCESTOR_1', ancestor, 'APP_NA_ANCESTOR_2']);
+					return;
+				}
+				if (option == URL_DELETE)
+					this.deleteLocal();
+				else if (option == URL_UPDATE_VERSION)
+					this.updateVersion();
+				else if (option == URL_SETTING)
+					// this.createAncestor();
+					this.setSetting();
+				else if (option == '' || option == URL_EDIT) {
+					if (option == URL_EDIT)
+						this.mode = EDIT_MODE;
+					this.initializeApp();
+				} else {
+					this.presentToast(['APP_NA_OPTION_1', option, 'APP_NA_OPTION_2']);
+				}
+			});
 		});
   }
 
@@ -114,7 +128,6 @@ export class AppComponent implements OnInit {
 						if (DEBUGS.APP)
 							console.log('theme, language, size: ', this.theme, this.language, this.size)
 						this.utilService.printVariable('initializeUI', '--app-text-font-size-medium');
-
 						resolve (true);
 					});
 				});
@@ -313,65 +326,54 @@ export class AppComponent implements OnInit {
     });
   }
 
-  private selectAncestor(url: any) {
-    return new Promise((resolve) => {
-      let dat = url.split('/');
-      if (DEBUGS.APP)
-        console.log('AppComponent - selectAncestor - dat: ', dat);
-      if (dat.length > 2) {
-        this.presentToast(['APP_NA_LINK_1', url, 'APP_NA_LINK_2']);
-        resolve(false);
-      } else {
-        let ancestorID = dat[1];
-        if (ancestorID == URL_EDIT) {
-          this.mode = EDIT_MODE;
-          resolve(true);
-				} else if (ancestorID == '') {
-          this.dataService.readItem('ANCESTOR_DATA').then((sdata:any) => {
-            // console.log('sdata: ', JSON.stringify(sdata, null, 2));
-            if (!sdata) {
-              this.presentToast(['APP_EMPTY_ANCESTOR']);
-              resolve(false);
-            } else {
-							// localhost:8100 - sdata is available
-							// check on family data version
-							let fversion = sdata.family.version;
-							if (DEBUGS.APP)
-								console.log('AppComponent - selectAncestor - fversion: ', fversion);
-							// now check remote version
-							this.fbService.readAncestorData(sdata.info.id).subscribe((rdata:any) => {
-								let rversion = rdata.family.version;
-								console.log('AppComponent - selectAncestor - fversion, rversion: ', fversion, rversion);
-								if (rversion != fversion) {
-									this.presentToast(['APP_NEW_FAMILY', rversion]);
-									this.dataService.saveItem('ANCESTOR_DATA', rdata).then((status:any) => {
-										resolve (true);
-									});
-								}
-								resolve(true);
-							});
-              resolve(true);
-            }
-          });
-        } else {
-          this.validateAncestor(ancestorID).then((status:any) => {
-            // check if ancestorID available in fb
-            if (!status) {
-              // not exist
-              this.presentToast(['APP_NA_ANCESTOR_1', ancestorID, 'APP_NA_ANCESTOR_2']);
-            } else {
-              this.setAncestor(ancestorID).then((res) => {
-                this.presentToast(['APP_NEW_ANCESTOR_1', ancestorID, 'APP_NEW_ANCESTOR_2']);
-                resolve(false);
-              })
-            }
-          });
-        }
-      }
-    });
-  }
+  private startAncestor(ancestorID: any) {
 
-  async validateAncestor(ancestorID: any) {
+    return new Promise((resolve) => {
+			// check if this ancestor is in local
+			this.dataService.readItem('ANCESTOR_DATA').then((sdata:any) => {
+
+				if (!sdata || sdata.info.id != ancestorID) {
+					// no local data or different ancestor, check if it is in server
+					this.validateAncestor(ancestorID).then((status:any) => {
+						if (!status) {
+							// not exist, error
+							resolve (false);
+							// this.presentToast(['APP_NA_ANCESTOR_1', ancestorID, 'APP_NA_ANCESTOR_2']);
+						} else {
+							// read from server and save to local
+							this.fbService.readAncestorData(ancestorID).subscribe((rdata:any) => {
+								this.dataService.saveItem('ANCESTOR_DATA', rdata).then((status:any) => {
+									resolve (true);
+								});
+							});
+						}
+					});
+
+				} else if (sdata && sdata.info.id == ancestorID) {
+					// update data from server
+					// check on family data version
+					let fversion = sdata.family.version;
+					if (DEBUGS.APP)
+						console.log('AppComponent - selectAncestor - fversion: ', fversion);
+					// now check remote version
+					this.fbService.readAncestorData(sdata.info.id).subscribe((rdata:any) => {
+						let rversion = rdata.family.version;
+						console.log('AppComponent - selectAncestor - fversion, rversion: ', fversion, rversion);
+						if (rversion != fversion) {
+							this.presentToast(['APP_NEW_FAMILY', rversion]);
+							this.dataService.saveItem('ANCESTOR_DATA', rdata).then((status:any) => {
+								resolve (true);
+							});
+						}
+						resolve(true);
+					});
+					resolve(true);
+				}
+			});
+		});
+	}
+
+	async validateAncestor(ancestorID: any) {
     return new Promise((resolve) => {
       this.fbService.getAncestors().subscribe((ancestors:any) => {
         if (DEBUGS.APP)
@@ -432,9 +434,6 @@ export class AppComponent implements OnInit {
     return new Promise((resolve) => {
       this.fbService.readAppData().then((rdata:any) => {
 				// always read docs from Firebase and parse data before go to home.page.ts
-				if (RESET_DATA)
-					this.setJsonData('docs').then((stat2:any) => {});
-
 				let remoteVersion = rdata.version;
 				if (DEBUGS.APP) {
 					console.log('AppComponent - updateVersionData -  remote app version: ', remoteVersion);
@@ -514,133 +513,6 @@ export class AppComponent implements OnInit {
 		})
 	}
 	
-	// updateDocsSAVE(ancestor: any, docs: any) {
-	// 	if (DEBUGS.APP)
-  //       console.log('AppComponent - updateDocs - docs: ', docs);
-	// 	let newDocs:any = {};
-	// 	// collect all image files: '"[abc.png]"'
-	// 	let images = [];
-	// 	for (var key of Object.keys(docs)) {
-	// 		let data = docs[key];
-	// 		// create new text for all docs
-	// 		docs[key].newText = data.text.slice(0);
-	// 		// collect all images data between quotation ""
-	// 		const matches = data.text.match(/"(.*?)"/g);
-	// 		if (matches) {
-	// 			for (let i = 0; i < matches.length; ++i) {
-	// 				const match = matches[i];
-	// 				// match include ""
-	// 				if (match.charAt(1) == '[' && match.charAt(match.length - 2) == ']') {
-	// 					// this is an image file name with options: image, size, caption
-	// 					let imageStr = match.substring(2, match.length - 2);
-	// 					if (images.indexOf(imageStr) == -1) {
-	// 						images.push(imageStr);
-	// 				}
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// 	// now convert to url from Firebase storage
-	// 	let promises = [];
-	// 	images.forEach(imageStr => {
-	// 		promises.push(
-	// 			new Promise((resolve) => {
-	// 				// break down detail: image,size,caption
-	// 				console.log('imageStr: ', imageStr);
-	// 				// phan-loi-hanh.jpg,small,Hello Gia pha
-	// 				// phan-loi-hanh.jpg,2,phan-loi-hanh.txt
-
-	// 				let items = imageStr.split(',');
-	// 				let imageFile = items[0];
-					
-	// 				let size = '1';
-	// 				if (items.length > 1)	size = items[1];
-	// 				let width = 200;
-	// 				let height = 150;
-	// 				if (size == '2') {
-	// 					width = 250;
-	// 					height = 200;
-	// 				} else if (size == '3') {
-	// 					width = 300;
-	// 					height = 200;
-	// 				}
-
-	// 				let justify = 'c';
-	// 				if (items.length > 2) justify = items[2];
-	// 				let container = (justify == 'c' ? 'home-container-center' : (justify == 'l' ? 'home-container-left' : 'home-container-right'));
-
-	// 				let captionStr: string = '';
-	// 				if (items.length > 3) captionStr = items[3];
-
-	// 				// check if captionStr is text file
-	// 				// let captionFile = (captionStr.endsWith('.txt')) ? captionStr : '';
-	// 				let captionFile = '';
-
-	// 				// caption is file txt
-	// 				this.fbService.downloadImage(ancestor, imageFile).then((imageURL:any) => {
-	// 					// <img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600">
-
-	// 					let html = '<img src="' + imageURL + '"';
-						
-	// 					// let size = style.charAt(0);
-	// 					// let justify = 'center';
-	// 					// if (style.length > 1)
-	// 						// justify = style.charAt(1) == 'l' ? 'left' : (style.charAt(1) == 'c' ? 'center' : 'right');
-						
-	// 					// let container = (justify == 'c' ? 'home-container-center' : (justify == 'l' ? 'home-container-left' : 'home-container-right'));
-					
-	// 					// https://stackoverflow.com/questions/30686191/how-to-make-image-caption-width-to-match-image-width
-	// 					html += ' width="' + width + '" height="' + height + '" alt="' + imageFile + '">'
-	// 					if (captionFile != '') {
-	// 						this.fbService.downloadText(ancestor, captionFile).then((text:any) => {
-	// 							captionStr = text;
-	// 							html = 
-	// 							'<br/>' +
-	// 							'<div class="' + container + '">' + html + '/div>' +
-	// 							'<div class="' + + container + ' home-no-expand">' + captionStr + '</div>' +
-	// 							'<br/>'
-	// 							resolve({imageStr: '"[' + imageStr + ']"', html: html});
-	// 						});
-	// 					} else {
-	// 						html = 
-	// 							'<br/>' + 
-	// 							'<div class="' + container + '">' + html + '</div>';
-	// 						if (captionStr != '')
-	// 							html += 
-	// 							'<div class="' + container + ' home-no-expand">' + captionStr + '</div>';
-	// 						html += '<br/>'
-	// 						console.log('html = ', html);
-	// 						resolve({imageStr: '"[' + imageStr + ']"', html: html});
-	// 					}
-						
-	// 					// if (captionStr != '')
-	// 					// 	html = '<div class="home-container">' + html + '<div class="home-no-expand">' + captionStr + '</div>'
-	// 					// resolve({imageStr: '"[' + imageStr + ']"', html: html});
-
-	// 				})
-	// 				.catch((error) => {
-	// 					resolve(null);
-	// 				});
-	// 			})
-	// 		)
-	// 	})
-	// 	Promise.all(promises).then(resolves => {
-	// 		console.log('resolves = ', resolves);
-	// 		for (let i = 0; i < resolves.length; i++) {
-	// 			let data = resolves[i];
-	// 			let imageStr = data.imageStr;
-	// 			let html = data.html;
-	// 			for (var key of Object.keys(docs)) {
-	// 				let data = docs[key];
-	// 				let text = data.text.slice(0);
-	// 				let newText = text.replaceAll(imageStr,html);
-	// 				docs[key].newText = newText;
-	// 			}
-	// 		}
-	// 		this.dataService.saveDocs(docs).then((docs:any) => {});
-	// 	});
-  // }
-
   private setJsonData(json: string) {
     return new Promise((resolve) => {
       let jsonFile = './assets/common/' + json + '.json';
@@ -649,22 +521,6 @@ export class AppComponent implements OnInit {
 				// console.log('setJsonData data: ', jsonData.data.toString());
 				this.dataService.saveItem(json, jsonData).then((status:any) => {});
         resolve(true);
-      });
-    });
-	}
-
-  private setJsonPhanFamily() {
-    return new Promise((resolve) => {
-      let jsonFile = './assets/common/phan-family.json';
-      this.utilService.getLocalJsonFile(jsonFile).then((family:any) => {
-				if (DEBUGS.APP)
-					console.log('AppComponent - setJsonPhanFamily -  family: ', family);
-        this.dataService.saveFamily(family).then((fam:any) => {
-					// this.dataService.deleteAllBranches();
-          this.dataService.readItem('ANCESTOR_DATA').then((sdata:any) => {
-            console.log('sdata: ', sdata);
-          });
-        });
       });
     });
 	}
@@ -797,6 +653,9 @@ export class AppComponent implements OnInit {
 			"APP_NEW_FAMILY": "Hệ thống dùng dữ liệu mới. Ấn bản: ",
 			"APP_NA_ANCESTOR_1": "Phả tộc '",
 			"APP_NA_ANCESTOR_2": "' không có trong hệ thống!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
+			"APP_NA_ANCESTOR": "Không có tên phả tộc!<br/>Liên lạc <i>pvhoang940@gmail.com</i>. '",
+			"APP_NA_OPTION_1": "Thông số: '",
+			"APP_NA_OPTION_2": " không hợp lệ!<br/>Liên lạc <i>pvhoang940@gmail.com</i>. '",
 			"APP_APP_VERSIONS_NOT_SAME_1": "Ấn bản trên máy đã cũ: ",
 			"APP_APP_VERSIONS_NOT_SAME_2": ". Yêu cầu xóa cache và chạy lại (F5)!",
 			"INFO": "Thông báo",
@@ -804,81 +663,6 @@ export class AppComponent implements OnInit {
       "WARNING": "Cảnh báo",
       "OK": "OK",
       "CANCEL": "Thoát",
-
-			// "APP_ANCESTOR": "Phả tộc",
-      // "APP_NO_ANCESTOR": "Phả tộc chưa được tạo!",
-      // "APP_OK_ANCESTOR": "Phả tộc mới đã được tạo. ID: ",
-      // "APP_LOCAL_MEMORY_DELETED": "Dữ liệu trong máy đã được xóa!",
-      // "APP_NEW_VERSION_IS_UPDATED": "Ấn bản mới đã được cập nhật!",
-      // "APP_APP_VERSIONS_NOT_SAME_1": "Ấn bản trên máy đã cũ: ",
-      // "APP_APP_VERSIONS_NOT_SAME_2": ". Yêu cầu xóa cache và chạy lại (F5)!",
-
-      // "APP_NA_LINK_1": "Đường dẫn '",
-      // "APP_NA_LINK_2": "' không hợp lệ!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
-
-      // "APP_NA_ANCESTOR_1": "Phả tộc '",
-      // "APP_NA_ANCESTOR_2": "' không có trong hệ thống!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
-      // "APP_NEW_ANCESTOR_1": "Phả tộc '",
-      // "APP_NEW_ANCESTOR_2": "' đã được khởi động!<br/>Kết nối: <i>giapha.web.app</i>",
-      // "APP_EMPTY_ANCESTOR": "Phả tộc chưa được kích hoạt trong hệ thống!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.'",
-
-      // "APP_ANCESTOR_NAME": "Gia tộc (vd. Phan Tộc)",
-      // "APP_ANCESTOR_LOCATION": "Quê quán (vd. Đồng Hới, Quảng Bình)",
-      // "APP_ANCESTOR_DESCRIPTION": "Giải thích (vd. Tộc gốc Thanh Hóa)",
-      // "APP_ANCESTOR_ROOT_NAME": "Hệ bắt đầu (vd. Phan Viết Hoàng)",
-      // "APP_ANCESTOR_ROOT_YEAR": "Năm sinh (vd. 1953)",
-
-      // "APP_SETTING": "Thông số",
-
-      // "APP_NEW_THEME": "Hệ thống dùng theme mới: ",
-      // "APP_THEME": "Theme",
-      // "APP_THEME_VILLAGE": "Làng",
-      // "APP_THEME_TREE": "Cây",
-      // "APP_THEME_DRAGON": "Rồng",
-      // "APP_THEME_COUNTRY": "Quê",
-
-      // "APP_NEW_LANGUAGE": "Hệ thống dùng ngôn ngữ mới: ",
-      // "APP_LANGUAGE": "Ngôn ngữ",
-      // "APP_LANGUAGE_VIETNAMESE": "Tiếng Việt",
-      // "APP_LANGUAGE_ENGLISH": "Tiếng Anh",
-
-			// "APP_NEW_SIZE": "Hệ thống dùng font size mới: ",
-      // "APP_SIZE": "Cỡ font",
-      // "APP_SMALL_SIZE": "Nhỏ",
-      // "APP_MEDIUM_SIZE": "Vừa",
-      // "APP_LARGE_SIZE": "Lớn",
-
-      // "APP_ANCESTOR": "Phả tộc",
-			// "APP_LOCAL_MEMORY_DELETED": "Dữ liệu trong máy đã được xóa!",
-			// "APP_NEW_VERSION_IS_UPDATED": "Ấn bản mới đã được cập nhật!",
-			// "APP_OK_ANCESTOR": "Phả tộc mới đã được tạo. ID: ",
-			// "APP_NO_ANCESTOR": "Phả tộc chưa được tạo!",
-			// "APP_NA_LINK_1": "Đường dẫn '",
-			// "APP_NA_LINK_2": "' không hợp lệ!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
-			// "APP_EMPTY_ANCESTOR": "Phả tộc chưa được kích hoạt trong hệ thống!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.'",
-			// "APP_NEW_FAMILY": "Hệ thống dùng dữ liệu mới. Ấn bản: ",
-			// "APP_NA_ANCESTOR_1": "Phả tộc '",
-			// "APP_NA_ANCESTOR_2": "' không có trong hệ thống!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
-			// "APP_NEW_ANCESTOR_1": "Phả tộc '",
-			// "APP_NEW_ANCESTOR_2": "' đã được khởi động!<br/>Kết nối: <i>giapha.web.app</i>",
-			// "APP_APP_VERSIONS_NOT_SAME_1": "Ấn bản trên máy đã cũ: ",
-			// "APP_APP_VERSIONS_NOT_SAME_2": ". Yêu cầu xóa cache và chạy lại (F5)!",
-			// "APP_NEW_THEME": "Hệ thống dùng theme mới: ",
-			// "APP_THEME": "Theme",
-			// "APP_THEME_VILLAGE": "Làng",
-			// "APP_THEME_TREE": "Cây",
-			// "APP_THEME_DRAGON": "Rồng",
-			// "APP_THEME_COUNTRY": "Quê",
-			// "APP_LANGUAGE_NEW": "Hệ thống dùng ngôn ngữ mới: ",
-			// "APP_LANGUAGE": "Ngôn ngữ",
-			// "APP_LANGUAGE_VIETNAMESE": "Tiếng Việt",
-			// "APP_LANGUAGE_ENGLISH": "Tiếng Anh",
-
-      // "INFO": "Thông báo",
-      // "ERROR": "Lỗi",
-      // "WARNING": "Cảnh báo",
-      // "OK": "OK",
-      // "CANCEL": "Thoát",
     }
 		
 		const en = {
@@ -916,6 +700,9 @@ export class AppComponent implements OnInit {
 			"APP_NEW_FAMILY": "New family data is used. Version: ",
 			"APP_NA_ANCESTOR_1": "Ancestor: '",
 			"APP_NA_ANCESTOR_2": "' is not available!<br/>Contact <i>pvhoang940@gmail.com</i>.",
+			"APP_NA_ANCESTOR": "Ancestor is not provided!<br/>Contact <i>pvhoang940@gmail.com</i>. '",
+			"APP_NA_OPTION_1": "Parameter: '",
+			"APP_NA_OPTION_2": " is not valid!<br/>Contact <i>pvhoang940@gmail.com</i>. '",
 			"APP_APP_VERSIONS_NOT_SAME_1": "App is old: ",
 			"APP_APP_VERSIONS_NOT_SAME_2": ". Please refresh memory (F5)!",
 			 "INFO": "Information",
