@@ -264,15 +264,15 @@ export class NodeService {
 
 	public getSpanStr(node: Node) {
     let str = '<b>' + node.name;
-    str += (node.photo != '') ? ' (☺)</b>' : '</b>';
-
-		if (node.yob != '' && node.yod == '') {
-			str += '<br/><i>(' + node.yob + ')</i>';
-			str += '<br/><b>Sống:</b> ' + node.por;
-		} else if (node.yod != '') {
-			str += '<br/><i>(' + node.yob + '-' + node.yod + ')</i>';
-			str += '<br/><b>Giỗ:</b> ' + node.dod + ' (Âm lịch)'
-			str += '<br/><b>Mộ:</b> ' + node.pod;
+    str += (node.photo != '' || node.desc != '') ? ' (☺)</b>' : '</b>';
+		
+		if (node.yod != '' || node.pod != '' || node.dod != '') {
+			str += '<br/><i>Sinh/Tử:</i> (' + node.yob + ' - ' + node.yod + ')';
+			str += '<br/><i>Giỗ:</i> ' + node.dod + ' (ÂL)'
+			str += '<br/><i>Mộ:</i> ' + node.pod;
+		} else {
+			str += '<br/><i>Sinh:</i> (' + node.yob + ')</i>';
+			str += '<br/><i>Sống:</i> ' + node.por;
 		}
 		return str;
   }

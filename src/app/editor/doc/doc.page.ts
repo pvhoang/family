@@ -194,6 +194,8 @@ export class DocPage implements OnInit {
             break;
           }
         }
+				if (msg != '')
+					msg += ', ';
 				msg += docName;
 			}
 		}

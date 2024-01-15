@@ -351,32 +351,34 @@ ion-tab-button {
 // 	text-align:center;
 // }
 
-// .home-container-left{
+.home-container-left{
+	display: flex;
+	justify-content: left;
+}
+.home-container-center {
+	display: flex;
+	justify-content: center;
+}
+.home-container-right {
+	display: flex;
+	justify-content: right;
+}
+
+// .home-container{
 // 	display: flex;
-// 	justify-content: left;
-// }
-// .home-container-center {
-// 	display: flex;
-// 	justify-content: center;
-// }
-// .home-container-right {
-// 	display: flex;
-// 	justify-content: right;
+// 	justify-content: var(--app-justify);
 // }
 
-.home-container{
-	display: flex;
-	justify-content: var(--app-justify);
-}
 .home-no-expand {
   box-sizing: border-box;
   width: 0px;
   min-width: 100%;
   // background: pink;
   padding: 10px;
-	text-align: var(--app-justify);
+	// text-align: center;
+	// text-align: var(--app-justify);
 	// color: var(--app-background-color);
-	font-size: var(--app-caption-font-size);
+	// font-size: var(--app-caption-font-size);
 }
 
 // --- EDIT ---

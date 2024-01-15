@@ -94,7 +94,7 @@ export class VnodePage implements OnInit {
       this.dataEditable = status;
     });
     this.family = this.familyService.buildFullFamily(family);
-    this.peopleNodes = this.getPeopleNodes (this.family);
+    this.peopleNodes = this.familyService.getPeopleNodes (this.family);
     this.nodeItems = this.nodeService.getInfoList();
     this.nodeItem = null;
     this.nodeItemMessage = this.languageService.getTranslation('NODE_NUM_NODES') + this.peopleNodes.length;
@@ -108,26 +108,26 @@ export class VnodePage implements OnInit {
     await this.modalCtrl.dismiss({status: 'cancel'});
   }
   
-  getPeopleNodes (family: any, item?: any) {
-    let nodes = this.nodeService.getFamilyNodes(family);
-    if (DEBUGS.NODE)
-      console.log('NodePage - getPeopleNodes - nodes: ', nodes.length);
-    nodes.forEach(node => {
-      if (!item)
-        // all visible
-        node.visible = true;
-      else {
-        // visible only if item == ''
-        node.visible = (node[item] == '');
-        if (item == 'pod' || item == 'dod') {
-          // show if yod != ''
-          if (node.visible && node.yod == '')
-            node.visible = false;
-        }
-      }       
-    })
-    return this.familyService.getPeopleList(family);
-  }
+  // getPeopleNodes (family: any, item?: any) {
+  //   let nodes = this.nodeService.getFamilyNodes(family);
+  //   if (DEBUGS.NODE)
+  //     console.log('NodePage - getPeopleNodes - nodes: ', nodes.length);
+  //   nodes.forEach(node => {
+  //     if (!item)
+  //       // all visible
+  //       node.visible = true;
+  //     else {
+  //       // visible only if item == ''
+  //       node.visible = (node[item] == '');
+  //       if (item == 'pod' || item == 'dod') {
+  //         // show if yod != ''
+  //         if (node.visible && node.yod == '')
+  //           node.visible = false;
+  //       }
+  //     }       
+  //   })
+  //   return this.familyService.getPeopleList(family);
+  // }
 
   //
   // ------------- TREE -------------
@@ -177,7 +177,11 @@ export class VnodePage implements OnInit {
     if (DEBUGS.NODE)
       console.log('NodePage - closePeopleNodes - selectPeople: ', this.selectPeople);
     this.selectedNode = null;
-    this.startSearch(this.selectPeople);
+		if (this.selectPeople) {
+			let nodeSelect = this.familyService.searchPeopleNodes(this.family, this.selectPeople);
+			this.onNodeSelect(nodeSelect);
+		}
+    // this.startSearch(this.selectPeople);
   }
   
   keyupPeopleNodes(event) {
@@ -193,7 +197,7 @@ export class VnodePage implements OnInit {
     this.nodeItem = item.id;
     if (this.nodeItem == 'all')
       this.nodeItem = null;
-    this.peopleNodes = this.getPeopleNodes (this.family, this.nodeItem)
+    this.peopleNodes = this.familyService.getPeopleNodes (this.family, this.nodeItem)
     this.selectPeople = null;
     if (this.nodeItem == null) {
       this.nodeItemMessage = this.languageService.getTranslation('NODE_NUM_NODES') + this.peopleNodes.length;
@@ -205,48 +209,48 @@ export class VnodePage implements OnInit {
 
   // --------- END ng-select ----------
 
-  startSearch(searchStr) {
-    if (DEBUGS.NODE)
-      console.log('NodePage - startSearch - searchStr: ', searchStr)
-    // remove Generation
-    // name: Đoàn Văn Phê
-    searchStr = searchStr.substring(0, searchStr.indexOf(' ('));
-    let parentName = '';
-    // remove Parent if any
-    let idx = searchStr.indexOf('(');
-    if (idx > 0) {
-      // this is node with parent name
-      parentName = searchStr.substring(idx+1, searchStr.length-1)
-      searchStr = searchStr.substring(0, idx)
-    }
-    if (DEBUGS.NODE)
-      console.log('NodePage - startSearch - searchStr, parentName: ', searchStr, parentName);
-    let sNodes:Node[] = [];
-    // search thru all nodes
-    let nodes:Node[] = this.nodeService.getFamilyNodes(this.family);
-    nodes.forEach((node:Node) => {
-      // reset nclass
-      node.nclass = this.nodeService.updateNclass(node);
-      let strProfile = node.name;
-      if (strProfile.indexOf(searchStr) >= 0) {
-        if (parentName != '') {
-          // get real node
-          let words = node.pnode.name.split(' ');
-          let pname = (words.length > 2) ? words[2] : words[1];
-          if (pname == parentName) {
-            // found the node
-            sNodes.push(node);
-          }
-        } else
-          sNodes.push(node);
-      }
-    })
-    if (DEBUGS.NODE)
-      console.log('NodePage - startSearch - sNodes: ', sNodes)
-      // set select on 1st node
-    sNodes[0]['nclass'] = 'select'
-    this.onNodeSelect(sNodes[0]);
-  }
+  // startSearch(searchStr) {
+  //   if (DEBUGS.NODE)
+  //     console.log('NodePage - startSearch - searchStr: ', searchStr)
+  //   // remove Generation
+  //   // name: Đoàn Văn Phê
+  //   searchStr = searchStr.substring(0, searchStr.indexOf(' ('));
+  //   let parentName = '';
+  //   // remove Parent if any
+  //   let idx = searchStr.indexOf('(');
+  //   if (idx > 0) {
+  //     // this is node with parent name
+  //     parentName = searchStr.substring(idx+1, searchStr.length-1)
+  //     searchStr = searchStr.substring(0, idx)
+  //   }
+  //   if (DEBUGS.NODE)
+  //     console.log('NodePage - startSearch - searchStr, parentName: ', searchStr, parentName);
+  //   let sNodes:Node[] = [];
+  //   // search thru all nodes
+  //   let nodes:Node[] = this.nodeService.getFamilyNodes(this.family);
+  //   nodes.forEach((node:Node) => {
+  //     // reset nclass
+  //     node.nclass = this.nodeService.updateNclass(node);
+  //     let strProfile = node.name;
+  //     if (strProfile.indexOf(searchStr) >= 0) {
+  //       if (parentName != '') {
+  //         // get real node
+  //         let words = node.pnode.name.split(' ');
+  //         let pname = (words.length > 2) ? words[2] : words[1];
+  //         if (pname == parentName) {
+  //           // found the node
+  //           sNodes.push(node);
+  //         }
+  //       } else
+  //         sNodes.push(node);
+  //     }
+  //   })
+  //   if (DEBUGS.NODE)
+  //     console.log('NodePage - startSearch - sNodes: ', sNodes)
+  //     // set select on 1st node
+  //   sNodes[0]['nclass'] = 'select'
+  //   this.onNodeSelect(sNodes[0]);
+  // }
   
   onNodeSelect(node: Node, openTask?: any) {
 
@@ -284,7 +288,7 @@ export class VnodePage implements OnInit {
         'familyView': familyView,
         'info': info,
       },
-			cssClass: 'modal-dialog',
+			// cssClass: 'modal-dialog',
 			backdropDismiss:false
     });
 

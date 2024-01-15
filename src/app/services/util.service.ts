@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { AlertController, PopoverController, ToastController, LoadingController, IonicSafeString } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
-import { DEBUGS, VietnameseEntities } from '../../environments/environment';
+import { DEBUGS } from '../../environments/environment';
 import { SelectComponent } from '../components/select/select.component';
 import { LanguageService } from '../services/language.service';
 import { ThemeService } from '../services/theme.service';
@@ -262,12 +262,6 @@ export class UtilService {
 		return await alert.onDidDismiss();
 	}
 
-	printVariable(msg: any, variable: any) {
-		let root = document.documentElement;
-		let value = root.style.getPropertyValue(variable);
-		console.log('printVariable: ' + msg + ' - ' + variable + ' : ' + value);
-	}
-
 	async alertSelect(srcHeader: any, selects: any[], cancelText: any, okText: any) {
 		let header = this.languageService.getTranslation(srcHeader);
 		if (!header)
@@ -473,32 +467,6 @@ export class UtilService {
 	
 	getCurrentTime() {
 		return new Date().getTime();
-	}
-
-	decodeEntities(str: string) {
-		let res = '';
-		let idx1 = 0;
-		for (;idx1 < str.length;) {
-			let idx2 = str.indexOf('&', idx1);
-			if (idx2 < 0) {
-				res += str.substring(idx1);
-				break;
-			} else {
-				res += str.substring(idx1, idx2);
-			}
-			let idx3 = str.indexOf(';', idx2);
-			if (idx3 > idx2) {
-				let entity = str.substring(idx2, idx3+1);
-				let vnChar = VietnameseEntities[entity];
-				res += (vnChar) ? vnChar : entity;
-				idx1 = idx3 + 1;
-			} else {
-				res += str.substring(idx2);
-				break;
-			}
-		}
-		// console.log('str, res: ', str, res)
-		return res;
 	}
 
 }

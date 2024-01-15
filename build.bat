@@ -8,6 +8,8 @@ pause
 start firebase deploy --only hosting:giapha
 pause
 
+ionic serve --browseroption=/phan
+ionic serve --browseroption=/aedit
 
 
 

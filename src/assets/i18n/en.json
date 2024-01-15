@@ -42,6 +42,8 @@
   "HUSBAND": "Husband",
   "MOTHER": "Mother",
   "FATHER": "Father",
+	"MR": "Mr",
+  "MRS": "Mrs",
   "SELF": "Self",
 
 	"APP_LOCAL_MEMORY_DELETED": "Local data in the machine was deleted!",

@@ -42,6 +42,9 @@ export class FilePage implements OnInit {
 
 	downloadFileUrl: any;
 	downloadFileName: any;
+	downloadDocsUrl: any;
+	downloadDocsName: any;
+
 	imageFileName: any = '';
   imageViewMode = false;
 	storageFiles: any[] = [];
@@ -145,6 +148,7 @@ export class FilePage implements OnInit {
       let ancestor = info.id;
       this.ancestor = ancestor;
 			this.downloadFileName = ancestor + '.json';
+			this.downloadDocsName = ancestor + '-docs.json';
       this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
         let remoteFamily = rdata.family;
 				this.comparePrintNode('compareOnSync', localFamily, remoteFamily);
@@ -303,7 +307,8 @@ export class FilePage implements OnInit {
 	downloadOnClick() {
 		let msg = this.utilService.getAlertMessage([
 			{name: 'msg', label: 'FILE_DOWNLOAD_MESSAGE_1'},
-			{name: 'data', label: this.downloadFileName},
+			// {name: 'data', label: this.downloadFileName + '(' + this.downloadDocsName + ')'},
+			{name: 'data', label: this.downloadFileName },
 			{name: 'msg', label: 'FILE_DOWNLOAD_MESSAGE_2'},
 		]);
 		this.utilService.alertConfirm('FILE_DOWNLOAD_START', msg, 'CANCEL', 'OK').then((res) => {
@@ -316,14 +321,24 @@ export class FilePage implements OnInit {
 					// rdata.branch = rdata.branch;
 					// save just family, because docs is html-based text! Can not change simply with text editor.
 					let data = JSON.stringify(cleanFamily, null, 2);
+					// save docs to different file
+					let docs = JSON.stringify(rdata.docs, null, 2);
+
 					// let data = JSON.stringify(rdata, null, 2);
-					const blob = new Blob([data], {
+					const blobFamily = new Blob([data], {
 						type: 'application/octet-stream'
 					});
-					this.downloadFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+					this.downloadFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blobFamily));
 					// https://stackoverflow.com/questions/11620698/how-to-trigger-a-file-download-when-clicking-an-html-button-or-javascript
+					
+					// const blobDocs = new Blob([docs], {
+					// 	type: 'application/octet-stream'
+					// });
+					// this.downloadDocsUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blobDocs));
+
 					setTimeout(() => {
 						document.getElementById("modify-download").click();
+						// document.getElementById("modify-download-docs").click();
 						this.utilService.presentToast(this.languageService.getTranslation('FILE_DOWNLOAD_COMPLETE'), 5000);
 					}, 200);
 				});

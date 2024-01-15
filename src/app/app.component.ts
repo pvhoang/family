@@ -70,6 +70,12 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<any> {
+
+		// let str =
+		// "<p>&nbsp;</p>\n<p style=\"text-align: center;\"><em>center - pha nhap</em></p>\n<p style=\"text-align: left;\">left - Phan Viết Ho&agrave;ng</p>\n<p style=\"text-align: right;\">right - some more text</p>\n<p style=\"text-align: left;\"><em><strong>bold-italic - </strong></em><strong>bold </strong><em><strong>- </strong>italic<strong> </strong><strong>- </strong></em>normal</p>\n<p style=\"text-align: left;\">[Phan Viết Ho&agrave;ng.jpg|3|1|Phan Viết Ho&agrave;ng.jpg]</p>\n<p>[Nghĩa trang Họ Phan|2|2|Nghĩa trang Họ Phan]</p>\n<div>\n<div>[Phan Anh Em.jpg|1|2|1972, Thứ 3 từ tr&aacute;i]</div>\n</div>";
+		// console.log('test: ', this.editorService.convertDocsText(str));
+
+
     // get URL
     let strings = window.location.href.split(window.location.host);
     let url = strings[strings.length-1];
@@ -85,7 +91,6 @@ export class AppComponent implements OnInit {
 			this.deleteOpen(true);
 		else if (url == URL_DELETE_NEW)
 			this.deleteOpen(false);
-
 		
 		// setup UI
 		this.initializeUI().then((status) => {
@@ -127,7 +132,7 @@ export class AppComponent implements OnInit {
 						this.size = size;
 						if (DEBUGS.APP)
 							console.log('theme, language, size: ', this.theme, this.language, this.size)
-						this.utilService.printVariable('initializeUI', '--app-text-font-size-medium');
+						// this.utilService.printVariable('initializeUI', '--app-text-font-size-medium');
 						resolve (true);
 					});
 				});
@@ -187,7 +192,7 @@ export class AppComponent implements OnInit {
     let cancel = this.translate_instant('CANCEL');
     let ok = this.translate_instant('OK');
 
-		this.utilService.printVariable('before alertSelect', '--app-text-font-size-medium');
+		// this.utilService.printVariable('before alertSelect', '--app-text-font-size-medium');
 
     let selects = [
       {   id: THEME,
@@ -242,7 +247,7 @@ export class AppComponent implements OnInit {
 						count++;
 					}
 					
-					this.utilService.printVariable('after alertSelect', '--app-text-font-size-medium');
+					// this.utilService.printVariable('after alertSelect', '--app-text-font-size-medium');
 					if (count > 0)
 						this.presentToast(['APP_NEW_SETTING']);
 					else
@@ -468,7 +473,6 @@ export class AppComponent implements OnInit {
 				// update screen height
 				let nodes = this.nodeService.getFamilyNodes(family);
 				this.themeService.setScreenSize(nodes);
-				// this.themeService.setScreen();
 				// get photo names from Storage
 				let ancestor = info.id;
 				this.fbService.getPhotoNames(ancestor).then((names:any) => {
@@ -480,7 +484,7 @@ export class AppComponent implements OnInit {
 						console.log('AppComponent - updateAppData - rdata: ', rdata);
 					let docs = rdata.docs;
 					// docs by language
-					console.log('AppComponent - updateAppData - language: ', this.language);
+					// console.log('AppComponent - updateAppData - language: ', this.language);
 					// parse docs
 					let language = this.languageService.getLanguage();
 					this.updateDocs(ancestor, docs[language]).then(status => {
@@ -492,24 +496,33 @@ export class AppComponent implements OnInit {
   }
 
 	updateDocs(ancestor: any, docs: any) {
-			return new Promise((resolve) => {
-				if (DEBUGS.APP)
-					console.log('AppComponent - updateDocs - docs: ', docs);
-				// collect all image files: '"[abc.png]"'
-				for (var key of Object.keys(docs)) {
-					this.editorService.getHtmlText(ancestor, docs[key].text, key).then((result:any) => {
-						// update 
-						console.log('AppComponent - updateDocs - newText: ', result.key, result.newText);
-						docs[result.key].newText = result.newText;
-					})
-				}
-				// console.log('AppComponent - updateDocs - after docs 1: ', docs);
-				setTimeout(() => {
+		return new Promise((resolve) => {
+			if (DEBUGS.APP)
+				console.log('AppComponent - updateDocs - docs: ', docs);
+			// create a new text, leave text unchanged
+			for (var key of Object.keys(docs)) {
+				docs[key].newText = docs[key].text.slice(0);
+			};
+			for (var key of Object.keys(docs)) {
+				let text = docs[key].text;
+			// convert image templates to HTML
+				this.editorService.convertImageTemplate(ancestor, text, key).then((resolves:any) => {
+					// change text to reflect image
+					for (let i = 0; i < resolves.length; i++) {
+						let data = resolves[i];
+						let rkey = data.key;
+						let imageStr = '[' + data.imageStr + ']';
+						let html = data.html;
+						docs[rkey].newText = docs[rkey].newText.replaceAll(imageStr,html);
+					}
+				})
+			}
+			// must wait till conversion is complete.
+			setTimeout(() => {
 				this.dataService.saveDocs(docs).then((status:any) => {
-					console.log('AppComponent - updateDocs - after docs: ', docs);
 					resolve(true);
 				});
-				}, 1000);
+			}, 1000);
 		})
 	}
 	
@@ -517,8 +530,6 @@ export class AppComponent implements OnInit {
     return new Promise((resolve) => {
       let jsonFile = './assets/common/' + json + '.json';
       this.utilService.getLocalJsonFile(jsonFile).then((jsonData:any) => {
-				// console.log('setJsonData data: ', jsonData.data);
-				// console.log('setJsonData data: ', jsonData.data.toString());
 				this.dataService.saveItem(json, jsonData).then((status:any) => {});
         resolve(true);
       });
@@ -653,9 +664,9 @@ export class AppComponent implements OnInit {
 			"APP_NEW_FAMILY": "Hệ thống dùng dữ liệu mới. Ấn bản: ",
 			"APP_NA_ANCESTOR_1": "Phả tộc '",
 			"APP_NA_ANCESTOR_2": "' không có trong hệ thống!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
-			"APP_NA_ANCESTOR": "Không có tên phả tộc!<br/>Liên lạc <i>pvhoang940@gmail.com</i>. '",
+			"APP_NA_ANCESTOR": "Không có tên phả tộc!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
 			"APP_NA_OPTION_1": "Thông số: '",
-			"APP_NA_OPTION_2": " không hợp lệ!<br/>Liên lạc <i>pvhoang940@gmail.com</i>. '",
+			"APP_NA_OPTION_2": "' không hợp lệ!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
 			"APP_APP_VERSIONS_NOT_SAME_1": "Ấn bản trên máy đã cũ: ",
 			"APP_APP_VERSIONS_NOT_SAME_2": ". Yêu cầu xóa cache và chạy lại (F5)!",
 			"INFO": "Thông báo",
@@ -694,17 +705,17 @@ export class AppComponent implements OnInit {
 			"APP_NO_ANCESTOR": "Ancestor is not available!",
 			"APP_NEW_ANCESTOR_1": "Ancestor: '",
 			"APP_NEW_ANCESTOR_2": "' has been chosen! <br/>Link: <i>giapha.web.app</i>",
-			"APP_NA_LINK_1": "Link '",
+			"APP_NA_LINK_1": "Link: '",
 			"APP_NA_LINK_2": "' is not valid!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
 			"APP_EMPTY_ANCESTOR": "Ancestor is not available!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.'",
 			"APP_NEW_FAMILY": "New family data is used. Version: ",
 			"APP_NA_ANCESTOR_1": "Ancestor: '",
 			"APP_NA_ANCESTOR_2": "' is not available!<br/>Contact <i>pvhoang940@gmail.com</i>.",
-			"APP_NA_ANCESTOR": "Ancestor is not provided!<br/>Contact <i>pvhoang940@gmail.com</i>. '",
+			"APP_NA_ANCESTOR": "Ancestor is not provided!<br/>Contact <i>pvhoang940@gmail.com</i>.",
 			"APP_NA_OPTION_1": "Parameter: '",
-			"APP_NA_OPTION_2": " is not valid!<br/>Contact <i>pvhoang940@gmail.com</i>. '",
-			"APP_APP_VERSIONS_NOT_SAME_1": "App is old: ",
-			"APP_APP_VERSIONS_NOT_SAME_2": ". Please refresh memory (F5)!",
+			"APP_NA_OPTION_2": "' is not valid!<br/>Contact <i>pvhoang940@gmail.com</i>.",
+			"APP_APP_VERSIONS_NOT_SAME_1": "App is old: '",
+			"APP_APP_VERSIONS_NOT_SAME_2": "'. Please refresh memory (F5)!",
 			 "INFO": "Information",
 			 "ERROR": "Error",
 			 "WARNING": "Warning",

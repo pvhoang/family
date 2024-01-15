@@ -16,18 +16,18 @@ export const environment = {
 export const FONTS_FOLDER = '../../assets/fonts/';
 
 export const DEBUGS = {
-  'APP': true,
+  'APP': false,
   'SPLASH': false,
   'TABS': false,
   'MEMORY': false,
-  'PERSON': true,
-  'NODE': true,
+  'PERSON': false,
+  'NODE': false,
   'BRANCH': false,
   'DOCS': true,
   'TREE': false,
   'EDIT': false,
   'CROPPER': false,
-  'FILE': true,
+  'FILE': false,
   'FAMILY_SERVICE': false,
   'UTIL_SERVICE': false,
   'DATA_SERVICE': false,

@@ -1,5 +1,5 @@
 {
-  "version": 6,
+  "version": 2,
   "nodes": [
     {
       "name": "Phan Văn Nghi",
@@ -1171,7 +1171,6 @@
                               "pod": "Núi Thiên Ấn, Quảng Ngãi",
                               "por": "Quảng Ngãi",
                               "job": "Công chức",
-                              "photo": "phan-dinh-1971.jpg",
                               "dod": "12/09"
                             },
                             {
@@ -1197,7 +1196,8 @@
                                 {
                                   "name": "Phan Viết Châu",
                                   "gender": "male",
-                                  "nick": "Nô"
+                                  "nick": "Nô",
+																	"desc": "<br/>[Phan Anh Em.jpg|1|2|1972, Thứ 3 từ trái]"
                                 }
                               ]
                             },
@@ -1245,7 +1245,10 @@
                                 {
                                   "name": "Phan Viết Anh",
                                   "gender": "male",
-                                  "photo": "phan_viet_anh_1947_1685092949289"
+                                  "yob": "1947",
+                                  "por": "San Bernadino, California",
+                                  "photo": "Phan Viết Anh.jpg",
+																	"desc": "<br/>[Phan Anh Em.jpg|1|2|1972, Thứ 2 từ trái]"
                                 },
                                 {
                                   "name": "Nguyễn Thị Thái Phương",
@@ -1275,7 +1278,10 @@
                               "nodes": [
                                 {
                                   "name": "Phan Ngọc Danh",
-                                  "gender": "male"
+                                  "gender": "male",
+                                  "yob": "1949",
+                                  "por": "Anaheim, California",
+																	"desc": "<br/>[Phan Anh Em.jpg|1|2|1972, Thứ 1 từ trái]"
                                 },
                                 {
                                   "name": "Nguyễn Thị Thu Hương",
@@ -1308,7 +1314,11 @@
                                 {
                                   "name": "Phan Văn Vĩnh",
                                   "gender": "male",
-                                  "photo": "phan_van_vinh_1950_1685092731054"
+                                  "yob": "1950",
+                                  "yod": "1973",
+																	"pod": "Núi Thiên Ấn, Quảng Ngãi",
+                                  "photo": "Phan Văn Vĩnh.jpg",
+																	"desc": "<br/>[Phan Anh Em.jpg|1|2|1972, Thứ 2 từ phải]"
                                 }
                               ]
                             },
@@ -1320,9 +1330,10 @@
                                   "nick": "Bảy",
                                   "yob": "1953",
                                   "pob": "Quảng Bình",
-                                  "por": "Khánh Hòa",
+                                  "por": "Ngô Đến, Nha Trang",
                                   "job": "Giáo chức",
-                                  "photo": "phan_viet_hoang_1953_1686213633741"
+                                  "photo": "Phan Viết Hoàng.jpg",
+																	"desc": "<br/>[Phan Anh Em.jpg|1|2|1972, Thứ 1 từ phải]"
                                 }
                               ],
                               "children": [
@@ -1336,8 +1347,7 @@
                                       "pob": "San Jose, California",
                                       "por": "Fremont, California",
                                       "job": "Chuyên gia",
-                                      "desc": "Làm việc ở Taipei.",
-                                      "photo": "phan_anh_quan_1981_123456789012.jpg"
+                                      "desc": "Làm việc ở Taipei."
                                     }
                                   ]
                                 }
@@ -1347,7 +1357,8 @@
                               "nodes": [
                                 {
                                   "name": "Phan Thị Cẩm Thành",
-                                  "gender": "female"
+                                  "gender": "female",
+                                  "por": "Quảng Ngãi"
                                 }
                               ]
                             },
@@ -1355,11 +1366,13 @@
                               "nodes": [
                                 {
                                   "name": "Phan Thị Minh Tâm",
+                                  "por": "Glendale, California",
                                   "gender": "female"
                                 },
                                 {
                                   "name": "Huỳnh Lễ",
-                                  "gender": "male"
+                                  "gender": "male",
+                                  "por": "Glendale, California"
                                 }
                               ],
                               "children": [
@@ -1393,11 +1406,13 @@
                               "nodes": [
                                 {
                                   "name": "Phan Thị Cẩm Phương",
-                                  "gender": "female"
+                                  "gender": "female",
+																	"por": "Quảng Ngãi"
                                 },
                                 {
                                   "name": "Nguyễn Đăng Dung",
-                                  "gender": "male"
+                                  "gender": "male",
+																	"por": "Quảng Ngãi"
                                 }
                               ],
                               "children": [
@@ -1406,15 +1421,17 @@
                                     {
                                       "name": "Nguyễn Đăng Hưng",
                                       "gender": "male",
-                                      "nick": "Tin"
+																			"nick": "Tin",
+																			"por": "Knoxville, Tennessee"
                                     }
                                   ]
                                 },
                                 {
                                   "nodes": [
                                     {
-                                      "name": "Nguyễn Đăng Thinh",
+                                      "name": "Nguyễn Đăng Thịnh",
                                       "gender": "male",
+																			"por": "Tp. HCM",
                                       "nick": "Tí"
                                     }
                                   ]

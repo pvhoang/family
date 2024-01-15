@@ -114,7 +114,52 @@ export class FamilyService {
   
   // --- People ---
 
-  public getPeopleList(family:Family): any {
+	searchPeopleNodes(family, searchStr) {
+    if (DEBUGS.NODE)
+      console.log('NodePage - startSearch - searchStr: ', searchStr)
+    // remove Generation
+    // name: Đoàn Văn Phê (D7-18)
+		// get name, idlevel
+		let idx = searchStr.indexOf('(');
+		let name = searchStr.substring(0, idx).trim();
+		let idlevel = searchStr.substring(idx+2, searchStr.indexOf(')', idx));
+		let nodeSelect = null;
+
+		// search thru all nodes
+    let nodes:Node[] = this.nodeService.getFamilyNodes(family);
+    nodes.forEach((node:any) => {
+      // reset nclass
+      node.nclass = this.nodeService.updateNclass(node);
+			if (node.name == name && node.idlevel == idlevel) {
+				node.nclass = 'select';
+				nodeSelect = node;
+			}
+    })
+		return nodeSelect;
+  }
+
+	getPeopleNodes (family: any, item?: any) {
+    let nodes = this.nodeService.getFamilyNodes(family);
+    if (DEBUGS.NODE)
+      console.log('NodePage - getPeopleNodes - nodes: ', nodes.length);
+    nodes.forEach(node => {
+      if (!item)
+        // all visible
+        node.visible = true;
+      else {
+        // visible only if item == ''
+        node.visible = (node[item] == '');
+        if (item == 'pod' || item == 'dod') {
+          // show if yod != ''
+          if (node.visible && node.yod == '')
+            node.visible = false;
+        }
+      }       
+    })
+    return this.getPeopleList(family);
+  }
+
+  private getPeopleList(family:Family): any {
     let data = [];
     let nodeLevel = 1;
     family.nodes.forEach((node: any) => {
@@ -131,39 +176,12 @@ export class FamilyService {
     }
     if (DEBUGS.FAMILY_SERVICE)
       console.log('FamilyService - getPeopleList -  data: ', data.length);
-    // check for same name and level
-    let uData = {};
-    for (let i = 0; i < data.length; i++) {
-      let node = data[i].node;
-      let name = node.name + '_' + node.level;
-      if (uData[name] == null) {
-        uData[name] = [];
-        uData[name].push(node);
-      } else {
-        uData[name].push(node);
-      }
-    }
-    let uniqueData = [];
-    for (var name of Object.keys(uData)) {
-      if (uData[name].length > 1) {
-        // duplicate name
-        uData[name].forEach(node => {
-          // get parent name
-          let words = node.pnode.name.split(' ');
-          let pname = (words.length > 2) ? words[2] : words[1];
-          let nname = node.name + '(' + pname + ')' + this.nodeService.getFullDetail(node);
-          if (DEBUGS.FAMILY_SERVICE)
-            console.log('FamilyService - getPeopleList -  nname: ', nname);
-          uniqueData.push(nname);
-        })
-      } else {
-        let node = uData[name][0];
-        let nname = node.name + this.nodeService.getFullDetail(node);
-        uniqueData.push(nname);
-      }
-    }
-    uniqueData.sort();
-    return uniqueData;
+    
+		let names = [];
+		data.forEach(name => {
+			names.push(name.name);
+		})
+		return names;
 	}
   
   private getPeopleListChild(family:Family, data:any, nodeLevel: number) {
@@ -251,15 +269,10 @@ export class FamilyService {
   // --- compareFamilies
 
   public compareFamilies(srcFamily:any, modFamily:any): any[] {
-
     let srcFullFamily = this.buildFullFamily(srcFamily);
     let modFullFamily = this.buildFullFamily(modFamily);
     let modNodes = this.nodeService.getFamilyNodes(modFullFamily, true);
     let srcNodes = this.nodeService.getFamilyNodes(srcFullFamily, true);
-
-    // let modNodes = this.nodeService.getFamilyNodes(modFamily, true);
-    // let srcNodes = this.nodeService.getFamilyNodes(srcFamily, true);
-    
     let results = [];
     // make sure src and mod has same root
     let srcRoot = srcNodes[0];
@@ -525,7 +538,6 @@ export class FamilyService {
         }
       })
     }
-
     // console.log('getSelectedPerson - filterFamily: ', filterFamily);
     let nodes = this.nodeService.getFamilyNodes(filterFamily);
     // console.log('getSelectedPerson - nodes2: ', nodes);

@@ -12,8 +12,6 @@ import { ThemeService } from '../../services/theme.service';
 import { Family, Node, FAMILY} from '../../services/family.model';
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
 
-const WAIT_TIME = 500;
-
 // http://www.giaphavietnam.vn/default.aspx?lang=vi-VN&cp=news-detail&cid=38
 
 @Component({
@@ -97,14 +95,11 @@ export class PersonPage implements OnInit {
 
   start(family: any) {
     this.family = this.familyService.buildFullFamily(family);
-
-    console.log('PersonPage - start - family: ', this.family);
-
-    this.peopleNodes = this.getPeopleNodes (this.family);
+    // console.log('PersonPage - start - family: ', this.family);
+    this.peopleNodes = this.familyService.getPeopleNodes (this.family);
     this.nodeItems = this.nodeService.getInfoList();
     this.nodeItem = null;
     this.nodeItemMessage = this.languageService.getTranslation('NODE_NUM_NODES') + this.peopleNodes.length;
-    // this.familyView = this.family;
     this.selectPeoplePlaceholder = this.languageService.getTranslation('NODE_SELECT');
     this.selectPeople = null;
     this.nodeItemPlaceholder = this.languageService.getTranslation('NODE_SELECT_EMPTY_DATA');
@@ -114,27 +109,6 @@ export class PersonPage implements OnInit {
 
   async onExit() {
     await this.modalCtrl.dismiss({status: 'cancel'});
-  }
-  
-  getPeopleNodes (family: any, item?: any) {
-    let nodes = this.nodeService.getFamilyNodes(family);
-    if (DEBUGS.NODE)
-      console.log('PersonPage - getPeopleNodes - nodes: ', nodes.length);
-    nodes.forEach(node => {
-      if (!item)
-        // all visible
-        node.visible = true;
-      else {
-        // visible only if item == ''
-        node.visible = (node[item] == '');
-        if (item == 'pod' || item == 'dod') {
-          // show if yod != ''
-          if (node.visible && node.yod == '')
-            node.visible = false;
-        }
-      }       
-    })
-    return this.familyService.getPeopleList(family);
   }
   
   // ------------- ng-select -------------
@@ -149,8 +123,10 @@ export class PersonPage implements OnInit {
     if (DEBUGS.NODE)
       console.log('PersonPage - closePeopleNodes - selectPeople: ', this.selectPeople);
     this.selectedNode = null;
-    if (this.selectPeople)
-      this.startSearch(this.selectPeople);
+    if (this.selectPeople) {
+			let nodeSelect = this.familyService.searchPeopleNodes(this.family, this.selectPeople);
+			this.onNodeSelect(nodeSelect);
+		}
   }
   
   keyupPeopleNodes(event) {
@@ -162,91 +138,28 @@ export class PersonPage implements OnInit {
 
   // --------- END ng-select ----------
 
-  startSearch(searchStr) {
-    if (DEBUGS.NODE)
-      console.log('PersonPage - startSearch - searchStr: ', searchStr)
-    // remove Generation
-    // name: Đoàn Văn Phê
-    searchStr = searchStr.substring(0, searchStr.indexOf(' ('));
-    let parentName = '';
-    // remove Parent if any
-    let idx = searchStr.indexOf('(');
-    if (idx > 0) {
-      // this is node with parent name
-      parentName = searchStr.substring(idx+1, searchStr.length-1)
-      searchStr = searchStr.substring(0, idx)
-    }
-    if (DEBUGS.NODE)
-      console.log('PersonPage - startSearch - searchStr, parentName: ', searchStr, parentName);
-    let sNodes:Node[] = [];
-    // search thru all nodes
-    let nodes:Node[] = this.nodeService.getFamilyNodes(this.family);
-    nodes.forEach((node:Node) => {
-      // reset nclass
-      node.nclass = this.nodeService.updateNclass(node);
-      let strProfile = node.name;
-      if (strProfile.indexOf(searchStr) >= 0) {
-        if (parentName != '') {
-          // get real node
-          let words = node.pnode.name.split(' ');
-          let pname = (words.length > 2) ? words[2] : words[1];
-          if (pname == parentName) {
-            // found the node
-            sNodes.push(node);
-          }
-        } else
-          sNodes.push(node);
-      }
-    })
-    if (DEBUGS.NODE)
-      console.log('PersonPage - startSearch - sNodes: ', sNodes)
-      // set select on 1st node
-    sNodes[0]['nclass'] = 'select'
-    this.onNodeSelect(sNodes[0]);
-  }
-  
   onNodeSelect(node: Node, openTask?: any) {
     if (DEBUGS.NODE)
       console.log('PersonPage - onNodeSelect - node: ', node);
     // reset nclass
     if (this.selectedNode)
       this.selectedNode.nclass = this.nodeService.updateNclass(this.selectedNode);
-
     this.selectedNode = node;
 	
-		// if (node.name == 'Phan Viên')
-		// 	// node.desc = "<b>Hello</b> there!<br/>New line";
-		// 	// node.desc = '<b>Hello</b> there!<br/>New line<br/><img src="../assets/icon/male-avatar.jpg"/><br/>';
-		// 	node.desc = '<b>Hello</b> there!<br/>New line<br/><img src="https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2FQuanPhan.jpeg?alt=media&token=68aaedc7-5a72-4eb4-9024-441c5c5271cd"/><br/>';
-
-		// node.desc = "<b>Hello</b> there!<br/>New line" +
-	// 	'<div id="img-div">' +
-  //   '<img src="https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2FQuanPhan.jpeg?alt=media&token=68aaedc7-5a72-4eb4-9024-441c5c5271cd" width="200" height="150" alt="hello" id="image">' +
-  //  '<caption id="image-caption">Some caption</caption>' +
-  // '</div>';
-
-	// '<div id="id-img-div" class="id-center">' +
-	// 	'<img id="id-img" src="https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2FQuanPhan.jpeg?alt=media&token=68aaedc7-5a72-4eb4-9024-441c5c5271cd" alt="Ludwig_Wittgenstein">' +
-	// 	'<div id="id-img-caption">Wittgenstein Life and Work</div>' +
-	// '</div>'
-
-// if (node.name == 'Phan Viên') {
-// 	node.desc = '<b>Hello</b>' +
-// 	'<br/><div class="home-container-center"><img src="https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2FQuanPhan.jpeg?alt=media&token=68aaedc7-5a72-4eb4-9024-441c5c5271cd" width="200" height="150" alt="QuanPhan.jpeg"/></div>' +
-// 	'<div class="home-container-left home-no-expand">QuanPhan</div><br/>'
-// }
-
 		// https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2FQuanPhan.jpeg?alt=media&token=68aaedc7-5a72-4eb4-9024-441c5c5271cd
 
-		// if (node.name == 'Phan Viên')
-
-		// node.desc = '<b>Hello</b> there!<br/>New line' + '"[QuanPhan.jpeg,3,1,QuanPhan]"' + '<br/>';
-
 		let ancestor = this.info.id;
-		this.editorService.getHtmlText(ancestor, node.desc).then((result:any) => {
-			// this.selectedNode.desc = newText;
-			// console.log('newText: ', result.newText);
-			node.desc = result.newText;
+		this.editorService.convertImageTemplate(ancestor, node.desc, 'person').then((resolves:any) => {
+			if (resolves.length > 0) {
+				let newText:any = node.desc.slice(0);
+				for (let i = 0; i < resolves.length; i++) {
+					let data = resolves[i];
+					let imageStr = '[' + data.imageStr + ']';
+					let html = data.html;
+					newText = newText.replaceAll(imageStr,html);
+				}
+				node.desc = newText;
+			}
 		})
 
     this.selectedNodeName = node.name;
@@ -264,15 +177,7 @@ export class PersonPage implements OnInit {
         this.drawTomb();
       }
     }
-      
-    // setTimeout(() => {
-    //   this.scrollToNode(this.selectedNode);
-    // }, WAIT_TIME);
-		// let filterFamily = this.familyService.getFilterFamily(this.family);
-    // this.familyView = this.familyService.getSelectedPerson(filterFamily, this.info, this.selectedNode);
-
     this.familyView = this.familyService.getSelectedPerson(this.selectedNode);
-    
     this.startTree();
   }
 
@@ -283,33 +188,14 @@ export class PersonPage implements OnInit {
   startTree() {
     // set photo for each node
     let nodes = this.nodeService.getFamilyNodes(this.familyView);
-
-    console.log('PersonPage - familyView: ', nodes);
-
     nodes.forEach((node:any) => {
       this.getPhotoUrl(node).then((url:any) => {
         node.photoUrl = url;
       });
     })
     this.themeService.setScreenSize(nodes, true);
-    // this.node = this.nodeService.getFamilyNode(this.familyView, this.nodeId);
-    // this.title = this.node.name;
-    // this.node.nclass = 'node-select';
-    // setTimeout(() => {
-    //   this.scrollToNode(this.selectedNode);
-    // }, 2000);
   }
 
-  // scrollToNode(node) {
-  //   const ele = document.getElementById(node.id);
-  //   let options: any = {
-  //     behaviour: 'smooth',
-  //     block: 'center',
-  //     inline: 'center',
-  //   }
-  //   ele.scrollIntoView(options);
-  // }
-  
   getZoomStyle() {
     let scale = this.scaleStyle / 10;
     let styles = {
@@ -365,7 +251,6 @@ export class PersonPage implements OnInit {
       if (node.photo != '') {
         this.fbService.downloadImage(this.info.id, node.photo).then((imageURL:any) => {
           url = imageURL;
-          // console.log('url: ', url);
           this.drawPhoto(ctx, url, imgWidth, imgHeight);
         })
       } else {
@@ -373,14 +258,9 @@ export class PersonPage implements OnInit {
         url = "../assets/icon/" + avatar;
         this.drawPhoto(ctx, url, imgWidth, imgHeight);
       }
-      // this.drawPhoto(
-      //   ctx,
-      //   url,
-      //   // 'https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png',
-      //   imgWidth,
-      //   imgHeight
-      // );
-      let title = (node.gender == 'male') ? 'Ông' : 'Bà';
+			// 'https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png',
+      let title = (node.gender == 'male') ? this.languageService.getTranslation('MR') : this.languageService.getTranslation('MRS');
+
       this.drawGender(ctx, title, imgWidth, imgHeight);
       this.drawName(ctx, node.name, imgWidth, imgHeight);
     };
@@ -472,6 +352,4 @@ export class PersonPage implements OnInit {
     // Return the line array
     return lineArray;
   }
-
-	
 }

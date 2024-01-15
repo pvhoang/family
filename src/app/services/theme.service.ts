@@ -16,17 +16,17 @@ const themes = {
     'css': [
       ['--ion-font-family', 'Roboto' ],
 
-      ['--app-text-font-size-tiny', '10px' ],
-      ['--app-text-font-size-small', '12px' ],
-      ['--app-text-font-size-medium', '14px' ],
-      ['--app-text-font-size-large', '16px' ],
-      ['--app-text-font-size-extra-large', '18px' ],
+      ['--app-text-font-size-tiny', '12px' ],
+      ['--app-text-font-size-small', '14px' ],
+      ['--app-text-font-size-medium', '16px' ],
+      ['--app-text-font-size-large', '18px' ],
+      ['--app-text-font-size-extra-large', '20px' ],
       
-      ['--app-icon-font-size-tiny', '10px' ],
-      ['--app-icon-font-size-small', '12px' ],
-      ['--app-icon-font-size-medium', '14px' ],
-      ['--app-icon-font-size-large', '16px' ],
-      ['--app-icon-font-size-extra-large', '18px' ],
+      ['--app-icon-font-size-tiny', '12px' ],
+      ['--app-icon-font-size-small', '14px' ],
+      ['--app-icon-font-size-medium', '16px' ],
+      ['--app-icon-font-size-large', '18px' ],
+      ['--app-icon-font-size-extra-large', '20px' ],
       
 			['--app-alert-font-size', '16px' ],
 			['--app-alert-width', '350px'],
@@ -42,7 +42,6 @@ const themes = {
       ['--app-background-color', RED ],
       ['--ion-color-medium', RED ],
 
-      // ['--app-logo', 'url("./../../../assets/icon/gia-pha-dragon.png")'],
       ['--app-logo', 'url("./../../../assets/common/dragon/gia-pha.jpg")'],
       ['--app-three-dots', 'url("./../../../assets/icon/three-dots-red.svg")'],
 
@@ -64,14 +63,14 @@ const themes = {
       ['--app-text-font-size-tiny', '12px' ],
       ['--app-text-font-size-small', '14px' ],
       ['--app-text-font-size-medium', '16px' ],
-      ['--app-text-font-size-large', '20px' ],
-      ['--app-text-font-size-extra-large', '22px' ],
+      ['--app-text-font-size-large', '18px' ],
+      ['--app-text-font-size-extra-large', '20px' ],
           
       ['--app-icon-font-size-tiny', '12px' ],
       ['--app-icon-font-size-small', '14px' ],
       ['--app-icon-font-size-medium', '16px' ],
-      ['--app-icon-font-size-large', '20px' ],
-      ['--app-icon-font-size-extra-large', '22px' ],
+      ['--app-icon-font-size-large', '18px' ],
+      ['--app-icon-font-size-extra-large', '20px' ],
 
 			['--app-alert-font-size', '16px' ],
 			['--app-alert-width', '350px'],
@@ -97,8 +96,6 @@ const themes = {
       ['--url-ion-content-alert', 'url("../assets/common/village/5-20.png")' ],
     ],
     'tree-bg':  "../assets/icon/gia-pha-frame.png",
-    // 'tree-bg':  "../assets/common/village/5-20.png",
-    // 'tree-bg':  "../assets/icon/gia-pha-frame.jpg",
     'splash-bg':  "../assets/common/village/5-20.png"
   },
   
@@ -196,16 +193,14 @@ const themes = {
 export class ThemeService {
 
   theme: any;
-  
-  constructor(
+  size: any;
+
+	constructor(
     public platform: Platform,
     private dataService: DataService,
   ) { }
 
   setTheme(theme: any) {
-
-    console.log('theme1: ', theme);
-
     let root = document.documentElement;
     if (!theme)
       theme = DRAGON;
@@ -237,15 +232,7 @@ export class ThemeService {
   }
 
 	setSize(size: any) {
-
 		let root = document.documentElement;
-
-		// let val = root.get('--app-text-font-size-tiny');
-		// let val = root.style.getPropertyValue('--app-text-font-size-tiny')
-    // console.log('val: ', val);
-		// let val1 = root.style.getPropertyValue('--app-color')
-    // console.log('val1: ', val1);
-
 		let systemSizes = [
 			['--app-text-font-size-tiny', root.style.getPropertyValue('--app-text-font-size-tiny')],
 			['--app-text-font-size-small', root.style.getPropertyValue('--app-text-font-size-small')],
@@ -259,16 +246,24 @@ export class ThemeService {
 			['--app-icon-font-size-extra-large', root.style.getPropertyValue('--app-icon-font-size-extra-large')]
 		];
 		console.log('systemSizes: ', systemSizes);
-		let diff = (size == SMALL_SIZE) ? -1 : ((size == MEDIUM_SIZE) ? 2 : 5);
+		let diff = (size == SMALL_SIZE) ? 0 : ((size == MEDIUM_SIZE) ? 2 : 4);
 		systemSizes.forEach(item => {
 			let pixel = item[1].substring(0, item[1].length - 2);
+			// add extra for iOS
+			// if (this.platform.is('ios'))
+			// 	pixel += 4;
 			root.style.setProperty(item[0], '' + (+pixel + diff) + 'px');
 		})
-		let val2 = root.style.getPropertyValue('--app-text-font-size-tiny')
-    console.log('val2: ', val2);
+		// let val2 = root.style.getPropertyValue('--app-text-font-size-tiny')
+    // console.log('val2: ', val2);
+    this.size = size;
 
   }
 
+	getSize() {
+		return this.size;
+	}
+	
   setTreeBackground() {
     return themes[this.theme]['tree-bg'];
   }
@@ -285,6 +280,12 @@ export class ThemeService {
 		return root.style.getPropertyValue(property)
   }
 
+	printRootProperty(msg: any, property: any) {
+		let root = document.documentElement;
+		let value = root.style.getPropertyValue(property);
+		console.log(msg + ' - ' + property + ' : ' + value);
+	}
+
 	setToastSize(message) {
     console.log('setToastSize: ', message);
 		let lines = message.split('br/');
@@ -295,8 +296,8 @@ export class ThemeService {
 		})
     console.log('setToastSize: line: ', lines);
     console.log('setToastSize: lineChars: ', lineChars);
-		let height = (lines.length == 1) ? 40 : ((lines.length == 2) ? 60 : 120);
-		let width = (lineChars < 30) ? 300 : ((lineChars < 50) ? 400 : 500);
+		let height = (lines.length == 1) ? 50 : ((lines.length == 2) ? 80 : 120);
+		let width = (lineChars < 30) ? 400 : ((lineChars < 50) ? 500 : 600);
     let root = document.documentElement;
     root.style.setProperty('--app-toast-height', height + 'px');
     root.style.setProperty('--app-toast-width', width + 'px');

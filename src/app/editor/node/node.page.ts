@@ -92,7 +92,7 @@ export class NodePage implements OnInit {
     this.family = this.familyService.buildFullFamily(family);
     console.log('NodePage - family: ', family);
 
-    this.peopleNodes = this.getPeopleNodes (this.family);
+    this.peopleNodes = this.familyService.getPeopleNodes (this.family);
     this.nodeItems = this.nodeService.getInfoList();
     this.nodeItem = null;
     this.nodeItemMessage = this.languageService.getTranslation('NODE_NUM_NODES') + this.peopleNodes.length;
@@ -102,26 +102,26 @@ export class NodePage implements OnInit {
     this.nodeItemPlaceholder = this.languageService.getTranslation('NODE_SELECT_EMPTY_DATA');
   }
 
-  getPeopleNodes (family: any, item?: any) {
-    let nodes = this.nodeService.getFamilyNodes(family);
-    if (DEBUGS.NODE)
-      console.log('NodePage - getPeopleNodes - nodes: ', nodes.length);
-    nodes.forEach(node => {
-      if (!item)
-        // all visible
-        node.visible = true;
-      else {
-        // visible only if item == ''
-        node.visible = (node[item] == '');
-        if (item == 'pod' || item == 'dod') {
-          // show if yod != ''
-          if (node.visible && node.yod == '')
-            node.visible = false;
-        }
-      }       
-    })
-    return this.familyService.getPeopleList(family);
-  }
+  // getPeopleNodes (family: any, item?: any) {
+  //   let nodes = this.nodeService.getFamilyNodes(family);
+  //   if (DEBUGS.NODE)
+  //     console.log('NodePage - getPeopleNodes - nodes: ', nodes.length);
+  //   nodes.forEach(node => {
+  //     if (!item)
+  //       // all visible
+  //       node.visible = true;
+  //     else {
+  //       // visible only if item == ''
+  //       node.visible = (node[item] == '');
+  //       if (item == 'pod' || item == 'dod') {
+  //         // show if yod != ''
+  //         if (node.visible && node.yod == '')
+  //           node.visible = false;
+  //       }
+  //     }       
+  //   })
+  //   return this.familyService.getPeopleList(family);
+  // }
 
   //
   // ------------- TREE -------------
@@ -171,8 +171,11 @@ export class NodePage implements OnInit {
     if (DEBUGS.NODE)
       console.log('NodePage - closePeopleNodes - selectPeople: ', this.selectPeople);
     this.selectedNode = null;
-    if (this.selectPeople)
-      this.startSearch(this.selectPeople);
+    if (this.selectPeople) {
+			let nodeSelect = this.familyService.searchPeopleNodes(this.family, this.selectPeople);
+			this.onNodeSelect(nodeSelect);
+		}
+      // this.startSearch(this.selectPeople);
   }
   
   keyupPeopleNodes(event) {
@@ -188,7 +191,7 @@ export class NodePage implements OnInit {
     this.nodeItem = item.id;
     if (this.nodeItem == 'all')
       this.nodeItem = null;
-    this.peopleNodes = this.getPeopleNodes (this.family, this.nodeItem)
+    this.peopleNodes = this.familyService.getPeopleNodes (this.family, this.nodeItem)
     this.selectPeople = null;
     if (this.nodeItem == null) {
       this.nodeItemMessage = this.languageService.getTranslation('NODE_NUM_NODES') + this.peopleNodes.length;
@@ -200,49 +203,6 @@ export class NodePage implements OnInit {
 
   // --------- END ng-select ----------
 
-  startSearch(searchStr) {
-    if (DEBUGS.NODE)
-      console.log('NodePage - startSearch - searchStr: ', searchStr)
-    // remove Generation
-    // name: Đoàn Văn Phê
-    searchStr = searchStr.substring(0, searchStr.indexOf(' ('));
-    let parentName = '';
-    // remove Parent if any
-    let idx = searchStr.indexOf('(');
-    if (idx > 0) {
-      // this is node with parent name
-      parentName = searchStr.substring(idx+1, searchStr.length-1)
-      searchStr = searchStr.substring(0, idx)
-    }
-    if (DEBUGS.NODE)
-      console.log('NodePage - startSearch - searchStr, parentName: ', searchStr, parentName);
-    let sNodes:Node[] = [];
-    // search thru all nodes
-    let nodes:Node[] = this.nodeService.getFamilyNodes(this.family);
-    nodes.forEach((node:Node) => {
-      // reset nclass
-      node.nclass = this.nodeService.updateNclass(node);
-      let strProfile = node.name;
-      if (strProfile.indexOf(searchStr) >= 0) {
-        if (parentName != '') {
-          // get real node
-          let words = node.pnode.name.split(' ');
-          let pname = (words.length > 2) ? words[2] : words[1];
-          if (pname == parentName) {
-            // found the node
-            sNodes.push(node);
-          }
-        } else
-          sNodes.push(node);
-      }
-    })
-    if (DEBUGS.NODE)
-      console.log('NodePage - startSearch - sNodes: ', sNodes)
-      // set select on 1st node
-    sNodes[0]['nclass'] = 'select'
-    this.onNodeSelect(sNodes[0]);
-  }
-  
   onNodeSelect(node: Node, openTask?: any) {
 
     if (DEBUGS.NODE)
@@ -367,16 +327,12 @@ export class NodePage implements OnInit {
     this.utilService.alertRadio('NODE_ADD_RELATION_HEADER', '', inputs , 'CANCEL', 'OK').then((res) => {
       console.log('onAdd- res: ', res);
       if (res.data) {
-
         let relation = res.data;
         let ancestorName = this.nodeService.getChildFamilyName(this.selectedNode);
-
         // let firstChar = ancestorName.charAt(0);
         // ancestorName = firstChar + ancestorName.substring(1);
-
         let gender = (relation == 'FATHER' || relation == 'HUSBAND' || relation == 'SON') ? 'male' : 'female';
         // let lName = this.utilService.stripVN(ancestorName);
-
         let mName = (gender == 'male') ? 'văn' : 'thị';
         let fName = (gender == 'male') ? 'nam' : 'nữ';
         // let name = this.utilService.stripVN(ancestorName) + ' ...';
@@ -399,7 +355,7 @@ export class NodePage implements OnInit {
   async onAddBranch() {
 
     let node: Node = this.selectedNode;
-    console.log('NodePage - onAddBranch - node: ', node);
+    // console.log('NodePage - onAddBranch - node: ', node);
 
     this.dataService.readBranchNames().then((names:[]) => {
       console.log('NodePage - onAddBranch - names: ', names);
@@ -408,7 +364,7 @@ export class NodePage implements OnInit {
       names.forEach((name: string) => {
         inputs.push({type: 'radio', label: name, value: name, checked: false });
       })
-      console.log('NodePage - onAddBranch - inputs: ', inputs);
+      // console.log('NodePage - onAddBranch - inputs: ', inputs);
 
       this.utilService.alertRadio('NODE_ADD_BRANCH', '', inputs , 'CANCEL', 'OK').then((res) => {
         console.log('onAddBranch - res: ', res);
@@ -474,7 +430,7 @@ export class NodePage implements OnInit {
     node.span = this.nodeService.getSpanStr(node);
     // save full family to local memory and update people list
     this.familyService.saveFullFamily(this.family).then(status => {
-      this.peopleNodes = this.getPeopleNodes (this.family);
+      this.peopleNodes = this.familyService.getPeopleNodes (this.family);
     });
   }
 

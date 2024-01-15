@@ -1,39 +1,40 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { environment, FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
+import { FONTS_FOLDER, DEBUGS,  SMALL_SIZE, MEDIUM_SIZE, LARGE_SIZE } from '../../../environments/environment';
 import { LanguageService } from '../../services/language.service';
 import { UtilService } from '../../services/util.service';
 import { FamilyService } from '../../services/family.service';
 import { NodeService } from '../../services/node.service';
 import { PageFlip } from 'page-flip';
 import { DataService } from '../../services/data.service';
+import { EditorService } from '../../services/editor.service';
+import { ThemeService } from '../../services/theme.service';
 import { VnodePage } from '../vnode/vnode.page';
 import { PersonPage } from '../person/person.page';
 
 const FLIPPING_TIME = 500;
 const PAGE_START_TIME = 500;
-const PAGE_SWITCH_TIME = 1000;
+const PAGE_SWITCH_TIME = 500;
+const SIZE = 'size';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
-  // styleUrls: ['home.page.scss'],
   styleUrls: ['home.page.scss','w3.scss'],
-  // styleUrls: ['w3.scss'],
 })
 export class HomePage implements OnInit{
 
 	FONTS_FOLDER = FONTS_FOLDER;
 
-	pageRoot: string = 'muc_luc';
-	pageIndex: number = 0;
+	// pageRoot: string = 'muc_luc';
 	pageFlip: any;
 	ancestor: any;
 	nodes: any;
 	levels: any;
+	modalPage: any = '';
+	// size: any;
 
 	pageData = {
-		"muc_luc": { title: "", text: "", index: 0, titleText: "" },
 		"pha_he": { title: "", text: "", index: 0, titleText: "" },
 		"pha_do": { title: "", text: "", index: 0, titleText: ""  },
 	};
@@ -49,7 +50,9 @@ export class HomePage implements OnInit{
 		public modalCtrl: ModalController,
     private languageService: LanguageService,
 		private dataService: DataService,
+		private editorService: EditorService,
 		private utilService: UtilService,
+		private themeService: ThemeService,
 		private nodeService: NodeService,
 		private familyService: FamilyService,
   ) {
@@ -59,58 +62,38 @@ export class HomePage implements OnInit{
 		this.start();
     setTimeout(() => {
 			this.startBook();
-    }, PAGE_START_TIME)   
+    }, 1000)   
   }
 
 	start() {
 		this.dataService.readDocs().then((docs:any) => {
 			if (DEBUGS.DOCS)
-				console.log('HomePage - docs: ', docs)
-			// this.pageData = docs;
-			this.dataService.readFamilyAndInfo().then((dat:any) => {
-				let family = dat.family;
-				let info = dat.info;
-				this.ancestor = info.id;
-				let data = this.getSystemData(family);
-				this.nodes = data.nodes;
-				this.levels = data.levels;
+				console.log('HomePage - docs: ', docs);
+			// this.dataService.readItem(SIZE).then((size:any) => {
+			// 	console.log('size after read: ', size);
+			// 	this.size = size;
+				this.dataService.readFamilyAndInfo().then((dat:any) => {
+					let family = dat.family;
+					let info = dat.info;
+					this.ancestor = info.id;
+					let data = this.getSystemData(family);
+					this.nodes = data.nodes;
+					this.levels = data.levels;
+					this.updatePageData(docs);
+					this.onMemorial();
 
-				// let nodes = this.nodeService.getFamilyNodes(family, true);
-				// console.log('nodes: ', nodes);
-
-				// let maxLevel = 0;
-				// let minLevel = 0;
-				
-				// nodes.forEach(node => {
-				// 	if (node.level > maxLevel)
-				// 		maxLevel = node.level;
-				// 	if (node.yob != '' && node.yob < yobMin)
-				// 		yobMin = node.yob;
-				// 	if (node.yob != '' && node.yob > yobMax)
-				// 		yobMax = node.yob;
-				// })
-				// let yobMin = 0;
-				// let yobMax = 0;
-				// nodes.forEach(node => {
-				// 	if (node.level > maxLevel)
-				// 		maxLevel = node.level;
-				// 	if (node.yob != '' && node.yob < yobMin)
-				// 		yobMin = node.yob;
-				// 	if (node.yob != '' && node.yob > yobMax)
-				// 		yobMax = node.yob;
-				// })
-
-
-
-				// this.nodes = nodes.length;
-				// this.levels = maxLevel + '(' + ((yobMin == 0) ? '' : ''+yobMin) + '-' + ((yobMax == 0) ? '' : ''+yobMax) + ')';
-
-				// this.title1 = info.name;
-				// this.title2 = info.location;
-				// this.title3 = 'A.' + environment.version + ' (D.' + family.version + ')';
-				this.updatePageData(docs);
-				this.onMemorial();
-			});
+					// this.updatePageData(docs).then((data:any) => {
+					// 	this.pageData = data[0];
+					// 	this.specialPageData = data[1];
+					// 	console.log('this.pageData: ', this.pageData);
+					// 	console.log('this.specialPageData: ', this.specialPageData);
+					// 	this.onMemorial();
+					// 	// setTimeout(() => {
+					// 	// 		this.startBook();
+					// 	// }, 500)   
+					// 	// this.startBook();
+					// });
+				});
 		});
 	}
 	
@@ -141,118 +124,113 @@ export class HomePage implements OnInit{
 
 	onMemorial() {
     this.familyService.passAwayFamily().then((data:any) => {
+			if (data.persons.length == 0)
+				return;
       if (DEBUGS.DOCS)
         console.log('HomePage - onMemorial - data: ', data);
       let today = data.today;
       let msg = '<b>' + this.languageService.getTranslation('HOME_MEMORY_HEADER') + '</b><br/><br/>' +
 					'<i>' + this.languageService.getTranslation('HOME_MEMORY_TODAY') + ':  ' + today + '</i><br/></br>';
-      // let msg = '<i>' + this.languageService.getTranslation('HOME_MEMORY_TODAY') + '</i>:&emsp;' + today + '<br/>';
-      // let msg = '<br/>';
-			if (data.persons.length > 0) {
-        data.persons.forEach(person => {
-					msg += person[0] + ':&emsp;:&emsp;' + person[1] + '<br/>'
-				});
-      } else {
-        msg += this.languageService.getTranslation('HOME_MEMORY_NO_DOD');
-      }
+			data.persons.forEach(person => {
+				msg += person[0] + ':&emsp;:&emsp;' + person[1] + '<br/>'
+			});
 			this.utilService.presentToastWait(null, msg, 'OK', 8000);
     });
   }
 
-	// onMemorial1() {
-  //   let msg = this.utilService.getAlertMessage([
-  //     {name: 'msg', label: 'NODE_DELETE_NODE_MESSAGE_1'},
-  //     {name: 'data', label: "hello"},
-  //     {name: 'msg', label: 'NODE_DELETE_NODE_MESSAGE_2'},
-  //   ]);
-	// 	this.utilService.presentToast(msg, 3000);
-  // }
-
-	// onMemorial2() {
-  //   this.familyService.passAwayFamily().then((data:any) => {
-  //     if (DEBUGS.DOCS)
-  //       console.log('HomePage - onMemorial - data: ', data);
-  //     let today = data.today;
-  //     let header = this.languageService.getTranslation('HOME_MEMORY_HEADER') +
-	// 				'       (' + this.languageService.getTranslation('HOME_MEMORY_TODAY') + ':  ' + today + ')';
-  //     // let msg = '<i>' + this.languageService.getTranslation('HOME_MEMORY_TODAY') + '</i>:&emsp;' + today + '<br/>';
-  //     let msg = '<br/>';
-	// 		if (data.persons.length > 0) {
-  //       data.persons.forEach(person => {
-	// 				msg += person[0] + ':&emsp;' + person[1] + '<br/>'
-	// 			});
-  //     } else {
-  //       msg = this.languageService.getTranslation('HOME_MEMORY_NO_DOD');
-  //     }
-	// 		this.utilService.presentToastWait(header, msg, 'OK', 8000);
-  //   });
-  // }
-
 	updatePageData(docs: any) {
+		// return new Promise((resolve, reject) => {
+			let titles = { 
+				'pha_nhap': this.languageService.getTranslation('HOME_pha_nhap'),
+				'pha_ky': this.languageService.getTranslation('HOME_pha_ky'),
+				'pha_he': this.languageService.getTranslation('HOME_pha_he'),
+				'pha_do': this.languageService.getTranslation('HOME_pha_do'),
+				'ngoai_pha': this.languageService.getTranslation('HOME_ngoai_pha'),
+				'phu_khao': this.languageService.getTranslation('HOME_phu_khao'),
+			}
 
-		let titles = { 
-			'gia_pha': this.languageService.getTranslation('HOME_TITLE'),
-			'pha_nhap': this.languageService.getTranslation('HOME_pha_nhap'),
-			'pha_ky': this.languageService.getTranslation('HOME_pha_ky'),
-			'pha_he': this.languageService.getTranslation('HOME_pha_he'),
-			'pha_do': this.languageService.getTranslation('HOME_pha_do'),
-			'ngoai_pha': this.languageService.getTranslation('HOME_ngoai_pha'),
-			'phu_khao': this.languageService.getTranslation('HOME_phu_khao'),
-			'ket_thuc': this.languageService.getTranslation('HOME_ket_thuc'),
-		}
-		let specialPageData:any = {};
-		let pageData:any = {};
-		let count = 0;
-		for (var key of Object.keys(docs)) {
+			let specialPageData: any = {};
+			let pageData: any = {};
+			
+			let size = this.themeService.getSize();
+			let fontSizePercent = (size == SMALL_SIZE) ? '80' : ((size == MEDIUM_SIZE) ? '100' : '120');
+			console.log('size, fontSizePercent: ', size, fontSizePercent);
+			let count = 1;
 
-			if (key != 'gia_pha' && key != 'ket_thuc') {
+			for (var key of Object.keys(docs)) {
 				let data = docs[key];
 				data.titleText = titles[key];
-
 				// let text = data.text;
-				// use html data
-				// replace special param with real values
-				let text = data.newText;
-				if (key == 'pha_he') {
-					console.log('text1: ', text);
-					text = text.replaceAll('"[NODES]"', '<b>' + this.nodes +'</b>');
-					text = text.replaceAll('"[LEVELS]"', '<b>' + this.levels + '</b>');
-					// console.log('text2: ', text);
-					data.text = text;
-				}
+				// .titleText = titles[key];
+			// replace image template with real HTML data
+				// this.editorService.convertImageTemplate(this.ancestor, text, key).then((result:any) => {
+					// docs[result.key].newText = result.newText;
+					// text = result[key].newText;
+					// now process extra information
+					// replace special param with real values
 
-				if (key == 'pha_nhap' || key == 'pha_ky' || key == 'ngoai_pha' || key == 'phu_khao') {
-					// break into various page
-					// let p = this.getPages(text);
-					// console.log('p: ', p);
-					let pages = [];
-					let texts = text.split('/PAGE/');
-					// var(--app-icon-font-size-medium);
-					// let texts = this.getPages(text, fontSize);
-					// let title = data.title;
-					let pcount = 1;
-					texts.forEach((txt:string) => {
-						// let title = (texts.length == 1) ? data.title : data.title + ' (' + pcount++ + ')';
-						let titleText = (texts.length == 1) ? data.titleText : data.titleText + ' (' + pcount++ + ')';
-						pages.push({ titleText: titleText, text: txt, index: count++});
-						// title = '';
-					})
-					specialPageData[key] = pages;
-				} else {
-					// data.index = count++;
-					data.index = count++;
-					pageData[key] = data;
-				}
-				// });
+					// newText is calculated in app.component.ts
+					let text = data.newText;
+					if (key == 'pha_ky')
+						console.log('pha_ky newText: ', text);
+
+
+
+					text = this.editorService.removeFontSize(text, fontSizePercent);
+
+					// pages with special templates
+					if (key == 'pha_he' || key == 'pha_do') {
+						text = text.replaceAll('[NODES]', '<b>' + this.nodes +'</b>');
+						text = text.replaceAll('[LEVELS]', '<b>' + this.levels + '</b>');
+						data.text = text;
+						data.index = count++;
+						pageData[key] = data;
+
+					} else {
+						// doc with multiple pages
+						let pages = [];
+						let texts = text.split('/PAGE/');
+						let pcount = 1;
+						texts.forEach((txt:string) => {
+							let titleText = (texts.length == 1) ? data.titleText : data.titleText + ' (' + pcount++ + ')';
+							pages.push({ titleText: titleText, text: txt, index: count++ });
+						})
+						specialPageData[key] = pages;
+					}
+
+				// })
 			}
-		};
+			// resolve([pageData, specialPageData]);
+		// });
 		this.pageData = pageData;
 		this.specialPageData = specialPageData;
 	}
 
+
 	// https://nodlik.github.io/StPageFlip/demo.html
   
 	startBook() {
+		// update text from DOM
+		for (var key of Object.keys(this.specialPageData)) {
+			let pages = this.specialPageData[key];
+			let idp = 0;
+			pages.forEach(page => {
+				let id = key + '_' + idp++;
+				document.getElementById(id).innerHTML = page.text;
+			})
+		}
+		for (var key of Object.keys(this.pageData)) {
+			let data = this.pageData[key];
+			document.getElementById(key).innerHTML = data.text;
+		}
+
+		// console.log('this.pageData: ', this.pageData);
+		// console.log('this.specialPageData: ', this.specialPageData);
+
+		// this.specialPageData = specialPageData;
+
+		this.themeService.printRootProperty('startBook: ', '--app-text-font-size-medium');
+
 		const pageFlip = new PageFlip(
 			document.getElementById("book"),
 			{
@@ -280,8 +258,6 @@ export class HomePage implements OnInit{
 
 		// triggered by page turning
 		pageFlip.on("flip", (e: any) => {
-			this.pageIndex = pageFlip.getCurrentPageIndex();
-			// console.log('flip - after flip: ', this.pageIndex);
 		});
 
 		// triggered when the book state changes
@@ -294,25 +270,31 @@ export class HomePage implements OnInit{
 	}
 
 	toPage(key: string) {
-		// wait for src flip to complete
-		if (key == 'root') {
-			key = 'muc_luc';
+		let index = 0;
+		if (key != 'muc_luc') {
+			let page = this.pageData[key];
+			if (!page) {
+				let pages = this.specialPageData[key]
+
+				console.log('toPage: ', key);
+				console.log('pages: ', pages);
+
+
+				if (pages.length == 0)
+					return;
+				page = pages[0];
+			}
+			index = page.index;
 		}
-		let page = this.pageData[key];
-		if (!page)
-			page = this.specialPageData[key][0];
-
-		console.log('toPage - current, page ', this.pageIndex, page, page.index);
-
+		// wait for src flip to complete
 		setTimeout(() => {
-			this.pageFlip.turnToPage(page.index);
-			this.pageRoot = 'muc_luc';
+			this.pageFlip.turnToPage(index);
 		}, PAGE_SWITCH_TIME)  
 	}
 
 	async onPhaDo() {
+		this.modalPage = 'pha_do';
 		const modal = await this.modalCtrl.create({
-			// component: NodePage,
 			component: VnodePage,
 			componentProps: {
 				'caller': 'home',
@@ -320,9 +302,7 @@ export class HomePage implements OnInit{
 			backdropDismiss:false
 		});
 		modal.onDidDismiss().then((resp) => {
-			let status = resp.data.status;
 			this.toPage('pha_do');
-			this.pageRoot = 'gia_pha';
 		});
 		return await modal.present();
 	}
@@ -333,69 +313,14 @@ export class HomePage implements OnInit{
 			componentProps: {
 			'caller': 'home',
 			},
-			cssClass: 'modal-dialog',
+			// cssClass: 'modal-dialog',
 			backdropDismiss:false
 		});
 		modal.onDidDismiss().then((resp) => {
-			let status = resp.data.status;
+			// let status = resp.data.status;
 			this.toPage('pha_he');
-			this.pageRoot = 'gia_pha';
 		});
 		return await modal.present();
 	}
-
-	// https://stackoverflow.com/questions/62483639/split-long-string-into-small-chunks-without-breaking-html-tags-and-words
-	// getPages(text: any, fontSize: number) {
-	// 	let wordsArray = text.split(" ")
-	// 	let chunks = Array()
-	// 	const wordsInChunkCount = this.getWordsPerPage(1, fontSize);
-	// 	console.log('wordsInChunkCount, fontSize:', wordsInChunkCount, fontSize);
-	// 	let temp = wordsInChunkCount
-	// 	let str = ''
-	// 	wordsArray.forEach(item => {
-	// 		if (temp > 0) {
-	// 			str += ' ' + item
-	// 			temp--
-	// 		} else {
-	// 			chunks.push(str)
-	// 			str = ''
-	// 			temp = wordsInChunkCount
-	// 		}
-	// 	})
-	// 	console.log('chunks:', chunks);
-
-	// 	return chunks;
-	// }
-
-// https://www.bookdesignmadesimple.com/calculate-book-page-count-using-word-count/
-// To calculate the page count for a 5″ × 8″ book:
-// 10 pt type – divide your word count by 400
-// 11 pt type – divide your word count by 350
-// 12 pt type – divide your word count by 300
-
-// To calculate the page count for a 5.5″ × 8.5″ book:
-// 10 pt type – divide your word count by 475
-// 11 pt type – divide your word count by 425
-// 12 pt type – divide your word count by 350
-
-// To calculate the page count for a 6″ × 9″ book:
-// 10 pt type – divide your word count by 600
-// 11 pt type – divide your word count by 500
-// 12 pt type – divide your word count by 425
-
-	// getWordsPerPage(pageSize, fontSize) {
-	// 	let size = { 
-	// 		'10': 300,
-	// 		'12': 280, 
-	// 		'14': 250, 
-	// 		'16': 220, 
-	// 		'18': 200, 
-	// 		'20': 180, 
-	// 		'22': 150, 
-	// 	}
-	// 	return size[''+fontSize];
-	// }
-
-	
 }
 
