@@ -184,6 +184,7 @@ export class DocPage implements OnInit {
 		// set message
     let msg = this.languageService.getTranslation('DOC_CHANGED');
     let count = 0;
+		let start = true;
     for (let doc of Object.keys(this.newData)) {
 			if (this.newData[doc].text.trim() != this.currentData[doc].text.trim()) {
 				count++;
@@ -194,7 +195,9 @@ export class DocPage implements OnInit {
             break;
           }
         }
-				if (msg != '')
+				if (start)
+					start = false;
+				else
 					msg += ', ';
 				msg += docName;
 			}

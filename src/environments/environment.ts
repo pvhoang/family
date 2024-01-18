@@ -28,7 +28,7 @@ export const DEBUGS = {
   'EDIT': false,
   'CROPPER': false,
   'FILE': false,
-  'FAMILY_SERVICE': false,
+  'FAMILY_SERVICE': true,
   'UTIL_SERVICE': false,
   'DATA_SERVICE': false,
   'FIREBASE_SERVICE': false,

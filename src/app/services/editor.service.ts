@@ -110,48 +110,14 @@ export class EditorService {
 					'1': 'left', '2': 'center', '3': 'right'
 				}
 				let containerClass = 'home-container-'+justify[lineJustify];
-				// this.themeService.setRootProperties([['--app-caption-font-size', this.themeService.getRootProperty('--app-text-font-size-small')]])
 				let captionStr = imageData[3];
 				let data = { src: str, name: fileName, width: sizes[imageSize].w, height: sizes[imageSize].h, container: containerClass, caption: captionStr }
-				console.log('EditorService - getImageData - data: ', data);
 				return data;
 			}
 		}
 		return null;
 	}
 	
-	// convertDocsText(str: string) {
-	// 	//convert all text
-	// 	str = this.decodeEntities(str);
-	// // <p>&nbsp;</p>\n
-	// // <p style=\"text-align: center;\"><em>center - pha nhap</em></p>\n
-	// 	let res = '';
-	// 	let idx1 = 0;
-	// 	for (;idx1 < str.length;) {
-	// 		// format 
-	// 		let idx2 = str.indexOf('<p', idx1);
-	// 		if (idx2 < 0) {
-	// 			res += str.substring(idx1);
-	// 			break;
-	// 		} else {
-	// 			res += str.substring(idx1, idx2);
-	// 		}
-	// 		let idx3 = str.indexOf('</p>', idx2);
-	// 		if (idx3 > idx2) {
-	// 			idx3 += 4;
-	// 			let paragraph = str.substring(idx2, idx3);
-	// 			// paragraph = this.decodeEntities(paragraph);
-	// 			res += paragraph + '\n';
-	// 			idx1 = idx3;
-	// 		} else {
-	// 			res += str.substring(idx2);
-	// 			break;
-	// 		}
-	// 	}
-	// 	// console.log('convertDocsText - str, res: ', str, res)
-	// 	return res;
-	// }
-
 	// must remove this for font-size option in page-text (doc.page.html) 
 	// font-size: 12pt; -> font-size: font-size: 80%, 100%, 120%
 	removeFontSize(str: string, newPercent: any) {
@@ -167,9 +133,6 @@ export class EditorService {
 			}
 			let idx3 = str.indexOf('pt;', idx2);
 			if (idx3 > idx2) {
-				// let fontSizeStr = str.substring(idx2, idx3+'pt;'.length);
-				// let vnChar = VietnameseEntities[entity];
-				// console.log('decodeEntities - entity, vnChar: ', entity, vnChar)
 				res += 'font-size: ' + newPercent + '%;';
 				idx1 = idx3 + 'pt;'.length;
 			} else {
@@ -177,7 +140,6 @@ export class EditorService {
 				break;
 			}
 		}
-		// console.log('str, res: ', str.substring(0, 300), res.substring(0, 300))
 		return res;
 	}
 
@@ -196,7 +158,6 @@ export class EditorService {
 			if (idx3 > idx2) {
 				let entity = str.substring(idx2, idx3+1);
 				let vnChar = VietnameseEntities[entity];
-				// console.log('decodeEntities - entity, vnChar: ', entity, vnChar)
 				res += (vnChar) ? vnChar : entity;
 				idx1 = idx3 + 1;
 			} else {
@@ -204,7 +165,6 @@ export class EditorService {
 				break;
 			}
 		}
-		// console.log('str, res: ', str, res)
 		return res;
 	}
 }

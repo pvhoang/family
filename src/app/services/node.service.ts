@@ -265,10 +265,10 @@ export class NodeService {
 	public getSpanStr(node: Node) {
     let str = '<b>' + node.name;
     str += (node.photo != '' || node.desc != '') ? ' (☺)</b>' : '</b>';
-		
 		if (node.yod != '' || node.pod != '' || node.dod != '') {
+			let dod = node.dod != '' ? node.dod : '_/_';
 			str += '<br/><i>Sinh/Tử:</i> (' + node.yob + ' - ' + node.yod + ')';
-			str += '<br/><i>Giỗ:</i> ' + node.dod + ' (ÂL)'
+			str += '<br/><i>Giỗ:</i> ' + dod + ' (ÂL)'
 			str += '<br/><i>Mộ:</i> ' + node.pod;
 		} else {
 			str += '<br/><i>Sinh:</i> (' + node.yob + ')</i>';

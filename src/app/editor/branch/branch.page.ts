@@ -94,19 +94,6 @@ export class BranchPage implements OnInit {
   //
   // ------------- TREE -------------
   //
-  getZoomStyle() {
-    let scale = this.scaleStyle / 10;
-    let styles = {
-      'zoom': scale,
-      '-moz-transform': 'scale(' + scale + ')',
-      '-moz-transform-origin': '0 0',
-      '-o-transform': 'scale(' + scale + ')',
-      '-o-transform-origin': '0 0',
-      '-webkit-transform': 'scale(' + scale + ')',
-      '-webkit-transform-origin': '0 0'
-    };
-    return styles;
-  }
   
   onLeafSelected (node: Node) {
     this.onNodeSelect(node, true);

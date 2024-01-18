@@ -278,6 +278,7 @@ export class UtilService {
 				'okText': okText,
       },
 			cssClass: 'modal-dialog',
+			// cssClass: 'my-modal-class',
 			backdropDismiss:false,
 			mode: "md",
     });

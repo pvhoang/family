@@ -1,13 +1,16 @@
 {
-  "version": 2,
+  "version": 7,
   "nodes": [
     {
       "name": "Phan Văn Nghi",
-      "gender": "male"
-    },
+      "gender": "male",
+			"pod": "Đá Bạc, Quảng Bình",
+			"yob": "1854"
+		},
     {
       "name": "Thái Thị Tôn Nương",
-      "gender": "female"
+      "gender": "female",
+"pod":"Đá Bạc, Quảng Bình"
     }
   ],
   "children": [
@@ -16,6 +19,8 @@
         {
           "name": "Phan Văn Nguyên",
           "gender": "male",
+					"yob": "1874",
+					"pod": "Đá Bạc, Quảng Bình",
           "dod": "07/05"
         },
         {
@@ -41,8 +46,7 @@
             {
               "name": "Phan Văn Tốt",
               "gender": "male",
-              "pob": "Quảng Bình",
-              "por": "Quảng Bình",
+              "pod": "Quảng Bình",
               "dod": "03/09"
             },
             {
@@ -57,6 +61,7 @@
                 {
                   "name": "Phan Viên",
                   "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                   "dod": "16/03"
                 }
               ]
@@ -66,6 +71,7 @@
                 {
                   "name": "Phan Văn Sen",
                   "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                   "dod": "10/02"
                 },
                 {
@@ -79,8 +85,8 @@
                   "nodes": [
                     {
                       "name": "Phan Văn Dinh",
-                      "gender": "male"
-                    }
+                      "gender": "male",
+"pod":"Đá Bạc, Quảng Bình"                    }
                   ],
                   "children": [
                     {
@@ -88,6 +94,7 @@
                         {
                           "name": "Phan Văn Yêm",
                           "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                           "nick": "Chú Yêm"
                         }
                       ],
@@ -96,15 +103,16 @@
                           "nodes": [
                             {
                               "name": "Phan Văn Thương",
-                              "gender": "male"
-                            }
+                              "gender": "male",
+"pod":"Đá Bạc, Quảng Bình"                            }
                           ]
                         },
                         {
                           "nodes": [
                             {
                               "name": "Phan Thị Nhỏ",
-                              "gender": "female"
+                              "gender": "female",
+"pod":"Đá Bạc, Quảng Bình"
                             }
                           ]
                         },
@@ -112,15 +120,16 @@
                           "nodes": [
                             {
                               "name": "Phan Văn Cau",
-                              "gender": "male"
-                            }
+                              "gender": "male",
+"pod":"Đá Bạc, Quảng Bình"                            }
                           ]
                         },
                         {
                           "nodes": [
                             {
                               "name": "Phan Thị Min",
-                              "gender": "female"
+                              "gender": "female",
+"pod":"Đá Bạc, Quảng Bình"
                             }
                           ]
                         },
@@ -128,7 +137,8 @@
                           "nodes": [
                             {
                               "name": "Phan Thị Măng",
-                              "gender": "female"
+                              "gender": "female",
+"pod":"Đá Bạc, Quảng Bình"
                             }
                           ]
                         },
@@ -136,16 +146,16 @@
                           "nodes": [
                             {
                               "name": "Phan Văn Thu",
-                              "gender": "male"
-                            }
+                              "gender": "male",
+"pod":"Đá Bạc, Quảng Bình"                            }
                           ]
                         },
                         {
                           "nodes": [
                             {
                               "name": "Phan Văn Đồng",
-                              "gender": "male"
-                            }
+                              "gender": "male",
+"pod":"Đá Bạc, Quảng Bình"                            }
                           ]
                         }
                       ]
@@ -156,8 +166,8 @@
                   "nodes": [
                     {
                       "name": "Phan Văn Lô",
-                      "gender": "male"
-                    }
+                      "gender": "male",
+"pod":"Đá Bạc, Quảng Bình"                    }
                   ],
                   "children": [
                     {
@@ -165,6 +175,7 @@
                         {
                           "name": "Phan Văn Châu",
                           "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                           "nick": "Đen"
                         }
                       ],
@@ -173,7 +184,8 @@
                           "nodes": [
                             {
                               "name": "Phan Thị Hoàn",
-                              "gender": "female"
+                              "gender": "female",
+"pod":"Đá Bạc, Quảng Bình"
                             }
                           ]
                         },
@@ -181,23 +193,24 @@
                           "nodes": [
                             {
                               "name": "Phan Văn Trung",
-                              "gender": "male"
-                            }
+                              "gender": "male",
+"pod":"Đá Bạc, Quảng Bình"                            }
                           ]
                         },
                         {
                           "nodes": [
                             {
                               "name": "Phan Văn Nghĩa",
-                              "gender": "male"
-                            }
+                              "gender": "male",
+"pod":"Đá Bạc, Quảng Bình"                            }
                           ]
                         },
                         {
                           "nodes": [
                             {
                               "name": "Phan Thị Nhạn",
-                              "gender": "female"
+                              "gender": "female",
+"pod":"Đá Bạc, Quảng Bình"
                             }
                           ]
                         },
@@ -205,7 +218,8 @@
                           "nodes": [
                             {
                               "name": "Phan Thị Tiên",
-                              "gender": "female"
+                              "gender": "female",
+"pod":"Đá Bạc, Quảng Bình"
                             }
                           ]
                         },
@@ -213,8 +227,8 @@
                           "nodes": [
                             {
                               "name": "Phan Văn Dũng",
-                              "gender": "male"
-                            }
+                              "gender": "male",
+"pod":"Đá Bạc, Quảng Bình"                            }
                           ]
                         }
                       ]
@@ -223,32 +237,32 @@
                       "nodes": [
                         {
                           "name": "Phan Văn Diệt",
-                          "gender": "male"
-                        }
+                          "gender": "male",
+"pod":"Đá Bạc, Quảng Bình"                        }
                       ],
                       "children": [
                         {
                           "nodes": [
                             {
                               "name": "Phan Văn Vương",
-                              "gender": "male"
-                            }
+                              "gender": "male",
+"pod":"Đá Bạc, Quảng Bình"                            }
                           ]
                         },
                         {
                           "nodes": [
                             {
                               "name": "Phan Văn Hồng",
-                              "gender": "male"
-                            }
+                              "gender": "male",
+"pod":"Đá Bạc, Quảng Bình"                            }
                           ]
                         },
                         {
                           "nodes": [
                             {
                               "name": "Phan Văn Sơn",
-                              "gender": "male"
-                            }
+                              "gender": "male",
+"pod":"Đá Bạc, Quảng Bình"                            }
                           ]
                         }
                       ]
@@ -266,7 +280,8 @@
                           "nodes": [
                             {
                               "name": "Phan Thị Hạnh",
-                              "gender": "female"
+                              "gender": "female",
+"pod":"Đá Bạc, Quảng Bình"
                             }
                           ]
                         },
@@ -274,7 +289,8 @@
                           "nodes": [
                             {
                               "name": "Phan Thị Hương",
-                              "gender": "female"
+                              "gender": "female",
+"pod":"Đá Bạc, Quảng Bình"
                             }
                           ]
                         },
@@ -282,7 +298,8 @@
                           "nodes": [
                             {
                               "name": "Phan Thị Hoa",
-                              "gender": "female"
+                              "gender": "female",
+"pod":"Đá Bạc, Quảng Bình"
                             }
                           ]
                         },
@@ -290,7 +307,8 @@
                           "nodes": [
                             {
                               "name": "Phan Thị Hoa",
-                              "gender": "female"
+                              "gender": "female",
+"pod":"Đá Bạc, Quảng Bình"
                             }
                           ]
                         },
@@ -298,7 +316,8 @@
                           "nodes": [
                             {
                               "name": "Phan Thị Học",
-                              "gender": "female"
+                              "gender": "female",
+"pod":"Đá Bạc, Quảng Bình"
                             }
                           ]
                         }
@@ -313,6 +332,7 @@
                 {
                   "name": "Phan Goi",
                   "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                   "dod": "07/09"
                 }
               ]
@@ -321,7 +341,8 @@
               "nodes": [
                 {
                   "name": "Phan Thị Chat",
-                  "gender": "female"
+                  "gender": "female",
+"pod":"Đá Bạc, Quảng Bình"
                 }
               ]
             },
@@ -329,7 +350,8 @@
               "nodes": [
                 {
                   "name": "Phan Thị Am",
-                  "gender": "female"
+                  "gender": "female",
+"pod":"Đá Bạc, Quảng Bình"
                 }
               ]
             },
@@ -337,7 +359,8 @@
               "nodes": [
                 {
                   "name": "Phan Thị Don",
-                  "gender": "female"
+                  "gender": "female",
+"pod":"Đá Bạc, Quảng Bình"
                 }
               ]
             }
@@ -348,6 +371,7 @@
             {
               "name": "Phan Văn Vụ",
               "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
               "dod": "04/02"
             },
             {
@@ -378,6 +402,7 @@
                     {
                       "name": "Phan Văn Trạc",
                       "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                       "yob": "1871",
                       "pob": "Quảng Bình",
                       "dod": "07/01"
@@ -395,6 +420,7 @@
                         {
                           "name": "Phan Văn Thất",
                           "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                           "yob": "1900"
                         },
                         {
@@ -416,12 +442,14 @@
                             {
                               "name": "Phan Lượng",
                               "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                               "yob": "1944",
 															"desc": "Mẹ: Lê Thị Mượn"
                             },
                             {
                               "name": "Nguyễn Thị Hường",
-                              "gender": "female"
+                              "gender": "female",
+"pod":"Đá Bạc, Quảng Bình"
                             }
                           ]
                         },
@@ -430,6 +458,7 @@
                             {
                               "name": "Phan Văn Cân",
                               "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                               "yob": "1968"
                             }
                           ]
@@ -450,6 +479,7 @@
                             {
                               "name": "Phan Văn Kỷ",
                               "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                               "dod": "15/03"
                             }
                           ]
@@ -459,6 +489,7 @@
                             {
                               "name": "Phan Văn Vọng",
                               "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                               "nick": "Cang"
                             }
                           ]
@@ -487,24 +518,24 @@
                           "nodes": [
                             {
                               "name": "Phan Văn Ky",
-                              "gender": "male"
-                            }
+                              "gender": "male",
+"pod":"Đá Bạc, Quảng Bình"                            }
                           ]
                         },
                         {
                           "nodes": [
                             {
                               "name": "Phan Văn Vong",
-                              "gender": "male"
-                            }
+                              "gender": "male",
+"pod":"Đá Bạc, Quảng Bình"                            }
                           ]
                         },
                         {
                           "nodes": [
                             {
                               "name": "Phan Văn Lượng",
-                              "gender": "male"
-                            }
+                              "gender": "male",
+"pod":"Đá Bạc, Quảng Bình"                            }
                           ]
                         }
                       ]
@@ -514,6 +545,7 @@
                         {
                           "name": "Phan Văn Nhưng",
                           "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                           "dod": "01/12"
                         }
                       ]
@@ -558,7 +590,8 @@
                       "nodes": [
                         {
                           "name": "Phan Thị Chiu",
-                          "gender": "female"
+                          "gender": "female",
+"pod":"Đá Bạc, Quảng Bình"
                         }
                       ]
                     }
@@ -578,6 +611,7 @@
                     {
                       "name": "Phan Văn Gian",
                       "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                       "dod": "15/08"
                     }
                   ]
@@ -587,6 +621,7 @@
                     {
                       "name": "Phan Văn Viên",
                       "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                       "dod": "21/09"
                     }
                   ]
@@ -596,6 +631,7 @@
                     {
                       "name": "Phan Văn Y",
                       "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                       "nick": "Ky",
                       "dod": "10/12"
                     }
@@ -606,6 +642,7 @@
                     {
                       "name": "Phan Văn Han",
                       "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                       "dod": "27/07"
                     }
                   ]
@@ -617,6 +654,7 @@
                 {
                   "name": "Phan Văn Thương",
                   "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                   "nick": "Dương",
                   "dod": "05/10"
                 },
@@ -631,8 +669,8 @@
                   "nodes": [
                     {
                       "name": "Phan Văn Cong",
-                      "gender": "male"
-                    }
+                      "gender": "male",
+"pod":"Đá Bạc, Quảng Bình"                    }
                   ]
                 },
                 {
@@ -640,6 +678,7 @@
                     {
                       "name": "Phan Văn Ấu",
                       "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                       "dod": "16/06"
                     },
                     {
@@ -654,6 +693,7 @@
                     {
                       "name": "Phan Văn Đăng",
                       "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                       "dod": "21/02"
                     }
                   ]
@@ -663,6 +703,7 @@
                     {
                       "name": "Phan Văn Hoa",
                       "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                       "dod": "04/11"
                     },
                     {
@@ -677,6 +718,7 @@
                         {
                           "name": "Phan Trầng",
                           "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                           "dod": "21/06"
                         }
                       ]
@@ -685,8 +727,8 @@
                       "nodes": [
                         {
                           "name": "Phan Tây",
-                          "gender": "male"
-                        }
+                          "gender": "male",
+"pod":"Đá Bạc, Quảng Bình"                        }
                       ]
                     },
                     {
@@ -694,6 +736,7 @@
                         {
                           "name": "Phan Lưởng",
                           "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                           "dod": "29/08"
                         }
                       ]
@@ -712,6 +755,7 @@
                         {
                           "name": "Phan Văn Uông",
                           "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                           "nick": "Côi",
                           "dod": "24/11"
                         }
@@ -746,6 +790,7 @@
             {
               "name": "Phan Văn Dương",
               "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
               "nick": "Rạng"
             }
           ],
@@ -753,8 +798,9 @@
             {
               "nodes": [
                 {
-                  "name": "Phan Loi Hanh",
+                  "name": "Phan Lợi Hành",
                   "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                   "yob": "1829"
                 }
               ],
@@ -764,6 +810,7 @@
                     {
                       "name": "Phan Văn Trưng",
                       "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                       "nick": "Gia Trưng",
                       "yob": "1903"
                     },
@@ -779,6 +826,7 @@
                         {
                           "name": "Phan Ba Kieu",
                           "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                           "yob": "1878"
                         }
                       ]
@@ -788,7 +836,9 @@
                         {
                           "name": "Phan Tất Đắc",
                           "gender": "male",
-                          "nick": "Lãnh The"
+"pod": "Đá Bạc, Quảng Bình",
+                          "nick": "Lãnh The",
+													"dod": "08/04"
                         }
                       ]
                     }
@@ -797,9 +847,11 @@
                 {
                   "nodes": [
                     {
-                      "name": "Phan Gia Trung",
-                      "gender": "male"
-                    }
+                      "name": "Phan Gia Trưng",
+                      "gender": "male",
+											"pod":"Đá Bạc, Quảng Bình",
+											"dod": "25/02"
+										}
                   ],
                   "children": [
                     {
@@ -807,13 +859,15 @@
                         {
                           "name": "Phan Tất Đắc",
                           "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                           "nick": "Lãnh The",
                           "yob": "1880",
                           "yod": "1947"
                         },
                         {
                           "name": "Trần Thị Chút",
-                          "gender": "female"
+                          "gender": "female",
+"pod":"Đá Bạc, Quảng Bình"
                         },
                         {
                           "name": "Nguyễn Thị Thương",
@@ -828,7 +882,8 @@
                         },
                         {
                           "name": "Phan Thị Trúc",
-                          "gender": "female"
+                          "gender": "female",
+"pod":"Đá Bạc, Quảng Bình"
                         }
                       ],
                       "children": [
@@ -855,6 +910,7 @@
                             {
                               "name": "Phan Văn Đai",
                               "gender": "male",
+"pod": "Đá Bạc, Quảng Bình",
                               "desc": "Mất Giờ Thìn 1-12 Ất Mẹo, Mẹ: Trần Thị Nậy",
                               "dod": "01/12"
                             }
@@ -883,8 +939,10 @@
                         {
                           "nodes": [
                             {
-                              "name": "Phan Binh An",
+                              "name": "Phan Bình An",
                               "gender": "male",
+															"pod": "Đá Bạc, Quảng Bình",
+															"dod": "23/07",
                               "desc": "Mẹ: Trần Thị Nậy"
                             }
                           ],
@@ -893,7 +951,8 @@
                               "nodes": [
                                 {
                                   "name": "Phan Ngọc Ái",
-                                  "gender": "male"
+                                  "gender": "male",
+																	"dod": "22/04"
                                 }
                               ]
                             },
@@ -917,7 +976,8 @@
                               "nodes": [
                                 {
                                   "name": "Phan Ngọc Tuấn",
-                                  "gender": "male"
+                                  "gender": "male",
+                                  "pod": "San Jose, California"
                                 }
                               ]
                             },
@@ -936,6 +996,7 @@
                             {
                               "name": "Phan Phú Định",
                               "gender": "male",
+															"dod": "04/06",
                               "desc": "Mẹ: Trần Thị Nậy"
                             }
                           ],
@@ -1019,6 +1080,7 @@
                             {
                               "name": "Phan Thị Tép",
                               "gender": "female",
+"pod": "Đá Bạc, Quảng Bình",
                               "desc": "Mẹ: Phan Thị Trúc"
                             }
                           ]
@@ -1040,7 +1102,9 @@
                     {
                       "name": "Phan Khắc Tuần",
                       "gender": "male",
-                      "nick": "Cửu Diễn"
+                      "nick": "Cửu Diễn",
+											"dod": "01/03"
+
                     }
                   ],
                   "children": [
@@ -1051,7 +1115,7 @@
                           "gender": "male",
                           "yob": "1881",
                           "yod": "1941",
-                          "pod": "Nghĩa Trang Đá Bạc, Quảng Bình",
+                          "pod": "Đá Bạc, Quảng Bình",
                           "dod": "15/01"
                         },
                         {
@@ -1059,7 +1123,7 @@
                           "gender": "female",
                           "yob": "1883",
                           "yod": "1927",
-                          "pod": "Nghĩa Trang Đá Bạc, Quảng Bình",
+                          "pod": "Đá Bạc, Quảng Bình",
                           "dod": "14/08"
                         },
                         {
@@ -1080,7 +1144,7 @@
                               "nick": "Thu",
                               "yob": "1910",
                               "yod": "1997",
-                              "dod": "07/03"
+                              "dod": "03/07"
                             }
                           ]
                         },
@@ -1089,7 +1153,8 @@
                             {
                               "name": "Phan Thị Ké",
                               "gender": "female",
-                              "yob": "1911"
+                              "yob": "1911",
+                              "dod": "03/02"
                             },
                             {
                               "name": "Hoàng Thung",
@@ -1187,6 +1252,7 @@
                                 {
                                   "name": "Phan Thị Kim Hải",
                                   "gender": "female",
+																	"pod": "Tp HCM",
                                   "nick": "Ni"
                                 }
                               ]
@@ -1197,6 +1263,7 @@
                                   "name": "Phan Viết Châu",
                                   "gender": "male",
                                   "nick": "Nô",
+																	"pod": "Xã Tịnh Khê, Quảng Ngãi",
 																	"desc": "<br/>[Phan Anh Em.jpg|1|2|1972, Thứ 3 từ trái]"
                                 }
                               ]
@@ -1205,10 +1272,13 @@
                               "nodes": [
                                 {
                                   "name": "Phan Thị Tuyết",
-                                  "gender": "female"
+                                  "gender": "female",
+																	"yob": "1945",
+																	"por": "Richmond, Virginia"
                                 },
                                 {
                                   "name": "Nguyễn Văn Bản",
+																	"pod": "Richmond, Virginia",
                                   "gender": "male"
                                 }
                               ],
@@ -1217,7 +1287,9 @@
                                   "nodes": [
                                     {
                                       "name": "Nguyễn Phan Bình",
-                                      "gender": "male"
+                                      "gender": "male",
+																			"yob": "1969",
+																			"por": "Falls Church, Virginia"
                                     }
                                   ]
                                 },
@@ -1225,7 +1297,9 @@
                                   "nodes": [
                                     {
                                       "name": "Nguyễn Phan Hoàng Nam",
-                                      "gender": "male"
+                                      "gender": "male",
+																			"yob": "1971",
+																			"por": "Hong Kong"
                                     }
                                   ]
                                 },
@@ -1234,7 +1308,9 @@
                                     {
                                       "name": "Nguyễn Phan Việt Bắc",
                                       "gender": "male",
-                                      "nick": "Tí"
+                                      "nick": "Tí",
+																			"yob": "1973",
+																			"por": "Richmond, Virginia"
                                     }
                                   ]
                                 }
@@ -1252,7 +1328,9 @@
                                 },
                                 {
                                   "name": "Nguyễn Thị Thái Phương",
-                                  "gender": "female"
+                                  "gender": "female",
+																	"yob": "1952",
+                                  "por": "San Bernadino, California"
                                 }
                               ],
                               "children": [
@@ -1285,7 +1363,9 @@
                                 },
                                 {
                                   "name": "Nguyễn Thị Thu Hương",
-                                  "gender": "female"
+                                  "gender": "female",
+																	"yob": "1951",
+                                  "por": "Anaheim, California"
                                 }
                               ],
                               "children": [
@@ -1444,7 +1524,9 @@
                           "nodes": [
                             {
                               "name": "Phan Quang Ngự",
-                              "gender": "male"
+                              "gender": "male",
+															"pod":"Đá Bạc, Quảng Bình",
+															"dod": "29/04"
                             }
                           ],
                           "children": [
@@ -1452,7 +1534,9 @@
                               "nodes": [
                                 {
                                   "name": "Phan Văn Ba",
-                                  "gender": "male"
+                                  "gender": "male",
+																	"pod": "Đá Bạc, Quảng Bình",
+																	"dod": "16/09"
                                 }
                               ],
                               "children": [
@@ -1519,7 +1603,9 @@
                                 {
                                   "name": "Phan Văn Năm",
                                   "gender": "male",
-                                  "photo": "phan_van_nam_1951_123456789012.jpg"
+																	"pod":"Đá Bạc, Quảng Bình",
+																	"photo":"phan_van_nam_1951_123456789012.jpg",
+                                  "desc": "<br/>[phan_van_nam_1951_123456789012.jpg|2|2|2020, Đồng Hới]<br/>"
                                 }
                               ]
                             },
@@ -1561,7 +1647,9 @@
                           "nodes": [
                             {
                               "name": "Phan Khắc Phúc",
-                              "gender": "male"
+                              "gender": "male",
+															"dod": "23/06",
+															"pod":"Falls Church, Virginia"
                             }
                           ],
                           "children": [
@@ -1636,6 +1724,8 @@
                             {
                               "name": "Phan Ngọc Tường",
                               "gender": "male",
+															"pod": "Mai Dịch, Hà Nội",
+															"dod": "14/05",
                               "photo": "phan_ngoc_tuong_1929_1684126850565"
                             },
                             {
@@ -1668,7 +1758,8 @@
                       "nodes": [
                         {
                           "name": "Phan Quang Triệt",
-                          "gender": "male"
+                          "gender": "male",
+													"dod": "19/03"
                         }
                       ],
                       "children": [
@@ -1676,7 +1767,8 @@
                           "nodes": [
                             {
                               "name": "Phan Quang Phục",
-                              "gender": "male"
+                              "gender": "male",
+															"pod":"Tp HCM"
                             }
                           ],
                           "children": [
@@ -1708,7 +1800,8 @@
                               "nodes": [
                                 {
                                   "name": "Phan Thị Quảng",
-                                  "gender": "female"
+                                  "gender": "female",
+																	"pod":"San Jose, California"
                                 }
                               ]
                             },
@@ -1716,7 +1809,8 @@
                               "nodes": [
                                 {
                                   "name": "Phan Thị Phú",
-                                  "gender": "female"
+                                  "gender": "female",
+																	"pod":"Tp HCM"
                                 }
                               ]
                             },
@@ -1844,15 +1938,20 @@
             {
               "name": "Phan Văn Trích",
               "gender": "male",
-              "nick": "Tịch"
+              "nick": "Tịch",
+							"pod":"Đá Bạc, Quảng Bình"
             },
             {
               "name": "Hà Thị Nghiễm",
-              "gender": "female"
+              "gender": "female",
+							"pod":"Đá Bạc, Quảng Bình"
+
             },
             {
               "name": "Trần Thị Ninh",
-              "gender": "female"
+              "gender": "female",
+							"pod":"Đá Bạc, Quảng Bình"
+
             }
           ],
           "children": [

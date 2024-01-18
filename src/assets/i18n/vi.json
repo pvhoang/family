@@ -83,7 +83,7 @@
 
 	"TAB_NODE": "Phả đồ",
   "TAB_BRANCH": "Phả nhánh",
-  "TAB_DOC": "Phả nhập",
+  "TAB_DOC": "Phả liệu",
   "TAB_FILE": "Phả lưu",
 
 	"HOME_TITLE": "Mục lục",
@@ -263,7 +263,7 @@
   "DOC_EXTRA": "Ngoại phả",
   "DOC_INFO": "Phụ khảo",
   "DOC_CHANGED": "Nội dung thay đổi: ",
-  "DOC_MESSAGE": "Nội dung gia phả đã được cập nhật.",
+  "DOC_MESSAGE": "Phả liệu đã được cập nhật.",
   "DOC_NOT_CHANGED": "Nội dung không thay đổi!"
 
 }

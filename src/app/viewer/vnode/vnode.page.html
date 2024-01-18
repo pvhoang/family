@@ -1,6 +1,6 @@
 <ion-header>
   <ion-item class="header-top">
-    <ion-col size="3" class="heading" (click)="onExit()">
+		<ion-col size="2" class="heading" (click)="onExit()">
       <ion-button class="button" fill="clear" (click)="onExit()">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
       </ion-button>
@@ -8,7 +8,7 @@
     </ion-col>
 		<ion-col size="1">
     </ion-col>
-    <ion-col size="7">
+    <ion-col size="8">
       <ng-select
         [appendTo]="'body'"
         [items]="peopleNodes" 
@@ -23,14 +23,13 @@
     <ion-col size="1">
     </ion-col>
   </ion-item>
-
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
-  <div class="screen-node" id="full-tree">
-    <div [ngStyle]="getZoomStyle()">
-      <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
-    </div>
-  </div>
-
+	<pinch-zoom #myPinch="pinchZoom"
+		[backgroundColor]="'white'"
+		[minPanScale]="2"
+	>
+		<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
+	</pinch-zoom>
 </ion-content>

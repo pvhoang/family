@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { FamilyTreeModule } from '../../../components/family-tree/family-tree.module';
 import { TranslateModule } from '@ngx-translate/core';
+
+import { PinchZoomModule } from '../../../components/pinch-zoom/pinch-zoom.module';
 import { TreePageRoutingModule } from './tree-routing.module';
 
 import { TreePage } from './tree.page';
@@ -15,6 +17,7 @@ import { TreePage } from './tree.page';
     FormsModule,
     IonicModule,
     FamilyTreeModule,
+		PinchZoomModule,
     TranslateModule,
     TreePageRoutingModule
   ],

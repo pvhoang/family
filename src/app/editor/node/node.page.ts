@@ -9,6 +9,7 @@ import { DataService } from '../../services/data.service';
 import { EditPage } from './edit/edit.page';
 import { TypeaheadService } from '../../services/typeahead.service';
 import { ThemeService } from '../../services/theme.service';
+// import { FtTreeService } from '../../services/ft-tree.service';
 import { Family, Node, FAMILY} from '../../services/family.model';
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
 
@@ -40,7 +41,6 @@ export class NodePage implements OnInit {
   viewMode = 0;
   treeClass = 'tree';
 
-  scaleStyle: number = 10;
   isPopover = false;
   timeEnter: number = 0;
   info: any;
@@ -58,13 +58,15 @@ export class NodePage implements OnInit {
     private dataService: DataService,
     private languageService: LanguageService,
     private themeService: ThemeService,
-    private typeahead: TypeaheadService,
+    // private typeahead: TypeaheadService,
+    // public ftTreeService: FtTreeService,
   ) {}
 
   ngOnInit() {
     if (DEBUGS.NODE)
       console.log('NodePage - ngOnInit');
     this.startFromStorage();
+		// this.ftTreeService.reset();
   }
 
   ionViewWillEnter() {
@@ -92,7 +94,7 @@ export class NodePage implements OnInit {
     this.family = this.familyService.buildFullFamily(family);
     console.log('NodePage - family: ', family);
 
-    this.peopleNodes = this.familyService.getPeopleNodes (this.family);
+    this.peopleNodes = this.familyService.getPeopleNodes(this.family);
     this.nodeItems = this.nodeService.getInfoList();
     this.nodeItem = null;
     this.nodeItemMessage = this.languageService.getTranslation('NODE_NUM_NODES') + this.peopleNodes.length;
@@ -102,45 +104,9 @@ export class NodePage implements OnInit {
     this.nodeItemPlaceholder = this.languageService.getTranslation('NODE_SELECT_EMPTY_DATA');
   }
 
-  // getPeopleNodes (family: any, item?: any) {
-  //   let nodes = this.nodeService.getFamilyNodes(family);
-  //   if (DEBUGS.NODE)
-  //     console.log('NodePage - getPeopleNodes - nodes: ', nodes.length);
-  //   nodes.forEach(node => {
-  //     if (!item)
-  //       // all visible
-  //       node.visible = true;
-  //     else {
-  //       // visible only if item == ''
-  //       node.visible = (node[item] == '');
-  //       if (item == 'pod' || item == 'dod') {
-  //         // show if yod != ''
-  //         if (node.visible && node.yod == '')
-  //           node.visible = false;
-  //       }
-  //     }       
-  //   })
-  //   return this.familyService.getPeopleList(family);
-  // }
-
   //
   // ------------- TREE -------------
   //
-
-  getZoomStyle() {
-    let scale = this.scaleStyle / 10;
-    let styles = {
-      'zoom': scale,
-      '-moz-transform': 'scale(' + scale + ')',
-      '-moz-transform-origin': '0 0',
-      '-o-transform': 'scale(' + scale + ')',
-      '-o-transform-origin': '0 0',
-      '-webkit-transform': 'scale(' + scale + ')',
-      '-webkit-transform-origin': '0 0'
-    };
-    return styles;
-  }
-  
   onLeafSelected (node: Node) {
     this.onNodeSelect(node, true);
   }
@@ -282,6 +248,7 @@ export class NodePage implements OnInit {
         'family': this.family,
         'info': this.info,
       },
+			cssClass: 'modal-dialog',
 			backdropDismiss:false
     });
 

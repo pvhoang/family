@@ -35,10 +35,10 @@
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
-  <div class="screen-node" id="full-tree">
-    <div [ngStyle]="getZoomStyle()">
-      <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
-    </div>
-  </div>
-
+	<pinch-zoom #myPinch="pinchZoom"
+		[backgroundColor]="'white'"
+		[minPanScale]="2"
+	>
+		<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
+	</pinch-zoom>
 </ion-content>

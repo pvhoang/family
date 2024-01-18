@@ -6,6 +6,8 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FamilyTreeModule } from '../../components/family-tree/family-tree.module';
+import { PinchZoomModule } from '../../components/pinch-zoom/pinch-zoom.module';
+
 // import { PopoverComponent } from '../../components/popover/popover.component';
 
 import { BranchPageRoutingModule } from './branch-routing.module';
@@ -19,6 +21,7 @@ import { BranchPage } from './branch.page';
     IonicModule,
     NgSelectModule,
     FamilyTreeModule,
+		PinchZoomModule,
     TranslateModule,
     BranchPageRoutingModule
   ],

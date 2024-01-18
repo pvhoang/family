@@ -171,11 +171,6 @@ export class HomePage implements OnInit{
 
 					// newText is calculated in app.component.ts
 					let text = data.newText;
-					if (key == 'pha_ky')
-						console.log('pha_ky newText: ', text);
-
-
-
 					text = this.editorService.removeFontSize(text, fontSizePercent);
 
 					// pages with special templates
@@ -299,6 +294,7 @@ export class HomePage implements OnInit{
 			componentProps: {
 				'caller': 'home',
 			},
+			cssClass: 'modal-dialog',
 			backdropDismiss:false
 		});
 		modal.onDidDismiss().then((resp) => {
@@ -313,7 +309,7 @@ export class HomePage implements OnInit{
 			componentProps: {
 			'caller': 'home',
 			},
-			// cssClass: 'modal-dialog',
+			cssClass: 'modal-dialog',
 			backdropDismiss:false
 		});
 		modal.onDidDismiss().then((resp) => {

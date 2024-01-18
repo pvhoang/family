@@ -262,8 +262,8 @@
   "DOC_TREE": "Tree",
   "DOC_EXTRA": "Extra",
   "DOC_INFO": "Info",
-  "DOC_CHANGED": "Content is changed: ",
-  "DOC_MESSAGE": "New content is updated.",
-  "DOC_NOT_CHANGED": "Content is not changed!"
+  "DOC_CHANGED": "Document is changed: ",
+  "DOC_MESSAGE": "New document is updated.",
+  "DOC_NOT_CHANGED": "Document is not changed!"
 	
 }

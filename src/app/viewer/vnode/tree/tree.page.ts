@@ -5,6 +5,7 @@ import { NodeService } from '../../../services/node.service';
 import { LanguageService } from '../../../services/language.service';
 import { FirebaseService } from '../../../services/firebase.service';
 import { ThemeService } from '../../../services/theme.service';
+// import { FtTreeService } from '../../../services/ft-tree.service';
 import { jsPDF, jsPDFOptions } from 'jspdf';
 import domtoimage from 'dom-to-image';
 import '../../../../assets/js/Roboto-Regular-normal.js';
@@ -26,7 +27,6 @@ export class TreePage implements OnInit {
   title: any = '';
   node:any;
   typeStr: string = '';
-  scaleStyle: number = 10;
   treeClass = 'vertical-tree'
   viewMode = 2;
   CANCEL: string = '';
@@ -42,12 +42,13 @@ export class TreePage implements OnInit {
     private nodeService: NodeService,
     private themeService: ThemeService,
     private languageService: LanguageService,
+    // public ftTreeService: FtTreeService,
   ) {}
 
   ngOnInit() {
     if (DEBUGS.TREE)
       console.log('ViewPage - ngOnInit');
-    this.scaleStyle = 10;
+    // this.scaleStyle = 10;
 
     this.CANCEL =  this.languageService.getTranslation('CANCEL');
     this.JPG =  this.languageService.getTranslation('JPG');
@@ -56,6 +57,7 @@ export class TreePage implements OnInit {
     this.TREE_POPOVER_PRINT_PDF =  this.languageService.getTranslation('TREE_POPOVER_PRINT_PDF');
 
     this.start();
+		// this.ftTreeService.reset();
   }
 
   ionViewWillEnter() {
@@ -86,20 +88,6 @@ export class TreePage implements OnInit {
     setTimeout(() => {
       this.scrollToNode(this.node);
     }, 2000);
-  }
-
-  getZoomStyle() {
-    let scale = this.scaleStyle / 10;
-    let styles = {
-      'zoom': scale,
-      '-moz-transform': 'scale(' + scale + ')',
-      '-moz-transform-origin': '0 0',
-      '-o-transform': 'scale(' + scale + ')',
-      '-o-transform-origin': '0 0',
-      '-webkit-transform': 'scale(' + scale + ')',
-      '-webkit-transform-origin': '0 0'
-    };
-    return styles;
   }
 
   onLeafSelected (node) {

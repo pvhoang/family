@@ -1,14 +1,14 @@
 <ion-header>
   <ion-item class="header-top">
-		<ion-col size="3" class="heading" (click)="onExit()">
+		<ion-col size="2" class="heading" (click)="onExit()">
       <ion-button class="button" fill="clear" (click)="onExit()">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
       </ion-button>
       <span class="label">{{ 'CANCEL' | translate }}</span>
     </ion-col>
-    <ion-col size="1">
+		<ion-col size="1">
     </ion-col>
-    <ion-col size="7">
+    <ion-col size="8">
       <ng-select
         [appendTo]="'body'"
         [items]="peopleNodes" 
@@ -23,35 +23,45 @@
     <ion-col size="1">
     </ion-col>
   </ion-item>
-
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
 
-  <div class="screen-node" id="full-tree">
-    
-    <div class="image-person" *ngIf="selectedNode && selectedNode.yod != ''">
-      <canvas #canvasContainer width="250px" height="300px"></canvas>
-    </div>
+	<!-- <pinch-zoom #myPinch="pinchZoom"
+			[backgroundColor]="'white'"
+			[minPanScale]="2"
+	> -->
+  <div class="screen-node person-container" id="full-tree">
 
-    <div [ngStyle]="getZoomStyle()">
-      <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
-    </div>
-    <br>
-    <div *ngIf="selectedNode" class="editor">
-      <ion-card-header class="section">
-        <span class="span">&nbsp;{{ 'PERSON_INFO' | translate }}</span>
-      </ion-card-header>
-      <br>
-      <!-- <ion-label class="label">{{ 'NODE_DESC' | translate }}</ion-label> -->
-      <!-- <ion-textarea clearInput class="textarea" type="text" rows="10" autosize [(ngModel)]="selectedNode.desc" clearInput></ion-textarea> -->
-      <ion-textarea 
-				clearInput class="textarea" 
-				type="text" rows="10" autosize 
-				[innerHtml]="selectedNode.desc" >
-			</ion-textarea>
-      <br>
-    </div>
+		<!-- <div class="home-container-center"> -->
+		<!-- <div class="child"> -->
+			<div class="person-image" *ngIf="selectedNode && selectedNode.yod != ''">
+				<canvas #canvasContainer width="250px" height="300px"></canvas>
+			</div>
+
+			<pinch-zoom #myPinch="pinchZoom"
+				[backgroundColor]="'white'"
+				[minPanScale]="2"
+			>
+				<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
+			</pinch-zoom>
+
+			<br/>
+
+			<div *ngIf="selectedNode && selectedNode.desc != ''" class="editor person-desc">
+				<ion-card-header class="section">
+					<span class="span">&nbsp;{{ 'PERSON_INFO' | translate }}</span>
+				</ion-card-header>
+				<br/>
+				<ion-textarea 
+					clearInput class="textarea" 
+					type="text" rows="10" autosize 
+					[innerHtml]="selectedNode.desc" >
+				</ion-textarea>
+				<br>
+			</div>
+		<!-- </div> -->
   </div>
+	<!-- </pinch-zoom> -->
 
 </ion-content>

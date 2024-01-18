@@ -1,16 +1,13 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-
 import { ModalController, PopoverController } from '@ionic/angular';
-import { UtilService } from '../../services/util.service';
 import { LanguageService } from '../../services/language.service';
 import { FamilyService } from '../../services/family.service';
 import { NodeService } from '../../services/node.service';
 import { DataService } from '../../services/data.service';
-import { TreePage } from './tree/tree.page';
-import { TypeaheadService } from '../../services/typeahead.service';
-import { ThemeService } from '../../services/theme.service';
+// import { FtTreeService } from '../../services/ft-tree.service';
 import { Family, Node, FAMILY} from '../../services/family.model';
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
+import { TreePage } from './tree/tree.page';
 
 const WAIT_TIME = 500;
 
@@ -40,7 +37,6 @@ export class VnodePage implements OnInit {
   isChildOK = false;
   viewMode = 0;
   treeClass = 'tree';
-  scaleStyle: number = 10;
   isPopover = false;
   timeEnter: number = 0;
   info: any;
@@ -53,30 +49,34 @@ export class VnodePage implements OnInit {
   constructor(
     public modalCtrl: ModalController,
     public popoverController: PopoverController,
-    private utilService: UtilService,
     private familyService: FamilyService,
     private nodeService: NodeService,
     private dataService: DataService,
     private languageService: LanguageService,
-    private themeService: ThemeService,
-    private typeahead: TypeaheadService,
+    // public ftTreeService: FtTreeService,
   ) {}
 
   ngOnInit() {
     if (DEBUGS.NODE)
-      console.log('NodePage - ngOnInit');
+      console.log('VnodePage - ngOnInit');
     this.startFromStorage();
+		// this.ftTreeService.reset();
   }
 
   ionViewWillEnter() {
     if (DEBUGS.NODE)
-      console.log('NodePage - ionViewWillEnter');
+      console.log('VnodePage - ionViewWillEnter');
     this.startFromStorage();
   }
 	
 	ionViewWillLeave() {
     if (DEBUGS.NODE)
-      console.log('NodePage - ionViewWillLeave');
+      console.log('VnodePage - ionViewWillLeave');
+	}
+
+	ngAfterViewInit(): void {
+		if (DEBUGS.NODE)
+      console.log('VnodePage - ngAfterViewInit');
 	}
 
   startFromStorage() {
@@ -102,52 +102,19 @@ export class VnodePage implements OnInit {
     this.selectPeoplePlaceholder = this.languageService.getTranslation('NODE_SELECT');
     this.selectPeople = null;
     this.nodeItemPlaceholder = this.languageService.getTranslation('NODE_SELECT_EMPTY_DATA');
+		// this.testPZ();
+
   }
 
   async onExit() {
     await this.modalCtrl.dismiss({status: 'cancel'});
   }
   
-  // getPeopleNodes (family: any, item?: any) {
-  //   let nodes = this.nodeService.getFamilyNodes(family);
-  //   if (DEBUGS.NODE)
-  //     console.log('NodePage - getPeopleNodes - nodes: ', nodes.length);
-  //   nodes.forEach(node => {
-  //     if (!item)
-  //       // all visible
-  //       node.visible = true;
-  //     else {
-  //       // visible only if item == ''
-  //       node.visible = (node[item] == '');
-  //       if (item == 'pod' || item == 'dod') {
-  //         // show if yod != ''
-  //         if (node.visible && node.yod == '')
-  //           node.visible = false;
-  //       }
-  //     }       
-  //   })
-  //   return this.familyService.getPeopleList(family);
-  // }
-
-  //
+	//
   // ------------- TREE -------------
   //
-
-  getZoomStyle() {
-    let scale = this.scaleStyle / 10;
-    let styles = {
-      'zoom': scale,
-      '-moz-transform': 'scale(' + scale + ')',
-      '-moz-transform-origin': '0 0',
-      '-o-transform': 'scale(' + scale + ')',
-      '-o-transform-origin': '0 0',
-      '-webkit-transform': 'scale(' + scale + ')',
-      '-webkit-transform-origin': '0 0'
-    };
-    return styles;
-  }
   
-  onLeafSelected (node: Node) {
+	onLeafSelected (node: Node) {
     this.onNodeSelect(node, true);
   }
 
@@ -181,7 +148,6 @@ export class VnodePage implements OnInit {
 			let nodeSelect = this.familyService.searchPeopleNodes(this.family, this.selectPeople);
 			this.onNodeSelect(nodeSelect);
 		}
-    // this.startSearch(this.selectPeople);
   }
   
   keyupPeopleNodes(event) {
@@ -208,49 +174,6 @@ export class VnodePage implements OnInit {
   }
 
   // --------- END ng-select ----------
-
-  // startSearch(searchStr) {
-  //   if (DEBUGS.NODE)
-  //     console.log('NodePage - startSearch - searchStr: ', searchStr)
-  //   // remove Generation
-  //   // name: Đoàn Văn Phê
-  //   searchStr = searchStr.substring(0, searchStr.indexOf(' ('));
-  //   let parentName = '';
-  //   // remove Parent if any
-  //   let idx = searchStr.indexOf('(');
-  //   if (idx > 0) {
-  //     // this is node with parent name
-  //     parentName = searchStr.substring(idx+1, searchStr.length-1)
-  //     searchStr = searchStr.substring(0, idx)
-  //   }
-  //   if (DEBUGS.NODE)
-  //     console.log('NodePage - startSearch - searchStr, parentName: ', searchStr, parentName);
-  //   let sNodes:Node[] = [];
-  //   // search thru all nodes
-  //   let nodes:Node[] = this.nodeService.getFamilyNodes(this.family);
-  //   nodes.forEach((node:Node) => {
-  //     // reset nclass
-  //     node.nclass = this.nodeService.updateNclass(node);
-  //     let strProfile = node.name;
-  //     if (strProfile.indexOf(searchStr) >= 0) {
-  //       if (parentName != '') {
-  //         // get real node
-  //         let words = node.pnode.name.split(' ');
-  //         let pname = (words.length > 2) ? words[2] : words[1];
-  //         if (pname == parentName) {
-  //           // found the node
-  //           sNodes.push(node);
-  //         }
-  //       } else
-  //         sNodes.push(node);
-  //     }
-  //   })
-  //   if (DEBUGS.NODE)
-  //     console.log('NodePage - startSearch - sNodes: ', sNodes)
-  //     // set select on 1st node
-  //   sNodes[0]['nclass'] = 'select'
-  //   this.onNodeSelect(sNodes[0]);
-  // }
   
   onNodeSelect(node: Node, openTask?: any) {
 
@@ -276,7 +199,6 @@ export class VnodePage implements OnInit {
 
   onTree() {
     let familyView = this.familyService.getSelectedFamily(this.family, this.selectedNode);
-    // familyView = this.familyService.buildFullFamily(familyView);
     this.openTreeModal(this.selectedNode.id, familyView, this.info);
   }
 
@@ -288,7 +210,7 @@ export class VnodePage implements OnInit {
         'familyView': familyView,
         'info': info,
       },
-			// cssClass: 'modal-dialog',
+			cssClass: 'modal-dialog',
 			backdropDismiss:false
     });
 

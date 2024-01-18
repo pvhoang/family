@@ -48,6 +48,7 @@ export class AppComponent implements OnInit {
 	language: any;
 	size: any;
 	splashTitle: any;
+	email: any;
 
 	@ViewChild('popover') popover: any;
 	isOpen = false;
@@ -70,11 +71,6 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<any> {
-
-		// let str =
-		// "<p>&nbsp;</p>\n<p style=\"text-align: center;\"><em>center - pha nhap</em></p>\n<p style=\"text-align: left;\">left - Phan Viết Ho&agrave;ng</p>\n<p style=\"text-align: right;\">right - some more text</p>\n<p style=\"text-align: left;\"><em><strong>bold-italic - </strong></em><strong>bold </strong><em><strong>- </strong>italic<strong> </strong><strong>- </strong></em>normal</p>\n<p style=\"text-align: left;\">[Phan Viết Ho&agrave;ng.jpg|3|1|Phan Viết Ho&agrave;ng.jpg]</p>\n<p>[Nghĩa trang Họ Phan|2|2|Nghĩa trang Họ Phan]</p>\n<div>\n<div>[Phan Anh Em.jpg|1|2|1972, Thứ 3 từ tr&aacute;i]</div>\n</div>";
-		// console.log('test: ', this.editorService.convertDocsText(str));
-
 
     // get URL
     let strings = window.location.href.split(window.location.host);
@@ -116,7 +112,7 @@ export class AppComponent implements OnInit {
 						this.mode = EDIT_MODE;
 					this.initializeApp();
 				} else {
-					this.presentToast(['APP_NA_OPTION_1', option, 'APP_NA_OPTION_2']);
+					this.presentToast(['APP_NA_OPTION_1', option, 'APP_NA_OPTION_2', this.email]);
 				}
 			});
 		});
@@ -246,8 +242,6 @@ export class AppComponent implements OnInit {
 						this.dataService.saveItem(SIZE, values[SIZE]).then((status:any) => {});
 						count++;
 					}
-					
-					// this.utilService.printVariable('after alertSelect', '--app-text-font-size-medium');
 					if (count > 0)
 						this.presentToast(['APP_NEW_SETTING']);
 					else
@@ -255,7 +249,6 @@ export class AppComponent implements OnInit {
 				} else {
 					this.presentToast(['APP_SAME_SETTING']);
 				}
-
       }
     })
   }
@@ -322,7 +315,6 @@ export class AppComponent implements OnInit {
           if (result.data) {
             let ancestorID = result.data;
             this.setAncestor(ancestorID).then(resolve => {
-              // this.initializeApp();
               this.presentToast(['APP_NEW_ANCESTOR_1', ancestorID, 'APP_NEW_ANCESTOR_2']);
             });
           }
@@ -336,18 +328,19 @@ export class AppComponent implements OnInit {
     return new Promise((resolve) => {
 			// check if this ancestor is in local
 			this.dataService.readItem('ANCESTOR_DATA').then((sdata:any) => {
-
 				if (!sdata || sdata.info.id != ancestorID) {
 					// no local data or different ancestor, check if it is in server
 					this.validateAncestor(ancestorID).then((status:any) => {
 						if (!status) {
 							// not exist, error
 							resolve (false);
-							// this.presentToast(['APP_NA_ANCESTOR_1', ancestorID, 'APP_NA_ANCESTOR_2']);
 						} else {
 							// read from server and save to local
+							// this is new login, show 'Welcome message'
 							this.fbService.readAncestorData(ancestorID).subscribe((rdata:any) => {
 								this.dataService.saveItem('ANCESTOR_DATA', rdata).then((status:any) => {
+									this.email = rdata.info.admin_email;
+									this.presentToast(['APP_WELCOME_FAMILY_1', ancestorID, 'APP_WELCOME_FAMILY_2', this.email]);
 									resolve (true);
 								});
 							});
@@ -357,6 +350,7 @@ export class AppComponent implements OnInit {
 				} else if (sdata && sdata.info.id == ancestorID) {
 					// update data from server
 					// check on family data version
+					this.email = sdata.info.admin_email;
 					let fversion = sdata.family.version;
 					if (DEBUGS.APP)
 						console.log('AppComponent - selectAncestor - fversion: ', fversion);
@@ -483,8 +477,6 @@ export class AppComponent implements OnInit {
 					if (DEBUGS.APP)
 						console.log('AppComponent - updateAppData - rdata: ', rdata);
 					let docs = rdata.docs;
-					// docs by language
-					// console.log('AppComponent - updateAppData - language: ', this.language);
 					// parse docs
 					let language = this.languageService.getLanguage();
 					this.updateDocs(ancestor, docs[language]).then(status => {
@@ -621,10 +613,11 @@ export class AppComponent implements OnInit {
       msgs.push({name: 'data', label: keys[1]});
     if (keys.length > 2)
       msgs.push({name: 'msg', label: this.translate_instant(keys[2])});
+		if (keys.length > 3)
+      msgs.push({name: 'data', label: keys[3]});
     let message = this.utilService.getAlertMessage(msgs);
 		console.log('message: ', message);
     this.utilService.presentToast(message);
-    // this.utilService.presentToastWait(this.translate_instant('INFO'), message, this.translate_instant('OK') );
   }
 
 	translate_instant(key:any) {
@@ -658,15 +651,14 @@ export class AppComponent implements OnInit {
 			"APP_NO_ANCESTOR": "Phả tộc chưa được tạo!",
 			"APP_NEW_ANCESTOR_1": "Phả tộc '",
 			"APP_NEW_ANCESTOR_2": "' đã được khởi động!<br/>Kết nối: <i>giapha.web.app</i>",
-			"APP_NA_LINK_1": "Đường dẫn '",
-			"APP_NA_LINK_2": "' không hợp lệ!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
-			"APP_EMPTY_ANCESTOR": "Phả tộc chưa được kích hoạt trong hệ thống!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.'",
 			"APP_NEW_FAMILY": "Hệ thống dùng dữ liệu mới. Ấn bản: ",
+			"APP_WELCOME_FAMILY_1": "Chào bạn truy cập vào gia phả họ ",
+			"APP_WELCOME_FAMILY_2": ". Để cập nhật thông tin, xin liên lạc: ",
 			"APP_NA_ANCESTOR_1": "Phả tộc '",
 			"APP_NA_ANCESTOR_2": "' không có trong hệ thống!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
 			"APP_NA_ANCESTOR": "Không có tên phả tộc!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
 			"APP_NA_OPTION_1": "Thông số: '",
-			"APP_NA_OPTION_2": "' không hợp lệ!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
+			"APP_NA_OPTION_2": "' không hợp lệ!<br/>Liên lạc: ",
 			"APP_APP_VERSIONS_NOT_SAME_1": "Ấn bản trên máy đã cũ: ",
 			"APP_APP_VERSIONS_NOT_SAME_2": ". Yêu cầu xóa cache và chạy lại (F5)!",
 			"INFO": "Thông báo",
@@ -705,9 +697,6 @@ export class AppComponent implements OnInit {
 			"APP_NO_ANCESTOR": "Ancestor is not available!",
 			"APP_NEW_ANCESTOR_1": "Ancestor: '",
 			"APP_NEW_ANCESTOR_2": "' has been chosen! <br/>Link: <i>giapha.web.app</i>",
-			"APP_NA_LINK_1": "Link: '",
-			"APP_NA_LINK_2": "' is not valid!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
-			"APP_EMPTY_ANCESTOR": "Ancestor is not available!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.'",
 			"APP_NEW_FAMILY": "New family data is used. Version: ",
 			"APP_NA_ANCESTOR_1": "Ancestor: '",
 			"APP_NA_ANCESTOR_2": "' is not available!<br/>Contact <i>pvhoang940@gmail.com</i>.",

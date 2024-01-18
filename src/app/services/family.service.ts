@@ -165,7 +165,8 @@ export class FamilyService {
     family.nodes.forEach((node: any) => {
       if (node.visible) {
         node.level = nodeLevel;
-        data.push({name: node.name + this.nodeService.getFullDetail(node), node: node});
+				let nick = (node.nick != '') ? ' (' + node.nick + ')' : '';
+        data.push({name: node.name + this.nodeService.getFullDetail(node) + nick, node: node});
       }
     })
     if (family.children) {
@@ -188,7 +189,8 @@ export class FamilyService {
     family.nodes.forEach((node: any) => {
       if (node.visible) {
         node.level = nodeLevel;
-        data.push({name: node.name + this.nodeService.getFullDetail(node), node: node});
+				let nick = (node.nick != '') ? ' (' + node.nick + ')' : '';
+        data.push({name: node.name + this.nodeService.getFullDetail(node) + nick, node: node});
       }
     })
     if (family.children) {

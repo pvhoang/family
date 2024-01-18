@@ -7,7 +7,7 @@ import { NodeService } from '../../services/node.service';
 import { EditorService } from '../../services/editor.service';
 import { DataService } from '../../services/data.service';
 import { FirebaseService } from '../../services/firebase.service';
-import { TypeaheadService } from '../../services/typeahead.service';
+import { FtTreeService } from '../../services/ft-tree.service';
 import { ThemeService } from '../../services/theme.service';
 import { Family, Node, FAMILY} from '../../services/family.model';
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
@@ -42,7 +42,6 @@ export class PersonPage implements OnInit {
   treeClass = 'person-tree'
   viewMode = 1;
 
-  scaleStyle: number = 10;
   isPopover = false;
   timeEnter: number = 0;
   info: any;
@@ -62,13 +61,14 @@ export class PersonPage implements OnInit {
     private dataService: DataService,
     private languageService: LanguageService,
     private themeService: ThemeService,
-    private typeahead: TypeaheadService,
+    public ftTreeService: FtTreeService,
   ) {}
 
   ngOnInit() {
     if (DEBUGS.NODE)
       console.log('PersonPage - ngOnInit');
     this.startFromStorage();
+		this.ftTreeService.reset();
   }
 
   ionViewWillEnter() {
@@ -138,7 +138,7 @@ export class PersonPage implements OnInit {
 
   // --------- END ng-select ----------
 
-  onNodeSelect(node: Node, openTask?: any) {
+  onNodeSelect(node: Node) {
     if (DEBUGS.NODE)
       console.log('PersonPage - onNodeSelect - node: ', node);
     // reset nclass
@@ -194,20 +194,6 @@ export class PersonPage implements OnInit {
       });
     })
     this.themeService.setScreenSize(nodes, true);
-  }
-
-  getZoomStyle() {
-    let scale = this.scaleStyle / 10;
-    let styles = {
-      'zoom': scale,
-      '-moz-transform': 'scale(' + scale + ')',
-      '-moz-transform-origin': '0 0',
-      '-o-transform': 'scale(' + scale + ')',
-      '-o-transform-origin': '0 0',
-      '-webkit-transform': 'scale(' + scale + ')',
-      '-webkit-transform-origin': '0 0'
-    };
-    return styles;
   }
 
   onLeafSelected (node) {
