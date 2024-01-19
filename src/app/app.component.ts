@@ -147,8 +147,11 @@ export class AppComponent implements OnInit {
     this.updateVersionData().then(stat => {
       this.updateAppData().then(status => {
 				if (status) {
-					this.splashTitle = this.translate_instant('APP_FAMILY_TREE')
-					this.startUp = true;
+					this.splashTitle = this.translate_instant('APP_FAMILY_TREE');
+					if (this.mode == EDIT_MODE)
+						this.startUp = true;
+					else
+						this.startApp = true;
 				}
 			});
     });
@@ -339,7 +342,7 @@ export class AppComponent implements OnInit {
 							// this is new login, show 'Welcome message'
 							this.fbService.readAncestorData(ancestorID).subscribe((rdata:any) => {
 								this.dataService.saveItem('ANCESTOR_DATA', rdata).then((status:any) => {
-									this.email = rdata.info.admin_email;
+									this.email = rdata.info.admin_name + '(' + rdata.info.admin_email + ')';
 									this.presentToast(['APP_WELCOME_FAMILY_1', ancestorID, 'APP_WELCOME_FAMILY_2', this.email]);
 									resolve (true);
 								});
@@ -350,7 +353,7 @@ export class AppComponent implements OnInit {
 				} else if (sdata && sdata.info.id == ancestorID) {
 					// update data from server
 					// check on family data version
-					this.email = sdata.info.admin_email;
+					this.email = sdata.info.admin_name + '(' + sdata.info.admin_email + ')';
 					let fversion = sdata.family.version;
 					if (DEBUGS.APP)
 						console.log('AppComponent - selectAncestor - fversion: ', fversion);

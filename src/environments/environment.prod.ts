@@ -23,6 +23,8 @@ export const DEBUGS = {
   'TABS': false,
   'MEMORY': false,
   'PERSON': true,
+  'HOME': true,
+  'VNODE': true,
   'NODE': true,
   'BRANCH': false,
   'DOCS': true,

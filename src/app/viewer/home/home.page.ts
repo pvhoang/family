@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { FONTS_FOLDER, DEBUGS,  SMALL_SIZE, MEDIUM_SIZE, LARGE_SIZE } from '../../../environments/environment';
+import { environment, FONTS_FOLDER, DEBUGS,  SMALL_SIZE, MEDIUM_SIZE, LARGE_SIZE } from '../../../environments/environment';
 import { LanguageService } from '../../services/language.service';
 import { UtilService } from '../../services/util.service';
 import { FamilyService } from '../../services/family.service';
@@ -13,9 +13,7 @@ import { VnodePage } from '../vnode/vnode.page';
 import { PersonPage } from '../person/person.page';
 
 const FLIPPING_TIME = 500;
-const PAGE_START_TIME = 500;
 const PAGE_SWITCH_TIME = 500;
-const SIZE = 'size';
 
 @Component({
   selector: 'app-home',
@@ -32,6 +30,9 @@ export class HomePage implements OnInit{
 	nodes: any;
 	levels: any;
 	modalPage: any = '';
+	info: any;
+	version: any;
+	email: any;
 	// size: any;
 
 	pageData = {
@@ -67,32 +68,20 @@ export class HomePage implements OnInit{
 
 	start() {
 		this.dataService.readDocs().then((docs:any) => {
-			if (DEBUGS.DOCS)
+			if (DEBUGS.HOME)
 				console.log('HomePage - docs: ', docs);
-			// this.dataService.readItem(SIZE).then((size:any) => {
-			// 	console.log('size after read: ', size);
-			// 	this.size = size;
 				this.dataService.readFamilyAndInfo().then((dat:any) => {
 					let family = dat.family;
 					let info = dat.info;
+					this.info = info;
+					this.version = 'A.' + environment.version + ' (D.' + family.version + ')';
 					this.ancestor = info.id;
 					let data = this.getSystemData(family);
 					this.nodes = data.nodes;
 					this.levels = data.levels;
 					this.updatePageData(docs);
+					this.email = info.admin_name + '(' + info.admin_email + ')';
 					this.onMemorial();
-
-					// this.updatePageData(docs).then((data:any) => {
-					// 	this.pageData = data[0];
-					// 	this.specialPageData = data[1];
-					// 	console.log('this.pageData: ', this.pageData);
-					// 	console.log('this.specialPageData: ', this.specialPageData);
-					// 	this.onMemorial();
-					// 	// setTimeout(() => {
-					// 	// 		this.startBook();
-					// 	// }, 500)   
-					// 	// this.startBook();
-					// });
 				});
 		});
 	}
@@ -126,7 +115,7 @@ export class HomePage implements OnInit{
     this.familyService.passAwayFamily().then((data:any) => {
 			if (data.persons.length == 0)
 				return;
-      if (DEBUGS.DOCS)
+      if (DEBUGS.HOME)
         console.log('HomePage - onMemorial - data: ', data);
       let today = data.today;
       let msg = '<b>' + this.languageService.getTranslation('HOME_MEMORY_HEADER') + '</b><br/><br/>' +
@@ -139,68 +128,54 @@ export class HomePage implements OnInit{
   }
 
 	updatePageData(docs: any) {
-		// return new Promise((resolve, reject) => {
-			let titles = { 
-				'pha_nhap': this.languageService.getTranslation('HOME_pha_nhap'),
-				'pha_ky': this.languageService.getTranslation('HOME_pha_ky'),
-				'pha_he': this.languageService.getTranslation('HOME_pha_he'),
-				'pha_do': this.languageService.getTranslation('HOME_pha_do'),
-				'ngoai_pha': this.languageService.getTranslation('HOME_ngoai_pha'),
-				'phu_khao': this.languageService.getTranslation('HOME_phu_khao'),
+		let titles = { 
+			'pha_nhap': this.languageService.getTranslation('HOME_pha_nhap'),
+			'pha_ky': this.languageService.getTranslation('HOME_pha_ky'),
+			'pha_he': this.languageService.getTranslation('HOME_pha_he'),
+			'pha_do': this.languageService.getTranslation('HOME_pha_do'),
+			'ngoai_pha': this.languageService.getTranslation('HOME_ngoai_pha'),
+			'phu_khao': this.languageService.getTranslation('HOME_phu_khao'),
+		}
+
+		let specialPageData: any = {};
+		let pageData: any = {};
+		
+		let size = this.themeService.getSize();
+		let fontSizePercent = (size == SMALL_SIZE) ? '80' : ((size == MEDIUM_SIZE) ? '100' : '120');
+		if (DEBUGS.HOME)
+			console.log('updatePageData - size, fontSizePercent: ', size, fontSizePercent);
+		
+		// start from pha_nhap, page index = 2; cover=0, mucluc=1
+		let count = 2;
+		for (var key of Object.keys(docs)) {
+			let data = docs[key];
+			data.titleText = titles[key];
+				// newText is calculated in app.component.ts
+				let text = data.newText;
+				text = this.editorService.removeFontSize(text, fontSizePercent);
+				// pages with special templates
+				if (key == 'pha_he' || key == 'pha_do') {
+					text = text.replaceAll('[NODES]', '<b>' + this.nodes +'</b>');
+					text = text.replaceAll('[LEVELS]', '<b>' + this.levels + '</b>');
+					data.text = text;
+					data.index = count++;
+					pageData[key] = data;
+
+				} else {
+					// doc with multiple pages
+					let pages = [];
+					let texts = text.split('/PAGE/');
+					let pcount = 1;
+					texts.forEach((txt:string) => {
+						let titleText = (texts.length == 1) ? data.titleText : data.titleText + ' (' + pcount++ + ')';
+						pages.push({ titleText: titleText, text: txt, index: count++ });
+					})
+					specialPageData[key] = pages;
+				}
 			}
-
-			let specialPageData: any = {};
-			let pageData: any = {};
-			
-			let size = this.themeService.getSize();
-			let fontSizePercent = (size == SMALL_SIZE) ? '80' : ((size == MEDIUM_SIZE) ? '100' : '120');
-			console.log('size, fontSizePercent: ', size, fontSizePercent);
-			let count = 1;
-
-			for (var key of Object.keys(docs)) {
-				let data = docs[key];
-				data.titleText = titles[key];
-				// let text = data.text;
-				// .titleText = titles[key];
-			// replace image template with real HTML data
-				// this.editorService.convertImageTemplate(this.ancestor, text, key).then((result:any) => {
-					// docs[result.key].newText = result.newText;
-					// text = result[key].newText;
-					// now process extra information
-					// replace special param with real values
-
-					// newText is calculated in app.component.ts
-					let text = data.newText;
-					text = this.editorService.removeFontSize(text, fontSizePercent);
-
-					// pages with special templates
-					if (key == 'pha_he' || key == 'pha_do') {
-						text = text.replaceAll('[NODES]', '<b>' + this.nodes +'</b>');
-						text = text.replaceAll('[LEVELS]', '<b>' + this.levels + '</b>');
-						data.text = text;
-						data.index = count++;
-						pageData[key] = data;
-
-					} else {
-						// doc with multiple pages
-						let pages = [];
-						let texts = text.split('/PAGE/');
-						let pcount = 1;
-						texts.forEach((txt:string) => {
-							let titleText = (texts.length == 1) ? data.titleText : data.titleText + ' (' + pcount++ + ')';
-							pages.push({ titleText: titleText, text: txt, index: count++ });
-						})
-						specialPageData[key] = pages;
-					}
-
-				// })
-			}
-			// resolve([pageData, specialPageData]);
-		// });
 		this.pageData = pageData;
 		this.specialPageData = specialPageData;
 	}
-
 
 	// https://nodlik.github.io/StPageFlip/demo.html
   
@@ -218,16 +193,31 @@ export class HomePage implements OnInit{
 			let data = this.pageData[key];
 			document.getElementById(key).innerHTML = data.text;
 		}
-
-		// console.log('this.pageData: ', this.pageData);
-		// console.log('this.specialPageData: ', this.specialPageData);
-
-		// this.specialPageData = specialPageData;
-
-		this.themeService.printRootProperty('startBook: ', '--app-text-font-size-medium');
-
+		// this.themeService.printRootProperty('startBook: ', '--app-text-font-size-medium');
 		const pageFlip = new PageFlip(
-			document.getElementById("book"),
+			document.getElementById("book"), 
+			// {
+			// 	width: 350, // base page width
+			// 	height: 600, // base page height
+			// 	size: "stretch",
+			// 	// set threshold values:
+			// 	minWidth: 350,
+			// 	maxWidth: 600,
+			// 	minHeight: 600,
+			// 	maxHeight: 900,
+
+			// 	flippingTime: FLIPPING_TIME,
+			// 	usePortrait: true,
+			// 	autoSize: true,
+			// 	maxShadowOpacity: 0.5, // Half shadow intensity
+			// 	drawShadow: false,
+			// 	showCover: true,
+			// 	swipeDistance: 20,
+			// 	// startPage: 1,
+			// 	disableFlipByClick: true,
+			// 	mobileScrollSupport: true // disable content scrolling on mobile devices
+			// }
+
 			{
 				width: 350, // base page width
 				height: 600, // base page height
@@ -246,19 +236,17 @@ export class HomePage implements OnInit{
 				mobileScrollSupport: true // disable content scrolling on mobile devices
 			}
 		);
+		
 		this.pageFlip = pageFlip;
-
 		// load pages
 		pageFlip.loadFromHTML(document.querySelectorAll(".page"));
-
+		
 		// triggered by page turning
 		pageFlip.on("flip", (e: any) => {
 		});
-
 		// triggered when the book state changes
 		pageFlip.on("changeState", (e: any) => {
 		});
-
 		// triggered when page orientation changes
 		pageFlip.on("changeOrientation", (e: any) => {
 		});
@@ -270,11 +258,6 @@ export class HomePage implements OnInit{
 			let page = this.pageData[key];
 			if (!page) {
 				let pages = this.specialPageData[key]
-
-				console.log('toPage: ', key);
-				console.log('pages: ', pages);
-
-
 				if (pages.length == 0)
 					return;
 				page = pages[0];
@@ -302,6 +285,19 @@ export class HomePage implements OnInit{
 		});
 		return await modal.present();
 	}
+
+	// async onPhaHe() {
+	// 	let msg = this.utilService.getAlertMessage([
+  //     {name: 'msg', label: 'NODE_DELETE_NODE_MESSAGE_1'},
+  //     {name: 'msg', label: 'NODE_DELETE_NODE_MESSAGE_2'},
+  //   ]);
+  //   this.utilService.alertConfirm('NODE_DELETE_NODE_MESSAGE', msg, 'CANCEL', 'OK').then((res) => {
+  //     console.log('onDelete - res:' , res)
+  //     if (res.data) {
+	// 		}
+	// 	});
+    
+	// }
 
 	async onPhaHe() {
 		const modal = await this.modalCtrl.create({

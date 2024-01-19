@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { ModalController, PopoverController } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { LanguageService } from '../../services/language.service';
 import { DataService } from '../../services/data.service';
 import { EditorService } from '../../services/editor.service';
@@ -57,14 +57,7 @@ export class DocPage implements OnInit {
 	}
 
   startFromStorage() {
-
-		// this.setupEditor("Hello");
-
     this.dataService.readDocs().then((currentData:any) => {
-			// let text = currentData['pha_nhap'].text;
-			// this.setupEditor(text);
-      // if (DEBUGS.DOCS)
-        // console.log('DocPage - startFromStorage - currentData: ', currentData);
 			this.currentData = currentData;
       this.start(currentData);
     });
@@ -73,7 +66,6 @@ export class DocPage implements OnInit {
   start(data: any) {
 		this.newData = JSON.parse(JSON.stringify(data));
     this.docs = [
-      // { id: 'chon', name: this.languageService.getTranslation('DOC_SELECT') },
       { id: 'pha_nhap', name: this.languageService.getTranslation('DOC_INTRO') },
       { id: 'pha_ky', name: this.languageService.getTranslation('DOC_NOTE') },
       { id: 'pha_he', name: this.languageService.getTranslation('DOC_NODE') },
@@ -82,19 +74,13 @@ export class DocPage implements OnInit {
       { id: 'phu_khao', name: this.languageService.getTranslation('DOC_INFO') }
     ];
     this.selectDoc = this.docs[0].id;
-		// console.log('DocPage - startFromStorage - text: ', this.newData[this.selectDoc].text);
-		// let text = (this.selectDoc == 'chon') ? '' : this.newData[this.selectDoc].text;
-		// this.editor.setContent(text);
 		this.currentDoc = this.selectDoc;
 		this.editorOK = true;
 		this.setupEditor(this.newData[this.selectDoc].text);
-
   }
 
 	// https://www.tiny.cloud/docs/integrations/angular/#tinymceangulartechnicalreference
-
   setupEditor(text: any) {
-
     this.settings = {
       base_url: '/tinymce',
       suffix: '.min',
@@ -102,8 +88,7 @@ export class DocPage implements OnInit {
       plugins: [
       'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
       'anchor', 'searchreplace', 'visualblocks', 'code',
-      'insertdatetime', 'media', 'table', 'help', 
-			// 'fullscreen', 'contextmenu', 'addTab', 'wordcount', 'footnotes', 'paste' 
+      'insertdatetime', 'media', 'table', 'help'
 			],
 			menu: {
 				images: { title: 'Hình', items: 'nesteditem' }
@@ -133,48 +118,23 @@ export class DocPage implements OnInit {
       ],
       paste_data_images: true,
 			external_plugins: {
-				// 'wordcount': '../../../assets/js/tinymce/plugins/wordcount/plugin.min.js',
 			},
       content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
       setup: (editor: any) => {
         this.editor = editor;
 				let subitems = this.editorService.getImageItems(editor);
 				// https://www.tiny.cloud/docs/tinymce/latest/creating-custom-menu-items/
-
 				editor.ui.registry.addNestedMenuItem('nesteditem', {
 					text: 'Chọn hình',
 					getSubmenuItems: () => subitems
 				});
 				// https://www.tiny.cloud/blog/how-to-get-content-and-set-content-in-tinymce/
-				// editor.on('init', function (e) {
 				editor.on('init', (e: any) => {
-					// editor.setContent(this.newData[this.selectDoc].text);
 					editor.setContent(text);
 				});
       }
     };
 	}
-
-	// getImageItems(editor: any) {
-	// 	let imageItems = [];
-	// 	this.dataService.readItem('photos').then((photos:any) => {
-	// 		// console.log('photos: ', photos)
-	// 		photos.data.forEach(photo => {
-	// 			let dat = photo.split('|');
-	// 			let name = dat[0];
-	// 			// let caption = (dat.length > 1) ? dat[1] : '';
-	// 			let caption = (dat.length > 1) ? dat[1] : name;
-	// 			let sub = {
-	// 				type: 'menuitem',
-	// 				text: name,
-	// 				onAction: () => editor.insertContent(`"[` + name + `,1,c,` + caption + `]"`)
-	// 			};
-	// 			imageItems.push(sub);
-	// 		})
-	// 		return imageItems;
-	// 	});
-	// 	return imageItems;
-	// }
 
 	// save docs to local and firebase
 	saveDocs() {
@@ -202,13 +162,11 @@ export class DocPage implements OnInit {
 				msg += docName;
 			}
 		}
-
 		if (count == 0) {
 			msg = this.languageService.getTranslation('DOC_NOT_CHANGED');
 			this.utilService.presentToast(msg, 1000);
 			return;
 		}
-		
 		if (count > 0) {
 			this.utilService.alertConfirm('NODE_DELETE_NODE_MESSAGE', msg, 'CANCEL', 'OK').then((result) => {
 				if (result.data) {
@@ -232,39 +190,13 @@ export class DocPage implements OnInit {
   }
 
 	closeDocs() {
-    if (DEBUGS.DOCS) {
+    if (DEBUGS.DOCS)
 			console.log('DocPage - closeDocs - selectDoc: ', this.selectDoc);
-			// console.log('DocPage - closeDocs - text: ', this.newData[this.selectDoc].text);
-		}
-		
-		// const text = this.editor.getContent({ format: 'html' });
-		// this.editorService.convertDocsText(text);
-
 		this.newData[this.currentDoc].text = this.editor.getContent({ format: 'html' });
 		this.editor.setContent(this.newData[this.selectDoc].text);
-		// this.editor.setContent(this.newData[this.selectDoc].text);
 		this.currentDoc = this.selectDoc;
   }
 
-
-  // closeDocs() {
-  //   if (DEBUGS.DOCS) {
-	// 		console.log('DocPage - closeDocs - selectDoc: ', this.selectDoc);
-	// 		// console.log('DocPage - closeDocs - text: ', this.newData[this.selectDoc].text);
-	// 	}
-	// 	// const text = this.editor.getContent({ format: 'html' });
-	// 	if (this.currentDoc != 'chon') {
-	// 		this.newData[this.currentDoc].text = this.editor.getContent({ format: 'html' });
-	// 	}
-	// 	if (this.selectDoc == 'chon') {
-	// 		this.editor.setContent('');
-	// 	} else {
-	// 		this.editor.setContent(this.newData[this.selectDoc].text);
-	// 	}
-	// 	// this.editor.setContent(this.newData[this.selectDoc].text);
-	// 	this.currentDoc = this.selectDoc;
-  // }
-  
   // --------- END ng-select ----------
 
   async saveDocsToFirebase() {
@@ -272,14 +204,12 @@ export class DocPage implements OnInit {
       let ancestor = info.id;
 			let language = this.languageService.getLanguage();
 			this.fbService.saveDocsData(ancestor, language, this.newData).then((status:any) => {
-				// this.fbService.saveBackupDocs(ancestor, language, this.newData).then((status:any) => {
-					this.utilService.dismissLoading();
-					let message = this.utilService.getAlertMessage([
-						{name: 'msg', label: 'DOC_MESSAGE'},
-					]);
-					this.utilService.presentToast(message, 3000);
-				});
-			// });
+				this.utilService.dismissLoading();
+				let message = this.utilService.getAlertMessage([
+					{name: 'msg', label: 'DOC_MESSAGE'},
+				]);
+				this.utilService.presentToast(message, 3000);
+			});
 		})
   }
 }

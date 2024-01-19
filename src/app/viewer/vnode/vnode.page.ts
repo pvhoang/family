@@ -4,7 +4,6 @@ import { LanguageService } from '../../services/language.service';
 import { FamilyService } from '../../services/family.service';
 import { NodeService } from '../../services/node.service';
 import { DataService } from '../../services/data.service';
-// import { FtTreeService } from '../../services/ft-tree.service';
 import { Family, Node, FAMILY} from '../../services/family.model';
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
 import { TreePage } from './tree/tree.page';
@@ -53,35 +52,33 @@ export class VnodePage implements OnInit {
     private nodeService: NodeService,
     private dataService: DataService,
     private languageService: LanguageService,
-    // public ftTreeService: FtTreeService,
   ) {}
 
   ngOnInit() {
-    if (DEBUGS.NODE)
+    if (DEBUGS.VNODE)
       console.log('VnodePage - ngOnInit');
     this.startFromStorage();
-		// this.ftTreeService.reset();
   }
 
   ionViewWillEnter() {
-    if (DEBUGS.NODE)
+    if (DEBUGS.VNODE)
       console.log('VnodePage - ionViewWillEnter');
     this.startFromStorage();
   }
 	
 	ionViewWillLeave() {
-    if (DEBUGS.NODE)
+    if (DEBUGS.VNODE)
       console.log('VnodePage - ionViewWillLeave');
 	}
 
 	ngAfterViewInit(): void {
-		if (DEBUGS.NODE)
+		if (DEBUGS.VNODE)
       console.log('VnodePage - ngAfterViewInit');
 	}
 
   startFromStorage() {
     this.dataService.readFamilyAndInfo().then((data:any) => {
-      if (DEBUGS.NODE)
+      if (DEBUGS.VNODE)
         console.log('NodePage - startFromStorage - data: ', data);
       this.info = data.info;
       this.title = this.info.description;
@@ -102,8 +99,6 @@ export class VnodePage implements OnInit {
     this.selectPeoplePlaceholder = this.languageService.getTranslation('NODE_SELECT');
     this.selectPeople = null;
     this.nodeItemPlaceholder = this.languageService.getTranslation('NODE_SELECT_EMPTY_DATA');
-		// this.testPZ();
-
   }
 
   async onExit() {
@@ -141,7 +136,7 @@ export class VnodePage implements OnInit {
   }
 
   closePeopleNodes() {
-    if (DEBUGS.NODE)
+    if (DEBUGS.VNODE)
       console.log('NodePage - closePeopleNodes - selectPeople: ', this.selectPeople);
     this.selectedNode = null;
 		if (this.selectPeople) {
@@ -151,14 +146,14 @@ export class VnodePage implements OnInit {
   }
   
   keyupPeopleNodes(event) {
-    if (DEBUGS.NODE)
+    if (DEBUGS.VNODE)
       console.log('NodePage - keyup: ', event.target.value);
     if (event.key !== 'Enter')
       return;
   }
 
   onNodeInfoPopover(item: any) {
-    if (DEBUGS.NODE)
+    if (DEBUGS.VNODE)
       console.log('NodePage - onNodeInfoPopover: ', item);
     this.nodeItem = item.id;
     if (this.nodeItem == 'all')
@@ -168,8 +163,8 @@ export class VnodePage implements OnInit {
     if (this.nodeItem == null) {
       this.nodeItemMessage = this.languageService.getTranslation('NODE_NUM_NODES') + this.peopleNodes.length;
     } else {
-    this.nodeItemMessage = this.languageService.getTranslation('NODE_MISSING_ITEM_1') + item.name +
-    this.languageService.getTranslation('NODE_MISSING_ITEM_2') + this.peopleNodes.length;
+			this.nodeItemMessage = this.languageService.getTranslation('NODE_MISSING_ITEM_1') + item.name +
+			this.languageService.getTranslation('NODE_MISSING_ITEM_2') + this.peopleNodes.length;
     }
   }
 
@@ -177,19 +172,17 @@ export class VnodePage implements OnInit {
   
   onNodeSelect(node: Node, openTask?: any) {
 
-    if (DEBUGS.NODE)
+    if (DEBUGS.VNODE)
       console.log('NodePage - onNodeSelect - node: ', node);
     // reset nclass
     if (this.selectedNode)
       this.selectedNode.nclass = this.nodeService.updateNclass(this.selectedNode);
-
     this.selectedNode = node;
     this.selectedNodeName = node.name;
     this.selectPeople = node.name + this.nodeService.getFullDetail(node)
     let ancestorName = this.info.family_name;
     this.isChildOK = this.nodeService.isAncestorName(ancestorName, node);
     this.selectedNode.nclass = 'node-select';
-
     setTimeout(() => {
       this.scrollToNode(this.selectedNode);
       if (openTask)
@@ -211,7 +204,7 @@ export class VnodePage implements OnInit {
         'info': info,
       },
 			cssClass: 'modal-dialog',
-			backdropDismiss:false
+			backdropDismiss:false,
     });
 
     modal.onDidDismiss().then((resp) => {

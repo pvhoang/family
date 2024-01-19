@@ -5,7 +5,6 @@ import { NodeService } from '../../../services/node.service';
 import { LanguageService } from '../../../services/language.service';
 import { FirebaseService } from '../../../services/firebase.service';
 import { ThemeService } from '../../../services/theme.service';
-// import { FtTreeService } from '../../../services/ft-tree.service';
 import { jsPDF, jsPDFOptions } from 'jspdf';
 import domtoimage from 'dom-to-image';
 import '../../../../assets/js/Roboto-Regular-normal.js';
@@ -42,40 +41,34 @@ export class TreePage implements OnInit {
     private nodeService: NodeService,
     private themeService: ThemeService,
     private languageService: LanguageService,
-    // public ftTreeService: FtTreeService,
   ) {}
 
   ngOnInit() {
     if (DEBUGS.TREE)
-      console.log('ViewPage - ngOnInit');
-    // this.scaleStyle = 10;
-
+      console.log('TreePage - ngOnInit');
     this.CANCEL =  this.languageService.getTranslation('CANCEL');
     this.JPG =  this.languageService.getTranslation('JPG');
     this.PDF =  this.languageService.getTranslation('PDF');
     this.TREE_POPOVER_PRINT_JPG =  this.languageService.getTranslation('TREE_POPOVER_PRINT_JPG');
     this.TREE_POPOVER_PRINT_PDF =  this.languageService.getTranslation('TREE_POPOVER_PRINT_PDF');
-
     this.start();
-		// this.ftTreeService.reset();
   }
 
   ionViewWillEnter() {
     if (DEBUGS.TREE)
-      console.log('ViewPage - ionViewWillEnter');
+      console.log('TreePage - ionViewWillEnter');
   }
 	
 	ionViewWillLeave() {
     if (DEBUGS.TREE)
-      console.log('ViewPage - ionViewWillLeave');
+      console.log('TreePage - ionViewWillLeave');
 	}
 
   start() {
     // set photo for each node
     let nodes = this.nodeService.getFamilyNodes(this.familyView);
-
-    console.log('TreePage - familyView: ', nodes);
-
+    if (DEBUGS.TREE)
+			console.log('TreePage - familyView: ', nodes);
     nodes.forEach((node:any) => {
       this.getPhotoUrl(node).then((url:any) => {
         node.photoUrl = url;
@@ -87,7 +80,7 @@ export class TreePage implements OnInit {
     this.node.nclass = 'node-select';
     setTimeout(() => {
       this.scrollToNode(this.node);
-    }, 2000);
+    }, 1000);
   }
 
   onLeafSelected (node) {
@@ -119,16 +112,20 @@ export class TreePage implements OnInit {
     ]);
     this.utilService.alertConfirm('ANNOUNCE', msg, 'CANCEL', 'CONTINUE').then((res) => {
       if (res.data) {
+				if (DEBUGS.TREE)
+					console.log('onJPG - res: ', res);
         this.utilService.presentLoading();
         const ele = document.getElementById(iddom);
         const dashboardHeight = ele.clientHeight;
         const dashboardWidth = ele.clientWidth;
         let opts = { bgcolor: 'white', width: dashboardWidth, height: dashboardHeight, quality: 1.0 };
         domtoimage.toPng(ele, opts).then((imgData:any) => {
-          var link = document.createElement('a');
-          link.download = fileName;
-          link.href = imgData;
-          link.click();
+					if (imgData) {
+						var link = document.createElement('a');
+						link.download = fileName;
+						link.href = imgData;
+						link.click();
+					}
           this.utilService.dismissLoading();
         });
       }
@@ -150,11 +147,13 @@ export class TreePage implements OnInit {
       if (res.data) {
         this.utilService.presentLoading();
         const ele = document.getElementById(iddom);
-        console.log('onPDF: clientWidth, clientHeight: ', ele.clientWidth, ele.clientHeight);
+				if (DEBUGS.TREE)
+					console.log('onPDF: clientWidth, clientHeight: ', ele.clientWidth, ele.clientHeight);
         const options = { bgcolor: 'white', width: ele.clientWidth, height: ele.clientHeight, quality: 1.0 };
         domtoimage.toPng(ele, options).then((imgData:any) => {
           this.getPDFImages(imgData, ele).then((dim: any) => {
-            console.log('dim: ', dim);
+						if (DEBUGS.TREE)
+							console.log('onPDF - dim: ', dim);
             this.printPDF(dim, fileName, node);
             this.utilService.dismissLoading();
           })
@@ -185,7 +184,7 @@ export class TreePage implements OnInit {
     });
   }
 
-  showJpg(img, fileName) {
+  showJpg(img: any, fileName: any) {
     var link = document.createElement('a');
     link.download = fileName;
     link.href = img;
@@ -202,8 +201,6 @@ export class TreePage implements OnInit {
     let marginBottom = 20;
     let textHeight = 30;
     let xImage = 0;
-    // let xImage = ele.clientWidth / 10; // 0
-    // let wImage = 9 * ele.clientWidth / 10; // ele.clientWidth
     let wImage = ele.clientWidth; // ele.clientWidth
     // calculate ratio between image and page
     let imageWidth = pageWidth - (marginLeft + marginRight);
@@ -252,18 +249,6 @@ export class TreePage implements OnInit {
         yImage += hImage;
       }
     }
-    // console.log('printPDF: images: ', images);
-
-    // check
-    // let iHeight = 0;
-    // let pHeight = 0;
-    // images.forEach(image => {
-    //   iHeight += image.hImage;
-    //   pHeight += image.hPage;
-    // })
-    // console.log('printPDF: iHeight, ele.clientHeight, yImage: ', iHeight, ele.clientHeight, yImage);
-    // console.log('printPDF: pHeight, imageHeight: ', pHeight, imageHeight);
-
     return { textHeight: textHeight, marginLeft: marginLeft, marginTop: marginTop, pageWidth: pageWidth, pageHeight: pageHeight, images: images };
   }
 
@@ -296,15 +281,15 @@ export class TreePage implements OnInit {
     doc.save(fileName, { 'returnPromise': true }).then((status:any) => {});
   }
 
-  private drawBorder(doc: any, pWidth: any, pHeight: any) {
-    // draw border lines
-    doc.setDrawColor(255, 0, 0); // draw red lines
-    doc.setLineWidth(1.0);
-    doc.line(0, 0, pWidth, 0);
-    doc.line(0, 0, 0, pHeight);
-    doc.line(pWidth, 0, pWidth, pHeight);
-    doc.line(0, pHeight, pWidth, pHeight);
-  }
+  // private drawBorder(doc: any, pWidth: any, pHeight: any) {
+  //   // draw border lines
+  //   doc.setDrawColor(255, 0, 0); // draw red lines
+  //   doc.setLineWidth(1.0);
+  //   doc.line(0, 0, pWidth, 0);
+  //   doc.line(0, 0, 0, pHeight);
+  //   doc.line(pWidth, 0, pWidth, pHeight);
+  //   doc.line(0, pHeight, pWidth, pHeight);
+  // }
 
   private printText(node: any, doc: any, pWidth: any, pHeight: any, text_top: any) {
 
@@ -369,7 +354,6 @@ export class TreePage implements OnInit {
     options.push({ name: this.languageService.getTranslation('TREE_VIEW_GENERATION'), value: node.level});
     return options;
   }
-
 }
 
 

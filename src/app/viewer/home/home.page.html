@@ -2,22 +2,36 @@
 
 <div id="book">
 	<div class="flip-book">
-			<div class="page page-cover page-cover-top" data-density="hard">
-				<div class="page-content">
-					<h2 class="page-header-cover">{{ 'HOME_TITLE' | translate }}</h2>
-					<div class="page-list">
-						<ul class="list">
-							<li><span class="page-span" (click)="toPage('pha_nhap')"><u><i>{{ 'HOME_pha_nhap' | translate }}</i></u></span></li>
-							<li><span class="page-span" (click)="toPage('pha_ky')"><u><i>{{ 'HOME_pha_ky' | translate }}</i></u></span></li>
-							<li><span class="page-span" (click)="toPage('pha_he')"><u><i>{{ 'HOME_pha_he' | translate }}</i></u></span></li>
-							<li><span class="page-span" (click)="toPage('pha_do')"><u><i>{{ 'HOME_pha_do' | translate }}</i></u></span></li>
-							<li><span class="page-span" (click)="toPage('ngoai_pha')"><u><i>{{ 'HOME_ngoai_pha' | translate }}</i></u></span></li>
-							<li><span class="page-span" (click)="toPage('phu_khao')"><u><i>{{ 'HOME_phu_khao' | translate }}</i></u></span></li>
-						</ul>
-					</div>
-					<div class="page-footer"><u><i>ML</i></u></div>
+
+		<div class="page page-cover page-cover-top" data-density="hard">
+			<div class="page-content">
+				<h2 class="page-header-cover">{{ 'APP_FAMILY_TREE' | translate }}</h2>
+				<div class="page-list">
+					<ul class="list">
+						<li><span class="page-span-cover"><b>{{info.name}}</b></span></li>
+						<li><span class="page-span-cover"><b>{{info.location}}</b></span></li>
+					</ul>
 				</div>
+				<div class="page-footer"><u><i></i></u></div>
 			</div>
+		</div>
+
+		<div class="page page-cover page-cover-top" data-density="hard">
+			<div class="page-content">
+				<h2 class="page-header-cover-small">{{ 'HOME_TITLE' | translate }}</h2>
+				<div class="page-list">
+					<ul class="list">
+						<li><span class="page-span" (click)="toPage('pha_nhap')"><u><i>{{ 'HOME_pha_nhap' | translate }}</i></u></span></li>
+						<li><span class="page-span" (click)="toPage('pha_ky')"><u><i>{{ 'HOME_pha_ky' | translate }}</i></u></span></li>
+						<li><span class="page-span" (click)="toPage('pha_he')"><u><i>{{ 'HOME_pha_he' | translate }}</i></u></span></li>
+						<li><span class="page-span" (click)="toPage('pha_do')"><u><i>{{ 'HOME_pha_do' | translate }}</i></u></span></li>
+						<li><span class="page-span" (click)="toPage('ngoai_pha')"><u><i>{{ 'HOME_ngoai_pha' | translate }}</i></u></span></li>
+						<li><span class="page-span" (click)="toPage('phu_khao')"><u><i>{{ 'HOME_phu_khao' | translate }}</i></u></span></li>
+					</ul>
+				</div>
+				<div class="page-footer"><u><i></i></u></div>
+			</div>
+		</div>
 
 			<div *ngFor="let page of specialPageData.pha_nhap; index as i; ">
 				<div class="page">
@@ -26,7 +40,7 @@
 						<div class="w3-container page-text scroll">
 							<div id="pha_nhap_{{i}}"></div>
 						</div>
-						<div class="page-footer">{{page.index}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
+						<div class="page-footer">{{page.index-1}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
 					</div>
 				</div>
 			</div>
@@ -38,7 +52,7 @@
 						<div class="w3-container page-text">
 							<div id="pha_ky_{{i}}"></div>
 						</div>
-						<div class="page-footer">{{page.index}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
+						<div class="page-footer">{{page.index-1}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
 					</div>
 				</div>
 			</div>
@@ -59,7 +73,7 @@
 							</ion-col>
 						</ion-item>
 					</div>
-					<div class="page-footer">{{pageData.pha_he.index}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
+					<div class="page-footer">{{pageData.pha_he.index-1}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
 				</div>
 			</div>
 
@@ -79,7 +93,7 @@
 							</ion-col>
 						</ion-item>
 					</div>
-					<div class="page-footer">{{pageData.pha_do.index}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
+					<div class="page-footer">{{pageData.pha_do.index-1}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
 				</div>
 			</div>
 
@@ -90,7 +104,7 @@
 						<div class="w3-container page-text">
 							<div id="ngoai_pha_{{i}}"></div>
 						</div>
-						<div class="page-footer">{{page.index}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
+						<div class="page-footer">{{page.index-1}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
 					</div>
 				</div>
 			</div>
@@ -102,17 +116,24 @@
 						<div class="w3-container page-text">
 							<div id="phu_khao_{{i}}"></div>
 						</div>
-						<div class="page-footer">{{page.index}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
+						<div class="page-footer">{{page.index-1}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
 					</div>
 				</div>
 			</div>
 
-			<!-- <div class="page page-cover page-cover-bottom" data-density="hard">
+			<div class="page page-cover page-cover-top" data-density="hard">
 				<div class="page-content">
-					<h2 class="page-header-cover">{{pageData.ket_thuc.title}}</h2>
-					<div class="page-footer">{{pageData.ket_thuc.index}} - <span class="page-span" (click)="toPage('muc_luc')">ML</span></div>
+					<h2 class="page-header-cover">{{ 'HOME_END' | translate }}</h2>
+					<div class="page-list">
+						<ul class="list">
+							<li><span class="page-span-cover"><b>{{ 'VERSION' | translate }}: {{version}}</b></span></li>
+							<li><span class="page-span-cover"><b>{{ 'HOME_UPDATE' | translate }}</b></span></li>
+							<li><span class="page-span-cover"><b>{{email}}</b></span></li>
+						</ul>
+					</div>
+					<div class="page-footer"><span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
 				</div>
-			</div> -->
+			</div>
 
 	</div>
 </div>

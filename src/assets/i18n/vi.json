@@ -46,6 +46,7 @@
   "MRS": "Bà",
   "SELF": "Hệ",
   
+	"APP_FAMILY_TREE": "Gia Phả",
 	"APP_LOCAL_MEMORY_DELETED": "Dữ liệu trong máy đã được xóa!",
 	"APP_NEW_VERSION_IS_UPDATED": "Ấn bản mới đã được cập nhật!",
 	"APP_SETTING": "Thông số",
@@ -101,6 +102,9 @@
   "HOME_MEMORY_NAME": "Hệ",
   "HOME_MEMORY_DOD": "Húy nhật",
   "HOME_MEMORY_NO_DOD": "Không có giỗ trong 2 ngày tới.",
+
+	"HOME_END": "Kết thúc",
+	"HOME_UPDATE": "Để cập nhật thông tin, liên lạc: ",
 
 	"PERSON_INFO": "Thông tin",
 	"TREE_POPOVER_PRINT_JPG": "JPG",

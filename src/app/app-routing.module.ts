@@ -21,7 +21,7 @@ const routes: Routes = [
   {
     path: 'tree',
     loadChildren: () => import('./viewer/vnode/tree/tree.module').then( m => m.TreePageModule)
-  }
+  },
 ];
 @NgModule({
   imports: [

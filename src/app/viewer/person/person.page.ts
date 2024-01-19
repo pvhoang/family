@@ -1,13 +1,11 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { ModalController, PopoverController } from '@ionic/angular';
-import { UtilService } from '../../services/util.service';
 import { LanguageService } from '../../services/language.service';
 import { FamilyService } from '../../services/family.service';
 import { NodeService } from '../../services/node.service';
 import { EditorService } from '../../services/editor.service';
 import { DataService } from '../../services/data.service';
 import { FirebaseService } from '../../services/firebase.service';
-import { FtTreeService } from '../../services/ft-tree.service';
 import { ThemeService } from '../../services/theme.service';
 import { Family, Node, FAMILY} from '../../services/family.model';
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
@@ -22,7 +20,6 @@ import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
 export class PersonPage implements OnInit {
 
   @Input() caller: string;
-
   @ViewChild('canvasContainer') canvasRef: ElementRef = null;
   
   FONTS_FOLDER = FONTS_FOLDER;
@@ -53,7 +50,6 @@ export class PersonPage implements OnInit {
   constructor(
     public modalCtrl: ModalController,
     public popoverController: PopoverController,
-    private utilService: UtilService,
     private fbService: FirebaseService,
     private familyService: FamilyService,
     private nodeService: NodeService,
@@ -61,30 +57,28 @@ export class PersonPage implements OnInit {
     private dataService: DataService,
     private languageService: LanguageService,
     private themeService: ThemeService,
-    public ftTreeService: FtTreeService,
   ) {}
 
   ngOnInit() {
-    if (DEBUGS.NODE)
+    if (DEBUGS.PERSON)
       console.log('PersonPage - ngOnInit');
     this.startFromStorage();
-		this.ftTreeService.reset();
   }
 
   ionViewWillEnter() {
-    if (DEBUGS.NODE)
+    if (DEBUGS.PERSON)
       console.log('PersonPage - ionViewWillEnter');
     this.startFromStorage();
   }
 	
 	ionViewWillLeave() {
-    if (DEBUGS.NODE)
+    if (DEBUGS.PERSON)
       console.log('PersonPage - ionViewWillLeave');
 	}
 
   startFromStorage() {
     this.dataService.readFamilyAndInfo().then((data:any) => {
-      if (DEBUGS.NODE)
+      if (DEBUGS.PERSON)
         console.log('PersonPage - startFromStorage - data: ', data);
       this.info = data.info;
       this.title = this.info.description;
@@ -120,7 +114,7 @@ export class PersonPage implements OnInit {
   }
 
   closePeopleNodes() {
-    if (DEBUGS.NODE)
+    if (DEBUGS.PERSON)
       console.log('PersonPage - closePeopleNodes - selectPeople: ', this.selectPeople);
     this.selectedNode = null;
     if (this.selectPeople) {
@@ -130,7 +124,7 @@ export class PersonPage implements OnInit {
   }
   
   keyupPeopleNodes(event) {
-    if (DEBUGS.NODE)
+    if (DEBUGS.PERSON)
       console.log('PersonPage - keyup: ', event.target.value);
     if (event.key !== 'Enter')
       return;
@@ -139,7 +133,7 @@ export class PersonPage implements OnInit {
   // --------- END ng-select ----------
 
   onNodeSelect(node: Node) {
-    if (DEBUGS.NODE)
+    if (DEBUGS.PERSON)
       console.log('PersonPage - onNodeSelect - node: ', node);
     // reset nclass
     if (this.selectedNode)
@@ -184,7 +178,6 @@ export class PersonPage implements OnInit {
   //
   // ------------- TREE -------------
   //
-
   startTree() {
     // set photo for each node
     let nodes = this.nodeService.getFamilyNodes(this.familyView);
@@ -252,7 +245,7 @@ export class PersonPage implements OnInit {
     };
   }
 
-  drawPhoto(ctx, url, imgConWidth, imgConHeight) {
+  drawPhoto(ctx: any, url: any, imgConWidth: any, imgConHeight: any) {
     const tombWidth = (1 / 3) * imgConWidth;
     const img = new Image();
     img.src = url;

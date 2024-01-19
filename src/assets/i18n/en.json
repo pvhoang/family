@@ -46,6 +46,7 @@
   "MRS": "Mrs",
   "SELF": "Self",
 
+	"APP_FAMILY_TREE": "Family Tree",
 	"APP_LOCAL_MEMORY_DELETED": "Local data in the machine was deleted!",
 	"APP_NEW_VERSION_IS_UPDATED": "New app version is updated!",
 	"APP_SETTING": "Setting",
@@ -102,6 +103,9 @@
   "HOME_MEMORY_DOD": "Memorial",
   "HOME_MEMORY_NO_DOD": "No memorial in next 2 days.",
 
+	"HOME_END": "Kết thúc",
+	"HOME_UPDATE": "Để cập nhật thông tin, liên lạc: ",
+	
 	"PERSON_INFO": "Information",
   "TREE_POPOVER_PRINT_JPG": "JPG",
   "TREE_POPOVER_PRINT_PDF": "PDF",
