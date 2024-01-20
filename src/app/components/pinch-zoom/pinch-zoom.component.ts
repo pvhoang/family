@@ -34,6 +34,7 @@ export class PinchZoomComponent implements OnDestroy {
     _doubleTap!: boolean;
     _doubleTapScale!: number;
     _autoZoomOut!: boolean;
+    _zoomButton!: boolean;
     _limitZoom!: number | 'original image size';
 
     @Input('properties') set properties(value: ComponentProperties) {
@@ -113,6 +114,18 @@ export class PinchZoomComponent implements OnDestroy {
     get autoZoomOut() {
         return this._autoZoomOut;
     }
+
+    // zoomButton
+
+		@Input('zoomButton') set zoomButton(value: boolean) {
+			if (value) {
+					this._zoomButton = value;
+			}
+		}
+
+		get zoomButton() {
+				return this._zoomButton;
+		}
 
     // limitZoom
     @Input('limit-zoom') set limitZoomBackwardCompatibility(value: number | 'original image size') {

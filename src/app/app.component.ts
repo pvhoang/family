@@ -90,6 +90,7 @@ export class AppComponent implements OnInit {
 		
 		// setup UI
 		this.initializeUI().then((status) => {
+			console.log('initializeUI1');
 			if (ancestor == '') {
 				this.presentToast(['APP_NA_ANCESTOR']);
 				return;
@@ -118,23 +119,54 @@ export class AppComponent implements OnInit {
 		});
   }
 
-  initializeUI() {
+	initializeUI() {
 		return new Promise((resolve) => {
-			this.loadTheme().then((theme:any) => {
+			this.dataService.readItem(THEME).then((theme:any) => {
+        if (!theme)
+					theme = DRAGON;
 				this.theme = theme;
-				this.loadLanguage().then((language:any) => {
+				this.dataService.readItem(LANGUAGE).then((language:any) => {
+					if (!language)
+							language = VIETNAMESE;
 					this.language = language;
-					this.loadSize().then((size:any) => {
+					this.dataService.readItem(SIZE).then((size:any) => {
+						if (!size)
+								size = MEDIUM_SIZE;
 						this.size = size;
+						size = MEDIUM_SIZE;
 						if (DEBUGS.APP)
 							console.log('theme, language, size: ', this.theme, this.language, this.size)
-						// this.utilService.printVariable('initializeUI', '--app-text-font-size-medium');
-						resolve (true);
+						// now read theme constants and set system properties
+						let jsonFile = './assets/common/themes.json';
+						this.utilService.getLocalJsonFile(jsonFile).then((themes:any) => {
+							this.themeService.setSystemProperties(themes, theme, size);
+			console.log('setSystemProperties');
+
+							resolve(true);
+						});
 					});
 				});
 			});
 		});
 	}
+
+  // initializeUI1() {
+	// 	return new Promise((resolve) => {
+	// 		this.loadTheme().then((theme:any) => {
+	// 			this.theme = theme;
+	// 			this.loadLanguage().then((language:any) => {
+	// 				this.language = language;
+	// 				this.loadSize().then((size:any) => {
+	// 					this.size = size;
+	// 					if (DEBUGS.APP)
+	// 						console.log('theme, language, size: ', this.theme, this.language, this.size)
+	// 					// this.utilService.printVariable('initializeUI', '--app-text-font-size-medium');
+	// 					resolve (true);
+	// 				});
+	// 			});
+	// 		});
+	// 	});
+	// }
 
   initializeApp() {
     // let str = this.platform.platforms().toString();
@@ -392,31 +424,31 @@ export class AppComponent implements OnInit {
     });
   }
 
-  loadTheme() {
-    return new Promise((resolve) => {
-      this.dataService.readItem(THEME).then((theme:any) => {
-        console.log('AppComponent - loadTheme - theme: ', theme);
-        if (!theme) {
-          this.themeService.setTheme(DRAGON);
-        } else
-          this.themeService.setTheme(theme);
-        resolve (theme);
-      });
-    })
-  }
+  // loadTheme() {
+  //   return new Promise((resolve) => {
+  //     this.dataService.readItem(THEME).then((theme:any) => {
+  //       console.log('AppComponent - loadTheme - theme: ', theme);
+  //       if (!theme) {
+  //         this.themeService.setTheme(DRAGON);
+  //       } else
+  //         this.themeService.setTheme(theme);
+  //       resolve (theme);
+  //     });
+  //   })
+  // }
 
-	loadSize() {
-    return new Promise((resolve) => {
-      this.dataService.readItem(SIZE).then((size:any) => {
-        console.log('AppComponent - loadSize - size: ', size);
-        if (!size) {
-          this.themeService.setSize(MEDIUM_SIZE);
-        } else
-          this.themeService.setSize(size);
-        resolve (size);
-      });
-    })
-  }
+	// loadSize() {
+  //   return new Promise((resolve) => {
+  //     this.dataService.readItem(SIZE).then((size:any) => {
+  //       console.log('AppComponent - loadSize - size: ', size);
+  //       if (!size) {
+  //         this.themeService.setSize(MEDIUM_SIZE);
+  //       } else
+  //         this.themeService.setSize(size);
+  //       resolve (size);
+  //     });
+  //   })
+  // }
 
   loadLanguage() {
     return new Promise((resolve) => {

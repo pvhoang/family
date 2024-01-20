@@ -6,6 +6,7 @@ export const defaultProperties: Properties = {
     doubleTapScale: 2,
     limitZoom: 'original image size',
     autoZoomOut: false,
+    zoomButton: false,
     zoomControlScale: 1,
     minPanScale: 1.0001,
     minScale: 0,

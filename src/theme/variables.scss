@@ -102,8 +102,6 @@
   // --url-ion-content: url("../assets/common/country-side.jpg");
   // --url-ion-content-20: url("../assets/common/country-side-20.png");
 
-  // --url-ion-item: url("../assets/imgs/image-1.jpg");
-  // --url-ion-tab-bar: url("../assets/imgs/image-1.jpg");
   --url-ion-item: --app-background-color;
   --url-ion-tab-bar: --app-background-color;
 
@@ -132,14 +130,22 @@
   --app-alert-height: 150px;
 
   --app-toast-font-size: 16px;		// 14px;
-  --app-toast-height: 50px;
-  --app-toast-width: 350px;
+  --app-toast-height: 100px;
+  --app-toast-width: 400px;
 
-	--app-modal-font-size: 16px;		// 14px;
-  --app-modal-width: 500;
-  --app-modal-height: 400px;
+  --app-modal-width: 100%;
+  --app-modal-height: 100%;
 
-  --app-caption-font-size: 16px;		// 14px;
+  // --app-caption-font-size: 16px;		// 14px;
+
+	--app-page-text: 100%;
+	--app-page-header: 100%;
+	--app-page-header-cover: 100%;
+	--app-page-header-cover-small: 100%;
+	--app-page-span: 100%;
+	--app-page-span-cover: 100%;
+	--app-page-footer: 100%;
+	--app-page-detail: 100%;
 
   --app-icon-font-size-tiny: 12px;	// 10px;
   --app-icon-font-size-small: 14px;

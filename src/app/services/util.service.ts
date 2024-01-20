@@ -268,7 +268,6 @@ export class UtilService {
 			header = srcHeader;
 		cancelText = this.languageService.getTranslation(cancelText);
 		okText = this.languageService.getTranslation(okText);
-		this.themeService.setRootProperties([['--app-modal-height', '300px']]);
     const modal = await this.modalCtrl.create({
       component: SelectComponent,
       componentProps: {
@@ -437,12 +436,12 @@ export class UtilService {
     return str.toLowerCase();
 	}
 
-	getShortDateID() {
+	getShortDateID(slash?: any) {
 		const d = new Date();
 		let day = ''+d.getDate();		if (day.length < 2) day = '0' + day;
 		let month = ''+(d.getMonth()+1);		if (month.length < 2) month = '0' + month;
 		let year = d.getFullYear();
-		let id = ''+day+''+month+(''+year).substring(2);
+		let id = (slash) ? (''+day+'/'+month+'/' +(''+year).substring(2)) : ''+day+''+month+(''+year).substring(2);
 		return id;
 	}
 

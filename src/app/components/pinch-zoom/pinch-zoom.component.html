@@ -3,9 +3,9 @@
 </div>
 
 <!-- Control: one button -->
-<div
+<div *ngIf="zoomButton">
     class="pz-zoom-button pz-zoom-control-position-bottom"
     [class.pz-zoom-button-out]="isZoomedIn"
     *ngIf="isControl()"
     (click)="toggleZoom()"
-></div>
+</div>

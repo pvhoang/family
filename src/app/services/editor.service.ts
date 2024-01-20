@@ -67,9 +67,11 @@ export class EditorService {
 								'<img src="' + imageURL + '" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
 								'</div>';
 							if (data.caption != '') {
-								let size = this.themeService.getSize();
-								let fontSizePercent = (size == SMALL_SIZE) ? '80' : ((size == MEDIUM_SIZE) ? '100' : '120');
-								let style = 'font-size: ' + fontSizePercent + '%;';
+								// let size = this.themeService.getSize();
+								let fontSizePercent = this.themeService.getRootProperty("--app-page-text-font-size");
+								// let fontSizePercent = (size == SMALL_SIZE) ? '80' : ((size == MEDIUM_SIZE) ? '100' : '120');
+								// let style = 'font-size: ' + fontSizePercent + '%;';
+								let style = 'font-size: ' + fontSizePercent + ';';
 								html += '<div class="' + data.container + ' home-no-expand" style="' + style + '">' + data.caption + '</div>';
 							}
 							res({ key: key, imageStr: data.src, html: html });

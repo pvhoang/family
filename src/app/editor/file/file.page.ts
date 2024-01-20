@@ -169,7 +169,8 @@ export class FilePage implements OnInit {
           this.compareResults = this.compareGetSyncResults(this.compareResults);
 					// console.log('compareSetSyncFamily - compareResults:' , this.compareResults);
         }
-				this.comparePrintNode('compareOnSync', localFamily, remoteFamily);
+				if (DEBUGS.FILE)
+					this.comparePrintNode('compareOnSync', localFamily, remoteFamily);
       });
     });
   }
@@ -282,6 +283,8 @@ export class FilePage implements OnInit {
         nVersion++;
         let versionLabel = this.familyService.getVersionLabel(nVersion);
         family.version = nVersion;
+				// set today date
+				family.date = this.utilService.getShortDateID(true);
 				// clean family before save
 				let cleanFamily = this.familyService.getFilterFamily(family, true);
         rdata.family = cleanFamily;

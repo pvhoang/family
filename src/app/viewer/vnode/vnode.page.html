@@ -9,7 +9,8 @@
 		<ion-col size="1">
     </ion-col>
     <ion-col size="8">
-      <ng-select
+      <ng-select 
+				class="mobileClass"
         [appendTo]="'body'"
         [items]="peopleNodes" 
         placeholder="{{selectPeoplePlaceholder}}"
@@ -28,7 +29,8 @@
 <ion-content [fullscreen]="false" class="ion-padding">
 	<pinch-zoom #myPinch="pinchZoom"
 		[backgroundColor]="'white'"
-		[minPanScale]="2"
+		[minPanScale]="1"
+		[zoomButton]="false"
 	>
 		<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
 	</pinch-zoom>

@@ -5,6 +5,7 @@ export interface Properties {
     zoomControlScale?: number;
     transitionDuration?: number;
     autoZoomOut?: boolean;
+    zoomButton?: boolean;
     limitZoom?: number | string | 'original image size';
     disablePan?: boolean;
     limitPan?: boolean;

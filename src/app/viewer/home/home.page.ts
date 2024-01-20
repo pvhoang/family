@@ -30,7 +30,7 @@ export class HomePage implements OnInit{
 	nodes: any;
 	levels: any;
 	modalPage: any = '';
-	info: any;
+	info = { name: '', location: '' };
 	version: any;
 	email: any;
 	// size: any;
@@ -74,7 +74,8 @@ export class HomePage implements OnInit{
 					let family = dat.family;
 					let info = dat.info;
 					this.info = info;
-					this.version = 'A.' + environment.version + ' (D.' + family.version + ')';
+					// let dateid = this.utilService.getShortDateID(true);
+					this.version = 'A.' + environment.version + ' (D.' + family.version + ', ' + family.date + ')';
 					this.ancestor = info.id;
 					let data = this.getSystemData(family);
 					this.nodes = data.nodes;
@@ -118,12 +119,13 @@ export class HomePage implements OnInit{
       if (DEBUGS.HOME)
         console.log('HomePage - onMemorial - data: ', data);
       let today = data.today;
-      let msg = '<b>' + this.languageService.getTranslation('HOME_MEMORY_HEADER') + '</b><br/><br/>' +
+      let msg = '<b>' + this.languageService.getTranslation('HOME_MEMORY_HEADER') + '</b><br/>' +
 					'<i>' + this.languageService.getTranslation('HOME_MEMORY_TODAY') + ':  ' + today + '</i><br/></br>';
 			data.persons.forEach(person => {
 				msg += person[0] + ':&emsp;:&emsp;' + person[1] + '<br/>'
 			});
-			this.utilService.presentToastWait(null, msg, 'OK', 8000);
+			this.utilService.presentToast(msg, 3000);
+			// this.utilService.presentToastWait(null, msg, 'OK', 8000);
     });
   }
 
@@ -217,7 +219,24 @@ export class HomePage implements OnInit{
 			// 	disableFlipByClick: true,
 			// 	mobileScrollSupport: true // disable content scrolling on mobile devices
 			// }
+			// OK - 20/01/24
+			// {
+			// 	width: 350, // base page width
+			// 	height: 600, // base page height
+			// 	size: "stretch",
+			// 	// set threshold values:
+			// 	minWidth: 350,
+			// 	maxWidth: 600,
+			// 	minHeight: 600,
+			// 	maxHeight: 900,
 
+			// 	flippingTime: FLIPPING_TIME,
+			// 	usePortrait: true,
+			// 	autoSize: true,
+			// 	maxShadowOpacity: 0.5, // Half shadow intensity
+			// 	showCover: false,
+			// 	mobileScrollSupport: true // disable content scrolling on mobile devices
+			// },
 			{
 				width: 350, // base page width
 				height: 600, // base page height
@@ -227,7 +246,6 @@ export class HomePage implements OnInit{
 				maxWidth: 600,
 				minHeight: 600,
 				maxHeight: 900,
-
 				flippingTime: FLIPPING_TIME,
 				usePortrait: true,
 				autoSize: true,
@@ -253,7 +271,7 @@ export class HomePage implements OnInit{
 	}
 
 	toPage(key: string) {
-		let index = 0;
+		let index = 1;
 		if (key != 'muc_luc') {
 			let page = this.pageData[key];
 			if (!page) {
@@ -285,19 +303,6 @@ export class HomePage implements OnInit{
 		});
 		return await modal.present();
 	}
-
-	// async onPhaHe() {
-	// 	let msg = this.utilService.getAlertMessage([
-  //     {name: 'msg', label: 'NODE_DELETE_NODE_MESSAGE_1'},
-  //     {name: 'msg', label: 'NODE_DELETE_NODE_MESSAGE_2'},
-  //   ]);
-  //   this.utilService.alertConfirm('NODE_DELETE_NODE_MESSAGE', msg, 'CANCEL', 'OK').then((res) => {
-  //     console.log('onDelete - res:' , res)
-  //     if (res.data) {
-	// 		}
-	// 	});
-    
-	// }
 
 	async onPhaHe() {
 		const modal = await this.modalCtrl.create({

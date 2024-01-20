@@ -37,7 +37,7 @@
 <ion-content [fullscreen]="false" class="ion-padding">
 	<pinch-zoom #myPinch="pinchZoom"
 		[backgroundColor]="'white'"
-		[minPanScale]="2"
+		[minPanScale]="1"
 	>
 		<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
 	</pinch-zoom>

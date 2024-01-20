@@ -227,44 +227,9 @@ ion-tab-button {
   }
 }
 
-.header-book {
-  --background: var(--app-background-color) center / 100%;
-  height: 40px;
-	width: 250px; 
-	margin: auto;
-  // margin-top:0px;
-  // margin-bottom:0px;
-  // margin-left:40px;
-  // margin-right:10px;
-  // flex-direction: column;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-  .heading {
-    background: var(--app-background-color);
-    // width: 100px; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .icon {
-      font-size: var(--app-icon-font-size-extra-medium);
-      color: var(--app-color);
-    }
-    .label {
-      font-size: var(--app-text-font-size-medium);
-      // color: $background_color_node;
-      color: var(--app-color);
-      font-family: "Pacifico", cursive;
-    }
-    .button {
-      --padding-start: 5px;
-      --padding-end: 5px;
-    }
-  }
-}
+
 
 // --- FILE ---
-
 
 .file {
 	.grid {
@@ -676,82 +641,12 @@ ion-tab-button {
 // https://forum.ionicframework.com/t/ion-modal-width/188685
 
 .modal-dialog{
-	// .modal-wrapper{
-	// //  height: 70%;
-	// //  width: 100%;
-	// //  border-radius: 15px;
-	//  --height: 90%;
-  //   position: absolute; 
-  //   top: 5%;
-  //   --width: 90%;
-  //   border-radius: 25px;
-  //   display: block;
-	// }
 	&::part(content) {
-    // width: 200px
-    width: 90%;
-    height: 90%;
+    width: var(--app-modal-width);
+    height: var(--app-modal-height);
     border-radius: 10px;
 		background-image: var(--url-ion-content-alert);
     background-position: center center;
-  }
-}
-
-// ion-modal.my-custom-class::part(content) {    
-// 	--height: 90%;
-// 	position: absolute; 
-// 	top: 5%;
-// 	--width: 90%;
-// 	border-radius: 25px;
-// 	display: block;
-// }
-
-.modal-dialog-old {
-  --height: var(--app-modal-height);
-  // --width: var(--app-modal-width);
-  .modal-wrapper {
-			--width: 100%;
-			--height: 100%;
-    background-image: var(--url-ion-content-alert);
-    background-position: center center;
-    // min-width: var(--app-modal-width);
-    // min-width: 800px;
-		// width: 90%;
-		.modal-button-group {
-			justify-content: center;
-			height: 26px;
-			margin-top: 26px;
-		}
-		.modal-button:first-child {
-			// color: white;
-			color: var(--app-color);
-			background-color: var(--app-background-color);
-			height: 26px;
-			text-transform: none;
-		}
-		.modal-button:nth-child(1){
-			// color: white;
-			color: var(--app-color);
-			background-color: var(--app-background-color);
-			height: 26px;
-			text-transform: none;
-		}
-		.modal-button:nth-child(2){
-			background-color: var(--app-background-color);
-			// color: white;
-			color: var(--app-color);
-			height: 26px;
-			text-transform: none;
-		}
-		.modal-image{
-			// height: 150px;
-			// width: 80%;
-			// justify-content: center;
-			display: block;
-			margin-left: auto;
-			margin-right: auto;
-			width: 50%;
-		}
   }
 }
 
@@ -821,32 +716,6 @@ ion-tab-button {
       width: 50%;
     }
   }
-
-	/* Show the tooltip text when you mouse over the tooltip container */
-	// .bottom:hover .label {
-	// 	visibility: visible;
-	// }
-
-	// .label {
-	// 	// font-size: var(--app-text-font-size-medium);
-	// 	font-size: var(--app-text-font-size-large);
-	// 	// color: $background_color_node;
-	// 	color: var(--app-color);
-	// }
-	// .button {
-	// 	--padding-start: 5px;
-	// 	--padding-end: 5px;
-	// }
-}
-
-.alert-test-1 {
-  --height: var(--app-alert-height);
-  --width: var(--app-alert-width);
-  --background: var(--app-background-color);
-	&::part(message) {
-    text-align: center;
-    font-size: var(--app-toast-font-size);
-  }
 }
 
 .toast-dialog {
@@ -896,8 +765,6 @@ ion-tab-button {
   }
 }
 
-// .toast-dialog (part::message) { text-align: center; }
-
 // --- POPOVER ---
 
 .popover {
@@ -940,8 +807,8 @@ ion-tab-button {
 // --- person.page.html ---
 
 .person-container {
-	width: 90%;
-  height: 90%;
+	width: 100%;
+  height: 100%;
   // display: flex;
   // justify-content: center;
   // align-items: center;
@@ -988,6 +855,13 @@ ion-tab-button {
 }
 
 // --- NG-SELECT ---
+
+.ng-select.mobileClass ::ng-deep .ng-select-container  {            
+	border: 1px solid var(--ion-color-medium-shade) !important;
+  box-shadow: none;
+  font-size: var(--app-text-font-size-small) !important;
+  height: 20px;
+}
 
 .ng-select-container {
   // border: 2px solid var(--app-color) !important;
