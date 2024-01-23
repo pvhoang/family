@@ -9,6 +9,7 @@ import { DataService } from '../../services/data.service';
 import { EditPage } from './edit/edit.page';
 import { TypeaheadService } from '../../services/typeahead.service';
 import { ThemeService } from '../../services/theme.service';
+import { FtTreeService } from '../../services/ft-tree.service';
 // import { FtTreeService } from '../../services/ft-tree.service';
 import { Family, Node, FAMILY} from '../../services/family.model';
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
@@ -58,6 +59,7 @@ export class NodePage implements OnInit {
     private dataService: DataService,
     private languageService: LanguageService,
     private themeService: ThemeService,
+    public ftTreeService: FtTreeService,
     // private typeahead: TypeaheadService,
     // public ftTreeService: FtTreeService,
   ) {}
@@ -66,7 +68,7 @@ export class NodePage implements OnInit {
     if (DEBUGS.NODE)
       console.log('NodePage - ngOnInit');
     this.startFromStorage();
-		// this.ftTreeService.reset();
+		this.ftTreeService.reset();
   }
 
   ionViewWillEnter() {
@@ -279,7 +281,6 @@ export class NodePage implements OnInit {
   async onAdd() {
 
     let node = this.selectedNode;
-
     let inputs = [];
     if (!node.pnode)
       // root node, add father
@@ -292,7 +293,6 @@ export class NodePage implements OnInit {
     inputs.push({type: 'radio', label: this.languageService.getTranslation('DAUGHTER'), value: 'DAUGHTER', checked: false });
 
     this.utilService.alertRadio('NODE_ADD_RELATION_HEADER', '', inputs , 'CANCEL', 'OK').then((res) => {
-      console.log('onAdd- res: ', res);
       if (res.data) {
         let relation = res.data;
         let ancestorName = this.nodeService.getChildFamilyName(this.selectedNode);
@@ -320,32 +320,22 @@ export class NodePage implements OnInit {
   }
 
   async onAddBranch() {
-
     let node: Node = this.selectedNode;
-    // console.log('NodePage - onAddBranch - node: ', node);
-
     this.dataService.readBranchNames().then((names:[]) => {
-      console.log('NodePage - onAddBranch - names: ', names);
-
       let inputs = [];
       names.forEach((name: string) => {
         inputs.push({type: 'radio', label: name, value: name, checked: false });
       })
-      // console.log('NodePage - onAddBranch - inputs: ', inputs);
-
       this.utilService.alertRadio('NODE_ADD_BRANCH', '', inputs , 'CANCEL', 'OK').then((res) => {
-        console.log('onAddBranch - res: ', res);
         if (res.data) {
           let branch = res.data;
           this.dataService.readBranch(branch).then((bFamily: Family) => {
-            console.log('NodePage - onAddBranch - bFamily: ', bFamily);
             let bNode: any = bFamily.nodes[0];
             let relation = 'SON';
             bNode.pnode = node;
             bNode.family = bFamily;
             bNode.relation = this.languageService.getTranslation(relation);
             node.family.children.push(bFamily);
-
 						// rebuild family with new nodes
 						this.family = this.familyService.buildFullFamily(this.family);
             this.familyView = this.family;
@@ -367,7 +357,6 @@ export class NodePage implements OnInit {
       {name: 'msg', label: 'NODE_DELETE_NODE_MESSAGE_2'},
     ]);
     this.utilService.alertConfirm('NODE_DELETE_NODE_MESSAGE', msg, 'CANCEL', 'OK').then((res) => {
-      console.log('onDelete - res:' , res)
       if (res.data) {
         this.nodeService.deleteNode(this.family, node);
         this.updateSystemData(node);

@@ -334,7 +334,6 @@ export class NodePage implements OnInit, AfterViewInit {
 		var rects = g.selectAll("rect")
 		console.log('testRect - rects: ', rects);
 		rects.on("mousedown", (d: any) => {
-			console.log('testRect - d: ', d);
 			g.transition()
 				.duration(500)
 				.attr("transform", "translate(" + (250 - d.x) + "," + (150 - d.y) + ")")
@@ -342,8 +341,6 @@ export class NodePage implements OnInit, AfterViewInit {
 
 		// this.mouse_over_highlight();
 		function centerNode(xx, yy){
-			console.log('centerNode - d: ', xx);
-
 			const zoom = d3.zoom();
 			g.transition()
 			.duration(500)

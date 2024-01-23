@@ -44,6 +44,7 @@ export const NODE = {
 
 export const FAMILY = {
   version: '',
+  date: '',
   generation: '',
   iddom: '',
   nodes: [],
@@ -52,6 +53,7 @@ export const FAMILY = {
 
 export class Family {
   version: string = '';
+  date: string = '';
   generation: string = '';
   iddom: string = '';
   nodes: Node[] = [];

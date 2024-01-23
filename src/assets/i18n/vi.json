@@ -157,10 +157,12 @@
   "NODE_DELETE_NODE_MESSAGE": "Cảnh báo",
 	
   "NODE_ADD_BRANCH_TOOLTIP": "Thêm nhánh",
-  "NODE_ADD_BRANCH": "Thêm nhánh",
+  "NODE_ADD_BRANCH": "Thêm",
   "NODE_NAME_BRANCH": "Tên nhánh",
   "NODE_ROOT_BRANCH": "Tên tổ - năm sinh",
-  "NODE_DELETE_BRANCH": "Xóa nhánh",
+  "NODE_DELETE_BRANCH": "Xóa",
+  "NODE_DELETE_BRANCH_TOOLTIP": "Xóa nhánh",
+
 
   "EDIT_SELECT_PEOPLE_PLACEHOLDER": "Nhập tên",
   "EDIT_SELECT_PLACES_PLACEHOLDER": "Chọn hay nhập nơi → ↵ hoặc .",
@@ -229,8 +231,8 @@
   "FILE_UPLOAD_MESSAGE_2": " lên mạng?",
 	"FILE_UPLOAD_FILE_INVALID": "File không hợp lệ hoặc Version không đổi!",
 	"FILE_FILE_EMPTY": "File không có dữ liệu!",
-  "FILE_UPLOAD_COMPLETE": "File đã được upload lên mạng.",
-
+  "FILE_UPLOAD_COMPLETE_1": "File: ",
+  "FILE_UPLOAD_COMPLETE_2": " đã được upload lên mạng.",
   "FILE_PHOTO": "Tạo/sửa hình để upload lên mạng",
   "FILE_PHOTO_ADD": "Mở file trong máy",
   "FILE_PHOTO_MODIFY": "Sửa",

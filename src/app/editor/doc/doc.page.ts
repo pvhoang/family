@@ -102,7 +102,7 @@ export class DocPage implements OnInit {
           items: [
             {
               type: 'htmlpanel',
-              html: '<p>Thêm /PAGE/ để thêm trang.</p>',
+              html: '<p>Thêm [PAGE] để thêm trang.</p>',
             },
 						{
               type: 'htmlpanel',

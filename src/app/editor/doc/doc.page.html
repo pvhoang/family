@@ -2,7 +2,7 @@
   <ion-item class="header-top">
     <ion-col size="1">
     </ion-col>
-    <ion-col size="8">
+    <ion-col size="7">
       <ng-select
         [appendTo]="'body'"
         [items]="docs" 
@@ -14,11 +14,19 @@
       >
       </ng-select>
     </ion-col>
-    <ion-col size="1">
+		<ion-col size="2" class="heading" (click)="saveDocs()">
+      <ion-button class="button" fill="clear">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}content-save-outline.svg" class="icon"></ion-icon>
+      </ion-button>
+      <span class="label">{{ 'SAVE' | translate }}</span>
+    </ion-col>
+    <ion-col size="2">
     </ion-col>
   </ion-item>
 
-  <ion-item class="header-bottom">
+
+
+  <!-- <ion-item class="header-bottom">
     <ion-col size="6" class="heading">
       <span class="label" [innerHtml]="message"></span>
     </ion-col>
@@ -28,7 +36,7 @@
       </ion-button>
       <span class="label">{{ 'SAVE' | translate }}</span>
     </ion-col>
-  </ion-item>
+  </ion-item> -->
 
 </ion-header>
 

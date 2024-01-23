@@ -27,10 +27,8 @@ export class SelectComponent implements OnInit {
   }
 
 	ngOnInit(): void {
-		console.log('selects: ', this.selects)
 		let select = this.selects[0];
 		this.defaultValue = select.value;
-		// console.log('defaultValue: ', this.defaultValue)
 	}
 	
   async onCancel() {
@@ -43,8 +41,6 @@ export class SelectComponent implements OnInit {
 
 	handleChange(e: any, sel: any) {
     // console.log('ionChange fired with value: ', e);
-    // console.log('ionChange fired with value: ' + e.detail.value);
-    // console.log('ionChange fired with sel: ', e.detail.value, sel);
 		this.values[sel.id] = e.detail.value;
   }
 

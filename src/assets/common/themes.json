@@ -57,13 +57,13 @@
 				["--app-icon-font-size-extra-large", "20px" ],
 				
 				["--app-page-header-cover", "280%" ],
-				["--app-page-span-cover", "180%" ],
+				["--app-page-span-cover", "200%" ],
 				["--app-page-header-cover-small", "220%" ],
-				["--app-page-span", "160%" ],
-				["--app-page-header", "220%" ],
-				["--app-page-text", "150%" ],
-				["--app-page-footer", "120%" ],
-				["--app-page-detail", "140%" ],
+				["--app-page-span", "150%" ],
+				["--app-page-header", "200%" ],
+				["--app-page-text", "160%" ],
+				["--app-page-footer", "80%" ],
+				["--app-page-detail", "160%" ],
 
 				["--app-alert-font-size", "16px" ],
 				["--app-toast-font-size", "16px" ]
@@ -82,7 +82,7 @@
 				["--app-page-header-cover", "200%" ],
 				["--app-page-span-cover", "120%" ],
 				["--app-page-header-cover-small", "160%" ],
-				["--app-page-span", "120%" ],
+				["--app-page-span", "110%" ],
 				["--app-page-header", "150%" ],
 				["--app-page-text", "120%" ],
 				["--app-page-footer", "100%" ],

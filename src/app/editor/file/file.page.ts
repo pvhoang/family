@@ -33,7 +33,7 @@ export class FilePage implements OnInit {
   ancestor: any;
 	imageFiles:File[] = [];
 
-  compareMode = false;
+  compareMode = true;
   manageMode = false;
   modifyMode = false;
   imageMode = false;
@@ -133,7 +133,8 @@ export class FilePage implements OnInit {
 	onManageStorage() {
 		this.resetModes();
 		this.storageMode = true;
-		console.log('storage, compare: ', this.storageMode, this.compareMode);
+		if (DEBUGS.FILE)
+			console.log('storage, compare: ', this.storageMode, this.compareMode);
 	}
 
 	// --- compareMode ---
@@ -147,8 +148,10 @@ export class FilePage implements OnInit {
       let info = data.info;
       let ancestor = info.id;
       this.ancestor = ancestor;
-			this.downloadFileName = ancestor + '.json';
-			this.downloadDocsName = ancestor + '-docs.json';
+			// this.downloadFileName = ancestor + '-' + this.utilService.getShortDateID('-') + '.json';
+			// this.downloadDocsName = ancestor + '-docs.json';
+			this.downloadFileName = 'family-' + this.utilService.getShortDateID('-') + '.json';
+			this.downloadDocsName = 'docs-' + this.utilService.getShortDateID('-') + '.json';
       this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
         let remoteFamily = rdata.family;
 				this.comparePrintNode('compareOnSync', localFamily, remoteFamily);
@@ -157,7 +160,8 @@ export class FilePage implements OnInit {
         this.modVersion = localFamily.version;
         this.compareResults = this.familyService.compareFamilies(remoteFamily, localFamily);
 				
-				console.log('compareOnSync - compareResults:' , this.compareResults);
+				if (DEBUGS.FILE)
+					console.log('compareOnSync - compareResults:' , this.compareResults);
 
         if (this.compareResults.length == 1 && this.compareResults[0].srcName) {
           // different root
@@ -284,7 +288,7 @@ export class FilePage implements OnInit {
         let versionLabel = this.familyService.getVersionLabel(nVersion);
         family.version = nVersion;
 				// set today date
-				family.date = this.utilService.getShortDateID(true);
+				family.date = this.utilService.getShortDateID('/');
 				// clean family before save
 				let cleanFamily = this.familyService.getFilterFamily(family, true);
         rdata.family = cleanFamily;
@@ -310,8 +314,8 @@ export class FilePage implements OnInit {
 	downloadOnClick() {
 		let msg = this.utilService.getAlertMessage([
 			{name: 'msg', label: 'FILE_DOWNLOAD_MESSAGE_1'},
-			// {name: 'data', label: this.downloadFileName + '(' + this.downloadDocsName + ')'},
-			{name: 'data', label: this.downloadFileName },
+			{name: 'data', label: this.downloadFileName + ' (' + this.downloadDocsName + ')'},
+			// {name: 'data', label: this.downloadFileName },
 			{name: 'msg', label: 'FILE_DOWNLOAD_MESSAGE_2'},
 		]);
 		this.utilService.alertConfirm('FILE_DOWNLOAD_START', msg, 'CANCEL', 'OK').then((res) => {
@@ -323,25 +327,25 @@ export class FilePage implements OnInit {
 					rdata.family = cleanFamily;
 					// rdata.branch = rdata.branch;
 					// save just family, because docs is html-based text! Can not change simply with text editor.
+					
+					// save family
 					let data = JSON.stringify(cleanFamily, null, 2);
-					// save docs to different file
-					let docs = JSON.stringify(rdata.docs, null, 2);
-
-					// let data = JSON.stringify(rdata, null, 2);
 					const blobFamily = new Blob([data], {
 						type: 'application/octet-stream'
 					});
 					this.downloadFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blobFamily));
 					// https://stackoverflow.com/questions/11620698/how-to-trigger-a-file-download-when-clicking-an-html-button-or-javascript
 					
-					// const blobDocs = new Blob([docs], {
-					// 	type: 'application/octet-stream'
-					// });
-					// this.downloadDocsUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blobDocs));
+					// save docs
+					let docs = JSON.stringify(rdata.docs, null, 2);
+					const blobDocs = new Blob([docs], {
+						type: 'application/octet-stream'
+					});
+					this.downloadDocsUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blobDocs));
 
 					setTimeout(() => {
 						document.getElementById("modify-download").click();
-						// document.getElementById("modify-download-docs").click();
+						document.getElementById("modify-download-docs").click();
 						this.utilService.presentToast(this.languageService.getTranslation('FILE_DOWNLOAD_COMPLETE'), 5000);
 					}, 200);
 				});
@@ -376,20 +380,29 @@ export class FilePage implements OnInit {
       //   console.log('modifyOnFileUpload - res: ', res);
       if (res.text) {
         // validate json file
-				let family = this.uploadValidateData(res.text);
+				let family = this.uploadValidateFamily(res.text);
         if (family) {
-					this.dataService.readFamilyAndInfo().then((ldata:any) => {
-						let ancestor = ldata.info.id;
-						this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
+					// this.dataService.readFamilyAndInfo().then((ldata:any) => {
+						// let ancestor = ldata.info.id;
+						this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
 							let cleanFamily = this.familyService.getFilterFamily(family, true);
 							rdata.family = cleanFamily;
 							this.fbService.saveAncestorData(rdata).then((status:any) => {
-								this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_COMPLETE'));
+								let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + file.name + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
+								this.utilService.presentToast(msg);
 							});
 						});
-					});
+					// });
 				} else {
-					this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_INVALID'));
+					let docs = this.uploadValidateDocs(res.text);
+					if (docs) {
+						this.fbService.saveDocsAll(this.ancestor, docs).then((status:any) => {
+							let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + file.name + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
+							this.utilService.presentToast(msg);
+						});
+					} else {
+						this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_INVALID'));
+					}
 				}
       } else {
 				this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_EMPTY'));
@@ -409,19 +422,37 @@ export class FilePage implements OnInit {
     });
   }
 
-	private uploadValidateData(text: any) {
+	private uploadValidateFamily(text: any) {
 		let family: any = null;
 		try {
 			family = JSON.parse(text);
-			// must be version match expected ?
-			if (!family.version || family.version == this.family.version)
+			// must have version, nodes and children. Date is not important
+			if (!family.version || !family.nodes || !family.children)
 				return null;
+			// set new version from local version (same as server version)
+			let nVersion = this.family.version + 1;
+			family.version = nVersion;
+			family.date = this.utilService.getShortDateID('/');
+			return family;
 		} catch (error) {
-			console.log('getValidateData - error: ', error);
+			console.log('uploadValidateFamily - error: ', error);
 		}		
-    return family;
   }
 
+	private uploadValidateDocs(text: any) {
+		let docs: any = null;
+		try {
+			docs = JSON.parse(text);
+			// must have vi, en, and pha_nhap
+			if (!docs.vi || !docs.en || !docs.vi.pha_nhap)
+				return null;
+			// set new version from local version (same as server version)
+			return docs;
+		} catch (error) {
+			console.log('uploadValidateDocs - error: ', error);
+		}		
+  }
+	
 // --------- photoMode ----------
 	
 photoCreate(start: boolean) {

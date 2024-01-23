@@ -1,45 +1,60 @@
 <ion-header>
   <ion-item class="header-top">
-		<ion-col size="2">
-		</ion-col>
-    <ion-col size="8" class="heading">
-      <span class="label">{{ title }}</span>
-    </ion-col>
-		<ion-col size="2">
-		</ion-col>
-  </ion-item>
 
-  <ion-item class="header-bottom">
-		<ion-col size="4" class="heading" (click)="onCancel()">
+		<ion-col size="2" class="heading" (click)="onCancel()">
       <ion-button class="button" fill="clear" (click)="onCancel()">
         <ion-icon slot="icon-only" class="icon" src="{{FONTS_FOLDER}}close-circle-outline.svg" ></ion-icon>
       </ion-button>
       <span class="label">{{ 'CANCEL' | translate }}</span>
     </ion-col>
-    <ion-col size="4" class="heading" (click)="onJPG()">
-      <!-- <ion-button class="button" title="{{ 'JPG' | translate }}" fill="clear" (click)="onJPG()"> -->
+
+    <ion-col size="2" class="heading-white">
+      <span class="label">{{ title }}</span>
+    </ion-col>
+
+		<ion-col size="2" class="heading" (click)="onJPG()">
       <ion-button class="button" title="{{ JPG }}" fill="clear" (click)="onJPG()">
         <ion-icon slot="icon-only" class="icon" src="{{FONTS_FOLDER}}file-jpg-box.svg"></ion-icon>
       </ion-button>
       <span class="label">{{ TREE_POPOVER_PRINT_JPG }}</span>
     </ion-col>
-    <ion-col size="4" class="heading" (click)="onPDF()">
+
+    <ion-col size="2" class="heading" (click)="onPDF()">
       <ion-button class="button" title="{{ PDF }}" fill="clear" (click)="onPDF()">
         <ion-icon slot="icon-only" class="icon" src="{{FONTS_FOLDER}}file-pdf-box.svg"></ion-icon>
       </ion-button>
       <span class="label">{{ TREE_POPOVER_PRINT_PDF }}</span>
     </ion-col>
-	</ion-item>
+
+		<ion-col size="1" class="heading" (click)="ftTreeService.onZoomIn()">
+			<ion-button class="button" fill="clear" (click)="ftTreeService.onZoomIn()">
+				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-minus-outline.svg" class="icon"></ion-icon>
+			</ion-button>
+		</ion-col>
+		<ion-col size="1" class="heading" (click)="ftTreeService.onZoomOut()">
+			<ion-button class="button" fill="clear" (click)="ftTreeService.onZoomOut()">
+				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-plus-outline.svg" class="icon"></ion-icon>
+			</ion-button>
+		</ion-col>
+
+  </ion-item>
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
-	<pinch-zoom #myPinch="pinchZoom"
+
+	<!-- <pinch-zoom #myPinch="pinchZoom"
 		[backgroundColor]="'white'"
 		[minPanScale]="1"
 	>
 		<div id="screen">
 			<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
 		</div>
-	</pinch-zoom>
+	</pinch-zoom> -->
+
+	<div class="screen-node" id="full-tree">
+    <div [ngStyle]="ftTreeService.getZoomStyle()">
+      <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
+    </div>
+  </div>
 
 </ion-content>

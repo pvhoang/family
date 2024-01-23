@@ -94,6 +94,19 @@ export class FirebaseService {
 		});
 	}
 
+	async saveDocsAll(ancestor: any, docs: any) {
+		return new Promise((resolve) => {
+      this.readAncestorData(ancestor).subscribe((rdata:any) => {
+				rdata.docs = docs;
+				this.saveAncestorData(rdata).then((status:any) => {
+					this.saveBackupDocs(ancestor, rdata.docs).then((status:any) => {
+						resolve(true);
+					});
+				});
+			});
+		});
+	}
+
 	readAncestorData(ancestor: string): Observable<any> {
 		return from(
 			new Promise((resolve, reject) => {

@@ -225,7 +225,6 @@ export class PinchZoomComponent implements OnDestroy {
     ngOnInit() {
         this.initPinchZoom();
 			// console.log('PinchZoomComponent - ngOnInit - properties: ', this.defaultComponentProperties)
-			
         /* Calls the method until the image size is available */
         this.detectLimitZoom();
     }
@@ -233,7 +232,6 @@ export class PinchZoomComponent implements OnDestroy {
     ngOnChanges(changes: SimpleChanges) {
         let changedProperties = this.getProperties(changes);
         changedProperties = this.renameProperties(changedProperties);
-
         this.applyPropertiesDefault(this.defaultComponentProperties, changedProperties);
     }
 
@@ -245,7 +243,6 @@ export class PinchZoomComponent implements OnDestroy {
         if (this.properties['disabled']) {
             return;
         }
-
         this.properties.limitZoom = this.limitZoom;
         this.properties['element'] = this.elementRef.nativeElement.querySelector('.pinch-zoom-content');
         this.pinchZoom = new IvyPinch(this.properties);
@@ -283,6 +280,11 @@ export class PinchZoomComponent implements OnDestroy {
     toggleZoom() {
 			console.log('PinchZoomComponent - toggleZoom')
 			this.pinchZoom.toggleZoom();
+    }
+
+		setInitialZoom(scale: number) {
+			console.log('PinchZoomComponent - setInitialZoom')
+			this.pinchZoom.setInitialZoom(scale);
     }
 
 		// setZoom(scale: number) {

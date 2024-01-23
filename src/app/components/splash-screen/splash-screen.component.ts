@@ -34,7 +34,6 @@ export class SplashScreenComponent implements OnInit {
 
     if (navigator.onLine) {
       this.dataService.readItem('ANCESTOR_DATA').then((adata:any) => {
-      // console.log('SplashScreenComponent - ngOnInit - adata: ', adata);
         this.showSplash = true;
         this.startSplash(adata.info.name, adata.info.location, adata.family.version);
       });
@@ -42,8 +41,6 @@ export class SplashScreenComponent implements OnInit {
   }
 
   startSplash(name: any, location: any, dataVersion: any) {
-    // if (DEBUGS.SPLASH)
-    //   console.log('SplashScreenComponent - startSplash - description: ', description);
     this.showSplash = true;
     this.firstTitle = name;
     this.secTitle = location;

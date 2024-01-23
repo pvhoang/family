@@ -33,8 +33,8 @@ export class EditorService {
 		});
 		return imageItems;
 	}
-
-// convert a text with special template info to html text
+	
+	// convert a text with special template info to html text
 	convertImageTemplate(ancestor: any, text: any, key: any) {
 		return new Promise((resolve, reject) => {
 			// https://stackoverflow.com/questions/71176093/how-to-extract-content-in-between-an-opening-and-a-closing-bracket
@@ -64,7 +64,7 @@ export class EditorService {
 							// https://stackoverflow.com/questions/30686191/how-to-make-image-caption-width-to-match-image-width
 							let html = 
 								'<div class="' + data.container + '">' +
-								'<img src="' + imageURL + '" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
+								'<img src="' + imageURL + '" class="home-container-image" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
 								'</div>';
 							if (data.caption != '') {
 								// let size = this.themeService.getSize();
@@ -89,6 +89,10 @@ export class EditorService {
 		});
 	}
 	
+	// IN: "[image|size|justify|caption]"  
+	// "size: 1(small)/2(medium)/3(large) | justify: 1(left)/2(center)/3(right)",
+	// IN: "[bai-vi-doi-1.jpg|2|2|Bài vị Thủy Tổ Họ Phan, Nhà thờ Họ Phan, Đồng Phú]"
+
 	private getImageData(str: any) {
 		// this is an image file name with options: [image|size|justify|caption]
 		let imageData = str.split('|');
@@ -103,8 +107,7 @@ export class EditorService {
 			let lineJustify = imageData[2].trim();
 			if (lineJustify == '1' || lineJustify == '2' || lineJustify == '3') {
 				let sizes = { 
-					'1': { w: '50', h: '30' },
-					// '1': { w: '150', h: '100' },
+					'1': { w: '150', h: '100' },
 					'2': { w: '200', h: '150' },
 					'3': { w: '250', h: '200' },
 				};
@@ -120,7 +123,7 @@ export class EditorService {
 		return null;
 	}
 	
-	// must remove this for font-size option in page-text (doc.page.html) 
+	// must remove this for font-size option in page-text (home.page.html) (home.page.ts)
 	// font-size: 12pt; -> font-size: font-size: 80%, 100%, 120%
 	removeFontSize(str: string, newPercent: any) {
 		let res = '';
@@ -143,6 +146,60 @@ export class EditorService {
 			}
 		}
 		return res;
+	}
+
+	// replace special template (home.page.ts)
+	// IN: "[NODES]","[LEVELS]"
+	// OUT: "<p><b>20</b></p>"
+	replaceSpecialTemplate(str: any, nodes, levels) {
+		str = str.replaceAll('[NODES]', '<b>' + nodes +'</b>');
+		str = str.replaceAll('[LEVELS]', '<b>' + levels + '</b>');
+		return str;
+	}
+
+	// replace style for node.desc (person.page.ts)
+	// replace special template (home.page.ts)
+	// IN: 'style="text-align: center;"'
+	// OUT: 'class="p-center'
+	// 	'<p style="text-align: center;"><strong>1. &Ocirc;ng Phan Quang Triệt</strong></p><p style="text-align: right;"><strong>2. Vị v&ocirc; danh</strong></p>';
+	// '<p class="p-center"><strong>1. &Ocirc;ng Phan Quang Triệt</strong></p><p class="p-right"><strong>2. Vị v&ocirc; danh</strong></p>';
+	replaceDescTextStyle(str: any) {
+		str = str.replaceAll('style="text-align: center;"', 'class="p-center"');
+		str = str.replaceAll('style="text-align: right;"', 'class="p-right"');
+		return str;
+	}
+
+	// IN: "1|1|1|Phan Quang Triệt", "1(center)/2(right)|1(strong)|1(em)|paragraph",
+	// OUT: "<p style="text-align: center;"><strong>Phan Quang Triệt</strong></p>"
+	replaceArrayToText(ary: any) {
+		let str = '';
+		ary.forEach((line: string) => {
+			// decode line to include font and style
+			let items = line.split('|');
+			if (items.length == 4 && items[0].length == 1 && items[1].length == 1 && items[2].length == 1) {
+				let text_align = items[0];	// 0: left, 1: center, 2: right
+				let font_weight = items[1]; // 0: normal, 1: strong
+				let font_style = items[2];	// 0, normal, 1: italic
+				if (text_align == '1')
+					str += '<p style="text-align: center;">';
+				else if (text_align == '2')
+					str += '<p style="text-align: right;">';
+				else
+					str += '<p>';
+				if (font_weight == '1')
+					str += '<strong>';
+				if (font_style == '1')
+					str += '<em>';
+				str += items[3];
+				if (font_style == '1')
+					str += '</em>';
+				if (font_weight == '1')
+					str += '</strong>';
+				str += '</p>';
+			} else
+				str += '<p>' + line + '</p>';
+		})
+		return str;
 	}
 
 	decodeEntities(str: string) {

@@ -6,8 +6,6 @@
       </ion-button>
       <span class="label">{{ 'CANCEL' | translate }}</span>
     </ion-col>
-		<ion-col size="1">
-    </ion-col>
     <ion-col size="8">
       <ng-select
 				class="mobileClass"
@@ -21,32 +19,52 @@
       >
       </ng-select>
     </ion-col>
-    <ion-col size="1">
-    </ion-col>
+		<ion-col size="1" class="heading" (click)="ftTreeService.onZoomIn()">
+			<ion-button class="button" fill="clear" (click)="ftTreeService.onZoomIn()">
+				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-minus-outline.svg" class="icon"></ion-icon>
+			</ion-button>
+			<!-- <span class="label">{{ 'CANCEL' | translate }}</span> -->
+		</ion-col>
+		<ion-col size="1" class="heading" (click)="ftTreeService.onZoomOut()">
+			<ion-button class="button" fill="clear" (click)="ftTreeService.onZoomOut()">
+				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-plus-outline.svg" class="icon"></ion-icon>
+			</ion-button>
+			<!-- <span class="label">{{ 'CANCEL' | translate }}</span> -->
+		</ion-col>
   </ion-item>
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
+
   <div class="screen-node person-container" id="full-tree">
+
 		<div class="person-image" *ngIf="selectedNode && selectedNode.yod != ''">
 			<canvas #canvasContainer width="250px" height="300px"></canvas>
 		</div>
+		
+		<!-- <div class="person-tree">
+			<pinch-zoom #myPinch="pinchZoom"
+				[backgroundColor]="'white'"
+				[minPanScale]="1"
+				[zoomButton]="false"
+			>
+				<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
+			</pinch-zoom>
+		</div> -->
 
-		<pinch-zoom #myPinch="pinchZoom"
-			[backgroundColor]="'white'"
-			[minPanScale]="1"
-			[zoomButton]="false"
-		>
+		<div [ngStyle]="ftTreeService.getZoomStyle()">
 			<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
-		</pinch-zoom>
+		</div>
+		
 		<br/>
-		<div *ngIf="selectedNode && selectedNode.desc != ''" class="editor person-desc">
-			<ion-card-header class="section">
+		
+		<div *ngIf="selectedNode && selectedNode.desc != ''" class="person-desc">
+			<ion-card-header class="person-section">
 				<span class="span">&nbsp;{{ 'PERSON_INFO' | translate }}</span>
 			</ion-card-header>
 			<br/>
 			<ion-textarea 
-				clearInput class="textarea" 
+				clearInput class="person-textarea" 
 				type="text" rows="10" autosize 
 				[innerHtml]="selectedNode.desc" >
 			</ion-textarea>

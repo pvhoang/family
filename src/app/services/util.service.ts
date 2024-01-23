@@ -49,14 +49,10 @@ export class UtilService {
 	}
 
 	getLocalImageFile(url: string): Promise<any> {
-		console.log('getLocalImageFile - url = ', url);
-
 		return new Promise((resolve, reject) => {
 			this.http.get(url, { responseType: 'blob' }).toPromise().then((blob:any) => {
-				console.log('OK');
 				resolve(blob);
 			}).catch(err => {
-				console.log('ERROR: ', err.error );
 				reject(err.error);
 			});
 		}).catch(err => {
@@ -436,12 +432,14 @@ export class UtilService {
     return str.toLowerCase();
 	}
 
-	getShortDateID(slash?: any) {
+	getShortDateID(separator?: any) {
 		const d = new Date();
 		let day = ''+d.getDate();		if (day.length < 2) day = '0' + day;
 		let month = ''+(d.getMonth()+1);		if (month.length < 2) month = '0' + month;
-		let year = d.getFullYear();
-		let id = (slash) ? (''+day+'/'+month+'/' +(''+year).substring(2)) : ''+day+''+month+(''+year).substring(2);
+		let year = ''+d.getFullYear();
+		year = year.substring(2);
+		let id = (separator) ? (day + separator + month + separator + year) : (day + month + year);
+		// let id = (slash) ? (''+day+slash+month+slash +(''+year).substring(2)) : ''+day+''+month+(''+year).substring(2);
 		return id;
 	}
 

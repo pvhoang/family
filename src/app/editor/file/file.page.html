@@ -1,46 +1,38 @@
 <ion-header>
-
   <ion-item class="header-top">
-		<ion-col size="6" class="heading" title="{{ 'FILE_COMPARE_TOOLTIP' | translate }}" (click)="onCompareFamily()">
-      <ion-button class="button" fill="clear">
-        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-replace-outline.svg" class="icon"></ion-icon>
-      </ion-button>
-      <span class="label">{{ 'FILE_COMPARE' | translate }}</span>
-    </ion-col>
-		<ion-col size="6" class="heading" title="{{ 'FILE_MANAGE_TOOLTIP' | translate }}" (click)="onManageFiles()">
+
+		<!-- <div *ngIf="compareMode"> -->
+			<ion-col *ngIf="compareMode" size="4" class="heading">
+				<span class="label">{{ message }}</span>
+			</ion-col>
+		<!-- </div> -->
+		
+		<!-- <div *ngIf="compareMode && compareCount > 0"> -->
+			<ion-col *ngIf="compareMode && compareCount > 0" size="4" class="heading" (click)="compareSetSyncFamily()">
+				<ion-button class="button" fill="clear">
+					<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-replace-outline.svg" class="icon"></ion-icon>
+				</ion-button>
+				<span class="label">{{ 'FILE_COMPARE' | translate }}</span>
+			</ion-col>
+		<!-- </div> -->
+
+		<!-- <div *ngIf="compareMode && compareCount == 0"> -->
+				<ion-col *ngIf="compareMode && compareCount == 0" size="4" class="heading">
+				</ion-col>
+		<!-- </div> -->
+
+		<!-- <div *ngIf="!compareMode"> -->
+			<ion-col *ngIf="!compareMode" size="8">
+			</ion-col>
+		<!-- </div> -->
+
+		<ion-col size="4" class="heading" title="{{ 'FILE_MANAGE_TOOLTIP' | translate }}" (click)="onManageFiles()">
       <ion-button class="button" fill="clear">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-replace-outline.svg" class="icon"></ion-icon>
       </ion-button>
       <span class="label">{{ 'FILE_MANAGE' | translate }}</span>
     </ion-col>
-  </ion-item> 
-
-	<div *ngIf="compareMode">
-		<ion-item class="header-bottom" *ngIf="rootChanged">
-			<ion-col size="6" class="heading">
-				<span class="label" [innerHtml]="message"></span>
-			</ion-col>
-			<ion-col size="6" class="heading" (click)="compareSetSyncFamily()">
-				<ion-button class="button" fill="clear">
-					<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-replace-outline.svg" class="icon"></ion-icon>
-				</ion-button>
-				<span class="label">{{ 'UPDATE' | translate }}</span>
-			</ion-col>
-		</ion-item>
-
-		<ion-item class="header-bottom" *ngIf="!rootChanged">
-			<ion-col size="6" class="heading">
-				<span class="label">{{ message }}</span>
-			</ion-col>
-			<ion-col size="6" *ngIf="compareCount >  0" class="heading" (click)="compareSetSyncFamily()">
-				<ion-button class="button" fill="clear">
-					<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-replace-outline.svg" class="icon"></ion-icon>
-				</ion-button>
-				<span class="label">{{ 'UPDATE' | translate }}</span>
-			</ion-col>
-		</ion-item>
-	</div>
-
+	</ion-item> 
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
@@ -92,14 +84,14 @@
 			
 			<ion-row >
         <ion-col size="6" class="column">
-					<span class="label">{{ 'FILE_DOWNLOAD' | translate }} (File: {{downloadFileName}})</span>
+					<span class="label">{{ 'FILE_DOWNLOAD' | translate }} (Files: {{downloadFileName}},{{downloadDocsName}})</span>
         </ion-col>
 				<ion-col size="6" class="column"> 
           <ion-button class="button" fill="clear" (click)="downloadOnClick()">
             <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
           </ion-button>
 					<a id="modify-download" [href]="downloadFileUrl" download="{{downloadFileName}}" style="display:none;"></a>
-					<!-- <a id="modify-download-docs" [href]="downloadDocsUrl" download="{{downloadDocsName}}" style="display:none;"></a> -->
+					<a id="modify-download-docs" [href]="downloadDocsUrl" download="{{downloadDocsName}}" style="display:none;"></a>
 					<span class="label">{{ 'FILE_DOWNLOAD_START' | translate }}</span>
         </ion-col>
       </ion-row>

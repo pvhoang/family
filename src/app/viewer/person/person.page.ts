@@ -6,6 +6,7 @@ import { NodeService } from '../../services/node.service';
 import { EditorService } from '../../services/editor.service';
 import { DataService } from '../../services/data.service';
 import { FirebaseService } from '../../services/firebase.service';
+import { FtTreeService } from '../../services/ft-tree.service';
 import { ThemeService } from '../../services/theme.service';
 import { Family, Node, FAMILY} from '../../services/family.model';
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
@@ -57,6 +58,7 @@ export class PersonPage implements OnInit {
     private dataService: DataService,
     private languageService: LanguageService,
     private themeService: ThemeService,
+    public ftTreeService: FtTreeService,
   ) {}
 
   ngOnInit() {
@@ -69,6 +71,7 @@ export class PersonPage implements OnInit {
     if (DEBUGS.PERSON)
       console.log('PersonPage - ionViewWillEnter');
     this.startFromStorage();
+		this.ftTreeService.reset();
   }
 	
 	ionViewWillLeave() {
@@ -138,10 +141,9 @@ export class PersonPage implements OnInit {
     // reset nclass
     if (this.selectedNode)
       this.selectedNode.nclass = this.nodeService.updateNclass(this.selectedNode);
-    this.selectedNode = node;
-	
-		// https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2FQuanPhan.jpeg?alt=media&token=68aaedc7-5a72-4eb4-9024-441c5c5271cd
 
+		node.desc = this.editorService.replaceDescTextStyle(node.desc);
+    this.selectedNode = node;
 		let ancestor = this.info.id;
 		this.editorService.convertImageTemplate(ancestor, node.desc, 'person').then((resolves:any) => {
 			if (resolves.length > 0) {
@@ -155,7 +157,6 @@ export class PersonPage implements OnInit {
 				node.desc = newText;
 			}
 		})
-
     this.selectedNodeName = node.name;
     this.selectPeople = node.name + this.nodeService.getFullDetail(node)
     let ancestorName = this.info.family_name;
@@ -217,6 +218,7 @@ export class PersonPage implements OnInit {
   drawTomb() {
     let node = this.selectedNode;
     const img = new Image();
+		// img.className = "person-tomb-image";
     img.src = "../assets/icon/tomb-1.png";
     const canvas = this.canvasRef.nativeElement;
     const ctx = canvas.getContext('2d');
@@ -248,6 +250,7 @@ export class PersonPage implements OnInit {
   drawPhoto(ctx: any, url: any, imgConWidth: any, imgConHeight: any) {
     const tombWidth = (1 / 3) * imgConWidth;
     const img = new Image();
+		img.className = "person-tomb-image";
     img.src = url;
     img.onload = () => {
       const ratio = img.naturalWidth / img.naturalHeight;

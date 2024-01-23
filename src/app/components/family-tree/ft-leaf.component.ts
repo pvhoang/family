@@ -13,7 +13,6 @@ export class FtLeafComponent {
   constructor() { }
   
   _leafSelected(_leaf) {
-    // console.log('_leaf: ', _leaf)
     this.onLeafSelected.emit(_leaf);
   }
 }

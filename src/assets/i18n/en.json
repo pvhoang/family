@@ -161,6 +161,7 @@
   "NODE_NAME_BRANCH": "Name",
   "NODE_ROOT_BRANCH": "Root - YOB",
   "NODE_DELETE_BRANCH": "Delete",
+  "NODE_DELETE_BRANCH_TOOLTIP": "Delete branch",
 
 	"EDIT_SELECT_PEOPLE_PLACEHOLDER": "Select name",
   "EDIT_SELECT_PLACES_PLACEHOLDER": "Select or type location → ↵ or .",
@@ -229,8 +230,8 @@
   "FILE_UPLOAD_MESSAGE_2": " to server?",
 	"FILE_UPLOAD_FILE_INVALID": "File is not valid or version does not change!",
 	"FILE_FILE_EMPTY": "File is empty!",
-  "FILE_UPLOAD_COMPLETE": "File is uploaded to server.",
-
+	"FILE_UPLOAD_COMPLETE_1": "File: ",
+  "FILE_UPLOAD_COMPLETE_2": " is uploaded to server.",
   "FILE_PHOTO": "Create/edit images to be uploaded to server",
   "FILE_PHOTO_ADD": "Open file",
   "FILE_PHOTO_MODIFY": "Edit",

@@ -36,8 +36,8 @@ export class HomePage implements OnInit{
 	// size: any;
 
 	pageData = {
-		"pha_he": { title: "", text: "", index: 0, titleText: "" },
-		"pha_do": { title: "", text: "", index: 0, titleText: ""  },
+		"pha_he": { title: "", html: "", index: 0, titleText: "" },
+		"pha_do": { title: "", html: "", index: 0, titleText: ""  },
 	};
 
 	specialPageData = {
@@ -152,25 +152,27 @@ export class HomePage implements OnInit{
 		for (var key of Object.keys(docs)) {
 			let data = docs[key];
 			data.titleText = titles[key];
-				// newText is calculated in app.component.ts
-				let text = data.newText;
-				text = this.editorService.removeFontSize(text, fontSizePercent);
+				// html is calculated in app.component.ts
+				let html = data.html;
+				html = this.editorService.removeFontSize(html, fontSizePercent);
+				html = this.editorService.replaceSpecialTemplate(html, this.nodes, this.levels);
+
 				// pages with special templates
 				if (key == 'pha_he' || key == 'pha_do') {
-					text = text.replaceAll('[NODES]', '<b>' + this.nodes +'</b>');
-					text = text.replaceAll('[LEVELS]', '<b>' + this.levels + '</b>');
-					data.text = text;
+					// text = text.replaceAll('[NODES]', '<b>' + this.nodes +'</b>');
+					// text = text.replaceAll('[LEVELS]', '<b>' + this.levels + '</b>');
+					data.html = html;
 					data.index = count++;
 					pageData[key] = data;
 
 				} else {
 					// doc with multiple pages
 					let pages = [];
-					let texts = text.split('/PAGE/');
+					let texts = html.split('[PAGE]');
 					let pcount = 1;
 					texts.forEach((txt:string) => {
 						let titleText = (texts.length == 1) ? data.titleText : data.titleText + ' (' + pcount++ + ')';
-						pages.push({ titleText: titleText, text: txt, index: count++ });
+						pages.push({ titleText: titleText, html: txt, index: count++ });
 					})
 					specialPageData[key] = pages;
 				}
@@ -188,12 +190,12 @@ export class HomePage implements OnInit{
 			let idp = 0;
 			pages.forEach(page => {
 				let id = key + '_' + idp++;
-				document.getElementById(id).innerHTML = page.text;
+				document.getElementById(id).innerHTML = page.html;
 			})
 		}
 		for (var key of Object.keys(this.pageData)) {
 			let data = this.pageData[key];
-			document.getElementById(key).innerHTML = data.text;
+			document.getElementById(key).innerHTML = data.html;
 		}
 		// this.themeService.printRootProperty('startBook: ', '--app-text-font-size-medium');
 		const pageFlip = new PageFlip(

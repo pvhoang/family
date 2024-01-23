@@ -5,6 +5,7 @@ import { UtilService } from '../../services/util.service';
 import { LanguageService } from '../../services/language.service';
 import { FamilyService } from '../../services/family.service';
 import { NodeService } from '../../services/node.service';
+import { FtTreeService } from '../../services/ft-tree.service';
 import { DataService } from '../../services/data.service';
 import { EditPage } from '../node/edit/edit.page';
 import { ThemeService } from '../../services/theme.service';
@@ -56,12 +57,14 @@ export class BranchPage implements OnInit {
     private dataService: DataService,
     private languageService: LanguageService,
     private themeService: ThemeService,
+    public ftTreeService: FtTreeService,
   ) {}
 
   ngOnInit() {
     if (DEBUGS.BRANCH)
       console.log('BranchPage - ngOnInit');
     this.startFromStorage();
+		this.ftTreeService.reset();
   }
 
   ionViewWillEnter() {
@@ -181,8 +184,6 @@ export class BranchPage implements OnInit {
         newNode.visible = true;
         let family = new Family();
         family.nodes = [newNode];
-
-        // console.log('BranchPage - onNewBranch - family: ', family);
         this.dataService.saveBranch(bname, family).then(status => {
 					if (DEBUGS.BRANCH)
 						console.log('BranchPage - add - save old, add new: ', this.currentBranch, bname);
@@ -192,8 +193,6 @@ export class BranchPage implements OnInit {
           this.select(this.selectBranch);
         });
       } else {
-        // this.presentToast(['APP_NO_ANCESTOR']);
-        // this.utilService.presentToast("Hello");
       }
     })
   }
@@ -206,7 +205,6 @@ export class BranchPage implements OnInit {
       {name: 'msg', label: 'NODE_DELETE_NODE_MESSAGE_2'},
     ]);
     this.utilService.alertConfirm('NODE_DELETE_NODE_MESSAGE', msg, 'CANCEL', 'OK').then((result) => {
-      console.log('getAncestor - delete - result: ', result);
       if (result.data) {
         let sbranch = this.selectBranch;
         this.dataService.deleteBranch(sbranch).then(status => {

@@ -121,7 +121,6 @@ export class ThemeService {
     if (verticalTree)
       nodePixel *= 2;
 		let height = 5 * nodePixel + maxRows * nodePixel;
-    // console.log('maxRows, nodePixel, height: ', maxRows, nodePixel, height);
     let root = document.documentElement;
     if (verticalTree)
       root.style.setProperty('--app-screen-height-vertical-tree', height + 'px');

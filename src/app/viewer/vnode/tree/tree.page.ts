@@ -5,6 +5,7 @@ import { NodeService } from '../../../services/node.service';
 import { LanguageService } from '../../../services/language.service';
 import { FirebaseService } from '../../../services/firebase.service';
 import { ThemeService } from '../../../services/theme.service';
+import { FtTreeService } from '../../../services/ft-tree.service';
 import { jsPDF, jsPDFOptions } from 'jspdf';
 import domtoimage from 'dom-to-image';
 import '../../../../assets/js/Roboto-Regular-normal.js';
@@ -41,6 +42,7 @@ export class TreePage implements OnInit {
     private nodeService: NodeService,
     private themeService: ThemeService,
     private languageService: LanguageService,
+    public ftTreeService: FtTreeService,
   ) {}
 
   ngOnInit() {
@@ -52,6 +54,7 @@ export class TreePage implements OnInit {
     this.TREE_POPOVER_PRINT_JPG =  this.languageService.getTranslation('TREE_POPOVER_PRINT_JPG');
     this.TREE_POPOVER_PRINT_PDF =  this.languageService.getTranslation('TREE_POPOVER_PRINT_PDF');
     this.start();
+		this.ftTreeService.reset();
   }
 
   ionViewWillEnter() {

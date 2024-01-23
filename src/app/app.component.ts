@@ -90,7 +90,6 @@ export class AppComponent implements OnInit {
 		
 		// setup UI
 		this.initializeUI().then((status) => {
-			console.log('initializeUI1');
 			if (ancestor == '') {
 				this.presentToast(['APP_NA_ANCESTOR']);
 				return;
@@ -140,8 +139,6 @@ export class AppComponent implements OnInit {
 						let jsonFile = './assets/common/themes.json';
 						this.utilService.getLocalJsonFile(jsonFile).then((themes:any) => {
 							this.themeService.setSystemProperties(themes, theme, size);
-			console.log('setSystemProperties');
-
 							resolve(true);
 						});
 					});
@@ -149,24 +146,6 @@ export class AppComponent implements OnInit {
 			});
 		});
 	}
-
-  // initializeUI1() {
-	// 	return new Promise((resolve) => {
-	// 		this.loadTheme().then((theme:any) => {
-	// 			this.theme = theme;
-	// 			this.loadLanguage().then((language:any) => {
-	// 				this.language = language;
-	// 				this.loadSize().then((size:any) => {
-	// 					this.size = size;
-	// 					if (DEBUGS.APP)
-	// 						console.log('theme, language, size: ', this.theme, this.language, this.size)
-	// 					// this.utilService.printVariable('initializeUI', '--app-text-font-size-medium');
-	// 					resolve (true);
-	// 				});
-	// 			});
-	// 		});
-	// 	});
-	// }
 
   initializeApp() {
     // let str = this.platform.platforms().toString();
@@ -184,6 +163,8 @@ export class AppComponent implements OnInit {
 						this.startUp = true;
 					else
 						this.startApp = true;
+					if (DEBUGS.APP)
+						console.trace("startUp, startApp: ", this.startUp, this.startApp);
 				}
 			});
     });
@@ -259,11 +240,8 @@ export class AppComponent implements OnInit {
     ]
     this.utilService.alertSelect(title, selects , cancel, ok).then((result:any) => {
       if (result.data) {
-				console.log('AppComponent - setSetting - data: ', result.data);
 				if (result.data.status == 'save') {
-					console.log('AppComponent - setSetting - before: ', this.theme, this.language, this.size);
 					let values = result.data.values;
-					console.log('AppComponent - setSetting - after: ', values);
 					let count = 0;
 					if (values[THEME] && values[THEME] != this.theme) {
 						this.dataService.saveItem(THEME, values[THEME]).then((status:any) => {});
@@ -311,15 +289,10 @@ export class AppComponent implements OnInit {
       },
     ]
     this.utilService.alertText(title, inputs , cancel, ok, 'alert-dialog').then(result => {
-      console.log('getAncestor - res1: ', result);
       if (result.data) {
         // create an ancestor
         let data = this.createBaseAncestor(result.data);
-        if (DEBUGS.APP)
-          console.log('getAncestor - rdata: ', data);
         this.fbService.saveAncestorData(data).then((status:any) => {
-          if (DEBUGS.APP)
-            console.log('DataService - createAncestor - status:' , status);
           this.dataService.saveItem('ANCESTOR_DATA', data).then((status:any) => {
             this.presentToast(['APP_OK_ANCESTOR', data.info.id]);
           });
@@ -345,8 +318,6 @@ export class AppComponent implements OnInit {
           }
         })
         this.utilService.alertRadio('ANCESTOR', '', inputs , this.translate_instant('CANCEL'), this.translate_instant('OK')).then(result => {
-          if (DEBUGS.APP)
-            console.log('AppComponent - selectAncestor - result: ', result);
           if (result.data) {
             let ancestorID = result.data;
             this.setAncestor(ancestorID).then(resolve => {
@@ -359,6 +330,8 @@ export class AppComponent implements OnInit {
   }
 
   private startAncestor(ancestorID: any) {
+		if (DEBUGS.APP)
+			console.trace("ancestorID: ", ancestorID);
 
     return new Promise((resolve) => {
 			// check if this ancestor is in local
@@ -387,12 +360,9 @@ export class AppComponent implements OnInit {
 					// check on family data version
 					this.email = sdata.info.admin_name + '(' + sdata.info.admin_email + ')';
 					let fversion = sdata.family.version;
-					if (DEBUGS.APP)
-						console.log('AppComponent - selectAncestor - fversion: ', fversion);
 					// now check remote version
 					this.fbService.readAncestorData(sdata.info.id).subscribe((rdata:any) => {
 						let rversion = rdata.family.version;
-						console.log('AppComponent - selectAncestor - fversion, rversion: ', fversion, rversion);
 						if (rversion != fversion) {
 							this.presentToast(['APP_NEW_FAMILY', rversion]);
 							this.dataService.saveItem('ANCESTOR_DATA', rdata).then((status:any) => {
@@ -424,36 +394,10 @@ export class AppComponent implements OnInit {
     });
   }
 
-  // loadTheme() {
-  //   return new Promise((resolve) => {
-  //     this.dataService.readItem(THEME).then((theme:any) => {
-  //       console.log('AppComponent - loadTheme - theme: ', theme);
-  //       if (!theme) {
-  //         this.themeService.setTheme(DRAGON);
-  //       } else
-  //         this.themeService.setTheme(theme);
-  //       resolve (theme);
-  //     });
-  //   })
-  // }
-
-	// loadSize() {
-  //   return new Promise((resolve) => {
-  //     this.dataService.readItem(SIZE).then((size:any) => {
-  //       console.log('AppComponent - loadSize - size: ', size);
-  //       if (!size) {
-  //         this.themeService.setSize(MEDIUM_SIZE);
-  //       } else
-  //         this.themeService.setSize(size);
-  //       resolve (size);
-  //     });
-  //   })
-  // }
 
   loadLanguage() {
     return new Promise((resolve) => {
       this.dataService.readItem(LANGUAGE).then((language:any) => {
-        console.log('AppComponent - loadLanguage - language: ', language);
         if (!language) {
           language = VIETNAMESE;
           this.dataService.saveItem(LANGUAGE, 'vi').then((status:any) => {});
@@ -469,9 +413,6 @@ export class AppComponent implements OnInit {
       this.fbService.readAppData().then((rdata:any) => {
 				// always read docs from Firebase and parse data before go to home.page.ts
 				let remoteVersion = rdata.version;
-				if (DEBUGS.APP) {
-					console.log('AppComponent - updateVersionData -  remote app version: ', remoteVersion);
-				}
         if (remoteVersion !== environment.version) {
           // must refresh cache
           let msg = ' (A.' + environment.version + '). ';
@@ -497,8 +438,6 @@ export class AppComponent implements OnInit {
 			this.dataService.readFamilyAndInfo().then((data:any) => {
 				let family = data.family;
 				let info = data.info;
-				if (DEBUGS.APP)
-					console.log('AppComponent - updateAppData - local family version: ', family.version);
 				// update screen height
 				let nodes = this.nodeService.getFamilyNodes(family);
 				this.themeService.setScreenSize(nodes);
@@ -509,8 +448,6 @@ export class AppComponent implements OnInit {
 				})
 				// always update docs data from Firebase
 				this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
-					if (DEBUGS.APP)
-						console.log('AppComponent - updateAppData - rdata: ', rdata);
 					let docs = rdata.docs;
 					// parse docs
 					let language = this.languageService.getLanguage();
@@ -526,13 +463,26 @@ export class AppComponent implements OnInit {
 		return new Promise((resolve) => {
 			if (DEBUGS.APP)
 				console.log('AppComponent - updateDocs - docs: ', docs);
-			// create a new text, leave text unchanged
+			// create a html, leave text unchanged
 			for (var key of Object.keys(docs)) {
-				docs[key].newText = docs[key].text.slice(0);
+				let doc = docs[key];
+				if (doc.text) {
+					// do nothing
+				} else if (doc.raw && Array.isArray(doc.raw)) {
+					// raw is array, convert to text in string
+					doc.text = this.editorService.replaceArrayToText(doc.raw);
+					doc.raw = null;
+				} else {
+					doc.text = '';
+				}
+				doc.html = doc.text.slice(0);
+				docs[key] = doc;
 			};
+
+			// convert html
 			for (var key of Object.keys(docs)) {
 				let text = docs[key].text;
-			// convert image templates to HTML
+				// convert image templates to HTML
 				this.editorService.convertImageTemplate(ancestor, text, key).then((resolves:any) => {
 					// change text to reflect image
 					for (let i = 0; i < resolves.length; i++) {
@@ -540,7 +490,7 @@ export class AppComponent implements OnInit {
 						let rkey = data.key;
 						let imageStr = '[' + data.imageStr + ']';
 						let html = data.html;
-						docs[rkey].newText = docs[rkey].newText.replaceAll(imageStr,html);
+						docs[rkey].html = docs[rkey].html.replaceAll(imageStr, html);
 					}
 				})
 			}
@@ -584,7 +534,6 @@ export class AppComponent implements OnInit {
                   });
                 } else {
                   // read data from fb
-                  console.log('AppComponent - setAncestor - read from fb, aDes: ', aDes);
                   this.fbService.readAncestorData(aDes).subscribe((rdata:any) => {
                     this.dataService.saveItem('ANCESTOR_DATA', rdata).then((status:any) => {
                       resolve (true);
@@ -651,7 +600,6 @@ export class AppComponent implements OnInit {
 		if (keys.length > 3)
       msgs.push({name: 'data', label: keys[3]});
     let message = this.utilService.getAlertMessage(msgs);
-		console.log('message: ', message);
     this.utilService.presentToast(message);
   }
 

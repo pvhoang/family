@@ -69,6 +69,8 @@ export class IvyPinch {
         /* Init */
         this.setBasicStyles();
 
+				console.log('properties: ', this.properties);
+
         /*
          * Listeners
          */
@@ -167,6 +169,10 @@ export class IvyPinch {
      */
 
     handlePan = (event: any) => {
+
+			// console.log('handlePan, scale, minPanScale: ', this.scale, this.minPanScale);
+			// console.log('handlePan - event: ', event, this.eventType);
+
         if (this.scale < this.minPanScale || this.properties.disablePan) {
             return;
         }
@@ -197,11 +203,16 @@ export class IvyPinch {
     };
 
     handleDoubleTap = (event: any) => {
+			console.log('handleDoubleTap - event: ', event, this.eventType);
+
         this.toggleZoom(event);
-        return;
+        // return;
     };
 
     handlePinch = (event: any) => {
+
+			console.log('handlePinch - event: ', event, this.eventType);
+
         event.preventDefault();
 
         if (this.eventType === undefined || this.eventType === 'pinch') {
@@ -237,6 +248,9 @@ export class IvyPinch {
     };
 
     handleWheel = (event: any) => {
+
+			// console.log('handleWheel - event: ', event, this.eventType);
+
         event.preventDefault();
 
         let wheelZoomFactor = this.properties.wheelZoomFactor || 0;
@@ -272,10 +286,13 @@ export class IvyPinch {
     };
 
     handleResize = (_event: any) => {
+			console.log('handleResize - event: ', _event, this.eventType);
         this.setAutoHeight();
     };
 
     handleLimitZoom() {
+			console.log('handleLimitZoom - ');
+
         const limitZoom = this.maxScale;
         const minScale = this.properties.minScale || 0;
 
@@ -647,40 +664,44 @@ export class IvyPinch {
 		// 	});
 		// } 
 
+		setInitialZoom(scale: number) {
+			this.initialScale = scale;
+			let zoomControlScale = this.properties.zoomControlScale || 0;
+			this.scale = this.initialScale * (zoomControlScale + 1);
+			this.moveX = this.initialMoveX - (this.element.offsetWidth * (this.scale - 1)) / 2;
+			this.moveY = this.initialMoveY - (this.element.offsetHeight * (this.scale - 1)) / 2;
+			this.centeringImage();
+			this.updateInitialValues();
+			this.transformElement(this.properties.transitionDuration);
+		} 
+
     toggleZoom(event: any = false) {
-			console.log('IvyPinch - toggleZoom - event, scale: ', event, this.initialScale);
-        if (this.initialScale === 1) {
-            if (event && event.changedTouches) {
-                if (this.properties.doubleTapScale === undefined) {
-                    return;
-                }
+			
+			console.log('toggleZoom - initialScale, scale, doubleTapScale: ', this.initialScale, this.scale, this.properties.doubleTapScale);
 
-                const changedTouches = event.changedTouches;
-                this.scale = this.initialScale * this.properties.doubleTapScale;
-                this.moveX =
-                    this.initialMoveX - (changedTouches[0].clientX - this.elementPosition.left) * (this.properties.doubleTapScale - 1);
-                this.moveY =
-                    this.initialMoveY - (changedTouches[0].clientY - this.elementPosition.top) * (this.properties.doubleTapScale - 1);
-            } else {
-                let zoomControlScale = this.properties.zoomControlScale || 0;
-								// zoomControlScale = 0.2;
-
-			console.log('IvyPinch - toggleZoom - zoomControlScale: ', zoomControlScale);
-
-                this.scale = this.initialScale * (zoomControlScale + 1);
-                this.moveX = this.initialMoveX - (this.element.offsetWidth * (this.scale - 1)) / 2;
-                this.moveY = this.initialMoveY - (this.element.offsetHeight * (this.scale - 1)) / 2;
-
-			console.log('IvyPinch - toggleZoom - scale: ', this.scale);
-
-            }
-
-            this.centeringImage();
-            this.updateInitialValues();
-            this.transformElement(this.properties.transitionDuration);
-        } else {
-            this.resetScale();
-        }
+			// if (this.initialScale === 1) {
+				if (event && event.changedTouches) {
+					if (this.properties.doubleTapScale === undefined) {
+							return;
+					}
+					const changedTouches = event.changedTouches;
+					this.scale = this.initialScale * this.properties.doubleTapScale;
+					this.moveX =
+							this.initialMoveX - (changedTouches[0].clientX - this.elementPosition.left) * (this.properties.doubleTapScale - 1);
+					this.moveY =
+							this.initialMoveY - (changedTouches[0].clientY - this.elementPosition.top) * (this.properties.doubleTapScale - 1);
+				} else {
+					let zoomControlScale = this.properties.zoomControlScale || 0;
+					this.scale = this.initialScale * (zoomControlScale + 1);
+					this.moveX = this.initialMoveX - (this.element.offsetWidth * (this.scale - 1)) / 2;
+					this.moveY = this.initialMoveY - (this.element.offsetHeight * (this.scale - 1)) / 2;
+				}
+				this.centeringImage();
+				this.updateInitialValues();
+				this.transformElement(this.properties.transitionDuration);
+			// } else {
+			// 	this.resetScale();
+			// }
     }
 
     setZoom(properties: { scale: number; center?: number[] }) {

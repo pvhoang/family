@@ -1,0 +1,62 @@
+{
+	"vi": {
+		"pha_nhap": {
+			"title": "LỜI MỞ ĐẦU",
+			"text": [
+			]
+		},
+		"pha_ky": {
+			"title": "PHẢ KÝ",
+			"text": [
+			]
+		},
+		"pha_he": {
+			"title": "PHẢ HỆ",
+			"text": [
+			]
+		},
+		"pha_do": {
+			"title": "PHẢ ĐỒ",
+			"text": [
+			]
+		},
+		"ngoai_pha": {
+			"title": "NGOẠI PHẢ",
+			"text": [
+			]
+		},
+		"phu_khao": {
+			"title":"PHỤ KHẢO",
+			"text": [
+			]
+		}
+	},
+	"en": {
+		"pha_nhap": {
+			"title": "LỜI MỞ ĐẦU",
+			"text":"<p>Introduction to Family Tree</p>"
+		},
+		"pha_ky": {
+			"title": "PHẢ KÝ",
+			"text": "Note"
+		},
+		"pha_he": {
+			"title": "PHẢ HỆ",
+			"text": "People"
+		},
+		"pha_do": {
+			"title": "PHẢ ĐỒ",
+			"text": "Tree"
+		},
+		"ngoai_pha": {
+			"title": "NGOẠI PHẢ",
+			"text": "Extra note"
+		},
+		"phu_khao": {
+			"title": "PHỤ KHẢO",
+			"text": "Addendum"
+		}
+	}
+}
+
+				

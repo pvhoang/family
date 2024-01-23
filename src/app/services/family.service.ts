@@ -166,6 +166,8 @@ export class FamilyService {
       if (node.visible) {
         node.level = nodeLevel;
 				let nick = (node.nick != '') ? ' (' + node.nick + ')' : '';
+				if (node.photo != '' || node.desc != '')
+					nick += ' (☺)';
         data.push({name: node.name + this.nodeService.getFullDetail(node) + nick, node: node});
       }
     })
@@ -190,6 +192,8 @@ export class FamilyService {
       if (node.visible) {
         node.level = nodeLevel;
 				let nick = (node.nick != '') ? ' (' + node.nick + ')' : '';
+				if (node.photo != '' || node.desc != '')
+					nick += ' (☺)';
         data.push({name: node.name + this.nodeService.getFullDetail(node) + nick, node: node});
       }
     })
@@ -416,6 +420,7 @@ export class FamilyService {
   getFilterFamily(family: Family, clean?: any) {
     let filterFamily:any = {};
     filterFamily.version = family.version;
+    filterFamily.date = family.date;
     filterFamily['nodes'] = [];
     if (family['nodes'].length > 0) {
       family['nodes'].forEach(node => {
@@ -478,7 +483,6 @@ export class FamilyService {
   
   getSelectedFamily(family: Family, srcNode: Node) {
     let filterFamily:any = {};
-    // filterFamily.version = family.version;
     let nodes = [];
     // search backward till root
     let node = srcNode;
