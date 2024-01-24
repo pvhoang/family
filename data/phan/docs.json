@@ -3,92 +3,79 @@
 		"pha_nhap": {
 			"title": "LỜI MỞ ĐẦU",
 			"raw": [
-				
-"1|1|1|Chim có tổ người có tông, cây có cội, nước có nguồn.",
-"2|0|1|Chim có tổ người có tông.",
-
+"[1|1|1|1|Chim có tổ người có tông, cây có cội, nước có nguồn.]",
 "Những câu ca dao nói lên đạo lý của con người Việt Nam chúng ta đã lưu truyền bao đời nay dẫu cho xã hội có nhiều biến động, thay đổi. Vì vậy việc truy tìm nguồn gốc tổ tiên, chăm lo mồ mả ông bà, là những điều gần như nằm trong tiềm thức của mỗi một con người Việt Nam.",
-
 "Dòng họ Phan ta đã lập nghiệp tại Làng Phú Ninh nay là Phường Đồng Phú này hơn 300 năm. Các bậc tổ tiên đã cần cù lao động xây dựng nề nếp cho con cháu đời sau với tiền đồ sáng lạn. Đất nước ta từ bao đời đã trải qua chinh chiến từ thời kỳ này qua thời kỳ khác, tổ tiên ta đã lao động chiến đấu xã thân tạo dựng cơ đồ. Tất cả tấm gương đó là những gương sáng để con cháu đời sau tiếp nối học tập noi theo, tiếp tục truyển thống của gia đình và dòng họ để phấn đấu xây dựng một cuộc sống ấm no hạnh phúc cho chính bản thân mình và góp phần xây dựng cộng đồng xã hội.",
-
 "Nhằm có thể hệ thống hóa được phần nào lịch sử vẻ vang và có thể hệ thống hóa được phần nào phả hệ, phả đồ của dòng họ, Chi Phái và muốn hoàn thành tâm nguyện bản thân cũng như muốn dâng lên tổ tiên vong linh hiển khảo Phan Văn Ba, Tôi Phan Thanh Dũng con cháu đời thứ 16 dòng họ Phan tính từ Ông Thủy Tổ Ông Phan Văn Tác, Đời thứ 6 tính từ tổ Chi Phan Lợi Hành (Phan Văn Tự) sau khi bàn bạc,  lên kế hoạch,  tìm hiểu đã viết nên cuốn gia phả này để cùng các Ông, Bác, Chú và cũng như con cháu sau này có thêm tài liệu để tham khảo có thể hoàn thành lại tốt hơn.",
-
 "Việc dựng lại gia phả này quả lá quá khó khăn do kinh nghiệm nghiên cứu còn non kém nhưng tôi cũng quyết tâm hoàn thành, chắc chắn rằng sẻ không ít thiếu sót, khiếm khuyết. Công việc xây dựng gia phả lại là công việc cần được tiến hành thường xuyên và liên tục, tôi  mong rằng toàn thể bà con dòng họ Phan chúng ta hãy cùng nhau tiếp tục góp sức xây dựng, bổ sung để gia phả của chúng ta ngày càng hoàn chỉnh.",
-
-"[mo-to-doi-1.jpg|1|2|Mộ Tổ họ Phan, Đá Bạc Đồng Sơn]",
-
+"[3|mo-to-doi-1.jpg|1|2|Mộ Tổ họ Phan, Đá Bạc Đồng Sơn]",
 "[PAGE]",
 "Qua đây tôi xin chân thành cám ơn Ông Phan Văn Hân, Chú Phan Văn Năm…, cùng các vị cao niên trong làng đã tận tình hướng dẫn giúp đỡ cung cấp thông tin tài liệu, kể những câu chuyện mà chỉ có thể gặp khi thực hiện viết cuốn gia phả này. Đồng thời tài liệu này được sinh động là nhờ hoàn toàn các tài liệu quý mà tôi được có từ Cha tôi là Phan Văn Ba đã cất công nghiên cứu sưu tầm để tôi có thể nối tiếp rõ ràng hơn lịch sử họ Phan Đồng Phú.",
-
 "Xin cùng chia sẻ cùng quý vị.",
-
-"0|0|1|Chào thân ái!",
-
+"Chào thân ái!",
 "Cháu Phan Thanh Dũng",
-
 "Đời thứ XVI họ phan Đồng Phú",
-
-"[bai-vi-doi-1.jpg|2|2|Bài vị Thủy Tổ Họ Phan, Nhà thờ Họ Phan, Đồng Phú]"
-
+"[3|bai-vi-doi-1.jpg|2|2|Bài vị Thủy Tổ Họ Phan, Nhà thờ Họ Phan, Đồng Phú]"
 			]
 		},
 		"pha_ky": {
 			"title": "PHẢ KÝ",
 			"raw": [
-"0|1|0|Tổ phụ",
-"0|1|0|Tổ quán",
-"0|0|0|Địa lý",
-"0|1|0|Tổ mộ",
-"0|0|0|Địa lý",
-"0|1|1|Truyền thống",
-"0|0|1|Lao động",
-"0|0|1|Văn hóa",
-"0|0|1|Yêu nước",
-"0|1|0|Các thế hệ",
-"0|0|1|Chi",
-"0|0|1|Phái"
+"Tổ phụ",
+"Tổ quán",
+"Địa lý",
+"Tổ mộ",
+"Địa lý",
+"Truyền thống",
+"Lao động",
+"Văn hóa",
+"Yêu nước",
+"Các thế hệ",
+"Chi",
+"Phái"
 			]
 		},
 		"pha_he": {
 			"title": "PHẢ HỆ",
 			"raw": [
-"0|1|1|Tên",
-"0|0|1|Đời thứ",
-"0|0|1|Con ông",
-"0|0|1|Con bà",
-"0|0|1|Chi tiết",
-"0|0|1|Các con",
-"0|0|1|Tiểu sử"
+"Tên",
+"Đời thứ",
+"Con ông",
+"Con bà",
+"Chi tiết",
+"Các con",
+"Tiểu sử"
 			]
 		},
 		"pha_do": {
 			"title": "PHẢ ĐỒ",
 			"raw": [
-"0|1|1|Trình bày"
+"Trình bày"
 			]
 		},
 		"ngoai_pha": {
 			"title": "NGOẠI PHẢ",
 			"raw": [
-"0|1|1|Lễ cúng",
-"0|0|1|Văn khấn",
-"0|0|1|Nhà thờ họ",
-"0|0|1|Hội đồng gia tộc",
-"0|1|1|Khu mộ",
-"0|0|1|Tên",
-"0|0|1|Vị trí",
-"0|1|1|Học vị",
-"0|0|1|Tên",
-"0|1|1|Nhân vật tiêu biểu",
-"0|0|1|Tên",
-"0|1|1|Ngày giỗ"
+"Lễ cúng",
+"Văn khấn",
+"Nhà thờ họ",
+"Hội đồng gia tộc",
+"Khu mộ",
+"Tên",
+"Vị trí",
+"Học vị",
+"Tên",
+"Nhân vật tiêu biểu",
+"Tên",
+"Ngày giỗ"
 			]
 		},
 		"phu_khao": {
 			"title":"PHỤ KHẢO",
 			"raw": [
-"0|1|1|Xóm ấp",
-"0|1|1|Ngành nghề truyền thống"
+"[2|Quảng Bình.doc|0|Tư liệu tỉnh Quảng Bình]",
+"Xóm ấp",
+"Ngành nghề truyền thống"
 			]
 		}
 	},

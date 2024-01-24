@@ -232,13 +232,46 @@ export class FirebaseService {
 
 	// https://firebase.google.com/docs/storage/web/download-files#web-version-9
 
+	getDocumentURL(storageFolder:string, storageId) {
+		return new Promise((resolve) => {
+			const storage = getStorage();
+			const storageRef = ref(storage, storageFolder + '/' + storageId);
+			getMetadata(storageRef).then((metadata) => {
+				// Metadata now contains the metadata for 'images/forest.jpg'
+				console.log('metadata: ', metadata.contentType);
+				let type = metadata.contentType;
+				getDownloadURL(storageRef).then((url) => {
+					resolve({ url: url, type: type });
+				});
+			})
+			.catch((error) => {
+				// A full list of error codes is available at
+				// https://firebase.google.com/docs/storage/web/handle-errors
+				switch (error.code) {
+					case 'storage/object-not-found':
+						console.log('ERROR - File does not exist');
+						break;
+					case 'storage/unauthorized':
+						console.log('ERROR - User does not have permission to access the object');
+						break;
+					case 'storage/canceled':
+						console.log('ERROR - User canceled the upload');
+						break;
+					case 'storage/unknown':
+						console.log('ERROR - Unknown error occurred, inspect the server response');
+						break;
+				}
+				resolve(null);
+			});
+		})
+	}
+
 	downloadImage(storageFolder:string, storageId) {
 		return new Promise((resolve) => {
 			const storage = getStorage();
 			// const httpsReference = ref(storage, storageFolder + '/' + urlStorage);
 			const storageRef = ref(storage, storageFolder + '/' + storageId);
-			getDownloadURL(storageRef)
-			.then((url) => {
+			getDownloadURL(storageRef).then((url) => {
 				resolve(url);
 			})
 			.catch((error) => {
@@ -268,8 +301,7 @@ export class FirebaseService {
 			const storage = getStorage();
 			// const httpsReference = ref(storage, storageFolder + '/' + urlStorage);
 			const storageRef = ref(storage, storageFolder + '/' + storageId);
-			getDownloadURL(storageRef)
-			.then((url) => {
+			getDownloadURL(storageRef).then((url) => {
 				const xhr = new XMLHttpRequest();
 				xhr.responseType = 'text'
 				xhr.onload = (event) => {

@@ -34,52 +34,80 @@ export class EditorService {
 		return imageItems;
 	}
 	
-	// convert a text with special template info to html text
-	convertImageTemplate(ancestor: any, text: any, key: any) {
+	// convert a document with special templates info to html text 
+	convertDocumentTemplate(ancestor: any, text: any, key: any) {
 		return new Promise((resolve, reject) => {
 			// https://stackoverflow.com/questions/71176093/how-to-extract-content-in-between-an-opening-and-a-closing-bracket
 			var reg = /(?<=\[)[^\]]*(?=\])/g;
-			let images = [];
+			let templates = [];
 			const matches = text.match(reg);
 			if (matches) {
 				for (let i = 0; i < matches.length; ++i) {
 					const match = matches[i];
 					// match does not include []
-					let data = this.getImageData(match);
+					let data = this.getDocumentTemplate(match);
 					if (data)
-						images.push(data);
+						templates.push(data);
 				}
 			}
-			// no image in text, just return
-			if (images.length == 0) {
+			// no template in text, just return
+			if (templates.length == 0) {
 				resolve([]);
 			}
 
 			// now read all images to url from Firebase storage
 			let promises = [];
-			images.forEach((data: any) => {
+			templates.forEach((data: any) => {
 				promises.push(
 					new Promise((res) => {
-						this.fbService.downloadImage(ancestor, data.name).then((imageURL:any) => {
-							// https://stackoverflow.com/questions/30686191/how-to-make-image-caption-width-to-match-image-width
-							let html = 
-								'<div class="' + data.container + '">' +
-								'<img src="' + imageURL + '" class="home-container-image" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
-								'</div>';
-							if (data.caption != '') {
-								// let size = this.themeService.getSize();
-								let fontSizePercent = this.themeService.getRootProperty("--app-page-text-font-size");
-								// let fontSizePercent = (size == SMALL_SIZE) ? '80' : ((size == MEDIUM_SIZE) ? '100' : '120');
-								// let style = 'font-size: ' + fontSizePercent + '%;';
-								let style = 'font-size: ' + fontSizePercent + ';';
-								html += '<div class="' + data.container + ' home-no-expand" style="' + style + '">' + data.caption + '</div>';
-							}
-							res({ key: key, imageStr: data.src, html: html });
-						})
-						.catch((error) => {
-							console.log('ERROR - ', error)
-							res(null);
-						});
+						// simple template with no server access
+						if (data.type == '1') {
+							// phrase formatting
+							let html = '';
+							if (data.justify == '0') html = '<p>';
+							if (data.justify == '1') html = '<p style="text-align: center;">';
+							if (data.justify == '2') html = '<p style="text-align: right;">';
+							if (data.weight == '1') html += '<strong>';
+							if (data.style == '1') html += '<em>';
+							html += data.phrase;
+							if (data.style == '1') html += '</em>';
+							if (data.weight == '1') html += '</strong>';
+							html += '</p>';
+							console.log('html: ', html);
+
+							res({ key: key, docStr: data.src, html: html });
+
+						} else if (data.type == '2' || data.type == '3') {
+							this.fbService.getDocumentURL(ancestor, data.name).then((result:any) => {
+								let url = result.url;
+								let type = result.type;
+								let html = '';
+								if (type.indexOf('image') >= 0) {
+									// https://stackoverflow.com/questions/30686191/how-to-make-image-caption-width-to-match-image-width
+									html = 
+									'<div class="' + data.container + '">' +
+									'<img src="' + url + '" class="home-container-image" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
+									'</div>';
+									if (data.caption != '') {
+										let fontSizePercent = this.themeService.getRootProperty("--app-page-text-font-size");
+										let style = 'font-size: ' + fontSizePercent + ';';
+										html += '<div class="' + data.container + ' home-no-expand" style="' + style + '">' + data.caption + '</div>';
+									}
+								} else {
+									html = 
+									'<div class="' + data.container + '">' +
+									'<span class="home-container-label" onclick="downloadDocument(\'' + url + '\', \'' + data.name + '\')">' + data.caption + '</span>' +
+									// '<span style="' + style + '" onclick="downloadDocument(\'' + url + '\', \'' + data.name + '\')">' + data.caption + '</span>' +
+									'</div>';
+								}
+								console.log('html: ', html);
+								res({ key: key, docStr: data.src, html: html });
+							})
+							.catch((error) => {
+								console.log('ERROR - ', error)
+								res(null);
+							});
+						}
 					})
 				)
 			});
@@ -88,37 +116,73 @@ export class EditorService {
 			});
 		});
 	}
-	
-	// IN: "[image|size|justify|caption]"  
-	// "size: 1(small)/2(medium)/3(large) | justify: 1(left)/2(center)/3(right)",
-	// IN: "[bai-vi-doi-1.jpg|2|2|Bài vị Thủy Tổ Họ Phan, Nhà thờ Họ Phan, Đồng Phú]"
 
-	private getImageData(str: any) {
-		// this is an image file name with options: [image|size|justify|caption]
-		let imageData = str.split('|');
-		// validate data
-		if (imageData.length != 4)
-			return null;
-		let fileName = imageData[0].trim();
-		fileName = this.decodeEntities(fileName);
-		// valid file, check image size
-		let imageSize = imageData[1].trim();
-		if (imageSize == '1' || imageSize == '2' || imageSize == '3') {
-			let lineJustify = imageData[2].trim();
-			if (lineJustify == '1' || lineJustify == '2' || lineJustify == '3') {
+	private getDocumentTemplate(str: any) {
+		// console.log('str: ', str);
+		let items = str.split('|');
+		let type = items[0].trim();
+
+		if (type == '1') {
+			// TXT paragraph
+			// IN: "[1 |justify|weight|style|label]" 
+			// 			"justify: 0(left)/1(center)/2(right)" 
+			//			"weight: 0(normal)/1(strong)"
+			//			"style: 0(normal)/1(em)"
+			// EG: "[1 |1|1|1|Ngành nghề truyền thống]"
+			let justify = items[1].trim();
+			let weight = items[2].trim();
+			let style = items[3].trim();	
+			if (justify == '0' || justify == '1' || justify == '2') {
+				let justifies = { '0': 'left', '1': 'center', '2': 'right' }
+				let containerClass = 'home-container-'+justifies[justify];
+				let data = { type: type, src: str, justify: justify, weight: weight, style: style, phrase: items[4].trim() }
+				return data;
+			}
+
+		} else if (type == '2') {
+			// DOC, PDF, TXT document
+			// IN: "[2| doc|justify|label]" 
+			// 			"justify: 0(left)/1(center)/2(right)" 
+			// EG: "[2| Quảng Bình.doc|1|Tư liệu tỉnh Quảng Bình]"
+
+			let fileName = items[1].trim();
+			fileName = this.decodeEntities(fileName);
+			let justify = items[2].trim();
+			let captionStr = items[3];
+			if (justify == '0' || justify == '1' || justify == '2') {
+				let justifies = { '0': 'left', '1': 'center', '2': 'right' }
+				let containerClass = 'home-container-'+justifies[justify];
+				let data = { type: type, src: str, name: fileName, justify: justify, container: containerClass, caption: captionStr }
+				return data;
+			}
+
+		} else if (type == '3') {
+			// IMAGE JPG, JPEG, BNG document
+			// IN: "[3| image|size|justify|caption]" 
+			//			"size: 0(small)/1(medium)/2(large)
+			//			"justify: 0(left)/1(center)/2(right)"
+			// EG: "[3| bai-vi-doi-1.jpg|1|1|Bài vị Thủy Tổ Họ Phan, Nhà thờ Họ Phan, Đồng Phú]"
+
+			let fileName = items[1].trim();
+			fileName = this.decodeEntities(fileName);
+			// valid file, check image size
+			let size = items[2].trim();
+			if (size == '0' || size == '1' || size == '2') {
 				let sizes = { 
 					'1': { w: '150', h: '100' },
 					'2': { w: '200', h: '150' },
 					'3': { w: '250', h: '200' },
 				};
-				let justify = {
-					'1': 'left', '2': 'center', '3': 'right'
+				let justify = items[3].trim();
+				if (justify == '0' || justify == '1' || justify == '2') {
+					let justifies = { '0': 'left', '1': 'center', '2': 'right' }
+					let containerClass = 'home-container-'+justifies[justify];
+					let caption = items[4];
+					let data = { type: type, src: str, name: fileName, width: sizes[size].w, height: sizes[size].h, container: containerClass, caption: caption }
+					return data;
 				}
-				let containerClass = 'home-container-'+justify[lineJustify];
-				let captionStr = imageData[3];
-				let data = { src: str, name: fileName, width: sizes[imageSize].w, height: sizes[imageSize].h, container: containerClass, caption: captionStr }
-				return data;
 			}
+			return null;
 		}
 		return null;
 	}
@@ -169,34 +233,14 @@ export class EditorService {
 		return str;
 	}
 
-	// IN: "1|1|1|Phan Quang Triệt", "1(center)/2(right)|1(strong)|1(em)|paragraph",
-	// OUT: "<p style="text-align: center;"><strong>Phan Quang Triệt</strong></p>"
 	replaceArrayToText(ary: any) {
 		let str = '';
 		ary.forEach((line: string) => {
-			// decode line to include font and style
-			let items = line.split('|');
-			if (items.length == 4 && items[0].length == 1 && items[1].length == 1 && items[2].length == 1) {
-				let text_align = items[0];	// 0: left, 1: center, 2: right
-				let font_weight = items[1]; // 0: normal, 1: strong
-				let font_style = items[2];	// 0, normal, 1: italic
-				if (text_align == '1')
-					str += '<p style="text-align: center;">';
-				else if (text_align == '2')
-					str += '<p style="text-align: right;">';
-				else
-					str += '<p>';
-				if (font_weight == '1')
-					str += '<strong>';
-				if (font_style == '1')
-					str += '<em>';
-				str += items[3];
-				if (font_style == '1')
-					str += '</em>';
-				if (font_weight == '1')
-					str += '</strong>';
-				str += '</p>';
-			} else
+			line = line.trim();
+			if (line.charAt(0) == '[' && line.charAt(line.length - 1) == ']')
+				// do not add paragraph to special template
+				str += line;
+			else
 				str += '<p>' + line + '</p>';
 		})
 		return str;

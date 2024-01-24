@@ -338,8 +338,7 @@ export class TreePage implements OnInit {
         resolve(url)
       } else {
         let ancestor = this.info.id;
-        this.fbService.downloadImage(ancestor, photoName)
-        .then((imageURL:any) => {
+        this.fbService.downloadImage(ancestor, photoName).then((imageURL:any) => {
           resolve(imageURL)
         })
         .catch((error) => {

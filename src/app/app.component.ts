@@ -163,8 +163,8 @@ export class AppComponent implements OnInit {
 						this.startUp = true;
 					else
 						this.startApp = true;
-					if (DEBUGS.APP)
-						console.trace("startUp, startApp: ", this.startUp, this.startApp);
+					// if (DEBUGS.APP)
+					// 	console.trace("startUp, startApp: ", this.startUp, this.startApp);
 				}
 			});
     });
@@ -330,8 +330,8 @@ export class AppComponent implements OnInit {
   }
 
   private startAncestor(ancestorID: any) {
-		if (DEBUGS.APP)
-			console.trace("ancestorID: ", ancestorID);
+		// if (DEBUGS.APP)
+		// 	console.trace("ancestorID: ", ancestorID);
 
     return new Promise((resolve) => {
 			// check if this ancestor is in local
@@ -463,7 +463,8 @@ export class AppComponent implements OnInit {
 		return new Promise((resolve) => {
 			if (DEBUGS.APP)
 				console.log('AppComponent - updateDocs - docs: ', docs);
-			// create a html, leave text unchanged
+
+			// create text from raw, if necessary
 			for (var key of Object.keys(docs)) {
 				let doc = docs[key];
 				if (doc.text) {
@@ -480,29 +481,32 @@ export class AppComponent implements OnInit {
 			};
 
 			// convert html
-			for (var key of Object.keys(docs)) {
-				let text = docs[key].text;
-				// convert image templates to HTML
-				this.editorService.convertImageTemplate(ancestor, text, key).then((resolves:any) => {
-					// change text to reflect image
-					for (let i = 0; i < resolves.length; i++) {
-						let data = resolves[i];
-						let rkey = data.key;
-						let imageStr = '[' + data.imageStr + ']';
-						let html = data.html;
-						docs[rkey].html = docs[rkey].html.replaceAll(imageStr, html);
-					}
-				})
+			let promises = [];
+			for (let key of Object.keys(docs)) {
+				promises.push(
+					new Promise((res) => {
+						let text = docs[key].text;
+						// convert image templates to HTML
+						this.editorService.convertDocumentTemplate(ancestor, text, key).then((resolves:any) => {
+							// change text to reflect image
+							for (let i = 0; i < resolves.length; i++) {
+								let data = resolves[i];
+								let rkey = data.key;
+								let docStr = '[' + data.docStr + ']';
+								let html = data.html;
+								docs[rkey].html = docs[rkey].html.replaceAll(docStr, html);
+							}
+							res(true);
+						});
+					})
+				);
 			}
-			// must wait till conversion is complete.
-			setTimeout(() => {
-				this.dataService.saveDocs(docs).then((status:any) => {
-					resolve(true);
-				});
-			}, 1000);
+			Promise.all(promises).then(resolves => {
+				resolve(true);
+			});
 		})
 	}
-	
+
   private setJsonData(json: string) {
     return new Promise((resolve) => {
       let jsonFile = './assets/common/' + json + '.json';

@@ -142,19 +142,21 @@ export class PersonPage implements OnInit {
     if (this.selectedNode)
       this.selectedNode.nclass = this.nodeService.updateNclass(this.selectedNode);
 
+		// convert to html for display
 		node.desc = this.editorService.replaceDescTextStyle(node.desc);
     this.selectedNode = node;
 		let ancestor = this.info.id;
-		this.editorService.convertImageTemplate(ancestor, node.desc, 'person').then((resolves:any) => {
+		this.editorService.convertDocumentTemplate(ancestor, node.desc, 'person').then((resolves:any) => {
 			if (resolves.length > 0) {
-				let newText:any = node.desc.slice(0);
+				let html:any = node.desc.slice(0);
 				for (let i = 0; i < resolves.length; i++) {
 					let data = resolves[i];
 					let imageStr = '[' + data.imageStr + ']';
 					let html = data.html;
-					newText = newText.replaceAll(imageStr,html);
+					html = html.replaceAll(imageStr,html);
 				}
-				node.desc = newText;
+				// save html to desc
+				node.desc = html;
 			}
 		})
     this.selectedNodeName = node.name;
