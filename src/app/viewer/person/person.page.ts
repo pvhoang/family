@@ -141,25 +141,32 @@ export class PersonPage implements OnInit {
     // reset nclass
     if (this.selectedNode)
       this.selectedNode.nclass = this.nodeService.updateNclass(this.selectedNode);
-
 		// convert to html for display
 		node.desc = this.editorService.replaceDescTextStyle(node.desc);
     this.selectedNode = node;
 		let ancestor = this.info.id;
 		this.editorService.convertDocumentTemplate(ancestor, node.desc, 'person').then((resolves:any) => {
 			if (resolves.length > 0) {
+				// console.log('PersonPage - onNodeSelect - node.desc: ', node.desc);
+				// console.log('PersonPage - onNodeSelect - resolves: ', resolves);
 				let html:any = node.desc.slice(0);
 				for (let i = 0; i < resolves.length; i++) {
 					let data = resolves[i];
-					let imageStr = '[' + data.imageStr + ']';
-					let html = data.html;
-					html = html.replaceAll(imageStr,html);
+					let docStr = '[' + data.docStr + ']';
+					html = html.replaceAll(docStr,data.html);
 				}
-				// save html to desc
-				node.desc = html;
+				// convert html to css based text and to desc
+				node.desc = this.editorService.replaceDescTextStyle(html);
+				this.onNodeDisplay(node);
+			} else {
+				this.onNodeDisplay(node);
 			}
 		})
-    this.selectedNodeName = node.name;
+  }
+
+	onNodeDisplay(node: Node) {
+
+		this.selectedNodeName = node.name;
     this.selectPeople = node.name + this.nodeService.getFullDetail(node)
     let ancestorName = this.info.family_name;
     this.isChildOK = this.nodeService.isAncestorName(ancestorName, node);
@@ -176,7 +183,8 @@ export class PersonPage implements OnInit {
     }
     this.familyView = this.familyService.getSelectedPerson(this.selectedNode);
     this.startTree();
-  }
+
+	}
 
   //
   // ------------- TREE -------------

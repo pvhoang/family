@@ -4,8 +4,7 @@ import { getStorage, getDownloadURL, ref, getMetadata, deleteObject, getBlob, li
 import { deleteDoc, setDoc } from 'firebase/firestore';
 import { Observable, from } from 'rxjs';
 import { UtilService } from './util.service';
-
-// import { getStorage, getDownloadURL, ref, getMetadata, deleteObject, listAll, Storage, uploadString } from '@angular/fire/storage';
+import { DEBUGS } from '../../environments/environment';
 
 const ROOT_COLLECTION = 'giapha';
 
@@ -42,11 +41,6 @@ export class FirebaseService {
 		const docRef = doc(this.firestore, ROOT_COLLECTION, ancestor);
 		return setDoc(docRef, data);
 	}
-
-	// private setDocsData(ancestor, data)  {
-	// 	const docRef = doc(this.firestore, ROOT_COLLECTION, ancestor);
-	// 	return setDoc(docRef, data);
-	// }
 
 	private getAppData(): Observable<any> {
 		let id = ROOT_COLLECTION + '/app';
@@ -182,7 +176,6 @@ export class FirebaseService {
 			const storageRef = ref(this.storage, storageFolder + '/' + storageId);
 			deleteObject(storageRef)
 			.then(() => {
-				// console.log("File deleted successfully");
 				resolve(true);
 			})
 			.catch((error) => {
@@ -217,9 +210,7 @@ export class FirebaseService {
 				contentType: type
 			})
 			.then((snapshot) => {
-				// console.log('Uploaded a base64 string!');
 				getDownloadURL(snapshot.ref).then(url => {
-					// console.log('addImage - url: ', url);
 					resolve(url);
 				});
 			})
@@ -238,7 +229,8 @@ export class FirebaseService {
 			const storageRef = ref(storage, storageFolder + '/' + storageId);
 			getMetadata(storageRef).then((metadata) => {
 				// Metadata now contains the metadata for 'images/forest.jpg'
-				console.log('metadata: ', metadata.contentType);
+				if (DEBUGS.FIREBASE)
+					console.log('getDocumentURL - metadata: ', metadata.contentType);
 				let type = metadata.contentType;
 				getDownloadURL(storageRef).then((url) => {
 					resolve({ url: url, type: type });
@@ -269,7 +261,6 @@ export class FirebaseService {
 	downloadImage(storageFolder:string, storageId) {
 		return new Promise((resolve) => {
 			const storage = getStorage();
-			// const httpsReference = ref(storage, storageFolder + '/' + urlStorage);
 			const storageRef = ref(storage, storageFolder + '/' + storageId);
 			getDownloadURL(storageRef).then((url) => {
 				resolve(url);
@@ -299,7 +290,6 @@ export class FirebaseService {
 	downloadText(storageFolder:string, storageId) {
 		return new Promise((resolve) => {
 			const storage = getStorage();
-			// const httpsReference = ref(storage, storageFolder + '/' + urlStorage);
 			const storageRef = ref(storage, storageFolder + '/' + storageId);
 			getDownloadURL(storageRef).then((url) => {
 				const xhr = new XMLHttpRequest();
@@ -333,49 +323,6 @@ export class FirebaseService {
 		})
 	}
 
-	// getPhotoNames1(storageFolder:string) {
-	// 	return new Promise((res) => {
-	// 		const storage = getStorage();
-	// 		const r = ref(storage, storageFolder + '/');
-	// 		listAll(r).then((data) => {
-	// 			let promises = [];
-	// 			for (let i = 0; i < data.items.length; i++) {
-	// 				promises.push(
-	// 					new Promise((resolve) => {
-	// 						let name = data.items[i].name;
-	// 						if (name.indexOf('.png') > 0 || name.indexOf('.jpg') > 0 || name.indexOf('.jpeg') > 0) {
-	// 							console.log('name1: ', name)
-	// 							let sname = name.substring(0, name.indexOf('.'));
-	// 							let textFile = sname + '.txt';
-	// 							console.log('textFile: ', textFile)
-	// 							this.downloadText(storageFolder, textFile).then(text => {
-	// 								if (text) {
-	// 									console.log('text: ', text)
-	// 									// there is some caption data, add to name
-	// 									name += '|' + text;
-	// 								}
-	// 								// names.push(name);
-	// 								resolve(name);
-	// 							})
-	// 						}
-	// 						// resolve(null);
-	// 					})
-	// 				)
-	// 			}
-	// 			Promise.all(promises).then(resolves => {
-	// 				let names = [];
-	// 				console.log('resolves = ', resolves);
-	// 				for (let i = 0; i < resolves.length; i++) {
-	// 					let name = resolves[i];
-	// 					if (name)
-	// 						names.push(name);
-	// 				}
-	// 				res(names);
-	// 			});
-	// 		})
-	// 	});
-	// }
-
 	getPhotoNames(storageFolder:string) {
 		return new Promise((resolve) => {
 			const storage = getStorage();
@@ -396,46 +343,9 @@ export class FirebaseService {
 				setTimeout(() => {
 					resolve(names);
 				}, 500);
-				
-				// for (let i = 0; i < names.length; i++) {
-				// 	let name = names[i];
-				// 	let sname = name.substring(0, name.indexOf('.'));
-				// 	let textFile = sname + '.txt';
-				// 	for (let j = 0; j < data.items.length; j++) {
-				// 		let srcName = data.items[j].name;
-				// 		if (srcName.indexOf(textFile) == 0) {
-				// 			names[i] += '|' + textFile;
-				// 			break;
-				// 		}
-				// 	}
-				// }
-				// resolve(names);
 			})
 		});
 	}
-
-	// getPhotoList(storageFolder:string) {
-	// 	return new Promise((resolve) => {
-	// 		const storage = getStorage();
-	// 		const r = ref(storage, storageFolder + '/');
-	// 		listAll(r).then((data) => {
-	// 			let photolist = []
-	// 			for (let i = 0; i < data.items.length; i++) {
-	// 				let name = data.items[i].name;
-	// 				if (name.lastIndexOf('_') > 0) {
-	// 					let photoTime = name.substring(name.lastIndexOf('_')+1);
-	// 					if (photoTime.length > 12) {
-	// 						let time = photoTime;
-	// 						let photoName = name.substring(0, name.lastIndexOf('_'));
-	// 						// photolist.push({ photoName: photoTime })
-	// 						photolist.push( [photoName, time] )
-	// 					}
-	// 				}
-	// 			}
-	// 			resolve(photolist);
-	// 		});
-	// 	});
-	// }
 
 	getFileList(storageFolder:string) {
 		return new Promise((resolve) => {
@@ -464,15 +374,9 @@ export class FirebaseService {
 						});
 
 					}).catch((error) => {
-						console.log('ERROR - FirebaseService - getFileList:', error)
+						console.log('ERROR - FirebaseService - getFileList - error:', error)
 						// Uh-oh, an error occurred!
 					});
-					// let url = getDownloadURL(newref).then((data) => {
-					// 	filelist.push({
-					// 		name: name,
-					// 		url: data
-					// 	});
-					// });
 				}
 				resolve(filelist);
 			});

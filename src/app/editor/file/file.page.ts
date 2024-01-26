@@ -382,17 +382,13 @@ export class FilePage implements OnInit {
         // validate json file
 				let family = this.uploadValidateFamily(res.text);
         if (family) {
-					// this.dataService.readFamilyAndInfo().then((ldata:any) => {
-						// let ancestor = ldata.info.id;
-						this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
-							let cleanFamily = this.familyService.getFilterFamily(family, true);
-							rdata.family = cleanFamily;
-							this.fbService.saveAncestorData(rdata).then((status:any) => {
-								let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + file.name + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
-								this.utilService.presentToast(msg);
-							});
+					this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
+						rdata.family = family;
+						this.fbService.saveAncestorData(rdata).then((status:any) => {
+							let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + file.name + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
+							this.utilService.presentToast(msg);
 						});
-					// });
+					});
 				} else {
 					let docs = this.uploadValidateDocs(res.text);
 					if (docs) {
@@ -433,9 +429,12 @@ export class FilePage implements OnInit {
 			let nVersion = this.family.version + 1;
 			family.version = nVersion;
 			family.date = this.utilService.getShortDateID('/');
-			return family;
+			// check if this family is validated
+			let cleanFamily = this.familyService.getFilterFamily(family, true);
+			return cleanFamily;
 		} catch (error) {
 			console.log('uploadValidateFamily - error: ', error);
+			return null;
 		}		
   }
 
@@ -450,6 +449,7 @@ export class FilePage implements OnInit {
 			return docs;
 		} catch (error) {
 			console.log('uploadValidateDocs - error: ', error);
+			return null;
 		}		
   }
 	

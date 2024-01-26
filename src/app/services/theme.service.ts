@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { DataService } from '../services/data.service';
-import { DRAGON, VILLAGE, TREE, COUNTRY, SMALL_SIZE, MEDIUM_SIZE, LARGE_SIZE } from '../../environments/environment';
+import { DEBUGS } from '../../environments/environment';
 
 const COLORS = {
 	ORANGE: '#fee8b9',
@@ -27,11 +26,13 @@ export class ThemeService {
   ) { }
 
   setSystemProperties(themes: any, theme: any, size: any) {
-    console.log('themes: ', themes);
-    console.log('theme: ', theme);
-    console.log('size: ', size);
-		let str = this.platform.platforms().toString();
-    console.log('platform: ', str);
+    if (DEBUGS.THEME) {
+			console.log('setSystemProperties - themes: ', themes);
+			console.log('theme: ', theme);
+			console.log('size: ', size);
+			let str = this.platform.platforms().toString();
+			console.log('platform: ', str);
+		}
 
 		// set by platform
 		let items = [];
@@ -43,7 +44,8 @@ export class ThemeService {
 		} else
 			items = themes[theme][size]['css'];
 
-		console.log('items: ', items);
+		if (DEBUGS.THEME)
+			console.log('setSystemProperties - items: ', items);
     let root = document.documentElement;
 		items.forEach((item:any) => {
       root.style.setProperty(item[0], item[1]);
@@ -81,7 +83,8 @@ export class ThemeService {
 	printRootProperty(msg: any, property: any) {
 		let root = document.documentElement;
 		let value = root.style.getPropertyValue(property);
-		console.log(msg + ' - ' + property + ' : ' + value);
+		if (DEBUGS.THEME)
+			console.log(msg + ' - ' + property + ' : ' + value);
 	}
 
 	setToastSize(message) {
@@ -92,8 +95,10 @@ export class ThemeService {
 			if (line.length > lineChars)
 				lineChars = line.length;
 		})
-    console.log('setToastSize: line: ', lines);
-    console.log('setToastSize: lineChars: ', lineChars);
+		if (DEBUGS.THEME) {
+			console.log('setToastSize: line: ', lines);
+			console.log('setToastSize: lineChars: ', lineChars);
+		}
 		let height = (lines.length == 1) ? 50 : ((lines.length == 2) ? 80 : 120);
 		let width = (lineChars < 30) ? 400 : ((lineChars < 50) ? 500 : 600);
     let root = document.documentElement;

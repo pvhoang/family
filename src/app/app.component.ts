@@ -134,7 +134,7 @@ export class AppComponent implements OnInit {
 						this.size = size;
 						size = MEDIUM_SIZE;
 						if (DEBUGS.APP)
-							console.log('theme, language, size: ', this.theme, this.language, this.size)
+							console.log('initializeUI - theme, language, size: ', this.theme, this.language, this.size)
 						// now read theme constants and set system properties
 						let jsonFile = './assets/common/themes.json';
 						this.utilService.getLocalJsonFile(jsonFile).then((themes:any) => {
@@ -501,8 +501,11 @@ export class AppComponent implements OnInit {
 					})
 				);
 			}
+
 			Promise.all(promises).then(resolves => {
-				resolve(true);
+				this.dataService.saveDocs(docs).then((status:any) => {
+					resolve(true);
+				});
 			});
 		})
 	}

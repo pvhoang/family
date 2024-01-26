@@ -16,12 +16,14 @@ export const environment = {
 export const FONTS_FOLDER = '../../assets/fonts/';
 
 export const DEBUGS = {
-  'APP': true,
+  'APP': false,
   'SPLASH': false,
+  'THEME': false,
   'TABS': false,
   'MEMORY': false,
   'PERSON': false,
-  'HOME': false,
+  'HOME': true,
+  'EDITOR': false,
   'VNODE': false,
   'NODE': false,
   'BRANCH': false,
@@ -29,11 +31,11 @@ export const DEBUGS = {
   'TREE': false,
   'EDIT': false,
   'CROPPER': false,
+  'FIREBASE': false,
   'FILE': false,
   'FAMILY_SERVICE': false,
   'UTIL_SERVICE': false,
   'DATA_SERVICE': false,
-  'FIREBASE_SERVICE': false,
 };
 
 export const DRAGON = 'dragon';

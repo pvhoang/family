@@ -73,12 +73,14 @@ export class EditorService {
 							if (data.style == '1') html += '</em>';
 							if (data.weight == '1') html += '</strong>';
 							html += '</p>';
-							console.log('html: ', html);
-
+							if (DEBUGS.EDITOR)
+								console.log('convertDocumentTemplate - html: ', html);
 							res({ key: key, docStr: data.src, html: html });
 
 						} else if (data.type == '2' || data.type == '3') {
 							this.fbService.getDocumentURL(ancestor, data.name).then((result:any) => {
+								if (!result)
+									res({ key: key, docStr: data.src, html: '' });
 								let url = result.url;
 								let type = result.type;
 								let html = '';
@@ -100,11 +102,12 @@ export class EditorService {
 									// '<span style="' + style + '" onclick="downloadDocument(\'' + url + '\', \'' + data.name + '\')">' + data.caption + '</span>' +
 									'</div>';
 								}
-								console.log('html: ', html);
+								if (DEBUGS.EDITOR)
+									console.log('convertDocumentTemplate - html: ', html);
 								res({ key: key, docStr: data.src, html: html });
 							})
 							.catch((error) => {
-								console.log('ERROR - ', error)
+								console.log('ERROR - convertDocumentTemplate - error: ', error)
 								res(null);
 							});
 						}
@@ -133,8 +136,6 @@ export class EditorService {
 			let weight = items[2].trim();
 			let style = items[3].trim();	
 			if (justify == '0' || justify == '1' || justify == '2') {
-				let justifies = { '0': 'left', '1': 'center', '2': 'right' }
-				let containerClass = 'home-container-'+justifies[justify];
 				let data = { type: type, src: str, justify: justify, weight: weight, style: style, phrase: items[4].trim() }
 				return data;
 			}

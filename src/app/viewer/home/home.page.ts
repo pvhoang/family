@@ -30,10 +30,8 @@ export class HomePage implements OnInit{
 	nodes: any;
 	levels: any;
 	modalPage: any = '';
-	info = { name: '', location: '' };
+	info: any;
 	version: any;
-	email: any;
-	// size: any;
 
 	pageData = {
 		"pha_he": { title: "", html: "", index: 0, titleText: "" },
@@ -70,20 +68,19 @@ export class HomePage implements OnInit{
 		this.dataService.readDocs().then((docs:any) => {
 			if (DEBUGS.HOME)
 				console.log('HomePage - docs: ', docs);
-				this.dataService.readFamilyAndInfo().then((dat:any) => {
-					let family = dat.family;
-					let info = dat.info;
-					this.info = info;
-					// let dateid = this.utilService.getShortDateID(true);
-					this.version = 'A.' + environment.version + ' (D.' + family.version + ', ' + family.date + ')';
-					this.ancestor = info.id;
-					let data = this.getSystemData(family);
-					this.nodes = data.nodes;
-					this.levels = data.levels;
-					this.updatePageData(docs);
-					this.email = info.admin_name + '(' + info.admin_email + ')';
-					this.onMemorial();
-				});
+			this.dataService.readFamilyAndInfo().then((dat:any) => {
+				let family = dat.family;
+				let info = dat.info;
+				this.info = info;
+				// let dateid = this.utilService.getShortDateID(true);
+				this.version = 'A.' + environment.version + ' (D.' + family.version + ', ' + family.date + ')';
+				this.ancestor = info.id;
+				let data = this.getSystemData(family);
+				this.nodes = data.nodes;
+				this.levels = data.levels;
+				this.updatePageData(docs);
+				this.onMemorial();
+			});
 		});
 	}
 	
@@ -159,8 +156,6 @@ export class HomePage implements OnInit{
 
 				// pages with special templates
 				if (key == 'pha_he' || key == 'pha_do') {
-					// text = text.replaceAll('[NODES]', '<b>' + this.nodes +'</b>');
-					// text = text.replaceAll('[LEVELS]', '<b>' + this.levels + '</b>');
 					data.html = html;
 					data.index = count++;
 					pageData[key] = data;
@@ -200,50 +195,10 @@ export class HomePage implements OnInit{
 		// this.themeService.printRootProperty('startBook: ', '--app-text-font-size-medium');
 		const pageFlip = new PageFlip(
 			document.getElementById("book"), 
-			// {
-			// 	width: 350, // base page width
-			// 	height: 600, // base page height
-			// 	size: "stretch",
-			// 	// set threshold values:
-			// 	minWidth: 350,
-			// 	maxWidth: 600,
-			// 	minHeight: 600,
-			// 	maxHeight: 900,
-
-			// 	flippingTime: FLIPPING_TIME,
-			// 	usePortrait: true,
-			// 	autoSize: true,
-			// 	maxShadowOpacity: 0.5, // Half shadow intensity
-			// 	drawShadow: false,
-			// 	showCover: true,
-			// 	swipeDistance: 20,
-			// 	// startPage: 1,
-			// 	disableFlipByClick: true,
-			// 	mobileScrollSupport: true // disable content scrolling on mobile devices
-			// }
-			// OK - 20/01/24
-			// {
-			// 	width: 350, // base page width
-			// 	height: 600, // base page height
-			// 	size: "stretch",
-			// 	// set threshold values:
-			// 	minWidth: 350,
-			// 	maxWidth: 600,
-			// 	minHeight: 600,
-			// 	maxHeight: 900,
-
-			// 	flippingTime: FLIPPING_TIME,
-			// 	usePortrait: true,
-			// 	autoSize: true,
-			// 	maxShadowOpacity: 0.5, // Half shadow intensity
-			// 	showCover: false,
-			// 	mobileScrollSupport: true // disable content scrolling on mobile devices
-			// },
 			{
 				width: 350, // base page width
 				height: 600, // base page height
 				size: "stretch",
-				// set threshold values:
 				minWidth: 350,
 				maxWidth: 600,
 				minHeight: 600,

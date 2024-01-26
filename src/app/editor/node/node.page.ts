@@ -94,7 +94,8 @@ export class NodePage implements OnInit {
 
   start(family: any) {
     this.family = this.familyService.buildFullFamily(family);
-    console.log('NodePage - family: ', family);
+		if (DEBUGS.NODE)
+			console.log('NodePage - family: ', family);
 
     this.peopleNodes = this.familyService.getPeopleNodes(this.family);
     this.nodeItems = this.nodeService.getInfoList();
