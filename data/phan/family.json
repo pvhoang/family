@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "date": "24/01/24",
   "nodes": [
     {
@@ -79,6 +79,7 @@
             {
               "name": "Phan Văn Tốt",
               "gender": "male",
+              "yob": "1894",
               "pod": "Quảng Bình",
               "dod": "03/09",
 							"desc": [
@@ -92,7 +93,7 @@
 							]
             },
             {
-              "name": "Hoang Thị Huu",
+              "name": "Hoang Thị Hữu",
               "gender": "female",
               "dod": "21/03"
             }
@@ -993,6 +994,7 @@
                   "gender": "male",
 "pod": "Đá Bạc, Quảng Bình",
                   "yob": "1829",
+                  "yod": "1878",
 									"desc": [
 "Ông Phan Lợi Hành là chánh bát phẩm, bổ kinh lịch tỉnh Thái Nguyên (Bắc Việt), làm bang tá huyện Tyên Hóa Quảng Bình, sau bổ ra làm Bang tá tại Tỉnh Nam Đinh hơn một năm thì đau mất. Tháng giêng năm mậu dần (1878) dời quan cốt về làng",
 "Ông Hành và bà Khương có thân chủ ",
@@ -1191,7 +1193,7 @@
                                 {
                                   "name": "Phan Ngọc Ái",
                                   "gender": "male",
-					"dod": "22/04"
+																	"dod": "22/04"
                                 }
                               ]
                             },
@@ -2376,6 +2378,7 @@
                     {
                       "name": "Phan Tuấn Đức",
                       "gender": "male",
+											"yob": "1868",
                       "desc": "Mẹ: Trần Thị Ninh"
                     }
                   ]
@@ -2385,6 +2388,7 @@
                     {
                       "name": "Phan Hàm",
                       "gender": "male",
+											"yob": "1863",
                       "desc": "Mẹ: Trần Thị Ninh"
                     }
                   ]
@@ -2394,6 +2398,7 @@
                     {
                       "name": "Phan Thị Nhàn",
                       "gender": "female",
+											"yob": "1870",
                       "nick": "Muôn"
                     }
                   ]
@@ -2401,9 +2406,10 @@
                 {
                   "nodes": [
                     {
-                      "name": "Phan Văn Nương",
+                      "name": "Phan Văn Nuông",
                       "gender": "male",
-                      "nick": "Hành"
+                      "nick": "Hành Cu",
+											"yob": "1873"
                     }
                   ]
                 },

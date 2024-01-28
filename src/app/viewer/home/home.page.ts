@@ -28,9 +28,10 @@ export class HomePage implements OnInit{
 	pageFlip: any;
 	ancestor: any;
 	nodes: any;
-	levels: any;
+	// levels: any;
 	modalPage: any = '';
-	info: any;
+	info: any = { name: '', location: ''};
+	family: any;
 	version: any;
 
 	pageData = {
@@ -70,44 +71,47 @@ export class HomePage implements OnInit{
 				console.log('HomePage - docs: ', docs);
 			this.dataService.readFamilyAndInfo().then((dat:any) => {
 				let family = dat.family;
-				let info = dat.info;
+				let info: any = dat.info;
 				this.info = info;
+				family = this.familyService.buildFullFamily(family);
+				this.family = family;
+				this.nodes = this.nodeService.getFamilyNodes(family, true);
 				// let dateid = this.utilService.getShortDateID(true);
 				this.version = 'A.' + environment.version + ' (D.' + family.version + ', ' + family.date + ')';
 				this.ancestor = info.id;
-				let data = this.getSystemData(family);
-				this.nodes = data.nodes;
-				this.levels = data.levels;
+				// let data = this.getSystemData(family);
+				// this.nodes = data.nodes;
+				// this.levels = data.levels;
 				this.updatePageData(docs);
 				this.onMemorial();
 			});
 		});
 	}
 	
-	private getSystemData(family) {
+	// private getSystemData(family) {
 	
-		let nodes = this.nodeService.getFamilyNodes(family, true);
-		let minLevel = 100;
-		let maxLevel = 0;
-		nodes.forEach(node => {
-			if (node.level > maxLevel)
-				maxLevel = node.level;
-			if (node.level < minLevel)
-				minLevel = node.level;
-		})
-		let yobMin = 3000;
-		let yobMax = 0;
-		nodes.forEach(node => {
-			if (node.level == minLevel && node.yob != '' && node.yob < yobMin)
-				yobMin = node.yob;
-			if (node.level == maxLevel && node.yob != '' && node.yob > yobMax)
-				yobMax = node.yob;
-		})
-		return {
-			nodes: nodes.length,
-			levels: maxLevel + ' ( ' + yobMin + '-' + yobMax + ' )'
-		}
-	}
+	// 	let nodes = this.nodeService.getFamilyNodes(family, true);
+	// 	let minLevel = 100;
+	// 	let maxLevel = 0;
+	// 	nodes.forEach(node => {
+	// 		if (node.level > maxLevel)
+	// 			maxLevel = node.level;
+	// 		if (node.level < minLevel)
+	// 			minLevel = node.level;
+	// 	})
+	// 	let yobMin = 3000;
+	// 	let yobMax = 0;
+	// 	nodes.forEach(node => {
+	// 		if (node.level == minLevel && node.yob != '' && node.yob < yobMin)
+	// 			yobMin = node.yob;
+	// 		if (node.level == maxLevel && node.yob != '' && node.yob > yobMax)
+	// 			yobMax = node.yob;
+	// 	})
+	// 	return {
+	// 		nodes: nodes.length,
+	// 		levels: maxLevel + ' ( ' + yobMin + '-' + yobMax + ' )'
+	// 	}
+	// }
 
 	onMemorial() {
     this.familyService.passAwayFamily().then((data:any) => {
@@ -151,8 +155,10 @@ export class HomePage implements OnInit{
 			data.titleText = titles[key];
 				// html is calculated in app.component.ts
 				let html = data.html;
+
 				html = this.editorService.removeFontSize(html, fontSizePercent);
-				html = this.editorService.replaceSpecialTemplate(html, this.nodes, this.levels);
+				// html = this.editorService.replaceSpecialTemplate(html, this.nodes, this.levels);
+				html = this.replaceSpecialTemplate(html);
 
 				// pages with special templates
 				if (key == 'pha_he' || key == 'pha_do') {
@@ -193,20 +199,22 @@ export class HomePage implements OnInit{
 			document.getElementById(key).innerHTML = data.html;
 		}
 		// this.themeService.printRootProperty('startBook: ', '--app-text-font-size-medium');
+		// KEEP THIS OPTION - DO NOT CHANGE - 28/01/24 - THIS IS GOOD FOR ANDROID AND IOS
 		const pageFlip = new PageFlip(
 			document.getElementById("book"), 
 			{
-				width: 350, // base page width
-				height: 600, // base page height
+				width: 550, // base page width
+				height: 1000, // base page height
 				size: "stretch",
-				minWidth: 350,
-				maxWidth: 600,
-				minHeight: 600,
-				maxHeight: 900,
+				// set threshold values:
+				minWidth: 315,
+				maxWidth: 1000,
+				minHeight: 700,
+				maxHeight: 1350,
 				flippingTime: FLIPPING_TIME,
 				usePortrait: true,
 				autoSize: true,
-				maxShadowOpacity: 0.5, // Half shadow intensity
+				maxShadowOpacity: 0.5,
 				showCover: false,
 				mobileScrollSupport: true // disable content scrolling on mobile devices
 			}
@@ -275,6 +283,131 @@ export class HomePage implements OnInit{
 			this.toPage('pha_he');
 		});
 		return await modal.present();
+	}
+
+	replaceSpecialTemplate(str: any) {
+		// console.log('str: ', str);
+		if (str.indexOf('[NODE-COUNT]') >= 0) {
+			str = str.replaceAll('[NODE-COUNT]', '<b>' + this.nodes.length +'</b>');
+		} 
+		
+		if (str.indexOf('[GEN-COUNT]') >= 0) {
+			let maxLevel = 0;
+			this.nodes.forEach(node => {
+				if (node.level > maxLevel)
+					maxLevel = node.level;
+			})
+			str = str.replaceAll('[GEN-COUNT]', '<b>' + maxLevel + '</b>');
+		}
+		
+		if (str.indexOf('[GEN-TABLE]') >= 0) {
+			// console.log('this.nodes: ', this.nodes);
+			let levels: any = {};
+			this.nodes.forEach((node: any) => {
+				let data = node.idlevel.split('-');
+				let level = data[0];
+				let rank = +data[1];
+				if (!levels[level])
+					levels[level] = { min: 200, max: 0, yob: 2020 };
+				if (rank < levels[level].min) {
+					levels[level].min = rank;
+					levels[level].minNode = node;
+				}
+				if (rank > levels[level].max) {
+					levels[level].max = rank;
+					levels[level].maxNode = node;
+				}
+				if (node.yob != '' && levels[level].yob > +node.yob) {
+					levels[level].yob = node.yob;
+				}
+			})
+
+			// console.log('levels: ', levels);
+
+			let html = '';
+			html += 
+			'<ion-grid class="home-grid">' +
+			'<ion-row>' +
+				'<ion-col size="4" class="column">' +
+					this.languageService.getTranslation('GENERATION') + '<br/>(Năm, Số hệ)' +
+				'</ion-col>' +
+				'<ion-col size="4" class="column">' +
+					this.languageService.getTranslation('HOME_FIRST_NODE') +
+				'</ion-col>' +
+				'<ion-col size="4" class="column">' +
+					this.languageService.getTranslation('HOME_LAST_NODE') +
+				'</ion-col>' +
+			'</ion-row>';
+
+			let keys = Object.keys(levels);
+			for (let i = 0; i < 5; i++) {
+				let key = keys[i];
+				html += 
+				'<ion-row>' +
+				'<ion-col size="4" class="column">' +
+					'<b>' + key + '</b>' + '<br/>(' + levels[key].yob + ',' + levels[key].max + ')' +
+				'</ion-col>' +
+				'<ion-col size="4" class="column">' +
+					levels[key].minNode.name +
+				'</ion-col>' +
+				'<ion-col size="4" class="column">' +
+					levels[key].maxNode.name +
+				'</ion-col>' +
+				'</ion-row>';
+			};
+			
+			html += '[PAGE]';
+			html += 
+			'<ion-grid class="home-grid">' +
+			'<ion-row>' +
+				'<ion-col size="4" class="column">' +
+					this.languageService.getTranslation('GENERATION') + '<br/>(Năm, Số hệ)' +
+				'</ion-col>' +
+				'<ion-col size="4" class="column">' +
+					this.languageService.getTranslation('HOME_FIRST_NODE') +
+				'</ion-col>' +
+				'<ion-col size="4" class="column">' +
+					this.languageService.getTranslation('HOME_LAST_NODE') +
+				'</ion-col>' +
+			'</ion-row>';
+			for (let i = 5; i < keys.length; i++) {
+				let key = keys[i];
+				html += 
+				'<ion-row>' +
+				'<ion-col size="4" class="column">' +
+					'<b>' + key + '</b>' + '<br/>(' + levels[key].yob + ',' + levels[key].max + ')' +
+				'</ion-col>' +
+				'<ion-col size="4" class="column">' +
+					levels[key].minNode.name +
+				'</ion-col>' +
+				'<ion-col size="4" class="column">' +
+					levels[key].maxNode.name +
+				'</ion-col>' +
+				'</ion-row>';
+			};
+			html += 
+			'</ion-grid>';
+
+			// for (var key of Object.keys(levels)) {
+			// 	html += 
+			// 	'<ion-row>' +
+			// 	'<ion-col size="4" class="column">' +
+			// 		'<b>' + key + '</b>' + '<br/>(' + levels[key].yob + ',' + levels[key].max + ')' +
+			// 	'</ion-col>' +
+			// 	'<ion-col size="4" class="column">' +
+			// 		levels[key].minNode.name +
+			// 	'</ion-col>' +
+			// 	'<ion-col size="4" class="column">' +
+			// 		levels[key].maxNode.name +
+			// 	'</ion-col>' +
+			// 	'</ion-row>';
+			// };
+		
+			if (DEBUGS.HOME)
+				console.log('replaceSpecialTemplate - html: ', html);
+			str = str.replaceAll('[GEN-TABLE]', html);
+		}
+		return str;
 	}
 }
 

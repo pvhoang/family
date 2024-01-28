@@ -411,6 +411,30 @@ ion-tab-button {
 	// font-size: var(--app-caption-font-size);
 }
 
+.home-grid {
+  --ion-grid-column-padding: 5px;
+  width: 100%;
+  font-size: var(--app-text-font-size-small);
+  ion-row:first-child {
+    font-weight: bold;
+    // color: white;
+		color: var(--app-color);
+    background-color: var(--app-background-color);
+    font-size: var(--app-text-font-size-small);
+  }
+  ion-col {
+    border: 1px solid black;
+    border-bottom: 0;
+    border-right: 0;
+  }
+  ion-col:last-child {
+    border-right: 1px solid black;
+  }
+  ion-row:last-child {
+    border-bottom: 1px solid black;
+  }
+}
+
 // --- EDIT ---
 
 .editor {

@@ -214,11 +214,30 @@ export class EditorService {
 	}
 
 	// replace special template (home.page.ts)
-	// IN: "[NODES]","[LEVELS]"
-	// OUT: "<p><b>20</b></p>"
+	// IN: "[NODES]","[LEVELS]","[GEN_TABLE]"
 	replaceSpecialTemplate(str: any, nodes, levels) {
-		str = str.replaceAll('[NODES]', '<b>' + nodes +'</b>');
-		str = str.replaceAll('[LEVELS]', '<b>' + levels + '</b>');
+		str = str.replaceAll('[NODE-COUNT]', '<b>' + nodes +'</b>');
+		str = str.replaceAll('[GEN-COUNT]', '<b>' + levels + '</b>');
+
+		if (str.indexOf("[GEN-TABLE]") >= 0) {
+			let html = '';
+			html += 
+			'<ion-grid class="grid">' +
+      '<ion-row>' +
+        '<ion-col size="2" class="column">' +
+          // {{ 'FILE_COMPARE_NAME' | translate }}
+        '</ion-col>' +
+        '<ion-col size="5" class="column">' +
+          // {{ 'FILE_COMPARE_DETAIL' | translate }}
+        '</ion-col>' +
+				'<ion-col size="5" class="column">' +
+				// {{ 'FILE_COMPARE_DETAIL' | translate }}
+				'</ion-col>' +
+			'</ion-row>' +
+
+			'</ion-grid>';
+			str = str.replaceAll('[GEN_TABLE]', html);
+		}
 		return str;
 	}
 

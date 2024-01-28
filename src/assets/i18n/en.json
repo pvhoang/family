@@ -102,7 +102,9 @@
   "HOME_MEMORY_NAME": "Person",
   "HOME_MEMORY_DOD": "Memorial",
   "HOME_MEMORY_NO_DOD": "No memorial in next 2 days.",
-
+  "HOME_FIRST_NODE": "Hệ đầu",
+  "HOME_LAST_NODE": "Hệ cuối",
+	
 	"HOME_END": "Kết thúc",
 	"HOME_UPDATE": "Để cập nhật thông tin, liên lạc: ",
 	

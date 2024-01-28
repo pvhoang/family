@@ -419,14 +419,14 @@ export class FamilyService {
   // --- getFilterFamily
   getFilterFamily(family: Family, clean?: any) {
 		// validate this family format if clean
-		// only 2 keys: 'nodes and 'children' are allowed
-		if (clean) {
-			for (let key of Object.keys(family))
-				if (key != 'nodes' && key != 'children') {
-					console.log('ERROR - FamilyService - getFilterFamily() - Key not valid: ' + key + '.');
-					return null;
-				}
-		}
+		// only 2 keys: 'nodes and 'children' are allowed. First node is ok
+		// if (clean) {
+		// 	for (let key of Object.keys(family))
+		// 		if (key != 'nodes' && key != 'children') {
+		// 			console.log('ERROR - FamilyService - getFilterFamily() - Key not valid: ' + key + '.');
+		// 			return null;
+		// 		}
+		// }
 		let filterFamily:any = {};
     filterFamily.version = family.version;
     filterFamily.date = family.date;

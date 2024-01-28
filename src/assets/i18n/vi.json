@@ -102,6 +102,8 @@
   "HOME_MEMORY_NAME": "Hệ",
   "HOME_MEMORY_DOD": "Húy nhật",
   "HOME_MEMORY_NO_DOD": "Không có giỗ trong 2 ngày tới.",
+  "HOME_FIRST_NODE": "Hệ đầu",
+  "HOME_LAST_NODE": "Hệ cuối",
 
 	"HOME_END": "Kết thúc",
 	"HOME_UPDATE": "Để cập nhật thông tin, liên lạc: ",

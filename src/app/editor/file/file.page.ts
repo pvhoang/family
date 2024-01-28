@@ -385,7 +385,7 @@ export class FilePage implements OnInit {
 					this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
 						rdata.family = family;
 						this.fbService.saveAncestorData(rdata).then((status:any) => {
-							let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + file.name + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
+							let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
 							this.utilService.presentToast(msg);
 						});
 					});
@@ -393,7 +393,7 @@ export class FilePage implements OnInit {
 					let docs = this.uploadValidateDocs(res.text);
 					if (docs) {
 						this.fbService.saveDocsAll(this.ancestor, docs).then((status:any) => {
-							let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + file.name + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
+							let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
 							this.utilService.presentToast(msg);
 						});
 					} else {
