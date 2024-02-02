@@ -95,7 +95,7 @@
 	"HOME_ngoai_pha": "Ngoại phả",
 	"HOME_phu_khao": "Phụ khảo",
 	"HOME_ket_thuc": "Kết thúc",
-	"HOME_VIEW_NODE": "Chi tiết",
+	"HOME_VIEW_NODE": "Danh mục",
   "HOME_VIEW_TREE": "Chi tiết",
 	"HOME_MEMORY_HEADER": "NGÀY GIỖ",
 	"HOME_MEMORY_TODAY": "Hôm nay",
@@ -220,11 +220,11 @@
 	"FILE_EXPLAIN": "Công việc",
 	"FILE_ACTION": "Thi hành",
 
-	"FILE_DOWNLOAD": "Download data từ mạng xuống máy để sửa nhanh.",
+	"FILE_DOWNLOAD": "Download data từ mạng xuống máy để điều chỉnh.",
   "FILE_DOWNLOAD_START": "Download",
-  "FILE_DOWNLOAD_MESSAGE_1": "Download data xuống file: ",
+  "FILE_DOWNLOAD_MESSAGE_1": "Download data xuống files: ",
   "FILE_DOWNLOAD_MESSAGE_2": "?",
-  "FILE_DOWNLOAD_COMPLETE": "File đã được download xuống máy.",
+  "FILE_DOWNLOAD_COMPLETE": "Data đã được download xuống máy.",
 	
 	"FILE_UPLOAD": "Upload data mới từ máy lên mạng.",
   "FILE_UPLOAD_START": "Mở file trong máy",

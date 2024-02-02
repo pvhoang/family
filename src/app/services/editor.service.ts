@@ -60,8 +60,12 @@ export class EditorService {
 			templates.forEach((data: any) => {
 				promises.push(
 					new Promise((res) => {
+						// html string
+						if (data.type == '0') {
+							res({ key: key, docStr: data.src, html: data.src });
+
 						// simple template with no server access
-						if (data.type == '1') {
+						} else if (data.type == '1') {
 							// phrase formatting
 							let html = '';
 							if (data.justify == '0') html = '<p>';
@@ -122,6 +126,11 @@ export class EditorService {
 
 	private getDocumentTemplate(str: any) {
 		// console.log('str: ', str);
+		// if str between [] has <. it is a html string
+		if (str.indexOf('<') >= 0) {
+			let data = { type: '0', src: str }
+			return data;
+		}
 		let items = str.split('|');
 		let type = items[0].trim();
 
@@ -253,15 +262,31 @@ export class EditorService {
 		return str;
 	}
 
+	// "["
+	// "<"
+	// ">"
+	// "]"
+
 	replaceArrayToText(ary: any) {
 		let str = '';
+		let html = '';
+		let htmlStart = false;
 		ary.forEach((line: string) => {
 			line = line.trim();
-			if (line.charAt(0) == '[' && line.charAt(line.length - 1) == ']')
+			if (line == '[') {
+				htmlStart = true;
+			} else if (line == ']') {
+				htmlStart = false;
+				str += '[' + html + ']';
+				console.log('html: ', html)
+				html = '';
+ 			} else if (line.charAt(0) == '[' && line.charAt(line.length - 1) == ']') {
 				// do not add paragraph to special template
 				str += line;
-			else
-				str += '<p>' + line + '</p>';
+			} else if (htmlStart) {
+					html += line;
+			}	else
+					str += '<p>' + line + '</p>';
 		})
 		return str;
 	}

@@ -1,14 +1,21 @@
 import { Injectable } from '@angular/core';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FtTreeService {
 
-  constructor() { }
+  constructor(
+    public platform: Platform,
+	) { }
 
   scaleStyle: number = 10;
 	
+	isMobilePlatform() {
+		return (this.platform.is('android') || this.platform.is('ios'))
+	}
+
 	reset() {
 		this.scaleStyle = 10;
 	}

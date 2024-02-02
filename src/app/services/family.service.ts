@@ -122,7 +122,10 @@ export class FamilyService {
 		// get name, idlevel
 		let idx = searchStr.indexOf('(');
 		let name = searchStr.substring(0, idx).trim();
-		let idlevel = searchStr.substring(idx+2, searchStr.indexOf(')', idx));
+		let idxLast = searchStr.indexOf(')', idx);
+		if (searchStr.charAt(idxLast - 1) == 'c' || searchStr.charAt(idxLast - 1) == 'v')
+			idxLast--;
+		let idlevel = searchStr.substring(idx+2, idxLast);
 		let nodeSelect = null;
 
 		// search thru all nodes

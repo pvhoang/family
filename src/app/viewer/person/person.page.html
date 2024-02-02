@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-item class="header-top">
+  <ion-item class="header-top" *ngIf="!ftTreeService.isMobilePlatform()">
 		<ion-col size="2" class="heading" (click)="onExit()">
       <ion-button class="button" fill="clear" (click)="onExit()">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
@@ -32,13 +32,36 @@
 			<!-- <span class="label">{{ 'CANCEL' | translate }}</span> -->
 		</ion-col>
   </ion-item>
+
+	<ion-item class="header-top" *ngIf="ftTreeService.isMobilePlatform()">
+		<ion-col size="3" class="heading" (click)="onExit()">
+      <ion-button class="button" fill="clear" (click)="onExit()">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
+      </ion-button>
+      <span class="label">{{ 'CANCEL' | translate }}</span>
+    </ion-col>
+    <ion-col size="9">
+      <ng-select
+				class="mobileClass"
+        [appendTo]="'body'"
+        [items]="peopleNodes" 
+        placeholder="{{selectPeoplePlaceholder}}"
+        [(ngModel)]="selectPeople"
+        (close)="closePeopleNodes()"
+        (clear)="clearPeopleNodes()"
+        (keyup)="keyupPeopleNodes($event)"
+      >
+      </ng-select>
+    </ion-col>
+  </ion-item>
+
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
 
   <div class="screen-node person-container" id="full-tree">
 
-		<div class="person-image" *ngIf="selectedNode && selectedNode.yod != ''">
+		<div class="person-image" *ngIf="selectedNode && (this.selectedNode.yod != '' || this.selectedNode.dod != '' || this.selectedNode.pod != '')">
 			<canvas #canvasContainer width="250px" height="300px"></canvas>
 		</div>
 		

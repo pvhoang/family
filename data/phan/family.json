@@ -154,6 +154,7 @@
                           "gender": "male",
 													"pod": "Đá Bạc, Quảng Bình",
                           "nick": "Chú Yêm",
+													"yob": "1919",
 													"yod": "1995",
 													"dod": "09/08",
 													"desc": [
@@ -180,6 +181,7 @@
                             {
                               "name": "Phan Văn Thương",
                               "gender": "male",
+															"yob":"1943",                           
 															"pod":"Đá Bạc, Quảng Bình"                            
 														}
                           ]
@@ -187,8 +189,9 @@
                         {
                           "nodes": [
                             {
-                              "name": "Phan Thị Nhỏ",
+                              "name": "Phan Thị Nhớ",
                               "gender": "female",
+                              "yob": "1945",
 															"pod":"Đá Bạc, Quảng Bình"
                             }
                           ]
@@ -196,8 +199,9 @@
                         {
                           "nodes": [
                             {
-                              "name": "Phan Văn Cau",
+                              "name": "Phan Văn Câu",
                               "gender": "male",
+                              "yob": "1949",
 															"pod":"Đá Bạc, Quảng Bình"                            
 														}
                           ]
@@ -205,8 +209,9 @@
                         {
                           "nodes": [
                             {
-                              "name": "Phan Thị Min",
+                              "name": "Phan Thị Mịn",
                               "gender": "female",
+                              "yob": "1950",
 															"pod":"Đá Bạc, Quảng Bình"
                             }
                           ]
@@ -214,9 +219,10 @@
                         {
                           "nodes": [
                             {
-                              "name": "Phan Thị Măng",
+                              "name": "Phan Thị Màng",
                               "gender": "female",
-"pod":"Đá Bạc, Quảng Bình"
+                              "yob": "1953",
+															"pod":"Đá Bạc, Quảng Bình"
                             }
                           ]
                         },
@@ -225,14 +231,16 @@
                             {
                               "name": "Phan Văn Thu",
                               "gender": "male",
-"pod":"Đá Bạc, Quảng Bình"                            }
+                              "yob": "1957",
+															"pod":"Đá Bạc, Quảng Bình"                            }
                           ]
                         },
                         {
                           "nodes": [
                             {
-                              "name": "Phan Văn Đồng",
+                              "name": "Phan Văn Đông",
                               "gender": "male",
+                              "yob": "1959",
 															"pod":"Đá Bạc, Quảng Bình"                            
 														}
                           ]
@@ -394,6 +402,7 @@
                           "gender": "male",
                           "nick": "Chú Hân",
 													"yob": "1935",
+													"photo": "Phan Văn Hân.jpg",
 													"desc": [
 "Ông Hân sinh năm 1935 (Kỷ Hợi), Ông học hết phổ thông là thanh niên của phong trào cách mạng năm 1958 bí thứ thanh niên hoạt động phong trào, vào đảng cộng sản Việt Nam năm 1959. Là bí thử chủ tịch UBND Phường Đồng Phú, rồi chánh văn phòng Thị, sau đó là trưởng ban nông nghiệp Thị, là cán bộ có uy tín của UBND Đồng Hới, thời gian tiếp ông làm Giám đốc Lương Thực thời tỉnh Bình Trị Thiên",
 "Ông được nhà nước CHXHCN Việt Nam trao tặng huân chương kháng chiến hạng hai, Huân chương chống Mỹ cứu nước hạng nhất",
@@ -1124,7 +1133,7 @@
                         {
                           "name": "Phan Thị Trúc",
                           "gender": "female",
-"pod":"Đá Bạc, Quảng Bình"
+													"pod":"Đá Bạc, Quảng Bình"
                         }
                       ],
                       "children": [
@@ -1182,8 +1191,8 @@
                             {
                               "name": "Phan Bình An",
                               "gender": "male",
-			"pod": "Đá Bạc, Quảng Bình",
-			"dod": "23/07",
+															"pod": "Đá Bạc, Quảng Bình",
+															"dod": "23/07",
                               "desc": "Mẹ: Trần Thị Nậy"
                             }
                           ],
@@ -1237,7 +1246,7 @@
                             {
                               "name": "Phan Phú Định",
                               "gender": "male",
-			"dod": "04/06",
+															"dod": "04/06",
                               "desc": "Mẹ: Trần Thị Nậy"
                             }
                           ],
@@ -1449,6 +1458,7 @@
                               "yob": "1912",
                               "yod": "1985",
                               "dod": "27/04",
+															"photo": "Phan Duấn.jpg",
 															"desc": [
 "Ông bà sinh hạ:",
 "1. Phan Văn Phùng sinh giờ sửu 04-03-Đinh Sửu (1937) tại Quảng Trị, Vợ là Bùi Thị Diệu Chơn dược sĩ, con của Ông Phùng và bà Chơn là Ông Phan Như Minh sinh 26-03-1975 thường gọi lá Giải phóng",
@@ -1602,6 +1612,7 @@
                                   "gender": "male",
                                   "nick": "Nô",
 																	"pod": "Xã Tịnh Khê, Quảng Ngãi",
+                                  "photo": "Phan Viết Châu.jpg",
 																	"desc": "<br/>[3|Phan Anh Em.jpg|1|1|1972, Thứ 3 từ trái]"
                                 },
 																{
@@ -1921,6 +1932,7 @@
                               "gender": "male",
 															"pod":"Đá Bạc, Quảng Bình",
 															"dod": "29/04",
+															"photo": "Phan Quang Ngự.jpg",
 															"desc": [
 "Lúc nhỏ Ông Phan Quang Ngự họ phổ thông Đồng Hới với lớp Nôm. Ông biết chút ít tiếng Pháp, Hán Nôm, Quốc Ngữ. Ông vào Huế học trường Mỹ Nghệ (Nghề máy nổ) và về Đồng Hới làm nghề điện nước đến năm 1972 thì về hưu. Ông lấy bà Trần Thị Cút là bà con Ông phó tổng Trần Liên và bà Trần Thị Bờ. Ông bà sinh sống tại Đồng Phú. Ngày 16-01 Tân Tỵ (1941) làm lễ cưới cheo bôn tang tại nhà nhạc. Bà tham gia phong trào hội kính Việt Minh cho đến năm 1954, bà bị Pháp bắt bỏ tù 1 năm (1949). Khi hòa bình vĩ tuyến 17 chia hai bà ở Bắc Việt tham gia nhiều phong trào nhất là thời kỳ chống Mỹ, bà được nhà nước xét thưởng một huy chương chống Pháp và một huân chương chống Mỹ. Với công lao phục vụ cho cuộc kháng chiến chống Mỹ hai ông bà được nhà nước tặng huân chương chống mỹ hạng 3",
 "Ông bà sinh hạ được:",
@@ -2027,7 +2039,6 @@
                                   "name": "Phan Văn Năm",
                                   "gender": "male",
 																	"pod":"Đá Bạc, Quảng Bình",
-																	"photo":"phan_van_nam_1951_123456789012.jpg",
                                   "desc": [
 "Ông Năm sinh vào thời chinh chiến, hai tuổi đất nước chia đôi, sáu tuổi gia đình bị đấu tố địa chủ, thời gian này Ông Ngự là công nhân điện nước bị ly khai. Ông Học phổ thông chưa hết 08-10 ông đi học nghề xây dựng (1972). Tốt nghiệp sơ cấp tại Hà Nội Ông về làm xung quanh thị xã Đồng Hới. Năm 1986 Ông nghĩ mất sức về nhà làm đủ nghề: Thồ hàng, lái xe công nông, thợ xây…",
 "Ông Năm lập gia thất cùng bà Trần Thị Bưởi tuổi quý ngọ người giồng Trần Công cùng làng Đồng Phú hai ông bà sinh hạ được:",
@@ -2035,8 +2046,9 @@
 "2. Phan Thanh Hải 26-04 Kỷ mùi ( 22-05-1979)",
 "3. Phan Thanh Hậu 05-10-Tân Dậu (01-11-1981)",
 "4. Phan Thị Mỹ Linh 24-08-Đinh Mão (13-09-1987)",
-"[3|Phan Văn Năm.jpg|1|1|Gia đình Phan Văn Năm]",
-"[3|phan_van_nam_1951_123456789012.jpg|1|1|2020, Đồng Hới]"
+
+"[3|Phan Văn Năm - Gia Đình.jpg|1|1|Gia đình Phan Văn Năm]",
+"[3|phan_van_nam_1951_123456789012.jpg|1|1|Mất 2020, Đồng Hới]"
 																	]
                                 }
                               ]
@@ -2051,8 +2063,9 @@
 "Năm chiến tranh Tây Nam Ông vào lính chiến tranh biên giới",
 "Ra quân Ông chuyển ngành làm bảo vệ cơ quan ngân hàng tỉnh Quảng Bình rồi chuyển sang làm ở kho bạc Nhà nước đến nay, xây dựng gia đình cùng bà Nguyễn Thị Hương người Lộc Long (Lệ Ninh – Quảng Ninh – Quảng Bình) hai Ông bà sinh hạ được:",
 "1. Phan Thị Thúy Hằng sinh lúc 11h trưa ngày 19-08-1987 (25-07-Đinh mão) hay gọi là Bé",
-"2. Phan Ngọc Hải Long sinh 12h đêm 17-04-1991 (03-03 Tân mùi), ở nhà hay gọi là Đệc",				
-"[3|Phan Văn Sáu.jpg|1|1|Gia đình Phan Văn Sáu]"
+"2. Phan Ngọc Hải Long sinh 12h đêm 17-04-1991 (03-03 Tân mùi), ở nhà hay gọi là Đệc",
+
+"[3|Phan Văn Sáu - Gia Đình.jpg|1|1|Gia đình Phan Văn Sáu]"
 																	]
                                 }
                               ]
@@ -2075,7 +2088,8 @@
 "1. Phan Kiều Bảo Trang 19-11-1990 (Canh Ngọ), còn gọi là Hai",
 "2. Phan Bảo Kiều Trang Bính tý 1996, còn gọi là Sim",
 "3. Phan Bảo Hoài Nam 1999 Đinh Sửu còn gọi là Heo",
-"[3|Phan Văn Tám.jpg|1|1|Gia đình Phan Văn Tám]"
+
+"[3|Phan Văn Tám - Gia Đình.jpg|1|1|Gia đình Phan Văn Tám]"
 																	]
                                 }
                               ]
@@ -2097,6 +2111,7 @@
                               "gender": "male",
 															"dod": "23/06",
 															"pod":"Falls Church, Virginia",
+															"photo": "Phan Khắc Phúc.jpg",
 															"desc": [
 "Ông Phúc còn có tên là Phan Quang Phúc lúc nhỏ học ở Huế đạu tú tài đi làm ở hỏa xa Sài Gòn (1943). Năm 1949 Ông làm việc tại dinh Chính phủ lâm thời. Năm 1957 làm ở bộ quốc phòng chính quyền miền nam VIệt Nam với chức vụ thiếu tá (Ông tốt nghiệp kỷ sư bưu chính, chính quyền Miền nam bị đổ 1975 đất nước thống nhất, Ông đi cải huấn hơn một năm rồi về sống với gia đình tại Sài Gòn. Sau đó Ông cùng con cái qua Mỹ sinh sống. Trong thời gian chờ đi Mỹ ông bị bệnh hiểm nghèo: ung thư tá tràng nhưng do chữa trị tốt ông sống thêm một năm rồi đi Mỹ. Do đi máy bay khí hậu thay đổi ông phát bệnh khi qua sân bay Bangkok (Thái lan) người nhà thuê một chuyến bay đặc biệt chở Ông qua Mỹ. Ông qua Mỹ được một ngày thì mất. Ông thành thất với Bà Nguyễn Thị Thuận người gốc Hà Nội. Ông bà sinh hạ được:",
 "1. Phan Ngọc Trinh",
@@ -2105,7 +2120,7 @@
 "4. Phan Ngọc Trâm sinh 30-09 Mậu Tuất tức 04-10-1958 tại Sài Gòn",
 "5. Phan Anh Ngọc ngày 13-08 Nhâm Dần (13-08-1962)",
 "6. Phan Anh Tùng sinh Giáp thìn 08-02-1964 tại Sài Gòn",
-"Hiện nay toàn bộ gia đình Ông Phúc đều ở bên Mỹ quốc"
+"Hiện nay toàn bộ gia đình Ông Phúc đều ở bên Mỹ quốc."
 															]
                             }
                           ],
@@ -2183,7 +2198,7 @@
                               "gender": "male",
 															"pod": "Mai Dịch, Hà Nội",
 															"dod": "14/05",
-															"photo": "phan_ngoc_tuong_1929_1684126850565",
+															"photo": "Phan Ngọc Tường.jpg",
 															"desc": [
 "Ông Phan Ngọc Tường sinh ngày 12/2/1929 tại Phú Ninh nay là Phường Đồng Phú, thành phố Đồng Hới, tỉnh Quảng Bình. ",
 "Năm 16 tuổi, ông đã tham gia phong trào thanh niên cứu quốc tại Nhà máy Nhiệt điện Đồng Hới-Quảng Bình và được đứng trong hàng ngũ của Đảng lúc 19 tuổi. ",
@@ -2256,7 +2271,8 @@
                             {
                               "name": "Phan Quang Phục",
                               "gender": "male",
-															"pod":"Tp HCM"
+															"pod":"Tp HCM",
+															"photo": "Phan Quang Phục.jpg"
                             }
                           ],
                           "children": [

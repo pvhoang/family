@@ -27,59 +27,93 @@
 "[3|bai-vi-doi-1.jpg|1|1|Bài vị Thủy Tổ, Nhà thờ Họ, Đồng Phú]",
 "[1|1|1|1|Tổ mộ]",
 "[3|mo-to-doi-1.jpg|1|1|Tổ mộ tại Đá Bạc Đồng Sơn]",
-
-"Địa lý",
-"Truyền thống",
-"Lao động",
-"Văn hóa",
-"Yêu nước",
-"Các thế hệ",
-"Chi",
-"Phái"
+"[",
+"<li><b>Địa lý</b>",
+"<li><b>Truyền thống</b>",
+"<li><b>Lao động</b>",
+"<li><b>Văn hóa</b>",
+"]"
 			]
 		},
 		"pha_he": {
 			"title": "PHẢ HỆ",
 			"raw": [
-"Tên",
-"Đời thứ",
-"Con ông",
-"Con bà",
-"Chi tiết",
-"Các con",
-"Tiểu sử"
+"[",
+"<li><em>Phả hệ gồm chi tiết của thành viên (hệ) trong gia tộc</em>",
+	"<ul style='list-style-type:square;'>",
+		"<li><b>Tại thế</b>",
+			"<ul>",
+				"<li>Tên</li>",
+				"<li>Năm sinh</li>",
+				"<li>Nơi cư trú</li>",
+			"</ul>",
+		"</li>",
+		"<li><b>Quá vãng</b>", 
+			"<ul>",
+				"<li>Tên</li>",
+				"<li>Năm sinh/năm tử</li>",
+				"<li>Giỗ (ngày mất ÂL)</li>",
+				"<li>Mộ phần</li>",
+			"</ul>",
+		"</li>",
+		"<li><b>Vợ</b> (chồng)</li>",
+	"</ul>",
+"</li>",
+"]"
 			]
 		},
 		"pha_do": {
 			"title": "PHẢ ĐỒ",
 			"raw": [
-"Trình bày"
+"[",
+"<li><em>Biểu đồ trình bày theo:</em>",
+	"<ul style='list-style-type:square;'>",
+		"<li>Thứ tự <b>đời</b> từ trên xuống dưới theo chiều dọc</li>",
+		"<li>Thứ tự <b>hệ</b> từ trái sang phải theo chiều ngang.</li>",
+	"</ul>",
+"</li>",
+"]"
 			]
 		},
 		"ngoai_pha": {
 			"title": "NGOẠI PHẢ",
 			"raw": [
-"Lễ cúng",
-"Văn khấn",
-"Nhà thờ họ",
-"Hội đồng gia tộc",
-"Khu mộ",
-"Tên",
-"Vị trí",
-"Học vị",
-"Tên",
-"Nhân vật tiêu biểu",
-"Tên",
-"Ngày giỗ"
+"[",
+"<li><b>Lễ nghi</b>",
+	"<ul style='list-style-type:square;'>",
+		"<li><b>Lễ cúng</b>",
+			"<ul>",
+				"<li></li>",
+			"</ul>",
+		"</li>",
+		"<li><b>Văn khấn</b>",
+			"<ul>",
+				"<li></li>",
+			"</ul>",
+		"</li>",
+	"</ul>",
+"</li>",
+"<li><b>Nhân vật tiêu biểu</b>",
+		"<ul style='list-style-type:square;'>",
+			"<li>Phan Lợi Hành</li>",
+			"<li>Phan Ngọc Luật</li>",
+			"<li>Phan Ngọc Tường</li>",
+		"</ul>",
+"</li>",
+"]"
 			]
 		},
 		"phu_khao": {
 			"title":"PHỤ KHẢO",
 			"raw": [
 "[2|Quảng Bình.doc|1|Tư liệu tỉnh Quảng Bình]",
-"Xóm ấp",
+"[",
+"<li><b>Xóm ấp</b>",
+"]",
 "[2|Bản đồ Việt Nam.doc|1|Bản đồ Việt Nam qua các thời kỳ]",
-"Ngành nghề truyền thống"
+"[",
+"<li><b>Ngành nghề truyền thống</b>",
+"]"
 			]
 		}
 	},

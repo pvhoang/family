@@ -84,7 +84,7 @@
 			
 			<ion-row >
         <ion-col size="6" class="column">
-					<span class="label">{{ 'FILE_DOWNLOAD' | translate }} (Files: {{downloadFileName}},{{downloadDocsName}})</span>
+					<span class="label">{{ 'FILE_DOWNLOAD' | translate }}</span>
         </ion-col>
 				<ion-col size="6" class="column"> 
           <ion-button class="button" fill="clear" (click)="downloadOnClick()">
@@ -250,7 +250,7 @@
 					<span class="label">{{ file.name }}</span>
 				</ion-col>
         <ion-col size="3" class="column">
-					<span class="label">{{ file.size }}</span>
+					<span class="label">{{ getKB(file.size) }}</span>
 				</ion-col>
         <ion-col size="2" class="column"> 
           <ion-button fill="clear" (click)="imageOnDelete(file)">
@@ -315,7 +315,8 @@
       </ion-row>
       <ion-row *ngFor="let file of storageFiles">
         <ion-col size="3" class="column"> {{ file.name }} </ion-col>
-        <ion-col size="3" class="column"> {{ file.size }} </ion-col>
+        <!-- <ion-col size="3" class="column"> {{ file.size }} </ion-col> -->
+        <ion-col size="3" class="column"> {{ getKB(file.size) }} </ion-col>
         <ion-col size="2" class="column"> {{ file.type }} </ion-col>
         <ion-col size="2" class="column"> 
           <ion-button class="button" fill="clear" (click)="storageOnDelete(file)">

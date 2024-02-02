@@ -138,7 +138,13 @@ export class NodeService {
   public getGeneration(node: any) {
     // let genStr = this.languageService.getTranslation('GENERATION') + ' ' + node.level;
     let genStr = this.languageService.getTranslation('GENERATION_SHORT') + ((node.idlevel) ? node.idlevel : node.level);
-    return genStr;
+		if (node.id.charAt(node.id.length - 1) != '1') {
+			if (node.gender == 'female')
+				genStr += 'v';
+			else if (node.gender == 'male')
+				genStr += 'c';
+		}
+		return genStr;
   }
   
   public getPhotoName(node: any, storageName?)  {

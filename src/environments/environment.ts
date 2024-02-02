@@ -28,7 +28,7 @@ export const DEBUGS = {
   'NODE': false,
   'BRANCH': false,
   'DOCS': false,
-  'TREE': false,
+  'TREE': true,
   'EDIT': false,
   'CROPPER': false,
   'FIREBASE': false,

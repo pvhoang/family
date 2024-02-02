@@ -314,7 +314,7 @@ export class FilePage implements OnInit {
 	downloadOnClick() {
 		let msg = this.utilService.getAlertMessage([
 			{name: 'msg', label: 'FILE_DOWNLOAD_MESSAGE_1'},
-			{name: 'data', label: this.downloadFileName + ' (' + this.downloadDocsName + ')'},
+			{name: 'data', label: this.downloadFileName + ', ' + this.downloadDocsName },
 			// {name: 'data', label: this.downloadFileName },
 			{name: 'msg', label: 'FILE_DOWNLOAD_MESSAGE_2'},
 		]);
@@ -585,6 +585,21 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
     }
 		event.target.value = null;
   }
+
+	getKB(size: any) {
+		let kb = size / 1024;
+		let str = '';
+		if (kb < 1)
+			str = size + ' Byte';
+		else if (kb < 1000)
+			str = Math.round(kb) + ' KB';
+		else {
+			// let mb = kb / 1024;
+			str = (Math.round(kb)).toLocaleString('vi', { minimumFractionDigits: 0, maximumFractionDigits: 3}) + ' KB';
+			// str = (Math.round(mb)).toLocaleString('vi', { minimumFractionDigits: 3, maximumFractionDigits: 3}) + ' MB'
+		}
+		return str;
+	}
 
   imageOnDelete(file:File) {
     if (DEBUGS.FILE)

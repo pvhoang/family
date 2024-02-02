@@ -60,6 +60,10 @@ export class ThemeService {
 		this.themes = themes;
 	}
 
+	isMobilePlatform() {
+		return (this.platform.is('android') || this.platform.is('ios'))
+	}
+
 	getSize() {
 		return this.size;
 	}

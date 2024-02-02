@@ -105,9 +105,9 @@ export class TreePage implements OnInit {
   onJPG() {
     let iddom = 'screen';
     let node = this.node;
-    let keys = this.utilService.stripVN(node.name).split(' ');
-    let nameStr = keys.join('_');
-    let fileName = nameStr + '.jpg';
+    // let keys = this.utilService.stripVN(node.name).split(' ');
+    // let nameStr = keys.join('_');
+    let fileName = node.name + '.jpg';
     let msg = this.utilService.getAlertMessage([
       {name: 'msg', label: 'TREE_SELECT_PRINT_JPG_MSG_1'},
       {name: 'data', label: fileName},
@@ -138,9 +138,9 @@ export class TreePage implements OnInit {
   onPDF() {
     let iddom = 'screen';
     let node = this.node;
-    let keys = this.utilService.stripVN(node.name).split(' ');
-    let nameStr = keys.join('_');
-    let fileName = nameStr + '.pdf';
+    // let keys = this.utilService.stripVN(node.name).split(' ');
+    // let nameStr = keys.join('_');
+    let fileName = node.name + '.pdf';
     let msg = this.utilService.getAlertMessage([
       {name: 'msg', label: 'TREE_SELECT_PRINT_PDF_MSG_1'},
       {name: 'data', label: fileName},

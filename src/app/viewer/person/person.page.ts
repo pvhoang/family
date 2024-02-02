@@ -171,7 +171,10 @@ export class PersonPage implements OnInit {
     let ancestorName = this.info.family_name;
     this.isChildOK = this.nodeService.isAncestorName(ancestorName, node);
     this.selectedNode.nclass = 'node-select';
-    if (this.selectedNode.yod != '') {
+
+    console.log('onNodeDisplay - selectedNode: ', this.selectedNode);
+
+    if (this.selectedNode.yod != '' || this.selectedNode.dod != '' || this.selectedNode.pod != '') {
       const ele = document.getElementById('canvasContainer');
       if (!ele) {
         setTimeout(() => {  

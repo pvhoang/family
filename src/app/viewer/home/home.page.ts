@@ -216,6 +216,7 @@ export class HomePage implements OnInit{
 				autoSize: true,
 				maxShadowOpacity: 0.5,
 				showCover: false,
+				startZIndex: -1,
 				mobileScrollSupport: true // disable content scrolling on mobile devices
 			}
 		);
