@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 
+const SMALL = 6;
+const NORMAL = 8;
+const LARGE = 10;
+const MOBILE = 8;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,33 +15,34 @@ export class FtTreeService {
     public platform: Platform,
 	) { }
 
-  scaleStyle: number = 10;
+  scaleStyle: number = NORMAL;
 	
 	isMobilePlatform() {
 		return (this.platform.is('android') || this.platform.is('ios'))
 	}
 
 	reset() {
-		this.scaleStyle = 10;
+		this.scaleStyle = NORMAL;
 	}
 
 	onZoomIn() {
 		this.scaleStyle--;
-		if (this.scaleStyle < 8)
-			this.scaleStyle = 8;
+		if (this.scaleStyle < SMALL)
+			this.scaleStyle = SMALL;
 		console.log('in - scale: ', this.scaleStyle);
 	}
 	
 	onZoomOut() {
 		this.scaleStyle++;
-		if (this.scaleStyle > 12)
-			this.scaleStyle = 12;
+		if (this.scaleStyle > LARGE)
+			this.scaleStyle = LARGE;
 		console.log('out - scale: ', this.scaleStyle);
-
 	}
 
   getZoomStyle() {
-    let scale = this.scaleStyle / 10;
+		let scale = this.isMobilePlatform() ? MOBILE : this.scaleStyle;
+		// let scale = this.scaleStyle / 10;
+    scale /= 10;
     let styles = {
       'zoom': scale,
       '-moz-transform': 'scale(' + scale + ')',

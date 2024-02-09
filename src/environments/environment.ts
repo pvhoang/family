@@ -16,7 +16,7 @@ export const environment = {
 export const FONTS_FOLDER = '../../assets/fonts/';
 
 export const DEBUGS = {
-  'APP': true,
+  'APP': false,
   'SPLASH': false,
   'THEME': false,
   'TABS': false,
@@ -25,15 +25,16 @@ export const DEBUGS = {
   'HOME': false,
   'EDITOR': false,
   'VNODE': false,
-  'NODE': false,
+  'NODE': true,
   'BRANCH': false,
   'DOCS': false,
-  'TREE': true,
+  'TREE': false,
   'EDIT': false,
   'CROPPER': false,
-  'FIREBASE': false,
-  'FILE': false,
+  'FIREBASE': true,
+  'FILE': true,
   'FAMILY_SERVICE': false,
+  'SVG_TREE_SERVICE': true,
   'UTIL_SERVICE': false,
   'DATA_SERVICE': false,
 };

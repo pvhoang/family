@@ -35,93 +35,81 @@ export class EditorService {
 	}
 	
 	// convert a document with special templates info to html text 
-	convertDocumentTemplate(ancestor: any, text: any, key: any) {
-		return new Promise((resolve, reject) => {
-			// https://stackoverflow.com/questions/71176093/how-to-extract-content-in-between-an-opening-and-a-closing-bracket
-			var reg = /(?<=\[)[^\]]*(?=\])/g;
-			let templates = [];
-			const matches = text.match(reg);
-			if (matches) {
-				for (let i = 0; i < matches.length; ++i) {
-					const match = matches[i];
-					// match does not include []
-					let data = this.getDocumentTemplate(match);
-					if (data)
-						templates.push(data);
+	convertDocumentTemplate(images: any, text: any) {
+
+		// https://stackoverflow.com/questions/71176093/how-to-extract-content-in-between-an-opening-and-a-closing-bracket
+		var reg = /(?<=\[)[^\]]*(?=\])/g;
+		let templates = [];
+		const matches = text.match(reg);
+		if (matches) {
+			for (let i = 0; i < matches.length; ++i) {
+				const match = matches[i];
+				// match does not include []
+				let data = this.getDocumentTemplate(match);
+				if (data)
+					templates.push(data);
+			}
+		}
+		// no template in text, just return
+		if (templates.length == 0)
+			return ([]);
+
+		// now read all images to url from Firebase storage
+		let promises = [];
+		templates.forEach((data: any) => {
+			if (data.type == '0') {
+				promises.push({ docStr: data.src, html: data.src });
+
+			// simple template with no server access
+			} else if (data.type == '1') {
+				// phrase formatting
+				let html = '';
+				if (data.justify == '0') html = '<p>';
+				if (data.justify == '1') html = '<p style="text-align: center;">';
+				if (data.justify == '2') html = '<p style="text-align: right;">';
+				if (data.weight == '1') html += '<strong>';
+				if (data.style == '1') html += '<em>';
+				html += data.phrase;
+				if (data.style == '1') html += '</em>';
+				if (data.weight == '1') html += '</strong>';
+				html += '</p>';
+				if (DEBUGS.EDITOR)
+					console.log('convertDocumentTemplate - html: ', html);
+				promises.push({ docStr: data.src, html: html });
+
+			} else if (data.type == '2' || data.type == '3') {
+
+				if (!images[data.name]) {
+					promises.push({ docStr: data.src, html: '' });
+				} else {
+					let url = images[data.name].url;
+					let type = images[data.name].type;
+					let html = '';
+					if (type.indexOf('image') >= 0) {
+						// https://stackoverflow.com/questions/30686191/how-to-make-image-caption-width-to-match-image-width
+						html = 
+						'<div class="' + data.container + '">' +
+						'<img src="' + url + '" class="home-container-image" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
+						'</div>';
+						if (data.caption != '') {
+							let fontSizePercent = this.themeService.getRootProperty("--app-page-text-font-size");
+							let style = 'font-size: ' + fontSizePercent + ';';
+							html += '<div class="' + data.container + ' home-no-expand" style="' + style + '">' + data.caption + '</div>';
+						}
+					} else {
+						html = 
+						'<div class="' + data.container + '">' +
+						'<span class="home-container-label" onclick="downloadDocument(\'' + url + '\', \'' + data.name + '\')">' + data.caption + '</span>' +
+						// '<span style="' + style + '" onclick="downloadDocument(\'' + url + '\', \'' + data.name + '\')">' + data.caption + '</span>' +
+						'</div>';
+					}
+					if (DEBUGS.EDITOR)
+						console.log('convertDocumentTemplate - html: ', html);
+					promises.push({ docStr: data.src, html: html });
 				}
 			}
-			// no template in text, just return
-			if (templates.length == 0) {
-				resolve([]);
-			}
-
-			// now read all images to url from Firebase storage
-			let promises = [];
-			templates.forEach((data: any) => {
-				promises.push(
-					new Promise((res) => {
-						// html string
-						if (data.type == '0') {
-							res({ key: key, docStr: data.src, html: data.src });
-
-						// simple template with no server access
-						} else if (data.type == '1') {
-							// phrase formatting
-							let html = '';
-							if (data.justify == '0') html = '<p>';
-							if (data.justify == '1') html = '<p style="text-align: center;">';
-							if (data.justify == '2') html = '<p style="text-align: right;">';
-							if (data.weight == '1') html += '<strong>';
-							if (data.style == '1') html += '<em>';
-							html += data.phrase;
-							if (data.style == '1') html += '</em>';
-							if (data.weight == '1') html += '</strong>';
-							html += '</p>';
-							if (DEBUGS.EDITOR)
-								console.log('convertDocumentTemplate - html: ', html);
-							res({ key: key, docStr: data.src, html: html });
-
-						} else if (data.type == '2' || data.type == '3') {
-							this.fbService.getDocumentURL(ancestor, data.name).then((result:any) => {
-								if (!result)
-									res({ key: key, docStr: data.src, html: '' });
-								let url = result.url;
-								let type = result.type;
-								let html = '';
-								if (type.indexOf('image') >= 0) {
-									// https://stackoverflow.com/questions/30686191/how-to-make-image-caption-width-to-match-image-width
-									html = 
-									'<div class="' + data.container + '">' +
-									'<img src="' + url + '" class="home-container-image" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
-									'</div>';
-									if (data.caption != '') {
-										let fontSizePercent = this.themeService.getRootProperty("--app-page-text-font-size");
-										let style = 'font-size: ' + fontSizePercent + ';';
-										html += '<div class="' + data.container + ' home-no-expand" style="' + style + '">' + data.caption + '</div>';
-									}
-								} else {
-									html = 
-									'<div class="' + data.container + '">' +
-									'<span class="home-container-label" onclick="downloadDocument(\'' + url + '\', \'' + data.name + '\')">' + data.caption + '</span>' +
-									// '<span style="' + style + '" onclick="downloadDocument(\'' + url + '\', \'' + data.name + '\')">' + data.caption + '</span>' +
-									'</div>';
-								}
-								if (DEBUGS.EDITOR)
-									console.log('convertDocumentTemplate - html: ', html);
-								res({ key: key, docStr: data.src, html: html });
-							})
-							.catch((error) => {
-								console.log('ERROR - convertDocumentTemplate - error: ', error)
-								res(null);
-							});
-						}
-					})
-				)
-			});
-			Promise.all(promises).then(resolves => {
-				resolve(resolves);
-			});
 		});
+		return (promises);
 	}
 
 	private getDocumentTemplate(str: any) {
@@ -278,7 +266,6 @@ export class EditorService {
 			} else if (line == ']') {
 				htmlStart = false;
 				str += '[' + html + ']';
-				console.log('html: ', html)
 				html = '';
  			} else if (line.charAt(0) == '[' && line.charAt(line.length - 1) == ']') {
 				// do not add paragraph to special template

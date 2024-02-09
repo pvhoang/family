@@ -28,6 +28,8 @@
   "SELECT": "Select",
   "SELECT_SAVE": "Select/save",
   "MISSING": "Missing",
+	"SMALLER": "Smaller",
+  "LARGER": "Larger",
   "DELETE": "Delete",
   "NEW": "New",
   "UNKNOWN": "Unknown",

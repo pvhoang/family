@@ -20,17 +20,17 @@
       >
       </ng-select>
     </ion-col>
-		<ion-col size="1" class="heading" (click)="ftTreeService.onZoomIn()">
+		<ion-col size="1" class="heading">
 			<ion-button class="button" fill="clear" (click)="ftTreeService.onZoomIn()">
 				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-minus-outline.svg" class="icon"></ion-icon>
 			</ion-button>
-			<!-- <span class="label">{{ 'CANCEL' | translate }}</span> -->
+      <span class="label">{{ 'SMALLER' | translate }}</span>
 		</ion-col>
-		<ion-col size="1" class="heading" (click)="ftTreeService.onZoomOut()">
+		<ion-col size="1" class="heading">
 			<ion-button class="button" fill="clear" (click)="ftTreeService.onZoomOut()">
 				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-plus-outline.svg" class="icon"></ion-icon>
 			</ion-button>
-			<!-- <span class="label">{{ 'CANCEL' | translate }}</span> -->
+      <span class="label">{{ 'LARGER' | translate }}</span>
 		</ion-col>
   </ion-item>
 
@@ -54,38 +54,16 @@
       >
       </ng-select>
     </ion-col>
+		
   </ion-item>
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
 	
-	<!-- <div class="screen-node vnode-container" id="full-tree"> -->
-		<!-- <div id="double-tap">Double Tap Me !!!</div>  -->
-		<!-- <div class="vnode-tree">
-			<pinch-zoom #myPinch="pinchZoom"
-				[backgroundColor]="'white'"
-				[minPanScale]="1"
-				[doubleTapScale]="0.8"
-				[zoomButton]="false"
-				[double-tap]="true"
-			>
+		<div class="screen-node" id="full-tree">
+			<div [ngStyle]="ftTreeService.getZoomStyle()">
 				<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
-			</pinch-zoom> -->
-		<!-- </div>
-	</div> -->
-
-	<!-- <div class="screen-node" id="full-tree">
-    <div [ngStyle]="getZoomStyle()" id="touch-me">
-      <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
-    </div>
-  </div> -->
-
-	<div class="screen-node" id="full-tree">
-    <div [ngStyle]="ftTreeService.getZoomStyle()">
-      <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
-    </div>
-  </div>
-
-
+			</div>
+		</div>
 
 </ion-content>

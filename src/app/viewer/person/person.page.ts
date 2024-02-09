@@ -135,7 +135,7 @@ export class PersonPage implements OnInit {
 
   // --------- END ng-select ----------
 
-  onNodeSelect(node: Node) {
+	onNodeSelect(node: Node) {
     if (DEBUGS.PERSON)
       console.log('PersonPage - onNodeSelect - node: ', node);
     // reset nclass
@@ -144,8 +144,9 @@ export class PersonPage implements OnInit {
 		// convert to html for display
 		node.desc = this.editorService.replaceDescTextStyle(node.desc);
     this.selectedNode = node;
-		let ancestor = this.info.id;
-		this.editorService.convertDocumentTemplate(ancestor, node.desc, 'person').then((resolves:any) => {
+
+		this.dataService.readItem('images').then((images:any) => {
+			let resolves = this.editorService.convertDocumentTemplate(images, node.desc);
 			if (resolves.length > 0) {
 				// console.log('PersonPage - onNodeSelect - node.desc: ', node.desc);
 				// console.log('PersonPage - onNodeSelect - resolves: ', resolves);
@@ -161,7 +162,7 @@ export class PersonPage implements OnInit {
 			} else {
 				this.onNodeDisplay(node);
 			}
-		})
+		});
   }
 
 	onNodeDisplay(node: Node) {
@@ -231,7 +232,7 @@ export class PersonPage implements OnInit {
   drawTomb() {
     let node = this.selectedNode;
     const img = new Image();
-		// img.className = "person-tomb-image";
+		img.className = "person-tomb-image";
     img.src = "../assets/icon/tomb-1.png";
     const canvas = this.canvasRef.nativeElement;
     const ctx = canvas.getContext('2d');
@@ -263,8 +264,10 @@ export class PersonPage implements OnInit {
   drawPhoto(ctx: any, url: any, imgConWidth: any, imgConHeight: any) {
     const tombWidth = (1 / 3) * imgConWidth;
     const img = new Image();
-		img.className = "person-tomb-image";
+		// img.classList.add('person-tomb-image');
+		// img.className = "person-tomb-image";
     img.src = url;
+		console.log('img: ', img);
     img.onload = () => {
       const ratio = img.naturalWidth / img.naturalHeight;
       let imgWidth = tombWidth * 0.6;

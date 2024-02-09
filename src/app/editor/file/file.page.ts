@@ -304,7 +304,6 @@ export class FilePage implements OnInit {
 						this.utilService.presentToast(message);
           });
         });
-
       });
     });
   }
@@ -327,7 +326,6 @@ export class FilePage implements OnInit {
 					rdata.family = cleanFamily;
 					// rdata.branch = rdata.branch;
 					// save just family, because docs is html-based text! Can not change simply with text editor.
-					
 					// save family
 					let data = JSON.stringify(cleanFamily, null, 2);
 					const blobFamily = new Blob([data], {
@@ -376,8 +374,8 @@ export class FilePage implements OnInit {
 	private uploadOnFile(file: any) {
 		// console.log('type: ', type);
     this.uploadGetTextFile(file).then((res: any) => {
-      // if (DEBUGS.APP)
-      //   console.log('modifyOnFileUpload - res: ', res);
+      if (DEBUGS.APP)
+        console.log('uploadOnFile - res: ', res);
       if (res.text) {
         // validate json file
 				let family = this.uploadValidateFamily(res.text);
@@ -399,6 +397,7 @@ export class FilePage implements OnInit {
 					} else {
 						this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_INVALID'));
 					}
+					
 				}
       } else {
 				this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_EMPTY'));
@@ -643,6 +642,7 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
       this.storageFiles = res;
       if (DEBUGS.FILE)
         console.log('onStorageFile - res: ', res);
+			this.storageSaveFileUrls(res);
     });
   }
 
@@ -659,6 +659,7 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
 				this.fbService.deleteImage(this.ancestor, file.name).then((status:any) => {
 					this.fbService.getFileList(this.ancestor).then((res:any) => {
 						this.storageFiles = res;
+						this.storageSaveFileUrls(res);
 					});
 				});
       }
@@ -677,13 +678,27 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
 				setTimeout(() => {
 					let img = document.getElementById('storage-view');
 					img.setAttribute('src', file.url);
-				}, 200);
+				}, 500);
 			} else
 				img.setAttribute('src', file.url);
     } else {
       window.open(file.url);
     }
   }
-	 
+
+	// read url and save to images
+	storageSaveFileUrls(filelist: any): void {
+		setTimeout(() => {
+			let images = {};
+			filelist.forEach((file:any) => {
+				console.log('onStorageFile - file: ', file);
+				images[file.name] = { url: file.url, type: file.type, size: file.size };
+			})
+			this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
+				rdata.images = images;
+				this.fbService.saveAncestorData(rdata).then((status:any) => {});
+			});
+		}, 500);
+  }
 }
 

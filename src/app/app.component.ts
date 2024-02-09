@@ -394,7 +394,6 @@ export class AppComponent implements OnInit {
     });
   }
 
-
   loadLanguage() {
     return new Promise((resolve) => {
       this.dataService.readItem(LANGUAGE).then((language:any) => {
@@ -446,68 +445,55 @@ export class AppComponent implements OnInit {
 				this.fbService.getPhotoNames(ancestor).then((names:any) => {
 					this.dataService.saveItem('photos', { "id": "photos",	"data": names }).then((status:any) => {});
 				})
-				// always update docs data from Firebase
+				// always update docs and images data from Firebase
 				this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
+					if (!rdata.images)
+						rdata.images = {};
+					this.dataService.saveItem('images', rdata.images).then((status:any) => {});
 					let docs = rdata.docs;
 					// parse docs
 					let language = this.languageService.getLanguage();
-					this.updateDocs(ancestor, docs[language]).then(status => {
-						resolve(true);
-					});
+					this.updateDocs(rdata.images, docs[language]);
+					resolve(true);
 				});
 			});
 		});
   }
 
-	updateDocs(ancestor: any, docs: any) {
-		return new Promise((resolve) => {
-			if (DEBUGS.APP)
-				console.log('AppComponent - updateDocs - docs: ', docs);
+	updateDocs(images: any, docs: any) {
+		if (DEBUGS.APP)
+			console.log('AppComponent - updateDocs - docs: ', docs);
 
-			// create text from raw, if necessary
-			for (var key of Object.keys(docs)) {
-				let doc = docs[key];
-				if (doc.text) {
-					// do nothing
-				} else if (doc.raw && Array.isArray(doc.raw)) {
-					// raw is array, convert to text in string
-					doc.text = this.editorService.replaceArrayToText(doc.raw);
-					doc.raw = null;
-				} else {
-					doc.text = '';
-				}
-				doc.html = doc.text.slice(0);
-				docs[key] = doc;
-			};
-
-			// convert html
-			let promises = [];
-			for (let key of Object.keys(docs)) {
-				promises.push(
-					new Promise((res) => {
-						let text = docs[key].text;
-						// convert image templates to HTML
-						this.editorService.convertDocumentTemplate(ancestor, text, key).then((resolves:any) => {
-							// change text to reflect image
-							for (let i = 0; i < resolves.length; i++) {
-								let data = resolves[i];
-								let rkey = data.key;
-								let docStr = '[' + data.docStr + ']';
-								let html = data.html;
-								docs[rkey].html = docs[rkey].html.replaceAll(docStr, html);
-							}
-							res(true);
-						});
-					})
-				);
+		// create text from raw, if necessary
+		for (var key of Object.keys(docs)) {
+			let doc = docs[key];
+			if (doc.text) {
+				// do nothing
+			} else if (doc.raw && Array.isArray(doc.raw)) {
+				// raw is array, convert to text in string
+				doc.text = this.editorService.replaceArrayToText(doc.raw);
+				doc.raw = null;
+			} else {
+				doc.text = '';
 			}
+			doc.html = doc.text.slice(0);
+			docs[key] = doc;
+		};
 
-			Promise.all(promises).then(resolves => {
-				this.dataService.saveDocs(docs).then((status:any) => {
-					resolve(true);
-				});
-			});
-		})
+		// convert html
+		for (let key of Object.keys(docs)) {
+			let text = docs[key].text;
+			// convert image templates to HTML
+			let resolves = this.editorService.convertDocumentTemplate(images, text);
+			// change text to reflect image
+			for (let i = 0; i < resolves.length; i++) {
+				let data = resolves[i];
+				let docStr = '[' + data.docStr + ']';
+				let html = data.html;
+				docs[key].html = docs[key].html.replaceAll(docStr, html);
+			}
+		}
+		this.dataService.saveDocs(docs).then((status:any) => {});
 	}
 
   private setJsonData(json: string) {

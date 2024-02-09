@@ -24,15 +24,17 @@
       </ion-button>
       <span class="label">{{ 'NODE_DELETE_BRANCH' | translate }}</span>
     </ion-col>
-		<ion-col size="1" class="heading" (click)="ftTreeService.onZoomIn()">
+		<ion-col size="1" class="heading">
 			<ion-button class="button" fill="clear" (click)="ftTreeService.onZoomIn()">
 				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-minus-outline.svg" class="icon"></ion-icon>
 			</ion-button>
+      <span class="label">{{ 'SMALLER' | translate }}</span>
 		</ion-col>
-		<ion-col size="1" class="heading" (click)="ftTreeService.onZoomOut()">
+		<ion-col size="1" class="heading">
 			<ion-button class="button" fill="clear" (click)="ftTreeService.onZoomOut()">
 				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-plus-outline.svg" class="icon"></ion-icon>
 			</ion-button>
+      <span class="label">{{ 'LARGER' | translate }}</span>
 		</ion-col>
   </ion-item>
 
@@ -61,32 +63,10 @@
     </ion-col>
 	</ion-item>
 
-  <!-- <ion-item class="header-bottom">
-    <ion-col size="6" class="heading" (click)="add()">
-      <ion-button class="button" title="{{ 'NODE_ADD_BRANCH_TOOLTIP' | translate }}" fill="clear" (click)="add()">
-        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}account-plus-outline.svg" class="icon"></ion-icon>
-      </ion-button>
-      <span class="label">{{ 'NODE_ADD_BRANCH' | translate }}</span>
-    </ion-col>
-    <ion-col size="6" class="heading" (click)="delete()">
-      <ion-button class="button" title="{{ 'NODE_ADD_BRANCH_TOOLTIP' | translate }}" fill="clear" (click)="delete()">
-        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}account-plus-outline.svg" class="icon"></ion-icon>
-      </ion-button>
-      <span class="label">{{ 'NODE_DELETE_BRANCH' | translate }}</span>
-    </ion-col>
-
-  </ion-item> -->
-
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
-	<!-- <pinch-zoom #myPinch="pinchZoom"
-		[backgroundColor]="'white'"
-		[minPanScale]="1"
-	>
-		<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
-	</pinch-zoom> -->
-
+	
 	<div class="screen-node" id="full-tree">
     <div [ngStyle]="ftTreeService.getZoomStyle()">
       <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>

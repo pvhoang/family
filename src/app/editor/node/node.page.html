@@ -31,22 +31,24 @@
         </ng-template>
       </ion-popover>
     </ion-col>
-		<ion-col size="1" class="heading" (click)="ftTreeService.onZoomIn()">
+		<ion-col size="1" class="heading">
 			<ion-button class="button" fill="clear" (click)="ftTreeService.onZoomIn()">
 				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-minus-outline.svg" class="icon"></ion-icon>
 			</ion-button>
+      <span class="label">{{ 'SMALLER' | translate }}</span>
 		</ion-col>
-		<ion-col size="1" class="heading" (click)="ftTreeService.onZoomOut()">
+		<ion-col size="1" class="heading">
 			<ion-button class="button" fill="clear" (click)="ftTreeService.onZoomOut()">
 				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-plus-outline.svg" class="icon"></ion-icon>
 			</ion-button>
+      <span class="label">{{ 'LARGER' | translate }}</span>
 		</ion-col>
 	</ion-item>
 	
 	<ion-item class="header-top" *ngIf="ftTreeService.isMobilePlatform()">
-    <ion-col size="1">
+    <ion-col size="2">
     </ion-col>
-    <ion-col size="7">
+    <ion-col size="8">
       <ng-select
         [appendTo]="'body'"
         [items]="peopleNodes" 
@@ -77,44 +79,14 @@
     </ion-col>
 	</ion-item>
 
-  <!-- <ion-item class="header-bottom">
-    <ion-col size="6" class="heading">
-      <span class="label" [innerHtml]="nodeItemMessage"></span>
-    </ion-col>
-    <ion-col size="6" class="heading" id="info-popover">
-      <ion-button class="button" fill="clear" title="{{ nodeItemPlaceholder }}" >
-        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}cog-outline.svg" class="icon"></ion-icon>
-      </ion-button>
-      <span class="label">{{ 'MISSING' | translate }}</span>
-      <ion-popover 
-        trigger="info-popover" triggerAction="click" 
-        [dismissOnSelect]="true" side="right" alignment="start" size="auto">
-        <ng-template>
-          <ion-content class="ion-padding ng-select-popover">
-            <ion-item *ngFor="let item of nodeItems" (click)="onNodeInfoPopover(item)">
-              <ion-button class="button" fill="clear">{{item.name}}</ion-button>
-            </ion-item>
-          </ion-content>
-        </ng-template>
-      </ion-popover>
-    </ion-col>
-  </ion-item> -->
-
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
 
-	<!-- <pinch-zoom #myPinch="pinchZoom"
-		[backgroundColor]="'white'"
-		[minPanScale]="1"
-	>
-		<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
-	</pinch-zoom> -->
-
-	<div class="screen-node" id="full-tree">
-    <div [ngStyle]="ftTreeService.getZoomStyle()">
-      <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
-    </div>
-  </div>
+		<div class="screen-node" id="full-tree">
+			<div [ngStyle]="ftTreeService.getZoomStyle()">
+				<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
+			</div>
+		</div>
 
 </ion-content>

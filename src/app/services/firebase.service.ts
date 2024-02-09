@@ -233,6 +233,14 @@ export class FirebaseService {
 					console.log('getDocumentURL - metadata: ', metadata.contentType);
 				let type = metadata.contentType;
 				getDownloadURL(storageRef).then((url) => {
+					// const xhr = new XMLHttpRequest();
+					// xhr.responseType = 'blob';
+					// xhr.onload = (event) => {
+					// 	const blob = xhr.response;
+					// 	resolve({ url: url, blob: blob, type: type });
+					// };
+					// xhr.open('GET', url);
+					// xhr.send();
 					resolve({ url: url, type: type });
 				});
 			})
@@ -372,7 +380,6 @@ export class FirebaseService {
 								url: url
 							});
 						});
-
 					}).catch((error) => {
 						console.log('ERROR - FirebaseService - getFileList - error:', error)
 						// Uh-oh, an error occurred!
