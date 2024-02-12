@@ -365,6 +365,8 @@ export class AppComponent implements OnInit {
 						let rversion = rdata.family.version;
 						if (rversion != fversion) {
 							this.presentToast(['APP_NEW_FAMILY', rversion]);
+							// check for new nodes
+							this.compareFamilyVersion(sdata.family, rdata.family);
 							this.dataService.saveItem('ANCESTOR_DATA', rdata).then((status:any) => {
 								resolve (true);
 							});
@@ -392,6 +394,27 @@ export class AppComponent implements OnInit {
         resolve (false);
       });
     });
+  }
+
+	compareFamilyVersion(remoteFamily: any, localFamily: any) {
+		let rFamily = this.familyService.getFilterFamily(remoteFamily);
+		let lFamily = this.familyService.getFilterFamily(localFamily);
+		let compareResults = this.familyService.compareFamilies(rFamily, lFamily);
+		console.log('compareResults: ', compareResults);
+		let newNodes = [];
+		compareResults.forEach(item => {
+			if (item.mode == 'ADD')
+				newNodes.push(item.name);
+		})
+		if (newNodes.length > 0) {
+			let msg = '<b>' + this.translate_instant('APP_NEW_NODE') + '</b><br/><br/>';
+			newNodes.forEach(node => {
+				msg += node + '<br/>'
+			});
+			setTimeout(() => {
+				this.utilService.presentToastWait(null, msg, 'OK', 10000);
+			}, 4000);
+		}
   }
 
   loadLanguage() {
@@ -628,6 +651,7 @@ export class AppComponent implements OnInit {
 			"APP_NEW_ANCESTOR_1": "Phả tộc '",
 			"APP_NEW_ANCESTOR_2": "' đã được khởi động!<br/>Kết nối: <i>giapha.web.app</i>",
 			"APP_NEW_FAMILY": "Hệ thống dùng dữ liệu mới. Ấn bản: ",
+			"APP_NEW_NODE": "Hệ mới",
 			"APP_WELCOME_FAMILY_1": "Chào bạn truy cập vào gia phả họ ",
 			"APP_WELCOME_FAMILY_2": ". Để cập nhật thông tin, xin liên lạc: ",
 			"APP_NA_ANCESTOR_1": "Phả tộc '",
@@ -674,6 +698,7 @@ export class AppComponent implements OnInit {
 			"APP_NEW_ANCESTOR_1": "Ancestor: '",
 			"APP_NEW_ANCESTOR_2": "' has been chosen! <br/>Link: <i>giapha.web.app</i>",
 			"APP_NEW_FAMILY": "New family data is used. Version: ",
+			"APP_NEW_NODE": "New nodes",
 			"APP_NA_ANCESTOR_1": "Ancestor: '",
 			"APP_NA_ANCESTOR_2": "' is not available!<br/>Contact <i>pvhoang940@gmail.com</i>.",
 			"APP_NA_ANCESTOR": "Ancestor is not provided!<br/>Contact <i>pvhoang940@gmail.com</i>.",

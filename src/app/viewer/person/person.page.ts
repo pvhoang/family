@@ -141,12 +141,22 @@ export class PersonPage implements OnInit {
     // reset nclass
     if (this.selectedNode)
       this.selectedNode.nclass = this.nodeService.updateNclass(this.selectedNode);
+
+		// if photo is available and desc is empty, add photo to desc
+		if (node.photo != '' && node.desc == '')
+			node.desc = '[3|' + node.photo + '|1|1|' + this.languageService.getTranslation('PERSON_IMAGE_DETAIL') + ']';
+
 		// convert to html for display
 		node.desc = this.editorService.replaceDescTextStyle(node.desc);
     this.selectedNode = node;
 
 		this.dataService.readItem('images').then((images:any) => {
+      console.log('PersonPage - onNodeSelect - images: ', images);
+      console.log('PersonPage - onNodeSelect - node.desc: ', node.desc);
+
 			let resolves = this.editorService.convertDocumentTemplate(images, node.desc);
+      console.log('PersonPage - onNodeSelect - resolves: ', resolves);
+
 			if (resolves.length > 0) {
 				// console.log('PersonPage - onNodeSelect - node.desc: ', node.desc);
 				// console.log('PersonPage - onNodeSelect - resolves: ', resolves);
@@ -242,6 +252,19 @@ export class PersonPage implements OnInit {
       let imgWidth = canvas.width;
       let imgHeight = imgWidth / ratio;
       ctx.drawImage(img, 0, 0, imgWidth, imgHeight);
+
+			// canvas.addEventListener('mouseout', function() {
+			// 	let imgWidth = canvas.width;
+			// 	let imgHeight = imgWidth / ratio;
+			// 	ctx.drawImage(img, 0, 0, imgWidth, imgHeight);
+			// }, false);
+
+			// canvas.addEventListener('mousemove', (e) => {
+			// 	var pos = this.getMousePos(canvas, e);
+			// 	console.log('mousemove: ', pos)
+			// 	ctx.drawImage(img, -pos.x, -pos.y, img.width, img.height);
+			// }, false);
+
       let url = '';
       if (node.photo != '') {
         this.fbService.downloadImage(this.info.id, node.photo).then((imageURL:any) => {
@@ -264,21 +287,85 @@ export class PersonPage implements OnInit {
   drawPhoto(ctx: any, url: any, imgConWidth: any, imgConHeight: any) {
     const tombWidth = (1 / 3) * imgConWidth;
     const img = new Image();
-		// img.classList.add('person-tomb-image');
-		// img.className = "person-tomb-image";
+		img.className = "person-tomb-image";
     img.src = url;
-		console.log('img: ', img);
     img.onload = () => {
       const ratio = img.naturalWidth / img.naturalHeight;
+			// let imgWidth = tombWidth;
       let imgWidth = tombWidth * 0.6;
       let imgHeight = imgWidth / ratio;
-      // center image
+			// center image
       const positionX = imgConWidth / 2 - imgWidth / 2 + tombWidth * 0.05;
       const positionY = 0.62 * imgConHeight;
       ctx.drawImage(img, positionX, positionY, imgWidth, imgHeight);
     };
+
+		// https://www.w3schools.com/howto/howto_js_image_magnifier_glass.asp
+		// img.id = "person-photo-image";
+		// let canvas = this.canvasRef.nativeElement;
+		// const div = document.createElement("div");
+		// div.classList.add("img-magnifier-container");
+		// div.appendChild(img);
+		// canvas.insertAdjacentElement('afterend', div);
+		// this.magnify("person-photo-image", 3);
   }
 
+	// DO NOT DELETE - 11/02/2024
+	magnify(imgID: any, zoom: any) {
+		let img, glass, w, h, bw;
+		img = document.getElementById(imgID);
+		/*create magnifier glass:*/
+		glass = document.createElement("DIV");
+		glass.setAttribute("class", "img-magnifier-glass");
+		/*insert magnifier glass:*/
+		img.parentElement.insertBefore(glass, img);
+		/*set background properties for the magnifier glass:*/
+		glass.style.backgroundImage = "url('" + img.src + "')";
+		glass.style.backgroundRepeat = "no-repeat";
+		glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
+		bw = 3;
+		w = glass.offsetWidth / 2;
+		h = glass.offsetHeight / 2;
+		/*execute a function when someone moves the magnifier glass over the image:*/
+		glass.addEventListener("mousemove", moveMagnifier);
+		img.addEventListener("mousemove", moveMagnifier);
+		/*and also for touch screens:*/
+		glass.addEventListener("touchmove", moveMagnifier);
+		img.addEventListener("touchmove", moveMagnifier);
+		function moveMagnifier(e) {
+			var pos, x, y;
+			/*prevent any other actions that may occur when moving over the image*/
+			e.preventDefault();
+			/*get the cursor's x and y positions:*/
+			pos = getCursorPos(e);
+			x = pos.x;
+			y = pos.y;
+			/*prevent the magnifier glass from being positioned outside the image:*/
+			if (x > img.width - (w / zoom)) {x = img.width - (w / zoom);}
+			if (x < w / zoom) {x = w / zoom;}
+			if (y > img.height - (h / zoom)) {y = img.height - (h / zoom);}
+			if (y < h / zoom) {y = h / zoom;}
+			/*set the position of the magnifier glass:*/
+			glass.style.left = (x - w) + "px";
+			glass.style.top = (y - h) + "px";
+			/*display what the magnifier glass "sees":*/
+			glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+		}
+		function getCursorPos(e) {
+			var a, x = 0, y = 0;
+			e = e || window.event;
+			/*get the x and y positions of the image:*/
+			a = img.getBoundingClientRect();
+			/*calculate the cursor's x and y coordinates, relative to the image:*/
+			x = e.pageX - a.left;
+			y = e.pageY - a.top;
+			/*consider any page scrolling:*/
+			x = x - window.pageXOffset;
+			y = y - window.pageYOffset;
+			return {x : x, y : y};
+		}
+	}
+	
   drawName(ctx, fullName, imgWidth, imgHeight) {
     const size = 0.03 * imgWidth;
     // const font = 'Arial';

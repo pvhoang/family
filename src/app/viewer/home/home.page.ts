@@ -33,10 +33,12 @@ export class HomePage implements OnInit{
 	info: any = { name: '', location: ''};
 	family: any;
 	version: any;
+	memorialMsg: any;
 
 	pageData = {
 		"pha_he": { title: "", html: "", index: 0, titleText: "" },
 		"pha_do": { title: "", html: "", index: 0, titleText: ""  },
+		"ngay_gio": { title: "", html: "", index: 0, titleText: "" },
 	};
 
 	specialPageData = {
@@ -82,55 +84,17 @@ export class HomePage implements OnInit{
 				// let data = this.getSystemData(family);
 				// this.nodes = data.nodes;
 				// this.levels = data.levels;
+				// this.onMemorial();
+				this.memorialMsg = this.familyService.passAwayFamily(family);
 				this.updatePageData(docs);
-				this.onMemorial();
 			});
 		});
 	}
 	
-	// private getSystemData(family) {
-	
-	// 	let nodes = this.nodeService.getFamilyNodes(family, true);
-	// 	let minLevel = 100;
-	// 	let maxLevel = 0;
-	// 	nodes.forEach(node => {
-	// 		if (node.level > maxLevel)
-	// 			maxLevel = node.level;
-	// 		if (node.level < minLevel)
-	// 			minLevel = node.level;
-	// 	})
-	// 	let yobMin = 3000;
-	// 	let yobMax = 0;
-	// 	nodes.forEach(node => {
-	// 		if (node.level == minLevel && node.yob != '' && node.yob < yobMin)
-	// 			yobMin = node.yob;
-	// 		if (node.level == maxLevel && node.yob != '' && node.yob > yobMax)
-	// 			yobMax = node.yob;
-	// 	})
-	// 	return {
-	// 		nodes: nodes.length,
-	// 		levels: maxLevel + ' ( ' + yobMin + '-' + yobMax + ' )'
-	// 	}
-	// }
-
-	onMemorial() {
-    this.familyService.passAwayFamily().then((data:any) => {
-			if (data.persons.length == 0)
-				return;
-      if (DEBUGS.HOME)
-        console.log('HomePage - onMemorial - data: ', data);
-      let today = data.today;
-      let msg = '<b>' + this.languageService.getTranslation('HOME_MEMORY_HEADER') + '</b><br/>' +
-					'<i>' + this.languageService.getTranslation('HOME_MEMORY_TODAY') + ':  ' + today + '</i><br/></br>';
-			data.persons.forEach(person => {
-				msg += person[0] + ':&emsp;:&emsp;' + person[1] + '<br/>'
-			});
-			this.utilService.presentToast(msg, 3000);
-			// this.utilService.presentToastWait(null, msg, 'OK', 8000);
-    });
-  }
-
 	updatePageData(docs: any) {
+		// add special key: 'ngay_gio' to docs
+		docs.ngay_gio = { html: '[MEMORIAL]' };
+
 		let titles = { 
 			'pha_nhap': this.languageService.getTranslation('HOME_pha_nhap'),
 			'pha_ky': this.languageService.getTranslation('HOME_pha_ky'),
@@ -138,6 +102,7 @@ export class HomePage implements OnInit{
 			'pha_do': this.languageService.getTranslation('HOME_pha_do'),
 			'ngoai_pha': this.languageService.getTranslation('HOME_ngoai_pha'),
 			'phu_khao': this.languageService.getTranslation('HOME_phu_khao'),
+			'ngay_gio': this.languageService.getTranslation('HOME_ngay_gio'),
 		}
 
 		let specialPageData: any = {};
@@ -153,31 +118,31 @@ export class HomePage implements OnInit{
 		for (var key of Object.keys(docs)) {
 			let data = docs[key];
 			data.titleText = titles[key];
-				// html is calculated in app.component.ts
-				let html = data.html;
+			// html is calculated in app.component.ts
+			let html = data.html;
 
-				html = this.editorService.removeFontSize(html, fontSizePercent);
-				// html = this.editorService.replaceSpecialTemplate(html, this.nodes, this.levels);
-				html = this.replaceSpecialTemplate(html);
+			html = this.editorService.removeFontSize(html, fontSizePercent);
+			// html = this.editorService.replaceSpecialTemplate(html, this.nodes, this.levels);
+			html = this.replaceSpecialTemplate(html);
 
-				// pages with special templates
-				if (key == 'pha_he' || key == 'pha_do') {
-					data.html = html;
-					data.index = count++;
-					pageData[key] = data;
+			// pages with special templates
+			if (key == 'pha_he' || key == 'pha_do' || key == 'ngay_gio') {
+				data.html = html;
+				data.index = count++;
+				pageData[key] = data;
 
-				} else {
-					// doc with multiple pages
-					let pages = [];
-					let texts = html.split('[PAGE]');
-					let pcount = 1;
-					texts.forEach((txt:string) => {
-						let titleText = (texts.length == 1) ? data.titleText : data.titleText + ' (' + pcount++ + ')';
-						pages.push({ titleText: titleText, html: txt, index: count++ });
-					})
-					specialPageData[key] = pages;
-				}
+			} else {
+				// doc with multiple pages
+				let pages = [];
+				let texts = html.split('[PAGE]');
+				let pcount = 1;
+				texts.forEach((txt:string) => {
+					let titleText = (texts.length == 1) ? data.titleText : data.titleText + ' (' + pcount++ + ')';
+					pages.push({ titleText: titleText, html: txt, index: count++ });
+				})
+				specialPageData[key] = pages;
 			}
+		}
 		this.pageData = pageData;
 		this.specialPageData = specialPageData;
 	}
@@ -300,6 +265,62 @@ export class HomePage implements OnInit{
 			})
 			str = str.replaceAll('[GEN-COUNT]', '<b>' + maxLevel + '</b>');
 		}
+
+		if (str.indexOf('[TODAY]') >= 0) {
+			let today = this.utilService.getShortDateID('/');
+			let html = '<p style="text-align: center;"><strong>' + today + '</strong></p>';
+			str = str.replaceAll('[TODAY]', html);
+		}
+
+		if (str.indexOf('[MEMORIAL]') >= 0) {
+			let data: any = this.memorialMsg;
+			if (DEBUGS.HOME)
+					console.log('HomePage - replaceSpecialTemplate - data: ', data);
+
+			let today = this.utilService.getShortDateID('/');
+			let lunarYear = this.utilService.getLunarYear(+("20"+today.substring(6)));
+			let html = '<p style="text-align: center;">' +
+				this.languageService.getTranslation('HOME_MEMORY_TODAY') + ':  ' +
+				'<strong>' + today + ' (' + data.today + ' ' + lunarYear + ')</strong></p>';
+			if (data.persons.length == 0) {
+				html += '<p style="text-align: center;"><strong>' + this.languageService.getTranslation('HOME_MEMORY_NO_DOD') + '</strong></p>';
+			} else {
+				// let today = data.today;
+				// // let msg = '<b>' + this.languageService.getTranslation('HOME_MEMORY_HEADER') + '</b><br/>' +
+				// // 		'<i>' + this.languageService.getTranslation('HOME_MEMORY_TODAY') + ':  ' + today + '</i><br/></br>';
+				// // data.persons.forEach(person => {
+				// // 	msg += person[0] + ':&emsp;:&emsp;' + person[1] + '<br/>'
+				// // });
+				// // html = msg;
+				// html = '<p style="text-align: center;">' + this.languageService.getTranslation('HOME_MEMORY_TODAY') + ': <strong>' + today + '</strong></p>';
+				html += 
+				'<ion-grid class="home-grid">' +
+				'<ion-row>' +
+					'<ion-col size="4" class="column center">' + this.languageService.getTranslation('HOME_MEMORY_NAME') + '</ion-col>' +
+					'<ion-col size="4" class="column center">' +	this.languageService.getTranslation('HOME_MEMORY_DOD') + '</ion-col>' +
+					'<ion-col size="4" class="column center">' +	this.languageService.getTranslation('HOME_MEMORY_DAYS') +	'</ion-col>' +
+				'</ion-row>';
+				for (let i = 0; i < data.persons.length; i++) {
+					let person = data.persons[i];
+					let name = person[0];
+					let dod = person[1];
+					let days = person[2];
+					if (days == '0') {
+						name = '<b>' + name + '</b>'
+						dod = '<b>' + dod + '</b>'
+						days = '';
+					}
+					html += 
+					'<ion-row>' +
+						'<ion-col size="4" class="column">' + name + '</ion-col>' +
+						'<ion-col size="4" class="column center">' +	dod + '</ion-col>' +
+						'<ion-col size="4" class="column center">' +	days +	'</ion-col>' +
+					'</ion-row>';
+				};
+				html += '</ion-grid>';
+			}
+			str = str.replaceAll('[MEMORIAL]', html);
+		}
 		
 		if (str.indexOf('[GEN-TABLE]') >= 0) {
 			// console.log('this.nodes: ', this.nodes);
@@ -388,26 +409,11 @@ export class HomePage implements OnInit{
 			};
 			html += 
 			'</ion-grid>';
-
-			// for (var key of Object.keys(levels)) {
-			// 	html += 
-			// 	'<ion-row>' +
-			// 	'<ion-col size="4" class="column">' +
-			// 		'<b>' + key + '</b>' + '<br/>(' + levels[key].yob + ',' + levels[key].max + ')' +
-			// 	'</ion-col>' +
-			// 	'<ion-col size="4" class="column">' +
-			// 		levels[key].minNode.name +
-			// 	'</ion-col>' +
-			// 	'<ion-col size="4" class="column">' +
-			// 		levels[key].maxNode.name +
-			// 	'</ion-col>' +
-			// 	'</ion-row>';
-			// };
-		
 			if (DEBUGS.HOME)
 				console.log('replaceSpecialTemplate - html: ', html);
 			str = str.replaceAll('[GEN-TABLE]', html);
 		}
+
 		return str;
 	}
 }

@@ -27,6 +27,7 @@
 						<li><span class="page-span" (click)="toPage('pha_do')"><u><i>{{ 'HOME_pha_do' | translate }}</i></u></span></li>
 						<li><span class="page-span" (click)="toPage('ngoai_pha')"><u><i>{{ 'HOME_ngoai_pha' | translate }}</i></u></span></li>
 						<li><span class="page-span" (click)="toPage('phu_khao')"><u><i>{{ 'HOME_phu_khao' | translate }}</i></u></span></li>
+						<li><span class="page-span" (click)="toPage('ngay_gio')"><u><i>{{ 'HOME_ngay_gio' | translate }}</i></u></span></li>
 					</ul>
 				</div>
 				<div class="page-footer"><u><i></i></u></div>
@@ -64,6 +65,7 @@
 						<div id="pha_he"></div>
 						<br>
 						<br>
+						<!-- <div class="w3-panel w3-border w3-border-red"> -->
 						<ion-item class="page-detail">
 							<ion-col size="12" class="heading" (click)="onPhaHe()">
 								<ion-button class="button" fill="clear">
@@ -72,6 +74,7 @@
 								<span class="label">{{ 'HOME_VIEW_NODE' | translate }}</span>
 							</ion-col>
 						</ion-item>
+						<!-- </div> -->
 					</div>
 					<div class="page-footer">{{pageData.pha_he.index-1}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
 				</div>
@@ -118,6 +121,17 @@
 						</div>
 						<div class="page-footer">{{page.index-1}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
 					</div>
+				</div>
+			</div>
+
+			<div class="page" data-density="hard">
+				<div class="page-content">
+					<h2 class="page-header">{{pageData.ngay_gio.titleText}}</h2>
+					<div class="w3-container page-text">
+						<div id="ngay_gio"></div>
+						<br>
+					</div>
+					<div class="page-footer">{{pageData.ngay_gio.index-1}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
 				</div>
 			</div>
 

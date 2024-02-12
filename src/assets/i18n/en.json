@@ -96,6 +96,7 @@
 	"HOME_pha_do": "Tree",
 	"HOME_ngoai_pha": "Detail",
 	"HOME_phu_khao": "Notes",
+	"HOME_ngay_gio": "Memorial",
 	"HOME_ket_thuc": "End",
   "HOME_VIEW_NODE": "List",
   "HOME_VIEW_TREE": "Tree",
@@ -103,7 +104,8 @@
 	"HOME_MEMORY_TODAY": "Today",
   "HOME_MEMORY_NAME": "Person",
   "HOME_MEMORY_DOD": "Memorial",
-  "HOME_MEMORY_NO_DOD": "No memorial in next 2 days.",
+  "HOME_MEMORY_DAYS": "Days",
+  "HOME_MEMORY_NO_DOD": "No memorial in next 5 days.",
   "HOME_FIRST_NODE": "First node",
   "HOME_LAST_NODE": "Last node",
 	
@@ -111,6 +113,8 @@
 	"HOME_UPDATE": "To update data, please contact: ",
 	
 	"PERSON_INFO": "Information",
+	"PERSON_IMAGE_DETAIL": "Picture detail",
+
   "TREE_POPOVER_PRINT_JPG": "JPG",
   "TREE_POPOVER_PRINT_PDF": "PDF",
 	"TREE_SELECT_PRINT_JPG_MSG_1": "File '",
@@ -228,14 +232,22 @@
   "FILE_DOWNLOAD_COMPLETE": "Data is downloaded!",
 	
 	"FILE_UPLOAD": "Upload new data to server.",
-  "FILE_UPLOAD_START": "Open file",
+  "FILE_UPLOAD_START": "Upload",
+  "FILE_UPLOAD_DOCS": "File docs",
+  "FILE_UPLOAD_FAMILY": "File family",
+  "FILE_UPLOAD_IMAGES": "File images",
+  "FILE_UPLOAD_EXIT": "Exit",
+  "FILE_UPLOAD_PLACEHOLDER": "Update file",
+
 	"FILE_UPLOAD_MESSAGE": "Upload data?",
 	"FILE_UPLOAD_MESSAGE_1": "Upload file: ",
   "FILE_UPLOAD_MESSAGE_2": " to server?",
 	"FILE_UPLOAD_FILE_INVALID": "File is not valid or version does not change!",
-	"FILE_FILE_EMPTY": "File is empty!",
+	"FILE_UPLOAD_FILE_EMPTY": "File is empty!",
+
 	"FILE_UPLOAD_COMPLETE_1": "File: ",
   "FILE_UPLOAD_COMPLETE_2": " is uploaded to server.",
+  "FILE_UPLOAD_COMPLETE_3": "Images are uploaded to server.",
   "FILE_PHOTO": "Create/edit images to be uploaded to server",
   "FILE_PHOTO_ADD": "Open file",
   "FILE_PHOTO_MODIFY": "Edit",

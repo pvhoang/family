@@ -86,6 +86,21 @@ export class EditorService {
 					let type = images[data.name].type;
 					let html = '';
 					if (type.indexOf('image') >= 0) {
+						// w=150 h=100 , w=1200 h=900 -> h = 150 * 900 / 1200, w=150
+						// w=150 h=100 , w=900 h=1350 -> w = 150 * 900 / 1350, h=150
+						// match width and height with image natural size 
+						let iWidth = images[data.name].width;
+						let iHeight = images[data.name].height;
+						if (iWidth > iHeight) {
+							// landscape
+							data.height = data.width * iHeight / iWidth;
+						} else {
+							// portrait
+							let width = data.width;
+							let height = data.height;
+							data.height = width;
+							data.width = width * iWidth / iHeight;
+						}
 						// https://stackoverflow.com/questions/30686191/how-to-make-image-caption-width-to-match-image-width
 						html = 
 						'<div class="' + data.container + '">' +

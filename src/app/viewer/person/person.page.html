@@ -63,15 +63,14 @@
 
 		<div class="person-image" *ngIf="selectedNode && (this.selectedNode.yod != '' || this.selectedNode.dod != '' || this.selectedNode.pod != '')">
 			<canvas #canvasContainer width="250px" height="300px"></canvas>
+			<!-- <canvas #canvasContainer></canvas> -->
 		</div>
 		
-		<div [ngStyle]="ftTreeService.getZoomStyle()">
+		<div class="person-tree" [ngStyle]="ftTreeService.getZoomStyle()">
 			<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
 		</div>
 		
-		<br/>
-		
-		<div *ngIf="selectedNode && selectedNode.desc != ''" class="person-desc">
+		<div  class="person-desc" *ngIf="selectedNode && selectedNode.desc != ''">
 			<ion-card-header class="person-section">
 				<span class="span">&nbsp;{{ 'PERSON_INFO' | translate }}</span>
 			</ion-card-header>

@@ -45,6 +45,9 @@ export class FilePage implements OnInit {
 	downloadDocsUrl: any;
 	downloadDocsName: any;
 
+	uploadItems: any;
+  uploadItemsPlaceholder: any = '';
+
 	imageFileName: any = '';
   imageViewMode = false;
 	storageFiles: any[] = [];
@@ -89,6 +92,7 @@ export class FilePage implements OnInit {
 
   start() {
 		this.resetModes();
+		this.uploadReset();
     this.onCompareFamily();
   }
 
@@ -353,41 +357,70 @@ export class FilePage implements OnInit {
 
 	// --- uploadMode ---
 
-	uploadOnClick() {
-		let msg = this.utilService.getAlertMessage([
-			{name: 'msg', label: 'FILE_UPLOAD_MESSAGE'}
-		]);
-		this.utilService.alertConfirm('FILE_UPLOAD_START', msg, 'CANCEL', 'OK').then((res) => {
-			if (res.data) {
-				// https://stackoverflow.com/questions/11620698/how-to-trigger-a-file-download-when-clicking-an-html-button-or-javascript
-				document.getElementById("modify-upload").click()
-			}
-		});
+	uploadReset() {
+		this.uploadItems = [
+			{ name: 'DOCS', label: this.languageService.getTranslation('FILE_UPLOAD_DOCS') },
+			{ name: 'FAMILY' , label: this.languageService.getTranslation('FILE_UPLOAD_FAMILY') },
+			{ name: 'IMAGES' , label: this.languageService.getTranslation('FILE_UPLOAD_IMAGES') },
+			{ name: 'EXIT' , label: this.languageService.getTranslation('FILE_UPLOAD_EXIT') }
+		]
+		this.uploadItemsPlaceholder = this.languageService.getTranslation('FILE_UPLOAD_PLACEHOLDER');
 	}
 
-	uploadOnFileSelect(event: any): void {
+	uploadInfoPopover(item: any) {
+		let name = item.name;
+		if (name == 'DOCS') {
+			document.getElementById("modify-upload-docs").click()
+		} else if (name == 'FAMILY') {
+			document.getElementById("modify-upload-family").click()
+		} else if (name == 'IMAGES') {
+			this.fbService.getFileList(this.ancestor).then((filelist:any) => {
+				this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
+					if (DEBUGS.FILE)
+						console.log('uploadInfoPopover - filelist: ', filelist);
+					// some time it's too slow to process file list, wait 2 sec
+					setTimeout(() => {
+						let images = {};
+						filelist.forEach((file:any) => {
+							images[file.name] = { url: file.url, type: file.type, size: file.size, width: file.width, height: file.height };
+						})
+						rdata.images = images;
+						console.log('uploadInfoPopover - rdata.images: ', rdata.images);
+						this.fbService.saveAncestorData(rdata).then((status:any) => {
+							let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_3');
+							this.utilService.presentToast(msg);
+						});
+					}, 2000);
+				});
+			});
+		}
+	}
+
+	uploadOnFileSelect(event: any, type: any): void {
     const files = [...event.target.files]
 		const file = files[0];
-		this.uploadOnFile(file);
+		this.uploadOnFile(file, type);
   }
 
-	private uploadOnFile(file: any) {
+	private uploadOnFile(file: any, type: any) {
 		// console.log('type: ', type);
     this.uploadGetTextFile(file).then((res: any) => {
       if (DEBUGS.APP)
         console.log('uploadOnFile - res: ', res);
       if (res.text) {
-        // validate json file
-				let family = this.uploadValidateFamily(res.text);
-        if (family) {
-					this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
-						rdata.family = family;
-						this.fbService.saveAncestorData(rdata).then((status:any) => {
-							let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
-							this.utilService.presentToast(msg);
+				// validate json file
+				if (type == 'FAMILY') {
+					let family = this.uploadValidateFamily(res.text);
+					if (family) {
+						this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
+							rdata.family = family;
+							this.fbService.saveAncestorData(rdata).then((status:any) => {
+								let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
+								this.utilService.presentToast(msg);
+							});
 						});
-					});
-				} else {
+					}
+				} else if (type == 'DOCS') {
 					let docs = this.uploadValidateDocs(res.text);
 					if (docs) {
 						this.fbService.saveDocsAll(this.ancestor, docs).then((status:any) => {
@@ -397,7 +430,6 @@ export class FilePage implements OnInit {
 					} else {
 						this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_INVALID'));
 					}
-					
 				}
       } else {
 				this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_EMPTY'));
@@ -586,10 +618,12 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
   }
 
 	getKB(size: any) {
-		let kb = size / 1024;
+		// filter all . and ,
+		let s = parseFloat((''+size).replace(/,/g, ''));
+		let kb = s / 1024;
 		let str = '';
 		if (kb < 1)
-			str = size + ' Byte';
+			str = s + ' Byte';
 		else if (kb < 1000)
 			str = Math.round(kb) + ' KB';
 		else {
@@ -642,7 +676,6 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
       this.storageFiles = res;
       if (DEBUGS.FILE)
         console.log('onStorageFile - res: ', res);
-			this.storageSaveFileUrls(res);
     });
   }
 
@@ -659,7 +692,6 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
 				this.fbService.deleteImage(this.ancestor, file.name).then((status:any) => {
 					this.fbService.getFileList(this.ancestor).then((res:any) => {
 						this.storageFiles = res;
-						this.storageSaveFileUrls(res);
 					});
 				});
       }
@@ -685,20 +717,6 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
       window.open(file.url);
     }
   }
-
-	// read url and save to images
-	storageSaveFileUrls(filelist: any): void {
-		setTimeout(() => {
-			let images = {};
-			filelist.forEach((file:any) => {
-				console.log('onStorageFile - file: ', file);
-				images[file.name] = { url: file.url, type: file.type, size: file.size };
-			})
-			this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
-				rdata.images = images;
-				this.fbService.saveAncestorData(rdata).then((status:any) => {});
-			});
-		}, 500);
-  }
+	
 }
 

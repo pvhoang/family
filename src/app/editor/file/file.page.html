@@ -100,13 +100,29 @@
         <ion-col size="6" class="column">
 					<span class="label">{{ 'FILE_UPLOAD' | translate }}</span>
         </ion-col>
-				<ion-col size="6" class="column">
-					<ion-button class="button" fill="clear" (click)="uploadOnClick()">
+				<ion-col size="6" class="column" id="info-popover">
+					<!-- <ion-button class="button" fill="clear" (click)="uploadOnClick()"> -->
+					<ion-button class="button" fill="clear" title="{{ uploadItemsPlaceholder }}">
             <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
           </ion-button>
-					<input id="modify-upload" type="file" (change)="uploadOnFileSelect($event)" style="display:none;" title=" " accept=".json"/>
 					<span class="label">{{ 'FILE_UPLOAD_START' | translate }}</span>
-        </ion-col>
+					
+					<input id="modify-upload-docs" type="file" (change)="uploadOnFileSelect($event, 'DOCS')" style="display:none;" title=" " accept=".json"/>
+					<input id="modify-upload-family" type="file" (change)="uploadOnFileSelect($event, 'FAMILY')" style="display:none;" title=" " accept=".json"/>
+					
+					<ion-popover 
+						trigger="info-popover" triggerAction="click" 
+						[dismissOnSelect]="true" side="right" alignment="start" size="auto">
+						<ng-template>
+							<ion-content class="ion-padding ng-select-popover">
+								<ion-item *ngFor="let item of uploadItems" (click)="uploadInfoPopover(item)">
+									<ion-button class="button" fill="clear">{{item.label}}</ion-button>
+								</ion-item>
+							</ion-content>
+						</ng-template>
+					</ion-popover>
+				</ion-col>
+
       </ion-row>
 
 			<ion-row>

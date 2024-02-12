@@ -8,7 +8,7 @@ import { DEBUGS } from '../../environments/environment';
 import { CalendarVietnamese } from 'date-chinese';
 import { Family, Node} from './family.model';
 
-const DAY_COUNT = 2;
+const DAY_COUNT = 5;
 
 @Injectable({
 	providedIn: 'root'
@@ -210,39 +210,37 @@ export class FamilyService {
 
   // --- passAwayFamily
 
-  passAwayFamily(): Promise<any> {
-    return new Promise((resolve) => {
-      this.dataService.readFamily().then((family:any) => {
-        let msg = [];
-        let nodeLevel = 1;
-        family.nodes.forEach(node => {
-          const dayCount = this.isMemorialComing(node.dod);
-          if (dayCount >= 0 && dayCount < DAY_COUNT) {
-            let name = node.name + ' (' + this.languageService.getTranslation('GENERATION_SHORT') + nodeLevel + ')';
-            let dod = node.dod;
-            msg.push([name, dod, dayCount]);
-          }
-        })
-        if (family['children']) {
-          nodeLevel++;
-          family['children'].forEach(child => {
-            this.passAwayFamilyNode(child, nodeLevel, msg);
-          })
-        }
-        // sort number of days
-        msg.sort((row1:any, row2: any) => {
-          return row1[2] - row2[2];
-        });
-        let d = new Date();
-        let cal = new CalendarVietnamese()
-        cal.fromGregorian(d.getFullYear(), d.getMonth()+1, d.getDate())
-        let cdate = cal.get()
-        let day = (cdate[4] < 10) ? '0' + cdate[4] : cdate[4];
-        let month = (cdate[2] < 10) ? '0' + cdate[2] : cdate[2];
-        let today = day + '/' + month;
-        resolve ({ today: today, persons: msg });
-      });
-    });
+  // passAwayFamily(): Promise<any> {
+
+  passAwayFamily(family: any) {
+		let msg = [];
+		let nodeLevel = 1;
+		family.nodes.forEach((node: Node) => {
+			const dayCount = this.isMemorialComing(node.dod);
+			if (dayCount >= 0 && dayCount < DAY_COUNT) {
+				let name = node.name + ' (' + this.languageService.getTranslation('GENERATION_SHORT') + nodeLevel + ')';
+				let dod = node.dod;
+				msg.push([name, dod, dayCount]);
+			}
+		})
+		if (family['children']) {
+			nodeLevel++;
+			family['children'].forEach(child => {
+				this.passAwayFamilyNode(child, nodeLevel, msg);
+			})
+		}
+		// sort number of days
+		msg.sort((row1:any, row2: any) => {
+			return row1[2] - row2[2];
+		});
+		let d = new Date();
+		let cal = new CalendarVietnamese()
+		cal.fromGregorian(d.getFullYear(), d.getMonth()+1, d.getDate())
+		let cdate = cal.get()
+		let day = (cdate[4] < 10) ? '0' + cdate[4] : cdate[4];
+		let month = (cdate[2] < 10) ? '0' + cdate[2] : cdate[2];
+		let today = day + '/' + month;
+		return ({ today: today, persons: msg });
   }
 
   private passAwayFamilyNode(family:Family, nodeLevel: number, msg: any[]) {

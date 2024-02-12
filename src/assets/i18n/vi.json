@@ -96,6 +96,7 @@
 	"HOME_pha_do": "Phả đồ",
 	"HOME_ngoai_pha": "Ngoại phả",
 	"HOME_phu_khao": "Phụ khảo",
+	"HOME_ngay_gio": "Ngày giỗ",
 	"HOME_ket_thuc": "Kết thúc",
 	"HOME_VIEW_NODE": "Danh mục",
   "HOME_VIEW_TREE": "Chi tiết",
@@ -103,7 +104,8 @@
 	"HOME_MEMORY_TODAY": "Hôm nay",
   "HOME_MEMORY_NAME": "Hệ",
   "HOME_MEMORY_DOD": "Húy nhật",
-  "HOME_MEMORY_NO_DOD": "Không có giỗ trong 2 ngày tới.",
+  "HOME_MEMORY_DAYS": "Số ngày",
+  "HOME_MEMORY_NO_DOD": "Không có giỗ trong 5 ngày tới.",
   "HOME_FIRST_NODE": "Hệ đầu",
   "HOME_LAST_NODE": "Hệ cuối",
 
@@ -111,6 +113,8 @@
 	"HOME_UPDATE": "Để cập nhật thông tin, liên lạc: ",
 
 	"PERSON_INFO": "Thông tin",
+	"PERSON_IMAGE_DETAIL": "Hình chi tiết",
+	
 	"TREE_POPOVER_PRINT_JPG": "JPG",
   "TREE_POPOVER_PRINT_PDF": "PDF",
 	"TREE_SELECT_PRINT_JPG_MSG_1": "File '",
@@ -166,7 +170,6 @@
   "NODE_ROOT_BRANCH": "Tên tổ - năm sinh",
   "NODE_DELETE_BRANCH": "Xóa",
   "NODE_DELETE_BRANCH_TOOLTIP": "Xóa nhánh",
-
 
   "EDIT_SELECT_PEOPLE_PLACEHOLDER": "Nhập tên",
   "EDIT_SELECT_PLACES_PLACEHOLDER": "Chọn hay nhập nơi → ↵ hoặc .",
@@ -229,14 +232,23 @@
   "FILE_DOWNLOAD_COMPLETE": "Data đã được download xuống máy.",
 	
 	"FILE_UPLOAD": "Upload data mới từ máy lên mạng.",
-  "FILE_UPLOAD_START": "Mở file trong máy",
+  "FILE_UPLOAD_START": "Upload",
+  "FILE_UPLOAD_DOCS": "File docs",
+  "FILE_UPLOAD_FAMILY": "File family",
+  "FILE_UPLOAD_IMAGES": "Dữ liệu hình",
+  "FILE_UPLOAD_EXIT": "Thoát",
+  "FILE_UPLOAD_PLACEHOLDER": "Cập nhật file",
+	
 	"FILE_UPLOAD_MESSAGE": "Upload data? ",
 	"FILE_UPLOAD_MESSAGE_1": "Upload data: ",
   "FILE_UPLOAD_MESSAGE_2": " lên mạng?",
 	"FILE_UPLOAD_FILE_INVALID": "File không hợp lệ hoặc Version không đổi!",
-	"FILE_FILE_EMPTY": "File không có dữ liệu!",
+	"FILE_UPLOAD_FILE_EMPTY": "File không có dữ liệu!",
+
   "FILE_UPLOAD_COMPLETE_1": "File: ",
   "FILE_UPLOAD_COMPLETE_2": " đã được upload lên mạng.",
+  "FILE_UPLOAD_COMPLETE_3": "Dữ liệu hình đã được upload lên mạng.",
+
   "FILE_PHOTO": "Tạo/sửa hình để upload lên mạng",
   "FILE_PHOTO_ADD": "Mở file trong máy",
   "FILE_PHOTO_MODIFY": "Sửa",
