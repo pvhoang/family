@@ -9,6 +9,7 @@ import { NodeService } from '../../services/node.service';
 import { UtilService } from '../../services/util.service';
 import { DataService } from '../../services/data.service';
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
+import {NgxImageCompressService} from 'ngx-image-compress';
 
 import * as $ from 'jquery';
 
@@ -70,6 +71,7 @@ export class FilePage implements OnInit {
     private languageService: LanguageService,
     private fbService: FirebaseService,
     private utilService: UtilService,
+		private imageCompress: NgxImageCompressService
   ) { }
 
   ngOnInit() {
@@ -544,7 +546,7 @@ async openCropperModal(photoBase64: any, url: any) {
 	}
 }
 
-private photoUpload(photo: string, ancestor:string, photoBase64: string, file:File) {
+private photoUpload(photo: string, ancestor:string, photoBase64: string, file:any) {
 
 	// console.log('photo: ', photo);
 	let title = this.languageService.getTranslation('FILE_PHOTO_UPLOAD');
@@ -559,16 +561,37 @@ private photoUpload(photo: string, ancestor:string, photoBase64: string, file:Fi
 	]
 	this.utilService.alertText(title, inputs, cancel, ok, 'alert-dialog').then(result => {
 		if (result.data) {
+
+			const WIDTH = 1280;
+			const EXIF_ORIENTATION = -1;	// unknown
+
 			let photoName = result.data[0];
 			if (photoName != '') {
 				if (photoBase64) {
-					this.loadImage(photoBase64, photoName, ancestor);
+					this.getMeta(photoBase64).then(img => {
+						let height = img.naturalHeight * WIDTH / img.naturalWidth;
+						let width = WIDTH;
+						this.imageCompress
+							.compressFile(photoBase64, EXIF_ORIENTATION, 50, 50, width, height) // 50% ratio, 50% quality
+							.then(compressedImage => {
+									this.loadImage(compressedImage, photoName, ancestor);
+							});
+					});
 				} else {
-					var myReader: FileReader = new FileReader();
-					myReader.readAsDataURL(file);
-					myReader.onload = ((event:any) => {
-						let base64 = event.target.result;
-						this.loadImage(base64, photoName, ancestor);
+					const objectURL = URL.createObjectURL(file);
+					this.getMeta(objectURL).then(img => {
+						let height = img.naturalHeight * WIDTH / img.naturalWidth;
+						let width = WIDTH;
+						var myReader: FileReader = new FileReader();
+						myReader.readAsDataURL(file);
+						myReader.onload = ((event:any) => {
+							let base64 = event.target.result;
+							this.imageCompress
+								.compressFile(base64, EXIF_ORIENTATION, 50, 50, width, height) // 50% ratio, 50% quality
+								.then(compressedImage => {
+										this.loadImage(compressedImage, photoName, ancestor);
+								});
+						});
 					});
 				}
 			} else {
@@ -603,19 +626,50 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
 		document.getElementById("modify-image").click();
 	}
 
+	// https://bobbyhadz.com/blog/check-image-width-and-height-before-upload-using-javascript
+
   imageOnSelect(event: any): void {
+
+		console.log('imageOnSelect - this.imageFiles: ', this.imageFiles);
+
     const files = [...event.target.files]
     if (this.imageFiles.length == 0) {
-        this.imageFiles = files;
+			this.getDimension(files[0]);
+			this.imageFiles = files;
     } else {
-      files.forEach((file:File) => {
+      files.forEach((file:any) => {
         let index = this.imageFiles.findIndex((f:File) => f.name == file.name);
-        if (index == -1)
+        if (index == -1) {
+					this.getDimension(file);
+					// console.log('imageOnSelect - file: ', file);
           this.imageFiles.push(file);
+				}
       });
     }
 		event.target.value = null;
   }
+
+	getDimension(file: any) {
+		const getMeta = async (url: any) => {
+			const img = new Image();
+			img.src = url;
+			await img.decode();  
+			return img
+		};
+		const objectURL = URL.createObjectURL(file);
+		getMeta(objectURL).then(img => {
+			file.width = img.naturalWidth;
+			file.height = img.naturalHeight;
+			// this.imageFiles.push(file);
+		});
+	}
+
+	async getMeta (url: any) {
+		const img = new Image();
+		img.src = url;
+		await img.decode();  
+		return img
+	};
 
 	getKB(size: any) {
 		// filter all . and ,

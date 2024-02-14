@@ -79,8 +79,9 @@ export class EditorService {
 
 			} else if (data.type == '2' || data.type == '3') {
 
+				// image is not available in storage, keep src
 				if (!images[data.name]) {
-					promises.push({ docStr: data.src, html: '' });
+					promises.push({ docStr: data.src, html: '[' + data.src + ']' });
 				} else {
 					let url = images[data.name].url;
 					let type = images[data.name].type;

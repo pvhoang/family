@@ -60,17 +60,20 @@
           "name": "Hà Thị Để",
           "gender": "female",
           "nick": "Để",
-          "dod": "16/05"
+          "dod1": "16/05",
+          "dod": "01/01"
         },
         {
           "name": "Hà Thị Nghiêm",
           "gender": "female",
-          "nick": "Nguyên"
+          "nick": "Nguyên",
+          "dod": "02/01"
         },
         {
           "name": "Hà Thị Ố",
           "gender": "female",
-          "dod": "06/06"
+          "dod1": "06/06",
+          "dod": "02/01"
         }
       ],
       "children": [
@@ -81,7 +84,8 @@
               "gender": "male",
               "yob": "1894",
               "pod": "Quảng Bình",
-              "dod": "03/09",
+              "dod1": "03/09",
+              "dod": "09/01",
 							"desc": [
 "Ông bà sanh hạ:",
 "1. Phan Viên mất 16-03",
@@ -1543,8 +1547,10 @@
                               "pod": "Núi Thiên Ấn, Quảng Ngãi",
                               "por": "Quảng Ngãi",
                               "job": "Công chức",
+                              "photo": "Phan Dính.jpg",
                               "dod": "12/09",
 															"desc": [
+"[3|Phan Dính.jpg|1|1|1972]",
 "Ông Dính trước là tùy sự công chánh Đà Nẵng (1934) nghĩ dài hạn đến năm 1945 về buôn bán, sau năm 1954 ở Nam Việt  (145 Đường Quang Trung Thị Xã Quảng Ngãi).Vợ Ông là người Trung Bính, Bảo Ninh, Đồng Hới mẹ bà Thí tên là Nguyễn Thị Tiêu",
 "Ông bà sinh hạ:",
 "1. Phan Thị Kim Hai thường gọi là Ni sinh giờ dần 19-11 Tân tỵ (1941). Năm 1933 cô đi Mỹ sinh sống.",
@@ -1562,7 +1568,11 @@
                               "gender": "female",
                               "pod": "Thôn La Hà, Quảng Ngãi",
                               "job": "Nội trợ",
-                              "dod": "13/01"
+                              "dod": "13/01",
+                              "photo": "Đoàn Thị Thí.jpg",
+															"desc": [
+																"[3|Đoàn Thị Thí.jpg|1|1|1972]"
+															]
                             }
                           ],
                           "children": [
@@ -1571,7 +1581,8 @@
                                 {
                                   "name": "Phan Thị Kim Hải",
                                   "gender": "female",
-					"pod": "Tp HCM",
+																	"pod": "Tp HCM",
+																	"photo": "Phan Thị Kim Hải.jpg",
                                   "nick": "Ni"
                                 },
 				{
@@ -1826,7 +1837,10 @@
                                 {
                                   "name": "Phan Thị Cẩm Thành",
                                   "gender": "female",
-                                  "por": "Thị xã Quảng Ngãi"
+                                  "por": "Thị xã Quảng Ngãi",
+																	"desc": [
+																		"[3|Phan Thị Cẩm Thành.jpg|1|1|Tết Giáp Thìn 2024, Quảng Ngãi]"
+																	]
                                 }
                               ]
                             },
@@ -1835,12 +1849,19 @@
                                 {
                                   "name": "Phan Thị Minh Tâm",
                                   "por": "Glendale, California",
-                                  "gender": "female"
+                                  "gender": "female",
+																	"desc": [
+																		"[3|Phan Thị Minh Tâm.jpg|1|1|Tết Giáp Thìn 2024, Quảng Ngãi]"
+																	]
                                 },
                                 {
                                   "name": "Huỳnh Lễ",
                                   "gender": "male",
-                                  "por": "Glendale, California"
+                                  "por": "Glendale, California",
+																	"yob": "1958",
+																	"desc": [
+																		"[3|Huỳnh Lễ.jpg|1|1|Tết Giáp Thìn 2024, Quảng Ngãi]"
+																	]
                                 }
                               ],
                               "children": [

@@ -255,8 +255,8 @@
   "FILE_PHOTO_UPLOAD": "Upload",
   "FILE_PHOTO_NAME": "Image name (eg. Phan Viết Hoàng",
 	"FILE_PHOTO_NAME_INVALID": "Name can not be empty!",
-	"FILE_PHOTO_COMPLETE_1": "Image: '",
-  "FILE_PHOTO_COMPLETE_2": "' is uploaded!",
+	"FILE_PHOTO_COMPLETE_1": "Image: ",
+  "FILE_PHOTO_COMPLETE_2": " is uploaded!",
 
   "FILE_IMAGE": "Upload local images to server",
   "FILE_IMAGE_ADD": "Open file",

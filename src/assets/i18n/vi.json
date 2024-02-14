@@ -256,8 +256,8 @@
   "FILE_PHOTO_UPLOAD": "Upload",
   "FILE_PHOTO_NAME": "Tên hình (vd. Phan Viết Hoàng)",
 	"FILE_PHOTO_NAME_INVALID": "Tên hình không được để trống!",
-  "FILE_PHOTO_COMPLETE_1": "Hình: '",
-  "FILE_PHOTO_COMPLETE_2": "' đã được upload lên mạng.",
+  "FILE_PHOTO_COMPLETE_1": "Hình: ",
+  "FILE_PHOTO_COMPLETE_2": " đã được upload lên mạng.",
 
   "FILE_IMAGE": "Upload hình lên mạng",
   "FILE_IMAGE_ADD": "Mở file trong máy",
