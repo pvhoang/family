@@ -18,7 +18,8 @@ const PAGE_SWITCH_TIME = 500;
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss','w3.scss'],
+  // styleUrls: ['home.page.scss','w3.scss'],
+  styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit{
 
@@ -294,7 +295,7 @@ export class HomePage implements OnInit{
 				// // html = msg;
 				// html = '<p style="text-align: center;">' + this.languageService.getTranslation('HOME_MEMORY_TODAY') + ': <strong>' + today + '</strong></p>';
 				html += 
-				'<ion-grid class="home-grid">' +
+				'<ion-grid class="viewer-home-grid">' +
 				'<ion-row>' +
 					'<ion-col size="4" class="column center">' + this.languageService.getTranslation('HOME_MEMORY_NAME') + '</ion-col>' +
 					'<ion-col size="4" class="column center">' +	this.languageService.getTranslation('HOME_MEMORY_DOD') + '</ion-col>' +
@@ -348,15 +349,15 @@ export class HomePage implements OnInit{
 
 			let html = '';
 			html += 
-			'<ion-grid class="home-grid">' +
+			'<ion-grid class="viewer-home-grid">' +
 			'<ion-row>' +
-				'<ion-col size="4" class="column">' +
+				'<ion-col size="4" class="column center">' +
 					this.languageService.getTranslation('GENERATION') + '<br/>(Năm, Số hệ)' +
 				'</ion-col>' +
-				'<ion-col size="4" class="column">' +
+				'<ion-col size="4" class="column center">' +
 					this.languageService.getTranslation('HOME_FIRST_NODE') +
 				'</ion-col>' +
-				'<ion-col size="4" class="column">' +
+				'<ion-col size="4" class="column center">' +
 					this.languageService.getTranslation('HOME_LAST_NODE') +
 				'</ion-col>' +
 			'</ion-row>';
@@ -380,7 +381,7 @@ export class HomePage implements OnInit{
 			
 			html += '[PAGE]';
 			html += 
-			'<ion-grid class="home-grid">' +
+			'<ion-grid class="viewer-home-grid">' +
 			'<ion-row>' +
 				'<ion-col size="4" class="column">' +
 					this.languageService.getTranslation('GENERATION') + '<br/>(Năm, Số hệ)' +

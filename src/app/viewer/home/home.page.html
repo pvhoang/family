@@ -65,16 +65,25 @@
 						<div id="pha_he"></div>
 						<br>
 						<br>
+
 						<!-- <div class="w3-panel w3-border w3-border-red"> -->
-						<ion-item class="page-detail">
+							<ion-col size="6" class="viewer-home-panel-detail" (click)="onPhaHe()">
+								<ion-button class="button" fill="clear">
+									<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}account-multiple-outline.svg" class="icon"></ion-icon>
+								</ion-button>
+								<span class="label">{{ 'HOME_VIEW_NODE' | translate }}</span>
+							</ion-col>
+						<!-- </div> -->
+
+						<!-- <ion-item class="page-detail">
 							<ion-col size="12" class="heading" (click)="onPhaHe()">
 								<ion-button class="button" fill="clear">
 									<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}account-multiple-outline.svg" class="icon"></ion-icon>
 								</ion-button>
 								<span class="label">{{ 'HOME_VIEW_NODE' | translate }}</span>
 							</ion-col>
-						</ion-item>
-						<!-- </div> -->
+						</ion-item> -->
+
 					</div>
 					<div class="page-footer">{{pageData.pha_he.index-1}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
 				</div>
@@ -87,14 +96,12 @@
 						<div id="pha_do"></div>
 						<br>
 						<br>
-						<ion-item class="page-detail">
-							<ion-col size="12" class="heading" (click)="onPhaDo()">
+						<ion-col size="6" class="viewer-home-panel-detail" (click)="onPhaDo()">
 								<ion-button class="button" fill="clear">
 									<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}family-tree.svg" class="icon"></ion-icon>
 								</ion-button>
 								<span class="label">{{ 'HOME_VIEW_TREE' | translate }}</span>
-							</ion-col>
-						</ion-item>
+						</ion-col>
 					</div>
 					<div class="page-footer">{{pageData.pha_do.index-1}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
 				</div>

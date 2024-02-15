@@ -8,7 +8,7 @@
 
 .card-header{
   background: var(--app-background-color);
-  color: white;
+  color: var(--app-color);
   font-size: var(--app-text-font-size-medium);
   height:26px;
 	margin-top: 10px;
@@ -34,7 +34,7 @@
   ion-row:first-child {
     // background-color:  #2dd36f;
     font-weight: bold;
-    color: white;
+    color: var(--app-color);
     background-color: var(--app-background-color);
 		font-size: var(--app-text-font-size-tiny);
 
@@ -63,7 +63,7 @@
   ion-row:first-child {
     // background-color:  #2dd36f;
     font-weight: bold;
-    color: white;
+    color: var(--app-color);
     background-color: var(--app-background-color);
 		font-size: var(--app-text-font-size-small);
 

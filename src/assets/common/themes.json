@@ -141,7 +141,7 @@
 		},
 		"common": [
 			["--ion-font-family", "Roboto" ],
-			["--app-color", "YELLOW" ],
+			["--app-color", "VANILLA" ],
 			["--app-background-color", "RED" ],
 			["--ion-color-medium", "RED" ],
 

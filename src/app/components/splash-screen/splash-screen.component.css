@@ -1,5 +1,5 @@
 .app-splash-screen {
-  /* background: white; */
+  /* background: var(--app-color); */
   background-image: var(--url-ion-content-splash);
   background-position: center center;
   background-repeat: no-repeat;

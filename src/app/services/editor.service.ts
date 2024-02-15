@@ -105,17 +105,17 @@ export class EditorService {
 						// https://stackoverflow.com/questions/30686191/how-to-make-image-caption-width-to-match-image-width
 						html = 
 						'<div class="' + data.container + '">' +
-						'<img src="' + url + '" class="home-container-image" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
+						'<img src="' + url + '" class="viewer-home-container-image" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
 						'</div>';
 						if (data.caption != '') {
 							let fontSizePercent = this.themeService.getRootProperty("--app-page-text-font-size");
 							let style = 'font-size: ' + fontSizePercent + ';';
-							html += '<div class="' + data.container + ' home-no-expand" style="' + style + '">' + data.caption + '</div>';
+							html += '<div class="' + data.container + ' viewer-home-no-expand" style="' + style + '">' + data.caption + '</div>';
 						}
 					} else {
 						html = 
 						'<div class="' + data.container + '">' +
-						'<span class="home-container-label" onclick="downloadDocument(\'' + url + '\', \'' + data.name + '\')">' + data.caption + '</span>' +
+						'<span class="viewer-home-container-label" onclick="downloadDocument(\'' + url + '\', \'' + data.name + '\')">' + data.caption + '</span>' +
 						// '<span style="' + style + '" onclick="downloadDocument(\'' + url + '\', \'' + data.name + '\')">' + data.caption + '</span>' +
 						'</div>';
 					}

@@ -8,8 +8,10 @@ const COLORS = {
 	WHITE: '#FFFFFF',
 	GREY: '#808080',
 	RED: '#C10100',
-	YELLOW: '#FFFF00'
+	YELLOW: '#FFFF00',
+	VANILLA: '#f0e9e1',
 }
+// VANILLA: https://colorswall.com/palette/25978
 
 @Injectable({
   providedIn: 'root'

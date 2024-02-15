@@ -1,25 +1,25 @@
 <ion-header>
-	<ion-item class="header-top" *ngIf="!ftTreeService.isMobilePlatform()">
+	<ion-item class="viewer-header-top" *ngIf="!ftTreeService.isMobilePlatform()">
 		<ion-col size="2" class="heading" (click)="onCancel()">
       <ion-button class="button" fill="clear" (click)="onCancel()">
         <ion-icon slot="icon-only" class="icon" src="{{FONTS_FOLDER}}close-circle-outline.svg" ></ion-icon>
       </ion-button>
-      <span class="label">{{ 'CANCEL' | translate }}</span>
+      <span class="label"><b>{{ 'CANCEL' | translate }}</b></span>
     </ion-col>
-    <ion-col size="2" class="heading-white">
-      <span class="label">{{ title }}</span>
+    <ion-col size="2" class="heading">
+      <span class="label"><b>{{ title }}</b></span>
     </ion-col>
 		<ion-col size="3" class="heading" (click)="onJPG()">
       <ion-button class="button" title="{{ JPG }}" fill="clear" (click)="onJPG()">
         <ion-icon slot="icon-only" class="icon" src="{{FONTS_FOLDER}}file-jpg-box.svg"></ion-icon>
       </ion-button>
-      <span class="label">{{ TREE_POPOVER_PRINT_JPG }}</span>
+      <span class="label"><b>{{ TREE_POPOVER_PRINT_JPG }}</b></span>
     </ion-col>
     <ion-col size="3" class="heading" (click)="onPDF()">
       <ion-button class="button" title="{{ PDF }}" fill="clear" (click)="onPDF()">
         <ion-icon slot="icon-only" class="icon" src="{{FONTS_FOLDER}}file-pdf-box.svg"></ion-icon>
       </ion-button>
-      <span class="label">{{ TREE_POPOVER_PRINT_PDF }}</span>
+      <span class="label"><b>{{ TREE_POPOVER_PRINT_PDF }}</b></span>
     </ion-col>
 		<ion-col size="1" class="heading">
 			<ion-button class="button" fill="clear" (click)="ftTreeService.onZoomIn()">
@@ -33,42 +33,33 @@
 		</ion-col>
   </ion-item>
 
-	<ion-item class="header-top" *ngIf="ftTreeService.isMobilePlatform()">
+	<ion-item class="viewer-header-top" *ngIf="ftTreeService.isMobilePlatform()">
 		<ion-col size="3" class="heading" (click)="onCancel()">
       <ion-button class="button" fill="clear" (click)="onCancel()">
         <ion-icon slot="icon-only" class="icon" src="{{FONTS_FOLDER}}close-circle-outline.svg" ></ion-icon>
       </ion-button>
-      <span class="label">{{ 'CANCEL' | translate }}</span>
+      <span class="label"><b>{{ 'CANCEL' | translate }}</b></span>
     </ion-col>
-    <ion-col size="5" class="heading-white">
+    <ion-col size="5" class="heading">
       <span class="label">{{ title }}</span>
     </ion-col>
 		<ion-col size="2" class="heading" (click)="onJPG()">
       <ion-button class="button" title="{{ JPG }}" fill="clear" (click)="onJPG()">
         <ion-icon slot="icon-only" class="icon" src="{{FONTS_FOLDER}}file-jpg-box.svg"></ion-icon>
       </ion-button>
-      <span class="label">{{ TREE_POPOVER_PRINT_JPG }}</span>
+      <span class="label"><b>{{ TREE_POPOVER_PRINT_JPG }}</b></span>
     </ion-col>
     <ion-col size="2" class="heading" (click)="onPDF()">
       <ion-button class="button" title="{{ PDF }}" fill="clear" (click)="onPDF()">
         <ion-icon slot="icon-only" class="icon" src="{{FONTS_FOLDER}}file-pdf-box.svg"></ion-icon>
       </ion-button>
-      <span class="label">{{ TREE_POPOVER_PRINT_PDF }}</span>
+      <span class="label"><b>{{ TREE_POPOVER_PRINT_PDF }}</b></span>
     </ion-col>
   </ion-item>
 
 </ion-header>
 
 <ion-content [fullscreen]="false" class="ion-padding">
-
-	<!-- <pinch-zoom #myPinch="pinchZoom"
-		[backgroundColor]="'white'"
-		[minPanScale]="1"
-	>
-		<div id="screen">
-			<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
-		</div>
-	</pinch-zoom> -->
 
 	<div class="screen-node" id="full-tree">
     <div [ngStyle]="ftTreeService.getZoomStyle()" id="screen">

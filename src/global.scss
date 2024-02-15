@@ -47,6 +47,12 @@
 // Add base shell styles
 @import "theme/shell-defaults.scss";
 
+// Add w3 shell styles
+@import "theme/w3.scss";
+
+// Add final family styles
+@import "theme/family.scss";
+
 // PROJECT GLOBAL STYLES
 @import "~@ng-select/ng-select/themes/default.theme.css";
 
@@ -147,11 +153,13 @@ ion-tab-button {
 
 .tab-icon {
   font-size: var(--app-icon-font-size-large);
+  // color: var(--app-color);
   color: var(--app-color);
 }
 
 .tab-label {
   font-size: var(--app-text-font-size-large);
+  // color: var(--app-color);
   color: var(--app-color);
 }
 
@@ -191,7 +199,7 @@ ion-tab-button {
     }
   }
 	.heading-white {
-    background: white;
+    background: var(--app-color);
     // width: 100px; 
 		width: 100%;
     display: flex;
@@ -269,7 +277,8 @@ img:hover {
 		font-size: var(--app-text-font-size-medium);
 		ion-row:first-child {
 			font-weight: bold;
-			// color: white;
+			// color: var(--app-color);
+			// color: var(--app-color);
 			color: var(--app-color);
 			background-color: var(--app-background-color);
 			font-size: var(--app-text-font-size-medium);
@@ -298,6 +307,7 @@ img:hover {
 			justify-content: center;
 			.icon {
 				font-size: var(--app-icon-font-size-medium);
+				// color: var(--app-color);
 				color: var(--app-color);
 				background: var(--app-background-color);
 			}
@@ -316,81 +326,118 @@ img:hover {
 
 // --- HOME.PAGE.HTML ---
 
-.home-container-left{
-	display: flex;
-	justify-content: left;
-}
-.home-container-center {
-	display: flex;
-	justify-content: center;
-}
-.home-container-right {
-	display: flex;
-	justify-content: right;
-}
+// .home-container-left{
+// 	display: flex;
+// 	justify-content: left;
+// }
+// .home-container-center {
+// 	display: flex;
+// 	justify-content: center;
+// }
+// .home-container-right {
+// 	display: flex;
+// 	justify-content: right;
+// }
 
-.home-container-label {
-	background: var(--app-background-color);
-	color: var(--app-color);
-	font-size: var(--app-page-detail);
-	width: 80%;
-	height: 40px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-family: "Pacifico", cursive;
-}
+// .home-container-label {
+// 	background: var(--app-background-color);
+// 	color: var(--app-color);
+// 	font-size: var(--app-page-detail);
+// 	width: 80%;
+// 	height: 40px;
+// 	display: flex;
+// 	align-items: center;
+// 	justify-content: center;
+// 	font-family: "Pacifico", cursive;
+// }
 
-.home-container-image {
-	// width: 60%;
-	// width: 100px; // 4/3 w/h to match cropper-modal
-	// height: 75px;
-	// width: 60px; // 4/3 w/h to match cropper-modal
-	// height: 45px;
-	// width: 40px; // 4/3 w/h to match cropper-modal
-	// height: 30px;
-	// https://www.educative.io/answers/how-to-enlarge-an-image-on-hover-in-html
-	&:hover{
-		// transform:scale(5.0);
-		transform:scale(2.5);
-	}
-}
+// .home-container-image {
+// 	// width: 60%;
+// 	// width: 100px; // 4/3 w/h to match cropper-modal
+// 	// height: 75px;
+// 	// width: 60px; // 4/3 w/h to match cropper-modal
+// 	// height: 45px;
+// 	// width: 40px; // 4/3 w/h to match cropper-modal
+// 	// height: 30px;
+// 	// https://www.educative.io/answers/how-to-enlarge-an-image-on-hover-in-html
+// 	&:hover{
+// 		// transform:scale(5.0);
+// 		transform:scale(2.5);
+// 	}
+// }
 
-.home-no-expand {
-  box-sizing: border-box;
-  width: 0px;
-  min-width: 100%;
-  // background: pink;
-  padding: 10px;
-	// text-align: center;
-	// text-align: var(--app-justify);
-	// color: var(--app-background-color);
-	// font-size: var(--app-caption-font-size);
-}
+// .home-no-expand {
+//   box-sizing: border-box;
+//   width: 0px;
+//   min-width: 100%;
+//   // background: pink;
+//   padding: 10px;
+// 	// text-align: center;
+// 	// text-align: var(--app-justify);
+// 	// color: var(--app-background-color);
+// 	// font-size: var(--app-caption-font-size);
+// }
 
-.home-grid {
-  --ion-grid-column-padding: 5px;
-  width: 100%;
-  font-size: var(--app-text-font-size-small);
-  ion-row:first-child {
-    font-weight: bold;
-    // color: white;
-		color: var(--app-color);
-    background-color: var(--app-background-color);
-    font-size: var(--app-text-font-size-small);
-  }
-  ion-col {
-    border: 1px solid black;
-    border-bottom: 0;
-    border-right: 0;
-  }
-  ion-col:last-child {
-    border-right: 1px solid black;
-  }
-  ion-row:last-child {
-    border-bottom: 1px solid black;
-  }
-}
+
+
+// .home-grid {
+//   --ion-grid-column-padding: 5px;
+//   width: 100%;
+// 	// border: solid 3px var(--app-background-color);
+// 	// border-radius: 5px;
+//   font-size: var(--app-text-font-size-small);
+//   ion-row:first-child {
+//     font-weight: bold;
+//     // color: var(--app-color);
+// 		// color: var(--app-color);
+// 		// color: var(--app-background-color);
+// 		color: var(--app-color);
+//     background-color: var(--app-background-color);
+//     font-size: var(--app-text-font-size-small);
+//     border: 3px solid var(--app-background-color);
+// 		border-radius: 3px;
+// 		border-right: 0;
+//     border-bottom: 0;
+// 		border-top: 0;
+// 		border-left: 0;
+//   }
+//   ion-col {
+//     border: 1px solid black;
+//     border-bottom: 0;
+//     border-right: 0;
+//   }
+//   ion-col:last-child {
+//     border-right: 1px solid black;
+//   }
+//   ion-row:last-child {
+//     border-bottom: 1px solid black;
+//   }
+// }
+
+
+// .home-grid-old {
+//   --ion-grid-column-padding: 5px;
+//   width: 100%;
+//   font-size: var(--app-text-font-size-small);
+//   ion-row:first-child {
+//     font-weight: bold;
+//     // color: var(--app-color);
+// 		color: var(--app-color);
+//     background-color: var(--app-background-color);
+//     font-size: var(--app-text-font-size-small);
+//   }
+//   ion-col {
+//     border: 1px solid black;
+//     border-bottom: 0;
+//     border-right: 0;
+//   }
+//   ion-col:last-child {
+//     border-right: 1px solid black;
+//   }
+//   ion-row:last-child {
+//     border-bottom: 1px solid black;
+//   }
+// }
 
 // --- EDIT ---
 
@@ -398,7 +445,7 @@ img:hover {
 	width: var(--app-modal-width);
   .section{
     background: var(--app-background-color);
-    // color: white;
+    // color: var(--app-color);
 		color: var(--app-color);
     font-size: var(--app-text-font-size-medium);
     height:26px;
@@ -702,7 +749,7 @@ img:hover {
       margin-bottom:10px;
       margin-left:20px;
       h2 {
-        // color: white;
+        // color: var(--app-color);
         background-color: var(--app-background-color);
         font-size: var(--app-alert-font-size);
 				color: var(--app-color);
@@ -721,14 +768,14 @@ img:hover {
       margin-top: 26px;
     }
     .alert-button:first-child {
-      // color: white;
+      // color: var(--app-color);
 			color: var(--app-color);
       background-color: var(--app-background-color);
       height: 26px;
       text-transform: none;
     }
     .alert-button:nth-child(1){
-      // color: white;
+      // color: var(--app-color);
 			color: var(--app-color);
       background-color: var(--app-background-color);
       height: 26px;
@@ -736,7 +783,7 @@ img:hover {
     }
     .alert-button:nth-child(2){
       background-color: var(--app-background-color);
-      // color: white;
+      // color: var(--app-color);
 			color: var(--app-color);
       height: 26px;
       text-transform: none;
@@ -765,7 +812,7 @@ img:hover {
 
 .toast-wait {
   --height: 70px;
-  // color: white;
+  // color: var(--app-color);
 	color: var(--app-color);
   font-size: var(--app-toast-font-size);
 
@@ -776,7 +823,7 @@ img:hover {
     }
     .toast-head {
       h2 {
-        // color: white;
+        // color: var(--app-color);
 				color: var(--app-color);
         background-color: var(--app-background-color);
         font-size: var(--app-toast-font-size);
@@ -816,7 +863,7 @@ img:hover {
     }
     .span {
       background-color: var(--app-background-color);
-      // color: white;
+      // color: var(--app-color);
 			color: var(--app-color);
       height: 30px;
       font-size: var(--app-text-font-size-medium);
@@ -886,9 +933,12 @@ img:hover {
 		width: 100%;
 		margin: 0 auto;
 		.person-section{
-			background: var(--app-background-color);
-			// color: white;
-			color: var(--app-color);
+			// background: var(--app-background-color);
+			// color: var(--app-color);
+			border: solid 2px var(--app-background-color);
+			border-radius: 5px;
+			color: var(--app-background-color);
+			// color: var(--app-color);
 			font-size: var(--app-text-font-size-medium);
 			height:26px;
 			position: relative; 
@@ -906,7 +956,7 @@ img:hover {
 			}
 		}
 		.person-textarea{
-			border: solid 1px red;
+			border: solid 1px var(--app-background-color);
 			border-radius: 5px;
 			margin-top: 5px;
 			margin-bottom: 5px;
@@ -940,7 +990,7 @@ img:hover {
   font-size: var(--app-text-font-size-medium);
   ion-row:first-child {
     font-weight: bold;
-    // color: white;
+    // color: var(--app-color);
 		color: var(--app-color);
     background-color: var(--app-background-color);
     font-size: var(--app-text-font-size-medium);
