@@ -38,16 +38,11 @@
 	align-items: center;
 	justify-content: center;
 	.icon {
-		// font-size: var(--app-page-detail);
 		font-size: var(--app-icon-font-size-large);
-		// color: var(--app-background-color);
 		color: var(--app-color);
 	}
 	.label {
-		// font-size: var(--app-page-detail);
 		font-size: var(--app-text-font-size-large);
-		// font-size: var(--app-page-text-font-size);
-		// color: var(--app-background-color);
 		color: var(--app-color);
 		font-family: "Pacifico", cursive;
 	}
@@ -60,14 +55,9 @@
 .viewer-home-grid {
   --ion-grid-column-padding: 5px;
   width: 100%;
-	// border: solid 3px var(--app-background-color);
-	// border-radius: 5px;
   font-size: var(--app-text-font-size-small);
   ion-row:first-child {
     font-weight: bold;
-    // color: var(--app-color);
-		// color: var(--app-color);
-		// color: var(--app-background-color);
 		color: var(--app-color);
     background-color: var(--app-background-color);
     font-size: var(--app-text-font-size-small);
@@ -91,6 +81,40 @@
   }
 }
 
+.view-person-photo-parent {
+  position: relative;
+  top: 0;
+  left: 0;
+	display: flex;
+  justify-content: center;
+	.image1 {
+		position: relative;
+		top: 0;
+		left: 0;
+	}
+	.image2 {
+		position: relative;
+		top: var(--app-view-person-top);
+		left: var(--app-view-person-left);
+		&:hover{
+			transform:scale(2.5);
+		}
+	}
+}
+
+.viewer-home-container-left{
+	display: flex;
+	justify-content: left;
+}
+.viewer-home-container-center {
+	display: flex;
+	justify-content: center;
+}
+.viewer-home-container-right {
+	display: flex;
+	justify-content: right;
+}
+
 .viewer-home-container-label {
 	background: var(--app-background-color);
 	color: var(--app-color);
@@ -104,16 +128,8 @@
 }
 
 .viewer-home-container-image {
-	// width: 60%;
-	// width: 100px; // 4/3 w/h to match cropper-modal
-	// height: 75px;
-	// width: 60px; // 4/3 w/h to match cropper-modal
-	// height: 45px;
-	// width: 40px; // 4/3 w/h to match cropper-modal
-	// height: 30px;
 	// https://www.educative.io/answers/how-to-enlarge-an-image-on-hover-in-html
 	&:hover{
-		// transform:scale(5.0);
 		transform:scale(2.5);
 	}
 }
@@ -122,30 +138,16 @@
   box-sizing: border-box;
   width: 0px;
   min-width: 100%;
-  // background: pink;
   padding: 10px;
-	// text-align: center;
-	// text-align: var(--app-justify);
-	// color: var(--app-background-color);
-	// font-size: var(--app-caption-font-size);
 }
 
 .viewer-person-container {
 	width: 100%;
   height: 100%;
 	.person-image {
-		// padding-left: 20%; - Web
 		padding-left: 20%;
 		width: 60%;						
-		// padding-left: 10%; Mobile
-		// width: 80%;				Mobile
-
-		// height: 100%;						
-		// padding-right: 20%;
 		margin: 0 auto;
-		// display: flex;
-		// align-items: center;
-		// justify-content: left;
 	}
 	.person-image-mobile {
 		padding-left: 10%;
@@ -164,8 +166,6 @@
 			color: var(--app-color);
 			border: solid 2px var(--app-background-color);
 			border-radius: 5px;
-			// color: var(--app-background-color);
-			// color: var(--app-color);
 			font-size: var(--app-text-font-size-medium);
 			height:26px;
 			position: relative; 

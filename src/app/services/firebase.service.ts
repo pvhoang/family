@@ -368,7 +368,9 @@ export class FirebaseService {
 					let newref = ref(storage, storageFolder + '/' + data.items[i].name);
 					getMetadata(newref).then((metadata) => {
 						// Metadata now contains the metadata for 'images/forest.jpg'
-						console.log('metadata: ', metadata);
+						// console.log('metadata: ', metadata);
+						if (name.indexOf('png') >= 0)
+							console.log('metadata: ', metadata);
 						let type = metadata.contentType;
 						let size = metadata.size.toLocaleString('vn-VN');
 						const getMeta = async (url: any) => {
@@ -380,7 +382,7 @@ export class FirebaseService {
 						// type = (type.indexOf('image') >= 0) ? 'jpg' : 'html';
 						getDownloadURL(newref).then((url) => {
 							// https://stackoverflow.com/questions/11442712/get-width-height-of-remote-image-from-url
-							getMeta(url).then(img => {
+							getMeta(url).then((img) => {
 								filelist.push({
 									name: name,
 									size: size,
@@ -388,6 +390,15 @@ export class FirebaseService {
 									url: url,
 									width: img.naturalWidth,
 									height: img.naturalHeight
+								});
+							}).catch((error) => {
+								console.log('ERROR - FirebaseService - getMeta - error:', error);
+								// this is not an image file, can not be decoded in getMeta(), use regular 'file'
+								filelist.push({
+									name: name,
+									size: size,
+									type: type,
+									url: url
 								});
 							});
 						});

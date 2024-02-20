@@ -78,13 +78,16 @@ export class EditorService {
 				promises.push({ docStr: data.src, html: html });
 
 			} else if (data.type == '2' || data.type == '3') {
-
+				// console.log('convertDocumentTemplate - images[data.name]: ', images[data.name]);
 				// image is not available in storage, keep src
 				if (!images[data.name]) {
+				// console.log('convertDocumentTemplate - data.src: ', data.src);
 					promises.push({ docStr: data.src, html: '[' + data.src + ']' });
 				} else {
 					let url = images[data.name].url;
 					let type = images[data.name].type;
+					console.log('convertDocumentTemplate - type: ', type);
+
 					let html = '';
 					if (type.indexOf('image') >= 0) {
 						// w=150 h=100 , w=1200 h=900 -> h = 150 * 900 / 1200, w=150
@@ -165,7 +168,7 @@ export class EditorService {
 			let captionStr = items[3];
 			if (justify == '0' || justify == '1' || justify == '2') {
 				let justifies = { '0': 'left', '1': 'center', '2': 'right' }
-				let containerClass = 'home-container-'+justifies[justify];
+				let containerClass = 'viewer-home-container-'+justifies[justify];
 				let data = { type: type, src: str, name: fileName, justify: justify, container: containerClass, caption: captionStr }
 				return data;
 			}
@@ -190,7 +193,7 @@ export class EditorService {
 				let justify = items[3].trim();
 				if (justify == '0' || justify == '1' || justify == '2') {
 					let justifies = { '0': 'left', '1': 'center', '2': 'right' }
-					let containerClass = 'home-container-'+justifies[justify];
+					let containerClass = 'viewer-home-container-'+justifies[justify];
 					let caption = items[4];
 					let data = { type: type, src: str, name: fileName, width: sizes[size].w, height: sizes[size].h, container: containerClass, caption: caption }
 					return data;

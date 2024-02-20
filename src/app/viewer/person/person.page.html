@@ -61,17 +61,11 @@
 
   <div class="screen-node viewer-person-container" id="full-tree">
 
-		<div *ngIf="!ftTreeService.isMobilePlatform()">
-			<div class="person-image" *ngIf="selectedNode && (this.selectedNode.yod != '' || this.selectedNode.dod != '' || this.selectedNode.pod != '')">
-				<canvas #canvasContainer width="250px" height="300px"></canvas>
-			</div>
-		</div>
-
-		<div *ngIf="ftTreeService.isMobilePlatform()">
-			<div class="person-image-mobile" *ngIf="selectedNode && (this.selectedNode.yod != '' || this.selectedNode.dod != '' || this.selectedNode.pod != '')">
-				<canvas #canvasContainer width="250px" height="300px"></canvas>
-			</div>
-		</div>
+		<div class="view-person-photo-parent" *ngIf="selectedNode && (this.selectedNode.yod != '' || this.selectedNode.dod != '' || this.selectedNode.pod != '')">
+			<img class="image1" [src]="image1.url" [attr.width]="image1.w" [attr.height]="image1.h" />
+			<img class="image2" [src]="image2.url" [attr.width]="image2.w" [attr.height]="image2.h" />
+    </div>
+		<p></p>
 		
 		<div class="person-tree" [ngStyle]="ftTreeService.getZoomStyle()">
 			<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
