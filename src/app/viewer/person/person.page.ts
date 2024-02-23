@@ -166,6 +166,13 @@ export class PersonPage implements OnInit {
 		if (node.dod == '' && node.pod == '')
 			return;
 
+		// const image1 = document.getElementById("image1");
+		// const image2 = document.getElementById("image-zoom");
+
+		// console.log('image1 - width, height, left, top: ', image1.offsetWidth, image1.offsetWidth, image1.offsetLeft, image1.offsetTop);
+		// console.log('image2 - width, height, left, top: ', image2.offsetWidth, image2.offsetWidth, image2.offsetLeft, image2.offsetTop);
+
+
 		let w2 = 1000;
 		let h2 = 1000;
 		let url = '';
@@ -203,10 +210,16 @@ export class PersonPage implements OnInit {
 		h1 = 1.30 * h2;
 		let top = (h1 - h2) / 2;
 		let left = (w1 - w2) / 2 + w2;
-		// console.log('w1, h1: ', w1, h1);
-		// console.log('w2, h2: ', w2, h2);
-		// console.log('wPhoto, hPhoto: ', wPhoto, hPhoto);
-		// console.log('top, left: ', top, left);
+
+		// top = 40;
+		// left = 40;
+
+		// top = 80;
+		// left = 290;
+
+		console.log('w1, h1: ', w1, h1);
+		console.log('w2, h2: ', w2, h2);
+		console.log('top, left: ', top, left);
 
 		this.image1.url = "../../../assets/icon/bia-mo.png";
 		this.image1.w = '' + parseInt('' + w1)  + 'px';
@@ -219,6 +232,13 @@ export class PersonPage implements OnInit {
 		let root = document.documentElement;
 		root.style.setProperty('--app-view-person-top', '' + parseInt('' + top) + 'px');
 		root.style.setProperty('--app-view-person-left', '-' + parseInt('' + left) + 'px');
+
+		// let image1 = document.getElementById("image1");
+		// console.log('image1: ', image1);
+		// if (image1.offsetParent) {
+		// 	console.log('image1 - width, height, left, top: ', image1.offsetWidth, image1.offsetWidth, image1.offsetLeft, image1.offsetTop);
+		// }
+
 	}
 	
   //

@@ -105,11 +105,25 @@ export class EditorService {
 							data.height = width;
 							data.width = width * iWidth / iHeight;
 						}
+
 						// https://stackoverflow.com/questions/30686191/how-to-make-image-caption-width-to-match-image-width
+						// https://stackoverflow.com/questions/39858998/zoom-in-and-out-on-mouse-click-with-css
+						// https://stackoverflow.com/questions/73078680/you-may-need-an-additional-loader-to-handle-the-result-of-these-loaders-angular
+
 						html = 
 						'<div class="' + data.container + '">' +
-						'<img src="' + url + '" class="viewer-home-container-image" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
+							'<div class="click-zoom">' +
+								'<label>' +
+									// '<input type="checkbox" onclick="setZoom()">' +
+									'<input type="checkbox">' +
+									'<img id="image-zoom" src="' + url + '" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
+								'</label>' +
+							'</div>' +
 						'</div>';
+
+						// 	'<img src="' + url + '" class="viewer-home-container-image" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
+						// '</div>';
+
 						if (data.caption != '') {
 							let fontSizePercent = this.themeService.getRootProperty("--app-page-text-font-size");
 							let style = 'font-size: ' + fontSizePercent + ';';
@@ -280,6 +294,8 @@ export class EditorService {
 		let htmlStart = false;
 		ary.forEach((line: string) => {
 			line = line.trim();
+			if (line.length == 0)
+				line = '&nbsp;';
 			if (line == '[') {
 				htmlStart = true;
 			} else if (line == ']') {

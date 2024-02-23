@@ -5,15 +5,16 @@ import { LanguageService } from '../../services/language.service';
 import { UtilService } from '../../services/util.service';
 import { FamilyService } from '../../services/family.service';
 import { NodeService } from '../../services/node.service';
-import { PageFlip } from 'page-flip';
+// import { PageFlip } from 'page-flip';
+import { PageFlip } from '../../../assets/js/page-flip/PageFlip';
 import { DataService } from '../../services/data.service';
 import { EditorService } from '../../services/editor.service';
 import { ThemeService } from '../../services/theme.service';
 import { VnodePage } from '../vnode/vnode.page';
 import { PersonPage } from '../person/person.page';
 
-const FLIPPING_TIME = 500;
-const PAGE_SWITCH_TIME = 500;
+const FLIPPING_TIME = 1000;
+const PAGE_SWITCH_TIME = 1000;
 
 @Component({
   selector: 'app-home',
@@ -27,6 +28,7 @@ export class HomePage implements OnInit{
 
 	// pageRoot: string = 'muc_luc';
 	pageFlip: any;
+	pageIndex: any;
 	ancestor: any;
 	nodes: any;
 	// levels: any;
@@ -171,7 +173,8 @@ export class HomePage implements OnInit{
 			{
 				width: 550, // base page width
 				height: 1000, // base page height
-				size: "stretch",
+				// size: "stretch",
+				// size: SizeType.STRETCH,
 				// set threshold values:
 				minWidth: 315,
 				maxWidth: 1000,
@@ -183,22 +186,48 @@ export class HomePage implements OnInit{
 				maxShadowOpacity: 0.5,
 				showCover: false,
 				startZIndex: -1,
-				mobileScrollSupport: true // disable content scrolling on mobile devices
+				mobileScrollSupport: true,
+				showPageCorners: false,
+				// clickEventForward: false,
+				// disableFlipByClick: true // false
 			}
 		);
 		
 		this.pageFlip = pageFlip;
+		this.pageIndex = 0;
+
 		// load pages
 		pageFlip.loadFromHTML(document.querySelectorAll(".page"));
 		
 		// triggered by page turning
+		pageFlip.on("init", (e: any) => {
+			if (DEBUGS.HOME)
+				console.log('on "init" - index, e: ', this.pageFlip.getCurrentPageIndex(), e);
+		});
+
+		// triggered by page turning
 		pageFlip.on("flip", (e: any) => {
+			if (DEBUGS.HOME) {
+				console.log('on "flip" - index, e: ', this.pageFlip.getCurrentPageIndex(), e);
+			}
 		});
 		// triggered when the book state changes
 		pageFlip.on("changeState", (e: any) => {
+			if (DEBUGS.HOME)
+				console.log('on "changeState" - index, e: ', this.pageFlip.getCurrentPageIndex(), e);
+
+			if (e.data == 'flipping') {
+				let i = this.pageFlip.getCurrentPageIndex();
+				// // if (i == 4) {
+				// // 	this.pageFlip.turnToPage(3);
+				// }
+			}
+
 		});
 		// triggered when page orientation changes
 		pageFlip.on("changeOrientation", (e: any) => {
+			if (DEBUGS.HOME)
+				console.log('on "changeOrientation" - index, e: ', this.pageFlip.getCurrentPageIndex(), e);
 		});
 	}
 
@@ -214,11 +243,19 @@ export class HomePage implements OnInit{
 			}
 			index = page.index;
 		}
+
+		if (DEBUGS.HOME)
+				console.log('toPage() - key, index: ', key, index);
+
 		// wait for src flip to complete
 		setTimeout(() => {
 			this.pageFlip.turnToPage(index);
 		}, PAGE_SWITCH_TIME)  
 	}
+
+	// testZoom() {
+	// 	console.log('TestZoom');
+	// }
 
 	async onPhaDo() {
 		this.modalPage = 'pha_do';

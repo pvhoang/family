@@ -799,7 +799,8 @@ ion-tab-button {
   --width: var(--app-toast-width);
   --background: var(--app-background-color);
   &::part(message) {
-    text-align: center;
+    // text-align: center;
+    text-align: left;
     font-size: var(--app-toast-font-size);
   }
 }

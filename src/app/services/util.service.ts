@@ -72,17 +72,21 @@ export class UtilService {
 
 	// ALERT
 
-	getAlertMessage(items: any) {
+	getAlertMessage(items: any, br?: any) {
 		// let message = '<br/>';
 		let message = '';
-		items.forEach((item:any) => {
+		for (let i = 0 ; i < items.length; i++) {
+			let item = items[i];
 			if (item.name == 'msg') {
 				let msg = this.languageService.getTranslation(item.label);
 				message += (msg) ? msg : item.label
-			} else if (item.name == 'data')
+			} else if (item.name == 'data') {
 				message += '<b>' + item.label + '</b>'
 				// message += '[ ' + item.label + ' ]'
-		})
+			}
+			if (br && i != items.length - 1)
+				message += '<br/>';
+		}
 		// message += '<br/>';
 		return message;
 	}

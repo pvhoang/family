@@ -95,7 +95,7 @@ export class ThemeService {
 
 	setToastSize(message) {
     console.log('setToastSize: ', message);
-		let lines = message.split('br/');
+		let lines = message.split('<br/>');
 		let lineChars = 0;
 		lines.forEach(line => {
 			if (line.length > lineChars)
@@ -106,10 +106,11 @@ export class ThemeService {
 			console.log('setToastSize: lineChars: ', lineChars);
 		}
 		let height = (lines.length == 1) ? 50 : ((lines.length == 2) ? 80 : 120);
-		let width = (lineChars < 30) ? 400 : ((lineChars < 50) ? 500 : 600);
+		// let width = (lineChars < 30) ? 400 : ((lineChars < 50) ? 500 : 600);
     let root = document.documentElement;
     root.style.setProperty('--app-toast-height', height + 'px');
-    root.style.setProperty('--app-toast-width', width + 'px');
+    // root.style.setProperty('--app-toast-width', width + 'px');
+    root.style.setProperty('--app-toast-width', '80%');
 	}
 
   setAlertSize(dimension?: any) {

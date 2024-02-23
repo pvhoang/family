@@ -50,7 +50,7 @@
 				<div class="page" data-density="hard">
 					<div class="page-content">
 						<h2 class="page-header">{{page.titleText}}</h2>
-						<div class="w3-container page-text">
+						<div class="w3-container page-text scroll">
 							<div id="pha_ky_{{i}}"></div>
 						</div>
 						<div class="page-footer">{{page.index-1}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
@@ -61,7 +61,7 @@
 			<div class="page" data-density="hard">
 				<div class="page-content">
 					<h2 class="page-header">{{pageData.pha_he.titleText}}</h2>
-					<div class="w3-container page-text">
+					<div class="w3-container page-text scroll">
 						<div id="pha_he"></div>
 						<br>
 						<br>
@@ -71,7 +71,7 @@
 								<ion-button class="button" fill="clear">
 									<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}account-multiple-outline.svg" class="icon"></ion-icon>
 								</ion-button>
-								<span class="label">{{ 'HOME_VIEW_NODE' | translate }}</span>
+								<span id="view-pha-he" class="label">{{ 'HOME_VIEW_NODE' | translate }}</span>
 							</ion-col>
 						<!-- </div> -->
 
@@ -92,7 +92,7 @@
 			<div class="page" data-density="hard">
 				<div class="page-content">
 					<h2 class="page-header">{{pageData.pha_do.titleText}}</h2>
-					<div class="w3-container page-text">
+					<div class="w3-container page-text scroll">
 						<div id="pha_do"></div>
 						<br>
 						<br>
@@ -100,7 +100,7 @@
 								<ion-button class="button" fill="clear">
 									<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}family-tree.svg" class="icon"></ion-icon>
 								</ion-button>
-								<span class="label">{{ 'HOME_VIEW_TREE' | translate }}</span>
+								<span id="view-pha-do" class="label">{{ 'HOME_VIEW_TREE' | translate }}</span>
 						</ion-col>
 					</div>
 					<div class="page-footer">{{pageData.pha_do.index-1}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
@@ -111,7 +111,7 @@
 				<div class="page" data-density="hard">
 					<div class="page-content">
 						<h2 class="page-header">{{page.titleText}}</h2>
-						<div class="w3-container page-text">
+						<div class="w3-container page-text scroll">
 							<div id="ngoai_pha_{{i}}"></div>
 						</div>
 						<div class="page-footer">{{page.index-1}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
@@ -123,7 +123,7 @@
 				<div class="page" data-density="hard">
 					<div class="page-content">
 						<h2 class="page-header">{{page.titleText}}</h2>
-						<div class="w3-container page-text">
+						<div class="w3-container page-text scroll">
 							<div id="phu_khao_{{i}}"></div>
 						</div>
 						<div class="page-footer">{{page.index-1}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
@@ -134,7 +134,7 @@
 			<div class="page" data-density="hard">
 				<div class="page-content">
 					<h2 class="page-header">{{pageData.ngay_gio.titleText}}</h2>
-					<div class="w3-container page-text">
+					<div class="w3-container page-text scroll">
 						<div id="ngay_gio"></div>
 						<br>
 					</div>

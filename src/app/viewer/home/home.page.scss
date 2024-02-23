@@ -74,7 +74,7 @@
     .page-header-cover {
       color: var(--app-background-color);
       font-family: "Pacifico", cursive;
-			padding-top: 160px;
+			padding-top: 200px;
 			padding-bottom: 20px;
       // font-size: 200%;
       font-size: var(--app-page-header-cover);
@@ -92,12 +92,12 @@
     }
 
     .page-header {
-      height: 30px;
+      height: 20px;
       // font-size: 140%;
       font-size: var(--app-page-header);
       font-weight: bold;
-			padding-top: 30px;
-			padding-bottom: 30px;
+			padding-top: 10px;
+			padding-bottom: 10px;
       text-align: center;
       color: var(--app-background-color);
       font-family: "Pacifico", cursive;

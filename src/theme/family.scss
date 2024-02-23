@@ -81,6 +81,9 @@
   }
 }
 
+// https://stackoverflow.com/questions/48474/how-do-i-position-one-image-on-top-of-another-in-html
+// https://stackoverflow.com/questions/39858998/zoom-in-and-out-on-mouse-click-with-css
+
 .view-person-photo-parent {
   position: relative;
   top: 0;
@@ -88,16 +91,53 @@
 	display: flex;
   justify-content: center;
 	.image1 {
+		// z-index: 1;
 		position: relative;
 		top: 0;
 		left: 0;
 	}
 	.image2 {
+		// position: absolute; 
+		// z-index: 2;
+		// top: 50%;
+		// top: -30px;
+		// left: 0px;
+		// left: 50%;
+
+		// top: -40%;
+		// left: 40%;
+
+		// top: 0%;
+		// left: 0%;
+
+		position: relative;
+		top: var(--app-view-person-top);
+		left: var(--app-view-person-left);
+		// &:hover{
+		// 	transform:scale(2.5);
+		// }
+	}
+	.image3 {
 		position: relative;
 		top: var(--app-view-person-top);
 		left: var(--app-view-person-left);
 		&:hover{
 			transform:scale(2.5);
+		}
+
+		.click-zoom input[type=checkbox] {
+			display: none
+		}
+	
+		.click-zoom img {
+			margin: 100px;
+			transition: transform 0.25s ease;
+			cursor: zoom-in
+		}
+	
+		.click-zoom input[type=checkbox]:checked~img {
+			transform: scale(2);
+			cursor: zoom-out
 		}
 	}
 }
@@ -132,6 +172,21 @@
 	&:hover{
 		transform:scale(2.5);
 	}
+}
+
+.click-zoom input[type=checkbox] {
+  display: none
+}
+
+.click-zoom img {
+  margin: 100px;
+  transition: transform 0.25s ease;
+  cursor: zoom-in
+}
+
+.click-zoom input[type=checkbox]:checked~img {
+  transform: scale(2);
+  cursor: zoom-out
 }
 
 .viewer-home-no-expand {

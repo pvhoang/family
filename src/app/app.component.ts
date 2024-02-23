@@ -91,13 +91,15 @@ export class AppComponent implements OnInit {
 		// setup UI
 		this.initializeUI().then((status) => {
 			if (ancestor == '') {
-				this.presentToast(['APP_NA_ANCESTOR']);
+				let superAdmin = this.translate_instant("APP_SUPER_ADMIN");
+				this.presentToast(['APP_NO_ANCESTOR_1','APP_NO_ANCESTOR_2',superAdmin]);
 				return;
 			} 
 			// ancestor must be valid before doing anything else
 			this.startAncestor(ancestor).then((stat) => {
 				if (!stat) {
-					this.presentToast(['APP_NA_ANCESTOR_1', ancestor, 'APP_NA_ANCESTOR_2']);
+					let superAdmin = this.translate_instant("APP_SUPER_ADMIN");
+					this.presentToast(['APP_NA_ANCESTOR_1', ancestor, 'APP_NA_ANCESTOR_2', 'APP_NA_ANCESTOR_3', superAdmin]);
 					return;
 				}
 				if (option == URL_DELETE)
@@ -112,7 +114,7 @@ export class AppComponent implements OnInit {
 						this.mode = EDIT_MODE;
 					this.initializeApp();
 				} else {
-					this.presentToast(['APP_NA_OPTION_1', option, 'APP_NA_OPTION_2', this.email]);
+					this.presentToast(['APP_NA_OPTION_1', option, 'APP_NA_OPTION_2', 'APP_NA_OPTION_3', this.email]);
 				}
 			});
 		});
@@ -347,8 +349,11 @@ export class AppComponent implements OnInit {
 							// this is new login, show 'Welcome message'
 							this.fbService.readAncestorData(ancestorID).subscribe((rdata:any) => {
 								this.dataService.saveItem('ANCESTOR_DATA', rdata).then((status:any) => {
-									this.email = rdata.info.admin_name + '(' + rdata.info.admin_email + ')';
+									this.email = rdata.info.admin_name + ' (' + rdata.info.admin_email + ')';
+									// let msg1 = this.translate_instant('APP_WELCOME_FAMILY_1') + '<b>' + ancestorID + '</b><br/>';
+									// let msg2 = this.translate_instant('APP_WELCOME_FAMILY_2') + '<b>' + this.email + '<br>';
 									this.presentToast(['APP_WELCOME_FAMILY_1', ancestorID, 'APP_WELCOME_FAMILY_2', this.email]);
+									// this.presentToast([msg1, msg2]);
 									resolve (true);
 								});
 							});
@@ -608,15 +613,28 @@ export class AppComponent implements OnInit {
 
   presentToast(keys: any) {
     let msgs = [];
-    msgs.push({name: 'msg', label: this.translate_instant(keys[0])});
-    if (keys.length > 1)
-      msgs.push({name: 'data', label: keys[1]});
-    if (keys.length > 2)
-      msgs.push({name: 'msg', label: this.translate_instant(keys[2])});
-		if (keys.length > 3)
-      msgs.push({name: 'data', label: keys[3]});
-    let message = this.utilService.getAlertMessage(msgs);
-    this.utilService.presentToast(message);
+		keys.forEach((key:any) => {
+			let item = {};
+			let msg = this.translate_instant(key);
+			if (msg == key) {
+				// key is not translatable
+				item = {name: 'data', label: '&emsp;' + key};
+			} else {
+				// key is translatable
+				item = {name: 'msg', label: msg};
+			}
+			msgs.push(item);
+		})
+    // msgs.push({name: 'msg', label: this.translate_instant(keys[0])});
+    // if (keys.length > 1)
+    //   msgs.push({name: 'data', label: keys[1]});
+    // if (keys.length > 2)
+    //   msgs.push({name: 'msg', label: this.translate_instant(keys[2])});
+		// if (keys.length > 3)
+    //   msgs.push({name: 'data', label: keys[3]});
+    let message = this.utilService.getAlertMessage(msgs, true);
+    // this.utilService.presentToast(message);
+		this.utilService.presentToastWait(null, message, 'OK', 10000);
   }
 
 	translate_instant(key:any) {
@@ -652,13 +670,17 @@ export class AppComponent implements OnInit {
 			"APP_NEW_ANCESTOR_2": "' đã được khởi động!<br/>Kết nối: <i>giapha.web.app</i>",
 			"APP_NEW_FAMILY": "Hệ thống dùng dữ liệu mới. Ấn bản: ",
 			"APP_NEW_NODE": "Hệ mới",
-			"APP_WELCOME_FAMILY_1": "Chào bạn truy cập vào gia phả họ ",
-			"APP_WELCOME_FAMILY_2": ". Để cập nhật thông tin, xin liên lạc: ",
-			"APP_NA_ANCESTOR_1": "Phả tộc '",
-			"APP_NA_ANCESTOR_2": "' không có trong hệ thống!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
-			"APP_NA_ANCESTOR": "Không có tên phả tộc!<br/>Liên lạc <i>pvhoang940@gmail.com</i>.",
-			"APP_NA_OPTION_1": "Thông số: '",
-			"APP_NA_OPTION_2": "' không hợp lệ!<br/>Liên lạc: ",
+			"APP_WELCOME_FAMILY_1": "Chào bạn truy cập vào gia phả họ: ",
+			"APP_WELCOME_FAMILY_2": "Để cập nhật thông tin, liên lạc: ",
+			"APP_NA_ANCESTOR_1": "Phả tộc: ",
+			"APP_NA_ANCESTOR_2": "không có trong hệ thống!",
+			"APP_NA_ANCESTOR_3": "Liên lạc: ",
+			"APP_SUPER_ADMIN": "Phan Viết Hoàng (Viber 0903 592 592)",
+			"APP_NO_ANCESTOR_1": "Không có tên phả tộc!",
+			"APP_NO_ANCESTOR_2": "Liên lạc: ",
+			"APP_NA_OPTION_1": "Thông số: ",
+			"APP_NA_OPTION_2": "không hợp lệ!",
+			"APP_NA_OPTION_3": "Liên lạc: ",
 			"APP_APP_VERSIONS_NOT_SAME_1": "Ấn bản trên máy đã cũ: ",
 			"APP_APP_VERSIONS_NOT_SAME_2": ". Yêu cầu xóa cache và chạy lại (F5)!",
 			"INFO": "Thông báo",
@@ -700,10 +722,10 @@ export class AppComponent implements OnInit {
 			"APP_NEW_FAMILY": "New family data is used. Version: ",
 			"APP_NEW_NODE": "New nodes",
 			"APP_NA_ANCESTOR_1": "Ancestor: '",
-			"APP_NA_ANCESTOR_2": "' is not available!<br/>Contact <i>pvhoang940@gmail.com</i>.",
-			"APP_NA_ANCESTOR": "Ancestor is not provided!<br/>Contact <i>pvhoang940@gmail.com</i>.",
+			"APP_NA_ANCESTOR_2": "' is not available!<br/>Contact <b>Phan Viết Hoàng (Viber 0903 592 592)</b>.",
+			"APP_NA_ANCESTOR": "Ancestor is not provided!<br/>Contact <b>Phan Viết Hoàng (Viber 0903 592 592)</b>.",
 			"APP_NA_OPTION_1": "Parameter: '",
-			"APP_NA_OPTION_2": "' is not valid!<br/>Contact <i>pvhoang940@gmail.com</i>.",
+			"APP_NA_OPTION_2": "' is not valid!<br/>Contact  <b>Phan Viết Hoàng (Viber 0903 592 592)</b>.",
 			"APP_APP_VERSIONS_NOT_SAME_1": "App is old: '",
 			"APP_APP_VERSIONS_NOT_SAME_2": "'. Please refresh memory (F5)!",
 			 "INFO": "Information",

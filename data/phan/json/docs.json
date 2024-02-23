@@ -23,7 +23,7 @@
 
 "[1|1|1|1|Tổ quán]",
 "Tên: Nhà thờ Phan Tộc<br>Địa điểm: Đường Bà Triệu, Phường Đồng Phú, Tp Đồng Hới, Tỉnh Quảng Bình",
-
+"",
 "[1|1|1|1|Bản đồ Tổ quán]",
 "[3|Nhà Thờ Phan Tộc.png|1|1|Phường Đồng Phú, Tp Đồng Hới]",
 
@@ -36,44 +36,42 @@
 "[PAGE]",
 
 "[1|1|1|1|Truyền thống lao động]",
-"Nông nghiệp:",
+"[1|0|0|1|Nông nghiệp]",
 "Tổ tiên của dòng họ phần đông là những người nông dân, làm việc trên ruộng đất để trồng trọt hoặc chăn nuôi để cung cấp thực phẩm cho gia đình.",
-"Thủ công:",
+"[1|0|0|1|Thủ công]",
 "Một số gia đình có truyền thống làm thủ công, chẳng hạn như thợ mộc, thợ may, thợ rèn, hoặc các nghề khác có liên quan đến chế tác sản phẩm thủ công.",
-"Trí tuệ:",
-"Có những gia đình có truyền thống lao động trong lĩnh vực tri thức và trí tuệ, như giáo viên, nhà khoa học, nhà văn, hay các nghề liên quan đến học vấn và sáng tạo.",
-"Thương mại:",
+"[1|0|0|1|Trí tuệ]",
+"Dòng họ có những gia đình có truyền thống lao động trong lĩnh vực tri thức và trí tuệ, như giáo viên, nhà khoa học, nhà văn, hay các nghề liên quan đến học vấn và sáng tạo.",
+"[1|0|0|1|Thương mại]",
 "Một số gia đình có truyền thống tham gia vào hoạt động thương mại và kinh doanh, như buôn bán hàng hóa, làm thương gia hoặc tham gia vào các ngành nghề dịch vụ.",
 
 "[1|1|1|1|Truyền thống văn hóa]",
-"Ngôn ngữ và Di Sản Văn Hóa:",
-"Ghi nhận ngôn ngữ và di sản văn hóa mà gia đình đã giữ gìn qua các thế hệ. Điều này có thể bao gồm việc sử dụng và bảo tồn ngôn ngữ bản địa, các truyền thống lễ hội, âm nhạc, vũ điệu, và nghệ thuật dân gian.",
-"Giá Trị Gia Đình:",
-"Mô tả các giá trị và nguyên tắc mà gia đình coi trọng và truyền đạt từ thế hệ này sang thế hệ khác. Các giá trị này có thể bao gồm sự tôn trọng, sự đoàn kết gia đình, lòng hiếu thảo, và trách nhiệm xã hội.",
-"Nghi Lễ và Lễ Hội:",
-"Ghi chép về các nghi lễ, lễ hội, và nghi thức truyền thống mà gia đình thường thực hiện. Điều này có thể bao gồm các lễ kỷ niệm, lễ hội tôn giáo, hay các lễ hội dân gian đặc trưng của vùng miền.",
-"Trang Phục và Trang Trí:",
-"Mô tả về trang phục truyền thống và cách mà gia đình đã duy trì và phát triển các phong cách trang phục, trang trí trong cuộc sống hàng ngày và trong các dịp đặc biệt.",
+"[1|0|0|1|Ngôn ngữ và Di Sản Văn Hóa]",
+"Dòng họ bảo tồn ngôn ngữ và di sản văn hóa đã giữ gìn qua các thế hệ. Điều này bao gồm việc sử dụng và bảo tồn ngôn ngữ bản địa, các truyền thống lễ hội, âm nhạc, vũ điệu, và nghệ thuật dân gian.",
+"[1|0|0|1|Giá Trị Gia Đình]",
+"Dòng họ bảo tồn các giá trị và nguyên tắc mà gia đình coi trọng và truyền đạt từ thế hệ này sang thế hệ khác. Các giá trị này gồm có sự tôn trọng, sự đoàn kết gia đình, lòng hiếu thảo, và trách nhiệm xã hội.",
+"[1|0|0|1|Nghi Lễ và Lễ Hội]",
+"Dòng họ tham gia các nghi lễ, lễ hội, và nghi thức truyền thống mà gia đình thường thực hiện. Nghi lễ này bao gồm các lễ kỷ niệm, lễ hội tôn giáo, hay các lễ hội dân gian đặc trưng của vùng miền.",
 
 "[PAGE]",
 
 "[1|1|1|1|Truyền thống yêu nước]",
-
-"Phục Vụ Chính Quyền:",
+"[1|0|0|1|Phục Vụ Chính Quyền]",
 "Một số thành viên gia đình phục vụ trong chính quyền thời Pháp, chính quyền thời Quốc Gia trong miền Nam, và chính quyền thời Cách Mạng ngoài miền Bắc.",
-"Phục Vụ Quân Đội:",
+"[1|0|0|1|Phục Vụ Quân Đội]",
 "Một số thành viên gia đình cũng đã phục vụ trong quân đội của cách mạng và quốc gia. Điều này có thể bao gồm việc tham gia vào các cuộc chiến, chiến tranh, hoặc làm nhiệm vụ bảo vệ và phát triển đất nước.",
-"Công Tác Công Cộng và Xã Hội:",
-"Ghi chép về những người trong gia đình đã đóng góp vào công việc cộng đồng và xã hội, như làm việc trong lĩnh vực y tế, giáo dục, hay công tác từ thiện để cải thiện điều kiện sống của cộng đồng và đất nước.",
-"Tôn Trọng Và Bảo Vệ Văn Hóa:",
-"Ghi lại việc duy trì và bảo vệ các giá trị văn hóa, truyền thống và di sản quốc gia. Điều này có thể bao gồm việc tham gia vào các hoạt động văn hóa, lịch sử, và giáo dục để gìn giữ và phát triển văn hóa dân tộc.",
-"Hỗ Trợ Phát Triển Kinh Tế:",
-"Ghi nhận những người đã đóng góp vào sự phát triển kinh tế của đất nước, bằng cách tham gia vào các ngành nghề sản xuất, thương mại, và công nghiệp, hoặc hỗ trợ các hoạt động kinh doanh và nông nghiệp."
+"[1|0|0|1|Công Tác Xã Hội]",
+"Dòng họ cũng đã đóng góp vào công việc cộng đồng và xã hội, như làm việc trong lĩnh vực y tế, giáo dục, hay công tác từ thiện để cải thiện điều kiện sống của cộng đồng và đất nước.",
+"[1|0|0|1|Công Tác Bảo Vệ Văn Hóa]",
+"Dòng họ đóng góp thực hiện việc duy trì và bảo vệ các giá trị văn hóa, truyền thống và di sản quốc gia.",
+"[1|0|0|1|Công Tác Phát Triển Kinh Tế]",
+"Dòng họ có những người đã đóng góp vào sự phát triển kinh tế của đất nước, như tham gia vào các ngành nghề sản xuất, thương mại, và công nghiệp, hoặc hỗ trợ các hoạt động kinh doanh và nông nghiệp."
 			]
 		},
 		"pha_he": {
 			"title": "PHẢ HỆ",
 			"raw": [
+"",
 "[",
 "<li><em>Phả hệ gồm chi tiết của thành viên (hệ) trong gia tộc</em>",
 	"<ul style='list-style-type:square;'>",
@@ -101,6 +99,7 @@
 		"pha_do": {
 			"title": "PHẢ ĐỒ",
 			"raw": [
+"",
 "[",
 "<li><em>Biểu đồ trình bày theo:</em>",
 	"<ul style='list-style-type:square;'>",
@@ -114,25 +113,20 @@
 		"ngoai_pha": {
 			"title": "NGOẠI PHẢ",
 			"raw": [
-
 "[1|1|1|1|Bài vị]",
 "[3|Bài vị Thủy Tổ.jpg|1|1|Bài vị Thủy Tổ, Nhà thờ Phan Tộc]",
+"",
 "[1|1|1|1|Khu mộ]",
 "[3|Mộ Tổ Đời 1.jpg|1|1|Tổ mộ, Nghĩa trang Đá Bạc]",
 "[3|Mộ Đời 7.jpg|1|1|Mộ đời 7, Nghĩa trang Đá Bạc]",
-
+"[PAGE]",
 "[1|1|1|1|Nhân vật tiêu biểu]",
 "[1|0|0|1|Phan Lợi Hành]",
 "Ông Phan Lợi Hành là Chánh bát phẩm, bổ Kinh lịch tỉnh Thái Nguyên (Bắc Việt), làm Bang tá huyện Tuyên Hóa Quảng Bình, sau bổ ra làm Bang tá tại tỉnh Nam Đinh hơn một năm thì đau mất. Tháng giêng năm Mậu Dần (1878) dời quan cốt về làng.",
-
 "[1|0|0|1|Phan Quang Triệt]",
 "Ông Triệt được bổ Thông lLi Quảng Trạch sau đổi vào nhận chức tại Lệ Thủy. Ông tham gia phong trào Duy Tân (1907-1916) sau hơn 1 năm làm việc tại Lệ Thủy Ông quá vang, huyện sắp xếp thuyền đưa quan về quê nhà mộ để ở Sa Động (Bảo Ninh) sau này con cháu quy tụ vào lăng ở Đá Bạc Đồng Sơn.",
-
-"[PAGE]",
-
 "[1|0|0|1|Phan Ngọc Luật]",
 "Lúc đầu Ông làm nghề dạy học tại làng, tháng 07 năm 1902 được bổ Y thuật, qua tháng 03-1903 quyền Cửu phẩm Y sanh, năm 1906 Phái viên Kiểm soát trường thi Thừa Thiên sau đó được bổ Thơ lại Ty phiên Quảng Bình, năm 1908 Phái viên hiểu dụ kiểm lâm toàn thơ lại ty niết, tháng giêng 1919 Lại mục huyện Bố trạch, năm 1930 hồi quan.", 
-
 "[1|0|0|1|Phan Ngọc Tường]",
 "Ông Phan Ngọc Tường sinh ngày 12/2/1929 tại Phú Ninh nay là Phường Đồng Phú, thành phố Đồng Hới, tỉnh Quảng Bình.<br>Năm 16 tuổi, ông đã tham gia phong trào thanh niên cứu quốc tại Nhà máy Nhiệt điện Đồng Hới-Quảng Bình và được đứng trong hàng ngũ của Đảng lúc 19 tuổi.<br>. Ủy viên dự khuyết ban chấp hành TW ĐCS Việt Nam Khóa V (1982-1986), Ủy viên TW ĐCS Việt Nam khóa VI (1986-1991), VII (1991-1996)<br>. Từ tháng 5/1982 đến tháng 9/1989, ông được cử giữ chức Bộ trưởng Bộ Xây dựng.<br>Từ tháng 10/1989 đến tháng 10/1996, ông được cử giữ chức Bộ trưởng, Trưởng ban Tổ chức cán bộ Chính phủ.",
 "Với trách nhiệm công tác của mình, ông Phan Ngọc Tường luôn phát huy vai trò người đứng đầu ngành, là tấm gương mẫu mực về tinh thần lao động, cống hiến đầy tâm huyết, được cán bộ, công chức, viên chức trong cơ quan trân trọng, học tập noi theo.Với những đóng góp tích cực vào sự nghiệp đấu tranh giải phóng dân tộc và xây dựng đất nước, ông đã được tặng thưởng nhiều huân, huy chương các loại và Huy hiệu 40 năm tuổi Đảng.",
@@ -143,25 +137,24 @@
 			"title":"PHỤ KHẢO",
 			"raw": [
 "[1|1|1|1|Tư liệu]",
-
-"[2|Quảng Bình.doc|1|Tư liệu tỉnh Quảng Bình]",
+"[2|Quảng Bình.doc|1|Tỉnh Quảng Bình]",
 "",
-"[2|Bản đồ Việt Nam.doc|1|Bản đồ Việt Nam qua các thời kỳ]",
-
+"[2|Bản đồ Việt Nam.doc|1|Bản đồ Việt Nam]",
+"",
+"[PAGE]",
 "[1|1|1|1|Ngành nghề truyền thống]",
-
-"Nông Nghiệp:<br>Mô tả về các nghề liên quan đến nông nghiệp như làm ruộng, chăn nuôi, trồng trọt, và các công việc khác liên quan đến sản xuất nông sản.",
-
-"Thủ Công:<br>Liệt kê các nghề thủ công truyền thống như làm gốm sứ, dệt may, chạm khắc, làm đồ gỗ, và các nghề khác đòi hỏi kỹ năng thủ công.",
-
-"Thương Mại và Buôn Bán:<br>Ghi chép về các nghề kinh doanh và buôn bán truyền thống như buôn bán hàng hóa, thợ mộc, thợ kim hoàn, và các nghề khác liên quan đến thương mại.",
-
-"Nghệ Thuật và Văn Hóa:<br>Mô tả các nghề nghiệp trong lĩnh vực nghệ thuật và văn hóa như ca sĩ, nhà văn, họa sĩ, diễn viên, và các nghề liên quan đến nghệ thuật và văn hóa dân gian.",
-
-"Y Học và Dược Phẩm:<br>Liệt kê các nghề nghiệp trong lĩnh vực y học và dược phẩm như bác sĩ, dược sĩ, thầy thuốc, và các nghề khác liên quan đến chăm sóc sức khỏe và y tế.",
-
-"Công Nghiệp và Xây Dựng:<br>Ghi chép về các nghề trong lĩnh vực công nghiệp và xây dựng như thợ hồ, thợ rèn, công nhân xây dựng, và các nghề khác liên quan đến sản xuất và xây dựng."
-
+"[1|0|0|1|Nông Nghiệp]",
+"Dòng họ đang làm các nghề liên quan đến nông nghiệp như làm ruộng, chăn nuôi, trồng trọt, sản xuất nông sản v.v.",
+"[1|0|0|1|Thủ Công]",
+"Ngoài ra dòng họ cũng làm các nghề hủ công truyền thống như làm gốm sứ, dệt may, chạm khắc, làm đồ gỗ, và các nghề khác đòi hỏi kỹ năng thủ công.",
+"[1|0|0|1|Thương Mại và Buôn Bán]",
+"Dòng họ cũng kinh doanh các lãnh vực về thương mại như buôn bán lẻ, tạp hóa, thợ mộc, thợ sắt, thợ kim hoàn, v.v.",
+"[1|0|0|1|Nghệ Thuật và Văn Hóa]",
+"Gia tộc cũng hoạt động trong lãnh vực nghệ thuật như ca sĩ, diễn viên, hay văn hóa như văn sĩ v.v.",
+"[1|0|0|1|Y Tế]",
+"Dòng họ cũng hoạt động trong lãnh vực y tế như chữa bệnh, bác sĩ, dược sĩ, v.v.",
+"[1|0|0|1|Xây Dựng]",
+"Dòng họ cũng hoạt động trong lãnh vực công nghiệp và xây dựng như thợ hồ, thợ rèn, công nhân nhà máy, v.v."
 			]
 		}
 	},
