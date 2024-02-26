@@ -122,7 +122,10 @@ export class TreePage implements OnInit {
         const dashboardHeight = ele.clientHeight;
         const dashboardWidth = ele.clientWidth;
         let opts = { bgcolor: 'white', width: dashboardWidth, height: dashboardHeight, quality: 1.0 };
+				console.log('onJPG - ele: ', ele);
         domtoimage.toPng(ele, opts).then((imgData:any) => {
+				// domtoimage.toJpeg(ele, opts).then((imgData:any) => {
+					// console.log('onJPG - imgData: ', imgData);
 					if (imgData) {
 						var link = document.createElement('a');
 						link.download = fileName;
@@ -130,7 +133,13 @@ export class TreePage implements OnInit {
 						link.click();
 					}
           this.utilService.dismissLoading();
-        });
+        })
+				.catch((error:any) => {
+					this.utilService.dismissLoading();
+					let message = this.languageService.getTranslation('TREE_ERROR_SAVE_FILE')
+					this.utilService.alertMsg('ERROR', message, 'OK', { width: 350, height: 200 }).then(choice => {});
+					// console.error('oops, something went wrong!: error', error);
+				});
       }
     });
   }
@@ -160,7 +169,13 @@ export class TreePage implements OnInit {
             this.printPDF(dim, fileName, node);
             this.utilService.dismissLoading();
           })
-        });
+        })
+				.catch((error:any) => {
+					this.utilService.dismissLoading();
+					let message = this.languageService.getTranslation('TREE_ERROR_SAVE_FILE')
+					this.utilService.alertMsg('ERROR', message, 'OK', { width: 350, height: 200 }).then(choice => {});
+					// console.error('oops, something went wrong!: error', error);
+				});
       }
     });
   }

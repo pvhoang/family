@@ -6,7 +6,8 @@
   </ion-item>
 </ion-header>
 <ion-content [fullscreen]="true" class="ion-padding">
-	<div class="screen-node editor">
+	<p></p>
+	<div class="selector">
 		<div *ngFor="let select of selects">
 			<ion-item>
 				<ion-label position="stacked">
@@ -29,29 +30,12 @@
 
 		<ion-item class="bottom-button-group">
 			<ion-col size="6" class="bottom" (click)="onCancel()">
-				<!-- <ion-button class="button" fill="clear" (click)="onCancel()">
-					<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
-				</ion-button> -->
 				<span class="label">{{cancelText}}</span>
 			</ion-col>
 			<ion-col size="6" class="bottom" (click)="onSave()">
-				<!-- <ion-button class="button" fill="clear" (click)="onSave()">
-					<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}content-save-outline.svg" class="icon"></ion-icon>
-				</ion-button> -->
 				<span class="label">{{okText}}</span>
 			</ion-col>
-		
 		</ion-item>
-
-		<!-- <ion-item>
-			<ion-col size="6" class="button-icon-label" (click)="onCancel()">
-				<span class="label">{{cancelText}}</span>
-			</ion-col>
-			<ion-col size="6" class="button-icon-label" (click)="onSave()">
-				<span class="label">{{okText}}</span>
-			</ion-col>
-		</ion-item> -->
-
 	</div>
 
 </ion-content>

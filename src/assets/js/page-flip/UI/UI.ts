@@ -4,7 +4,7 @@ import { FlipSetting, SizeType } from '../Settings';
 import { FlipCorner, FlippingState } from '../Flip/Flip';
 import { Orientation } from '../Render/Render';
 
-const UI_DEBUG = true;
+const UI_DEBUG = false;
 
 type SwipeData = {
     point: Point;
@@ -182,13 +182,13 @@ export abstract class UI {
 			if (UI_DEBUG)
 				console.log('onMouseDown - e: ', e);
 
-        if (this.checkTarget(e.target)) {
-            const pos = this.getMousePos(e.clientX, e.clientY);
+			if (this.checkTarget(e.target)) {
+					const pos = this.getMousePos(e.clientX, e.clientY);
 
-            this.app.startUserTouch(pos);
+					this.app.startUserTouch(pos);
 
-            e.preventDefault();
-        }
+					e.preventDefault();
+			}
     };
 
     private onTouchStart = (e: TouchEvent): void => {
@@ -196,40 +196,54 @@ export abstract class UI {
 			if (UI_DEBUG)
 				console.log('onTouchStart - changedTouches: ', e.changedTouches.length);
 
-        if (this.checkTarget(e.target)) {
-            if (e.changedTouches.length > 0) {
-                const t = e.changedTouches[0];
-                const pos = this.getMousePos(t.clientX, t.clientY);
+			if (this.checkTarget(e.target)) {
+					if (e.changedTouches.length > 0) {
+							const t = e.changedTouches[0];
+							const pos = this.getMousePos(t.clientX, t.clientY);
 
-                this.touchPoint = {
-                    point: pos,
-                    time: Date.now(),
-                };
+							this.touchPoint = {
+									point: pos,
+									time: Date.now(),
+							};
 
-                // part of swipe detection
-                setTimeout(() => {
-                    if (this.touchPoint !== null) {
-                        this.app.startUserTouch(pos);
-                    }
-                }, this.swipeTimeout);
+							// part of swipe detection
+							setTimeout(() => {
+									if (this.touchPoint !== null) {
+											this.app.startUserTouch(pos);
+									}
+							}, this.swipeTimeout);
 
-                if (!this.app.getSettings().mobileScrollSupport) e.preventDefault();
-            }
-        }
+							if (!this.app.getSettings().mobileScrollSupport) e.preventDefault();
+					}
+			}
     };
 
     private onMouseUp = (e: any): void => {
 			if (UI_DEBUG)
-				console.log('onMouseUp - e: ', e.clientX, e.clientY);
+				console.log('onMouseUp - e: ', e, e.clientX, e.clientY);
 			let isSwipe = false;
 			const pos = this.getMousePos(e.clientX, e.clientY);
+			
 			let element = e.srcElement;
 			if (element) {
+
+				if (UI_DEBUG)
+					console.log('onMouseUp - element, class, id: ', element, element.getAttribute("class"), element.getAttribute("id"));
+				
+				let c = element.getAttribute("class");
+				if (c && (c.indexOf("alert-button-inner") >= 0)) {
+					// alert-button-inner sc-ion-alert-md
+					isSwipe = true;
+					if (UI_DEBUG)
+						console.log('onMouseUp - isSwipe: ', isSwipe);
+					return;
+				}
 				// ignore flip if element has special ID
 				let id = element.getAttribute("id");
-				if (id == 'image-zoom' || id == 'view-pha-he' || id == 'view-pha-do')
+				if (id && (id == 'image-zoom' || id == 'view-pha-he' || id == 'view-pha-do' || id == 'document-download'))
 					// ignore flipping
 					isSwipe = true;
+
 			} else {
 				let mousePosition = this.app.getMousePosition();
 				const dx = pos.x - mousePosition.x;
@@ -275,56 +289,64 @@ export abstract class UI {
         }
     };
 
-    private onTouchEnd = (e: TouchEvent): void => {
+    private onTouchEnd = (e: any): void => {
 
 			if (UI_DEBUG)
 				console.log('onTouchEnd - e: ', e);
 
-        if (e.changedTouches.length > 0) {
-            const t = e.changedTouches[0];
-            const pos = this.getMousePos(t.clientX, t.clientY);
-            let isSwipe = false;
+			// let element = e.srcElement;
+			// if (element) {
+			// 	console.log('onTouchEnd - element: ', element, element.getAttribute("class"));
+			// 	let c = element.getAttribute("class");
+			// 	if (c && (c.indexOf("alert-button-inner") >= 0)) {
+			// 		// alert-button-inner sc-ion-alert-md
+			// 		console.log('onTouchEnd return: ');
+			// 		return;
+			// 	}
+			// }
 
-            // swipe detection
+			if (e.changedTouches.length > 0) {
+				const t = e.changedTouches[0];
+				const pos = this.getMousePos(t.clientX, t.clientY);
+				let isSwipe = false;
+				// swipe detection
+				if (this.touchPoint !== null) {
+					const dx = pos.x - this.touchPoint.point.x;
+					const distY = Math.abs(pos.y - this.touchPoint.point.y);
 
-            if (this.touchPoint !== null) {
-                const dx = pos.x - this.touchPoint.point.x;
-                const distY = Math.abs(pos.y - this.touchPoint.point.y);
+					if (UI_DEBUG)
+						console.log('onTouchEnd - dx, distY: ', dx, distY);
 
-								// console.log('onTouchEnd - dx, distY: ', dx, distY);
+					if (distY > Math.abs(dx)) {
+						// this is vertical swipe, ignore flip
+						isSwipe = true;
+					}
+							// else if (
+							//     Math.abs(dx) > this.swipeDistance &&
+							//     distY < this.swipeDistance * 2 &&
+							//     Date.now() - this.touchPoint.time < this.swipeTimeout
+							// ) {
+							// 		console.log('onTouchEnd - flip - this.swipeTimeout: ', this.swipeTimeout);
 
-								if (distY > Math.abs(dx)) {
-									// this is vertical swipe, ignore flip
-									isSwipe = true;
-								}
-                // else if (
-                //     Math.abs(dx) > this.swipeDistance &&
-                //     distY < this.swipeDistance * 2 &&
-                //     Date.now() - this.touchPoint.time < this.swipeTimeout
-                // ) {
-								// 		console.log('onTouchEnd - flip - this.swipeTimeout: ', this.swipeTimeout);
-
-                //     if (dx > 0) {
-                //         this.app.flipPrev(
-                //             this.touchPoint.point.y < this.app.getRender().getRect().height / 2
-                //                 ? FlipCorner.TOP
-                //                 : FlipCorner.BOTTOM
-                //         );
-                //     } else {
-                //         this.app.flipNext(
-                //             this.touchPoint.point.y < this.app.getRender().getRect().height / 2
-                //                 ? FlipCorner.TOP
-                //                 : FlipCorner.BOTTOM
-                //         );
-                //     }
-                //     isSwipe = true;
-                // }
-								// console.log('onTouchEnd - isSwipe: ', isSwipe);
-
-                this.touchPoint = null;
-            }
-
-            this.app.userStop(pos, isSwipe);
-        }
+							//     if (dx > 0) {
+							//         this.app.flipPrev(
+							//             this.touchPoint.point.y < this.app.getRender().getRect().height / 2
+							//                 ? FlipCorner.TOP
+							//                 : FlipCorner.BOTTOM
+							//         );
+							//     } else {
+							//         this.app.flipNext(
+							//             this.touchPoint.point.y < this.app.getRender().getRect().height / 2
+							//                 ? FlipCorner.TOP
+							//                 : FlipCorner.BOTTOM
+							//         );
+							//     }
+							//     isSwipe = true;
+							// }
+							// console.log('onTouchEnd - isSwipe: ', isSwipe);
+					this.touchPoint = null;
+				}
+				this.app.userStop(pos, isSwipe);
+			}
     };
 }

@@ -132,7 +132,7 @@ export class EditorService {
 					} else {
 						html = 
 						'<div class="' + data.container + '">' +
-						'<span class="viewer-home-container-label" onclick="downloadDocument(\'' + url + '\', \'' + data.name + '\')">' + data.caption + '</span>' +
+						'<span id="document-download" class="viewer-home-container-label" onclick="downloadDocument(\'' + url + '\', \'' + data.name + '\')">' + data.caption + '</span>' +
 						// '<span style="' + style + '" onclick="downloadDocument(\'' + url + '\', \'' + data.name + '\')">' + data.caption + '</span>' +
 						'</div>';
 					}

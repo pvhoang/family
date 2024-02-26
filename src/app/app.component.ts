@@ -138,7 +138,7 @@ export class AppComponent implements OnInit {
 						if (DEBUGS.APP)
 							console.log('initializeUI - theme, language, size: ', this.theme, this.language, this.size)
 						// now read theme constants and set system properties
-						let jsonFile = './assets/common/themes.json';
+						let jsonFile = './assets/common/' + theme + '/themes.json';
 						this.utilService.getLocalJsonFile(jsonFile).then((themes:any) => {
 							this.themeService.setSystemProperties(themes, theme, size);
 							resolve(true);

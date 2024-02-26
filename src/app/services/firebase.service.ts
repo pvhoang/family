@@ -369,8 +369,8 @@ export class FirebaseService {
 					getMetadata(newref).then((metadata) => {
 						// Metadata now contains the metadata for 'images/forest.jpg'
 						// console.log('metadata: ', metadata);
-						if (name.indexOf('png') >= 0)
-							console.log('metadata: ', metadata);
+						// if (name.indexOf('png') >= 0)
+							// console.log('metadata: ', metadata);
 						let type = metadata.contentType;
 						let size = metadata.size.toLocaleString('vn-VN');
 						const getMeta = async (url: any) => {
@@ -392,7 +392,7 @@ export class FirebaseService {
 									height: img.naturalHeight
 								});
 							}).catch((error) => {
-								console.log('ERROR - FirebaseService - getMeta - error:', error);
+								// console.log('ERROR - FirebaseService - getMeta - error:', error);
 								// this is not an image file, can not be decoded in getMeta(), use regular 'file'
 								filelist.push({
 									name: name,

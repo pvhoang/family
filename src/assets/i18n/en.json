@@ -121,8 +121,9 @@
   "TREE_SELECT_PRINT_JPG_MSG_2": "' is created and saved.",
   "TREE_SELECT_PRINT_PDF_MSG_1": "File '",
   "TREE_SELECT_PRINT_PDF_MSG_2": "' is created and saved.",
-	"TREE_VIEW_NAME": "Hệ",
-  "TREE_VIEW_GENERATION": "Đời",
+	"TREE_VIEW_NAME": "Node",
+  "TREE_VIEW_GENERATION": "Generation",
+  "TREE_ERROR_SAVE_FILE": "Can not save tree for this node!",
 	
 	"NODE_NAME": "Name",
   "NODE_GENDER": "Gender",
@@ -244,10 +245,11 @@
   "FILE_UPLOAD_MESSAGE_2": " to server?",
 	"FILE_UPLOAD_FILE_INVALID": "File is not valid or version does not change!",
 	"FILE_UPLOAD_FILE_EMPTY": "File is empty!",
-
+	"FILE_UPLOAD_FILES_NOT_AVAILABLE": "File not in server. Must be uploaded first!",
 	"FILE_UPLOAD_COMPLETE_1": "File: ",
   "FILE_UPLOAD_COMPLETE_2": " is uploaded to server.",
   "FILE_UPLOAD_COMPLETE_3": "Images are uploaded to server.",
+
   "FILE_PHOTO": "Create/edit images to be uploaded to server",
   "FILE_PHOTO_ADD": "Open file",
   "FILE_PHOTO_MODIFY": "Edit",

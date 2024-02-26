@@ -369,34 +369,20 @@ export class FilePage implements OnInit {
 		this.uploadItemsPlaceholder = this.languageService.getTranslation('FILE_UPLOAD_PLACEHOLDER');
 	}
 
-	uploadInfoPopover(item: any) {
-		let name = item.name;
-		if (name == 'DOCS') {
-			document.getElementById("modify-upload-docs").click()
-		} else if (name == 'FAMILY') {
-			document.getElementById("modify-upload-family").click()
-		} else if (name == 'IMAGES') {
-			this.fbService.getFileList(this.ancestor).then((filelist:any) => {
-				this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
-					if (DEBUGS.FILE)
-						console.log('uploadInfoPopover - filelist: ', filelist);
-					// some time it's too slow to process file list, wait 2 sec
-					setTimeout(() => {
-						let images = {};
-						filelist.forEach((file:any) => {
-							images[file.name] = { url: file.url, type: file.type, size: file.size, width: file.width, height: file.height };
-						})
-						rdata.images = images;
-						console.log('uploadInfoPopover - rdata.images: ', rdata.images);
-						this.fbService.saveAncestorData(rdata).then((status:any) => {
-							let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_3');
-							this.utilService.presentToast(msg);
-						});
-					}, 2000);
-				});
-			});
-		}
-	}
+	async uploadInfoAlert() {
+    let inputs = [];
+    inputs.push({type: 'radio', label: this.uploadItems[0].label, value: this.uploadItems[0].name, checked: true });
+    inputs.push({type: 'radio', label: this.uploadItems[1].label, value: this.uploadItems[1].name, checked: false });
+    this.utilService.alertRadio('FILE_UPLOAD', '', inputs , 'CANCEL', 'OK').then((res) => {
+      if (res.data) {
+				console.log('uploadInfoAlert - res: ', res);
+				if (res.data == 'DOCS')
+					document.getElementById("modify-upload-docs").click()
+				else if (res.data == 'FAMILY')
+					document.getElementById("modify-upload-family").click()
+			}
+    });
+  }
 
 	uploadOnFileSelect(event: any, type: any): void {
     const files = [...event.target.files]
@@ -409,25 +395,69 @@ export class FilePage implements OnInit {
     this.uploadGetTextFile(file).then((res: any) => {
       if (DEBUGS.APP)
         console.log('uploadOnFile - res: ', res);
+
       if (res.text) {
 				// validate json file
 				if (type == 'FAMILY') {
 					let family = this.uploadValidateFamily(res.text);
 					if (family) {
-						this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
-							rdata.family = family;
-							this.fbService.saveAncestorData(rdata).then((status:any) => {
-								let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
-								this.utilService.presentToast(msg);
-							});
-						});
+						// family is ok, now check new image files
+						this.uploadValidateImage(res.text, true).then((res:any) => {
+							console.log('uploadValidateImage - res: ', res);
+							let newFiles = res[0];
+							if (newFiles.length > 0) {
+								// files not in storage, errors
+								this.uploadDisplayImageErrors(newFiles);
+							} else {
+								// build new images files
+								let storageImages = res[1]
+								let images = {};
+								storageImages.forEach((file:any) => {
+									images[file.name] = { url: file.url, type: file.type, size: file.size, width: file.width, height: file.height };
+								})
+								// update family and images to server
+								this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
+									// some time it's too slow to process file list, wait 2 sec
+									rdata.images = images;
+									rdata.family = family;
+									this.fbService.saveAncestorData(rdata).then((status:any) => {
+										let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
+										this.utilService.presentToast(msg);
+									});
+								});
+							}
+						})
+						
+					} else {
+						this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_INVALID'));
 					}
 				} else if (type == 'DOCS') {
 					let docs = this.uploadValidateDocs(res.text);
 					if (docs) {
-						this.fbService.saveDocsAll(this.ancestor, docs).then((status:any) => {
-							let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
-							this.utilService.presentToast(msg);
+						// docs is ok, now check new image files
+						this.uploadValidateImage(res.text, false).then((res:any) => {
+							console.log('uploadValidateImage - res: ', res);
+							let newFiles = res[0];
+							if (newFiles.length > 0) {
+								// files not in storage, errors
+								this.uploadDisplayImageErrors(newFiles);
+							} else {
+								// build new images files
+								let storageImages = res[1]
+								let images = {};
+								storageImages.forEach((file:any) => {
+									images[file.name] = { url: file.url, type: file.type, size: file.size, width: file.width, height: file.height };
+								})
+								// update docs and images to server
+								this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
+									rdata.images = images;
+									rdata.docs = docs;
+									this.fbService.saveAncestorData(rdata).then((status:any) => {
+										let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
+										this.utilService.presentToast(msg);
+									});
+								});
+							}
 						});
 					} else {
 						this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_INVALID'));
@@ -454,6 +484,7 @@ export class FilePage implements OnInit {
 	private uploadValidateFamily(text: any) {
 		let family: any = null;
 		try {
+			// check all image files exist!
 			family = JSON.parse(text);
 			// must have version, nodes and children. Date is not important
 			if (!family.version || !family.nodes || !family.children)
@@ -478,7 +509,6 @@ export class FilePage implements OnInit {
 			// must have vi, en, and pha_nhap
 			if (!docs.vi || !docs.en || !docs.vi.pha_nhap)
 				return null;
-			// set new version from local version (same as server version)
 			return docs;
 		} catch (error) {
 			console.log('uploadValidateDocs - error: ', error);
@@ -486,6 +516,80 @@ export class FilePage implements OnInit {
 		}		
   }
 	
+	private uploadValidateImage(text: any, photoMode: boolean) {
+    return new Promise((resolve) => {
+			// get image list from doc text
+			let docImages = this.uploadGetImages(text, photoMode);
+			//  get images from storage
+			this.fbService.getFileList(this.ancestor).then((storageImages:any) => {
+			//  get images from local
+				// wait 1 second for async to complete
+				setTimeout(() => {
+					let newFiles = [];
+					// go thru each image in doc
+					docImages.forEach(dimage => {
+						// compare with storageImages
+						let index = storageImages.findIndex((sitem: any) => sitem.name == dimage);
+						if (index == -1)
+							newFiles.push(dimage);
+					})
+					resolve([newFiles, storageImages]);
+				}, 1000);
+			});
+		});
+  }
+
+	private uploadGetImages(text: any, photoMode: boolean) {
+		// "[3|Mộ Tổ Đời 1.jpg|1|1|Tổ mộ, Nghĩa trang Đá Bạc]",
+		// "photo": "Phan Ngọc Luật.jpg",
+		// search photo
+		let images = [];
+		let i1 = 0;
+		if (photoMode) {
+			while (i1 < text.length) {
+				i1 = text.indexOf('"photo"', i1)
+				if (i1 > 0) {
+					i1 += 7;
+					i1 = text.indexOf('"', i1);
+					i1++;
+					let i2 = text.indexOf('"', i1);
+					let jpg = text.substring(i1, i2);
+					images.push(jpg);
+					i1 = i2 + 1;
+				} else
+					i1 = text.length + 1;
+			}
+		}
+		// search image
+		i1 = 0;
+		while (i1 < text.length) {
+			i1 = text.indexOf('[3|', i1)
+			if (i1 > 0) {
+				i1 += 3;
+				let i2 = text.indexOf('|', i1);
+				let jpg = text.substring(i1, i2);
+				images.push(jpg);
+				i1 = i2 + 1;
+			} else
+				i1 = text.length + 1;
+		}
+		let imageList = images.filter((item, pos) => {
+			return images.indexOf(item) == pos; 
+		});
+		return imageList;
+	}
+
+	uploadDisplayImageErrors(keys: any) {
+    let msgs = [];
+		msgs.push({name: 'msg', label: this.languageService.getTranslation('FILE_UPLOAD_FILES_NOT_AVAILABLE')});
+		msgs.push({name: 'msg', label: '&nbsp;'});
+		keys.forEach((key:any) => {
+			msgs.push({name: 'msg', label: '. ' + key});
+		})
+		console.log('msgs: ', msgs);
+    let message = this.utilService.getAlertMessage(msgs, true);
+		this.utilService.alertMsg('ERROR', message, 'OK', { width: 350, height: 450 }).then(choice => {});
+  }
 // --------- photoMode ----------
 	
 photoCreate(start: boolean) {

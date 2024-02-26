@@ -123,6 +123,7 @@
   "TREE_SELECT_PRINT_PDF_MSG_2": "' sẽ được tạo và cất vào hệ thống",
 	"TREE_VIEW_NAME": "Hệ",
   "TREE_VIEW_GENERATION": "Đời",
+  "TREE_ERROR_SAVE_FILE": "Không thể cất phả đồ cho hệ này!",
 	
   "NODE_NAME": "Họ tên",
   "NODE_GENDER": "Giới tính",
@@ -244,7 +245,7 @@
   "FILE_UPLOAD_MESSAGE_2": " lên mạng?",
 	"FILE_UPLOAD_FILE_INVALID": "File không hợp lệ hoặc Version không đổi!",
 	"FILE_UPLOAD_FILE_EMPTY": "File không có dữ liệu!",
-
+	"FILE_UPLOAD_FILES_NOT_AVAILABLE": "File hình không có trong hệ thống. Phải được upload lên mạng trước!",
   "FILE_UPLOAD_COMPLETE_1": "File: ",
   "FILE_UPLOAD_COMPLETE_2": " đã được upload lên mạng.",
   "FILE_UPLOAD_COMPLETE_3": "Dữ liệu hình đã được upload lên mạng.",
