@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { collection, collectionData, doc, Firestore, updateDoc, docData } from '@angular/fire/firestore';
+import { collection, collectionData, doc, Firestore, query, documentId, where, updateDoc, getDocs, getDoc, docData } from '@angular/fire/firestore';
 import { getStorage, getDownloadURL, ref, getMetadata, deleteObject, getBlob, listAll, Storage, uploadString } from '@angular/fire/storage';
 import { deleteDoc, setDoc } from 'firebase/firestore';
 import { Observable, from } from 'rxjs';
@@ -26,9 +26,20 @@ export class FirebaseService {
 	) {
 	}
 
-	getAncestors(): Observable<[]> {
+	getAncestors(): Observable<any> {
 		const colRef = collection(this.firestore, ROOT_COLLECTION);
-		return collectionData(colRef, { idField: 'id'}) as Observable<[]>;
+		return collectionData(colRef, { idField: 'id'}) as any;
+	}
+
+	async getDocument(id: any) {
+		alert ('getDocument - before getDoc')
+		const snap = await getDoc(doc(this.firestore, ROOT_COLLECTION, id))
+		alert ('getDocument - id: ' + id)
+		if (snap.exists())
+			return snap.data()
+		else
+			// return Promise.reject(Error(`No such document: ${ROOT_COLLECTION}.${id}`))
+			return null;
 	}
 
 	private getAncestorData(ancestor): Observable<any> {
@@ -104,16 +115,32 @@ export class FirebaseService {
 	readAncestorData(ancestor: string): Observable<any> {
 		return from(
 			new Promise((resolve, reject) => {
-				this.getAncestorData(ancestor).subscribe(
-				(rdata:any) => {
-					let data = {};
-					for (var key of Object.keys(rdata))
-						data[key] = JSON.parse(rdata[key]);
-					resolve(data);
-				},
-				(error:any) => {
-					reject(error);
+				this.getAncestorData(ancestor).subscribe({
+					next: (rdata:any) => {
+						let data = {};
+						for (var key of Object.keys(rdata))
+							data[key] = JSON.parse(rdata[key]);
+						resolve(data);
+					},
+					error: (error:any) => {
+						reject(error);
+					},
+					complete() {
+						console.log("is completed");
+						resolve(true);
+					},
 				})
+				// this.getAncestorData(ancestor).subscribe(
+				// 	(rdata:any) => {
+				// 		let data = {};
+				// 		for (var key of Object.keys(rdata))
+				// 			data[key] = JSON.parse(rdata[key]);
+				// 		resolve(data);
+				// 	},
+				// 	(error:any) => {
+				// 		reject(error);
+				// 	})
+
 			})
 		)
 	}
@@ -128,14 +155,26 @@ export class FirebaseService {
 
 	async readAppData() {
 		return new Promise((resolve, reject) => {
-			this.getAppData().subscribe(
-			(data:any) => {
-				resolve(data);
-			},
-			(error:any) => {
-				console.log('ERROR: ', error);
-				reject(error);
+			this.getAppData().subscribe({
+				next: (data:any) => {
+					resolve(data);
+				},
+				error: (error:any) => {
+					console.log('ERROR: ', error);
+					reject(error);
+				},
+				complete() {
+					console.log("is completed");
+					resolve(true);
+				},
 			})
+			// (data:any) => {
+			// 	resolve(data);
+			// },
+			// (error:any) => {
+			// 	console.log('ERROR: ', error);
+			// 	reject(error);
+			// })
 		})
 	}
 

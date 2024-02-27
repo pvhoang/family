@@ -410,14 +410,15 @@ export class FilePage implements OnInit {
 								this.uploadDisplayImageErrors(newFiles);
 							} else {
 								// build new images files
-								let storageImages = res[1]
+								let storageImages = res[1];
+								// some time it's too slow to process file list, wait 2 sec
+								setTimeout(() => {
 								let images = {};
 								storageImages.forEach((file:any) => {
 									images[file.name] = { url: file.url, type: file.type, size: file.size, width: file.width, height: file.height };
 								})
 								// update family and images to server
 								this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
-									// some time it's too slow to process file list, wait 2 sec
 									rdata.images = images;
 									rdata.family = family;
 									this.fbService.saveAncestorData(rdata).then((status:any) => {
@@ -425,6 +426,8 @@ export class FilePage implements OnInit {
 										this.utilService.presentToast(msg);
 									});
 								});
+								}, 2000);
+
 							}
 						})
 						
@@ -444,6 +447,8 @@ export class FilePage implements OnInit {
 							} else {
 								// build new images files
 								let storageImages = res[1]
+								// some time it's too slow to process file list, wait 2 sec
+								setTimeout(() => {
 								let images = {};
 								storageImages.forEach((file:any) => {
 									images[file.name] = { url: file.url, type: file.type, size: file.size, width: file.width, height: file.height };
@@ -457,6 +462,7 @@ export class FilePage implements OnInit {
 										this.utilService.presentToast(msg);
 									});
 								});
+								}, 2000);
 							}
 						});
 					} else {
@@ -518,6 +524,7 @@ export class FilePage implements OnInit {
 	
 	private uploadValidateImage(text: any, photoMode: boolean) {
     return new Promise((resolve) => {
+			this.utilService.presentLoading();
 			// get image list from doc text
 			let docImages = this.uploadGetImages(text, photoMode);
 			//  get images from storage
@@ -525,6 +532,8 @@ export class FilePage implements OnInit {
 			//  get images from local
 				// wait 1 second for async to complete
 				setTimeout(() => {
+					// console.log('uploadValidateDocs - docImages: ', docImages);
+					// console.log('uploadValidateDocs - storageImages: ', storageImages);
 					let newFiles = [];
 					// go thru each image in doc
 					docImages.forEach(dimage => {
@@ -533,8 +542,10 @@ export class FilePage implements OnInit {
 						if (index == -1)
 							newFiles.push(dimage);
 					})
+					// console.log('uploadValidateDocs - newFiles: ', newFiles);
+					this.utilService.dismissLoading();
 					resolve([newFiles, storageImages]);
-				}, 1000);
+				}, 3000);
 			});
 		});
   }

@@ -11,6 +11,8 @@ import { TranslateService } from "@ngx-translate/core";
 import { NodeService } from './services/node.service';
 import { FamilyService } from './services/family.service';
 import { FirebaseService } from './services/firebase.service';
+import { fromEvent, merge, of, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 const THEME = 'theme';
 const LANGUAGE = 'language';
@@ -49,6 +51,8 @@ export class AppComponent implements OnInit {
 	size: any;
 	splashTitle: any;
 	email: any;
+	networkStatus: boolean = false;
+	networkStatus$: Subscription = Subscription.EMPTY;
 
 	@ViewChild('popover') popover: any;
 	isOpen = false;
@@ -71,7 +75,7 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<any> {
-
+		
     // get URL
     let strings = window.location.href.split(window.location.host);
     let url = strings[strings.length-1];
@@ -90,11 +94,21 @@ export class AppComponent implements OnInit {
 		
 		// setup UI
 		this.initializeUI().then((status) => {
+
+			// internet must be available before start up
+			this.checkNetworkStatus().then(networkStatus => {
+				if (networkStatus == false) {
+					this.presentToast(['APP_NO_INTERNET']);
+					return;
+				}
+			});
+
 			if (ancestor == '') {
 				let superAdmin = this.translate_instant("APP_SUPER_ADMIN");
 				this.presentToast(['APP_NO_ANCESTOR_1','APP_NO_ANCESTOR_2',superAdmin]);
 				return;
-			} 
+			}
+
 			// ancestor must be valid before doing anything else
 			this.startAncestor(ancestor).then((stat) => {
 				if (!stat) {
@@ -119,6 +133,25 @@ export class AppComponent implements OnInit {
 			});
 		});
   }
+
+	// https://programatically.com/how-to-detect-internet-connection-status-in-angular-13
+	checkNetworkStatus() {
+		return new Promise((resolve) => {
+			this.networkStatus = navigator.onLine;
+			this.networkStatus$ = merge(
+				of(null),
+				fromEvent(window, 'online'),
+				fromEvent(window, 'offline')
+			)
+			.pipe(map(() => navigator.onLine))
+			.subscribe(status => {
+				// console.log('status', status);
+				this.networkStatus = status;
+				resolve (status);
+			});
+		})
+		
+	}
 
 	initializeUI() {
 		return new Promise((resolve) => {
@@ -207,7 +240,6 @@ export class AppComponent implements OnInit {
     let ok = this.translate_instant('OK');
 
 		// this.utilService.printVariable('before alertSelect', '--app-text-font-size-medium');
-
     let selects = [
       {   id: THEME,
 					value: this.theme,
@@ -383,23 +415,19 @@ export class AppComponent implements OnInit {
 			});
 		});
 	}
+	
 
 	async validateAncestor(ancestorID: any) {
-    return new Promise((resolve) => {
-      this.fbService.getAncestors().subscribe((ancestors:any) => {
-        if (DEBUGS.APP)
-          console.log('AppComponent - selectAncestor - ancestors: ', ancestors);
-        ancestors.forEach((ancestor: any) => {
-          if (ancestor.info) {
-            let info = JSON.parse(ancestor.info);
-            if (info.id == ancestorID)
-              resolve(true);
-          }
-        })
-        resolve (false);
-      });
-    });
-  }
+		return new Promise((resolve) => {
+			this.fbService.getDocument(ancestorID).then((data:any) => {
+				resolve (data ? true : false);
+			})
+			.catch((error: any) => {
+				console.log('AppComponent - validateAncestor - error: ', error);
+				resolve (false);
+			})
+		});
+	}
 
 	compareFamilyVersion(remoteFamily: any, localFamily: any) {
 		let rFamily = this.familyService.getFilterFamily(remoteFamily);
@@ -683,6 +711,7 @@ export class AppComponent implements OnInit {
 			"APP_NA_OPTION_3": "Liên lạc: ",
 			"APP_APP_VERSIONS_NOT_SAME_1": "Ấn bản trên máy đã cũ: ",
 			"APP_APP_VERSIONS_NOT_SAME_2": ". Yêu cầu xóa cache và chạy lại (F5)!",
+			"APP_NO_INTERNET": "Hệ thống không thể kết nối mạng!",
 			"INFO": "Thông báo",
       "ERROR": "Lỗi",
       "WARNING": "Cảnh báo",
@@ -728,6 +757,7 @@ export class AppComponent implements OnInit {
 			"APP_NA_OPTION_2": "' is not valid!<br/>Contact  <b>Phan Viết Hoàng (Viber 0903 592 592)</b>.",
 			"APP_APP_VERSIONS_NOT_SAME_1": "App is old: '",
 			"APP_APP_VERSIONS_NOT_SAME_2": "'. Please refresh memory (F5)!",
+			"APP_NO_INTERNET": "App can not connect to Internet!",
 			 "INFO": "Information",
 			 "ERROR": "Error",
 			 "WARNING": "Warning",

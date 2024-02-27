@@ -63,17 +63,9 @@
 
 		<div class="view-person-photo-parent" *ngIf="selectedNode && (this.selectedNode.yod != '' || this.selectedNode.dod != '' || this.selectedNode.pod != '')">
 			<img class="image1" [src]="image1.url" [attr.width]="image1.w" [attr.height]="image1.h" />
-			<!-- <img class="image2" [src]="image2.url" [attr.width]="image2.w" [attr.height]="image2.h" /> -->
-			<div class="image3">
-				<div class="click-zoom-save">
-					<!-- <label> -->
-						<!-- <input type="checkbox"> -->
-						<img id="image-zoom" [src]="image2.url" [attr.width]="image2.w" [attr.height]="image2.h" />
-					<!-- </label> -->
-				</div>
-			</div>
+			<img class="image2" [src]="image2.url" [attr.width]="image2.w" [attr.height]="image2.h" />
     </div>
-		
+
 		<p></p>
 		
 		<div class="person-tree" [ngStyle]="ftTreeService.getZoomStyle()">

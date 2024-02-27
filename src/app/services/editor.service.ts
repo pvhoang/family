@@ -110,24 +110,30 @@ export class EditorService {
 						// https://stackoverflow.com/questions/39858998/zoom-in-and-out-on-mouse-click-with-css
 						// https://stackoverflow.com/questions/73078680/you-may-need-an-additional-loader-to-handle-the-result-of-these-loaders-angular
 
+						// let html_save = 
+						// '<div class="' + data.container + '">' +
+						// 	'<div class="click-zoom">' +
+						// 		'<label>' +
+						// 			// '<input type="checkbox" onclick="setZoom()">' +
+						// 			'<input type="checkbox">' +
+						// 			'<img id="image-zoom" src="' + url + '" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
+						// 		'</label>' +
+						// 	'</div>' +
+						// '</div>';
+
 						html = 
 						'<div class="' + data.container + '">' +
-							'<div class="click-zoom">' +
-								'<label>' +
-									// '<input type="checkbox" onclick="setZoom()">' +
-									'<input type="checkbox">' +
-									'<img id="image-zoom" src="' + url + '" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
-								'</label>' +
-							'</div>' +
+							'<img src="' + url + '" class="viewer-home-container-image" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
 						'</div>';
 
 						// 	'<img src="' + url + '" class="viewer-home-container-image" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
 						// '</div>';
 
 						if (data.caption != '') {
-							let fontSizePercent = this.themeService.getRootProperty("--app-page-text-font-size");
-							let style = 'font-size: ' + fontSizePercent + ';';
-							html += '<div class="' + data.container + ' viewer-home-no-expand" style="' + style + '">' + data.caption + '</div>';
+							// let fontSizePercent = this.themeService.getRootProperty("--app-page-text-font-size");
+							// let style = 'font-size: ' + fontSizePercent + ';';
+							// html += '<div class="' + data.container + ' viewer-home-no-expand" style="' + style + '">' + data.caption + '</div>';
+							html += '<div class="' + data.container + ' viewer-home-no-expand">' + data.caption + '</div>';
 						}
 					} else {
 						html = 
