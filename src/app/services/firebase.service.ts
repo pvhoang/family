@@ -26,21 +26,39 @@ export class FirebaseService {
 	) {
 	}
 
-	getAncestors(): Observable<any> {
+	getAncestors(): Observable<[]> {
 		const colRef = collection(this.firestore, ROOT_COLLECTION);
-		return collectionData(colRef, { idField: 'id'}) as any;
+		return collectionData(colRef, { idField: 'id'}) as Observable<[]>;
 	}
 
-	async getDocument(id: any) {
-		alert ('getDocument - before getDoc')
-		const snap = await getDoc(doc(this.firestore, ROOT_COLLECTION, id))
-		alert ('getDocument - id: ' + id)
+	// async getDocument(id: any) {
+	// 	const snap = await getDoc(doc(this.firestore, ROOT_COLLECTION, id))
+	// 	if (snap.exists())
+	// 		return snap.data()
+	// 	else
+	// 		// return Promise.reject(Error(`No such document: ${ROOT_COLLECTION}.${id}`))
+	// 		return null;
+	// }
+
+	async getAncestor(ancestor: any) {
+		const snap = await getDoc(doc(this.firestore, ROOT_COLLECTION, ancestor))
 		if (snap.exists())
 			return snap.data()
 		else
 			// return Promise.reject(Error(`No such document: ${ROOT_COLLECTION}.${id}`))
 			return null;
 	}
+
+	async deleteAncestor(ancestor: any) {
+		await deleteDoc(doc(this.firestore, ROOT_COLLECTION, ancestor));
+	}
+
+	// deleteAncestor(ancestor: any) {
+	// 	return new Promise((resolve) => {
+	// 		deleteDoc(doc(this.firestore, ROOT_COLLECTION, ancestor));
+	// 		resolve (true);
+	// 	});
+	// }
 
 	private getAncestorData(ancestor): Observable<any> {
 		let id = ROOT_COLLECTION + '/' + ancestor;

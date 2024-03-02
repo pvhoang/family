@@ -75,6 +75,8 @@ export class HomePage implements OnInit{
 			if (DEBUGS.HOME)
 				console.log('HomePage - docs: ', docs);
 			this.dataService.readFamilyAndInfo().then((dat:any) => {
+				console.log('HomePage - dat: ', dat);
+
 				let family = dat.family;
 				let info: any = dat.info;
 				this.info = info;

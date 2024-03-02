@@ -581,10 +581,9 @@ export class AppComponent implements OnInit {
     });
   }
 
-	updateAppData() {
+  updateAppData() {
     return new Promise((resolve) => {
-			this.dataService.readAncestorData().then((data:any) => {
-			// this.dataService.readFamilyAndInfo().then((data:any) => {
+			this.dataService.readFamilyAndInfo().then((data:any) => {
 				let family = data.family;
 				let info = data.info;
 				// update screen height
@@ -592,36 +591,31 @@ export class AppComponent implements OnInit {
 				this.themeService.setScreenSize(nodes);
 				// get photo names from Storage
 				let ancestor = info.id;
-				// this.fbService.getPhotoNames(ancestor).then((names:any) => {
-				// 	this.dataService.saveItem('photos', { "id": "photos",	"data": names }).then((status:any) => {});
-				// })
+				this.fbService.getPhotoNames(ancestor).then((names:any) => {
+					this.dataService.saveItem('photos', { "id": "photos",	"data": names }).then((status:any) => {});
+				})
 				// always update info, docs and images data from Firebase
-
-				// always update all data from Firebase
 				this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
-
 					if (!rdata.images)
 						rdata.images = {};
+					this.dataService.saveItem('images', rdata.images).then((status:any) => {});
 					
-						// this.dataService.saveItem('images', rdata.images).then((status:any) => {});
-					// console.log('AppComponent - updateAppData - rdata.info: ', rdata.info);
-					// this.dataService.saveInfo(rdata.info).then((status:any) => {
-					// 	setTimeout(() => {
-					// 		this.dataService.readInfo().then((dat:any) => {
-					// 			console.log('AppComponent - updateAppData - info: ', dat);
-					// 		});
-					// 	}, 1000);
-					// });
-					// let docs = rdata.docs;
-					// parse docs
-
-					let language = this.languageService.getLanguage();
-					rdata.docs = this.updateDocs(rdata.images, rdata.docs[language]);
-
-					/// save to local
-					this.dataService.saveAncestorData(rdata).then((status:any) => {
-						resolve(true);
+					
+					console.log('AppComponent - updateAppData - rdata.info: ', rdata.info);
+					this.dataService.saveInfo(rdata.info).then((status:any) => {
+						setTimeout(() => {
+							this.dataService.readInfo().then((dat:any) => {
+								console.log('AppComponent - updateAppData - info: ', dat);
+							});
+						}, 1000);
 					});
+
+
+					let docs = rdata.docs;
+					// parse docs
+					let language = this.languageService.getLanguage();
+					this.updateDocs(rdata.images, docs[language]);
+					resolve(true);
 				});
 			});
 		});
@@ -660,8 +654,7 @@ export class AppComponent implements OnInit {
 				docs[key].html = docs[key].html.replaceAll(docStr, html);
 			}
 		}
-		return docs;
-		// this.dataService.saveDocs(docs).then((status:any) => {});
+		this.dataService.saveDocs(docs).then((status:any) => {});
 	}
 
 	private setJsonData(json: string) {

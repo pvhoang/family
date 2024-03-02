@@ -30,9 +30,9 @@ export class TreePage implements OnInit {
   treeClass = 'vertical-tree'
   viewMode = 2;
   CANCEL: string = '';
-  JPG: string = '';
+  JPEG: string = '';
   PDF: string = '';
-  TREE_POPOVER_PRINT_JPG: string = '';
+  TREE_POPOVER_PRINT_JPEG: string = '';
   TREE_POPOVER_PRINT_PDF: string = '';
 
   constructor(
@@ -49,9 +49,9 @@ export class TreePage implements OnInit {
     if (DEBUGS.TREE)
       console.log('TreePage - ngOnInit');
     this.CANCEL =  this.languageService.getTranslation('CANCEL');
-    this.JPG =  this.languageService.getTranslation('JPG');
+    this.JPEG =  this.languageService.getTranslation('JPEG');
     this.PDF =  this.languageService.getTranslation('PDF');
-    this.TREE_POPOVER_PRINT_JPG =  this.languageService.getTranslation('TREE_POPOVER_PRINT_JPG');
+    this.TREE_POPOVER_PRINT_JPEG =  this.languageService.getTranslation('TREE_POPOVER_PRINT_JPEG');
     this.TREE_POPOVER_PRINT_PDF =  this.languageService.getTranslation('TREE_POPOVER_PRINT_PDF');
     this.start();
 		this.ftTreeService.reset();
@@ -102,30 +102,27 @@ export class TreePage implements OnInit {
   }
 
   // https://github.com/tsayen/dom-to-image
-  onJPG() {
+  onJPEG() {
     let iddom = 'screen';
     let node = this.node;
     // let keys = this.utilService.stripVN(node.name).split(' ');
     // let nameStr = keys.join('_');
-    let fileName = node.name + '.jpg';
+    let fileName = node.name;
     let msg = this.utilService.getAlertMessage([
-      {name: 'msg', label: 'TREE_SELECT_PRINT_JPG_MSG_1'},
-      {name: 'data', label: fileName},
-      {name: 'msg', label: 'TREE_SELECT_PRINT_JPG_MSG_2'},
+      {name: 'msg', label: 'TREE_SELECT_PRINT_JPEG_MSG_1'},
+      {name: 'data', label: fileName + '.jpeg'},
+      {name: 'msg', label: 'TREE_SELECT_PRINT_JPEG_MSG_2'},
     ]);
     this.utilService.alertConfirm('ANNOUNCE', msg, 'CANCEL', 'CONTINUE').then((res) => {
       if (res.data) {
 				if (DEBUGS.TREE)
-					console.log('onJPG - res: ', res);
+					console.log('onJPEG - res: ', res);
         this.utilService.presentLoading();
         const ele = document.getElementById(iddom);
         const dashboardHeight = ele.clientHeight;
         const dashboardWidth = ele.clientWidth;
         let opts = { bgcolor: 'white', width: dashboardWidth, height: dashboardHeight, quality: 1.0 };
-				console.log('onJPG - ele: ', ele);
-        domtoimage.toPng(ele, opts).then((imgData:any) => {
-				// domtoimage.toJpeg(ele, opts).then((imgData:any) => {
-					// console.log('onJPG - imgData: ', imgData);
+        domtoimage.toJpeg(ele, opts).then((imgData:any) => {
 					if (imgData) {
 						var link = document.createElement('a');
 						link.download = fileName;

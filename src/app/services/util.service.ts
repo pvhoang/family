@@ -6,6 +6,7 @@ import { DEBUGS } from '../../environments/environment';
 import { SelectComponent } from '../components/select/select.component';
 import { LanguageService } from '../services/language.service';
 import { ThemeService } from '../services/theme.service';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,10 +26,22 @@ export class UtilService {
     public modalCtrl: ModalController,
 	) { }
 
+	// getLocalJsonFile1(url: string): Promise<any> {
+	// 	return new Promise((resolve, reject) => {
+	// 		this.http.get(url).toPromise().then((data:any) => {
+	// 			resolve(data);
+	// 		}).catch(err => {
+	// 			console.log('err: ', err);
+	// 			reject(err.error);
+	// 		});
+	// 	});
+	// }
+
 	getLocalJsonFile(url: string): Promise<any> {
 		return new Promise((resolve, reject) => {
-			this.http.get(url).toPromise().then((data:any) => {
-				resolve(data);
+			firstValueFrom(this.http.get<boolean>(url))
+			.then((data) => {
+				resolve (data);
 			}).catch(err => {
 				console.log('err: ', err);
 				reject(err.error);
@@ -38,15 +51,36 @@ export class UtilService {
 
 	getLocalTextFile(url: string): Promise<any> {
 		return new Promise((resolve, reject) => {
-			this.http.get(url, {responseType: 'text'}).toPromise().then((data:any) => {
-				resolve(data);
+			firstValueFrom(this.http.get<boolean>(url))
+			.then((data) => {
+				console.log(`Result: `, url, data);
+				resolve (data);
 			}).catch(err => {
+				console.log('err: ', err);
 				reject(err.error);
 			});
+
+			// this.http.get(url, {responseType: 'text'}).toPromise().then((data:any) => {
+			// 	resolve(data);
+			// }).catch(err => {
+			// 	reject(err.error);
+			// });
 		}).catch(err => {
 			console.log('err = ', err);
 		});
 	}
+
+	// getLocalTextFile(url: string): Promise<any> {
+	// 	return new Promise((resolve, reject) => {
+	// 		this.http.get(url, {responseType: 'text'}).toPromise().then((data:any) => {
+	// 			resolve(data);
+	// 		}).catch(err => {
+	// 			reject(err.error);
+	// 		});
+	// 	}).catch(err => {
+	// 		console.log('err = ', err);
+	// 	});
+	// }
 
 	getLocalImageFile(url: string): Promise<any> {
 		return new Promise((resolve, reject) => {
@@ -142,7 +176,7 @@ export class UtilService {
 		return await alert.onDidDismiss();
 	}
 
-	async alertConfirm(srcHeader, srcMessage, cancelText, okText) {
+	async alertConfirm(srcHeader, srcMessage, cancelText, okText, dialogDim?: any) {
 		let header = this.languageService.getTranslation(srcHeader);
 		if (!header)
 			header = srcHeader;
@@ -152,10 +186,10 @@ export class UtilService {
 
 		cancelText = this.languageService.getTranslation(cancelText);
 		okText = this.languageService.getTranslation(okText);
-
 		let css = 'alert-dialog';
-		this.themeService.setAlertSize({ width: 350, height: 400 });
-		
+		if (!dialogDim)
+			dialogDim = { width: 350, height: 400 };
+		this.themeService.setAlertSize(dialogDim);
 		let alert = await this.alertController.create({
       header: header,
 			message: message,
@@ -225,15 +259,16 @@ export class UtilService {
 		return await alert.onDidDismiss();
 	}
 
-	async alertText(srcHeader, inputs: any[], cancelText, okText, css?: any) {
+	async alertText(srcHeader, inputs: any[], cancelText, okText, dialogDim?: any) {
 		let header = this.languageService.getTranslation(srcHeader);
 		if (!header)
 			header = srcHeader;
 		cancelText = this.languageService.getTranslation(cancelText);
 		okText = this.languageService.getTranslation(okText);
-		if (!css)
-			css = 'alert-dialog';
-		this.themeService.setAlertSize({ width: 350, height: 400 });
+		let css = 'alert-dialog';
+		if (!dialogDim)
+			dialogDim = { width: 350, height: 400 };
+		this.themeService.setAlertSize(dialogDim);
 
 		let alert = await this.alertController.create({
       header: header,

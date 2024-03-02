@@ -14,16 +14,15 @@ import {NgxImageCompressService} from 'ngx-image-compress';
 import * as $ from 'jquery';
 
 @Component({
-  selector: 'app-file',
-  templateUrl: './file.page.html',
-  styleUrls: ['./file.page.scss'],
+  selector: 'app-filer',
+  templateUrl: './filer.page.html',
+  styleUrls: ['./filer.page.scss'],
 })
-export class FilePage implements OnInit {
+export class FilerPage implements OnInit {
 
   FONTS_FOLDER = FONTS_FOLDER;
   compareResults: any[] = [];
   cResults: any[] = [];
-  rootChanged: any = false;
 	compareCount = 0;
   isCompare: any = false;
   isSync: any = false;
@@ -34,9 +33,6 @@ export class FilePage implements OnInit {
   ancestor: any;
 	imageFiles:File[] = [];
 
-  compareMode = true;
-  manageMode = false;
-  modifyMode = false;
   imageMode = false;
   storageMode = false;
   photoMode = false;
@@ -64,9 +60,7 @@ export class FilePage implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-		private sanitizer: DomSanitizer,
     private familyService: FamilyService,
-    private nodeService: NodeService,
     private dataService: DataService,
     private languageService: LanguageService,
     private fbService: FirebaseService,
@@ -94,14 +88,13 @@ export class FilePage implements OnInit {
 
   start() {
 		this.resetModes();
-		this.uploadReset();
-    this.onCompareFamily();
+		this.dataService.readFamilyAndInfo().then((data:any) => {
+      this.ancestor = data.info.id;
+			this.family = data.family;
+		});
   }
 
 	resetModes() {
-    this.compareMode = false;
-    this.manageMode = false;
-    this.modifyMode = false;
     this.imageMode = false;
     this.storageMode = false;
     this.photoMode = false;
@@ -109,270 +102,22 @@ export class FilePage implements OnInit {
 		this.imageFileName = '';
     this.storageViewMode = false;
 		this.storageFileName = '';
-		this.rootChanged = false;
   }
-
-  onCompareFamily() {
-		this.resetModes();
-    this.dataService.readFamily().then((family:any) => {
-      this.family = family;
-      this.compareOnSync();
-			this.compareMode = true;
-    });
-  }
-
-	onManageFiles() {
-		this.resetModes();
-		this.manageMode = true;
-	}
-
-	onModifyFamily() {
-		this.resetModes();
-		this.modifyMode = true;
-	}
-
-	onUploadImages() {
-		this.resetModes();
-		this.imageMode = true;
-	}
-
-	onManageStorage() {
-		this.resetModes();
-		this.storageMode = true;
-		if (DEBUGS.FILE)
-			console.log('storage, compare: ', this.storageMode, this.compareMode);
-	}
-
-	// --- compareMode ---
-
-  async compareOnSync() {
-    this.rootChanged = false;
-    this.compareCount = 0;
-
-    this.dataService.readFamilyAndInfo().then((data:any) => {
-      let localFamily = data.family;
-      let info = data.info;
-      let ancestor = info.id;
-      this.ancestor = ancestor;
-			// this.downloadFileName = ancestor + '-' + this.utilService.getShortDateID('-') + '.json';
-			// this.downloadDocsName = ancestor + '-docs.json';
-			this.downloadFileName = 'family-' + this.utilService.getShortDateID('-') + '.json';
-			this.downloadDocsName = 'docs-' + this.utilService.getShortDateID('-') + '.json';
-      this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
-        let remoteFamily = rdata.family;
-				this.comparePrintNode('compareOnSync', localFamily, remoteFamily);
-
-        this.srcVersion = remoteFamily.version;
-        this.modVersion = localFamily.version;
-        this.compareResults = this.familyService.compareFamilies(remoteFamily, localFamily);
-				
-				if (DEBUGS.FILE)
-					console.log('compareOnSync - compareResults:' , this.compareResults);
-
-        if (this.compareResults.length == 1 && this.compareResults[0].srcName) {
-          // different root
-          this.message = this.languageService.getTranslation('FILE_COMPARE_ROOT_CHANGE_1') + this.compareResults[0].srcName + this.languageService.getTranslation('FILE_COMPARE_ROOT_CHANGE_2') + this.compareResults[0].desName + this.languageService.getTranslation('FILE_COMPARE_ROOT_CHANGE_3');
-          this.rootChanged = true;
-        } else {
-          // data changed
-          this.message = this.languageService.getTranslation('FILE_COMPARE_CHANGE_NUMBER') + this.compareResults.length;
-          this.compareResults = this.compareGetSyncResults(this.compareResults);
-					// console.log('compareSetSyncFamily - compareResults:' , this.compareResults);
-        }
-				if (DEBUGS.FILE)
-					this.comparePrintNode('compareOnSync', localFamily, remoteFamily);
-      });
-    });
-  }
-
-  compareOnCheck(event: any, row: any) {
-    row.select = event.detail.checked;
-		this.compareCount = this.compareSelectCount();
-  }
-
-  compareOnCheckAll(event: any) {
-    if (DEBUGS.FILE)
-      console.log('FilePage - onCheckAll - event.detail.checked: ', event.detail.checked);
-    for (let i = 0; i < this.compareResults.length; i++)
-        this.compareResults[i].select = event.detail.checked;
-    if (DEBUGS.FILE)
-      console.log('FilePage - onCheckAll - this.compareResults: ', this.compareResults);
-		this.compareCount = this.compareSelectCount();
-  }
-
-	compareSelectCount() {
-		let count = 0;
-		for (let i = 0; i < this.compareResults.length; i++)
-			count += this.compareResults[i].select ? 1 : 0;
-		return count;
-  }
-
-  private compareGetSyncResults(results: any) {
-    let res = [];
-    results.forEach(row => {
-      if (row.mode == 'ADD') {
-        let newNode = this.languageService.getTranslation('FILE_COMPARE_NEW_NODE');
-        let add = this.languageService.getTranslation('ADD')
-        res.push({name: row.name, item: '', key: row.key, mode: row.mode, label: newNode, id: '', old: '', new: add, select: false });
-      } else if (row.mode == 'REMOVE') {
-        let oldNode = this.languageService.getTranslation('FILE_COMPARE_OLD_NODE');
-        let remove = this.languageService.getTranslation('REMOVE')
-        res.push({name: row.name, item: '', key: row.key, mode: row.mode, label: oldNode, id: '', old: '', new: remove, select: false });
-      } else if (row.mode == 'MODIFY') {
-        for (let i = 0; i < row.items.length; i++) {
-          let item =  row.items[i];
-          let label = this.languageService.getTranslation(item.id);
-          if (item.id == 'NODE_GENDER') {
-            item.src = this.languageService.getTranslation(item.src);
-            item.mod = this.languageService.getTranslation(item.mod);
-          }
-          if (i == 0)
-            res.push({name: row.name, item: row.item, key: row.key, mode: row.mode, label: label, id: item.id, old: item.src, new: item.mod, select: false });
-          else
-            res.push({name: '', item: '', key: row.key, mode: row.mode, label: label, id: item.id, old: item.src, new: item.mod, select: false });
-        }
-      }
-    })
-		// make sure the difference fits to column
-		res.forEach((row:any) => {
-			if (row.old.length > 30)
-				row.old = row.old.substring(0, 30) + ' ...';
-			if (row.new.length > 30)
-				row.new = row.new.substring(0, 30) + ' ...';
-		})
-    return res;
-  }
-
-  comparePrintNode(message, localFamily, remoteFamily, newFamily?) {
-		let remoteNodes = this.nodeService.getFamilyNodes(remoteFamily, true);
-		let machineNodes = this.nodeService.getFamilyNodes(localFamily, true);
-		const remoteNode = remoteNodes.find((element) => element.name == 'Phan Dính');
-		const machineNode = machineNodes.find((element) => element.name == 'Phan Dính');
-		console.log('comparePrintNode - message: ' , message);
-		console.log('comparePrintNode - remote Node:' , remoteNode);
-		console.log('comparePrintNode - machine Node:' , machineNode);
-		if (newFamily) {
-			let newNodes = this.nodeService.getFamilyNodes(newFamily, true);
-			const newNode = newNodes.find((element) => element.name == 'Phan Dính');
-			console.log('comparePrintNode - new Node:' , newNode);
-		}
-	}
-
-  async compareSetSyncFamily() {
-
-    if (!this.rootChanged) {
-			if (this.compareCount == 0) {
-        // copy data from source back to local
-        this.utilService.presentLoading();
-        this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
-          this.dataService.saveItem('ANCESTOR_DATA', rdata).then((status:any) => {
-            this.utilService.dismissLoading();
-						let message = this.utilService.getAlertMessage([
-							{name: 'msg', label: 'FILE_COMPARE_SYNC_TREE_1'},
-							{name: 'data', label: 'V.'+this.srcVersion},
-							{name: 'msg', label: 'FILE_COMPARE_SYNC_TREE_2'},
-						]);
-						this.utilService.presentToast(message);
-          });
-        });
-        return;
-      }
-    }
-    
-    this.dataService.readFamilyAndInfo().then((data:any) => {
-      let localFamily = data.family;
-      let info = data.info;
-      let ancestor = info.id;
-      this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
-        let remoteFamily = rdata.family;
-				let family = this.rootChanged ? localFamily : this.familyService.getSyncFamily(remoteFamily, localFamily, this.compareResults, info);
-				// get new version
-        let lVersion = +localFamily.version;
-        let rVersion = +remoteFamily.version;
-        let nVersion = (lVersion > rVersion) ? lVersion : rVersion;
-        nVersion++;
-        let versionLabel = this.familyService.getVersionLabel(nVersion);
-        family.version = nVersion;
-				// set today date
-				family.date = this.utilService.getShortDateID('/');
-				// clean family before save
-				let cleanFamily = this.familyService.getFilterFamily(family, true);
-        rdata.family = cleanFamily;
-				this.utilService.presentLoading();
-        this.fbService.saveAncestorData(rdata).then((status:any) => {
-          this.fbService.saveBackupFamily(ancestor, cleanFamily, versionLabel).then((status:any) => {
-						this.utilService.dismissLoading();
-						let message = this.utilService.getAlertMessage([
-							{name: 'msg', label: 'FILE_COMPARE_SYNC_TREE_1'},
-							{name: 'data', label: 'V.'+family.version},
-							{name: 'msg', label: 'FILE_COMPARE_SYNC_TREE_2'},
-						]);
-						this.utilService.presentToast(message);
-          });
-        });
-      });
-    });
-  }
-	
-// --------- downloadMode ----------
-
-	downloadOnClick() {
-		let msg = this.utilService.getAlertMessage([
-			{name: 'msg', label: 'FILE_DOWNLOAD_MESSAGE_1'},
-			{name: 'data', label: this.downloadFileName + ', ' + this.downloadDocsName },
-			// {name: 'data', label: this.downloadFileName },
-			{name: 'msg', label: 'FILE_DOWNLOAD_MESSAGE_2'},
-		]);
-		this.utilService.alertConfirm('FILE_DOWNLOAD_START', msg, 'CANCEL', 'OK').then((res) => {
-			if (res.data) {
-				this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
-					// clean family data before save to local
-					let cleanFamily = this.familyService.getFilterFamily(rdata.family, true);
-					// let cleanBranch = this.familyService.getFilterFamily(rdata.branch, true);
-					rdata.family = cleanFamily;
-					// rdata.branch = rdata.branch;
-					// save just family, because docs is html-based text! Can not change simply with text editor.
-					// save family
-					let data = JSON.stringify(cleanFamily, null, 2);
-					const blobFamily = new Blob([data], {
-						type: 'application/octet-stream'
-					});
-					this.downloadFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blobFamily));
-					// https://stackoverflow.com/questions/11620698/how-to-trigger-a-file-download-when-clicking-an-html-button-or-javascript
-					
-					// save docs
-					let docs = JSON.stringify(rdata.docs, null, 2);
-					const blobDocs = new Blob([docs], {
-						type: 'application/octet-stream'
-					});
-					this.downloadDocsUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blobDocs));
-
-					setTimeout(() => {
-						document.getElementById("modify-download").click();
-						document.getElementById("modify-download-docs").click();
-						this.utilService.presentToast(this.languageService.getTranslation('FILE_DOWNLOAD_COMPLETE'), 5000);
-					}, 200);
-				});
-			}
-		});
-	}
 
 	// --- uploadMode ---
 
-	uploadReset() {
-		this.uploadItems = [
+	async uploadInfoAlert() {
+
+		const uploadItems = [
 			{ name: 'DOCS', label: this.languageService.getTranslation('FILE_UPLOAD_DOCS') },
 			{ name: 'FAMILY' , label: this.languageService.getTranslation('FILE_UPLOAD_FAMILY') },
-			{ name: 'IMAGES' , label: this.languageService.getTranslation('FILE_UPLOAD_IMAGES') },
-			{ name: 'EXIT' , label: this.languageService.getTranslation('FILE_UPLOAD_EXIT') }
+			{ name: 'INFO' , label: this.languageService.getTranslation('FILE_UPLOAD_INFO') },
 		]
-		this.uploadItemsPlaceholder = this.languageService.getTranslation('FILE_UPLOAD_PLACEHOLDER');
-	}
-
-	async uploadInfoAlert() {
+		// this.uploadItemsPlaceholder = this.languageService.getTranslation('FILE_UPLOAD_PLACEHOLDER');
     let inputs = [];
-    inputs.push({type: 'radio', label: this.uploadItems[0].label, value: this.uploadItems[0].name, checked: true });
-    inputs.push({type: 'radio', label: this.uploadItems[1].label, value: this.uploadItems[1].name, checked: false });
+    inputs.push({type: 'radio', label: uploadItems[0].label, value: uploadItems[0].name, checked: true });
+    inputs.push({type: 'radio', label: uploadItems[1].label, value: uploadItems[1].name, checked: false });
+    inputs.push({type: 'radio', label: uploadItems[2].label, value: uploadItems[2].name, checked: false });
     this.utilService.alertRadio('FILE_UPLOAD', '', inputs , 'CANCEL', 'OK').then((res) => {
       if (res.data) {
 				console.log('uploadInfoAlert - res: ', res);
@@ -380,9 +125,20 @@ export class FilePage implements OnInit {
 					document.getElementById("modify-upload-docs").click()
 				else if (res.data == 'FAMILY')
 					document.getElementById("modify-upload-family").click()
+				else if (res.data == 'INFO')
+					document.getElementById("modify-upload-info").click()
 			}
     });
   }
+
+	// async uploadInfoAlert1(type: any) {
+
+	// 	if (type == 'DOCS')
+	// 		document.getElementById("modify-upload-docs").click()
+	// 	else if (type == 'FAMILY')
+	// 		document.getElementById("modify-upload-family").click()
+
+	// }
 
 	uploadOnFileSelect(event: any, type: any): void {
     const files = [...event.target.files]
@@ -427,13 +183,13 @@ export class FilePage implements OnInit {
 									});
 								});
 								}, 2000);
-
 							}
 						})
 						
 					} else {
 						this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_INVALID'));
 					}
+
 				} else if (type == 'DOCS') {
 					let docs = this.uploadValidateDocs(res.text);
 					if (docs) {
@@ -468,7 +224,23 @@ export class FilePage implements OnInit {
 					} else {
 						this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_INVALID'));
 					}
+					
+				} else if (type == 'INFO') {
+					let info = this.uploadValidateInfo(res.text);
+					if (info) {
+						// update info to server
+						this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
+							rdata.info = info;
+							this.fbService.saveAncestorData(rdata).then((status:any) => {
+								let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
+								this.utilService.presentToast(msg);
+							});
+						});
+					} else {
+						this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_INVALID'));
+					}
 				}
+				
       } else {
 				this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_EMPTY'));
       }
@@ -488,10 +260,10 @@ export class FilePage implements OnInit {
   }
 
 	private uploadValidateFamily(text: any) {
-		let family: any = null;
 		try {
 			// check all image files exist!
-			family = JSON.parse(text);
+			let family = JSON.parse(text);
+			// console.log('uploadValidateFamily - family: ', family);
 			// must have version, nodes and children. Date is not important
 			if (!family.version || !family.nodes || !family.children)
 				return null;
@@ -513,11 +285,26 @@ export class FilePage implements OnInit {
 		try {
 			docs = JSON.parse(text);
 			// must have vi, en, and pha_nhap
-			if (!docs.vi || !docs.en || !docs.vi.pha_nhap)
+			if (!docs.vi || !docs.en || !docs.vi.pha_nhap|| !docs.vi.pha_ky || !docs.vi.pha_he || !docs.vi.pha_do || !docs.vi.ngoai_pha || !docs.vi.phu_khao )
 				return null;
 			return docs;
 		} catch (error) {
 			console.log('uploadValidateDocs - error: ', error);
+			return null;
+		}		
+  }
+
+	private uploadValidateInfo(text: any) {
+		let info: any = null;
+		try {
+			info = JSON.parse(text);
+			console.log('uploadValidateInfo - info: ', info);
+			// must have id, name, location
+			if (!info.id || !info.name || !info.location)
+				return null;
+			return info;
+		} catch (error) {
+			console.log('uploadValidateInfo - info: ', info);
 			return null;
 		}		
   }
@@ -606,12 +393,11 @@ export class FilePage implements OnInit {
 photoCreate(start: boolean) {
 	if (start) {
 		this.resetModes();
-		this.manageMode = false;
 		this.photoMode = true;
 		this.photoBase64 = '';
 		this.photo = '';
-	}
-	document.getElementById("photo-image").click();
+	} else
+		document.getElementById("photo-image").click();
 }
 
 photoGetFile(event: any): void {
@@ -624,6 +410,7 @@ photoGetFile(event: any): void {
 		let base64 = event.target.result;
 		this.photoBase64 = base64;
 		this.photo = name;
+		this.photoNew = true;
 	});
 }
 
@@ -632,23 +419,23 @@ photoSave() {
 		this.photoUpload( this.photo, this.ancestor, this.photoBase64, null);
 }
 
-photoDelete() {
-	this.photoBase64 = '';
-	this.photoNew = true;
-	this.photo = '';
-}
+// photoDelete() {
+// 	this.photoBase64 = '';
+// 	this.photoNew = true;
+// 	this.photo = '';
+// }
 
 photoEdit() {
-	this.openCropperModal(this.photoBase64, true);
+	this.openCropperModal(this.photoBase64);
 }
 
-async openCropperModal(photoBase64: any, url: any) {
+async openCropperModal(base64: any) {
 	const cropperModal = await this.modalCtrl.create({
 		component: CropperModalPage,
+		// component: CroppieComponent,
 		componentProps: {
-			'caller': 'NodePage',
-			'data': photoBase64,
-			'url': url
+			'caller': 'FilerPage',
+			'base64': base64,
 		},
 		cssClass: 'modal-dialog',
 		backdropDismiss:false
@@ -657,7 +444,7 @@ async openCropperModal(photoBase64: any, url: any) {
 	const { data } = await cropperModal.onDidDismiss();
 	if (data.result) {
 		this.photoBase64 = data.result;
-		this.photoNew = true;
+		this.photoNew = false;
 	}
 }
 
@@ -734,11 +521,10 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
 	imageOnClick(start: boolean) {
 		if (start) {
 			this.resetModes();
-			this.manageMode = false;
 			this.imageMode = true;
 			this.imageFiles = [];
-		}
-		document.getElementById("modify-image").click();
+		} else
+			document.getElementById("modify-image").click();
 	}
 
 	// https://bobbyhadz.com/blog/check-image-width-and-height-before-upload-using-javascript
@@ -826,7 +612,6 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
 		reader.onload = ((event:any) => {
 			$('#image-view').attr('src', event.target.result);
 		});
-    
   }
 
   imageOnUpload(file:File) {
@@ -837,9 +622,14 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
 
 	// --- storageMode ---
 
+	storageOnClick() {
+		this.resetModes();
+		this.storageMode = true;
+		this.storageFiles = [];
+	}
+
   storageReadFiles(): void {
     this.resetModes();
-    this.manageMode = false;
     this.storageMode = true;
     this.fbService.getFileList(this.ancestor).then((res:any) => {
       this.storageFiles = res;
@@ -872,8 +662,12 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
       console.log('onStorageView - file: ', file);
     this.storageViewMode = true;
     this.storageFileName = file.name;
-		if (['png', 'jpg', 'jpeg'].indexOf(file.type) > -1) {
+
+		// if (['png', 'jpg', 'jpeg'].indexOf(file.type) > -1) {
+		if (file.type.indexOf('image') >= 0) {
       let img = document.getElementById('storage-view');
+			if (DEBUGS.FILE)
+      console.log('onStorageView - img: ', img);
 			if (!img) {
 				// some time too early to activate dom, wait 200 ms
 				setTimeout(() => {

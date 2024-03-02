@@ -16,7 +16,7 @@ export const environment = {
 export const FONTS_FOLDER = '../../assets/fonts/';
 
 export const DEBUGS = {
-  'APP': false,
+  'APP': true,
   'SPLASH': false,
   'THEME': false,
   'TABS': false,

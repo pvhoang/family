@@ -50,8 +50,8 @@
 // Add w3 shell styles
 @import "theme/w3.scss";
 
-// Add final family styles
-@import "theme/family.scss";
+// Add finally app styles
+@import "theme/app.scss";
 
 // PROJECT GLOBAL STYLES
 @import "~@ng-select/ng-select/themes/default.theme.css";
@@ -270,6 +270,7 @@ ion-tab-button {
 	.grid {
 		// --ion-grid-column-padding: 10px;
 		width: 100%;
+		// height: 50px;
 		font-size: var(--app-text-font-size-medium);
 		ion-row:first-child {
 			font-weight: bold;
@@ -754,7 +755,7 @@ ion-tab-button {
       align-items: center;
       justify-content: center;
       margin-top:10px;
-      margin-bottom:20px;
+      margin-bottom:10px;
       margin-left:20px;
       h2 {
         // color: var(--app-color);
@@ -769,7 +770,7 @@ ion-tab-button {
       color: black;
 			// color: var(--app-color);
       // line-height: 120%;
-      line-height: 110%;
+      line-height: 100%;
     }
     .alert-button-group {
       justify-content: center;
@@ -805,6 +806,9 @@ ion-tab-button {
       margin-left: auto;
       margin-right: auto;
       width: 50%;
+    }
+		.alert-input{
+      height: 26px;
     }
   }
 }

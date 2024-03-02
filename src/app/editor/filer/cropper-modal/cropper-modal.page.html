@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-item class="header-bottom">
+		<ion-col size="6" class="heading" (click)="onCancel()">
+			<ion-button class="button" fill="clear">
+				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
+			</ion-button>
+			<span class="label">{{ 'CANCEL' | translate }}</span>
+		</ion-col>
+    <ion-col size="6" class="heading" (click)="onSave()">
+      <ion-button class="button" fill="clear">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}content-save-outline.svg" class="icon"></ion-icon>
+      </ion-button>
+      <span class="label">{{ 'SAVE' | translate }}</span>
+    </ion-col>
+  </ion-item>
+</ion-header>
+
+<ion-content>
+  <div>
+    <image-cropper
+      [imageChangedEvent]="imageChangedEvent"
+      [imageBase64]="base64"
+      format="png"
+			output="base64"
+      (imageCropped)="imageCropped($event)"
+      (imageLoaded)="imageLoaded()"
+      (cropperReady)="cropperReady($event)"
+      (loadImageFailed)="loadImageFailed()"
+    ></image-cropper>
+  </div>
+  
+  <img [src]="croppedImage" />
+  
+</ion-content>
+

@@ -7,8 +7,13 @@ const routes: Routes = [
     loadChildren: () => import('./viewer/home/home.module').then(m => m.HomePageModule)
   },
   {
-    path: ':ancestor/aedit',
-    loadChildren: () => import('./editor/tabs/tabs.module').then(m => m.TabsPageModule)
+    path: ':ancestor/:admin_code',
+    loadChildren: () => import('./editor/filer/filer.module').then(m => m.FilerPageModule)
+    // loadChildren: () => import('./editor/tabs/tabs.module').then(m => m.TabsPageModule)
+  },
+	{
+    path: 'filer',
+    loadChildren: () => import('./editor/filer/filer.module').then( m => m.FilerPageModule)
   },
   {
     path: 'person',
@@ -21,7 +26,7 @@ const routes: Routes = [
   {
     path: 'tree',
     loadChildren: () => import('./viewer/vnode/tree/tree.module').then( m => m.TreePageModule)
-  },
+  }
 ];
 @NgModule({
   imports: [

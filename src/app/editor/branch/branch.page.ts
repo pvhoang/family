@@ -171,7 +171,7 @@ export class BranchPage implements OnInit {
           attributes: { maxlength: 50 },
       }
     ]
-    this.utilService.alertText(title, inputs , cancel, ok, 'alert-dialog').then(result => {
+    this.utilService.alertText(title, inputs , cancel, ok).then(result => {
       console.log('getAncestor - add - result: ', result);
       if (result.data) {
         let bname = result.data[0];

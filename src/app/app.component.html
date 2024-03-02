@@ -1,18 +1,4 @@
 
 <ion-app>
-<!-- <div *ngIf="!startUp">
-	not work on Android
-	<div class="screen-app"></div>
-</div> -->
-
-<!-- <div *ngIf="startUp">
-	<splash-screen (onComplete)="onSplashComplete($event)" [url]="url" [mode]="mode"></splash-screen>
-	<div *ngIf="startApp">
-		<ion-router-outlet></ion-router-outlet>
-	</div>
-</div> -->
-
-<splash-screen *ngIf="startUp" (onComplete)="onSplashComplete($event)" [url]="url" [mode]="mode" [title]="splashTitle" [lang]="language"></splash-screen>
 <ion-router-outlet *ngIf="startApp"></ion-router-outlet>
-
 </ion-app>

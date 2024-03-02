@@ -1,6 +1,6 @@
 <ion-header>
 
-  <ion-item class="viewer-header-top" *ngIf="!ftTreeService.isMobilePlatform()">
+  <ion-item class="app-header" *ngIf="!ftTreeService.isMobilePlatform()">
 		<ion-col size="2" class="heading" (click)="onExit()">
       <ion-button class="button" fill="clear" (click)="onExit()">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
@@ -34,7 +34,7 @@
 		</ion-col>
   </ion-item>
 
-	<ion-item class="viewer-header-top" *ngIf="ftTreeService.isMobilePlatform()">
+	<ion-item class="app-header" *ngIf="ftTreeService.isMobilePlatform()">
 		<ion-col size="3" class="heading" (click)="onExit()">
       <ion-button class="button" fill="clear" (click)="onExit()">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
@@ -58,7 +58,7 @@
   </ion-item>
 </ion-header>
 
-<ion-content [fullscreen]="false" class="ion-padding">
+<ion-content [fullscreen]="true">
 	
 		<div class="screen-node" id="full-tree">
 			<div [ngStyle]="ftTreeService.getZoomStyle()">

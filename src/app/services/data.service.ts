@@ -47,6 +47,47 @@ export class DataService {
       console.log('DataService - printItem - key:' , JSON.stringify(key, null, 4) )
 	}
 
+	readAncestorData(type?: any) {
+    return new Promise((resolve) => {
+      this.readItem('ANCESTOR_DATA').then((data:any) => {
+				if (!type)
+					resolve(data);
+				else if (type == 'INFO')
+					resolve(data.info);
+				else if (type == 'DOCS')
+					resolve(data.docs);
+				else if (type == 'FAMILY')
+					resolve(data.family);
+				else if (type == 'IMAGES')
+					resolve(data.images);
+				else if (type == 'BRANCH')
+					resolve(data.branch);
+      });
+    })
+  }
+
+	saveAncestorData(value: any, type?: any) {
+    return new Promise((resolve) => {
+      this.readItem('ANCESTOR_DATA').then((data:any) => {
+				if (!type)
+					data = value;
+				else if (type == 'INFO')
+					data.info = value;
+				else if (type == 'DOCS')
+					data.docs = value;
+				else if (type == 'FAMILY')
+					data.family = value;
+				else if (type == 'IMAGES')
+					data.images = value;
+				else if (type == 'BRANCH')
+					data.branch = value;
+				this.saveItem('ANCESTOR_DATA', data).then((status) => {
+						resolve(true);
+				});
+      });
+    })
+  }
+
   readFamily() {
     return new Promise((resolve) => {
       this.readItem('ANCESTOR_DATA').then((adata:any) => {
@@ -177,9 +218,31 @@ export class DataService {
     return new Promise((resolve) => {
       this.readItem('ANCESTOR_DATA').then((adata:any) => {
         adata.docs = docs;
-        this.saveItem('ANCESTOR_DATA', adata).then((status) => {});
-        resolve(true);
+        this.saveItem('ANCESTOR_DATA', adata).then((status) => {
+					resolve(true);
+				});
       });
+    });
+  }
+
+	saveInfo(info: any) {
+    return new Promise((resolve) => {
+      this.readItem('ANCESTOR_DATA').then((adata:any) => {
+        adata.info = info;
+        // adata.info = JSON.parse(JSON.stringify(info))
+				// console.log('AppComponent - saveInfo - adata.info: ', adata.info);
+        this.saveItem('ANCESTOR_DATA', adata).then((status) => {
+					resolve(true);
+				})
+				.catch((error) => {
+					console.log('saveInfo - error: ', error.message);
+					resolve(false);
+				});
+      })
+			.catch((error) => {
+				console.log('saveInfo - error1: ', error.message);
+				resolve(false);
+			});
     });
   }
 }
