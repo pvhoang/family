@@ -4,7 +4,7 @@ import { FlipSetting, SizeType } from '../Settings';
 import { FlipCorner, FlippingState } from '../Flip/Flip';
 import { Orientation } from '../Render/Render';
 
-const UI_DEBUG = true;
+const UI_DEBUG = false;
 
 type SwipeData = {
     point: Point;

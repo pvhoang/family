@@ -14,10 +14,10 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
-import { CropperModalPageModule } from './editor/file/cropper-modal/cropper-modal.module';
 import { PopoverComponent } from './components/popover/popover.component';
 import { SelectComponent } from './components/select/select.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { VgCoreModule, } from '@videogular/ngx-videogular/core';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -39,7 +39,6 @@ export function createTranslateLoader(http: HttpClient) {
 			}),
 			AppRoutingModule,
 			HttpClientModule,
-			CropperModalPageModule,
 			TranslateModule.forRoot({
 					loader: {
 							provide: TranslateLoader,
@@ -52,6 +51,7 @@ export function createTranslateLoader(http: HttpClient) {
 			provideAuth(() => getAuth()),
 			provideStorage(() => getStorage()),
 			BrowserAnimationsModule,
+			VgCoreModule
     ],
     providers: [{
             provide: RouteReuseStrategy,

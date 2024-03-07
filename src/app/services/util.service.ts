@@ -347,6 +347,24 @@ export class UtilService {
 
 	// TOAST
 
+	presentToastOK(keys: any) {
+    let msgs = [];
+		keys.forEach((key:any) => {
+			let item = {};
+			let msg = this.languageService.getTranslation(key);
+			if (msg == key) {
+				// key is not translatable
+				item = {name: 'data', label: '&emsp;' + key};
+			} else {
+				// key is translatable
+				item = {name: 'msg', label: msg};
+			}
+			msgs.push(item);
+		})
+    let message = this.getAlertMessage(msgs, true);
+		this.presentToastWait(null, message, 'OK', 10000);
+  }
+
 	async presentToastWait(srcHeader: any, srcMessage: any, okText, waitTime?: number) {
 		
 		let header = null;

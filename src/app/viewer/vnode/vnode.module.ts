@@ -5,8 +5,6 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FamilyTreeModule } from '../../components/family-tree/family-tree.module';
-import { PinchZoomModule } from '../../components/pinch-zoom/pinch-zoom.module';
-
 import { VnodePageRoutingModule } from './vnode-routing.module';
 import { VnodePage } from './vnode.page';
 
@@ -16,7 +14,6 @@ import { VnodePage } from './vnode.page';
     FormsModule,
     IonicModule,
     NgSelectModule,
-		PinchZoomModule,
     FamilyTreeModule,
     TranslateModule,
     VnodePageRoutingModule

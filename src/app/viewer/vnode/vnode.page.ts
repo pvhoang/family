@@ -8,7 +8,6 @@ import { FtTreeService } from '../../services/ft-tree.service';
 import { Family, Node, FAMILY} from '../../services/family.model';
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
 import { TreePage } from './tree/tree.page';
-import { PinchZoomComponent } from '../../components/pinch-zoom/pinch-zoom.component';
 
 const WAIT_TIME = 500;
 
@@ -22,8 +21,6 @@ const WAIT_TIME = 500;
 export class VnodePage implements OnInit {
 
   @Input() caller: string;
-
-	@ViewChild('myPinch') pinchZoom: PinchZoomComponent;
 
   FONTS_FOLDER = FONTS_FOLDER;
   modalDataResponse: any;
@@ -166,7 +163,7 @@ export class VnodePage implements OnInit {
 	}
 
   startFromStorage() {
-    this.dataService.readFamilyAndInfo().then((data:any) => {
+    this.dataService.readAncestorData().then((data:any) => {
       if (DEBUGS.VNODE)
         console.log('NodePage - startFromStorage - data: ', data);
       this.info = data.info;

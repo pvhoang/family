@@ -24,9 +24,6 @@ const EDIT_MODE = 'edit';
 // superadmin
 const URL_CREATE_ANCESTOR = '/s_create';
 const URL_DELETE_ANCESTOR = '/s_delete';
-// admin
-const OPTION_UPDATE_VERSION = 'aupdate';
-// const OPTION_EDIT = '1234';				// no slash !important
 // user
 const OPTION_SETTING = 'doi'
 const OPTION_DELETE = 'xoa';
@@ -46,6 +43,7 @@ export class AppComponent implements OnInit {
 	fileName: any;
 	theme: any;
 	language: any;
+	langTable: any;
 	size: any;
 	splashTitle: any;
 	email: any;
@@ -111,28 +109,26 @@ export class AppComponent implements OnInit {
 			}
 
 			// ancestor must be valid before doing anything else
-			this.startAncestor(ancestor).then((info: any) => {
-				if (!info) {
+			this.startAncestor(ancestor).then((rdata: any) => {
+				if (!rdata) {
 					let superAdmin = this.translate_instant("APP_SUPER_ADMIN");
 					this.presentToast(['APP_NA_ANCESTOR_1', ancestor, 'APP_NA_ANCESTOR_2', 'APP_NA_ANCESTOR_3', superAdmin]);
 					return;
 				}
-				// console.log('option, info: ', option, info);
+				let info = rdata.info;
 				// --- admin tasks
-				if (option == OPTION_UPDATE_VERSION)
-					this.updateVersion();
-				else if (option == info.admin_code) {
+				if (option == info.admin_code) {
 					this.mode = EDIT_MODE;
 					this.startUp = false;
 					this.startApp = true;
-					this.initializeApp();
+					this.initializeApp(rdata);
 					// --- user tasks
 				} else if (option == OPTION_DELETE)
 					this.deleteLocal();
 				else if (option == OPTION_SETTING)
 					this.setSetting();
 				else if (option == '')
-					this.initializeApp();
+					this.initializeApp(rdata);
 				else
 					this.presentToast(['APP_NA_OPTION_1', option, 'APP_NA_OPTION_2', 'APP_NA_OPTION_3', this.email]);
 			});
@@ -172,12 +168,17 @@ export class AppComponent implements OnInit {
 						this.size = size;
 						size = MEDIUM_SIZE;
 						if (DEBUGS.APP)
-							console.log('initializeUI - theme, language, size: ', this.theme, this.language, this.size)
-						// now read theme constants and set system properties
-						let jsonFile = './assets/common/' + theme + '/themes.json';
-						this.utilService.getLocalJsonFile(jsonFile).then((themes:any) => {
-							this.themeService.setSystemProperties(themes, theme, size);
-							resolve(true);
+							console.log('initializeUI - theme, language, size: ', this.theme, this.language, this.size);
+
+						// now read language translation table, theme table, and set system properties
+						let langFile = './assets/i18n/' + language + '.json';
+						let themeFile = './assets/common/' + theme + '/themes.json';
+						this.utilService.getLocalJsonFile(langFile).then((lang:any) => {
+							this.utilService.getLocalJsonFile(themeFile).then((themes:any) => {
+								this.langTable = lang;
+								this.themeService.setSystemProperties(themes, theme, size);
+								resolve(true);
+							});
 						});
 					});
 				});
@@ -185,7 +186,7 @@ export class AppComponent implements OnInit {
 		});
 	}
 
-  initializeApp() {
+  initializeApp(rdata: any) {
     // let str = this.platform.platforms().toString();
     // PLATFORM STR
     // localhost: mobile, mobileweb
@@ -193,8 +194,8 @@ export class AppComponent implements OnInit {
     // android: android, phablet, pwa, mobile, mobileweb
     // ios: iphone, ios, phablet, mobile, mobileweb
     environment.android = this.platform.is('android');
-    this.updateVersionData().then(stat => {
-      this.updateAppData().then(status => {
+    // this.updateVersionData(rdata).then(stat => {
+      this.updateAppData(rdata).then(status => {
 				if (DEBUGS.APP)
 					console.log('initializeApp - status, mode: ', status, this.mode);
 				if (status) {
@@ -203,13 +204,9 @@ export class AppComponent implements OnInit {
 						this.startUp = true;
 					else
 						this.startApp = true;
-
-					this.dataService.readItem('ANCESTOR_DATA').then((adata:any) => {
-						console.log('initializeApp - info: ', adata.info);
-					});
 				}
 			});
-    });
+    // });
   }
 
   onSplashComplete(event: any) {
@@ -225,13 +222,6 @@ export class AppComponent implements OnInit {
     });
   }
 
-  updateVersion() {
-    let data = { version: environment.version };
-    this.fbService.saveAppData(data).then((status:any) => {
-      this.presentToast(['APP_NEW_VERSION_IS_UPDATED', environment.version]);
-    });
-  }
-	
 	async setSetting() {
 		let title = this.translate_instant('APP_SETTING');
     let cancel = this.translate_instant('CANCEL');
@@ -374,7 +364,6 @@ export class AppComponent implements OnInit {
 							let heading = this.translate_instant('ERROR');
 							// already exist, can not add
 							this.presentToast(['APP_ANCESTOR_ID_EXIST_1', ancestor, 'APP_ANCESTOR_ID_EXIST_2']);
-							// this.utilService.alertMsg(heading, ancestor, 'OK', { width: 350, height: 200 }).then(stat => {});
 						} else {
 							this.createBaseAncestor(result.data).then((rdata:any) => {
 								console.log('AppComponent - createAncestor - rdata: ', rdata);
@@ -390,8 +379,7 @@ export class AppComponent implements OnInit {
   }
 
 	deleteAncestor() {
-
-		this.fbService.getAncestors().subscribe((ancestors:any) => {
+		this.fbService.getAncestors().then((ancestors:any) => {
 			if (DEBUGS.APP)
 				console.log('AppComponent - deleteAncestor - ancestors: ', ancestors);
 			let inputs = [];
@@ -403,16 +391,12 @@ export class AppComponent implements OnInit {
 				}
 			})
 			let heading = this.translate_instant('APP_DELETE_ANCESTOR');
-			
 			this.utilService.alertRadio(heading, '', inputs , this.translate_instant('CANCEL'), this.translate_instant('OK')).then(result => {
 				if (result.data) {
 					let ancestorID = result.data;
-					console.log('AppComponent - deleteAncestor - ancestorID: ', ancestorID);
 					let heading = this.translate_instant('APP_DELETE_ANCESTOR');
 					this.utilService.alertConfirm(heading, ancestorID, 'CANCEL', 'OK').then((res) => {
 						if (res.data) {
-							// with below call, deleteAncestor() is called again! DO NO KNOW WHY! 02 Mar 2024
-							// this call: async getAncestor(ancestor: any)  is OK
 							this.fbService.deleteAncestor(ancestorID).then(() => {
 								this.presentToast(['APP_DELETE_ANCESTOR_1', ancestorID, 'APP_DELETE_ANCESTOR_2']);
 							});
@@ -457,57 +441,27 @@ export class AppComponent implements OnInit {
 			});
 			});
 		});
-
   }
 
-  private startAncestor(ancestorID: any) {
-		// if (DEBUGS.APP)
-		// 	console.trace("ancestorID: ", ancestorID);
-
-    return new Promise((resolve) => {
-			// check if this ancestor is in local
-			this.dataService.readItem('ANCESTOR_DATA').then((sdata:any) => {
-				if (!sdata || sdata.info.id != ancestorID) {
-					// no local data or different ancestor, check if it is in server
-					this.validateAncestor(ancestorID).then((status:any) => {
-						if (!status) {
-							// not exist, error
-							resolve (false);
-						} else {
-							// read from server and save to local
-							// this is new login, show 'Welcome message'
-							this.fbService.readAncestorData(ancestorID).subscribe((rdata:any) => {
-								this.dataService.saveItem('ANCESTOR_DATA', rdata).then((status:any) => {
-									this.email = rdata.info.admin_name + ' (' + rdata.info.admin_email + ')';
-									this.presentToast(['APP_WELCOME_FAMILY_1', ancestorID, 'APP_WELCOME_FAMILY_2', this.email]);
-									resolve (rdata.info);
-								});
-							});
-						}
-					});
-
-				} else if (sdata && sdata.info.id == ancestorID) {
-					// update data from server
-					// check on family data version
-					this.email = sdata.info.admin_name + '(' + sdata.info.admin_email + ')';
-					let fversion = sdata.family.version;
-					// now check remote version
-					this.fbService.readAncestorData(sdata.info.id).subscribe((rdata:any) => {
-						let rversion = rdata.family.version;
-						if (rversion != fversion) {
-							this.presentToast(['APP_NEW_FAMILY', rversion]);
-							// check for new nodes
-							this.compareFamilyVersion(sdata.family, rdata.family);
-							this.dataService.saveItem('ANCESTOR_DATA', rdata).then((status:any) => {
-								resolve (rdata.info);
-							});
-						}
-						resolve(rdata.info);
-					});
-					resolve(sdata.info);
-				}
-			});
-		});
+private startAncestor(ancestorID: any) {
+	if (DEBUGS.APP)
+		console.trace("ancestorID: ", ancestorID);
+	return new Promise((resolve) => {
+		this.fbService.getAncestor(ancestorID).then((data:any) => {
+			if (!data) {
+				// ancestorID not exist!
+				resolve (false);
+			} else {
+				this.fbService.readAncestorData(ancestorID).subscribe((rdata:any) => {
+						resolve (rdata);
+				});
+			}
+		})
+		.catch((error: any) => {
+			console.log('AppComponent - startAncestor - error: ', error);
+			resolve (false);
+		})
+	});
 	}
 
 	async validateAncestor(ancestorID: any) {
@@ -522,27 +476,6 @@ export class AppComponent implements OnInit {
 		});
 	}
 
-	compareFamilyVersion(remoteFamily: any, localFamily: any) {
-		let rFamily = this.familyService.getFilterFamily(remoteFamily);
-		let lFamily = this.familyService.getFilterFamily(localFamily);
-		let compareResults = this.familyService.compareFamilies(rFamily, lFamily);
-		console.log('compareResults: ', compareResults);
-		let newNodes = [];
-		compareResults.forEach(item => {
-			if (item.mode == 'ADD')
-				newNodes.push(item.name);
-		})
-		if (newNodes.length > 0) {
-			let msg = '<b>' + this.translate_instant('APP_NEW_NODE') + '</b><br/><br/>';
-			newNodes.forEach(node => {
-				msg += node + '<br/>'
-			});
-			setTimeout(() => {
-				this.utilService.presentToastWait(null, msg, 'OK', 10000);
-			}, 4000);
-		}
-  }
-
   loadLanguage() {
     return new Promise((resolve) => {
       this.dataService.readItem(LANGUAGE).then((language:any) => {
@@ -556,73 +489,26 @@ export class AppComponent implements OnInit {
     })
   }
 
-  updateVersionData() {
+	updateAppData(rdata: any) {
     return new Promise((resolve) => {
-      this.fbService.readAppData().then((rdata:any) => {
-				// always read docs from Firebase and parse data before go to home.page.ts
-				let remoteVersion = rdata.version;
-        if (remoteVersion !== environment.version) {
-          // must refresh cache
-          let msg = ' (A.' + environment.version + '). ';
-          this.presentToast(['APP_APP_VERSIONS_NOT_SAME_1', msg, 'APP_APP_VERSIONS_NOT_SAME_2']);
-        } else {
-          this.dataService.readItem('VERSION').then((version:any) => {
-            if (!version || version != environment.version) {
-              // version not defined or outdated, update data
-              this.setJsonData('places').then((stat2:any) => {});
-              this.setJsonData('names').then((stat3:any) => {});
-              // save VERSION
-              this.dataService.saveItem('VERSION', environment.version).then((status:any) => {});
-            }
-            resolve(true);
-          });
-        }
-      });
-    });
-  }
 
-	updateAppData() {
-    return new Promise((resolve) => {
-			this.dataService.readAncestorData().then((data:any) => {
-			// this.dataService.readFamilyAndInfo().then((data:any) => {
-				let family = data.family;
-				let info = data.info;
-				// update screen height
-				let nodes = this.nodeService.getFamilyNodes(family);
-				this.themeService.setScreenSize(nodes);
-				// get photo names from Storage
-				let ancestor = info.id;
-				// this.fbService.getPhotoNames(ancestor).then((names:any) => {
-				// 	this.dataService.saveItem('photos', { "id": "photos",	"data": names }).then((status:any) => {});
-				// })
-				// always update info, docs and images data from Firebase
+			this.setJsonData('places').then((stat2:any) => {});
+			this.setJsonData('names').then((stat3:any) => {});
 
-				// always update all data from Firebase
-				this.fbService.readAncestorData(ancestor).subscribe((rdata:any) => {
+			let family = rdata.family;
+			// update screen height
+			let nodes = this.nodeService.getFamilyNodes(family);
+			this.themeService.setScreenSize(nodes);
 
-					if (!rdata.images)
-						rdata.images = {};
-					
-						// this.dataService.saveItem('images', rdata.images).then((status:any) => {});
-					// console.log('AppComponent - updateAppData - rdata.info: ', rdata.info);
-					// this.dataService.saveInfo(rdata.info).then((status:any) => {
-					// 	setTimeout(() => {
-					// 		this.dataService.readInfo().then((dat:any) => {
-					// 			console.log('AppComponent - updateAppData - info: ', dat);
-					// 		});
-					// 	}, 1000);
-					// });
-					// let docs = rdata.docs;
-					// parse docs
+			if (!rdata.images)
+				rdata.images = {};
 
-					let language = this.languageService.getLanguage();
-					rdata.docs = this.updateDocs(rdata.images, rdata.docs[language]);
+			let language = this.languageService.getLanguage();
+			rdata.docs = this.updateDocs(rdata.images, rdata.docs[language]);
 
-					/// save to local
-					this.dataService.saveAncestorData(rdata).then((status:any) => {
-						resolve(true);
-					});
-				});
+			// save to local
+			this.dataService.saveAncestorData(rdata).then((status:any) => {
+				resolve(true);
 			});
 		});
   }
@@ -661,7 +547,6 @@ export class AppComponent implements OnInit {
 			}
 		}
 		return docs;
-		// this.dataService.saveDocs(docs).then((status:any) => {});
 	}
 
 	private setJsonData(json: string) {
@@ -693,121 +578,6 @@ export class AppComponent implements OnInit {
   }
 
 	translate_instant(key:any) {
-    // get temp translation till language service is activated
-    const vi = {
-			"APP_FAMILY_TREE": "Gia Phả",
-			"APP_LOCAL_MEMORY_DELETED": "Dữ liệu trong máy đã được xóa!",
-			"APP_NEW_VERSION_IS_UPDATED": "Ấn bản mới đã được cập nhật!",
-			"APP_SETTING": "Thông số",
-			"APP_NEW_SETTING": "Thông số mới đã được chọn.",
-			"APP_SAME_SETTING": "Thông số không thay đổi!",
-			"APP_THEME": "Giao diện",
-			"APP_THEME_VILLAGE": "Làng",
-			"APP_THEME_TREE": "Cây",
-			"APP_THEME_DRAGON": "Rồng",
-			"APP_THEME_COUNTRY": "Quê",
-			"APP_LANGUAGE": "Ngôn ngữ",
-			"APP_LANGUAGE_VIETNAMESE": "Tiếng Việt",
-			"APP_LANGUAGE_ENGLISH": "Tiếng Anh",
-			"APP_SIZE": "Kích thước chữ",
-			"APP_SMALL_SIZE": "Nhỏ",
-			"APP_MEDIUM_SIZE": "Vừa",
-			"APP_LARGE_SIZE": "Lớn",
-
-			"APP_NEW_ANCESTOR": "Tạo phả tộc",
-			"APP_ANCESTOR_ID": "ID (vd. phan)",
-			"APP_ANCESTOR_NAME": "Phả tộc (vd. Phan Tộc)",
-			"APP_ANCESTOR_LOCATION": "Quê quán (vd. Đồng Hới, Quảng Bình)",
-			"APP_ANCESTOR_FAMILY_NAME": "Họ (vd. Phan)",
-			"APP_ANCESTOR_DESCRIPTION": "Giải thích (vd. Tộc gốc Thanh Hóa)",
-			"APP_ANCESTOR_ROOT_NAME": "Tổ phụ (vd. Phan Viết Hoàng)",
-			"APP_ANCESTOR_ROOT_YEAR": "Năm sinh (vd. 1900)",
-			"APP_ANCESTOR_ADMIN_NAME": "Quản trị viên (vd. Phan Viết Hoàng)",
-			"APP_ANCESTOR_ADMIN_EMAIL": "Liên lạc (vd. Viber 0903 592 592)",
-			"APP_ANCESTOR_ADMIN_CODE": "Mã số (vd. 1234)",
-			"APP_ANCESTOR_ID_NOT_EMPTY": "ID không được để trống!",
-			"APP_ANCESTOR_ID_EXIST_1": "Phả tộc: ",
-			"APP_ANCESTOR_ID_EXIST_2": "đã có trong hệ thống!",
-
-			"APP_DELETE_ANCESTOR": "Xóa phả tộc",
-			"APP_DELETE_ANCESTOR_1": "Phả tộc '",
-			"APP_DELETE_ANCESTOR_2": "' đã được xóa!",
-
-			"APP_OK_ANCESTOR": "Phả tộc mới đã được tạo. ID: ",
-			"APP_NO_ANCESTOR": "Phả tộc chưa được tạo!",
-			"APP_NEW_ANCESTOR_1": "Phả tộc '",
-			"APP_NEW_ANCESTOR_2": "' đã được khởi động!<br/>Kết nối: <i>giapha.web.app</i>",
-			"APP_NEW_FAMILY": "Hệ thống dùng dữ liệu mới. Ấn bản: ",
-			"APP_NEW_NODE": "Hệ mới",
-			"APP_WELCOME_FAMILY_1": "Chào bạn truy cập vào gia phả họ: ",
-			"APP_WELCOME_FAMILY_2": "Để cập nhật thông tin, liên lạc: ",
-			"APP_NA_ANCESTOR_1": "Phả tộc: ",
-			"APP_NA_ANCESTOR_2": "không có trong hệ thống!",
-			"APP_NA_ANCESTOR_3": "Liên lạc: ",
-			"APP_SUPER_ADMIN": "Phan Viết Hoàng (Viber 0903 592 592)",
-			"APP_NO_ANCESTOR_1": "Không có tên phả tộc!",
-			"APP_NO_ANCESTOR_2": "Liên lạc: ",
-			"APP_NA_OPTION_1": "Thông số: ",
-			"APP_NA_OPTION_2": "không hợp lệ!",
-			"APP_NA_OPTION_3": "Liên lạc: ",
-			"APP_APP_VERSIONS_NOT_SAME_1": "Ấn bản trên máy đã cũ: ",
-			"APP_APP_VERSIONS_NOT_SAME_2": ". Yêu cầu xóa cache và chạy lại (F5)!",
-			"APP_NO_INTERNET": "Hệ thống không thể kết nối mạng!",
-			"INFO": "Thông báo",
-      "ERROR": "Lỗi",
-      "WARNING": "Cảnh báo",
-      "OK": "OK",
-      "CANCEL": "Thoát",
-    }
-		
-		const en = {
-			"APP_FAMILY_TREE": "Family Tree",
-			"APP_LOCAL_MEMORY_DELETED": "Local data in the machine was deleted!",
-			"APP_NEW_VERSION_IS_UPDATED": "New app version is updated!",
-			"APP_SETTING": "Setting",
-			"APP_NEW_SETTING": "New setting is selected.",
-			"APP_SAME_SETTING": "Setting not changed!",
-			"APP_THEME": "Theme",
-			"APP_THEME_VILLAGE": "Village",
-			"APP_THEME_TREE": "Tree",
-			"APP_THEME_DRAGON": "Dragon",
-			"APP_THEME_COUNTRY": "Countryside",
-			"APP_LANGUAGE": "Language",
-			"APP_LANGUAGE_VIETNAMESE": "Vietnamese",
-			"APP_LANGUAGE_ENGLISH": "English",
-			"APP_SIZE": "Text size",
-			"APP_SMALL_SIZE": "Small",
-			"APP_MEDIUM_SIZE": "Normal",
-			"APP_LARGE_SIZE": "Large",
-			"APP_ANCESTOR": "Ancestor",
-			"APP_ANCESTOR_NAME": "Name (eg. Phan Tộc)",
-			"APP_ANCESTOR_LOCATION": "Location (eg. Đồng Hới, Quảng Bình)",
-			"APP_ANCESTOR_DESCRIPTION": "Note (eg. Tộc gốc Thanh Hóa)",
-			"APP_ANCESTOR_ROOT_NAME": "Root member (eg. Phan Viết Hoàng))",
-			"APP_ANCESTOR_ROOT_YEAR": "Root year (eg. 1953)",
-			"APP_OK_ANCESTOR": "New ancestor is created. ID: ",
-			"APP_NO_ANCESTOR": "Ancestor is not available!",
-			"APP_NEW_ANCESTOR_1": "Ancestor: '",
-			"APP_NEW_ANCESTOR_2": "' has been chosen! <br/>Link: <i>giapha.web.app</i>",
-			"APP_NEW_FAMILY": "New family data is used. Version: ",
-			"APP_NEW_NODE": "New nodes",
-			"APP_NA_ANCESTOR_1": "Ancestor: '",
-			"APP_NA_ANCESTOR_2": "' is not available!<br/>Contact <b>Phan Viết Hoàng (Viber 0903 592 592)</b>.",
-			"APP_NA_ANCESTOR": "Ancestor is not provided!<br/>Contact <b>Phan Viết Hoàng (Viber 0903 592 592)</b>.",
-			"APP_NA_OPTION_1": "Parameter: '",
-			"APP_NA_OPTION_2": "' is not valid!<br/>Contact  <b>Phan Viết Hoàng (Viber 0903 592 592)</b>.",
-			"APP_APP_VERSIONS_NOT_SAME_1": "App is old: '",
-			"APP_APP_VERSIONS_NOT_SAME_2": "'. Please refresh memory (F5)!",
-			"APP_NO_INTERNET": "App can not connect to Internet!",
-			 "INFO": "Information",
-			 "ERROR": "Error",
-			 "WARNING": "Warning",
-			"OK": "OK",
-			"CANCEL": "Cancel",
-    }
-		if (this.language == 'vi')
-			return vi[key] ? vi[key] : key;
-		return en[key] ? en[key] : key;
-  }
-  
+			return this.langTable[key];
+	}
 }

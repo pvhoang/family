@@ -26,7 +26,15 @@ export class FirebaseService {
 	) {
 	}
 
-	getAncestors(): Observable<[]> {
+	getAncestors() {
+		return new Promise((resolve) => {
+			this.collectAncestors().subscribe((ancestors:any) => {
+				resolve(ancestors);
+			});
+		});
+	}
+
+	private collectAncestors(): Observable<[]> {
 		const colRef = collection(this.firestore, ROOT_COLLECTION);
 		return collectionData(colRef, { idField: 'id'}) as Observable<[]>;
 	}
@@ -388,29 +396,29 @@ export class FirebaseService {
 		})
 	}
 
-	getPhotoNames(storageFolder:string) {
-		return new Promise((resolve) => {
-			const storage = getStorage();
-			const r = ref(storage, storageFolder + '/');
-			listAll(r).then((data) => {
-				let names = [];
-				for (let i = 0; i < data.items.length; i++) {
-					let name = data.items[i].name;
-					let newref = ref(storage, storageFolder + '/' + data.items[i].name);
-					getMetadata(newref).then((metadata) => {
-						let type = metadata.contentType;
-						if (type.indexOf('image') >= 0)
-							names.push(name);
-					})
-					// if (name.indexOf('.png') > 0 || name.indexOf('.jpg') > 0 || name.indexOf('.jpeg') > 0)
-					// 	names.push(name);
-				}
-				setTimeout(() => {
-					resolve(names);
-				}, 500);
-			})
-		});
-	}
+	// getPhotoNames(storageFolder:string) {
+	// 	return new Promise((resolve) => {
+	// 		const storage = getStorage();
+	// 		const r = ref(storage, storageFolder + '/');
+	// 		listAll(r).then((data) => {
+	// 			let names = [];
+	// 			for (let i = 0; i < data.items.length; i++) {
+	// 				let name = data.items[i].name;
+	// 				let newref = ref(storage, storageFolder + '/' + data.items[i].name);
+	// 				getMetadata(newref).then((metadata) => {
+	// 					let type = metadata.contentType;
+	// 					if (type.indexOf('image') >= 0)
+	// 						names.push(name);
+	// 				})
+	// 				// if (name.indexOf('.png') > 0 || name.indexOf('.jpg') > 0 || name.indexOf('.jpeg') > 0)
+	// 				// 	names.push(name);
+	// 			}
+	// 			setTimeout(() => {
+	// 				resolve(names);
+	// 			}, 500);
+	// 		})
+	// 	});
+	// }
 
 	getFileList(storageFolder:string) {
 		return new Promise((resolve) => {

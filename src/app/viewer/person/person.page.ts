@@ -76,7 +76,7 @@ export class PersonPage implements OnInit {
 	}
 
   startFromStorage() {
-    this.dataService.readFamilyAndInfo().then((data:any) => {
+    this.dataService.readAncestorData().then((data:any) => {
       if (DEBUGS.PERSON)
         console.log('PersonPage - startFromStorage - data: ', data);
       this.info = data.info;

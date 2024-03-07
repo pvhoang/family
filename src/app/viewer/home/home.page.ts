@@ -71,29 +71,28 @@ export class HomePage implements OnInit{
   }
 
 	start() {
-		this.dataService.readDocs().then((docs:any) => {
+		// this.dataService.readDocs().then((docs:any) => {
+		this.dataService.readAncestorData().then((dat:any) => {
 			if (DEBUGS.HOME)
-				console.log('HomePage - docs: ', docs);
-			this.dataService.readFamilyAndInfo().then((dat:any) => {
 				console.log('HomePage - dat: ', dat);
-
-				let family = dat.family;
-				let info: any = dat.info;
-				this.info = info;
-				family = this.familyService.buildFullFamily(family);
-				this.family = family;
-				this.nodes = this.nodeService.getFamilyNodes(family, true);
-				// let dateid = this.utilService.getShortDateID(true);
-				this.version = 'A.' + environment.version + ' (D.' + family.version + ', ' + family.date + ')';
-				this.ancestor = info.id;
-				// let data = this.getSystemData(family);
-				// this.nodes = data.nodes;
-				// this.levels = data.levels;
-				// this.onMemorial();
-				this.memorialMsg = this.familyService.passAwayFamily(family);
-				this.updatePageData(docs);
-			});
+			let docs = dat.docs;
+			let family = dat.family;
+			let info: any = dat.info;
+			this.info = info;
+			family = this.familyService.buildFullFamily(family);
+			this.family = family;
+			this.nodes = this.nodeService.getFamilyNodes(family, true);
+			// let dateid = this.utilService.getShortDateID(true);
+			this.version = 'A.' + environment.version + ' (D.' + family.version + ', ' + family.date + ')';
+			this.ancestor = info.id;
+			// let data = this.getSystemData(family);
+			// this.nodes = data.nodes;
+			// this.levels = data.levels;
+			// this.onMemorial();
+			this.memorialMsg = this.familyService.passAwayFamily(family);
+			this.updatePageData(docs);
 		});
+		// });
 	}
 	
 	updatePageData(docs: any) {

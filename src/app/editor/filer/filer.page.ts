@@ -88,7 +88,7 @@ export class FilerPage implements OnInit {
 
   start() {
 		this.resetModes();
-		this.dataService.readFamilyAndInfo().then((data:any) => {
+		this.dataService.readAncestorData().then((data:any) => {
       this.ancestor = data.info.id;
 			this.family = data.family;
 		});
@@ -169,25 +169,27 @@ export class FilerPage implements OnInit {
 								let storageImages = res[1];
 								// some time it's too slow to process file list, wait 2 sec
 								setTimeout(() => {
-								let images = {};
-								storageImages.forEach((file:any) => {
-									images[file.name] = { url: file.url, type: file.type, size: file.size, width: file.width, height: file.height };
-								})
-								// update family and images to server
-								this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
-									rdata.images = images;
-									rdata.family = family;
-									this.fbService.saveAncestorData(rdata).then((status:any) => {
-										let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
-										this.utilService.presentToast(msg);
+									let images = {};
+									storageImages.forEach((file:any) => {
+										images[file.name] = { url: file.url, type: file.type, size: file.size, width: file.width, height: file.height };
+									})
+									// update family and images to server
+									this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
+										rdata.images = images;
+										rdata.family = family;
+										this.fbService.saveAncestorData(rdata).then((status:any) => {
+											// let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
+											// this.utilService.presentToast(msg);
+											this.utilService.presentToastOK(['FILE_UFILE_UPLOAD_COMPLETE_1', file.name, 'FILE_UFILE_UPLOAD_COMPLETE_2']);
+										});
 									});
-								});
-								}, 2000);
+								}, 1000);
 							}
 						})
 						
 					} else {
-						this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_INVALID'));
+						// this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_INVALID'));
+						this.utilService.presentToastOK(['FILE_UPLOAD_FILE_INVALID']);
 					}
 
 				} else if (type == 'DOCS') {
@@ -205,24 +207,26 @@ export class FilerPage implements OnInit {
 								let storageImages = res[1]
 								// some time it's too slow to process file list, wait 2 sec
 								setTimeout(() => {
-								let images = {};
-								storageImages.forEach((file:any) => {
-									images[file.name] = { url: file.url, type: file.type, size: file.size, width: file.width, height: file.height };
-								})
-								// update docs and images to server
-								this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
-									rdata.images = images;
-									rdata.docs = docs;
-									this.fbService.saveAncestorData(rdata).then((status:any) => {
-										let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
-										this.utilService.presentToast(msg);
+									let images = {};
+									storageImages.forEach((file:any) => {
+										images[file.name] = { url: file.url, type: file.type, size: file.size, width: file.width, height: file.height };
+									})
+									// update docs and images to server
+									this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
+										rdata.images = images;
+										rdata.docs = docs;
+										this.fbService.saveAncestorData(rdata).then((status:any) => {
+											// let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
+											// this.utilService.presentToast(msg);
+											this.utilService.presentToastOK(['FILE_UFILE_UPLOAD_COMPLETE_1', file.name, 'FILE_UFILE_UPLOAD_COMPLETE_2']);
+										});
 									});
-								});
-								}, 2000);
+								}, 1000);
 							}
 						});
 					} else {
-						this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_INVALID'));
+						// this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_INVALID'));
+						this.utilService.presentToastOK(['FILE_UPLOAD_FILE_INVALID']);
 					}
 					
 				} else if (type == 'INFO') {
@@ -232,17 +236,19 @@ export class FilerPage implements OnInit {
 						this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
 							rdata.info = info;
 							this.fbService.saveAncestorData(rdata).then((status:any) => {
-								let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
-								this.utilService.presentToast(msg);
+								// let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
+								// this.utilService.presentToast(msg);
+								this.utilService.presentToastOK(['FILE_UFILE_UPLOAD_COMPLETE_1', file.name, 'FILE_UFILE_UPLOAD_COMPLETE_2']);
 							});
 						});
 					} else {
-						this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_INVALID'));
+						this.utilService.presentToastOK(['FILE_UPLOAD_FILE_INVALID']);
 					}
 				}
 				
       } else {
-				this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_EMPTY'));
+				// this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_EMPTY'));
+				this.utilService.presentToastOK(['FILE_UPLOAD_FILE_EMPTY']);
       }
     });
   }
@@ -352,7 +358,8 @@ export class FilerPage implements OnInit {
 					i1++;
 					let i2 = text.indexOf('"', i1);
 					let jpg = text.substring(i1, i2);
-					images.push(jpg);
+					if (jpg.trim().length > 0)
+						images.push(jpg);
 					i1 = i2 + 1;
 				} else
 					i1 = text.length + 1;
@@ -497,7 +504,8 @@ private photoUpload(photo: string, ancestor:string, photoBase64: string, file:an
 					});
 				}
 			} else {
-				this.utilService.presentToast(this.languageService.getTranslation('FILE_PHOTO_NAME_INVALID'), 3000);
+				// this.utilService.presentToast(this.languageService.getTranslation('FILE_PHOTO_NAME_INVALID'), 3000);
+				this.utilService.presentToastOK(['FILE_PHOTO_NAME_INVALID']);
 			}
 		}
 	})
@@ -507,12 +515,13 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
 	let type = base64.substring('data:'.length, base64.indexOf(';'));
 	base64 = base64.replace("data:", "").replace(/^.+,/, "");
 	this.fbService.addImage(base64, type, ancestor, photoName).then(urlStorage => {
-		let msg = this.utilService.getAlertMessage([
-			{name: 'msg', label: 'FILE_PHOTO_COMPLETE_1'},
-			{name: 'data', label: photoName},
-			{name: 'msg', label: 'FILE_PHOTO_COMPLETE_2'},
-		]);
-		this.utilService.presentToast(msg, 5000);
+		// let msg = this.utilService.getAlertMessage([
+		// 	{name: 'msg', label: 'FILE_PHOTO_COMPLETE_1'},
+		// 	{name: 'data', label: photoName},
+		// 	{name: 'msg', label: 'FILE_PHOTO_COMPLETE_2'},
+		// ]);
+		// this.utilService.presentToast(msg, 5000);
+		this.utilService.presentToastOK(['FILE_PHOTO_COMPLETE_1', photoName, 'FILE_PHOTO_COMPLETE_2']);
 	});
 }
 

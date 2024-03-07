@@ -15,27 +15,29 @@ export class EditorService {
     private dataService: DataService,
   ) { }
 
-	getImageItems(editor: any) {
-		let imageItems = [];
-		this.dataService.readItem('photos').then((photos:any) => {
-			photos.data.forEach(photo => {
-				let dat = photo.split('|');
-				let name = dat[0];
-				let caption = (dat.length > 1) ? dat[1] : name;
-				let sub = {
-					type: 'menuitem',
-					text: name,
-					onAction: () => editor.insertContent(`[` + name + `|2|1|` + caption + `]`)
-				};
-				imageItems.push(sub);
-			})
-			return imageItems;
-		});
-		return imageItems;
-	}
+	// getImageItems(editor: any) {
+	// 	let imageItems = [];
+	// 	this.dataService.readItem('photos').then((photos:any) => {
+	// 		photos.data.forEach(photo => {
+	// 			let dat = photo.split('|');
+	// 			let name = dat[0];
+	// 			let caption = (dat.length > 1) ? dat[1] : name;
+	// 			let sub = {
+	// 				type: 'menuitem',
+	// 				text: name,
+	// 				onAction: () => editor.insertContent(`[` + name + `|2|1|` + caption + `]`)
+	// 			};
+	// 			imageItems.push(sub);
+	// 		})
+	// 		return imageItems;
+	// 	});
+	// 	return imageItems;
+	// }
 	
 	// convert a document with special templates info to html text 
 	convertDocumentTemplate(images: any, text: any) {
+
+		console.log('convertDocumentTemplate - images: ', images);
 
 		// https://stackoverflow.com/questions/71176093/how-to-extract-content-in-between-an-opening-and-a-closing-bracket
 		var reg = /(?<=\[)[^\]]*(?=\])/g;
@@ -146,7 +148,71 @@ export class EditorService {
 						console.log('convertDocumentTemplate - html: ', html);
 					promises.push({ docStr: data.src, html: html });
 				}
+
+			} else if (data.type == '4') {
+				// video
+				// video is not available in storage, keep src
+				if (!images[data.name]) {
+					// console.log('convertDocumentTemplate - data.src: ', data.src);
+						promises.push({ docStr: data.src, html: '[' + data.src + ']' });
+
+				} else {
+					let url = images[data.name].url;
+					let type = images[data.name].type;
+					console.log('convertDocumentTemplate - type: ', type);
+
+					let html = '';
+					if (type.indexOf('video') >= 0) {
+						let iWidth = images[data.name].width;
+						let iHeight = images[data.name].height;
+						if (iWidth > iHeight) {
+							// landscape
+							data.height = data.width * iHeight / iWidth;
+						} else {
+							// portrait
+							let width = data.width;
+							let height = data.height;
+							data.height = width;
+							data.width = width * iWidth / iHeight;
+						}
+
+						html =
+						// '<div class="' + data.container + '">' +
+						'<div class="viewer-home-player-wrapper">' +
+						'<vg-player>' +
+							'<video #media [vgMedia]="media" id="singleVideo" preload="auto" controls>' +
+								'<source src="' + url + '" type="video/mp4" >' +
+							'</video>' +
+						'</vg-player>' +
+						// '</div>' +
+						'</div>';
+
+						// html =
+						// '<div class="viewer-home-player-wrapper">' +
+						// '<vg-player vg-width="' + data.width + 'px" vg-height="' + data.height + 'px">' +
+						// 	'<video #media [vgMedia]="media" id="singleVideo" preload="auto" controls>' +
+						// 		// '<source src="' + url + '" type="video/mp4" width="' + data.width + 'px" height="' + data.height + 'px" >' +
+						// 		'<source src="' + url + '" type="video/mp4" >' +
+						// 	'</video>' +
+						// '</vg-player>' +
+						// '</div>' +
+						// '</div>'
+
+						// html = 
+						// '<div class="' + data.container + '">' +
+						// 	'<img src="' + url + '" class="viewer-home-container-image" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
+						// '</div>';
+
+						if (data.caption != '') {
+							html += '<div class="' + data.container + ' viewer-home-no-expand">' + data.caption + '</div>';
+						}
+					}
+					if (DEBUGS.EDITOR)
+						console.log('convertDocumentTemplate - html: ', html);
+					promises.push({ docStr: data.src, html: html });
+				}
 			}
+				
 		});
 		return (promises);
 	}
@@ -219,7 +285,32 @@ export class EditorService {
 					return data;
 				}
 			}
-			return null;
+		} else if (type == '4') {
+			// VIDEO MP4, AVI document
+			// IN: "[4| video|size|justify|caption]" 
+			//			"size: 0(small)/1(medium)/2(large)
+			//			"justify: 0(left)/1(center)/2(right)"
+			// EG: "[4| cai.mp4|1|1|Sông Cái]"
+			let fileName = items[1].trim();
+			fileName = this.decodeEntities(fileName);
+			// valid file, check image size
+			let size = items[2].trim();
+			if (size == '0' || size == '1' || size == '2') {
+				let sizes = { 
+					'1': { w: '150', h: '100' },
+					'2': { w: '200', h: '150' },
+					'3': { w: '250', h: '200' },
+				};
+				let justify = items[3].trim();
+				if (justify == '0' || justify == '1' || justify == '2') {
+					let justifies = { '0': 'left', '1': 'center', '2': 'right' }
+					let containerClass = 'viewer-home-container-'+justifies[justify];
+					let caption = items[4];
+					let data = { type: type, src: str, name: fileName, width: sizes[size].w, height: sizes[size].h, container: containerClass, caption: caption }
+					return data;
+				}
+			}
+			// return null;
 		}
 		return null;
 	}

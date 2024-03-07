@@ -29,7 +29,7 @@ export class FamilyService {
 		family = this.getFilterFamily(family);
     if (DEBUGS.FAMILY_SERVICE)
       console.log('FamilyService - saveFullFamily -  family: ', family);
-    this.dataService.saveFamily(family).then(status => {});
+    this.dataService.saveAncestorData(family, 'FAMILY').then(status => {});
 		return true;
 	}
 
