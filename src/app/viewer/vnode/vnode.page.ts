@@ -74,92 +74,9 @@ export class VnodePage implements OnInit {
       console.log('VnodePage - ionViewWillLeave');
 	}
 
-	// ngAfterViewInit1(): void {
-	// 	if (DEBUGS.VNODE)
-  //     console.log('VnodePage - ngAfterViewInit');
-	// 	// this.pinchZoom.toggleZoom();
-	// 	// scale MUST BE between 0.2 - 1.0
-	// 	// this.pinchZoom.setInitialZoom(0.4);
-	// 		// document.getElementById("double-tap").addEventListener("touchstart", this.tapHandler);
-	// }
-
-// tapedTwice = false;
-
-// tapHandler(event: any) {
-// 	console.log('tapHandler: ', this.tapedTwice);
-//     if(!this.tapedTwice) {
-// 			this.tapedTwice = true;
-//         setTimeout( () => { this.tapedTwice = false; }, 200 );
-//     } else {
-// 			event.preventDefault();
-// 			//action on double tap goes below
-// 			alert('You tapped me Twice !!!');
-// 		}
-//  }
-
-//  clickTimer = null;
-
-// touchStart(event: any) {
-//     if (this.clickTimer == null) {
-// 			this.clickTimer = setTimeout(function () {
-// 				this.clickTimer = null;
-// 				alert("single");
-// 			}, 500)
-//     } else {
-// 				event.preventDefault();
-//         clearTimeout(this.clickTimer);
-//         this.clickTimer = null;
-//         alert("double");
-//     }
-// }
-
 	ngAfterViewInit(): void {
 		if (DEBUGS.VNODE)
       console.log('VnodePage - ngAfterViewInit');
-		// this.pinchZoom.toggleZoom();
-		// scale MUST BE between 0.2 - 1.0
-		// this.pinchZoom.setInitialZoom(0.4);
-		// var el = document.getElementById('touch-me');
-		
-		// el.addEventListener('touchstart', this.touchStart);
-
-		// el.addEventListener('touchstart', () => {
-    //   console.log('VnodePage - ngAfterViewInit - touch start!');
-		// 	if (this.scaleStyle > 2)
-		// 		this.scaleStyle--;
-		// });
-
-		// el.addEventListener('touchstart', (event: any) => {
-    //   console.log('VnodePage - ngAfterViewInit - touchstart!');
-		// 	// alert('You touchstart me once !!!');
-		// 	if (this.scaleStyle < 10)
-		// 		this.scaleStyle++;
-
-		// });
-
-		// el.addEventListener('touchend', () => {
-    //   // console.log('VnodePage - ngAfterViewInit - touchend!');
-		// 	// alert('You tapped me once !!!');
-		// });
-
-		// el.addEventListener('double-tap', () => {
-    //   console.log('VnodePage - ngAfterViewInit - double-tap!');
-		// 	if (this.scaleStyle > 2)
-		// 			this.scaleStyle--;
-		// });
-
-		// el.addEventListener('doubleTap', () => {
-    //   console.log('VnodePage - ngAfterViewInit - doubleTap!');
-		// 	if (this.scaleStyle > 2)
-		// 			this.scaleStyle--;
-		// });
-
-		// el.addEventListener("dblclick", (event: any) => {
-    //   console.log('VnodePage - ngAfterViewInit - dblclick!');
-		// 	// alert('You dblclick me Twice !!!');
-		// 	if (this.scaleStyle > 2)
-		// 			this.scaleStyle--;
-		// });
 	}
 
   startFromStorage() {
@@ -194,21 +111,7 @@ export class VnodePage implements OnInit {
 	//
   // ------------- TREE -------------
   //
-  // scaleStyle = 10;
-	// getZoomStyle() {
-  //   let scale = this.scaleStyle / 10;
-  //   let styles = {
-  //     'zoom': scale,
-  //     '-moz-transform': 'scale(' + scale + ')',
-  //     '-moz-transform-origin': '0 0',
-  //     '-o-transform': 'scale(' + scale + ')',
-  //     '-o-transform-origin': '0 0',
-  //     '-webkit-transform': 'scale(' + scale + ')',
-  //     '-webkit-transform-origin': '0 0'
-  //   };
-  //   return styles;
-  // }
-
+ 
 	onLeafSelected (node: Node) {
     this.onNodeSelect(node, true);
   }

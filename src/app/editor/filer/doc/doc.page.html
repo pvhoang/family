@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-item class="viewer-header-top">
+		<ion-col size="6" class="heading" (click)="onExit()">
+      <ion-button class="button" fill="clear" (click)="onExit()">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
+      </ion-button>
+      <span class="label"><b>{{ 'CANCEL' | translate }}</b></span>
+    </ion-col>
+		<ion-col size="6" class="heading" (click)="saveDocs()">
+      <ion-button class="button" fill="clear">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}content-save-outline.svg" class="icon"></ion-icon>
+      </ion-button>
+      <span class="label">{{ 'SAVE' | translate }}</span>
+    </ion-col>
+    <ion-col size="2">
+    </ion-col>
+  </ion-item>
+</ion-header>
+
+<ion-content [fullscreen]="false" class="ion-padding">
+	<div>
+		<editor apiKey="td9cz0rc9qe4wcd36a5kwudebvfeblv4nsjyzyqv55udust7" [init]="settings"></editor>
+	</div>
+</ion-content>

@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: 'cropper-modal',
     loadChildren: () => import('./cropper-modal/cropper-modal.module').then( m => m.CropperModalPageModule)
+  },
+	{
+    path: 'doc',
+    loadChildren: () => import('./doc/doc.module').then( m => m.DocPageModule)
   }
 ];
 

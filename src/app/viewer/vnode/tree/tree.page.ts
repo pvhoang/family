@@ -105,8 +105,6 @@ export class TreePage implements OnInit {
   onJPEG() {
     let iddom = 'screen';
     let node = this.node;
-    // let keys = this.utilService.stripVN(node.name).split(' ');
-    // let nameStr = keys.join('_');
     let fileName = node.name;
     let msg = this.utilService.getAlertMessage([
       {name: 'msg', label: 'TREE_SELECT_PRINT_JPEG_MSG_1'},
@@ -135,7 +133,6 @@ export class TreePage implements OnInit {
 					this.utilService.dismissLoading();
 					let message = this.languageService.getTranslation('TREE_ERROR_SAVE_FILE')
 					this.utilService.alertMsg('ERROR', message, 'OK', { width: 350, height: 200 }).then(choice => {});
-					// console.error('oops, something went wrong!: error', error);
 				});
       }
     });
@@ -144,8 +141,6 @@ export class TreePage implements OnInit {
   onPDF() {
     let iddom = 'screen';
     let node = this.node;
-    // let keys = this.utilService.stripVN(node.name).split(' ');
-    // let nameStr = keys.join('_');
     let fileName = node.name + '.pdf';
     let msg = this.utilService.getAlertMessage([
       {name: 'msg', label: 'TREE_SELECT_PRINT_PDF_MSG_1'},
@@ -171,7 +166,6 @@ export class TreePage implements OnInit {
 					this.utilService.dismissLoading();
 					let message = this.languageService.getTranslation('TREE_ERROR_SAVE_FILE')
 					this.utilService.alertMsg('ERROR', message, 'OK', { width: 350, height: 200 }).then(choice => {});
-					// console.error('oops, something went wrong!: error', error);
 				});
       }
     });

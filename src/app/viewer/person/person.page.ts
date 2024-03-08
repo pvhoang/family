@@ -88,7 +88,6 @@ export class PersonPage implements OnInit {
 
   start(family: any) {
     this.family = this.familyService.buildFullFamily(family);
-    // console.log('PersonPage - start - family: ', this.family);
     this.peopleNodes = this.familyService.getPeopleNodes (this.family);
     this.selectPeoplePlaceholder = this.languageService.getTranslation('NODE_SELECT');
     this.selectPeople = null;
@@ -166,13 +165,6 @@ export class PersonPage implements OnInit {
 		if (node.dod == '' && node.pod == '')
 			return;
 
-		// const image1 = document.getElementById("image1");
-		// const image2 = document.getElementById("image-zoom");
-
-		// console.log('image1 - width, height, left, top: ', image1.offsetWidth, image1.offsetWidth, image1.offsetLeft, image1.offsetTop);
-		// console.log('image2 - width, height, left, top: ', image2.offsetWidth, image2.offsetWidth, image2.offsetLeft, image2.offsetTop);
-
-
 		let w2 = 1000;
 		let h2 = 1000;
 		let url = '';
@@ -232,12 +224,6 @@ export class PersonPage implements OnInit {
 		let root = document.documentElement;
 		root.style.setProperty('--app-view-person-top', '' + parseInt('' + top) + 'px');
 		root.style.setProperty('--app-view-person-left', '-' + parseInt('' + left) + 'px');
-
-		// let image1 = document.getElementById("image1");
-		// console.log('image1: ', image1);
-		// if (image1.offsetParent) {
-		// 	console.log('image1 - width, height, left, top: ', image1.offsetWidth, image1.offsetWidth, image1.offsetLeft, image1.offsetTop);
-		// }
 
 	}
 	

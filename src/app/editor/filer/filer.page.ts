@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ModalController, Platform } from '@ionic/angular';
 import { CropperModalPage } from './cropper-modal/cropper-modal.page';
+import { DocPage } from './doc/doc.page';
 import { LanguageService } from '../../services/language.service';
 import { FirebaseService } from '../../services/firebase.service';
 import { FamilyService } from '../../services/family.service';
-import { NodeService } from '../../services/node.service';
 import { UtilService } from '../../services/util.service';
 import { DataService } from '../../services/data.service';
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
-import {NgxImageCompressService} from 'ngx-image-compress';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 import * as $ from 'jquery';
 
@@ -146,12 +146,20 @@ export class FilerPage implements OnInit {
 		this.uploadOnFile(file, type);
   }
 
+	// private uploadOnFile_work(file: any, type: any) {
+	// 	// console.log('type: ', type);
+  //   this.uploadGetTextFile(file).then((res: any) => {
+  //     if (DEBUGS.APP)
+  //       console.log('uploadOnFile - res: ', res);
+	// 		// this.uploadEditJson(res.text);
+	// 	});
+	// }
+
 	private uploadOnFile(file: any, type: any) {
 		// console.log('type: ', type);
     this.uploadGetTextFile(file).then((res: any) => {
       if (DEBUGS.APP)
         console.log('uploadOnFile - res: ', res);
-
       if (res.text) {
 				// validate json file
 				if (type == 'FAMILY') {
@@ -395,6 +403,27 @@ export class FilerPage implements OnInit {
     let message = this.utilService.getAlertMessage(msgs, true);
 		this.utilService.alertMsg('ERROR', message, 'OK', { width: 350, height: 450 }).then(choice => {});
   }
+
+	async uploadEditJson(text: any) {
+		const docModal = await this.modalCtrl.create({
+			component: DocPage,
+			componentProps: {
+				'caller': 'DocPage',
+				'text': text,
+			},
+			cssClass: 'modal-dialog',
+			backdropDismiss:false
+		});
+		await docModal.present();
+		const { data } = await docModal.onDidDismiss();
+		if (data.result) {
+			let newText = data.result;
+			console.log('uploadEditJson - newText: ', newText);
+		}
+		// return data;
+	}
+
+
 // --------- photoMode ----------
 	
 photoCreate(start: boolean) {
