@@ -103,16 +103,14 @@ export class AppComponent implements OnInit {
 			} 
 			
 			if (ancestor == '') {
-				let superAdmin = this.translate_instant("APP_SUPER_ADMIN");
-				this.presentToast(['APP_NO_ANCESTOR_1','APP_NO_ANCESTOR_2',superAdmin]);
+				this.presentToast(['APP_NO_ANCESTOR_1','APP_NO_ANCESTOR_2', 'APP_SUPER_ADMIN']);
 				return;
 			}
 
 			// ancestor must be valid before doing anything else
 			this.startAncestor(ancestor).then((rdata: any) => {
 				if (!rdata) {
-					let superAdmin = this.translate_instant("APP_SUPER_ADMIN");
-					this.presentToast(['APP_NA_ANCESTOR_1', ancestor, 'APP_NA_ANCESTOR_2', 'APP_NA_ANCESTOR_3', superAdmin]);
+					this.presentToast(['APP_NA_ANCESTOR_1', ancestor, 'APP_NA_ANCESTOR_2', 'APP_NA_ANCESTOR_3', 'APP_SUPER_ADMIN']);
 					return;
 				}
 				let info = rdata.info;
@@ -494,15 +492,12 @@ private startAncestor(ancestorID: any) {
 
 			this.setJsonData('places').then((stat2:any) => {});
 			this.setJsonData('names').then((stat3:any) => {});
-
 			let family = rdata.family;
 			// update screen height
 			let nodes = this.nodeService.getFamilyNodes(family);
 			this.themeService.setScreenSize(nodes);
-
 			if (!rdata.images)
 				rdata.images = {};
-
 			let language = this.languageService.getLanguage();
 			rdata.docs = this.updateDocs(rdata.images, rdata.docs[language]);
 
@@ -523,8 +518,8 @@ private startAncestor(ancestorID: any) {
 			if (doc.text) {
 				// do nothing
 			} else if (doc.raw && Array.isArray(doc.raw)) {
-				// raw is array, convert to text in string
-				doc.text = this.editorService.replaceArrayToText(doc.raw);
+				// raw is array, convert to html
+				doc.text = this.editorService.convertArrayToHtml(images, doc.raw);
 				doc.raw = null;
 			} else {
 				doc.text = '';
@@ -532,20 +527,6 @@ private startAncestor(ancestorID: any) {
 			doc.html = doc.text.slice(0);
 			docs[key] = doc;
 		};
-
-		// convert html
-		for (let key of Object.keys(docs)) {
-			let text = docs[key].text;
-			// convert image templates to HTML
-			let resolves = this.editorService.convertDocumentTemplate(images, text);
-			// change text to reflect image
-			for (let i = 0; i < resolves.length; i++) {
-				let data = resolves[i];
-				let docStr = '[' + data.docStr + ']';
-				let html = data.html;
-				docs[key].html = docs[key].html.replaceAll(docStr, html);
-			}
-		}
 		return docs;
 	}
 

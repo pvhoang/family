@@ -322,10 +322,13 @@ export class UtilService {
 
 	// LOADING
 
-	async presentLoading() {
+	async presentLoading(msg: any) {
 		this.isLoading = true;
+		let css = 'toast-dialog';
 		return await this.loadingController.create({
+			message: this.languageService.getTranslation(msg),
 			duration: 10000,
+			cssClass: css,
 			mode: "md"
 		}).then(loading => {
 			loading.present().then(() => {
@@ -471,7 +474,7 @@ export class UtilService {
 		return jobs;
 	}
 
-	public stripVN(str) {
+	public stripVN(str: any) {
 		str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/gi, 'a');
 		str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/gi, 'e');
 		str = str.replace(/ì|í|ị|ỉ|ĩ/gi, 'i');

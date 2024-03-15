@@ -71,17 +71,23 @@
 		<div class="person-tree" [ngStyle]="ftTreeService.getZoomStyle()">
 			<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
 		</div>
-		
+
 		<div class="person-desc" *ngIf="selectedNode && selectedNode.desc != ''">
 			<ion-card-header class="person-section">
 				<span class="span"><b>{{ 'PERSON_INFO' | translate }}</b></span>
 			</ion-card-header>
 			<br/>
+
 			<ion-textarea 
 				clearInput class="person-textarea" 
 				type="text" rows="10" autosize 
 				[innerHtml]="selectedNode.desc" >
 			</ion-textarea>
+			
+			<!-- <div>
+				<editor apiKey="td9cz0rc9qe4wcd36a5kwudebvfeblv4nsjyzyqv55udust7" [init]="settings"></editor>
+			</div> -->
+
 			<br>
 		</div>
 	</div>

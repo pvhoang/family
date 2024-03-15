@@ -1,0 +1,175 @@
+{
+	"vi": {
+		"pha_nhap": {
+			"title": "LỜI MỞ ĐẦU",
+			"raw": [
+
+"// HƯỚNG DẪN",
+
+"// TEXT: Dòng chữ bình thường",
+"// TEXT: <ac><1><s> Dòng chữ bắt đầu bên trái, cỡ lớn, đậm </s></1></ac>",
+"// TEXT: <ar><3><u><e> Dòng chữ kết thúc bên phải, cỡ nhỏ, gạch dưới, nghiêng </e></u></3></ar>",
+"// TEXT: <20> Dòng chữ bắt đầu bên trái, vào 20 px",
+"// IMAGE: Hình giữa dòng, cỡ thường: <im>ac|2|Nhà Thờ Phan Tộc.png|Đá Bạc, Quảng Bình</im>",
+"// DOCUMENT: Tài liệu bắt đầu bên phải: <do>ar|Quảng Bình.doc|Bản đồ thế kỷ 19</do>",
+"// VIDEO: Video giữa dòng: <vi>ac|cai.mp4|Sông Cái, Nha Trang</vi>",
+
+"// TEXT: <ac><1><s> Dòng chữ bắt đầu bên trái, cỡ lớn, đậm </s></1>",
+"// TEXT: <ac>chữ thường<2>lớn</2><3><s>nhỏ đậm</s></3><e>nghiêng</e>",
+"// IMAGE: <ac><2><img>Nhà Thờ Phan Tộc.png|Đá Bạc, Quảng Bình",
+"// DOCUMENT: <ar><doc>Quảng Bình.doc|Bản đồ thế kỷ 19",
+"// DOCUMENT: <ac><vi>cai.mp4|Sông Cái, Nha Trang",
+
+"// <trái><lớn><đậm>Dòng chữ bắt đầu bên trái, cỡ lớn, đậm </đậm></lớn>",
+"// <giữa><nghiêng>nghiêng</nghiêng>thường",
+"// <giữa><lớn><hình>Nhà Thờ Phan Tộc.png|Đá Bạc, Quảng Bình",
+"// <phải><tin>Quảng Bình.doc|Bản đồ thế kỷ 19",
+"// <trái><video>cai.mp4|Sông Cái, Nha Trang",
+
+"// Thêm trang: [PAGE]",
+"// Tổng số hệ: [NODE-COUNT]",
+"// Bảng tóm tắt hệ: [GEN-TABLE]",
+
+"",
+"<2><s>Chim có tổ người có tông, cây có cội, nước có nguồn.</s></2>",
+"",
+"Những câu ca dao nói lên đạo lý của con người Việt Nam chúng ta đã lưu truyền bao đời nay dẫu cho xã hội có nhiều biến động, thay đổi. Vì vậy việc truy tìm nguồn gốc tổ tiên, chăm lo mồ mả ông bà, là những điều gần như nằm trong tiềm thức của mỗi một con người Việt Nam.",
+"",
+"Dòng họ Phan ta đã lập nghiệp tại Làng Phú Ninh nay là Phường Đồng Phú này hơn 300 năm. Các bậc tổ tiên đã cần cù lao động xây dựng nề nếp cho con cháu đời sau với tiền đồ sáng lạn. Đất nước ta từ bao đời đã trải qua chinh chiến từ thời kỳ này qua thời kỳ khác, tổ tiên ta đã lao động chiến đấu xã thân tạo dựng cơ đồ. Tất cả tấm gương đó là những gương sáng để con cháu đời sau tiếp nối học tập noi theo, tiếp tục truyển thống của gia đình và dòng họ để phấn đấu xây dựng một cuộc sống ấm no hạnh phúc cho chính bản thân mình và góp phần xây dựng cộng đồng xã hội.",
+"",
+"Nhằm có thể hệ thống hóa được phần nào lịch sử vẻ vang và có thể hệ thống hóa được phần nào phả hệ, phả đồ của dòng họ, Chi Phái và muốn hoàn thành tâm nguyện bản thân cũng như muốn dâng lên tổ tiên vong linh hiển khảo Phan Văn Ba, Tôi Phan Thanh Dũng con cháu đời thứ 16 dòng họ Phan tính từ Ông Thủy Tổ Ông Phan Văn Tác, Đời thứ 6 tính từ tổ Chi Phan Lợi Hành (Phan Văn Tự) sau khi bàn bạc,  lên kế hoạch,  tìm hiểu đã viết nên cuốn gia phả này để cùng các Ông, Bác, Chú và cũng như con cháu sau này có thêm tài liệu để tham khảo có thể hoàn thành lại tốt hơn.",
+"[PAGE]",
+"",
+"Việc dựng lại gia phả này quả lá quá khó khăn do kinh nghiệm nghiên cứu còn non kém nhưng tôi cũng quyết tâm hoàn thành, chắc chắn rằng sẻ không ít thiếu sót, khiếm khuyết. Công việc xây dựng gia phả lại là công việc cần được tiến hành thường xuyên và liên tục, tôi  mong rằng toàn thể bà con dòng họ Phan chúng ta hãy cùng nhau tiếp tục góp sức xây dựng, bổ sung để gia phả của chúng ta ngày càng hoàn chỉnh.",
+"",
+"Qua đây tôi xin chân thành cám ơn Ông Phan Văn Hân, Chú Phan Văn Năm…, cùng các vị cao niên trong làng đã tận tình hướng dẫn giúp đỡ cung cấp thông tin tài liệu, kể những câu chuyện mà chỉ có thể gặp khi thực hiện viết cuốn gia phả này. Đồng thời tài liệu này được sinh động là nhờ hoàn toàn các tài liệu quý mà tôi được có từ Cha tôi là Phan Văn Ba đã cất công nghiên cứu sưu tầm để tôi có thể nối tiếp rõ ràng hơn lịch sử họ Phan Đồng Phú.",
+"Xin cùng chia sẻ cùng quý vị.",
+"",
+"Chào thân ái!",
+"Cháu Phan Thanh Dũng",
+"Đời thứ XVI họ phan Đồng Phú"
+			]
+		},
+		"pha_ky": {
+			"title": "PHẢ KÝ",
+			"raw": [
+"",
+"Quyển Gia Phả này ghi lại gia tộc họ Phan tại Quảng Bình ...",
+"",
+"<2><s>Tổ phụ</s></2>",
+"",
+"<20>Họ/Tên: Phan Văn Nghi",
+"<20>Ngày Sinh: 1854",
+"<20>Ngày Mất: không rõ",
+"<20>Nơi Sinh: Tỉnh Quảng Bình",
+"<20>Nơi Mất: Nghĩa trang Đá Bạc, Phường Đồng Sơn, Tp. Đồng Hới, Tỉnh Quảng Bình",
+"",
+"<2><u>Ghi chú:</u></2>",
+"",
+"Vì do lý do tài liệu từ thời xa xưa để lại rất ít và không có điều kiện ghi chép theo thứ tự liền mạch nên từ các tài liệu đang có sưu tầm, chỉ tập trung ghi chép thế hệ đời từ Ông Phan Văn Nghi người ta gọi là Nánh Nhất. Ông Phan Văn Nghị (em ông Nghi) phát triển Nánh Nhì gọi là Nánh Ông Vạt sẽ được bổ sung sau.",
+"",
+"<2><s>Tổ quán</s></2>",
+"",
+"Tên: Nhà thờ Phan Tộc<br>Địa điểm: Đường Bà Triệu, Phường Đồng Phú, Tp Đồng Hới, Tỉnh Quảng Bình",
+"",
+"<im>ac|2|Nhà Thờ Phan Tộc.png|Phường Đồng Phú, Tp Đồng Hới</im>",
+
+"[PAGE]",
+
+"",
+"<2><s>Các thế hệ gia tộc</s></2>",
+"",
+"Tổng số hệ: [NODE-COUNT]",
+"[GEN-TABLE]"
+			]
+		},
+		"pha_he": {
+			"title": "PHẢ HỆ",
+			"raw": [
+"",
+"<2><s>PHẢ HỆ</s></2>"
+			]
+		},
+		"pha_do": {
+			"title": "PHẢ ĐỒ",
+			"raw": [
+"",
+"<2><s>PHẢ ĐỒ</s></2>"
+			]
+		},
+		"ngoai_pha": {
+			"title": "NGOẠI PHẢ",
+			"raw": [
+"",
+"<2><s>Bài vị</s></2>",
+"<im>ac|2|Bài vị Thủy Tổ.jpg|Bài vị Thủy Tổ, Nhà thờ Phan Tộc</im>",
+"",
+"<2><s>Khu mộ</s></2>",
+"<im>ac|2|Mộ Tổ Đời 1.jpg|Tổ mộ, Nghĩa trang Đá Bạc</im>",
+"<im>ac|2|Mộ Đời 7.jpg|Mộ đời 7, Nghĩa trang Đá Bạc</im>",
+
+"[PAGE]",
+"",
+"<2><s>Nhân vật tiêu biểu</s></2>",
+"",
+"<2><e>Phan Lợi Hành</e></2>",
+"",
+"<20>Ông Phan Lợi Hành là Chánh bát phẩm, bổ Kinh lịch tỉnh Thái Nguyên (Bắc Việt), làm Bang tá huyện Tuyên Hóa Quảng Bình, sau bổ ra làm Bang tá tại tỉnh Nam Đinh hơn một năm thì đau mất. Tháng giêng năm Mậu Dần (1878) dời quan cốt về làng.",
+"",
+"<2><e>Phan Quang Triệt</e></2>",
+"",
+"<20>Ông Triệt được bổ Thông lý Quảng Trạch sau đổi vào nhận chức tại Lệ Thủy. Ông tham gia phong trào Duy Tân (1907-1916) sau hơn 1 năm làm việc tại Lệ Thủy Ông quá vang, huyện sắp xếp thuyền đưa quan về quê nhà mộ để ở Sa Động (Bảo Ninh) sau này con cháu quy tụ vào lăng ở Đá Bạc Đồng Sơn.",
+"",
+"<2><e>Phan Ngọc Luật</e></2>",
+"",
+"<20>Lúc đầu Ông làm nghề dạy học tại làng, tháng 07 năm 1902 được bổ Y thuật, qua tháng 03-1903 quyền Cửu phẩm Y sanh, năm 1906 Phái viên Kiểm soát trường thi Thừa Thiên sau đó được bổ Thơ lại Ty phiên Quảng Bình, năm 1908 Phái viên hiểu dụ kiểm lâm toàn thơ lại ty niết, tháng giêng 1919 Lại mục huyện Bố trạch, năm 1930 hồi quan.", 
+"",
+"<2><e>Phan Ngọc Tường</e></2>",
+"",
+"<20>Ông Phan Ngọc Tường sinh ngày 12/2/1929 tại Phú Ninh nay là Phường Đồng Phú, thành phố Đồng Hới, tỉnh Quảng Bình. Năm 16 tuổi, ông đã tham gia phong trào thanh niên cứu quốc tại Nhà máy Nhiệt điện Đồng Hới-Quảng Bình và được đứng trong hàng ngũ của Đảng lúc 19 tuổi.<br>Ông là Ủy viên dự khuyết ban chấp hành TW ĐCS Việt Nam Khóa V (1982-1986), Ủy viên TW ĐCS Việt Nam khóa VI (1986-1991), VII (1991-1996). Từ tháng 5/1982 đến tháng 9/1989, ông được cử giữ chức Bộ trưởng Bộ Xây dựng. Từ tháng 10/1989 đến tháng 10/1996, ông được cử giữ chức Bộ trưởng, Trưởng ban Tổ chức cán bộ Chính phủ.<br><br>Với trách nhiệm công tác của mình, ông Phan Ngọc Tường luôn phát huy vai trò người đứng đầu ngành, là tấm gương mẫu mực về tinh thần lao động, cống hiến đầy tâm huyết, được cán bộ, công chức, viên chức trong cơ quan trân trọng, học tập noi theo.Với những đóng góp tích cực vào sự nghiệp đấu tranh giải phóng dân tộc và xây dựng đất nước, ông đã được tặng thưởng nhiều huân, huy chương các loại và Huy hiệu 40 năm tuổi Đảng. Chiều 17/12/2009, Bộ Nội vụ đã tổ chức lễ truy tặng Huân chương Độc lập hạng Nhất cho ông Phan Ngọc Tường, nguyên Ủy viên Trung ương Đảng, nguyên Bộ trưởng Bộ Xây dựng, Bộ trưởng, Trưởng Ban tổ chức cán bộ Chính phủ."
+			]
+		},
+		"phu_khao": {
+			"title":"PHỤ KHẢO",
+			"raw": [
+"",
+"<2><s>Tư liệu</s></2>",
+"",
+"<do>ac|Quảng Bình.doc|Bản đồ thế kỷ 19</do>",
+"",
+"<2><s>Video</s></2>",
+"",
+"<vi>ac|cai.mp4|Sông Cái, Nha Trang</vi>"
+
+			]
+		}
+	},
+	"en": {
+		"pha_nhap": {
+			"title": "LỜI MỞ ĐẦU",
+			"text":"<p>Introduction to Family Tree</p>"
+		},
+		"pha_ky": {
+			"title": "PHẢ KÝ",
+			"text": "Note"
+		},
+		"pha_he": {
+			"title": "PHẢ HỆ",
+			"text": "People"
+		},
+		"pha_do": {
+			"title": "PHẢ ĐỒ",
+			"text": "Tree"
+		},
+		"ngoai_pha": {
+			"title": "NGOẠI PHẢ",
+			"text": "Extra note"
+		},
+		"phu_khao": {
+			"title": "PHỤ KHẢO",
+			"text": "Addendum"
+		}
+	}
+}
+
+				

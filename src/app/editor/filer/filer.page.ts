@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+// import { DomSanitizer } from '@angular/platform-browser';
 import { ModalController, Platform } from '@ionic/angular';
 import { CropperModalPage } from './cropper-modal/cropper-modal.page';
-import { DocPage } from './doc/doc.page';
+// import { DocPage } from './doc/doc.page';
 import { LanguageService } from '../../services/language.service';
 import { FirebaseService } from '../../services/firebase.service';
 import { FamilyService } from '../../services/family.service';
@@ -72,7 +72,6 @@ export class FilerPage implements OnInit {
     if (DEBUGS.FILE)
       console.log('FilePage - ngOnInit');
     this.start();
-		// this.downloadSetFile();
   }
 
   ionViewWillEnter() {
@@ -131,15 +130,6 @@ export class FilerPage implements OnInit {
     });
   }
 
-	// async uploadInfoAlert1(type: any) {
-
-	// 	if (type == 'DOCS')
-	// 		document.getElementById("modify-upload-docs").click()
-	// 	else if (type == 'FAMILY')
-	// 		document.getElementById("modify-upload-family").click()
-
-	// }
-
 	uploadOnFileSelect(event: any, type: any): void {
     const files = [...event.target.files]
 		const file = files[0];
@@ -157,6 +147,7 @@ export class FilerPage implements OnInit {
 
 	private uploadOnFile(file: any, type: any) {
 		// console.log('type: ', type);
+		// this.utilService.presentToast('FILE_UPLOAD_WAIT_FOR_IMAGES', 5000);
     this.uploadGetTextFile(file).then((res: any) => {
       if (DEBUGS.APP)
         console.log('uploadOnFile - res: ', res);
@@ -176,6 +167,7 @@ export class FilerPage implements OnInit {
 								// build new images files
 								let storageImages = res[1];
 								// some time it's too slow to process file list, wait 2 sec
+								this.utilService.presentLoading('FILE_UPLOAD_WAIT_UPDATE_FAMILY');
 								setTimeout(() => {
 									let images = {};
 									storageImages.forEach((file:any) => {
@@ -188,10 +180,11 @@ export class FilerPage implements OnInit {
 										this.fbService.saveAncestorData(rdata).then((status:any) => {
 											// let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
 											// this.utilService.presentToast(msg);
-											this.utilService.presentToastOK(['FILE_UFILE_UPLOAD_COMPLETE_1', file.name, 'FILE_UFILE_UPLOAD_COMPLETE_2']);
+											this.utilService.dismissLoading();
+											this.utilService.presentToastOK(['FILE_UPLOAD_COMPLETE_1', file.name, 'FILE_UPLOAD_COMPLETE_2']);
 										});
 									});
-								}, 1000);
+								}, 5000);
 							}
 						})
 						
@@ -213,7 +206,9 @@ export class FilerPage implements OnInit {
 							} else {
 								// build new images files
 								let storageImages = res[1]
-								// some time it's too slow to process file list, wait 2 sec
+								// some time it's too slow to process file list, wait 5 sec
+								// this.utilService.presentToast('FILE_UPLOAD_WAIT_FOR_IMAGES', 2000);
+								this.utilService.presentLoading('FILE_UPLOAD_WAIT_UPDATE_DOC');
 								setTimeout(() => {
 									let images = {};
 									storageImages.forEach((file:any) => {
@@ -226,10 +221,11 @@ export class FilerPage implements OnInit {
 										this.fbService.saveAncestorData(rdata).then((status:any) => {
 											// let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
 											// this.utilService.presentToast(msg);
-											this.utilService.presentToastOK(['FILE_UFILE_UPLOAD_COMPLETE_1', file.name, 'FILE_UFILE_UPLOAD_COMPLETE_2']);
+											this.utilService.dismissLoading();
+											this.utilService.presentToastOK(['FILE_UPLOAD_COMPLETE_1', file.name, 'FILE_UPLOAD_COMPLETE_2']);
 										});
 									});
-								}, 1000);
+								}, 5000);
 							}
 						});
 					} else {
@@ -244,9 +240,7 @@ export class FilerPage implements OnInit {
 						this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
 							rdata.info = info;
 							this.fbService.saveAncestorData(rdata).then((status:any) => {
-								// let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
-								// this.utilService.presentToast(msg);
-								this.utilService.presentToastOK(['FILE_UFILE_UPLOAD_COMPLETE_1', file.name, 'FILE_UFILE_UPLOAD_COMPLETE_2']);
+								this.utilService.presentToastOK(['FILE_UPLOAD_COMPLETE_1', file.name, 'FILE_UPLOAD_COMPLETE_2']);
 							});
 						});
 					} else {
@@ -255,7 +249,6 @@ export class FilerPage implements OnInit {
 				}
 				
       } else {
-				// this.utilService.presentToast(this.languageService.getTranslation('FILE_UPLOAD_FILE_EMPTY'));
 				this.utilService.presentToastOK(['FILE_UPLOAD_FILE_EMPTY']);
       }
     });
@@ -267,7 +260,7 @@ export class FilerPage implements OnInit {
 			myReader.readAsText(file);
 			myReader.onload = ((event:any) => {
 				let text:any = event.target.result;
-			// always parse json (string) to object
+				// always parse json (string) to object
 				resolve({text: text});
 			});
     });
@@ -325,7 +318,7 @@ export class FilerPage implements OnInit {
 	
 	private uploadValidateImage(text: any, photoMode: boolean) {
     return new Promise((resolve) => {
-			this.utilService.presentLoading();
+			this.utilService.presentLoading('FILE_UPLOAD_WAIT_READING_STORAGE_IMAGES');
 			// get image list from doc text
 			let docImages = this.uploadGetImages(text, photoMode);
 			//  get images from storage
@@ -333,8 +326,8 @@ export class FilerPage implements OnInit {
 			//  get images from local
 				// wait 1 second for async to complete
 				setTimeout(() => {
-					// console.log('uploadValidateDocs - docImages: ', docImages);
-					// console.log('uploadValidateDocs - storageImages: ', storageImages);
+					console.log('uploadValidateImage - docImages: ', docImages);
+					console.log('uploadValidateImage - storageImages: ', storageImages);
 					let newFiles = [];
 					// go thru each image in doc
 					docImages.forEach(dimage => {
@@ -346,7 +339,7 @@ export class FilerPage implements OnInit {
 					// console.log('uploadValidateDocs - newFiles: ', newFiles);
 					this.utilService.dismissLoading();
 					resolve([newFiles, storageImages]);
-				}, 3000);
+				}, 5000);
 			});
 		});
   }
@@ -404,25 +397,23 @@ export class FilerPage implements OnInit {
 		this.utilService.alertMsg('ERROR', message, 'OK', { width: 350, height: 450 }).then(choice => {});
   }
 
-	async uploadEditJson(text: any) {
-		const docModal = await this.modalCtrl.create({
-			component: DocPage,
-			componentProps: {
-				'caller': 'DocPage',
-				'text': text,
-			},
-			cssClass: 'modal-dialog',
-			backdropDismiss:false
-		});
-		await docModal.present();
-		const { data } = await docModal.onDidDismiss();
-		if (data.result) {
-			let newText = data.result;
-			console.log('uploadEditJson - newText: ', newText);
-		}
-		// return data;
-	}
-
+	// async uploadEditJson(text: any) {
+	// 	const docModal = await this.modalCtrl.create({
+	// 		component: DocPage,
+	// 		componentProps: {
+	// 			'caller': 'DocPage',
+	// 			'text': text,
+	// 		},
+	// 		cssClass: 'modal-dialog',
+	// 		backdropDismiss:false
+	// 	});
+	// 	await docModal.present();
+	// 	const { data } = await docModal.onDidDismiss();
+	// 	if (data.result) {
+	// 		let newText = data.result;
+	// 		console.log('uploadEditJson - newText: ', newText);
+	// 	}
+	// }
 
 // --------- photoMode ----------
 	
@@ -455,12 +446,6 @@ photoSave() {
 		this.photoUpload( this.photo, this.ancestor, this.photoBase64, null);
 }
 
-// photoDelete() {
-// 	this.photoBase64 = '';
-// 	this.photoNew = true;
-// 	this.photo = '';
-// }
-
 photoEdit() {
 	this.openCropperModal(this.photoBase64);
 }
@@ -468,7 +453,6 @@ photoEdit() {
 async openCropperModal(base64: any) {
 	const cropperModal = await this.modalCtrl.create({
 		component: CropperModalPage,
-		// component: CroppieComponent,
 		componentProps: {
 			'caller': 'FilerPage',
 			'base64': base64,
@@ -543,13 +527,7 @@ private photoUpload(photo: string, ancestor:string, photoBase64: string, file:an
 private loadImage(base64: string, photoName: string, ancestor:string) {
 	let type = base64.substring('data:'.length, base64.indexOf(';'));
 	base64 = base64.replace("data:", "").replace(/^.+,/, "");
-	this.fbService.addImage(base64, type, ancestor, photoName).then(urlStorage => {
-		// let msg = this.utilService.getAlertMessage([
-		// 	{name: 'msg', label: 'FILE_PHOTO_COMPLETE_1'},
-		// 	{name: 'data', label: photoName},
-		// 	{name: 'msg', label: 'FILE_PHOTO_COMPLETE_2'},
-		// ]);
-		// this.utilService.presentToast(msg, 5000);
+	this.fbService.addImage(base64, type, ancestor, photoName).then(status => {
 		this.utilService.presentToastOK(['FILE_PHOTO_COMPLETE_1', photoName, 'FILE_PHOTO_COMPLETE_2']);
 	});
 }
@@ -599,7 +577,6 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
 		getMeta(objectURL).then(img => {
 			file.width = img.naturalWidth;
 			file.height = img.naturalHeight;
-			// this.imageFiles.push(file);
 		});
 	}
 
@@ -711,7 +688,7 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
 				setTimeout(() => {
 					let img = document.getElementById('storage-view');
 					img.setAttribute('src', file.url);
-				}, 500);
+				}, 1000);
 			} else
 				img.setAttribute('src', file.url);
     } else {

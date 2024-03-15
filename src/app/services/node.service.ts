@@ -427,50 +427,7 @@ export class NodeService {
 		if (srcNode.pod != '') node.pod = srcNode.pod;
 		if (srcNode.por != '') node.por = srcNode.por;
 		if (srcNode.job != '') node.job = srcNode.job;
-
-		if (srcNode.desc) {
-			if (Array.isArray(srcNode.desc)) {
-				let str = this.editorService.replaceArrayToText(srcNode.desc);
-
-				// // special case. Sometime desc is array, convert to a HTML string '\n'
-				// console.log('DESC: ', srcNode.desc)
-				// let str = '';
-				// let ary: any = srcNode.desc;
-				// ary.forEach((line: string) => {
-				// 	// str += line + '\n';
-				// 	// decode line to include font and style
-				// 	// <p style="text-align: center;"><strong>1. &Ocirc;ng Phan Quang Triệt</strong></p>
-				// 	// <p style="text-align: right;"><strong>2. Vị v&ocirc; danh</strong></p>
-					
-				// 	// "1|1|1|1. Ông Phan Quang Triệt",
-				// 	let items = line.split('|');
-				// 	if (items.length == 4) {
-				// 		let text_align = items[0];	// 1: center, 2: right
-				// 		let font_weight = items[1]; // 1: strong
-				// 		let font_style = items[2];	// 1: italic
-				// 		if (text_align == '1')
-				// 			str += '<p style="text-align: center;">';
-				// 		else if (text_align == '2')
-				// 			str += '<p style="text-align: right;">';
-				// 		else
-				// 			str += '<p>';
-				// 		if (font_weight == '1')
-				// 			str += '<strong>';
-				// 		if (font_style == '1')
-				// 			str += '<italic>';
-				// 		str += line;
-				// 		if (font_style == '1')
-				// 			str += '</italic>';
-				// 		if (font_weight == '1')
-				// 			str += '</strong>';
-				// 		str += '</p>';
-				// 	} else
-				// 		str += '<p>' + line + '</p>';
-				// })
-				node.desc = str;
-			} else if (srcNode.desc != '') node.desc = srcNode.desc;
-		}
-
+		if (srcNode.desc) node.desc = srcNode.desc;
 		if (srcNode.photo != '') node.photo = srcNode.photo;
 		if (srcNode.dod != '') node.dod = srcNode.dod;
     return node;

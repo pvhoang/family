@@ -115,7 +115,7 @@ export class TreePage implements OnInit {
       if (res.data) {
 				if (DEBUGS.TREE)
 					console.log('onJPEG - res: ', res);
-        this.utilService.presentLoading();
+        this.utilService.presentLoading('TREE_BUILD_JPEG');
         const ele = document.getElementById(iddom);
         const dashboardHeight = ele.clientHeight;
         const dashboardWidth = ele.clientWidth;
@@ -149,7 +149,7 @@ export class TreePage implements OnInit {
     ]);
     this.utilService.alertConfirm('ANNOUNCE', msg, 'CANCEL', 'CONTINUE').then((res) => {
       if (res.data) {
-        this.utilService.presentLoading();
+        this.utilService.presentLoading('TREE_BUILD_PDF');
         const ele = document.getElementById(iddom);
 				if (DEBUGS.TREE)
 					console.log('onPDF: clientWidth, clientHeight: ', ele.clientWidth, ele.clientHeight);

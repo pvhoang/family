@@ -5,9 +5,7 @@ import { FamilyService } from '../../services/family.service';
 import { NodeService } from '../../services/node.service';
 import { EditorService } from '../../services/editor.service';
 import { DataService } from '../../services/data.service';
-import { FirebaseService } from '../../services/firebase.service';
 import { FtTreeService } from '../../services/ft-tree.service';
-import { ThemeService } from '../../services/theme.service';
 import { Family, Node, FAMILY} from '../../services/family.model';
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
 
@@ -35,6 +33,8 @@ export class PersonPage implements OnInit {
   doubleClicked = false;
   selectedNode: any = null;
   selectedNodeName: string = '';
+	editor: any;
+  settings: any;
 
   treeClass = 'person-tree'
   viewMode = 1;
@@ -82,7 +82,7 @@ export class PersonPage implements OnInit {
       this.info = data.info;
       this.title = this.info.description;
       this.start(data.family);
-      
+			// this.setupEditor('');
     });
   }
 
@@ -132,26 +132,20 @@ export class PersonPage implements OnInit {
     // reset nclass
     if (this.selectedNode)
       this.selectedNode.nclass = this.nodeService.updateNclass(this.selectedNode);
-
-		// convert to html for display
-		node.desc = this.editorService.replaceDescTextStyle(node.desc);
     this.selectedNode = node;
-
+		
+		// read images from local storage
 		this.dataService.readItem('images').then((images:any) => {
-			let resolves = this.editorService.convertDocumentTemplate(images, node.desc);
-			if (resolves.length > 0) {
-				let html:any = node.desc.slice(0);
-				for (let i = 0; i < resolves.length; i++) {
-					let data = resolves[i];
-					let docStr = '[' + data.docStr + ']';
-					html = html.replaceAll(docStr,data.html);
-				}
-				// convert html to css based text and to desc
-				node.desc = this.editorService.replaceDescTextStyle(html);
-				this.onNodeDisplay(images, node);
-			} else {
-				this.onNodeDisplay(images, node);
-			}
+			if (Array.isArray(node.desc)) {
+				// convert to html if desc is an array
+				let html = this.editorService.convertArrayToHtml(images, node.desc, true);
+				// html = 'Ông bà sinh:<br><p style="padding-left: 20px;">1. Phan <b>Văn</b> Nguyên Trưởng Nam</p>';
+				// html =  'Ông bà sinh:<br><div class="viewer-home-container-left viewer-home-container-padding-20">1. Phan Văn Nguyên Trưởng Nam</div>';
+				// html =  'Ông bà sinh:<br><div class="viewer-home-container-center">1. Phan Văn Nguyên Trưởng Nam</div>';
+				node.desc = html;
+				// console.log('PersonPage - onNodeSelect - html: ', html);
+			};
+			this.onNodeDisplay(images, node);
 		});
   }
 
@@ -205,13 +199,11 @@ export class PersonPage implements OnInit {
 
 		// top = 40;
 		// left = 40;
-
 		// top = 80;
 		// left = 290;
-
-		console.log('w1, h1: ', w1, h1);
-		console.log('w2, h2: ', w2, h2);
-		console.log('top, left: ', top, left);
+		// console.log('w1, h1: ', w1, h1);
+		// console.log('w2, h2: ', w2, h2);
+		// console.log('top, left: ', top, left);
 
 		this.image1.url = "../../../assets/icon/bia-mo.png";
 		this.image1.w = '' + parseInt('' + w1)  + 'px';

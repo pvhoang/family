@@ -3,24 +3,7 @@
 		"pha_nhap": {
 			"title": "LỜI MỞ ĐẦU",
 			"raw": [
-
-"Simple line of text",
-"<ac><1><s>text: align-center, big, strong</s></1></ac>",
-"<ar><3><u><e>text: align-right, small, underline, italic</e></u></3></ar>",
-"<im>ac|2|Nhà Thờ Phan Tộc.png|align-center, normal</im>",
-"<do>ar|Quảng Bình.doc|align-right</do>",
-"<vi>ar|cai.mp4|align-right</vi>",
-				
-"[PAGE]",
-
-"[1|1|1|1|Các thế hệ gia tộc]",
-"<b>Tổng số hệ (2024): </b>[NODE-COUNT]",
-"[GEN-TABLE]",
-
-"[PAGE]",
-
-
-"//[1|1|1|1|Chim có tổ người có tông, cây có cội, nước có nguồn.]",
+"<ac><1><s>Chim có tổ người có tông, cây có cội, nước có nguồn.</s></1>",
 "Những câu ca dao nói lên đạo lý của con người Việt Nam chúng ta đã lưu truyền bao đời nay dẫu cho xã hội có nhiều biến động, thay đổi. Vì vậy việc truy tìm nguồn gốc tổ tiên, chăm lo mồ mả ông bà, là những điều gần như nằm trong tiềm thức của mỗi một con người Việt Nam.",
 "Dòng họ Phan ta đã lập nghiệp tại Làng Phú Ninh nay là Phường Đồng Phú này hơn 300 năm. Các bậc tổ tiên đã cần cù lao động xây dựng nề nếp cho con cháu đời sau với tiền đồ sáng lạn. Đất nước ta từ bao đời đã trải qua chinh chiến từ thời kỳ này qua thời kỳ khác, tổ tiên ta đã lao động chiến đấu xã thân tạo dựng cơ đồ. Tất cả tấm gương đó là những gương sáng để con cháu đời sau tiếp nối học tập noi theo, tiếp tục truyển thống của gia đình và dòng họ để phấn đấu xây dựng một cuộc sống ấm no hạnh phúc cho chính bản thân mình và góp phần xây dựng cộng đồng xã hội.",
 "Nhằm có thể hệ thống hóa được phần nào lịch sử vẻ vang và có thể hệ thống hóa được phần nào phả hệ, phả đồ của dòng họ, Chi Phái và muốn hoàn thành tâm nguyện bản thân cũng như muốn dâng lên tổ tiên vong linh hiển khảo Phan Văn Ba, Tôi Phan Thanh Dũng con cháu đời thứ 16 dòng họ Phan tính từ Ông Thủy Tổ Ông Phan Văn Tác, Đời thứ 6 tính từ tổ Chi Phan Lợi Hành (Phan Văn Tự) sau khi bàn bạc,  lên kế hoạch,  tìm hiểu đã viết nên cuốn gia phả này để cùng các Ông, Bác, Chú và cũng như con cháu sau này có thêm tài liệu để tham khảo có thể hoàn thành lại tốt hơn.",
@@ -33,21 +16,19 @@
 		"pha_ky": {
 			"title": "PHẢ KÝ",
 			"raw": [
-				"Quyển Gia Phả này ghi lại gia tộc họ Phan tại Quảng Bình ...",
-"[1|1|1|1|Tổ phụ]",
+"Quyển Gia Phả này ghi lại gia tộc họ Phan tại Quảng Bình ...",
+"<ac><3><s>Tổ phụ</s></3>",
 "Họ/Tên: Phan Văn Nghi<br>Ngày Sinh: 1854<br>Ngày Mất: không rõ<br>Nơi Sinh: Tỉnh Quảng Bình<br>Nơi Mất: Nghĩa trang Đá Bạc, Phường Đồng Sơn, Tp. Đồng Hới, Tỉnh Quảng Bình",
 "Ghi chú:<br>Vì do lý do tài liệu từ thời xa xưa để lại rất ít và không có điều kiện ghi chép theo thứ tự liền mạch nên từ các tài liệu đang có sưu tầm, chỉ tập trung ghi chép thế hệ đời từ Ông Phan Văn Nghi người ta gọi là Nánh Nhất. Ông Phan Văn Nghị (em ông Nghi) phát triển Nánh Nhì gọi là Nánh Ông Vạt sẽ được bổ sung sau.",
-
-"[1|1|1|1|Tổ quán]",
+"<ac><s>Tổ quán</s>",
 "Tên: Nhà thờ Phan Tộc<br>Địa điểm: Đường Bà Triệu, Phường Đồng Phú, Tp Đồng Hới, Tỉnh Quảng Bình",
 "",
-"[1|1|1|1|Bản đồ Tổ quán]",
-"[3|Nhà Thờ Phan Tộc.png|1|1|Phường Đồng Phú, Tp Đồng Hới]",
-
+"<ac><s>Bản đồ Tổ quán</s>",
+"<im>Nhà Thờ Phan Tộc.png|ac|2|Phường Đồng Phú, Tp Đồng Hới</im>",
 "[PAGE]",
 
-"[1|1|1|1|Các thế hệ gia tộc]",
-"<b>Tổng số hệ (2024): </b>[NODE-COUNT]",
+"<ac><s>Các thế hệ gia tộc</s>",
+"<s>Tổng số hệ (2024): </s>[NODE-COUNT]",
 "[GEN-TABLE]",
 
 "[PAGE]",

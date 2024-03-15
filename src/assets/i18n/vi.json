@@ -146,6 +146,8 @@
 	
 	"TREE_POPOVER_PRINT_JPEG": "JPEG",
   "TREE_POPOVER_PRINT_PDF": "PDF",
+	"TREE_BUILD_JPEG": "Tạo file JPEG",
+	"TREE_BUILD_PDF": "Tạo file PDF",
 	"TREE_SELECT_PRINT_JPEG_MSG_1": "File '",
   "TREE_SELECT_PRINT_JPEG_MSG_2": "' sẽ được tạo và cất vào hệ thống",
   "TREE_SELECT_PRINT_PDF_MSG_1": "File '",
@@ -274,6 +276,10 @@
   "FILE_UPLOAD_IMAGES": "Dữ liệu hình",
   "FILE_UPLOAD_EXIT": "Thoát",
   "FILE_UPLOAD_PLACEHOLDER": "Cập nhật file",
+	"FILE_UPLOAD_WAIT_FOR_IMAGES": "Cập nhật files images! Đợi 5 giây.",
+	"FILE_UPLOAD_WAIT_READING_STORAGE_IMAGES": "Đọc files in Storage ...",
+	"FILE_UPLOAD_WAIT_UPDATE_DOC": "Cập nhật file DOC ...",
+	"FILE_UPLOAD_WAIT_UPDATE_FAMILY": "Cập nhật file FAMILY ...",
 	
 	"FILE_UPLOAD_MESSAGE": "Upload data? ",
 	"FILE_UPLOAD_MESSAGE_1": "Upload data: ",

@@ -135,12 +135,12 @@
 	font-family: "Pacifico", cursive;
 }
 
-.viewer-home-container-image {
-	// https://www.educative.io/answers/how-to-enlarge-an-image-on-hover-in-html
-	&:hover{
-		transform:scale(2.5);
-	}
-}
+// .viewer-home-container-image {
+// 	// https://www.educative.io/answers/how-to-enlarge-an-image-on-hover-in-html
+// 	&:hover{
+// 		transform:scale(2.5);
+// 	}
+// }
 
 .click-zoom input[type=checkbox] {
   display: none

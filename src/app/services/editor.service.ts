@@ -1,320 +1,270 @@
 import { Injectable } from '@angular/core';
-import { DataService } from '../services/data.service';
-import { ThemeService } from '../services/theme.service';
-import { FirebaseService } from '../services/firebase.service';
-import { DEBUGS, VietnameseEntities, SMALL_SIZE, MEDIUM_SIZE, LARGE_SIZE  } from '../../environments/environment';
+import { UtilService } from '../services/util.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EditorService {
 
-  constructor(
-    private fbService: FirebaseService,
-    private themeService: ThemeService,
-    private dataService: DataService,
+  constructor(private utilService: UtilService
   ) { }
 
-	// getImageItems(editor: any) {
-	// 	let imageItems = [];
-	// 	this.dataService.readItem('photos').then((photos:any) => {
-	// 		photos.data.forEach(photo => {
-	// 			let dat = photo.split('|');
-	// 			let name = dat[0];
-	// 			let caption = (dat.length > 1) ? dat[1] : name;
-	// 			let sub = {
-	// 				type: 'menuitem',
-	// 				text: name,
-	// 				onAction: () => editor.insertContent(`[` + name + `|2|1|` + caption + `]`)
-	// 			};
-	// 			imageItems.push(sub);
-	// 		})
-	// 		return imageItems;
-	// 	});
-	// 	return imageItems;
-	// }
-	
-	// convert a document with special templates info to html text 
-	convertDocumentTemplate(images: any, text: any) {
+	convertArrayToHtml(images: any, lines: any, textarea?: boolean) {
 
-		console.log('convertDocumentTemplate - images: ', images);
+		console.log('convertArrayToHtml - textarea: ', textarea);
 
-		// https://stackoverflow.com/questions/71176093/how-to-extract-content-in-between-an-opening-and-a-closing-bracket
-		var reg = /(?<=\[)[^\]]*(?=\])/g;
-		let templates = [];
-		const matches = text.match(reg);
+		let html = '';
+		for (let il = 0; il < lines.length; il++) {
+			let line = lines[il].trim();
+			if (line.length == 0) {
+				// html += '<p>&nbsp;</p>';
+				html += '<br>';
+				continue;
+			} else if (line.indexOf('//') == 0) {
+				continue;
+			}
+			let paraHtml = '';
+			// check line type
+			if (line.indexOf('<im>') == 0 && line.indexOf('</im>') > 0)
+				// decode image formatting
+				paraHtml = this.getUIHtml(line, images, ['IMAGE', '<im>', '</im>'], textarea);
+			else if (line.indexOf('<do>') == 0 && line.indexOf('</do>') > 0)
+				paraHtml = this.getUIHtml(line, images, ['DOCUMENT', '<do>', '</do>']);
+			else if (line.indexOf('<vi>') == 0 && line.indexOf('</vi>') > 0)
+				paraHtml = this.getUIHtml(line, images, ['VIDEO', '<vi>', '</vi>']);
+			else
+				// regular text, decode standard formatting
+				paraHtml = this.getParagraphHtml(line);
+			// console.log('paraHtml1: ', paraHtml);
+			// finalize html
+			let lineOK = (paraHtml.indexOf('<p') == 0 && paraHtml.indexOf('</p>') > 0) ||
+				(paraHtml.indexOf('<div') == 0 && paraHtml.indexOf('</div>') > 0);
+			if (!lineOK)
+				paraHtml += '<br>';
+			
+			html += paraHtml;
+		}
+		return html;
+	}
+
+	private getParagraphHtml(srcStr: any) {
+		// https://stackoverflow.com/questions/42698757/if-a-p-and-span-tag-both-have-an-em-font-size-what-is-the-actual-height
+		let str = srcStr;
+		const specialCharsMap = new Map([
+			['<al>', ''],['</al>', ''],			// left
+			['<ar>', ''],['</ar>', ''],		// right
+			['<ac>', ''],['</ac>', ''],		// center
+			
+			['<10>', ''],['</10>', ''],		// padding-left 10px
+			['<20>', ''],['</20>', ''],		// padding-left 20px
+			['<30>', ''],['</30>', ''],		// padding-left 30px
+
+			['<s>', '<strong>'], ['</s>', '</strong>'],		// strong
+			['<e>', '<em>'], ['</e>', '</em>'],						// italic
+			['<u>', '<span style="text-decoration: underline;">'], ['</u>', '</span>'],	// underline
+			['<3>', '<span style="font-size: 0.7em;">'], ['</3>', '</span>'],	// size 3, smallest
+			['<2>', '<span style="font-size: 1.0em;">'], ['</2>', '</span>'],	// size 2, normal
+			['<1>', '<span style="font-size: 1.3em;">'], ['</1>', '</span>'],	// size 1, big
+			['<g>', '<span style="color: #00ff00;">'], ['</g>', '</span>'],	// green
+			['<r>', '<span style="color: #ff0000;">'], ['</r>', '</span>'],	// red
+			['<b>', '<span style="color: #0000ff;">'], ['</b>', '</span>'],	// blue
+		]);
+		function replaceSpecialChars(string: any) {
+			for (const [key, value] of specialCharsMap) {
+				string = string.replace(new RegExp(key, "g"), value);
+			}
+			return string;
+		}
+		let html = replaceSpecialChars(str);
+
+		// tags for padding-left
+
+		// let padding = '';
+		// if (srcStr.indexOf('<10>') >= 0)
+		// 	padding = 'style="padding-left: 10px;"';
+		// else if (srcStr.indexOf('<20>') >= 0)
+		// 	padding = 'style="padding-left: 20px;"';
+		// else if (srcStr.indexOf('<30>') >= 0)
+		// 	padding = 'style="padding-left: 30px;"';
+
+		let padding = '';
+		if (srcStr.indexOf('<10>') >= 0)
+			padding = 'viewer-home-container-padding-10';
+		else if (srcStr.indexOf('<20>') >= 0)
+			padding = 'viewer-home-container-padding-20';
+		else if (srcStr.indexOf('<30>') >= 0)
+			padding = 'viewer-home-container-padding-30';
+
+		// add special tags for alignment (see image)
+
+		if (srcStr.indexOf('<ar>') >= 0) {
+			// html = '<div class="viewer-home-container-right ' + padding + '">' + html + '</div>';
+			html = '<div class="viewer-home-container-right">' + html + '</div>';
+		} else if (srcStr.indexOf('<ac>') >= 0) {
+			html = '<div class="viewer-home-container-center">' + html + '</div>';
+		} else {
+			html = '<div class="viewer-home-container-left ' + padding + '">' + html + '</div>';
+		}
+
+		// if (srcStr.indexOf('<al>') >= 0) {
+		// 	html = '<div class="viewer-home-container-left" ' + padding + '>' + html + '</div>';
+		// } else if (srcStr.indexOf('<ar>') >= 0) {
+		// 	html = '<div class="viewer-home-container-right" ' + padding + '>' + html + '</div>';
+		// } else if (srcStr.indexOf('<ac>') >= 0) {
+		// 	html = '<div class="viewer-home-container-center" ' + padding + '>' + html + '</div>';
+		// }
+		return html;
+	}
+
+	getUIHtml(paraHtml: any, images: any, keys: any, textarea?: boolean) {
+		let reg = new RegExp(keys[1] + '(.*?)' + keys[2], "g");
+		// console.log('reg: ', reg);
+		let matches = paraHtml.match(reg);
 		if (matches) {
 			for (let i = 0; i < matches.length; ++i) {
-				const match = matches[i];
-				// match does not include []
-				let data = this.getDocumentTemplate(match);
-				if (data)
-					templates.push(data);
-			}
-		}
-		// no template in text, just return
-		if (templates.length == 0)
-			return ([]);
-
-		// now read all images to url from Firebase storage
-		let promises = [];
-		templates.forEach((data: any) => {
-			if (data.type == '0') {
-				promises.push({ docStr: data.src, html: data.src });
-
-			// simple template with no server access
-			} else if (data.type == '1') {
-				// phrase formatting
+				// console.log('matches[i]: ', matches[i]);
+				let str = matches[i].substring(keys[1].length,  matches[i].length - keys[2].length);
 				let html = '';
-				if (data.justify == '0') html = '<p>';
-				if (data.justify == '1') html = '<p style="text-align: center;">';
-				if (data.justify == '2') html = '<p style="text-align: right;">';
-				if (data.weight == '1') html += '<strong>';
-				if (data.style == '1') html += '<em>';
-				html += data.phrase;
-				if (data.style == '1') html += '</em>';
-				if (data.weight == '1') html += '</strong>';
-				html += '</p>';
-				if (DEBUGS.EDITOR)
-					console.log('convertDocumentTemplate - html: ', html);
-				promises.push({ docStr: data.src, html: html });
-
-			} else if (data.type == '2' || data.type == '3') {
-				// console.log('convertDocumentTemplate - images[data.name]: ', images[data.name]);
-				// image is not available in storage, keep src
-				if (!images[data.name]) {
-				// console.log('convertDocumentTemplate - data.src: ', data.src);
-					promises.push({ docStr: data.src, html: '[' + data.src + ']' });
-				} else {
-					let url = images[data.name].url;
-					let type = images[data.name].type;
-					console.log('convertDocumentTemplate - type: ', type);
-
-					let html = '';
-					if (type.indexOf('image') >= 0) {
-						// w=150 h=100 , w=1200 h=900 -> h = 150 * 900 / 1200, w=150
-						// w=150 h=100 , w=900 h=1350 -> w = 150 * 900 / 1350, h=150
-						// match width and height with image natural size 
-						let iWidth = images[data.name].width;
-						let iHeight = images[data.name].height;
-						if (iWidth > iHeight) {
-							// landscape
-							data.height = data.width * iHeight / iWidth;
-						} else {
-							// portrait
-							let width = data.width;
-							let height = data.height;
-							data.height = width;
-							data.width = width * iWidth / iHeight;
-						}
-
-						// https://stackoverflow.com/questions/30686191/how-to-make-image-caption-width-to-match-image-width
-						// https://stackoverflow.com/questions/39858998/zoom-in-and-out-on-mouse-click-with-css
-						// https://stackoverflow.com/questions/73078680/you-may-need-an-additional-loader-to-handle-the-result-of-these-loaders-angular
-
-						// let html_save = 
-						// '<div class="' + data.container + '">' +
-						// 	'<div class="click-zoom">' +
-						// 		'<label>' +
-						// 			// '<input type="checkbox" onclick="setZoom()">' +
-						// 			'<input type="checkbox">' +
-						// 			'<img id="image-zoom" src="' + url + '" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
-						// 		'</label>' +
-						// 	'</div>' +
-						// '</div>';
-
-						html = 
-						'<div class="' + data.container + '">' +
-							'<img src="' + url + '" class="viewer-home-container-image" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
-						'</div>';
-
-						// 	'<img src="' + url + '" class="viewer-home-container-image" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
-						// '</div>';
-
-						if (data.caption != '') {
-							// let fontSizePercent = this.themeService.getRootProperty("--app-page-text-font-size");
-							// let style = 'font-size: ' + fontSizePercent + ';';
-							// html += '<div class="' + data.container + ' viewer-home-no-expand" style="' + style + '">' + data.caption + '</div>';
-							html += '<div class="' + data.container + ' viewer-home-no-expand">' + data.caption + '</div>';
-						}
-					} else {
-						html = 
-						'<div class="' + data.container + '">' +
-						'<span id="document-download" class="viewer-home-container-label" onclick="downloadDocument(\'' + url + '\', \'' + data.name + '\')">' + data.caption + '</span>' +
-						// '<span style="' + style + '" onclick="downloadDocument(\'' + url + '\', \'' + data.name + '\')">' + data.caption + '</span>' +
-						'</div>';
-					}
-					if (DEBUGS.EDITOR)
-						console.log('convertDocumentTemplate - html: ', html);
-					promises.push({ docStr: data.src, html: html });
+				if (keys[0] == 'IMAGE') {
+					html = this.getImageHtml(images, str, textarea);
+				} else if (keys[0] == 'DOCUMENT') {
+					html = this.getDocumentHtml(images, str)
+				} else if (keys[0] == 'VIDEO') {
+					html = this.getVideoHtml(images, str)
 				}
-
-			} else if (data.type == '4') {
-				// video
-				// video is not available in storage, keep src
-				if (!images[data.name]) {
-					// console.log('convertDocumentTemplate - data.src: ', data.src);
-						promises.push({ docStr: data.src, html: '[' + data.src + ']' });
-
-				} else {
-					let url = images[data.name].url;
-					let type = images[data.name].type;
-					console.log('convertDocumentTemplate - type: ', type);
-
-					let html = '';
-					if (type.indexOf('video') >= 0) {
-						let iWidth = images[data.name].width;
-						let iHeight = images[data.name].height;
-						if (iWidth > iHeight) {
-							// landscape
-							data.height = data.width * iHeight / iWidth;
-						} else {
-							// portrait
-							let width = data.width;
-							let height = data.height;
-							data.height = width;
-							data.width = width * iWidth / iHeight;
-						}
-
-						html =
-						// '<div class="' + data.container + '">' +
-						'<div class="viewer-home-player-wrapper">' +
-						'<vg-player>' +
-							'<video #media [vgMedia]="media" id="singleVideo" preload="auto" controls>' +
-								'<source src="' + url + '" type="video/mp4" >' +
-							'</video>' +
-						'</vg-player>' +
-						// '</div>' +
-						'</div>';
-
-						// html =
-						// '<div class="viewer-home-player-wrapper">' +
-						// '<vg-player vg-width="' + data.width + 'px" vg-height="' + data.height + 'px">' +
-						// 	'<video #media [vgMedia]="media" id="singleVideo" preload="auto" controls>' +
-						// 		// '<source src="' + url + '" type="video/mp4" width="' + data.width + 'px" height="' + data.height + 'px" >' +
-						// 		'<source src="' + url + '" type="video/mp4" >' +
-						// 	'</video>' +
-						// '</vg-player>' +
-						// '</div>' +
-						// '</div>'
-
-						// html = 
-						// '<div class="' + data.container + '">' +
-						// 	'<img src="' + url + '" class="viewer-home-container-image" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + data.name + '"/>' +
-						// '</div>';
-
-						if (data.caption != '') {
-							html += '<div class="' + data.container + ' viewer-home-no-expand">' + data.caption + '</div>';
-						}
-					}
-					if (DEBUGS.EDITOR)
-						console.log('convertDocumentTemplate - html: ', html);
-					promises.push({ docStr: data.src, html: html });
-				}
+				if (html != '')
+					paraHtml = paraHtml.replaceAll(matches[i], html);
 			}
-				
-		});
-		return (promises);
+		}
+		return paraHtml;
 	}
 
-	private getDocumentTemplate(str: any) {
-		// console.log('str: ', str);
-		// if str between [] has <. it is a html string
-		if (str.indexOf('<') >= 0) {
-			let data = { type: '0', src: str }
-			return data;
-		}
+	getImageHtml(images: any, str: any, textarea?: boolean) {
+
+		// <im>ac|1|abc.png|This is caption</im>
 		let items = str.split('|');
-		let type = items[0].trim();
+		let align = items[0];
+		if (align !== 'al' && align !== 'ac' && align !== 'ar') align = 'ac'
 
-		if (type == '1') {
-			// TXT paragraph
-			// IN: "[1 |justify|weight|style|label]" 
-			// 			"justify: 0(left)/1(center)/2(right)" 
-			//			"weight: 0(normal)/1(strong)"
-			//			"style: 0(normal)/1(em)"
-			// EG: "[1 |1|1|1|Ngành nghề truyền thống]"
-			let justify = items[1].trim();
-			let weight = items[2].trim();
-			let style = items[3].trim();	
-			if (justify == '0' || justify == '1' || justify == '2') {
-				let data = { type: type, src: str, justify: justify, weight: weight, style: style, phrase: items[4].trim() }
-				return data;
-			}
+		let size = items[1];
+		if (size != '1' || size != '2' || size != '3') size = '2'
+		let name = items[2];
+		let caption = items[3];
 
-		} else if (type == '2') {
-			// DOC, PDF, TXT document
-			// IN: "[2| doc|justify|label]" 
-			// 			"justify: 0(left)/1(center)/2(right)" 
-			// EG: "[2| Quảng Bình.doc|1|Tư liệu tỉnh Quảng Bình]"
+		const containers = { 'al': 'viewer-home-container-left', 'ac': 'viewer-home-container-center', 'ar': 'viewer-home-container-right' };
+		const sizeValues = { '3': { width: 150, height: 100 }, '2': { width: 200, height: 150 }, '1': { width: 250, height: 200 } };
+		if (!images[name])
+				return '';
 
-			let fileName = items[1].trim();
-			fileName = this.decodeEntities(fileName);
-			let justify = items[2].trim();
-			let captionStr = items[3];
-			if (justify == '0' || justify == '1' || justify == '2') {
-				let justifies = { '0': 'left', '1': 'center', '2': 'right' }
-				let containerClass = 'viewer-home-container-'+justifies[justify];
-				let data = { type: type, src: str, name: fileName, justify: justify, container: containerClass, caption: captionStr }
-				return data;
-			}
-
-		} else if (type == '3') {
-			// IMAGE JPG, JPEG, BNG document
-			// IN: "[3| image|size|justify|caption]" 
-			//			"size: 0(small)/1(medium)/2(large)
-			//			"justify: 0(left)/1(center)/2(right)"
-			// EG: "[3| bai-vi-doi-1.jpg|1|1|Bài vị Thủy Tổ Họ Phan, Nhà thờ Họ Phan, Đồng Phú]"
-
-			let fileName = items[1].trim();
-			fileName = this.decodeEntities(fileName);
-			// valid file, check image size
-			let size = items[2].trim();
-			if (size == '0' || size == '1' || size == '2') {
-				let sizes = { 
-					'1': { w: '150', h: '100' },
-					'2': { w: '200', h: '150' },
-					'3': { w: '250', h: '200' },
-				};
-				let justify = items[3].trim();
-				if (justify == '0' || justify == '1' || justify == '2') {
-					let justifies = { '0': 'left', '1': 'center', '2': 'right' }
-					let containerClass = 'viewer-home-container-'+justifies[justify];
-					let caption = items[4];
-					let data = { type: type, src: str, name: fileName, width: sizes[size].w, height: sizes[size].h, container: containerClass, caption: caption }
-					return data;
-				}
-			}
-		} else if (type == '4') {
-			// VIDEO MP4, AVI document
-			// IN: "[4| video|size|justify|caption]" 
-			//			"size: 0(small)/1(medium)/2(large)
-			//			"justify: 0(left)/1(center)/2(right)"
-			// EG: "[4| cai.mp4|1|1|Sông Cái]"
-			let fileName = items[1].trim();
-			fileName = this.decodeEntities(fileName);
-			// valid file, check image size
-			let size = items[2].trim();
-			if (size == '0' || size == '1' || size == '2') {
-				let sizes = { 
-					'1': { w: '150', h: '100' },
-					'2': { w: '200', h: '150' },
-					'3': { w: '250', h: '200' },
-				};
-				let justify = items[3].trim();
-				if (justify == '0' || justify == '1' || justify == '2') {
-					let justifies = { '0': 'left', '1': 'center', '2': 'right' }
-					let containerClass = 'viewer-home-container-'+justifies[justify];
-					let caption = items[4];
-					let data = { type: type, src: str, name: fileName, width: sizes[size].w, height: sizes[size].h, container: containerClass, caption: caption }
-					return data;
-				}
-			}
-			// return null;
+		let url = images[name].url;
+		let type = images[name].type;
+		if (type.indexOf('image') == -1)
+			return '';
+			
+		let data = { width: sizeValues[size].width, height: sizeValues[size].height };
+		let iWidth = images[name].width;
+		let iHeight = images[name].height;
+		if (iWidth > iHeight) {
+			// landscape
+			data.height = data.width * iHeight / iWidth;
+		} else {
+			// portrait
+			let width = data.width;
+			data.height = width;
+			data.width = width * iWidth / iHeight;
 		}
-		return null;
+
+		console.log('textarea: ', textarea);
+
+		let imgTag = '';
+		if (textarea) {
+			// textarea container in person.page.ts, use hover
+			imgTag = '<img src="' + url + '" class="viewer-home-container-image" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + name + '"/>';
+
+		} else {
+			// regular container, use click
+			let stripName = this.utilService.stripVN(name);
+			stripName = stripName.replaceAll(' ', '-');
+			stripName = stripName.replaceAll('.', '-');
+			let imageId = "image-id-" + this.utilService.getCurrentTime() + '-' + stripName;
+			imgTag = '<img id="' + imageId + '" src="' + url + '" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + name + '" onclick=enlargeImage(\'' + imageId + '\')>';
+		}
+		
+		let html = 
+			'<div class="' + containers[align] + '">' +
+				imgTag +
+				// '<img src="' + url + '" class="viewer-home-container-image" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + name + '"/>' +
+				// '<img id="' + imageId + '" src="' + url + '" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + name + '" onclick=enlargeImage(\'' + imageId + '\')>' +
+			'</div>';
+		if (caption != '')
+			html += '<div class="' + containers[align] + ' viewer-home-no-expand">' + caption + '</div>';
+			// html += '<div class="' + containers[align] + '"' + caption + '</div>';
+		console.log('html: ', html);
+		return html;
 	}
-	
+
+	getDocumentHtml(images: any, str: any) {
+
+		// <do>ac|abc.word|This is caption</do>
+		let items = str.split('|');
+		let align = items[0];
+		if (align !== 'al' && align !== 'ac' && align !== 'ar') align = 'ac'
+		let name = items[1];
+		let caption = items[2];
+
+		// console.log('str: ', str, align);
+		let containers = { 'al': 'viewer-home-container-left', 'ac': 'viewer-home-container-center', 'ar': 'viewer-home-container-right' };
+		if (!images[name])
+				return '';
+				
+		let url = images[name].url;
+		let type = images[name].type;
+		if (type.indexOf('image') >= 0 || type.indexOf('video') >= 0)
+			return '';
+		let	html =
+			'<div class="' + containers[align] + '">' +
+			'<span id="document-download" class="viewer-home-container-label" onclick="downloadDocument(\'' + url + '\', \'' + name + '\')">' + caption + '</span>' +
+			'</div>';
+		return html;
+
+	}
+
+	getVideoHtml(images: any, str: any) {
+		// <vi>ac|abc.mp4|This is caption</vi>
+		let items = str.split('|');
+		let align = items[0];
+		if (align !== 'al' && align !== 'ac' && align !== 'ar') align = 'ac'
+
+		let name = items[1];
+		let caption = items[2];
+
+		// const pretags = { 'al': '<p style="text-align: left;">', 'ac': '<p style="text-align: center;">', 'ar': '<p style="text-align: right;">' };
+		const containers = { 'al': 'viewer-home-container-left', 'ac': 'viewer-home-container-center', 'ar': 'viewer-home-container-right' };
+		const wrappers = { 'al': 'viewer-home-player-wrapper-left', 'ac': 'viewer-home-player-wrapper-center', 'ar': 'viewer-home-player-wrapper-right' };
+		
+		if (!images[name])
+				return '';
+		let url = images[name].url;
+		let type = images[name].type;
+		if (type.indexOf('video') == -1)
+			return '';
+
+		// let pretag = pretags[align];
+		// let postag = '</p>';
+
+		let	html =
+			'<div class="' + wrappers[align] + '">' +
+			'<vg-player>' +
+				'<video #media [vgMedia]="media" id="singleVideo" preload="auto" controls>' +
+					'<source src="' + url + '" type="video/mp4" >' +
+				'</video>' +
+			'</vg-player>' +
+			'</div>';
+		// html = pretag + html + postag;
+		html += '<div class="' + containers[align] + ' viewer-home-no-expand">' + caption + '</div>';
+		return html;
+	}
+
 	// must remove this for font-size option in page-text (home.page.html) (home.page.ts)
 	// font-size: 12pt; -> font-size: font-size: 80%, 100%, 120%
 	removeFontSize(str: string, newPercent: any) {
@@ -368,70 +318,5 @@ export class EditorService {
 		return str;
 	}
 
-	// replace style for node.desc (person.page.ts)
-	// replace special template (home.page.ts)
-	// IN: 'style="text-align: center;"'
-	// OUT: 'class="p-center'
-	// 	'<p style="text-align: center;"><strong>1. &Ocirc;ng Phan Quang Triệt</strong></p><p style="text-align: right;"><strong>2. Vị v&ocirc; danh</strong></p>';
-	// '<p class="p-center"><strong>1. &Ocirc;ng Phan Quang Triệt</strong></p><p class="p-right"><strong>2. Vị v&ocirc; danh</strong></p>';
-	replaceDescTextStyle(str: any) {
-		str = str.replaceAll('style="text-align: center;"', 'class="p-center"');
-		str = str.replaceAll('style="text-align: right;"', 'class="p-right"');
-		return str;
-	}
-
-	// "["
-	// "<"
-	// ">"
-	// "]"
-
-	replaceArrayToText(ary: any) {
-		let str = '';
-		let html = '';
-		let htmlStart = false;
-		ary.forEach((line: string) => {
-			line = line.trim();
-			if (line.length == 0)
-				line = '&nbsp;';
-			if (line == '[') {
-				htmlStart = true;
-			} else if (line == ']') {
-				htmlStart = false;
-				str += '[' + html + ']';
-				html = '';
- 			} else if (line.charAt(0) == '[' && line.charAt(line.length - 1) == ']') {
-				// do not add paragraph to special template
-				str += line;
-			} else if (htmlStart) {
-					html += line;
-			}	else
-					str += '<p>' + line + '</p>';
-		})
-		return str;
-	}
-
-	decodeEntities(str: string) {
-		let res = '';
-		let idx1 = 0;
-		for (;idx1 < str.length;) {
-			let idx2 = str.indexOf('&', idx1);
-			if (idx2 < 0) {
-				res += str.substring(idx1);
-				break;
-			} else {
-				res += str.substring(idx1, idx2);
-			}
-			let idx3 = str.indexOf(';', idx2);
-			if (idx3 > idx2) {
-				let entity = str.substring(idx2, idx3+1);
-				let vnChar = VietnameseEntities[entity];
-				res += (vnChar) ? vnChar : entity;
-				idx1 = idx3 + 1;
-			} else {
-				res += str.substring(idx2);
-				break;
-			}
-		}
-		return res;
-	}
+	
 }

@@ -9,13 +9,13 @@
 			"yob": "1854",
 			"desc": [
 				
-				"Simple line of text",
-				"<ac><1><s>text: align-center, big, strong</s></1></ac>",
-				"<ar><3><u><e>text: align-right, small, underline, italic</e></u></3></ar>",
-				"<im>ac|2|Nhà Thờ Phan Tộc.png|align-center, normal</im>",
-				"<do>ar|Quảng Bình.doc|align-right</do>",
-				"<vi>ar|cai.mp4|align-right</vi>",
-"",
+"Simple line of text",
+"<ac><1><s>text: align-center, big, strong</s></1></ac>",
+"<ar><3><u><e>text: align-right, small, underline, italic</e></u></3></ar>",
+"<im>ac|2|Nhà Thờ Phan Tộc.png|Phường Đồng Phú, Tp Đồng Hới</im>",
+"<do>ar|Quảng Bình.doc|Tỉnh Quảng Bình</do>",
+"<vi>al|cai.mp4|ac|Song Cai</vi>",
+
 "Mồ của Bà Thái Thị Tôn Nương không rõ hiện đang ở đâu",
 "Ông bà sinh:",
 "1. Phan Văn Nguyên trưởng Nam",

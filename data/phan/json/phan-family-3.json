@@ -8,27 +8,21 @@
 			"pod": "Đá Bạc, Quảng Bình",
 			"yob": "1854",
 			"desc": [
-				
-				"Simple line of text",
-				"<ac><1><s>text: align-center, big, strong</s></1></ac>",
-				"<ar><3><u><e>text: align-right, small, underline, italic</e></u></3></ar>",
-				"<im>ac|2|Nhà Thờ Phan Tộc.png|align-center, normal</im>",
-				"<do>ar|Quảng Bình.doc|align-right</do>",
-				"<vi>ar|cai.mp4|align-right</vi>",
-"",
-"Mồ của Bà Thái Thị Tôn Nương không rõ hiện đang ở đâu",
 "Ông bà sinh:",
-"1. Phan Văn Nguyên trưởng Nam",
-"2. Phan Thị Nhiễm (Giỗ ngày 09 tháng 07)",
-"3. Phan Thị Hoa (Giỗ ngày 11 tháng 10)",
-"4. Phan Thị Cúc (Giỗ ngày 11 tháng 10)",
-"5. Phan Thị Phượng (Giỗ ngày 27 tháng giêng)"
+"<20>1. Phan Văn Nguyên Trưởng Nam",
+"<20>2. Phan Thị Nhiễm (Giỗ ngày 09 tháng 07)",
+"<20>3. Phan Thị Hoa (Giỗ ngày 11 tháng 10)",
+"<20>4. Phan Thị Cúc (Giỗ ngày 11 tháng 10)",
+"<20>5. Phan Thị Phượng (Giỗ ngày 27 tháng giêng)"
 			]
 		},
     {
       "name": "Thái Thị Tôn Nương",
       "gender": "female",
-			"pod":"Đá Bạc, Quảng Bình"
+			"pod":"Đá Bạc, Quảng Bình",
+			"desc": [
+"Mồ không rõ chôn ở đâu"
+			]
     }
   ],
   "children": [
@@ -1863,9 +1857,7 @@
 																	"yob": "1958",
 																	"desc": [
 																		"",
-																		"//[3|Huỳnh Lễ-2024.jpg|1|1|Tết Giáp Thìn 2024, Quảng Ngãi]",
-																		"<ac><s>Bản đồ Tổ quán</s>",
-																		"<im>Huỳnh Lễ-2024.jpg|ac|3|Tết Giáp Thìn 2024, Quảng Ngãi</im>"
+																		"<im>ac|2|Huỳnh Lễ-2024.jpg|Tết Giáp Thìn 2024, Quảng Ngãi</im>"
 																	]
                                 }
                               ],

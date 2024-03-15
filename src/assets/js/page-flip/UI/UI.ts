@@ -4,7 +4,7 @@ import { FlipSetting, SizeType } from '../Settings';
 import { FlipCorner, FlippingState } from '../Flip/Flip';
 import { Orientation } from '../Render/Render';
 
-const UI_DEBUG = false;
+const UI_DEBUG = true;
 
 type SwipeData = {
     point: Point;
@@ -223,7 +223,7 @@ export abstract class UI {
 			if (element) {
 
 				if (UI_DEBUG)
-					console.log('onMouseUp - element, class, id: ', element, element.getAttribute("class"), element.getAttribute("id"));
+					console.log('onMouseUp - element, class: ', element, element.getAttribute("class"));
 			
 				// this is for alertConfirm in JPG and PDF in tree.page.ts
 				let c = element.getAttribute("class");
@@ -236,7 +236,15 @@ export abstract class UI {
 				}
 				// ignore flip if element has special ID, this is for buttons 'pha_he' and 'pha_do' in home.page.html
 				let id = element.getAttribute("id");
-				if (id && (id == 'view-pha-he' || id == 'view-pha-do' || id == 'document-download'))
+				if (UI_DEBUG)
+					console.log('onMouseUp - id: ', id);
+				if (id && 
+					(	id == 'view-pha-he' || 
+						id == 'view-pha-do' || 
+						id == 'document-download' ||
+						id.indexOf('image-id-') == 0
+					))
+					
 					// ignore flipping
 					isSwipe = true;
 

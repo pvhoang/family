@@ -16,6 +16,8 @@ import { PersonPage } from '../person/person.page';
 const FLIPPING_TIME = 1000;
 const PAGE_SWITCH_TIME = 1000;
 
+// var imageEnlarge: any;
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -71,7 +73,6 @@ export class HomePage implements OnInit{
   }
 
 	start() {
-		// this.dataService.readDocs().then((docs:any) => {
 		this.dataService.readAncestorData().then((dat:any) => {
 			if (DEBUGS.HOME)
 				console.log('HomePage - dat: ', dat);
@@ -85,14 +86,9 @@ export class HomePage implements OnInit{
 			// let dateid = this.utilService.getShortDateID(true);
 			this.version = 'A.' + environment.version + ' (D.' + family.version + ', ' + family.date + ')';
 			this.ancestor = info.id;
-			// let data = this.getSystemData(family);
-			// this.nodes = data.nodes;
-			// this.levels = data.levels;
-			// this.onMemorial();
 			this.memorialMsg = this.familyService.passAwayFamily(family);
 			this.updatePageData(docs);
 		});
-		// });
 	}
 	
 	updatePageData(docs: any) {
@@ -233,6 +229,7 @@ export class HomePage implements OnInit{
 	}
 
 	toPage(key: string) {
+		// imageEnlarge = {};
 		let index = 1;
 		if (key != 'muc_luc') {
 			let page = this.pageData[key];

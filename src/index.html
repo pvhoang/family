@@ -51,6 +51,31 @@
 				});
 			});
 		}
+		
+		var imageEnlarge = {};
+		function enlargeImage(id) {
+			// console.log('imageEnlarge: ', imageEnlarge);
+			if (!imageEnlarge[id])
+				imageEnlarge[id] = false;
+			imageEnlarge[id] = !imageEnlarge[id];
+			// enlarge = !enlarge;
+			// console.log('width, enlarge: ', width, enlarge);
+			// let id = 'image-id';
+			let img = document.getElementById(id);
+			// let realWidth = img.naturalWidth;
+			// let clientWidth = img.clientWidth;
+			// console.log('width: ', width);
+			// console.log('realWidth, clientWidth: ', realWidth, clientWidth);
+			if (imageEnlarge[id]) {
+				// Set image size to 2 times original
+				img.style.transform = "scale(2)";
+				// Animation effect
+				img.style.transition = "transform 0.25s ease";
+			} else {
+				img.style.transform = "scale(1)";
+				img.style.transition = "transform 0.25s ease";
+			}
+		}
 	</script>
 
   <app-root></app-root>

@@ -817,10 +817,12 @@ ion-tab-button {
   --height: var(--app-toast-height);
   --width: var(--app-toast-width);
   --background: var(--app-background-color);
+	color: var(--app-color);
   &::part(message) {
     // text-align: center;
     text-align: left;
     font-size: var(--app-toast-font-size);
+		// color: var(--app-color);
   }
 }
 
@@ -829,7 +831,6 @@ ion-tab-button {
   // color: var(--app-color);
 	color: var(--app-color);
   font-size: var(--app-toast-font-size);
-
   .toast-wrapper {
     min-width: var(--app-toast-width) !important;
     .toast-button:first-child {
