@@ -11,8 +11,6 @@ export class EditorService {
 
 	convertArrayToHtml(images: any, lines: any, textarea?: boolean) {
 
-		console.log('convertArrayToHtml - textarea: ', textarea);
-
 		let html = '';
 		for (let il = 0; il < lines.length; il++) {
 			let line = lines[il].trim();
@@ -173,8 +171,6 @@ export class EditorService {
 			data.height = width;
 			data.width = width * iWidth / iHeight;
 		}
-
-		console.log('textarea: ', textarea);
 
 		let imgTag = '';
 		if (textarea) {

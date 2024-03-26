@@ -146,6 +146,8 @@
 
   "TREE_POPOVER_PRINT_JPEG": "JPEG",
   "TREE_POPOVER_PRINT_PDF": "PDF",
+	"TREE_BUILD_JPEG": "Create file JPEG",
+	"TREE_BUILD_PDF": "Create file PDF",
 	"TREE_SELECT_PRINT_JPEG_MSG_1": "File '",
   "TREE_SELECT_PRINT_JPEG_MSG_2": "' is created and saved.",
   "TREE_SELECT_PRINT_PDF_MSG_1": "File '",
@@ -263,11 +265,22 @@
 	
 	"FILE_UPLOAD": "Upload new data to server.",
   "FILE_UPLOAD_START": "Upload",
-  "FILE_UPLOAD_DOCS": "File docs",
+	"FILE_UPLOAD_JSON": "File JSON",
+  "FILE_UPLOAD_DOCS": "File DOCS",
   "FILE_UPLOAD_FAMILY": "File family",
+	"FILE_UPLOAD_INFO": "File INFO",
+  "FILE_UPLOAD_JSON_TOOLTIP": "Upload file JSON.",
+  "FILE_UPLOAD_DOCS_TOOLTIP": "Upload file DOCS.",
+  "FILE_UPLOAD_FAMILY_TOOLTIP": "Upload file FAMILY.",
+  "FILE_UPLOAD_INFO_TOOLTIP": "Upload file INFO.",
   "FILE_UPLOAD_IMAGES": "File images",
   "FILE_UPLOAD_EXIT": "Exit",
   "FILE_UPLOAD_PLACEHOLDER": "Update file",
+
+	"FILE_UPLOAD_WAIT_FOR_IMAGES": "Cập nhật files images! Đợi 5 giây.",
+	"FILE_UPLOAD_WAIT_READING_STORAGE_IMAGES": "Đọc files in Storage ...",
+	"FILE_UPLOAD_WAIT_UPDATE_DOC": "Cập nhật file DOC ...",
+	"FILE_UPLOAD_WAIT_UPDATE_FAMILY": "Cập nhật file FAMILY ...",
 
 	"FILE_UPLOAD_MESSAGE": "Upload data?",
 	"FILE_UPLOAD_MESSAGE_1": "Upload file: ",
@@ -280,24 +293,28 @@
   "FILE_UPLOAD_COMPLETE_3": "Images are uploaded to server.",
 
   "FILE_PHOTO": "Create/edit images to be uploaded to server",
+  "FILE_PHOTO_TOOLTIP": "Edit image before upload.",
   "FILE_PHOTO_ADD": "Open file",
   "FILE_PHOTO_MODIFY": "Edit",
   "FILE_PHOTO_DELETE": "Delete",
   "FILE_PHOTO_UPLOAD": "Upload",
-  "FILE_PHOTO_NAME": "Image name (eg. Phan Viết Hoàng",
+
+	"FILE_PHOTO_NAME": "Image name (eg. Phan Viết Hoàng",
 	"FILE_PHOTO_NAME_INVALID": "Name can not be empty!",
 	"FILE_PHOTO_COMPLETE_1": "Image: ",
   "FILE_PHOTO_COMPLETE_2": " is uploaded!",
-
-  "FILE_IMAGE": "Upload local images to server",
+  
+	"FILE_IMAGE": "Upload local images to server",
+  "FILE_IMAGE_TOOLTIP": "Upload image.",
   "FILE_IMAGE_ADD": "Open file",
   "FILE_IMAGE_NAME": "File",
   "FILE_IMAGE_SIZE": "Size",
   "FILE_IMAGE_IGNORE": "Remove",
   "FILE_IMAGE_VIEW": "View",
   "FILE_IMAGE_UPLOAD": "Upload",
-	
+		
 	"FILE_STORAGE": "Manage files on server",
+  "FILE_STORAGE_TOOLTIP": "View/delete images on server.",
 	"FILE_STORAGE_READ": "Read",
   "FILE_STORAGE_HEADER": "Name",
   "FILE_STORAGE_SIZE": "Size",
@@ -307,7 +324,6 @@
   "FILE_STORAGE_DELETE_1": "Delete file: ",
   "FILE_STORAGE_DELETE_2": "?",
   
-  "DOC_SELECT": "Select option",
   "DOC_INTRO": "Introduction",
   "DOC_NOTE": "Note",
   "DOC_NODE": "Node",

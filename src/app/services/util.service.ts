@@ -324,7 +324,9 @@ export class UtilService {
 
 	async presentLoading(msg: any) {
 		this.isLoading = true;
-		let css = 'toast-dialog';
+		// let css = 'toast-dialog';
+		let css = 'toast-wait';
+		// let css = 'alert-dialog';
 		return await this.loadingController.create({
 			message: this.languageService.getTranslation(msg),
 			duration: 10000,

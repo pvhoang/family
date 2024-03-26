@@ -24,6 +24,10 @@ const EDIT_MODE = 'edit';
 // superadmin
 const URL_CREATE_ANCESTOR = '/s_create';
 const URL_DELETE_ANCESTOR = '/s_delete';
+// ancestor
+const URL_PHAN_ANCESTOR = '/phan';
+// admin
+const ADMIN_CODE = '1234';
 // user
 const OPTION_SETTING = 'doi'
 const OPTION_DELETE = 'xoa';
@@ -114,6 +118,7 @@ export class AppComponent implements OnInit {
 					return;
 				}
 				let info = rdata.info;
+				let email = info.admin_name + ' (' + info.admin_email + ')';
 				// --- admin tasks
 				if (option == info.admin_code) {
 					this.mode = EDIT_MODE;
@@ -128,7 +133,7 @@ export class AppComponent implements OnInit {
 				else if (option == '')
 					this.initializeApp(rdata);
 				else
-					this.presentToast(['APP_NA_OPTION_1', option, 'APP_NA_OPTION_2', 'APP_NA_OPTION_3', this.email]);
+					this.presentToast(['APP_NA_OPTION_1', option, 'APP_NA_OPTION_2', 'APP_NA_OPTION_3', email]);
 			});
 		});
   }
@@ -159,7 +164,10 @@ export class AppComponent implements OnInit {
 				this.dataService.readItem(LANGUAGE).then((language:any) => {
 					if (!language)
 							language = VIETNAMESE;
+					else
+						this.languageService.setLanguage(language);
 					this.language = language;
+					
 					this.dataService.readItem(SIZE).then((size:any) => {
 						if (!size)
 								size = MEDIUM_SIZE;
@@ -172,8 +180,8 @@ export class AppComponent implements OnInit {
 						let langFile = './assets/i18n/' + language + '.json';
 						let themeFile = './assets/common/' + theme + '/themes.json';
 						this.utilService.getLocalJsonFile(langFile).then((lang:any) => {
+							this.langTable = lang;
 							this.utilService.getLocalJsonFile(themeFile).then((themes:any) => {
-								this.langTable = lang;
 								this.themeService.setSystemProperties(themes, theme, size);
 								resolve(true);
 							});
@@ -474,18 +482,18 @@ private startAncestor(ancestorID: any) {
 		});
 	}
 
-  loadLanguage() {
-    return new Promise((resolve) => {
-      this.dataService.readItem(LANGUAGE).then((language:any) => {
-        if (!language) {
-          language = VIETNAMESE;
-          this.dataService.saveItem(LANGUAGE, 'vi').then((status:any) => {});
-        }
-        this.languageService.setLanguage(language);
-        resolve (language);
-      });
-    })
-  }
+  // loadLanguage() {
+  //   return new Promise((resolve) => {
+  //     this.dataService.readItem(LANGUAGE).then((language:any) => {
+  //       if (!language) {
+  //         language = VIETNAMESE;
+  //         this.dataService.saveItem(LANGUAGE, 'vi').then((status:any) => {});
+  //       }
+  //       this.languageService.setLanguage(language);
+  //       resolve (language);
+  //     });
+  //   })
+  // }
 
 	updateAppData(rdata: any) {
     return new Promise((resolve) => {
@@ -498,8 +506,9 @@ private startAncestor(ancestorID: any) {
 			this.themeService.setScreenSize(nodes);
 			if (!rdata.images)
 				rdata.images = {};
-			let language = this.languageService.getLanguage();
-			rdata.docs = this.updateDocs(rdata.images, rdata.docs[language]);
+			// let language = this.languageService.getLanguage();
+			// console.log('AppComponent - updateAppData - language: ', this.language);
+			rdata.docs = this.updateDocs(rdata.images, rdata.docs[this.language]);
 
 			// save to local
 			this.dataService.saveAncestorData(rdata).then((status:any) => {
@@ -545,7 +554,7 @@ private startAncestor(ancestorID: any) {
 		keys.forEach((key:any) => {
 			let item = {};
 			let msg = this.translate_instant(key);
-			if (msg == key) {
+			if (!msg) {
 				// key is not translatable
 				item = {name: 'data', label: '&emsp;' + key};
 			} else {
@@ -559,6 +568,8 @@ private startAncestor(ancestorID: any) {
   }
 
 	translate_instant(key:any) {
+		console.log('this.langTable: ', this.langTable)
+
 			return this.langTable[key];
 	}
 }

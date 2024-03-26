@@ -276,6 +276,7 @@
   "FILE_UPLOAD_IMAGES": "Dữ liệu hình",
   "FILE_UPLOAD_EXIT": "Thoát",
   "FILE_UPLOAD_PLACEHOLDER": "Cập nhật file",
+
 	"FILE_UPLOAD_WAIT_FOR_IMAGES": "Cập nhật files images! Đợi 5 giây.",
 	"FILE_UPLOAD_WAIT_READING_STORAGE_IMAGES": "Đọc files in Storage ...",
 	"FILE_UPLOAD_WAIT_UPDATE_DOC": "Cập nhật file DOC ...",
@@ -297,14 +298,14 @@
   "FILE_PHOTO_MODIFY": "Sửa",
   "FILE_PHOTO_DELETE": "Xóa",
   "FILE_PHOTO_UPLOAD": "Upload",
-  "FILE_PHOTO_NAME": "Tên hình (vd. Phan Viết Hoàng)",
+
+	"FILE_PHOTO_NAME": "Tên hình (vd. Phan Viết Hoàng)",
 	"FILE_PHOTO_NAME_INVALID": "Tên hình không được để trống!",
   "FILE_PHOTO_COMPLETE_1": "Hình: ",
   "FILE_PHOTO_COMPLETE_2": " đã được upload lên mạng.",
 
   "FILE_IMAGE": "Upload hình",
   "FILE_IMAGE_TOOLTIP": "Upload hình trong máy lên mạng.",
-
   "FILE_IMAGE_ADD": "Mở file trong máy",
   "FILE_IMAGE_NAME": "File",
   "FILE_IMAGE_SIZE": "Dung lượng",
@@ -314,7 +315,6 @@
 	
 	"FILE_STORAGE": "Quản lý hình",
   "FILE_STORAGE_TOOLTIP": "Xem/xóa hình trên mạng.",
-
 	"FILE_STORAGE_READ": "Đọc hình trên mạng",
   "FILE_STORAGE_HEADER": "Tên",
   "FILE_STORAGE_SIZE": "Dung lượng",
@@ -324,7 +324,6 @@
   "FILE_STORAGE_DELETE_1": "Xoá hình: ",
   "FILE_STORAGE_DELETE_2": "?",
 
-  "DOC_SELECT": "Chọn trang",
   "DOC_INTRO": "Lời mở đầu",
   "DOC_NOTE": "Phả ký",
   "DOC_NODE": "Phả hệ",

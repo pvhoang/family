@@ -149,7 +149,7 @@ export class FilerPage implements OnInit {
 		// console.log('type: ', type);
 		// this.utilService.presentToast('FILE_UPLOAD_WAIT_FOR_IMAGES', 5000);
     this.uploadGetTextFile(file).then((res: any) => {
-      if (DEBUGS.APP)
+      if (DEBUGS.FILE)
         console.log('uploadOnFile - res: ', res);
       if (res.text) {
 				// validate json file
@@ -158,7 +158,8 @@ export class FilerPage implements OnInit {
 					if (family) {
 						// family is ok, now check new image files
 						this.uploadValidateImage(res.text, true).then((res:any) => {
-							console.log('uploadValidateImage - res: ', res);
+							if (DEBUGS.FILE)
+								console.log('uploadValidateImage - res: ', res);
 							let newFiles = res[0];
 							if (newFiles.length > 0) {
 								// files not in storage, errors
@@ -167,7 +168,8 @@ export class FilerPage implements OnInit {
 								// build new images files
 								let storageImages = res[1];
 								// some time it's too slow to process file list, wait 2 sec
-								this.utilService.presentLoading('FILE_UPLOAD_WAIT_UPDATE_FAMILY');
+								// this.utilService.presentLoading('FILE_UPLOAD_WAIT_UPDATE_FAMILY');
+								this.utilService.presentToast('FILE_UPLOAD_WAIT_UPDATE_FAMILY');
 								setTimeout(() => {
 									let images = {};
 									storageImages.forEach((file:any) => {
@@ -180,7 +182,7 @@ export class FilerPage implements OnInit {
 										this.fbService.saveAncestorData(rdata).then((status:any) => {
 											// let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
 											// this.utilService.presentToast(msg);
-											this.utilService.dismissLoading();
+											// this.utilService.dismissLoading();
 											this.utilService.presentToastOK(['FILE_UPLOAD_COMPLETE_1', file.name, 'FILE_UPLOAD_COMPLETE_2']);
 										});
 									});
@@ -208,7 +210,7 @@ export class FilerPage implements OnInit {
 								let storageImages = res[1]
 								// some time it's too slow to process file list, wait 5 sec
 								// this.utilService.presentToast('FILE_UPLOAD_WAIT_FOR_IMAGES', 2000);
-								this.utilService.presentLoading('FILE_UPLOAD_WAIT_UPDATE_DOC');
+								this.utilService.presentToast('FILE_UPLOAD_WAIT_UPDATE_DOC');
 								setTimeout(() => {
 									let images = {};
 									storageImages.forEach((file:any) => {
@@ -221,7 +223,7 @@ export class FilerPage implements OnInit {
 										this.fbService.saveAncestorData(rdata).then((status:any) => {
 											// let msg = this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_1') + '<b>' + file.name + '</b>' + this.languageService.getTranslation('FILE_UPLOAD_COMPLETE_2');
 											// this.utilService.presentToast(msg);
-											this.utilService.dismissLoading();
+											// this.utilService.dismissLoading();
 											this.utilService.presentToastOK(['FILE_UPLOAD_COMPLETE_1', file.name, 'FILE_UPLOAD_COMPLETE_2']);
 										});
 									});
@@ -305,7 +307,7 @@ export class FilerPage implements OnInit {
 		let info: any = null;
 		try {
 			info = JSON.parse(text);
-			console.log('uploadValidateInfo - info: ', info);
+			// console.log('uploadValidateInfo - info: ', info);
 			// must have id, name, location
 			if (!info.id || !info.name || !info.location)
 				return null;
@@ -318,7 +320,8 @@ export class FilerPage implements OnInit {
 	
 	private uploadValidateImage(text: any, photoMode: boolean) {
     return new Promise((resolve) => {
-			this.utilService.presentLoading('FILE_UPLOAD_WAIT_READING_STORAGE_IMAGES');
+			// this.utilService.presentLoading('FILE_UPLOAD_WAIT_READING_STORAGE_IMAGES');
+			this.utilService.presentToast('FILE_UPLOAD_WAIT_READING_STORAGE_IMAGES');
 			// get image list from doc text
 			let docImages = this.uploadGetImages(text, photoMode);
 			//  get images from storage
@@ -326,8 +329,8 @@ export class FilerPage implements OnInit {
 			//  get images from local
 				// wait 1 second for async to complete
 				setTimeout(() => {
-					console.log('uploadValidateImage - docImages: ', docImages);
-					console.log('uploadValidateImage - storageImages: ', storageImages);
+					// console.log('uploadValidateImage - docImages: ', docImages);
+					// console.log('uploadValidateImage - storageImages: ', storageImages);
 					let newFiles = [];
 					// go thru each image in doc
 					docImages.forEach(dimage => {
@@ -337,7 +340,7 @@ export class FilerPage implements OnInit {
 							newFiles.push(dimage);
 					})
 					// console.log('uploadValidateDocs - newFiles: ', newFiles);
-					this.utilService.dismissLoading();
+					// this.utilService.dismissLoading();
 					resolve([newFiles, storageImages]);
 				}, 5000);
 			});
