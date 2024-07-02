@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { collection, collectionData, doc, Firestore, updateDoc, docData } from '@angular/fire/firestore';
-import { getStorage, getDownloadURL, ref, getMetadata, deleteObject, listAll, Storage, uploadString } from '@angular/fire/storage';
-import { deleteDoc, setDoc, getDocs } from 'firebase/firestore';
+import { collection, collectionData, doc, Firestore, query, documentId, where, updateDoc, getDocs, getDoc, docData } from '@angular/fire/firestore';
+import { getStorage, getDownloadURL, ref, getMetadata, deleteObject, getBlob, listAll, Storage, uploadString } from '@angular/fire/storage';
+import { deleteDoc, setDoc } from 'firebase/firestore';
 import { Observable, from } from 'rxjs';
-import { UtilService } from '../services/util.service';
+import { UtilService } from './util.service';
+import { DEBUGS, environment } from '../../environments/environment';
 
-// import {AngularFireStorage} from '@angular/fire/storage';
-
-// import { HttpClient } from '@angular/common/http';
+const ROOT_COLLECTION = 'giapha';
 
 export interface Content {
 	id?: string;
@@ -23,95 +22,198 @@ export class FirebaseService {
 	constructor(
 		private firestore: Firestore, 
 		private storage: Storage,
-    private utilService: UtilService,
+		private utilService: UtilService,
 	) {
 	}
 
-	saveAncestorFamily(ancestor, data: any) {
-    this.addAncestorFamily(ancestor, data).then(
-      res => {
-				console.log('res: ', res);
-			},
-      async err => {
-				console.log('ERROR: ', err);
-      }
-    );
+	getAncestors() {
+		return new Promise((resolve) => {
+			this.collectAncestors().subscribe((ancestors:any) => {
+				resolve(ancestors);
+			});
+		});
 	}
 
-	addAncestorFamily(ancestor, data)  {
-		const docRef = doc(this.firestore, ancestor, "update", "family", data.id);
-		return setDoc(docRef, data);
-	}
-
-	deleteAncestorFamily(ancestor, id) {
-		// const docRef = doc(this.firestore, `content/${id}`);
-		const docRef = doc(this.firestore, ancestor, "update", "family", id);
-		return deleteDoc(docRef);
-	}
-
-	getAncestorFamilies(ancestor): Observable<[]> {
-		const colRef = collection(this.firestore, ancestor, "update", "family");
+	private collectAncestors(): Observable<[]> {
+		const colRef = collection(this.firestore, ROOT_COLLECTION);
 		return collectionData(colRef, { idField: 'id'}) as Observable<[]>;
 	}
 
-  // saveContent(content: any) {
-  //   this.addContent(content).then(
-  //     res => {
-	// 			console.log('res: ', res);
-	// 		},
-  //     async err => {
-	// 			console.log('ERROR: ', err);
-  //     }
-  //   );
-	// }
+	async getAncestor(ancestor: any) {
+		console.log('getAncestor');
+		const snap = await getDoc(doc(this.firestore, ROOT_COLLECTION, ancestor))
+		if (snap.exists())
+			return snap.data()
+		else
+			// return Promise.reject(Error(`No such document: ${ROOT_COLLECTION}.${ancestor}`))
+			return null;
+	}
 
-	// getContents(): Observable<Content[]> {
-	// 	const contentRef = collection(this.firestore, 'content');
-	// 	return collectionData(contentRef, { idField: 'id'}) as Observable<Content[]>;
-	// }
+	async deleteAncestor(ancestor: any) {
+		await deleteDoc(doc(this.firestore, ROOT_COLLECTION, ancestor));
+	}
 
-	// getContentDetails(id): Observable<any> {
-	// 	const detail = doc(this.firestore, `content/${id}`);
-	// 	return docData(detail) as Observable<Content>;
-	// }
+	private getAncestorData(ancestor): Observable<any> {
+		let id = ROOT_COLLECTION + '/' + ancestor;
+		const data = doc(this.firestore, id);
+		return docData(data) as any;
+	}
 
-	// addContent(data)  {
-	// 	const docRef = doc(this.firestore, "content", data.id);
-	// 	return setDoc(docRef, data);
-	// }
+	private setAncestorData(ancestor, data)  {
+		const docRef = doc(this.firestore, ROOT_COLLECTION, ancestor);
+		return setDoc(docRef, data);
+	}
 
-	// deleteContent(id) {
-	// 	const contentRef = doc(this.firestore, `content/${id}`);
-	// 	return deleteDoc(contentRef);
-	// }
+	private getAppData(): Observable<any> {
+		let id = ROOT_COLLECTION + '/app';
+		const data = doc(this.firestore, id);
+		return docData(data) as any;
+	}
 
-	// updateContent(id, data) {
-	// 	const contentRef = doc(this.firestore, `content/${id}`);
-	// 	return updateDoc(contentRef, data);
-	// }
+	private setAppData(data)  {
+		const docRef = doc(this.firestore, ROOT_COLLECTION, 'app');
+		return setDoc(docRef, data);
+	}
 
-	readJsonDocument(collection: string, documentId): Observable<any> {
+	private setBackupFamily(ancestor: any, family: any, id: any)  {
+		const docRef = doc(this.firestore, ROOT_COLLECTION, ancestor, "families", id);
+		return setDoc(docRef, family);
+	}
+	
+	private setBackupDocs(ancestor: any, docs: any, id: any)  {
+		const docRef = doc(this.firestore, ROOT_COLLECTION, ancestor, "docs", id);
+		return setDoc(docRef, docs);
+	}
+
+	async saveAncestorData(data: any) {
+		return new Promise((resolve, reject) => {
+			let ancestor = data.info.id;
+			let rdata = {};
+			for (var key of Object.keys(data))
+				rdata[key] = JSON.stringify(data[key]);
+			this.setAncestorData(ancestor, rdata).then((res:any) => {
+				resolve(true);
+			});
+		});
+	}
+
+	async saveDocsData(ancestor: any, language: any, docs: any) {
+		return new Promise((resolve) => {
+      this.readAncestorData(ancestor).subscribe((rdata:any) => {
+				rdata.docs[language] = docs;
+				this.saveAncestorData(rdata).then((status:any) => {
+					this.saveBackupDocs(ancestor, rdata.docs).then((status:any) => {
+						resolve(true);
+					});
+				});
+			});
+		});
+	}
+
+	async saveDocsAll(ancestor: any, docs: any) {
+		return new Promise((resolve) => {
+      this.readAncestorData(ancestor).subscribe((rdata:any) => {
+				rdata.docs = docs;
+				this.saveAncestorData(rdata).then((status:any) => {
+					this.saveBackupDocs(ancestor, rdata.docs).then((status:any) => {
+						resolve(true);
+					});
+				});
+			});
+		});
+	}
+
+	readAncestorData(ancestor: string): Observable<any> {
 		return from(
-				new Promise((resolve, reject) => {
-					this.readDocument(collection, documentId).subscribe(
-					(res:any) => {
-				// console.log('readJsonDocument - collection, res: ', collection, res);
-						// if collection is not valid, use null data 
-						let data = (res) ? JSON.parse(res.data) : null;
+			new Promise((resolve, reject) => {
+				this.getAncestorData(ancestor).subscribe({
+					next: (rdata:any) => {
+						let data = {};
+						for (var key of Object.keys(rdata))
+							data[key] = JSON.parse(rdata[key]);
 						resolve(data);
 					},
-					(error:any) => {
-						// throw error;
+					error: (error:any) => {
 						reject(error);
-					})
+					},
+					complete() {
+						console.log("is completed");
+						resolve(true);
+					},
 				})
-			)
+				// this.getAncestorData(ancestor).subscribe(
+				// 	(rdata:any) => {
+				// 		let data = {};
+				// 		for (var key of Object.keys(rdata))
+				// 			data[key] = JSON.parse(rdata[key]);
+				// 		resolve(data);
+				// 	},
+				// 	(error:any) => {
+				// 		reject(error);
+				// 	})
+
+			})
+		)
 	}
 
-	checkJsonDocument(col:any): Observable<[]> {
-		const colRef = collection(this.firestore, col);
-		return collectionData(colRef) as Observable<[]>;
+	async saveAppData(data: any) {
+		return new Promise((resolve, reject) => {
+			this.setAppData(data).then((res:any) => {
+				resolve(true);
+			});
+		});
 	}
+
+	async readAppData() {
+		return new Promise((resolve, reject) => {
+			this.getAppData().subscribe({
+				next: (data:any) => {
+					resolve(data);
+				},
+				error: (error:any) => {
+					console.log('ERROR: ', error);
+					reject(error);
+				},
+				complete() {
+					console.log("is completed");
+					resolve(true);
+				},
+			})
+			// (data:any) => {
+			// 	resolve(data);
+			// },
+			// (error:any) => {
+			// 	console.log('ERROR: ', error);
+			// 	reject(error);
+			// })
+		})
+	}
+
+	async saveBackupFamily(ancestor: any, family: any, id: any) {
+		return new Promise((resolve) => {
+			let rfamily = {};
+			for (var key of Object.keys(family))
+				rfamily[key] = JSON.stringify(family[key]);
+			this.setBackupFamily(ancestor, rfamily, id).then((res:any) => {
+				resolve(true);
+			})
+			.catch((error) => {
+				console.log('saveBackupFamily - ', error.message);
+				resolve(false);
+			});
+		});
+	}
+
+	private async saveBackupDocs(ancestor: any, docs: any) {
+		let id = this.utilService.getDateID();
+		return new Promise((resolve) => {
+			this.setBackupDocs(ancestor, docs, id).then((res:any) => {
+				resolve(true);
+			});
+		});
+	}
+
+	// -----------
 
 	updateJsonDocument(collection: string, documentId, data) {
   	let document = {id: documentId, data: JSON.stringify(data)};
@@ -119,65 +221,11 @@ export class FirebaseService {
 		return updateDoc(docRef, document);
 	}
 
-	readDocument(collection: string, documentId): Observable<any> {
-		// --- ASSETS ---
-		// return from(
-		// 	new Promise((resolve, reject) => {
-		// 		let jsonFile = './assets/' + collection + '/' + documentId + '.json';
-		// 		this.utilService.getLocalJsonFile(jsonFile).then((json:any) => {
-		// 			resolve(json);
-		// 		});
-		// 	})
-		// )
-		// --- FIREBASE ---
-		let id = collection + '/' + documentId;
-		const data = doc(this.firestore, id);
-		return docData(data) as any;
-	}
-
-	saveDocument(collection: string, document: any) {
-    this.addDocument(collection, document).then(
-      res => {
-				console.log('saveDocument - res: ', res);
-			},
-      async err => {
-				console.log('saveDocument - ERROR: ', err);
-      }
-    );
-	}
-
-	updateDocument(collection: string, documentId, data) {
-		let id = collection + '/' + documentId;
-		const docRef = doc(this.firestore, id);
-		return updateDoc(docRef, data);
-	}
-
-	async addDocument(collection: string, document: any)  {
-		const docRef = doc(this.firestore, collection, document.id);
-		return await setDoc(docRef, document);
-	}
-
-	addImage(base64: string, storageFolder, storageId: string) {
-		return new Promise((resolve) => {
-			const storageRef = ref(this.storage, storageFolder + '/' + storageId);
-			uploadString(storageRef, base64, 'base64', {
-				contentType: 'image/jpeg'
-			}).then((snapshot) => {
-				// console.log('Uploaded a base64 string!');
-				getDownloadURL(snapshot.ref).then(url => {
-					// console.log('addImage - url: ', url);
-					resolve(url);
-				});
-			})
-		})
-	}
-
 	deleteImage(storageFolder, storageId: string) {
 		return new Promise((resolve) => {
 			const storageRef = ref(this.storage, storageFolder + '/' + storageId);
 			deleteObject(storageRef)
 			.then(() => {
-				// console.log("File deleted successfully");
 				resolve(true);
 			})
 			.catch((error) => {
@@ -200,19 +248,79 @@ export class FirebaseService {
 		})
 	}
 
+	addImage(base64: string, type: any, storageFolder, storageId: string) {
+		return new Promise((resolve) => {
+			// console.log('addImage - storageFolder: ', storageFolder);
+			// get type: data:image/png;
+			// console.log('addImage - type: ', type);
+			const storageRef = ref(this.storage, storageFolder + '/' + storageId);
+			uploadString(storageRef, base64, 'base64', {
+				// contentType: 'image/jpeg'
+				// contentType: 'image/png'
+				contentType: type
+			})
+			.then((snapshot) => {
+				getDownloadURL(snapshot.ref).then(url => {
+					resolve(url);
+				});
+			})
+			.catch((error) => {
+				console.log('ERROR - addImage: ', error.message);
+				resolve(null);
+			});
+		})
+	}
+
 	// https://firebase.google.com/docs/storage/web/download-files#web-version-9
 
-	// downloadImage(fileName, storageFolder:string, urlStorage: string) {
+	getDocumentURL(storageFolder:string, storageId) {
+		return new Promise((resolve) => {
+			const storage = getStorage();
+			const storageRef = ref(storage, storageFolder + '/' + storageId);
+			getMetadata(storageRef).then((metadata) => {
+				// Metadata now contains the metadata for 'images/forest.jpg'
+				if (DEBUGS.FIREBASE)
+					console.log('getDocumentURL - metadata: ', metadata.contentType);
+				let type = metadata.contentType;
+				getDownloadURL(storageRef).then((url) => {
+					// const xhr = new XMLHttpRequest();
+					// xhr.responseType = 'blob';
+					// xhr.onload = (event) => {
+					// 	const blob = xhr.response;
+					// 	resolve({ url: url, blob: blob, type: type });
+					// };
+					// xhr.open('GET', url);
+					// xhr.send();
+					resolve({ url: url, type: type });
+				});
+			})
+			.catch((error) => {
+				// A full list of error codes is available at
+				// https://firebase.google.com/docs/storage/web/handle-errors
+				switch (error.code) {
+					case 'storage/object-not-found':
+						console.log('ERROR - File does not exist');
+						break;
+					case 'storage/unauthorized':
+						console.log('ERROR - User does not have permission to access the object');
+						break;
+					case 'storage/canceled':
+						console.log('ERROR - User canceled the upload');
+						break;
+					case 'storage/unknown':
+						console.log('ERROR - Unknown error occurred, inspect the server response');
+						break;
+				}
+				resolve(null);
+			});
+		})
+	}
+
 	downloadImage(storageFolder:string, storageId) {
 		return new Promise((resolve) => {
 			const storage = getStorage();
-			// const httpsReference = ref(storage, storageFolder + '/' + urlStorage);
 			const storageRef = ref(storage, storageFolder + '/' + storageId);
-			getDownloadURL(storageRef)
-			.then((url) => {
-				// Insert url into an <img> tag to "download"
-				// const img = document.getElementById(imageId);
-				// img.setAttribute('src', url);
+			getDownloadURL(storageRef).then((url) => {
 				resolve(url);
 			})
 			.catch((error) => {
@@ -220,22 +328,82 @@ export class FirebaseService {
 				// https://firebase.google.com/docs/storage/web/handle-errors
 				switch (error.code) {
 					case 'storage/object-not-found':
-						console.log('File does not exist');
+						console.log('ERROR - File does not exist');
 						break;
 					case 'storage/unauthorized':
-						console.log('User does not have permission to access the object');
+						console.log('ERROR - User does not have permission to access the object');
 						break;
 					case 'storage/canceled':
-						console.log('User canceled the upload');
+						console.log('ERROR - User canceled the upload');
 						break;
 					case 'storage/unknown':
-						console.log('Unknown error occurred, inspect the server response');
+						console.log('ERROR - Unknown error occurred, inspect the server response');
 						break;
 				}
 				resolve(null);
 			});
 		})
 	}
+
+	downloadText(storageFolder:string, storageId) {
+		return new Promise((resolve) => {
+			const storage = getStorage();
+			const storageRef = ref(storage, storageFolder + '/' + storageId);
+			getDownloadURL(storageRef).then((url) => {
+				const xhr = new XMLHttpRequest();
+				xhr.responseType = 'text'
+				xhr.onload = (event) => {
+					const text = xhr.response;
+					resolve(text);
+				}
+				xhr.open('GET', url)
+				xhr.send();
+			})
+			.catch((error) => {
+				// A full list of error codes is available at
+				// https://firebase.google.com/docs/storage/web/handle-errors
+				switch (error.code) {
+					case 'storage/object-not-found':
+						console.log('ERROR - File does not exist');
+						break;
+					case 'storage/unauthorized':
+						console.log('ERROR - User does not have permission to access the object');
+						break;
+					case 'storage/canceled':
+						console.log('ERROR - User canceled the upload');
+						break;
+					case 'storage/unknown':
+						console.log('ERROR - Unknown error occurred, inspect the server response');
+						break;
+				}
+				resolve(null);
+			});
+		})
+	}
+
+	// getPhotoNames(storageFolder:string) {
+	// 	return new Promise((resolve) => {
+	// 		const storage = getStorage();
+	// 		const r = ref(storage, storageFolder + '/');
+	// 		listAll(r).then((data) => {
+	// 			let names = [];
+	// 			for (let i = 0; i < data.items.length; i++) {
+	// 				let name = data.items[i].name;
+	// 				let newref = ref(storage, storageFolder + '/' + data.items[i].name);
+	// 				getMetadata(newref).then((metadata) => {
+	// 					let type = metadata.contentType;
+	// 					if (type.indexOf('image') >= 0)
+	// 						names.push(name);
+	// 				})
+	// 				// if (name.indexOf('.png') > 0 || name.indexOf('.jpg') > 0 || name.indexOf('.jpeg') > 0)
+	// 				// 	names.push(name);
+	// 			}
+	// 			setTimeout(() => {
+	// 				resolve(names);
+	// 			}, 500);
+	// 		})
+	// 	});
+	// }
 
 	getFileList(storageFolder:string) {
 		return new Promise((resolve) => {
@@ -246,34 +414,58 @@ export class FirebaseService {
 				// console.log('data: ', data);
 				for (let i = 0; i < data.items.length; i++) {
 				// console.log('data: ', data.items[i]);
-
 					let name = data.items[i].name;
 					let newref = ref(storage, storageFolder + '/' + data.items[i].name);
-
 					getMetadata(newref).then((metadata) => {
 						// Metadata now contains the metadata for 'images/forest.jpg'
-						console.log('metadata: ', metadata);
+						// console.log('metadata: ', metadata);
+						// if (name.indexOf('png') >= 0)
+							// console.log('metadata: ', metadata);
 						let type = metadata.contentType;
-						let size = metadata.size;
-						type = (type.indexOf('image') >= 0) ? 'jpg' : 'html';
-						getDownloadURL(newref).then((url) => {
+						let size = metadata.size.toLocaleString('vn-VN');
+
+						if (environment.useEmulators) {
+							// emulator can not decode local file with url (localhost:9199)
 							filelist.push({
 								name: name,
 								size: size,
 								type: type,
-								url: url
+								url: null
 							});
-						});
-
+						} else {
+							const getMeta = async (url: any) => {
+								const img = new Image();
+								img.src = url;
+								await img.decode();  
+								return img
+							};
+							// type = (type.indexOf('image') >= 0) ? 'jpg' : 'html';
+							getDownloadURL(newref).then((url) => {
+								// https://stackoverflow.com/questions/11442712/get-width-height-of-remote-image-from-url
+								getMeta(url).then((img) => {
+									filelist.push({
+										name: name,
+										size: size,
+										type: type,
+										url: url,
+										width: img.naturalWidth,
+										height: img.naturalHeight
+									});
+								}).catch((error) => {
+									// console.log('ERROR - FirebaseService - getMeta - error:', error);
+									// this is not an image file, can not be decoded in getMeta(), use regular 'file'
+									filelist.push({
+										name: name,
+										size: size,
+										type: type,
+										url: url
+									});
+								});
+							});
+						}
 					}).catch((error) => {
-						// Uh-oh, an error occurred!
+						console.log('ERROR - FirebaseService - getFileList - error:', error)
 					});
-					// let url = getDownloadURL(newref).then((data) => {
-					// 	filelist.push({
-					// 		name: name,
-					// 		url: data
-					// 	});
-					// });
 				}
 				resolve(filelist);
 			});

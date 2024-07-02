@@ -1,0 +1,57 @@
+import * as functions from "firebase-functions";
+import * as admin from 'firebase-admin';
+import { getMessaging } from "firebase-admin/messaging";
+
+admin.initializeApp();
+exports.pushNews = functions.firestore
+	.document('/news/{id}')
+	.onUpdate(async (change, context) => {
+	let newsData = change.after.data();
+	console.log('newsData: ', newsData);
+	console.log('params: ', context.params);
+	const newsId = context.params.id;
+	// get all users
+	return admin.firestore().collection(`users`).get().then(users => {
+			admin.firestore().collection(`devices`).get().then(devices => {
+				users.docs.forEach((userDoc) => {
+					admin.firestore().doc(`users/${userDoc.id}`).get().then(user => {
+						let userData = user.data();
+						console.log('user data: ', userData);
+						if (userData && userData.role == 'ADMINISTRATOR') {
+							devices.docs.forEach((deviceDoc) => {
+								admin.firestore().doc(`devices/${deviceDoc.id}`).get().then(device => {
+									let deviceData = device.data();
+									console.log('device data: ', deviceData);
+									if (deviceData && userData && deviceData.email === userData.email) {
+
+										const payload = {
+											notification: {
+												title: newsData.title,
+												body: newsData.text,
+											},
+											data: {
+												'id': newsId,
+												'title': newsData.title,
+												'text': newsData.text
+											},
+											token: deviceData['token']
+										};
+										getMessaging()
+										.send(payload)
+										.then((response) => {
+											console.log("Successfully sent message: ", response);
+										})
+										.catch((error) => {
+											console.log("Error sending message: ", error);
+										});
+									}
+								});
+							});
+						}
+					});
+				});
+			}, err => {
+					console.log('err: ', err);
+			})
+		});
+	});

@@ -1,10 +1,14 @@
 
 echo off
 echo ---
-start ionic build --prod
+localhost:8100/auv
 pause
-start firebase deploy --only hosting:giapha
+pause
+start 
 pause
 
-
+ionic serve --browseroption=/phan
+ionic serve --browseroption=/aedit
+ionic build --prod
+firebase deploy --only hosting:giapha
 

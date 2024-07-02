@@ -5,16 +5,21 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
+
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-// import {AngularFirestoreModule, USE_EMULATOR as USE_FIRESTORE_EMULATOR} from '@angular/fire/firestore';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { provideAuth, getAuth } from '@angular/fire/auth';
-import { provideStorage, getStorage } from '@angular/fire/storage';
+import { getFirestore, provideFirestore, connectFirestoreEmulator } from '@angular/fire/firestore';
+import { provideAuth, getAuth, connectAuthEmulator } from '@angular/fire/auth';
+import { provideStorage, getStorage, connectStorageEmulator } from '@angular/fire/storage';
+
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
+import { PopoverComponent } from './components/popover/popover.component';
+import { SelectComponent } from './components/select/select.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { VgCoreModule, } from '@videogular/ngx-videogular/core';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -24,24 +29,58 @@ export function createTranslateLoader(http: HttpClient) {
     declarations: [
         AppComponent, 
         SplashScreenComponent,
+				PopoverComponent,
+    SelectComponent
     ],
+		schemas: [CUSTOM_ELEMENTS_SCHEMA],
     imports: [
-        BrowserModule,
-        IonicModule.forRoot(),
-        AppRoutingModule,
-        HttpClientModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: (createTranslateLoader),
-                deps: [HttpClient]
-            }
-        }),
-        provideFirebaseApp(() => initializeApp(environment.firebase)),
-        provideFirestore(() => getFirestore()),
-        provideAuth(() => getAuth()),
-        provideStorage(() => getStorage()),
-        BrowserAnimationsModule
+			BrowserModule,
+			IonicModule.forRoot({
+					sanitizerEnabled: true
+			}),
+			AppRoutingModule,
+			HttpClientModule,
+			TranslateModule.forRoot({
+					loader: {
+							provide: TranslateLoader,
+							useFactory: (createTranslateLoader),
+							deps: [HttpClient]
+					}
+			}),
+
+			// provideFirebaseApp(() => initializeApp(environment.firebase)),
+			// provideFirestore(() => getFirestore()),
+			// provideAuth(() => getAuth()),
+			// provideStorage(() => getStorage()),
+
+			provideFirebaseApp(() => initializeApp(environment.firebase)),
+			provideAuth(() => {
+				const auth = getAuth();
+				if (environment.useEmulators)
+					// connectAuthEmulator(auth, 'http://' + environment.backendContainer + ':9099', {
+					connectAuthEmulator(auth, 'http://localhost:9099', {
+						disableWarnings: true,
+					});
+				return auth;
+			}),
+			provideFirestore(() => {
+				const firestore = getFirestore()
+				// console.log('*** provideFirestore (useEmulators, backendContainer, production ***  ): ', environment.useEmulators, environment.backendContainer, environment.production);
+				if (environment.useEmulators) {
+					// connectFirestoreEmulator(firestore, environment.backendContainer, 8080);
+					connectFirestoreEmulator(firestore, 'localhost', 8080);
+				}
+				return firestore;
+			}),
+			provideStorage(() => {
+				const storage = getStorage();
+				if (environment.useEmulators)
+					// connectStorageEmulator(storage, environment.backendContainer, 9199);
+					connectStorageEmulator(storage, 'localhost', 9199);
+				return storage;
+			}),
+			BrowserAnimationsModule,
+			VgCoreModule
     ],
     providers: [{
             provide: RouteReuseStrategy,

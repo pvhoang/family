@@ -2,44 +2,35 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  // {
-  //   path: 'admin',
-  //   loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
-  //   // loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  // },
-  // {
-  //   path: 'admin/:mode',
-  //   loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
-  // },
-  // {
-  //   path: 'admin1',
-  //   loadChildren: () => import('./admin-1/admin.module').then( m => m.AdminPageModule)
-  // },
-  {
-    path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  },
   {
     path: ':mode',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    loadChildren: () => import('./viewer/home/home.module').then(m => m.HomePageModule)
   },
-  // {
-  //   path: 'test/:mode',
-  //   loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  //   // loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
-  // },
-  // {
-  //   path: 'admin5/:mode',
-  //   loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
-  // },
   {
-    path: 'admin/:mode',
-    loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
+    path: ':ancestor/:admin_code',
+    loadChildren: () => import('./editor/filer/filer.module').then(m => m.FilerPageModule)
+    // loadChildren: () => import('./editor/tabs/tabs.module').then(m => m.TabsPageModule)
   },
-  // {
-  //   path: 'hilite',
-  //   loadChildren: () => import('./hilite/hilite.module').then( m => m.HilitePageModule)
-  // }
+	{
+    path: 'filer',
+    loadChildren: () => import('./editor/filer/filer.module').then( m => m.FilerPageModule)
+  },
+  {
+    path: 'person',
+    loadChildren: () => import('./viewer/person/person.module').then( m => m.PersonPageModule)
+  },
+  {
+    path: 'vnode',
+    loadChildren: () => import('./viewer/vnode/vnode.module').then( m => m.VnodePageModule)
+  },
+	{
+    path: 'doc',
+    loadChildren: () => import('./viewer/doc/doc.module').then( m => m.DocPageModule)
+  },
+  {
+    path: 'tree',
+    loadChildren: () => import('./viewer/vnode/tree/tree.module').then( m => m.TreePageModule)
+  }
 ];
 @NgModule({
   imports: [

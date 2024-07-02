@@ -1,0 +1,69 @@
+<ion-header>
+
+  <ion-item class="app-header" *ngIf="!ftTreeService.isMobilePlatform()">
+		<ion-col size="2" class="heading" (click)="onExit()">
+      <ion-button class="button" fill="clear" (click)="onExit()">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
+      </ion-button>
+      <span class="label"><b>{{ 'CANCEL' | translate }}</b></span>
+    </ion-col>
+    <ion-col size="8">
+      <ng-select 
+				class="mobileClass"
+        [appendTo]="'body'"
+        [items]="peopleNodes" 
+        placeholder="{{selectPeoplePlaceholder}}"
+        [(ngModel)]="selectPeople"
+        (close)="closePeopleNodes()"
+        (clear)="clearPeopleNodes()"
+        (keyup)="keyupPeopleNodes($event)"
+      >
+      </ng-select>
+    </ion-col>
+		<ion-col size="1" class="heading">
+			<ion-button class="button" fill="clear" (click)="ftTreeService.onZoomIn()">
+				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-minus-outline.svg" class="icon"></ion-icon>
+			</ion-button>
+      <span class="label"><b>{{ 'SMALLER' | translate }}</b></span>
+		</ion-col>
+		<ion-col size="1" class="heading">
+			<ion-button class="button" fill="clear" (click)="ftTreeService.onZoomOut()">
+				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-plus-outline.svg" class="icon"></ion-icon>
+			</ion-button>
+      <span class="label"><b>{{ 'LARGER' | translate }}</b></span>
+		</ion-col>
+  </ion-item>
+
+	<ion-item class="app-header" *ngIf="ftTreeService.isMobilePlatform()">
+		<ion-col size="3" class="heading" (click)="onExit()">
+      <ion-button class="button" fill="clear" (click)="onExit()">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
+      </ion-button>
+      <span class="label"><b>{{ 'CANCEL' | translate }}</b></span>
+    </ion-col>
+    <ion-col size="9">
+      <ng-select 
+				class="mobileClass"
+        [appendTo]="'body'"
+        [items]="peopleNodes" 
+        placeholder="{{selectPeoplePlaceholder}}"
+        [(ngModel)]="selectPeople"
+        (close)="closePeopleNodes()"
+        (clear)="clearPeopleNodes()"
+        (keyup)="keyupPeopleNodes($event)"
+      >
+      </ng-select>
+    </ion-col>
+		
+  </ion-item>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+	
+		<div class="screen-node" id="full-tree">
+			<div [ngStyle]="ftTreeService.getZoomStyle()">
+				<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
+			</div>
+		</div>
+
+</ion-content>

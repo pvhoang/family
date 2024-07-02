@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-item class="app-header">
+		<ion-col size="12" class="heading" (click)="onCancel()">
+      <ion-button class="button" fill="clear">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
+      </ion-button>
+      <span class="label"><b>{{ 'CANCEL' | translate }}</b></span>
+      <!-- <span class="label"><b>CANCEL</b></span> -->
+    </ion-col>
+    <!-- <ion-col size="6">
+    </ion-col> -->
+  </ion-item>
+</ion-header>
+
+<ion-content [fullscreen]="false" class="ion-padding">
+	<div id="detail"></div>
+</ion-content>

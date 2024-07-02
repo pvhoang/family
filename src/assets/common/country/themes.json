@@ -1,0 +1,164 @@
+{
+	"country": {
+		"small": {
+			"android": [
+			],
+			"ios": [
+			],	
+			"css": [
+				["--app-text-font-size-tiny", "12px" ],
+				["--app-text-font-size-small", "14px" ],
+				["--app-text-font-size-medium", "16px" ],
+				["--app-text-font-size-large", "18px" ],
+				["--app-text-font-size-extra-large", "20px" ],
+				
+				["--app-icon-font-size-small", "14px" ],
+				["--app-icon-font-size-medium", "16px" ],
+				["--app-icon-font-size-large", "18px" ],
+				["--app-icon-font-size-extra-large", "20px" ],
+				
+				["--app-alert-font-size", "16px" ],
+				["--app-toast-font-size", "16px" ]
+			]
+		},
+		"medium": {
+			"android": [
+				["--app-text-font-size-small", "14px" ],
+				["--app-text-font-size-medium", "16px" ],
+				["--app-text-font-size-large", "18px" ],
+				["--app-text-font-size-extra-large", "20px" ],
+				
+				["--app-icon-font-size-small", "14px" ],
+				["--app-icon-font-size-medium", "16px" ],
+				["--app-icon-font-size-large", "18px" ],
+				["--app-icon-font-size-extra-large", "20px" ],
+				
+				["--app-page-header-cover", "200%" ],
+				["--app-page-span-cover", "120%" ],
+				["--app-page-header-cover-small", "160%" ],
+				["--app-page-span", "120%" ],
+				["--app-page-header", "150%" ],
+				["--app-page-text", "120%" ],
+				["--app-page-footer", "100%" ],
+				["--app-page-detail", "100%" ],
+
+				["--app-alert-font-size", "16px" ],
+				["--app-toast-font-size", "16px" ]
+			],
+			"ios": [
+				["--app-text-font-size-small", "14px" ],
+				["--app-text-font-size-medium", "16px" ],
+				["--app-text-font-size-large", "18px" ],
+				["--app-text-font-size-extra-large", "20px" ],
+				
+				["--app-icon-font-size-small", "14px" ],
+				["--app-icon-font-size-medium", "16px" ],
+				["--app-icon-font-size-large", "18px" ],
+				["--app-icon-font-size-extra-large", "20px" ],
+				
+				["--app-page-header-cover", "280%" ],
+				["--app-page-span-cover", "200%" ],
+				["--app-page-header-cover-small", "220%" ],
+				["--app-page-span", "150%" ],
+				["--app-page-header", "200%" ],
+				["--app-page-text", "160%" ],
+				["--app-page-footer", "80%" ],
+				["--app-page-detail", "160%" ],
+
+				["--app-alert-font-size", "16px" ],
+				["--app-toast-font-size", "16px" ]
+			],	
+			"css": [
+				["--app-text-font-size-small", "14px" ],
+				["--app-text-font-size-medium", "16px" ],
+				["--app-text-font-size-large", "18px" ],
+				["--app-text-font-size-extra-large", "20px" ],
+				
+				["--app-icon-font-size-small", "14px" ],
+				["--app-icon-font-size-medium", "16px" ],
+				["--app-icon-font-size-large", "18px" ],
+				["--app-icon-font-size-extra-large", "20px" ],
+				
+				["--app-page-header-cover", "200%" ],
+				["--app-page-span-cover", "120%" ],
+				["--app-page-header-cover-small", "160%" ],
+				["--app-page-span", "110%" ],
+				["--app-page-header", "150%" ],
+				["--app-page-text", "120%" ],
+				["--app-page-footer", "100%" ],
+				["--app-page-detail", "100%" ],
+
+				["--app-alert-font-size", "16px" ],
+				["--app-toast-font-size", "16px" ]
+			]
+		},
+		"large": {
+			"android": [
+				["--app-text-font-size-tiny", "12px" ],
+				["--app-text-font-size-small", "14px" ],
+				["--app-text-font-size-medium", "16px" ],
+				["--app-text-font-size-large", "18px" ],
+				["--app-text-font-size-extra-large", "20px" ],
+				
+				["--app-icon-font-size-small", "14px" ],
+				["--app-icon-font-size-medium", "16px" ],
+				["--app-icon-font-size-large", "18px" ],
+				["--app-icon-font-size-extra-large", "20px" ],
+				
+				["--app-alert-font-size", "16px" ],
+				["--app-toast-font-size", "16px" ]
+			],
+			"ios": [
+				["--app-text-font-size-tiny", "12px" ],
+				["--app-text-font-size-small", "14px" ],
+				["--app-text-font-size-medium", "16px" ],
+				["--app-text-font-size-large", "18px" ],
+				["--app-text-font-size-extra-large", "20px" ],
+				
+				["--app-icon-font-size-small", "14px" ],
+				["--app-icon-font-size-medium", "16px" ],
+				["--app-icon-font-size-large", "18px" ],
+				["--app-icon-font-size-extra-large", "20px" ],
+				
+				["--app-alert-font-size", "16px" ],
+				["--app-toast-font-size", "16px" ]
+			],	
+			"css": [
+				["--app-text-font-size-tiny", "12px" ],
+				["--app-text-font-size-small", "14px" ],
+				["--app-text-font-size-medium", "16px" ],
+				["--app-text-font-size-large", "18px" ],
+				["--app-text-font-size-extra-large", "20px" ],
+				
+				["--app-icon-font-size-small", "14px" ],
+				["--app-icon-font-size-medium", "16px" ],
+				["--app-icon-font-size-large", "18px" ],
+				["--app-icon-font-size-extra-large", "20px" ],
+				
+				["--app-alert-font-size", "16px" ],
+				["--app-toast-font-size", "16px" ]
+			]
+		},
+
+		"common": [
+			["--ion-font-family", "BraahOne" ],
+			["--app-color", "WHITE" ],
+			["--app-background-color", "GREY" ],
+			["--ion-color-medium", "GREY" ],
+
+			["--app-logo", "url('./../../../assets/icon/gia-pha.png')"],
+			["--app-three-dots", "url('./../../../assets/icon/three-dots-red.svg')"],
+
+			["--url-ion-content-splash", "url('../assets/common/country/1.jpg')" ],
+			["--url-ion-content-memory", "url('../assets/common/country/2.jpg')" ],
+			["--url-ion-content-node", "url('../assets/common/country/3.jpg')" ],
+			["--url-ion-content-file", "url('../assets/common/country/4.jpg')" ],
+			["--url-ion-content-alert", "url('../assets/common/country/country-20.png')" ]
+
+		],
+		"tree-bg":  "../assets/common/country/country-20.png",
+		"splash-bg":  "../assets/common/country/country-20.png"
+	}
+
+}
+

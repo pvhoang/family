@@ -1,112 +1,250 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { FirebaseService } from '../services/firebase.service';
-import { UtilService } from '../services/util.service';
+import { DEBUGS } from '../../environments/environment';
+import { Family, Node, FAMILY} from '../services/family.model';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class DataService {
 
-	constructor(
-		private http: HttpClient,
-    private fbService: FirebaseService,
-    private utilService: UtilService,
+	constructor() {}
+    
+  // saveItem(key: any, value: any) {
+  //   return new Promise((resolve) => {
+  //     localStorage.setItem(key, JSON.stringify(value));
+  //     resolve(true);
+  //   });
+  // }
 
-	) {
-	}
+  // readItem(key: any) {
+  //   return new Promise((resolve) => {
+  //     let value = localStorage.getItem(key);
+  //     if (value) 
+  //       value = JSON.parse(value);
+  //     resolve(value);
+  //   });
+  // }
 
-  async saveItem(key, value) {
+  async saveItem(key: any, value: any) {
     localStorage.setItem(key, JSON.stringify(value));
-    return await true;
+    return true;
   }
 
-  async readItem(key) {
+  async readItem(key: any) {
     let value = localStorage.getItem(key);
-    if (value) 
+		if (value) 
       value = JSON.parse(value);
-    return await value;
+    return value;
   }
 
-  async deleteItem(key) {
+  async deleteItem(key: any) {
     localStorage.removeItem(key);
-    return await true;
+    return true;
   }
 
-  printItem(key) {
-		console.log('DataService - key:' , JSON.stringify(key, null, 4) )
+  public printItem(key: any) {
+		if (DEBUGS.DATA_SERVICE)
+      console.log('DataService - printItem - key:' , JSON.stringify(key, null, 4) )
 	}
 
-  // always read ancestor from FB since it may change, and save it to localMemory
-  setAncestor(ancestor): Promise<any> {
+	readAncestorData(type?: any) {
     return new Promise((resolve) => {
-      this.fbService.readJsonDocument(ancestor, 'ancestor').subscribe((data:any) => {
-        data.id = ancestor;
-        // console.log('setAncestor - info: ', data);
-        this.saveItem('ANCESTOR', data).then((status:any) => {
-          resolve (data);
-        });
+      this.readItem('ANCESTOR_DATA').then((data:any) => {
+				let res: any;
+				if (!type)
+					res = data;
+				else if (type == 'INFO')
+					res = data.info;
+				else if (type == 'DOCS')
+					res = data.docs;
+				else if (type == 'FAMILY')
+					res = data.family;
+				else if (type == 'IMAGES')
+					res = data.images;
+				else if (type == 'BRANCH')
+					res = data.branch;
+				resolve(res);
       });
-    });
+    })
   }
 
-  readFamily() {
+	saveAncestorData(value: any, type?: any) {
     return new Promise((resolve) => {
-      // always add info from 'ANCESTOR'
-      this.readItem('FAMILY').then((family:any) => {
-        // console.log('readFamily - family: ', family);
-        this.readItem('ANCESTOR').then((info:any) => {
-          info = JSON.parse(JSON.stringify(info));
-          if (!family) {
-            // new to the system, provide Guide
-
-            // always add family from 'ANCESTOR' for new ancestor
-            this.fbService.readJsonDocument(info.id, 'family').subscribe((srcFamily:any) => {
-              this.saveFamily(srcFamily).then(status => {
-                family = srcFamily;
-                family.info = info;
-                this.utilService.presentToast('HOME_FIRST_TIME_USER');
-                resolve(family);
-              });
-            });
-          } else {
-            family.info = info;
-            resolve(family);
-          }
-          // if (!family) {
-          //   // set a default family
-          //   family = { version: '0.1', info: info, nodes: [ { name: info.name, gender: 'male'} ] };
-          // } else {
-            // family.info = info;
-          // }
-          // resolve(family);
-        });
+      this.readItem('ANCESTOR_DATA').then((data:any) => {
+				if (!type)
+					data = value;
+				else if (type == 'INFO')
+					data.info = value;
+				else if (type == 'DOCS')
+					data.docs = value;
+				else if (type == 'FAMILY')
+					data.family = value;
+				else if (type == 'IMAGES')
+					data.images = value;
+				else if (type == 'BRANCH')
+					data.branch = value;
+				this.saveItem('ANCESTOR_DATA', data).then((status) => {
+						resolve(true);
+				});
       });
-    });
+    })
   }
 
-  saveFamily(family) {
-    return new Promise((resolve) => {
-      // remove info from 'ANCESTOR'
-      family.info = {};
-      this.saveItem('FAMILY', family).then((status:any) => {
-        resolve(true);
-      });
-    });
-  }
+  // readFamily() {
+  //   return new Promise((resolve) => {
+  //     this.readItem('ANCESTOR_DATA').then((adata:any) => {
+  //       resolve(adata.family);
+  //     });
+  //   })
+  // }
 
-  readLocalJson(collection, documentId): Promise<any> {
-		return new Promise((resolve, reject) => {
-      const url = './assets/' + collection + '/' + documentId + '.json';
-			this.http.get(url).toPromise().then((res:any) => {
-        // json format: {id: documentId, data: data} - no Stringgify
-				resolve(res.data);
-			}).catch(err => {
-				console.log('err: ', err);
-				reject(err.error);
-			});
-		});
-	}
+  // saveFamily(family: Family) {
+  //   return new Promise((resolve) => {
+  //     this.readItem('ANCESTOR_DATA').then((adata:any) => {
+  //       adata.family = family;
+  //       this.saveItem('ANCESTOR_DATA', adata).then((status) => {
+  //         resolve(true);
+  //       });
+  //     });
+  //   });
+  // }
 
+  // readFamilyAndInfo() {
+  //   return new Promise((resolve) => {
+  //     this.readItem('ANCESTOR_DATA').then((adata:any) => {
+  //       resolve({ family: adata.family, info: adata.info });
+  //     });
+  //   })
+  // }
+
+  // readInfo() {
+  //   return new Promise((resolve) => {
+  //     this.readItem('ANCESTOR_DATA').then((adata:any) => {
+  //       resolve(adata.info);
+  //     });
+  //   })
+  // }
+
+  // saveBranch(name: string, branch: Family) {
+  //   return new Promise((resolve) => {
+  //     this.readItem('ANCESTOR_DATA').then((adata:any) => {
+  //       // if (!adata.branch) {
+  //       //   adata.branch = {};
+  //       //   adata.branch[name] = branch;
+
+  //       // } else if (adata.branch[name]) {
+  //       //   adata.branch[name] = branch;
+  //       // }
+  //       if (!adata.branch)
+  //         adata.branch = {};
+  //       adata.branch[name] = branch;
+  //       console.log('BranchPage - saveBranch - name, branch: ', name, branch);
+  //       this.saveItem('ANCESTOR_DATA', adata).then((status) => {
+  //         // console.log('BranchPage - saveBranch - status: ', status);
+  //         resolve(true);
+  //       });
+  //     });
+  //   });
+  // }
+
+  // readBranch(name: string) {
+  //   return new Promise((resolve) => {
+  //     this.readItem('ANCESTOR_DATA').then((adata:any) => {
+  //       // console.log('BranchPage - readBranch - name: ', name);
+  //       let branch = (adata.branch) ? adata.branch[name] : null; 
+  //       resolve(branch);
+  //     });
+  //   })
+  // }
+
+  // deleteBranch(name: string) {
+  //   return new Promise((resolve) => {
+  //     this.readItem('ANCESTOR_DATA').then((adata:any) => {
+  //       if (adata.branch) {
+  //         delete adata.branch[name];
+  //         this.saveItem('ANCESTOR_DATA', adata).then((status) => {
+  //           resolve(true);
+  //         });
+  //       } else
+  //         resolve(true);
+  //     });
+  //   })
+  // }
+
+	// deleteAllBranches() {
+  //   return new Promise((resolve) => {
+  //     this.readItem('ANCESTOR_DATA').then((adata:any) => {
+  //       if (adata.branch) {
+	// 				Object.keys(adata.branch).forEach(name => {
+	// 					delete adata.branch[name];
+	// 				});
+	// 				adata.branch = null;
+  //         this.saveItem('ANCESTOR_DATA', adata).then((status) => {
+  //           resolve(true);
+  //         });
+  //       } else
+  //         resolve(true);
+  //     });
+  //   })
+  // }
+
+  // readBranchNames() {
+  //   return new Promise((resolve) => {
+  //     this.readItem('ANCESTOR_DATA').then((adata:any) => {
+  //       let names = [];
+  //       if (adata.branch)
+  //         names = Object.keys(adata.branch);
+  //       // console.log('BranchPage - readBranchNames - names: ', names);
+  //       resolve(names);
+  //     });
+  //   })
+  // }
+
+  // readBranches() {
+  //   return new Promise((resolve) => {
+  //     this.readItem('ANCESTOR_DATA').then((adata:any) => {
+  //       resolve(adata.branch);
+  //     });
+  //   })
+  // }
+
+  // readDocs() {
+  //   return new Promise((resolve) => {
+  //     this.readItem('ANCESTOR_DATA').then((adata:any) => {
+  //       resolve(adata.docs);
+  //     });
+  //   })
+  // }
+
+  // saveDocs(docs: any) {
+  //   return new Promise((resolve) => {
+  //     this.readItem('ANCESTOR_DATA').then((adata:any) => {
+  //       adata.docs = docs;
+  //       this.saveItem('ANCESTOR_DATA', adata).then((status) => {
+	// 				resolve(true);
+	// 			});
+  //     });
+  //   });
+  // }
+
+	// saveInfo(info: any) {
+  //   return new Promise((resolve) => {
+  //     this.readItem('ANCESTOR_DATA').then((adata:any) => {
+  //       adata.info = info;
+  //       // adata.info = JSON.parse(JSON.stringify(info))
+	// 			// console.log('AppComponent - saveInfo - adata.info: ', adata.info);
+  //       this.saveItem('ANCESTOR_DATA', adata).then((status) => {
+	// 				resolve(true);
+	// 			})
+	// 			.catch((error) => {
+	// 				console.log('saveInfo - error: ', error.message);
+	// 				resolve(false);
+	// 			});
+  //     })
+	// 		.catch((error) => {
+	// 			console.log('saveInfo - error1: ', error.message);
+	// 			resolve(false);
+	// 		});
+  //   });
+  // }
 }

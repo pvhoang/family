@@ -1,0 +1,213 @@
+<ion-content [fullscreen]="true">
+
+<div id="book">
+	<div class="flip-book">
+
+<!-- title -->
+		<div class="page page-cover page-cover-top" data-density="hard">
+			<div class="page-content">
+				<h2 class="page-header-cover">{{ 'HOME_FAMILY_TREE' | translate }}</h2>
+				<div class="page-list">
+					<ul class="list">
+						<li><span class="page-span-cover"><b>{{info.name}}</b></span></li>
+						<li><span class="page-span-cover"><b>{{info.location}}</b></span></li>
+					</ul>
+				</div>
+				<div class="page-footer"><u><i></i></u></div>
+			</div>
+		</div>
+
+<!-- content -->
+		<div class="page page-cover page-cover-top" data-density="hard">
+			<div class="page-content">
+				<h2 class="page-header-cover-small">{{ 'HOME_TITLE' | translate }}</h2>
+				<div class="page-list">
+					<ul class="list">
+						<li><span class="page-span" (click)="toPage('pha_nhap')"><u><i>{{ 'HOME_pha_nhap' | translate }}</i></u></span></li>
+						<li><span class="page-span" (click)="toPage('pha_ky')"><u><i>{{ 'HOME_pha_ky' | translate }}</i></u></span></li>
+						<li><span class="page-span" (click)="toPage('pha_he')"><u><i>{{ 'HOME_pha_he' | translate }}</i></u></span></li>
+						<li><span class="page-span" (click)="toPage('pha_do')"><u><i>{{ 'HOME_pha_do' | translate }}</i></u></span></li>
+						<li><span class="page-span" (click)="toPage('ngoai_pha')"><u><i>{{ 'HOME_ngoai_pha' | translate }}</i></u></span></li>
+						<li><span class="page-span" (click)="toPage('phu_khao')"><u><i>{{ 'HOME_phu_khao' | translate }}</i></u></span></li>
+						<li><span class="page-span" (click)="toPage('ngay_gio')"><u><i>{{ 'HOME_ngay_gio' | translate }}</i></u></span></li>
+					</ul>
+				</div>
+				<div class="page-footer"><u><i></i></u></div>
+			</div>
+		</div>
+
+<!-- pha_nhap, pha_ky, pha_he, pha_do, ngoai_pha, phu_khao -->
+
+		<div *ngFor="let key of specialKeys; index as iKey; ">
+
+			<div *ngFor="let page of specialPageData[key]; index as i;">
+				<div class="page" data-density="hard">
+					<div class="page-content">
+						<h2 class="page-header">{{page.titleText}}</h2>
+						<div class="w3-container page-text scroll">
+
+							<div *ngIf="i == 0 && key == 'pha_he'">
+								<!-- First page -->
+								<br>
+								<ion-grid class="app-grid-100">
+									<ion-row>
+										<ion-col size="4" class="column">
+											<span class="label">{{ 'HOME_pha_he_to_phu' | translate }}</span>
+										</ion-col>
+										<ion-col size="2" class="column">
+											<span class="label">{{ 'HOME_pha_he_doi' | translate }}</span>
+										</ion-col>
+										<ion-col size="4" class="column">
+											<span class="label">{{ 'HOME_pha_he_ten' | translate }}</span>
+										</ion-col>
+										<ion-col size="2" class="column">
+											<span class="label">{{ 'HOME_pha_he_detail' | translate }}</span>
+										</ion-col>
+									</ion-row>
+									<ion-row *ngFor="let person of tableAncestors; index as i;">
+										<ion-col size="4" class="column">
+											<b>{{person.title}}</b>
+										</ion-col>
+										<ion-col size="2" class="column">
+											<b>{{person.gen}} </b>
+										</ion-col>
+										<ion-col size="4" class="column">
+											<b>{{person.name}}</b>
+										</ion-col>
+										<ion-col size="2" class="column"> 
+											<ion-button class="button" fill="clear" (click)="onPhaHe(person)">
+												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+											</ion-button>
+										</ion-col>
+									</ion-row>
+								</ion-grid>
+								<br>
+								<ion-item class="app-header-40">
+									<ion-col size="12" class="heading" (click)="onPhaHe(null)" title="{{ 'FILE_UPLOAD_DOCS_TOOLTIP' | translate }}">
+										<ion-button class="button" fill="clear">
+											<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+										</ion-button>
+										<span class="label">{{ 'FILE_PHOTO_ADD' | translate }}</span>
+									</ion-col>
+								</ion-item>
+								<br>
+							</div>
+
+							<div *ngIf="i == 0 && key == 'pha_do'">
+								<!-- First page -->
+								<br>
+								<ion-grid class="app-grid-100">
+									<ion-row>
+										<ion-col size="2" class="column">
+											<span class="label">{{ 'HOME_pha_do_doi' | translate }}</span>
+										</ion-col>
+										<ion-col size="1" class="column">
+											<span class="label">{{ 'HOME_pha_do_chi' | translate }}</span>
+										</ion-col>
+										<ion-col size="1" class="column">
+											<span class="label">{{ 'HOME_pha_do_phai' | translate }}</span>
+										</ion-col>
+										<ion-col size="1" class="column">
+											<span class="label">{{ 'HOME_pha_do_nhanh' | translate }}</span>
+										</ion-col>
+										<ion-col size="5" class="column">
+											<span class="label">{{ 'HOME_pha_do_he' | translate }}</span>
+										</ion-col>
+										<ion-col size="2" class="column">
+											<span class="label">{{ 'HOME_pha_he_do' | translate }}</span>
+										</ion-col>
+									</ion-row>
+			
+									<ion-row *ngFor="let tree of tableTrees; index as i;">
+										<ion-col size="2" class="column">
+											<b>{{tree.gen}} </b>
+										</ion-col>
+										<ion-col size="1" class="column">
+											<b>{{tree.branch}} </b>
+										</ion-col>
+										<ion-col size="1" class="column">
+											<b>{{tree.sub_branch}}</b>
+										</ion-col>
+										<ion-col size="1" class="column">
+											<b>{{tree.sub_sub_branch}}</b>
+										</ion-col>
+										<ion-col size="5" class="column">
+											<b>{{tree.name}}</b>
+										</ion-col>
+										<ion-col size="2" class="column"> 
+											<ion-button class="button" fill="clear" (click)="onPhaDo(tree)">
+												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+											</ion-button>
+										</ion-col>
+									</ion-row>
+								</ion-grid>
+								<br>
+							</div>
+
+							<div *ngFor="let data of page.htmls; index as j;">
+								<div *ngIf="data.html">
+									<div id="{{key}}_{{i}}_{{j}}"></div>
+								</div>
+								<div *ngIf="data.popupHtml">
+
+									<ion-item class="app-header-80">
+										<ion-col size="12" class="heading" (click)="onDocDetail(page, data.docHtml)" title="{{ 'FILE_UPLOAD_DOCS_TOOLTIP' | translate }}">
+											<ion-button class="button" fill="clear">
+												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+											</ion-button>
+											<span class="label">{{ data.docTitle }}</span>
+										</ion-col>
+									</ion-item>
+
+										<!-- <ion-row class="app-header-two-columns">
+											<ion-col size="8" class="heading-1">
+												<div id="{{key}}_{{i}}_{{j}}_title"></div>
+											</ion-col>
+											<ion-col size="4" class="heading-2" title="{{ 'FILE_UPLOAD_DOCS_TOOLTIP' | translate }}">
+												<ion-button class="button" fill="clear" (click)="onDocDetail(page, data.html)">
+													<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+												</ion-button>
+											</ion-col>
+										</ion-row> -->
+
+								</div>
+							</div>
+						</div>
+						<div class="page-footer">{{page.index-1}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<!-- ngay_gio -->
+			<div class="page" data-density="hard">
+				<div class="page-content">
+					<h2 class="page-header">{{pageData.ngay_gio.titleText}}</h2>
+					<div class="w3-container page-text scroll">
+						<div id="ngay_gio"></div>
+						<br>
+					</div>
+					<div class="page-footer">{{pageData.ngay_gio.index-1}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
+				</div>
+			</div>
+
+<!-- contact -->
+			<div class="page page-cover page-cover-top" data-density="hard">
+				<div class="page-content">
+					<h2 class="page-header-cover-small">{{ 'HOME_END' | translate }}</h2>
+					<div class="page-list">
+						<ul class="list">
+							<li><span class="page-span"><i>{{ 'VERSION' | translate }}: {{version}}</i></span></li>
+							<li><span class="page-span"><i>{{ 'HOME_UPDATE' | translate }}</i></span></li>
+							<li><span class="page-span"><i>{{info.admin_name}}</i></span></li>
+							<li><span class="page-span"><i>({{info.admin_email}})</i></span></li>
+						</ul>
+					</div>
+					<div class="page-footer"><span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
+				</div>
+			</div>
+
+	</div>
+</div>
+
+</ion-content>

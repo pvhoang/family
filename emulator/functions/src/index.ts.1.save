@@ -1,0 +1,131 @@
+/**
+ * Import function triggers from their respective submodules:
+ *
+ * import {onCall} from "firebase-functions/v2/https";
+ * import {onDocumentWritten} from "firebase-functions/v2/firestore";
+ *
+ * See a full list of supported triggers at https://firebase.google.com/docs/functions
+ */
+
+// import {onRequest} from "firebase-functions/v2/https";
+// import * as logger from "firebase-functions/logger";
+
+// Start writing functions
+// https://firebase.google.com/docs/functions/typescript
+
+// export const helloWorld = onRequest((request, response) => {
+//   logger.info("Hello logs!", {structuredData: true});
+//   response.send("Hello from Firebase!");
+// });
+
+// const YOUR_FIREBASE_KEY_PATH = ""
+
+import * as functions from "firebase-functions";
+// import { cert } from "firebase-admin/app";
+import * as admin from 'firebase-admin';
+// import {onRequest} from "firebase-functions/v2/https";
+// import * as logger from "firebase-functions/logger";
+import { getMessaging } from "firebase-admin/messaging";
+
+// admin.initializeApp();
+admin.initializeApp({
+  // credential: cert(YOUR_FIREBASE_KEY_PATH),
+});
+
+// export const helloWorld = onRequest((request, response) => {
+//   logger.info("Hello logs!", {structuredData: true});
+// 	console.log('helloWorld!');
+//   response.send("Hello from Firebase!");
+// });
+
+exports.pushNews = functions.firestore
+	.document('/news/{id}')
+	.onUpdate(async (change, context) => {
+	let newsData = change.after.data();
+	console.log('newsData: ', newsData);
+	console.log('params: ', context.params);
+
+	const newsId = context.params.id;
+
+	// const token = "YOUR_REGISTRATION_TOKEN";
+	// const message = {
+	// 	notification: {
+	// 		title: "Capacitor Firebase Messaging",
+	// 		body: "Hello world!",
+	// 	},
+	// 	token: token,
+	// };
+
+	// get all users
+	return admin.firestore().collection(`users`).get().then(users => {
+			admin.firestore().collection(`devices`).get().then(devices => {
+				users.docs.forEach((userDoc) => {
+					admin.firestore().doc(`users/${userDoc.id}`).get().then(user => {
+						let userData = user.data();
+						console.log('user data: ', userData);
+
+						if (userData && userData.role == 'ADMINISTRATOR') {
+							devices.docs.forEach((deviceDoc) => {
+								admin.firestore().doc(`devices/${deviceDoc.id}`).get().then(device => {
+									let deviceData = device.data();
+									console.log('device data: ', deviceData);
+									if (deviceData && userData && deviceData.email === userData.email) {
+
+										const payload = {
+											notification: {
+												title: 'New News',
+												body: newsData.title,
+												// icon: "assets/main-page-logo-small-hat.png",
+												// vibrate: [100, 50, 100],
+												// data: {
+												// 		"dateOfArrival": Date.now(),
+												// 		"primaryKey": 1
+												// },
+												// actions: [{
+												// 	"action": "explore",
+												// 	"title": "Go to the site"
+												// }]
+											},
+											data: {
+												'id': newsId,
+												'title': newsData.title,
+												'text': newsData.text
+											},
+											token: deviceData['token']
+										};
+
+										// const message = {
+										// 	notification: {
+										// 		title: "Capacitor Firebase Messaging",
+										// 		body: "Hello world!",
+										// 	},
+										// 	token: deviceData['token'],
+										// };
+
+										// admin.messaging().sendToDevice(deviceData['token'], payload).then(() => {
+										// 	console.log('Message sent!');
+										// }, err => {
+										// 	console.log('Message sent error: ', err);
+										// })
+
+										getMessaging()
+										.send(payload)
+										.then((response) => {
+											console.log("Successfully sent message: ", response);
+										})
+										.catch((error) => {
+											console.log("Error sending message: ", error);
+										});
+
+
+									}
+								});
+							});
+						}
+					});
+				});
+			}, err => {
+					console.log('err: ', err);
+			})
+		});
+	});

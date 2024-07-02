@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "default": "family-c5b45"
+  },
+  "targets": {
+    "family-c5b45": {
+      "hosting": {
+        "app": [
+          "family-c5b45"
+        ],
+        "giapha": [
+          "giapha"
+        ]
+      }
+    }
+  }
+}

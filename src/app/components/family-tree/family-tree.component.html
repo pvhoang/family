@@ -1,0 +1,84 @@
+<!-- 
+  view = 0: node.page
+  view = 1: person.page
+  view = 2: tree.page 
+-->
+
+<div *ngIf="(view == 0)">
+  <div class="tree" id="tree">
+    <ul>
+      <li>
+        <div *ngFor="let node of family.nodes">
+          <span *ngIf="node.visible"
+            class="node"
+            [ngClass]="node.relationship ? node.relationship + '-leaf' : ''"
+            [class]="node.nclass"
+            (click)="_leafSelected(node)" 
+            id="{{node.id}}"
+            [innerHtml]="node.span"
+            >
+          </span>
+        </div>
+        <ul *ngIf="family.children && family.children.length > 0">
+          <li *ngFor="let child of family.children" [ngStyle]="{'width': _setWidth(child) ? '100%' : 'auto'}" >
+            <ft-leaf (onLeafSelected)="_leafSelected($event)" [view]="view" [child]="child"></ft-leaf>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+  
+<div *ngIf="(view == 1)">
+  <div class="person-tree-1" id="person-tree-1">
+    <ul>
+      <li>
+        <div *ngFor="let node of family.nodes">
+          <span
+            class="node"
+            [ngClass]="node.relationship ? node.relationship + '-leaf' : ''"
+            [class]="node.nclass"
+            (click)="_leafSelected(node)" 
+            id="{{node.id}}"
+            [innerHtml]="node.spanDetail ? node.spanDetail : node.span"
+            >
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="person-tree-2">
+    <ul *ngIf="family.children && family.children.length > 0">
+      <li *ngFor="let child of family.children" [ngStyle]="{'width': _setWidth(child) ? '100%' : 'auto'}" >
+        <ft-leaf (onLeafSelected)="_leafSelected($event)" [view]="view" [child]="child"></ft-leaf>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div *ngIf="(view == 2)">
+  <div class="vertical-tree" id="vertical-tree">
+    <ul>
+      <li>
+        <div *ngFor="let node of family.nodes">
+          <span
+            class="node"
+            [ngClass]="node.relationship ? node.relationship + '-leaf' : ''"
+            [class]="node.nclass"
+            (click)="_leafSelected(node)" 
+            id="{{node.id}}"
+            [innerHtml]="node.spanDetail ? node.spanDetail : node.span"
+            >
+          </span>
+          <img class="image" *ngIf="view && node.photoUrl != ''" [src]="node.photoUrl">
+        </div>
+        <ul *ngIf="family.children && family.children.length > 0">
+          <li *ngFor="let child of family.children" [ngStyle]="{'width': _setWidth(child) ? '100%' : 'auto'}" >
+            <ft-leaf (onLeafSelected)="_leafSelected($event)" [view]="view" [child]="child"></ft-leaf>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+

@@ -1,31 +1,86 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
-import { AlertController, ToastController } from '@ionic/angular';
-import { DEBUG } from '../../environments/environment';
+import { AlertController, PopoverController, ToastController, LoadingController, IonicSafeString } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
+import { DEBUGS } from '../../environments/environment';
+import { SelectComponent } from '../components/select/select.component';
 import { LanguageService } from '../services/language.service';
+import { ThemeService } from '../services/theme.service';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilService {
 
+	private isLoading = false;
+
   constructor(
 		private http: HttpClient,
     private languageService: LanguageService,
+    private themeService: ThemeService,
     private alertController: AlertController,
     public toastController: ToastController,
+    public loadingController: LoadingController,
+    public popoverController: PopoverController,
+    public modalCtrl: ModalController,
 	) { }
 
-	getLocalJsonFile(url: string): Promise<any> {
+	// getLocalJsonFile1(url: string): Promise<any> {
+	// 	return new Promise((resolve, reject) => {
+	// 		this.http.get(url).toPromise().then((data:any) => {
+	// 			resolve(data);
+	// 		}).catch(err => {
+	// 			console.log('err: ', err);
+	// 			reject(err.error);
+	// 		});
+	// 	});
+	// }
+
+	openLocalHTMLLink(url: string): Promise<any> {
 		return new Promise((resolve, reject) => {
-			this.http.get(url).toPromise().then((data:any) => {
-				resolve(data);
+			firstValueFrom(this.http.get<boolean>(url))
+			.then((data) => {
+				resolve (data);
 			}).catch(err => {
 				console.log('err: ', err);
 				reject(err.error);
 			});
 		});
 	}
+
+	getLocalJsonFile(url: string): Promise<any> {
+		return new Promise((resolve, reject) => {
+			firstValueFrom(this.http.get<boolean>(url))
+			.then((data) => {
+				resolve (data);
+			}).catch(err => {
+				console.log('err: ', err);
+				reject(err.error);
+			});
+		});
+	}
+
+	// getLocalTextFile1(url: string): Promise<any> {
+	// 	return new Promise((resolve, reject) => {
+	// 		firstValueFrom(this.http.get<boolean>(url))
+	// 		.then((data) => {
+	// 			console.log(`Result: `, url, data);
+	// 			resolve (data);
+	// 		}).catch(err => {
+	// 			console.log('err: ', err);
+	// 			reject(err.error);
+	// 		});
+
+	// 		// this.http.get(url, {responseType: 'text'}).toPromise().then((data:any) => {
+	// 		// 	resolve(data);
+	// 		// }).catch(err => {
+	// 		// 	reject(err.error);
+	// 		// });
+	// 	}).catch(err => {
+	// 		console.log('err = ', err);
+	// 	});
+	// }
 
 	getLocalTextFile(url: string): Promise<any> {
 		return new Promise((resolve, reject) => {
@@ -40,14 +95,10 @@ export class UtilService {
 	}
 
 	getLocalImageFile(url: string): Promise<any> {
-		console.log('getLocalImageFile - url = ', url);
-
 		return new Promise((resolve, reject) => {
 			this.http.get(url, { responseType: 'blob' }).toPromise().then((blob:any) => {
-				console.log('OK');
 				resolve(blob);
 			}).catch(err => {
-				console.log('ERROR: ', err.error );
 				reject(err.error);
 			});
 		}).catch(err => {
@@ -56,7 +107,7 @@ export class UtilService {
 	}
 
 	console_log(msg: string, obj?: any) {
-		if (!DEBUG)
+		if (!DEBUGS.UTIL_SERVICE)
 			return;
 		if (obj)
 			console.log(msg, obj);
@@ -65,57 +116,79 @@ export class UtilService {
 			// msg += ' ' + JSON.stringify(obj, null, 4);
 	}
 
-	getAlertMessage(options: any, formatMode?) {
+	// ALERT
+
+	getAlertMessage(items: any, br?: any) {
+		// let message = '<br/>';
 		let message = '';
-		let space = formatMode ? '' : ' ';
-		options.forEach((option:any) => {
-			if (option.name == 'msg')
-				message += space + this.languageService.getTranslation(option.label);
-			else if (option.name == 'data')
-				message += space + '<b>' + option.label + '</b>'
-			if (formatMode)
+		for (let i = 0 ; i < items.length; i++) {
+			let item = items[i];
+			if (item.name == 'msg') {
+				let msg = this.languageService.getTranslation(item.label);
+				message += (msg) ? msg : item.label
+			} else if (item.name == 'data') {
+				message += '<b>' + item.label + '</b>'
+				// message += '[ ' + item.label + ' ]'
+			}
+			if (br && i != items.length - 1)
 				message += '<br/>';
-		})
-		if (formatMode)
-			message = '<pre style="margin-left: 2.0em;">' + message + '<br/><br/></pre>';
+		}
+		// message += '<br/>';
 		return message;
 	}
 
-	getAlertTableMessage(options: any) {
+	getAlertTableMessage(data: any) {
 		let message = '';
-		options.forEach((option:any) => {
-			message += '<b>' + option.name + '</b>' + ': &emsp;' + option.value + '<br/>';
-		})
-		message += '<br/><br/>';
+		if (data.image) {
+			message += '<img class="alert-image" src="' + data.image + '">';
+			message += '<br/>';
+		};
+		// let message = '<img src="../assets/icon/bia-mo.jpg">';
+		if (data.items) {
+			let items = data.items;
+			message += '<table>';
+			items.forEach((item:any) => {
+				message += '<tr><td><b>' + item.name + '</b>&nbsp;&nbsp;</td><td>:&nbsp;&nbsp;&nbsp;' + item.value + '</td></tr>';
+			})
+			message += '</table>';
+		}
+		// let message = '<table>';
 		return message;
 	}
-	
-	async alertMsg(srcHeader, srcMessage, css?) {
+
+	async alertMsg(srcHeader: any, srcMessage: any, okText: any, dialogDim: any) {
 		let header = this.languageService.getTranslation(srcHeader);
 		if (!header)
 			header = srcHeader;
 		let message = this.languageService.getTranslation(srcMessage);
 		if (!message)
 			message = srcMessage;
-		if (!css)
-			css = 'alert-small';
-		// let css = 'myClass';
+		okText = this.languageService.getTranslation(okText);
+		let css = 'alert-dialog';
+		this.themeService.setAlertSize(dialogDim);
+
 		let alert = await this.alertController.create({
 			header: header,
 			message: message,
 			cssClass: css,
-			buttons: ['OK']
+			buttons: [
+        {
+          text: okText,
+					// text-capitalize: false,
+          handler: (data: any) => {
+						alert.dismiss(true);
+						return false;
+          }
+        }
+      ],
+			backdropDismiss: false,
+			mode: "md"
 		});
-		// alert.present();
 		await alert.present();
-		let choice:any;
-    await alert.onDidDismiss().then((data) => {
-			choice = data;
-    })
-    return choice;
+		return await alert.onDidDismiss();
 	}
 
-	async alertConfirm(srcHeader, srcMessage, cancelText, okText, css?) {
+	async alertConfirm(srcHeader, srcMessage, cancelText, okText, dialogDim?: any) {
 		let header = this.languageService.getTranslation(srcHeader);
 		if (!header)
 			header = srcHeader;
@@ -125,9 +198,10 @@ export class UtilService {
 
 		cancelText = this.languageService.getTranslation(cancelText);
 		okText = this.languageService.getTranslation(okText);
-
-		if (!css)
-			css = 'alert-small';
+		let css = 'alert-dialog';
+		if (!dialogDim)
+			dialogDim = { width: 350, height: 400 };
+		this.themeService.setAlertSize(dialogDim);
 		let alert = await this.alertController.create({
       header: header,
 			message: message,
@@ -139,7 +213,7 @@ export class UtilService {
 						alert.dismiss(false);
 						return false;
           }
-        },
+				},
         {
           text: okText,
           handler: (data: any) => {
@@ -147,29 +221,28 @@ export class UtilService {
 						return false;
           }
         }
-      ]
+      ],
+			backdropDismiss: false,
+			mode: "md"
     });
     await alert.present();
-		let choice:any;
-    await alert.onDidDismiss().then((data) => {
-			choice = data;
-    })
-    return choice;
+		return await alert.onDidDismiss();
 	}
 
-	async alertRadio(srcHeader, srcMessage, inputs: any[], cancelText, okText, css?) {
+	async alertRadio(srcHeader, srcMessage, inputs: any[], cancelText, okText, dialogDim?: any) {
 		let header = this.languageService.getTranslation(srcHeader);
 		if (!header)
 			header = srcHeader;
 		let message = this.languageService.getTranslation(srcMessage);
 		if (!message)
 			message = srcMessage;
-
 		cancelText = this.languageService.getTranslation(cancelText);
 		okText = this.languageService.getTranslation(okText);
+		let css = 'alert-dialog';
+		if (!dialogDim)
+			dialogDim = { width: 350, height: 400 };
+		this.themeService.setAlertSize(dialogDim);
 
-		if (!css)
-			css = 'alert-small';
 		let alert = await this.alertController.create({
       header: header,
 			message: message,
@@ -182,7 +255,7 @@ export class UtilService {
 						alert.dismiss(false);
 						return false;
           }
-        },
+				},
         {
           text: okText,
           handler: (data: any) => {
@@ -190,92 +263,27 @@ export class UtilService {
 						return false;
           }
         }
-      ]
-    });
-    await alert.present();
-		let choice:any;
-    await alert.onDidDismiss().then((data) => {
-			choice = data;
-    })
-    return choice;
-	}
-
-	async alertSendTree(srcHeader, srcMessage, infoText, cancelText, okText, css?) {
-
-		let header = this.languageService.getTranslation(srcHeader);
-		if (!header)
-			header = srcHeader;
-		let message = this.languageService.getTranslation(srcMessage);
-		if (!message)
-			message = srcMessage;
-		
-		infoText = this.languageService.getTranslation(infoText);
-		cancelText = this.languageService.getTranslation(cancelText);
-		okText = this.languageService.getTranslation(okText);
-
-		if (!css) 
-			css = 'alert-small';
-		let alert = await this.alertController.create({
-      header: header,
-			message: message,
-			cssClass: css,
-			inputs: [
-        {
-          name: 'info',
-          placeholder: infoText,
-        }
       ],
-      buttons: [
-        {
-          text: cancelText,
-          handler: (data: any) => {
-						alert.dismiss(false);
-						return false;
-          }
-        },
-        {
-          text: okText,
-          handler: (data: any) => {
-						let info = data.info;
-						// validate data
-						console.log('info: ', info);
-						let msg = '';
-						if (info.length < 5)
-							msg += 'Thông tin phải lớn hơn 10 ký tự!';
-						if (msg != '') {
-							this.presentToast(msg);
-							return false;
-						}
-						alert.dismiss(true);
-						return data;
-          }
-        }
-      ]
+			backdropDismiss: false,
+			mode: "md"
     });
     await alert.present();
-		let result:any;
-    await alert.onDidDismiss().then((data) => {
-			result = data;
-    })
-    return result;
+		return await alert.onDidDismiss();
 	}
 
-	async alertAdmin(srcHeader, srcMessage:any, inputs: any[], cancelText, okText, css?) {
-
+	async alertText(srcHeader, inputs: any[], cancelText, okText, dialogDim?: any) {
 		let header = this.languageService.getTranslation(srcHeader);
 		if (!header)
 			header = srcHeader;
-		let message = this.languageService.getTranslation(srcMessage);
-		if (!message)
-			message = srcMessage;
 		cancelText = this.languageService.getTranslation(cancelText);
 		okText = this.languageService.getTranslation(okText);
+		let css = 'alert-dialog';
+		if (!dialogDim)
+			dialogDim = { width: 350, height: 400 };
+		this.themeService.setAlertSize(dialogDim);
 
-		if (!css) 
-			css = 'alert-big';
 		let alert = await this.alertController.create({
       header: header,
-			message: message,
 			cssClass: css,
 			inputs: inputs,
       buttons: [
@@ -285,38 +293,120 @@ export class UtilService {
 						alert.dismiss(false);
 						return false;
           }
-        },
+				},
         {
           text: okText,
           handler: (data: any) => {
-						alert.dismiss(true);
-						return data;
+						alert.dismiss(data);
+						return false;
           }
         }
-      ]
+      ],
+			backdropDismiss: false,
+			mode: "md"
     });
     await alert.present();
-		let result:any;
-    await alert.onDidDismiss().then((data) => {
-			result = data;
-    })
-    return result;
+		return await alert.onDidDismiss();
 	}
 
-	async presentToastWait(srcHeader, srcMessage, okText) {
+	async alertSelect(srcHeader: any, selects: any[], cancelText: any, okText: any) {
 		let header = this.languageService.getTranslation(srcHeader);
 		if (!header)
 			header = srcHeader;
+		cancelText = this.languageService.getTranslation(cancelText);
+		okText = this.languageService.getTranslation(okText);
+    const modal = await this.modalCtrl.create({
+      component: SelectComponent,
+      componentProps: {
+				'header': header,
+        'selects': selects,
+				'cancelText': cancelText,
+				'okText': okText,
+      },
+			cssClass: 'modal-dialog',
+			// cssClass: 'my-modal-class',
+			backdropDismiss:false,
+			mode: "md",
+    });
+    await modal.present();
+		return await modal.onDidDismiss();
+  }
+
+	// LOADING
+
+	async presentLoading(msg: any) {
+		this.isLoading = true;
+		// let css = 'toast-dialog';
+		let css = 'toast-wait';
+		// let css = 'alert-dialog';
+		return await this.loadingController.create({
+			message: this.languageService.getTranslation(msg),
+			duration: 10000,
+			cssClass: css,
+			mode: "md"
+		}).then(loading => {
+			loading.present().then(() => {
+				if (!this.isLoading) {
+					loading.dismiss();
+				}
+			});
+		});
+	}
+
+	async dismissLoading() {
+		this.isLoading = false;
+		return await this.loadingController.dismiss();
+	}
+
+	getIsLoading() {
+		return this.isLoading;
+	}
+
+	// TOAST
+
+	presentToastOK(keys: any) {
+    let msgs = [];
+		keys.forEach((key:any) => {
+			let item = {};
+			let msg = this.languageService.getTranslation(key);
+			if (msg == key) {
+				// key is not translatable
+				item = {name: 'data', label: '&emsp;' + key};
+			} else {
+				// key is translatable
+				item = {name: 'msg', label: msg};
+			}
+			msgs.push(item);
+		})
+    let message = this.getAlertMessage(msgs, true);
+		this.presentToastWait(null, message, 'OK', 10000);
+  }
+
+	async presentToastWait(srcHeader: any, srcMessage: any, okText, waitTime?: number) {
+		
+		let header = null;
+		if (!srcHeader) {
+			let header = this.languageService.getTranslation(srcHeader);
+			if (!header)
+				header = srcHeader;
+		}
 		let message = this.languageService.getTranslation(srcMessage);
 		if (!message)
 			message = srcMessage;
+		let time = (waitTime) ? waitTime : 3000;
+		this.themeService.setToastSize(message);
 		okText = this.languageService.getTranslation(okText);
+		let css = 'toast-dialog';
     const toast = await this.toastController.create({
       header: header,
       message: message,
-      icon: 'information-circle',
+      // icon: 'information-circle',
       position: 'middle',
+      // position: 'bottom',
       color: 'medium',
+			cssClass: css,
+      duration: time,
+			mode: "md",
       buttons: [
 				{
           text: okText,
@@ -325,71 +415,80 @@ export class UtilService {
             console.log('Cancel clicked');
           }
         }
-      ]
+      ],
     });
     await toast.present();
-		let result:any;
-    await toast.onDidDismiss().then((data) => {
-			result = data;
-    })
-    return result;
+		return await toast.onDidDismiss();
   }
 
-	async presentToast(srcMessage) {
+	async presentToast(srcMessage: string, waitTime?: number) {
 		let message = this.languageService.getTranslation(srcMessage);
 		if (!message)
 			message = srcMessage;
+		let time = (waitTime) ? waitTime : 3000;
+		this.themeService.setToastSize(message);
+		let css = 'toast-dialog';
     const toast = await this.toastController.create({
       message: message,
-      color: 'medium',
+			cssClass: css,
       position: 'middle',
-      duration: 3000
+      duration: time,
+			mode: "md"
     });
-    toast.present();
+    await toast.present();
+		return await toast.onDidDismiss();
   }
 
 	public getYears() {
 		let years = [];
-		for (let i = 1800; i < 2030; i++)
-			years.push({name: ''+i});
+		for (let i = 1800; i < 2050; i++)
+			years.push(i);
 		return years;
 	}
 
 	public getDays() {
 		let days = [];
-		for (let i = 1; i <= 30; i++) {
-			let day = (i < 10) ? '0' + i : '' + i;
-			days.push({name: day});
-		}
+		for (let i = 1; i <= 30; i++)
+			days.push((i < 10) ? '0' + i : '' + i);
 		return days;
+	}
+
+	public getLunarYear(year: number) {
+		let canArray = ["Quý","Giáp","Ất","Bính","Đinh","Mậu","Kỉ","Canh","Tân","Nhâm"]
+		let chiArray = ["Hợi","Tý","Sửu","Dần","Mão","Thìn","Tỵ","Ngọ","Mùi","Thân","Dậu","Tuất"];
+		year = year - 3;
+		let can = year % 10;
+		let chi = year % 12;
+		let lYear = canArray[can] + ' ' + chiArray[chi];
+		return lYear;
 	}
 
 	public getMonths() {
 		let months = [];
-		for (let i = 1; i <= 12; i++) {
-			let month = (i < 10) ? '0' + i : '' + i;
-			months.push({name: month});
-		}
+		for (let i = 1; i <= 12; i++)
+			months.push((i < 10) ? '0' + i : '' + i);
 		return months;
 	}
 
-	public getCareers() {
-		let careers = [
-			{ name: 'Công chức' },
-			{ name: 'Công nhân' },
-			{ name: 'Giáo chức' },
-			{ name: 'Học sinh' },
-			{ name: 'Nội trợ' },
-			{ name: 'Nông dân' },
-			{ name: 'Quân nhân' },
-			{ name: 'Sinh viên' },
-			{ name: 'Thương gia' },
-			{ name: 'Tư chức' },
+	public getJobs() {
+		let jobs = [
+			'Chuyên gia',
+			'Công chức',
+			'Công nhân',
+			'Học sinh',
+			'Giáo chức',
+			'Nội trợ',
+			'Nông dân',
+			'Quan triều',
+			'Quân nhân',
+			'Sinh viên',
+			'Thương gia',
+			'Tư chức'
 		];
-		return careers;
+		return jobs;
 	}
 
-	public stripVN(str) {
+	public stripVN(str: any) {
 		str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/gi, 'a');
 		str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/gi, 'e');
 		str = str.replace(/ì|í|ị|ỉ|ĩ/gi, 'i');
@@ -407,26 +506,39 @@ export class UtilService {
     return str.toLowerCase();
 	}
 
-	getDateID(full?) {
+	getShortDateID(separator?: any) {
+		const d = new Date();
+		let day = ''+d.getDate();		if (day.length < 2) day = '0' + day;
+		let month = ''+(d.getMonth()+1);		if (month.length < 2) month = '0' + month;
+		let year = ''+d.getFullYear();
+		year = year.substring(2);
+		let id = (separator) ? (day + separator + month + separator + year) : (day + month + year);
+		// let id = (slash) ? (''+day+slash+month+slash +(''+year).substring(2)) : ''+day+''+month+(''+year).substring(2);
+		return id;
+	}
+
+	getDateID() {
 		const d = new Date();
 		let day = ''+d.getDate();		if (day.length < 2) day = '0' + day;
 		let month = ''+(d.getMonth()+1);		if (month.length < 2) month = '0' + month;
 		let year = d.getFullYear();
-		let id = ''+day+'-'+month+'-'+year;
-		if (full) {
-			let hour = ''+d.getHours();		if (hour.length < 2) hour = '0' + hour;
-			let min = ''+d.getMinutes();		if (min.length < 2) min = '0' + min;
-			id = ''+day+'-'+month+'-'+year+'-'+hour+'-'+min;
-		}
-		return id;
+		let hour = ''+d.getHours();		if (hour.length < 2) hour = '0' + hour;
+		let min = ''+d.getMinutes();		if (min.length < 2) min = '0' + min;
+		return ''+day+'-'+month+'-'+year+'-'+hour+'-'+min;
   }
 
 	getDateTime(dateID: any) {
 		// 03-08-2022-16-27
 		let values = dateID.split('-');
-		let d = new Date(values[2], values[1], values[0]);
+		let month = +values[1] - 1;
+		let d = new Date(values[2], month, values[0]);
 		if (values.length > 3)
-			d = new Date(values[2], values[1], values[0], values[3], values[4]);
+			d = new Date(values[2], month, values[0], values[3], values[4]);
 		return d.getTime();
   }
+	
+	getCurrentTime() {
+		return new Date().getTime();
+	}
+
 }

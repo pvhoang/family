@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
+
 @Injectable({
 	providedIn: 'root'
 })
@@ -45,4 +46,14 @@ export class LanguageService {
   getTrans() {
     return this.translations;
   }
+
+	getReverseTranslation(value: any) {
+		for (let key of Object.keys(this.translations)) {
+			let val = this.translations[key];
+			if (val == value)
+				return key;
+		}
+		return value;
+  }
+
 }
