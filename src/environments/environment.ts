@@ -33,7 +33,7 @@ export const DEBUGS = {
   'BRANCH': false,
   'DOCS': false,
   'TREE': false,
-  'EDIT': true,
+  'EDIT': false,
   'CROPPER': false,
   'FIREBASE': false,
   'FILE': true,
