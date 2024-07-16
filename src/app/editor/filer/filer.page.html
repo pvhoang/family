@@ -103,7 +103,7 @@
 					<json-editor
 						class="col-md-12"
 						style="height:400px;"
-						[options]="jsoneditorService.getEditorOptions()"
+						[options]="editorOptions"
 						[debug]="true" 
 						[data]="data" 
 						(change)="uploadChange($event)" 

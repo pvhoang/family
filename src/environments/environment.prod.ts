@@ -8,7 +8,7 @@ export const environment = {
     authDomain: 'family-c5b45.firebaseapp.com',
     messagingSenderId: '123668295235',
   },
-	useEmulators: true,
+	useEmulators: false,
   production: true,
   android: false,
   version: '3',

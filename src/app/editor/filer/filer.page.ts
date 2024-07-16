@@ -50,6 +50,7 @@ export class FilerPage implements OnInit {
 
 	uploadItems: any;
   uploadItemsPlaceholder: any = '';
+	editorOptions: any;
 
 	imageFileName: any = '';
   imageViewMode = false;
@@ -109,6 +110,8 @@ export class FilerPage implements OnInit {
 			this.familyName = data.info.family_name;
 			this.family = data.family;
 			this.jsoneditorService.startEditor(this.familyName);
+			this.editorOptions = this.jsoneditorService.getEditorOptions();;
+			
 		});
   }
 
