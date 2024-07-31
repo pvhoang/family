@@ -320,6 +320,7 @@
   "FILE_PHOTO": "Sửa hình",
   "FILE_PHOTO_TOOLTIP": "Sửa hình trên máy để upload lên mạng.",
   "FILE_PHOTO_ADD": "Mở file trong máy",
+  "FILE_SEARCH": "Tìm thông tin hệ",
   "FILE_PHOTO_MODIFY": "Sửa",
   "FILE_PHOTO_DELETE": "Xóa",
   "FILE_PHOTO_UPLOAD": "Upload",
@@ -349,6 +350,13 @@
   "FILE_STORAGE_DELETE_1": "Xoá hình: ",
   "FILE_STORAGE_DELETE_2": "?",
 
+	"SEARCH": "Tìm",
+	"SEARCH_NOT_KNOWN": "Không rõ",
+	"SEARCH_RESULT": "Kết quả",
+	"SEARCH_TEXT": "Thông tin hệ",
+	"SEARCH_NODE_ITEM": "Thông tin",
+	"SEARCH_NODE_DETAIL": "Chi tiết",
+	
   "DOC_INTRO": "Lời mở đầu",
   "DOC_NOTE": "Phả ký",
   "DOC_NODE": "Phả hệ",

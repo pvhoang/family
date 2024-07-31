@@ -11,6 +11,7 @@ import { EditorService } from '../../services/editor.service';
 import { ThemeService } from '../../services/theme.service';
 import { VnodePage } from '../vnode/vnode.page';
 import { PersonPage } from '../person/person.page';
+import { SearchPage } from '../search/search.page';
 import { DocPage } from '../doc/doc.page';
 
 const FLIPPING_TIME = 1000;
@@ -258,8 +259,14 @@ export class HomePage implements OnInit{
 				let titleHtml = data.popupHtml.substring(0, idxContent);
 				let html = data.popupHtml.substring(idxContent + '[CONTENT]'.length);
 				data.docHtml = html;
-				if (titleHtml.indexOf('<br>') == 0)
-					titleHtml = titleHtml.substring(4, titleHtml.length - 4);
+				// if (titleHtml.indexOf('<br>') == 0)
+					// titleHtml = titleHtml.substring(4, titleHtml.length - 4);
+				let idx1 = titleHtml.indexOf('</div>') + 6;
+				let idx2 = titleHtml.indexOf('<br>', idx1);
+				titleHtml = titleHtml.substring(idx1, idx2);
+				// <br>
+				// <div><table><tr><th></th><th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th>THÔNG TIN</th></tr></table></div>
+				// Phả ký dòng họ<br><br><div><table><tr><th></th><th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th>THÔNG TIN</th></tr></table></
 				data.docTitle = titleHtml;
 
 				// console.log('titleHtml: ' + titleHtml);
@@ -337,6 +344,24 @@ export class HomePage implements OnInit{
 		modal.onDidDismiss().then((resp) => {
 			// let status = resp.data.status;
 			// this.tableAncestors = this.getTableAncestors();
+			this.toPage('pha_he');
+		});
+		return await modal.present();
+	}
+
+	async onPhaHeSearch() {
+		const modal = await this.modalCtrl.create({
+			component: SearchPage,
+			componentProps: {
+        'caller': 'home',
+        'nodes': this.nodes,
+        'family': this.family,
+        'info': this.info,
+      },
+			cssClass: 'modal-dialog',
+			backdropDismiss:false
+		});
+		modal.onDidDismiss().then((resp) => {
 			this.toPage('pha_he');
 		});
 		return await modal.present();
@@ -447,6 +472,8 @@ export class HomePage implements OnInit{
 				break;
 			}
 		}
+		console.log('buildPopupHtml - htmls: ', htmls);
+
 		return htmls;
 
 		// let html = '';
@@ -454,7 +481,6 @@ export class HomePage implements OnInit{
 		// 	if (item.html)
 		// 		html += item.html;
 		// })
-		// console.log('buildPopupHtml - htmls: ', htmls);
 
 		// return { html: html, popupHtmls: popupHtmls };
 

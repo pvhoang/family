@@ -31,7 +31,7 @@ export class EditorService {
 				paraHtml = this.getDocumentHtml(images, line);
 			else if (line.indexOf('1|') == 0 || line.indexOf('2|') == 0 || line.indexOf('3|') == 0)
 				paraHtml = this.getTextHtml(line.charAt(0), line);
-			else if (line.indexOf('w|') == 0 || line.indexOf('s|') == 0 || line.indexOf('d|') == 0) {
+			else if (line.indexOf('w|') == 0 || line.indexOf('h|') == 0 || line.indexOf('s|') == 0 || line.indexOf('d|') == 0) {
 				this.setTableHtml(line);
 				continue;
 			} else {
@@ -61,75 +61,44 @@ export class EditorService {
 	}
 
 	private getTableHtml() {
-
-		let wives = []
-		let children = []
 		let html = '';
-
+		let children = []
 		this.tableData.forEach(line => {
 			let type = line.charAt(0);
 			let str = line.substring(2);
 			let items = str.split('|');
 			let name = items[0];
 			let note = (items.length > 1) ? items[1] : '';
-			if (type == 'w') {
-				// wife
-				wives.push({name: name, note: note})
-			} else if (type == 's' || type == 'd') {
-				children.push({name: name, note: note})
-			}
+			children.push({name: name, note: note, type: type})
 		})
 
-		if (wives.length > 0) {
-			html += '<div><table>';
-			html += '<tr>' +
-			'<th>VỢ</th>' +
-			'<th>&nbsp;&nbsp;&nbsp;</th>' +
-			'<th>THÔNG TIN</th>' + 
-			'</tr>';
-			wives.forEach((item:any) => {
-				let name = item.name;
-				let idx = name.indexOf('(*)');
-				let style = '';
-				if (idx > 0) {
-					style = 'class="viewer-home-table"'
-					name = name.substring(0, idx)
-				}
-				// html += '<tr><td><b><span '+ style + '>' + name + '</span></b>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;' + item.note + '</td></tr>';
-				html += '<tr>' +
-						'<td><b><span '+ style + '>' + name + '</span></b></td>' +
-						'<td>&nbsp;&nbsp;&nbsp;</td>' +
-						'<td>' + item.note + '</td>' + 
-						'</tr>';
-			})
-			html += '</table></div>';
-		}
+		html += '<br>';
+		html += '<div><table>';
+		html += '<tr>' + '<th></th>' + '<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>' + '<th>THÔNG TIN</th>' + '</tr>';
+		let prevType = '';
 
-		if (children.length > 0) {
-			html += '<div><table>';
+		children.forEach((item:any) => {
+			if (item.type != prevType) {
+				let relation = (item.type == 'w') ? 'VỢ' : ((item.type == 'h') ? 'CHỒNG' : 'CON');
+				html += '<tr>' + '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>' + '<td/>' + '</tr>';
+				html += '<tr>' + '<td><b>' + relation + '</b></td>' + '<td></td>' + '</tr>';
+				prevType = item.type;
+			}
+			let name = item.name;
+			let idx = name.indexOf('(*)');
+			let style = '';
+			if (idx > 0) {
+				style = 'class="viewer-home-table"'
+				name = name.substring(0, idx)
+			}
+			// html += '<tr><td><b><span '+ style + '>' + name + '</span></b>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;' + item.note + '</td></tr>';
 			html += '<tr>' +
-			'<th>CON</th>' +
-			'<th>&nbsp;&nbsp;&nbsp;</th>' +
-			'<th>THÔNG TIN</th>' + 
-			'</tr>';
-			children.forEach((item:any) => {
-				let name = item.name;
-				let idx = name.indexOf('(*)');
-				let style = '';
-				if (idx > 0) {
-					style = 'class="viewer-home-table"'
-					name = name.substring(0, idx)
-				}
-				// html += '<tr><td><b><span '+ style + '>' + name + '</span></b>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;' + item.note + '</td></tr>';
-				html += '<tr>' +
-				'<td><b><span '+ style + '>' + name + '</span></b></td>' +
-				'<td>&nbsp;&nbsp;&nbsp;</td>' +
-				'<td>' + item.note + '</td>' + 
-				'</tr>';
-			})
-			html += '</table></div>';
-		}
-
+					'<td><b><span '+ style + '>' + name + '</span></b></td>' +
+					'<td>&nbsp;&nbsp;&nbsp;</td>' +
+					'<td>' + item.note + '</td>' + 
+					'</tr>';
+		})
+		html += '</table></div>';
 		this.tableData = [];
 		return html;
 	}

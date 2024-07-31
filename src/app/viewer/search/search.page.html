@@ -1,0 +1,53 @@
+<ion-header>
+	<ion-item class="app-header">
+		<ion-col size="12" class="heading" (click)="onExit()">
+      <ion-button class="button" fill="clear">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
+      </ion-button>
+      <span class="label"><b>{{ 'CANCEL' | translate }}</b></span>
+    </ion-col>
+  </ion-item>
+</ion-header>
+
+<ion-content [fullscreen]="false" class="ion-padding">
+
+<div class="screen-node editor">
+
+	<ion-card-header class="section span">
+		<span class="span">&nbsp;{{ 'SEARCH_TEXT' | translate }}</span>
+	</ion-card-header>
+	<!-- <ion-label class="label">{{ 'NODE_NAME' | translate }}</ion-label> -->
+	<ion-input clearInput
+		class="input"
+		[(ngModel)]="values.name"
+		(keyup)="keyupItem($event, 'name')"
+		trigger="click-trigger"
+		title="{{ 'EDIT_NAME_TOOLTIP' | translate }}"
+		>
+	</ion-input>
+	<ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
+		<ng-template>
+			<ion-content class="ion-padding ng-select-popover">
+				<ion-item *ngFor="let name of searchNames" (click)="onName(name)">
+					<ion-button class="button" fill="clear">{{name}}</ion-button>
+				</ion-item>
+			</ion-content>
+		</ng-template>
+	</ion-popover>
+	<br>
+	<ion-card-header class="section">
+		<span class="span">&nbsp;{{ 'SEARCH_RESULT' | translate }}</span>
+	</ion-card-header>
+	<br>
+	<!-- <ion-textarea 
+			clearInput class="person-textarea" 
+			type="text" rows="10" autosize 
+			[innerHtml]="searchResult" >
+		</ion-textarea>
+	<br> -->
+	<div id="detail"></div>
+</div>
+
+<!-- <div id="detail"></div> -->
+
+</ion-content>

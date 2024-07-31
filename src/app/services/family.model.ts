@@ -42,6 +42,33 @@ export const NODE = {
   dod: ''
 }
 
+export const NODE_FIELDS = [
+  'relationship',
+  'name',
+  'level',
+  'nick',
+  'gender',
+  'yob',
+  'yod',
+  'pob',
+  'pod',
+  'por',
+  'job',
+  'desc',
+  'photo',
+  'dod'
+]
+
+export const SEARCH_FIELDS = [
+  'name',
+  'nick',
+  'pob',
+  'pod',
+  'por',
+  'job',
+  'desc'
+]
+
 export const FAMILY = {
   version: '',
   date: '',
@@ -59,3 +86,4 @@ export class Family {
   nodes: Node[] = [];
   children: Family[] = [];
 }
+

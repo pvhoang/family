@@ -30,6 +30,10 @@ const routes: Routes = [
   {
     path: 'tree',
     loadChildren: () => import('./viewer/vnode/tree/tree.module').then( m => m.TreePageModule)
+  },
+  {
+    path: 'search',
+    loadChildren: () => import('./viewer/search/search.module').then( m => m.SearchPageModule)
   }
 ];
 @NgModule({

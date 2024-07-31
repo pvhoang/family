@@ -91,6 +91,15 @@
 									</ion-col>
 								</ion-item>
 								<br>
+								<ion-item class="app-header-40">
+									<ion-col size="12" class="heading" (click)="onPhaHeSearch()" title="{{ 'FILE_UPLOAD_DOCS_TOOLTIP' | translate }}">
+										<ion-button class="button" fill="clear">
+											<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+										</ion-button>
+										<span class="label">{{ 'FILE_SEARCH' | translate }}</span>
+									</ion-col>
+								</ion-item>
+								<br>
 							</div>
 
 							<div *ngIf="i == 0 && key == 'pha_do'">
