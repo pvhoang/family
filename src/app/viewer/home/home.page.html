@@ -158,7 +158,6 @@
 									<div id="{{key}}_{{i}}_{{j}}"></div>
 								</div>
 								<div *ngIf="data.popupHtml">
-
 									<ion-item class="app-header-80">
 										<ion-col size="12" class="heading" (click)="onDocDetail(page, data.docHtml)" title="{{ 'FILE_UPLOAD_DOCS_TOOLTIP' | translate }}">
 											<ion-button class="button" fill="clear">
@@ -167,18 +166,6 @@
 											<span class="label">{{ data.docTitle }}</span>
 										</ion-col>
 									</ion-item>
-
-										<!-- <ion-row class="app-header-two-columns">
-											<ion-col size="8" class="heading-1">
-												<div id="{{key}}_{{i}}_{{j}}_title"></div>
-											</ion-col>
-											<ion-col size="4" class="heading-2" title="{{ 'FILE_UPLOAD_DOCS_TOOLTIP' | translate }}">
-												<ion-button class="button" fill="clear" (click)="onDocDetail(page, data.html)">
-													<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
-												</ion-button>
-											</ion-col>
-										</ion-row> -->
-
 								</div>
 							</div>
 						</div>

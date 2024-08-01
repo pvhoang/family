@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ModalController, Platform } from '@ionic/angular';
 import { CropperModalPage } from './cropper-modal/cropper-modal.page';
 import { LanguageService } from '../../services/language.service';
@@ -64,7 +63,6 @@ export class FilerPage implements OnInit {
 	photoCaption: any = '';
 
 	@ViewChild(JsonEditorComponent) editor: JsonEditorComponent;
-	// editorOptions: JsonEditorOptions;
   data: any;
   showData: any;
   uploadModeShow = false;
@@ -75,7 +73,6 @@ export class FilerPage implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-		private sanitizer: DomSanitizer,
     private dataService: DataService,
     private familyService: FamilyService,
     private languageService: LanguageService,
@@ -141,6 +138,9 @@ export class FilerPage implements OnInit {
 
 	uploadOnFileSelect(event: any, type: any): void {
     const files = [...event.target.files]
+
+		console.log('files: ', files);
+
 		const file = files[0];
 		this.uploadOnFile(file, type);
   }
@@ -180,8 +180,6 @@ export class FilerPage implements OnInit {
   }
 
 	async uploadEdit(text: any, type: any) {
-		// console.log('uploadEdit - text: ', text);
-		// let json = this.jsoneditorService.convertFieldNames(JSON.parse(text), true)
 		this.uploadModeShow = true;
 		this.showData = this.data = JSON.parse(text);
 	}
@@ -229,21 +227,12 @@ export class FilerPage implements OnInit {
 				this.uploadDisplayFieldErrors(errorFields);
 				return;
 			}
-			// let ret = this.jsoneditorService.convertFieldNames(json, false);
-			// json = ret[0];
-			// let errorFields = ret[1];
-			// if (errorFields.length > 0) {
-			// 	// errors
-			// 	return;
-			// }
 			this.uploadJson(json);
 		}
 	}
 
 	private uploadJson(json: any) {
-
 		let title = json.title;
-
 		if (title == 'INFO') {
 				// update info to server
 			this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
@@ -255,19 +244,6 @@ export class FilerPage implements OnInit {
 			return;
 		}
 	
-		// if (title == 'FAMILY') {
-		// 	let errorNodes = this.uploadValidateFamily(json);
-		// 	if (errorNodes.length > 0) {
-		// 		this.uploadDisplayFieldErrors(errorNodes);
-		// 		return;
-		// 	}
-		// }
-
-		// if (title == 'DOCS') {
-		// 	this.uploadValidateDocs(json);
-		// 	return;
-		// }
-
 		// now check new image files
 		this.uploadValidateImage(json).then((res:any) => {
 			if (DEBUGS.FILE)
@@ -281,9 +257,7 @@ export class FilerPage implements OnInit {
 			// build new images files
 			let storageImages = res[1];
 			// some time it's too slow to process file list, wait 2 sec
-			// this.utilService.presentLoading('FILE_UPLOAD_WAIT_UPDATE_FAMILY');
 			let toastMsg = (title == 'FAMILY') ? 'FILE_UPLOAD_WAIT_UPDATE_FAMILY' : 'FILE_UPLOAD_WAIT_UPDATE_DOC'; 
-			// this.utilService.presentToast('FILE_UPLOAD_WAIT_UPDATE_FAMILY');
 			this.utilService.presentToast(toastMsg);
 			setTimeout(() => {
 				let images = {};
@@ -305,112 +279,8 @@ export class FilerPage implements OnInit {
 		})
 	}
 
-
-	
-	// convertFieldNames1(json: any, forward: boolean) {
-
-	// 	family = this.familyService.buildFullFamily(family);
-	// 		this.family = family;
-	// 		this.nodes = this.nodeService.getFamilyNodes(family, true);
-			
-	// 	// convert to text
-	// 	let text: any = JSON.stringify(json);
-
-	// 	let match = text.match(/"([^"]*)":/g);
-	// 	// console.log('convertJsonFieldNames - match: ', match);
-	// 	let unique = match.filter((value: any, index: any, array: any) => {
-	// 		return array.indexOf(value) === index;
-	// 	});
-	// 	// console.log('convertJsonFieldNames - unique: ', unique);
-
-	// 	let errorFields = [];
-	// 	// change to new field names, unique has "...", "nodes": -> "HỆ":
-	// 	unique.map((name: any) => {
-	// 		let n = name.substring(1, name.length-2);
-	// 		// console.log('convertJsonFieldNames - n: ', name, n);
-	// 		let newName = '';
-	// 		if (forward) {
-	// 			newName = this.languageService.getTranslation(n);
-	// 		} else {
-	// 			newName =  this.languageService.getReverseTranslation(n);
-	// 			if (newName == n) {
-	// 				// field in json does not exist, error
-	// 				errorFields.push(n);
-	// 			}
-	// 		}
-	// 		// let newName = (forward) ? this.getTranslation(n) : this.getReverseTranslation(n);
-	// 		newName = '"' + newName + '":'
-	// 		text = text.replaceAll(name, newName);
-	// 	})
-
-	// 	// convert special value for gender
-	// 	if (forward) {
-	// 		text = text.replaceAll('"male"', '"Nam"');
-	// 		text = text.replaceAll('"female"', '"Nữ"');
-	// 	} else {
-	// 		text = text.replaceAll('"Nam"', '"male"');
-	// 		text = text.replaceAll('"Nữ"', '"female"');
-	// 	}
-
-	// 	// convert to json
-	// 	// console.log('convertJsonFieldNames - text: ', text);
-	// 	return forward ? JSON.parse(text) : [JSON.parse(text), errorFields];
-	// }
-
-	private uploadValidateFamily(json: any) {
-		let errorNodes = [];
-		try {
-			let family = this.familyService.buildFullFamily(json);
-			let nodes = this.nodeService.getFamilyNodes(family, true);
-			nodes.forEach((node: any) => {
-				// node can not have duplicate branch
-				let count = 0;
-				if (node.branchStart) count++;
-				if (node.subBranchStart) count++;
-				if (node.subSubBranchStart) count++;
-				if (count > 1)
-					errorNodes.push('He: ' + node.name + ' khong the co CHI, PHAI, NHANH')
-			});
-		} catch (error) {
-			console.log('uploadValidateFamily - error: ', error);
-			errorNodes.push(error);
-		}
-		return errorNodes;
-  }
-
-	// private uploadValidateDocs(text: any) {
-	// 	let docs: any = null;
-	// 	try {
-	// 		docs = JSON.parse(text);
-	// 		// must have vi, en, and pha_nhap
-	// 		if (!docs.vi || !docs.en || !docs.vi.pha_nhap|| !docs.vi.pha_ky || !docs.vi.pha_he || !docs.vi.pha_do || !docs.vi.ngoai_pha || !docs.vi.phu_khao )
-	// 			return null;
-	// 		return docs;
-	// 	} catch (error) {
-	// 		console.log('uploadValidateDocs - error: ', error);
-	// 		return null;
-	// 	}		
-  // }
-
-	private uploadValidateInfo(text: any) {
-		let info: any = null;
-		try {
-			info = JSON.parse(text);
-			// console.log('uploadValidateInfo - info: ', info);
-			// must have id, name, location
-			if (!info.id || !info.name || !info.location)
-				return null;
-			return info;
-		} catch (error) {
-			console.log('uploadValidateInfo - info: ', info);
-			return null;
-		}		
-  }
-
 	private uploadValidateImage(json: any) {
-
 		return new Promise((resolve) => {
-			// this.utilService.presentLoading('FILE_UPLOAD_WAIT_READING_STORAGE_IMAGES');
 			this.utilService.presentToast('FILE_UPLOAD_WAIT_READING_STORAGE_IMAGES');
 			// get image list from doc text
 			let docImages = this.uploadGetImages(JSON.stringify(json), json.title);
@@ -429,10 +299,10 @@ export class FilerPage implements OnInit {
 						if (index == -1)
 							newFiles.push(dimage);
 					})
-					// console.log('uploadValidateDocs - newFiles: ', newFiles);
+					console.log('uploadValidateDocs - newFiles: ', newFiles);
 					// this.utilService.dismissLoading();
 					resolve([newFiles, storageImages]);
-				}, 2000);
+				}, 3000);
 			});
 		});
 	}
@@ -441,9 +311,6 @@ export class FilerPage implements OnInit {
 		// "im|ac|2|Nhà Thờ Phan Tộc.png|Đá Bạc, Quảng Bình"
 		// "[3|Mộ Tổ Đời 1.jpg|1|1|Tổ mộ, Nghĩa trang Đá Bạc]",
 		// "photo": "Phan Ngọc Luật.jpg",
-
-		console.log('uploadGetImages - text: ', text);
-
 		// search photo
 		let images = [];
 		let i1 = 0;
@@ -478,10 +345,6 @@ export class FilerPage implements OnInit {
 					let jpg = str.substring(iFirstBar + 1, iLastBar); 
 					images.push(jpg);
 				}
-				// i1 += 3;
-				// let i2 = text.indexOf('|', i1);
-				// let jpg = text.substring(i1, i2);
-				// images.push(jpg);
 				i1 = i2 + 1;
 			} else
 				i1 = text.length + 1;
@@ -561,8 +424,6 @@ async openCropperModal(base64: any) {
 }
 
 private photoUpload(photo: string, ancestor:string, photoBase64: string, file:any) {
-
-	// console.log('photo: ', photo);
 	// make photo type lower case
 	let i = photo.indexOf('.');
 	let ph = photo.substring(0, i) + '.' + photo.substring(i+1).toLowerCase();
@@ -613,7 +474,6 @@ private photoUpload(photo: string, ancestor:string, photoBase64: string, file:an
 					});
 				}
 			} else {
-				// this.utilService.presentToast(this.languageService.getTranslation('FILE_PHOTO_NAME_INVALID'), 3000);
 				this.utilService.presentToastOK(['FILE_PHOTO_NAME_INVALID']);
 			}
 		}
@@ -695,7 +555,6 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
 		else {
 			// let mb = kb / 1024;
 			str = (Math.round(kb)).toLocaleString('vi', { minimumFractionDigits: 0, maximumFractionDigits: 3}) + ' KB';
-			// str = (Math.round(mb)).toLocaleString('vi', { minimumFractionDigits: 3, maximumFractionDigits: 3}) + ' MB'
 		}
 		return str;
 	}
@@ -773,7 +632,6 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
       console.log('onStorageView - file: ', file);
     this.storageViewMode = true;
     this.storageFileName = file.name;
-
 		// if (['png', 'jpg', 'jpeg'].indexOf(file.type) > -1) {
 		if (file.type.indexOf('image') >= 0) {
       let img = document.getElementById('storage-view');

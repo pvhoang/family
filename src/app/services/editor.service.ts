@@ -72,33 +72,35 @@ export class EditorService {
 			children.push({name: name, note: note, type: type})
 		})
 
-		html += '<br>';
-		html += '<div><table>';
-		html += '<tr>' + '<th></th>' + '<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>' + '<th>THÔNG TIN</th>' + '</tr>';
-		let prevType = '';
+		if (children.length > 0) {
+			html += '<br>';
+			html += '<div><table>';
+			html += '<tr>' + '<th></th>' + '<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>' + '<th>THÔNG TIN</th>' + '</tr>';
+			let prevType = '';
+			children.forEach((item:any) => {
+				if (item.type != prevType) {
+					let relation = (item.type == 'w') ? 'VỢ' : ((item.type == 'h') ? 'CHỒNG' : 'CON');
+					html += '<tr>' + '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>' + '<td/>' + '</tr>';
+					html += '<tr>' + '<td><b>' + relation + '</b></td>' + '<td></td>' + '</tr>';
+					prevType = item.type;
+				}
+				let name = item.name;
+				let idx = name.indexOf('(*)');
+				let style = '';
+				if (idx > 0) {
+					style = 'class="viewer-home-table"'
+					name = name.substring(0, idx)
+				}
+				// html += '<tr><td><b><span '+ style + '>' + name + '</span></b>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;' + item.note + '</td></tr>';
+				html += '<tr>' +
+						'<td><b><span '+ style + '>' + name + '</span></b></td>' +
+						'<td>&nbsp;&nbsp;&nbsp;</td>' +
+						'<td>' + item.note + '</td>' + 
+						'</tr>';
+			})
+			html += '</table></div>';
+		}
 
-		children.forEach((item:any) => {
-			if (item.type != prevType) {
-				let relation = (item.type == 'w') ? 'VỢ' : ((item.type == 'h') ? 'CHỒNG' : 'CON');
-				html += '<tr>' + '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>' + '<td/>' + '</tr>';
-				html += '<tr>' + '<td><b>' + relation + '</b></td>' + '<td></td>' + '</tr>';
-				prevType = item.type;
-			}
-			let name = item.name;
-			let idx = name.indexOf('(*)');
-			let style = '';
-			if (idx > 0) {
-				style = 'class="viewer-home-table"'
-				name = name.substring(0, idx)
-			}
-			// html += '<tr><td><b><span '+ style + '>' + name + '</span></b>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;' + item.note + '</td></tr>';
-			html += '<tr>' +
-					'<td><b><span '+ style + '>' + name + '</span></b></td>' +
-					'<td>&nbsp;&nbsp;&nbsp;</td>' +
-					'<td>' + item.note + '</td>' + 
-					'</tr>';
-		})
-		html += '</table></div>';
 		this.tableData = [];
 		return html;
 	}
@@ -161,7 +163,6 @@ export class EditorService {
 		if (caption != '')
 			html += '<div class="' + containers[align] + ' viewer-home-no-expand">' + caption + '</div>';
 			// html += '<div class="' + containers[align] + '"' + caption + '</div>';
-		console.log('html: ', html);
 		return html;
 	}
 

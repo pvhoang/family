@@ -39,8 +39,6 @@ export class HomePage implements OnInit{
 	tableAncestors: any = [];
 
 	pageData = {
-		// "pha_he": { title: "", html: "", index: 0, titleText: "" },
-		// "pha_do": { title: "", html: "", index: 0, titleText: ""  },
 		"ngay_gio": { title: "", html: "", index: 0, titleText: "" },
 	};
 
@@ -91,7 +89,6 @@ export class HomePage implements OnInit{
 			family = this.familyService.buildFullFamily(family);
 			this.family = family;
 			this.nodes = this.nodeService.getFamilyNodes(family, true);
-			// let dateid = this.utilService.getShortDateID(true);
 			this.version = 'A.' + environment.version + ' (D.' + family.version + ', ' + family.date + ')';
 			this.ancestor = info.id;
 			this.memorialMsg = this.familyService.passAwayFamily(family);
@@ -136,7 +133,7 @@ export class HomePage implements OnInit{
 
 			// get special popup
 			let htmls = this.buildPopupHtml(html);
-			// console.log('htmls: ', htmls);
+			// console.log('htmls: ', key, htmls);
 
 			// pages with special templates
 			// if (key == 'pha_he' || key == 'pha_do' || key == 'ngay_gio') {
@@ -229,9 +226,6 @@ export class HomePage implements OnInit{
 
 			if (e.data == 'flipping') {
 				let i = this.pageFlip.getCurrentPageIndex();
-				// // if (i == 4) {
-				// // 	this.pageFlip.turnToPage(3);
-				// }
 			}
 
 		});
@@ -245,7 +239,9 @@ export class HomePage implements OnInit{
 	setPageDom(key, idPage, page) {
 		let id = key + '_' + idPage;
 		let htmls = page.htmls;
-		console.log('htmls: ', htmls);
+		// if (DEBUGS.HOME)
+		// 	console.log('setPageDom() - htmls: ', htmls);
+
 		let idHtml = 0;
 		htmls.forEach(data => {
 			let it = id + '_' + idHtml++;
@@ -268,10 +264,6 @@ export class HomePage implements OnInit{
 				// <div><table><tr><th></th><th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th>THÔNG TIN</th></tr></table></div>
 				// Phả ký dòng họ<br><br><div><table><tr><th></th><th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th>THÔNG TIN</th></tr></table></
 				data.docTitle = titleHtml;
-
-				// console.log('titleHtml: ' + titleHtml);
-				// console.log('popupHtml: ' + html);
-				// document.getElementById(it + '_title').innerHTML = titleHtml;
 			}
 		})
 	}
@@ -304,13 +296,7 @@ export class HomePage implements OnInit{
 		}, PAGE_SWITCH_TIME)  
 	}
 
-	// testZoom() {
-	// 	console.log('TestZoom');
-	// }
-
-	async onPhaDo(tree) {
-		console.log('tree: ', tree);
-
+	async onPhaDo(tree: any) {
 		this.modalPage = 'pha_do';
 		const modal = await this.modalCtrl.create({
 			component: VnodePage,
@@ -328,10 +314,7 @@ export class HomePage implements OnInit{
 		return await modal.present();
 	}
 
-	async onPhaHe(person) {
-
-		console.log('person: ', person);
-
+	async onPhaHe(person: any) {
 		const modal = await this.modalCtrl.create({
 			component: PersonPage,
 			componentProps: {
@@ -343,7 +326,6 @@ export class HomePage implements OnInit{
 		});
 		modal.onDidDismiss().then((resp) => {
 			// let status = resp.data.status;
-			// this.tableAncestors = this.getTableAncestors();
 			this.toPage('pha_he');
 		});
 		return await modal.present();
@@ -388,9 +370,6 @@ export class HomePage implements OnInit{
 	getTableTrees() {
 		let trees: any = [];
 		this.nodes.forEach((node: any) => {
-			// let root = node.root;
-			// let branch = node.branchStart;
-			// let sub_branch = node.subBranchStart;
 			let tree = { id: node.id, name: node.name, gen: node.level, branch: '', sub_branch: '', sub_sub_branch: '' };
 			if (node.root) {
 			} else if (node.branchStart) {
@@ -406,16 +385,7 @@ export class HomePage implements OnInit{
 				tree = null;
 			if (tree)
 				trees.push(tree);
-			// 	{
-			// if (root) {
-			// 	trees.push({ id: node.id, gen: node.level, branch: '', sub_branch: '', name: node.name })
-			// } else if (branch) {
-			// 	trees.push({ gen: gen, branch: node.branch, sub_branch: '', name: node.name })
-			// } else if (sub_branch) {
-			// 	trees.push({ gen: gen, branch: node.branch, sub_branch: node.sub_branch, name: node.name })
-			// }
 		});
-		console.log('trees: ', trees);
 		return trees;
 	}
 
@@ -429,14 +399,12 @@ export class HomePage implements OnInit{
 		ancestors.push({
 			id: node.id, name: node.name, gen: node.level, title: 'To khao 2'
 		});
-		console.log('ancestors: ', ancestors);
 		return ancestors;
 	}
 
 	buildPopupHtml(srcHtml: any) {
 
 		// str = 'abcd[START-POPUP]12345 abcd[END-POPUP]end end[START-POPUP]start[END-POPUP]1234[START]';
-
 		let htmls = [];
 		let popupHtmls = [];
 		let popupCount = 0;
@@ -472,43 +440,11 @@ export class HomePage implements OnInit{
 				break;
 			}
 		}
-		console.log('buildPopupHtml - htmls: ', htmls);
-
 		return htmls;
-
-		// let html = '';
-		// htmls.forEach(item => {
-		// 	if (item.html)
-		// 		html += item.html;
-		// })
-
-		// return { html: html, popupHtmls: popupHtmls };
-
-		// str = 'abcd[START]12345 abcd[END]end end[START]start[END]1234[START]';
-
-			// let match = str.match(/[START]([^"]*)[END]:/g);
-
-		// str = 'abcd "START": 12345 abcd "END": end end "abcd": ';
-		// ['"START":', '"END":', '"abcd":']
-		// let match = str.match(/"([^"]*)":/g);
-
-
-			// let match = str.match(/[START] ([^"]*) [END]/g);
-			// let match = str.match(/START([^"]*)END/g);
-			// let match = str.match(/[.*?]/g);
-
-			// console.log('buildPopupHtml - match: ', match);
-
-
-			// let match = str.match(/"([^"]*)":/g);
-	// 	// console.log('convertJsonFieldNames - match: ', match);
-	// 	let unique = match.filter((value: any, index: any, array: any) => {
-	// 		return array.indexOf(value) === index;
-	// 	});
 	}
 
 	replaceSpecialTemplate(str: any) {
-		// console.log('str: ', str);
+		// console.log('replaceSpecialTemplate - str: ', str);
 		if (str.indexOf('[NODE-COUNT]') >= 0) {
 			str = str.replaceAll('[NODE-COUNT]', '<b>' + this.nodes.length +'</b>');
 		} 
@@ -541,14 +477,6 @@ export class HomePage implements OnInit{
 			if (data.persons.length == 0) {
 				html += '<p style="text-align: center;"><strong>' + this.languageService.getTranslation('HOME_MEMORY_NO_DOD') + '</strong></p>';
 			} else {
-				// let today = data.today;
-				// // let msg = '<b>' + this.languageService.getTranslation('HOME_MEMORY_HEADER') + '</b><br/>' +
-				// // 		'<i>' + this.languageService.getTranslation('HOME_MEMORY_TODAY') + ':  ' + today + '</i><br/></br>';
-				// // data.persons.forEach(person => {
-				// // 	msg += person[0] + ':&emsp;:&emsp;' + person[1] + '<br/>'
-				// // });
-				// // html = msg;
-				// html = '<p style="text-align: center;">' + this.languageService.getTranslation('HOME_MEMORY_TODAY') + ': <strong>' + today + '</strong></p>';
 				html += 
 				'<ion-grid class="viewer-home-grid">' +
 				'<ion-row>' +
@@ -636,39 +564,6 @@ export class HomePage implements OnInit{
 			};
 			html += 
 			'</ion-grid>';
-			
-			// html += '[PAGE]';
-			// html += 
-			// '<ion-grid class="viewer-home-grid">' +
-			// '<ion-row>' +
-			// 	'<ion-col size="4" class="column">' +
-			// 		this.languageService.getTranslation('GENERATION') + '<br/>(Năm, Số hệ)' +
-			// 	'</ion-col>' +
-			// 	'<ion-col size="4" class="column">' +
-			// 		this.languageService.getTranslation('HOME_FIRST_NODE') +
-			// 	'</ion-col>' +
-			// 	'<ion-col size="4" class="column">' +
-			// 		this.languageService.getTranslation('HOME_LAST_NODE') +
-			// 	'</ion-col>' +
-			// '</ion-row>';
-			// for (let i = 5; i < keys.length; i++) {
-			// 	let key = keys[i];
-			// 	html += 
-			// 	'<ion-row>' +
-			// 	'<ion-col size="4" class="column">' +
-			// 		'<b>' + key + '</b>' + '<br/>(' + levels[key].yob + ',' + levels[key].max + ')' +
-			// 	'</ion-col>' +
-			// 	'<ion-col size="4" class="column">' +
-			// 		levels[key].minNode.name +
-			// 	'</ion-col>' +
-			// 	'<ion-col size="4" class="column">' +
-			// 		levels[key].maxNode.name +
-			// 	'</ion-col>' +
-			// 	'</ion-row>';
-			// };
-			// html += 
-			// '</ion-grid>';
-			
 			if (DEBUGS.HOME)
 				console.log('replaceSpecialTemplate - html: ', html);
 			str = str.replaceAll('[GEN-TABLE]', html);

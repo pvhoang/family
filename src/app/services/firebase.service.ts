@@ -40,7 +40,6 @@ export class FirebaseService {
 	}
 
 	async getAncestor(ancestor: any) {
-		console.log('getAncestor');
 		const snap = await getDoc(doc(this.firestore, ROOT_COLLECTION, ancestor))
 		if (snap.exists())
 			return snap.data()
