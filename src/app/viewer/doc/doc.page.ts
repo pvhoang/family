@@ -12,6 +12,7 @@ import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
 export class DocPage implements OnInit {
 
 	@Input() html: string;
+	@Input() title: string;
 
   FONTS_FOLDER = FONTS_FOLDER;
 

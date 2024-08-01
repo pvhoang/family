@@ -257,7 +257,7 @@ export class HomePage implements OnInit{
 				data.docHtml = html;
 				// if (titleHtml.indexOf('<br>') == 0)
 					// titleHtml = titleHtml.substring(4, titleHtml.length - 4);
-				let idx1 = titleHtml.indexOf('</div>') + 6;
+				let idx1 = titleHtml.indexOf('</div>') + 5;
 				let idx2 = titleHtml.indexOf('<br>', idx1);
 				titleHtml = titleHtml.substring(idx1, idx2);
 				// <br>
@@ -349,7 +349,7 @@ export class HomePage implements OnInit{
 		return await modal.present();
 	}
 
-	async onDocDetail(page: any, html: any) {
+	async onDocDetail(page: any, html: any, title: any) {
 
 		console.log('html: ', html)
 		const modal = await this.modalCtrl.create({
@@ -357,6 +357,7 @@ export class HomePage implements OnInit{
 			componentProps: {
 				'caller': 'DocPage',
 				'html': html,
+				'title': title,
 			},
 			cssClass: 'modal-dialog',
 			backdropDismiss:false
@@ -421,12 +422,7 @@ export class HomePage implements OnInit{
 				if (i3 > i2) {
 					// found the popup html
 					let popupHtml = srcHtml.substring(i2 + '[START-POPUP]'.length, i3);
-					// create special html for popup
-					// let buttonHtml = '<p>abcd button ' + popupCount + '</p>';
-					// popupHtmls.push({ count: popupCount, html: popupHtml });
 					htmls.push( {popupHtml: popupHtml });
-					// htmls.push( {html: buttonHtml });
-					// continue
 					i1 = i3 + '[END-POPUP]'.length;
 				} else {
 					// final

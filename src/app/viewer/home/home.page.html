@@ -159,7 +159,7 @@
 								</div>
 								<div *ngIf="data.popupHtml">
 									<ion-item class="app-header-80">
-										<ion-col size="12" class="heading" (click)="onDocDetail(page, data.docHtml)" title="{{ 'FILE_UPLOAD_DOCS_TOOLTIP' | translate }}">
+										<ion-col size="12" class="heading" (click)="onDocDetail(page, data.docHtml, data.docTitle)" title="{{ 'FILE_UPLOAD_DOCS_TOOLTIP' | translate }}">
 											<ion-button class="button" fill="clear">
 												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
 											</ion-button>
