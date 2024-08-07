@@ -263,6 +263,9 @@ export class HomePage implements OnInit{
 				// <br>
 				// <div><table><tr><th></th><th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th>THÔNG TIN</th></tr></table></div>
 				// Phả ký dòng họ<br><br><div><table><tr><th></th><th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th>THÔNG TIN</th></tr></table></
+				
+				// add branch if titleHtml contains name
+				titleHtml = this.getPopupTitleByName(titleHtml);
 				data.docTitle = titleHtml;
 			}
 		})
@@ -476,9 +479,9 @@ export class HomePage implements OnInit{
 				html += 
 				'<ion-grid class="viewer-home-grid">' +
 				'<ion-row>' +
-					'<ion-col size="4" class="column center">' + this.languageService.getTranslation('HOME_MEMORY_NAME') + '</ion-col>' +
+					'<ion-col size="6" class="column center">' + this.languageService.getTranslation('HOME_MEMORY_NAME') + '</ion-col>' +
 					'<ion-col size="4" class="column center">' +	this.languageService.getTranslation('HOME_MEMORY_DOD') + '</ion-col>' +
-					'<ion-col size="4" class="column center">' +	this.languageService.getTranslation('HOME_MEMORY_DAYS') +	'</ion-col>' +
+					'<ion-col size="2" class="column center">' +	this.languageService.getTranslation('HOME_MEMORY_DAYS') +	'</ion-col>' +
 				'</ion-row>';
 				for (let i = 0; i < data.persons.length; i++) {
 					let person = data.persons[i];
@@ -492,9 +495,9 @@ export class HomePage implements OnInit{
 					}
 					html += 
 					'<ion-row>' +
-						'<ion-col size="4" class="column">' + name + '</ion-col>' +
-						'<ion-col size="4" class="column center">' +	dod + '</ion-col>' +
-						'<ion-col size="4" class="column center">' +	days +	'</ion-col>' +
+						'<ion-col size="6" class="column center"><b>' + name + '</b></ion-col>' +
+						'<ion-col size="4" class="column center"><b>' +	dod + '</b></ion-col>' +
+						'<ion-col size="2" class="column center"><b>' +	days +	'</b></ion-col>' +
 					'</ion-row>';
 				};
 				html += '</ion-grid>';
@@ -565,5 +568,14 @@ export class HomePage implements OnInit{
 			str = str.replaceAll('[GEN-TABLE]', html);
 		}
 		return str;
+	}
+
+	getPopupTitleByName(name) {
+		for (let i = 0; i < this.nodes.length; i++) {
+			let node = this.nodes[i];
+			if (name.trim() === node.name)
+				return node.name + this.nodeService.getFullDetail(node);
+		}
+		return name;
 	}
 }

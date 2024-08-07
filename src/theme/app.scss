@@ -24,99 +24,19 @@
   }
 }
 
-.app-header-80 {
-  --background: var(--app-background-color) center / 100%;
-  height: var(--app-panel-height-small);
-	width: 80%;
-	display: flex; 
-  align-items: center;
-	margin: auto;
-  .heading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .icon {
-      font-size: var(--app-icon-font-size-medium);
-      color: var(--app-color);
-    }
-    .label {
-      font-size: var(--app-text-font-size-medium);
-      color: var(--app-color);
-    }
-    .button {
-      --padding-start: 5px;
-      --padding-end: 5px;
-    }
-  }
-}
-
-.app-header-40 {
-  --background: var(--app-background-color) center / 100%;
-  height: var(--app-panel-height-small);
-	width: 40%;
-	display: flex; 
-  align-items: center;
-	margin: auto;
-  .heading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .icon {
-      font-size: var(--app-icon-font-size-medium);
-      color: var(--app-color);
-    }
-    .label {
-      font-size: var(--app-text-font-size-medium);
-      color: var(--app-color);
-    }
-    .button {
-      --padding-start: 5px;
-      --padding-end: 5px;
-    }
-  }
-}
-
-.app-header-two-columns {
-  // --background: var(--app-background-color) center / 100%;
-  height: var(--app-panel-height-small);
-	width: 100%;
-	display: flex; 
-  align-items: center;
-	margin: auto;
-  .heading-1 {
-    display: flex;
-    // justify-content: left;
-		align-items: center;
-    .label {
-      font-size: var(--app-text-font-size-medium);
-      color: var(--app-color);
-    }
-  }
-	.heading-2 {
-    // display: flex;
-    // align-items: left;
-		width: 20%;
-    // justify-content: center;
-		// --background: var(--app-background-color) center / 100%;
-    .icon {
-      font-size: var(--app-icon-font-size-medium);
-      color: var(--app-color);
-			background: var(--app-background-color);
-    }
-    .button {
-      --padding-start: 5px;
-      --padding-end: 5px;
-    }
-  }
-}
-
-.app-grid-100 {
-  width: 100%;
-	margin: auto;
-  ion-row:first-child {
-		color: var(--app-color);
-    background-color: var(--app-background-color);
-  }
+.app-grid-label {
+	.width-50 {
+		width: 50%;
+	}
+	.width-80 {
+		width: 80%;
+	}
+	.margin-left {
+		margin-left:0px;
+	}
+	.margin-auto {
+		margin: auto;
+	}
   ion-col {
     border: 1px solid black;
     border-bottom: 0;
@@ -132,19 +52,20 @@
 		height: var(--app-panel-height-small);
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		// justify-content: center;
+		.left {
+			text-align: left !important;
+		}
+		.center {
+			text-align: center !important;
+		}
+		.right {
+			text-align: right !important;
+		}
 		.icon {
 			font-size: var(--app-icon-font-size-medium);
 			color: var(--app-color);
 			background: var(--app-background-color);
-		}
-		.label {
-			font-size: var(--app-text-font-size-medium);
-			color: var(--app-color);
-		}
-		.label-black {
-			font-size: var(--app-text-font-size-medium);
-			color: black;
 		}
 		.button {
 			--padding-start: 5px;
@@ -154,8 +75,14 @@
 }
 
 .app-grid {
-  width: 90%;
-	margin: auto;
+  width: 100%;
+	// margin: auto;
+	// .margin-left {
+	// 	margin-left:0px;
+	// }
+	.width-80 {
+		width: 80%;
+	}
   ion-row:first-child {
 		color: var(--app-color);
     background-color: var(--app-background-color);
@@ -175,7 +102,19 @@
 		height: var(--app-panel-height-small);
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		// justify-content: center;
+		.left {
+			text-align: left !important;
+		}
+		.center {
+			text-align: center !important;
+		}
+		.right {
+			text-align: right !important;
+		}
+		// .left {
+		// 	margin-left:0px;
+		// }
 		.icon {
 			font-size: var(--app-icon-font-size-medium);
 			color: var(--app-color);
@@ -338,14 +277,16 @@
 	display: flex;
 	// color: var(--app-color);
 	font-size: var(--app-text-font-size-medium);
-	padding-left: 20%;
+	padding-left: 10%;
+	font-weight: bold;
 }
 
 .viewer-home-container-text-3 {
 	display: flex;
 	// color: var(--app-color);
 	font-size: var(--app-text-font-size-small);
-	padding-left: 40%;
+	padding-left: 20%;
+	font-weight: bold;
 }
 
 .viewer-home-container-left{

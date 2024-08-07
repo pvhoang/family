@@ -114,6 +114,9 @@ export class NodeService {
     return 'NO_FAMILY_NAME';
   }
 
+	
+	memorialMsg
+
   public getProperName(node: any)  {
     // get proper Vietnamese name
     let values = [];
@@ -136,17 +139,42 @@ export class NodeService {
   }
 
   public getGeneration(node: any) {
+		// let nodeBranch = (node.branch) ? node.branch : '';
+		// let nodeSubBranch = (node.sub_branch) ? node.sub_branch : '';
+		// let nodeSubSubBranch = (node.sub_sub_branch) ? node.sub_sub_branch : '';
+		// 'Dòng', 'Đời', 'Chi', 'Phái', 'Nhánh'
+		let branch = node.branch ? node.branch : '';
+		let sub_branch = node.sub_branch ? node.sub_branch : '';
+		let sub_sub_branch = node.sub_sub_branch ? node.sub_sub_branch : '';
+		// let str = 'Đời ' + node.level + ', Chi ' + branch + ', Phái ' + sub_branch + ', Nhánh ' + sub_sub_branch;
+		let str = 'Đời ' + node.level;
+		if (branch != '') str += ', Chi ' + branch ;
+		if (sub_branch != '') str += ', Phái ' + sub_branch;
+		if (sub_sub_branch != '') str += ', Nhánh ' + sub_sub_branch;
+		// let str = 'Đời ' + node.level + ', Chi ' + branch + ', Phái ' + sub_branch + ', Nhánh ' + sub_sub_branch;
     // let genStr = this.languageService.getTranslation('GENERATION') + ' ' + node.level;
-    let genStr = this.languageService.getTranslation('GENERATION_SHORT') + ((node.idlevel) ? node.idlevel : node.level);
+    // let genStr = this.languageService.getTranslation('GENERATION_SHORT') + ((node.idlevel) ? node.idlevel : node.level);
+    // let genStr = str;
 		if (node.id.charAt(node.id.length - 1) != '1') {
 			if (node.gender == 'female')
-				genStr += 'v';
+				str += 'v';
 			else if (node.gender == 'male')
-				genStr += 'c';
+				str += 'c';
 		}
-		return genStr;
+		return str;
   }
-  
+
+	private getBranch(node: any, type: any) {
+		if (node.branch === undefined)
+			return '';
+
+		// if (node['branch'] == undefined)
+		// 	return node['branch']
+		// node = node.pnode;
+		// let branch = this.getBranch(node, type)
+		// return branch;
+	}
+
   public getPhotoName(node: any, storageName?)  {
     let name = this.utilService.stripVN(node.name);
     name = name.replace(/ /g, '_');

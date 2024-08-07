@@ -10,3 +10,5 @@ echo ---
 node fs %1 %2 %3 %4 %5 %6 %7
 
 
+node convert-family.js > out-3.txt 2>&1
+node convert-family.js > out.txt 2>&1

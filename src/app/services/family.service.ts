@@ -270,7 +270,8 @@ export class FamilyService {
 		family.nodes.forEach((node: Node) => {
 			const dayCount = this.isMemorialComing(node.dod);
 			if (dayCount >= 0 && dayCount < DAY_COUNT) {
-				let name = node.name + ' (' + this.languageService.getTranslation('GENERATION_SHORT') + nodeLevel + ')';
+				// let name = node.name + ' (' + this.languageService.getTranslation('GENERATION_SHORT') + nodeLevel + ')';
+				let name = node.name + ' (' + this.nodeService.getGeneration(node) + ')';
 				let dod = node.dod;
 				msg.push([name, dod, dayCount]);
 			}
@@ -299,7 +300,8 @@ export class FamilyService {
     family.nodes.forEach(node => {
       const dayCount = this.isMemorialComing(node.dod);
       if (dayCount >= 0 && dayCount < DAY_COUNT) {
-        let name = node.name + ' (' + this.languageService.getTranslation('GENERATION_SHORT') + nodeLevel + ')';
+        // let name = node.name + ' (' + this.languageService.getTranslation('GENERATION_SHORT') + nodeLevel + ')';
+				let name = node.name + ' (' + this.nodeService.getGeneration(node) + ')';
         let dod = node.dod;
         msg.push([name, dod, dayCount]);
       }

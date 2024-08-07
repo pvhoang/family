@@ -167,6 +167,12 @@ export class PersonPage implements OnInit {
     this.selectedNode.nclass = 'node-select';
     this.familyView = this.familyService.getSelectedPerson(this.selectedNode);
 
+		if (this.selectedNode.desc && this.selectedNode.desc != '') {
+			let dom = document.getElementById('detail');
+			if (dom)
+				dom.innerHTML = this.selectedNode.desc;
+		}
+
 		// setup for photo display on top
 		if (node.dod == '' && node.pod == '')
 			return;

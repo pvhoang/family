@@ -45,106 +45,134 @@
 					<div class="page-content">
 						<h2 class="page-header">{{page.titleText}}</h2>
 						<div class="w3-container page-text scroll">
-
 							<div *ngIf="i == 0 && key == 'pha_he'">
 								<!-- First page -->
 								<br>
-								<ion-grid class="app-grid-100">
+
+								<ion-grid class="app-grid">
 									<ion-row>
-										<ion-col size="4" class="column">
+										<ion-col size="4" class="column center">
 											<span class="label">{{ 'HOME_pha_he_to_phu' | translate }}</span>
 										</ion-col>
-										<ion-col size="2" class="column">
+										<ion-col size="2" class="column center">
 											<span class="label">{{ 'HOME_pha_he_doi' | translate }}</span>
 										</ion-col>
-										<ion-col size="4" class="column">
+										<ion-col size="4" class="column center">
 											<span class="label">{{ 'HOME_pha_he_ten' | translate }}</span>
 										</ion-col>
-										<ion-col size="2" class="column">
+										<ion-col size="2" class="column center">
 											<span class="label">{{ 'HOME_pha_he_detail' | translate }}</span>
 										</ion-col>
 									</ion-row>
 									<ion-row *ngFor="let person of tableAncestors; index as i;">
-										<ion-col size="4" class="column">
+										<ion-col size="4" class="column center">
 											<b>{{person.title}}</b>
 										</ion-col>
-										<ion-col size="2" class="column">
+										<ion-col size="2" class="column center">
 											<b>{{person.gen}} </b>
 										</ion-col>
-										<ion-col size="4" class="column">
+										<ion-col size="4" class="column center">
 											<b>{{person.name}}</b>
 										</ion-col>
-										<ion-col size="2" class="column"> 
-											<ion-button class="button" fill="clear" (click)="onPhaHe(person)">
+										<ion-col size="2" class="column center" (click)="onPhaHe(person)"> 
+											<ion-button class="button" fill="clear">
 												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
 											</ion-button>
 										</ion-col>
 									</ion-row>
 								</ion-grid>
+
 								<br>
-								<ion-item class="app-header-40">
-									<ion-col size="12" class="heading" (click)="onPhaHe(null)" title="{{ 'FILE_UPLOAD_DOCS_TOOLTIP' | translate }}">
-										<ion-button class="button" fill="clear">
-											<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
-										</ion-button>
-										<span class="label">{{ 'FILE_PHOTO_ADD' | translate }}</span>
-									</ion-col>
-								</ion-item>
+
+								<ion-grid class="app-grid-label">
+									<div class="width-80 margin-auto">
+									<!-- <div class="width-50 margin-mode"> -->
+										<ion-row>
+											<ion-col size="8" class="column center">
+												<b>{{ 'FILE_OPEN_NODES' | translate }}</b>
+											</ion-col>
+											<ion-col size="4" class="column center" (click)="onPhaHe(null)"> 
+												<ion-button class="button" fill="clear">
+													<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+												</ion-button>
+											</ion-col>
+										</ion-row>
+									</div>
+								</ion-grid>
+
 								<br>
-								<ion-item class="app-header-40">
+
+								<ion-grid class="app-grid-label">
+									<div class="width-80 margin-auto">
+									<!-- <div class="width-50 margin-mode"> -->
+										<ion-row>
+											<ion-col size="8" class="column center">
+												<b>{{ 'FILE_SEARCH' | translate }}</b>
+											</ion-col>
+											<ion-col size="4" class="column center" (click)="onPhaHeSearch()"> 
+												<ion-button class="button" fill="clear">
+													<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+												</ion-button>
+											</ion-col>
+										</ion-row>
+									</div>
+								</ion-grid>
+
+								<!-- <ion-item class="app-header-40">
 									<ion-col size="12" class="heading" (click)="onPhaHeSearch()" title="{{ 'FILE_UPLOAD_DOCS_TOOLTIP' | translate }}">
 										<ion-button class="button" fill="clear">
 											<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
 										</ion-button>
 										<span class="label">{{ 'FILE_SEARCH' | translate }}</span>
 									</ion-col>
-								</ion-item>
+								</ion-item> -->
+
 								<br>
 							</div>
 
 							<div *ngIf="i == 0 && key == 'pha_do'">
 								<!-- First page -->
 								<br>
-								<ion-grid class="app-grid-100">
+								<ion-grid class="app-grid">
 									<ion-row>
-										<ion-col size="2" class="column">
+										<ion-col size="2" class="column center">
 											<span class="label">{{ 'HOME_pha_do_doi' | translate }}</span>
 										</ion-col>
-										<ion-col size="1" class="column">
+										<ion-col size="1" class="column center">
 											<span class="label">{{ 'HOME_pha_do_chi' | translate }}</span>
 										</ion-col>
-										<ion-col size="1" class="column">
+										<ion-col size="1" class="column center">
 											<span class="label">{{ 'HOME_pha_do_phai' | translate }}</span>
 										</ion-col>
-										<ion-col size="1" class="column">
+										<ion-col size="1" class="column center">
 											<span class="label">{{ 'HOME_pha_do_nhanh' | translate }}</span>
 										</ion-col>
-										<ion-col size="5" class="column">
+										<ion-col size="5" class="column center">
 											<span class="label">{{ 'HOME_pha_do_he' | translate }}</span>
 										</ion-col>
-										<ion-col size="2" class="column">
+										<ion-col size="2" class="column center">
 											<span class="label">{{ 'HOME_pha_he_do' | translate }}</span>
 										</ion-col>
 									</ion-row>
 			
 									<ion-row *ngFor="let tree of tableTrees; index as i;">
-										<ion-col size="2" class="column">
+										<ion-col size="2" class="column center">
 											<b>{{tree.gen}} </b>
 										</ion-col>
-										<ion-col size="1" class="column">
+										<ion-col size="1" class="column center">
 											<b>{{tree.branch}} </b>
 										</ion-col>
-										<ion-col size="1" class="column">
+										<ion-col size="1" class="column center">
 											<b>{{tree.sub_branch}}</b>
 										</ion-col>
-										<ion-col size="1" class="column">
+										<ion-col size="1" class="column center">
 											<b>{{tree.sub_sub_branch}}</b>
 										</ion-col>
-										<ion-col size="5" class="column">
+										<ion-col size="5" class="column center">
 											<b>{{tree.name}}</b>
 										</ion-col>
-										<ion-col size="2" class="column"> 
-											<ion-button class="button" fill="clear" (click)="onPhaDo(tree)">
+										<ion-col size="2" class="column center" (click)="onPhaDo(tree)"> 
+											<ion-button class="button" fill="clear">
 												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
 											</ion-button>
 										</ion-col>
@@ -158,14 +186,21 @@
 									<div id="{{key}}_{{i}}_{{j}}"></div>
 								</div>
 								<div *ngIf="data.popupHtml">
-									<ion-item class="app-header-80">
-										<ion-col size="12" class="heading" (click)="onDocDetail(page, data.docHtml, data.docTitle)" title="{{ 'FILE_UPLOAD_DOCS_TOOLTIP' | translate }}">
-											<ion-button class="button" fill="clear">
-												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
-											</ion-button>
-											<span class="label">{{ data.docTitle }}</span>
-										</ion-col>
-									</ion-item>
+									<ion-grid class="app-grid-label">
+										<div class="width-80 margin-left">
+										<!-- <div class="width-50 margin-mode"> -->
+											<ion-row>
+												<ion-col size="8" class="column left">
+													<b>{{ data.docTitle }}</b>
+												</ion-col>
+												<ion-col size="4" class="column center" (click)="onDocDetail(page, data.docHtml, data.docTitle)"> 
+													<ion-button class="button" fill="clear">
+														<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+													</ion-button>
+												</ion-col>
+											</ion-row>
+										</div>
+									</ion-grid>
 								</div>
 							</div>
 						</div>

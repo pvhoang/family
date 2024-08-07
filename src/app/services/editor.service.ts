@@ -6,7 +6,7 @@ import { UtilService } from '../services/util.service';
 })
 export class EditorService {
 
-	tableData = [];
+	relationData = [];
 
   constructor(private utilService: UtilService
   ) { }
@@ -31,11 +31,12 @@ export class EditorService {
 				paraHtml = this.getDocumentHtml(images, line);
 			else if (line.indexOf('1|') == 0 || line.indexOf('2|') == 0 || line.indexOf('3|') == 0)
 				paraHtml = this.getTextHtml(line.charAt(0), line);
+			// else if (line.indexOf('v|') == 0 || line.indexOf('c|') == 0 || line.indexOf('t|') == 0 || line.indexOf('g|') == 0) {
 			else if (line.indexOf('w|') == 0 || line.indexOf('h|') == 0 || line.indexOf('s|') == 0 || line.indexOf('d|') == 0) {
-				this.setTableHtml(line);
+				this.setRelationHtml(line);
 				continue;
 			} else {
-				html += this.getTableHtml();
+				html += this.getRelationHtml();
 				paraHtml = line;
 			}
 			
@@ -47,7 +48,7 @@ export class EditorService {
 
 			html += paraHtml;
 		}
-		html += this.getTableHtml();
+		html += this.getRelationHtml();
 		return html;
 	}
 
@@ -56,54 +57,186 @@ export class EditorService {
 		return '<div class="viewer-home-container-text-' + type + '">' + text + '</div>';
 	}
 
-	private setTableHtml(line) {
-		this.tableData.push(line);
+	private setRelationHtml(line) {
+		this.relationData.push(line);
 	}
 
-	private getTableHtml() {
-		let html = '';
-		let children = []
-		this.tableData.forEach(line => {
-			let type = line.charAt(0);
-			let str = line.substring(2);
-			let items = str.split('|');
-			let name = items[0];
-			let note = (items.length > 1) ? items[1] : '';
-			children.push({name: name, note: note, type: type})
-		})
+	// <ion-grid class="app-grid">
+	// <ion-row>
+	// 	<ion-col size="2" class="column">
+	// 		<span class="label">{{ 'HOME_pha_do_doi' | translate }}</span>
+	// 	</ion-col>
+	// 	<ion-col size="1" class="column">
+	// 		<span class="label">{{ 'HOME_pha_do_chi' | translate }}</span>
+	// 	</ion-col>
+	// 	<ion-col size="1" class="column">
+	// 		<span class="label">{{ 'HOME_pha_do_phai' | translate }}</span>
+	// 	</ion-col>
+	// 	<ion-col size="1" class="column">
+	// 		<span class="label">{{ 'HOME_pha_do_nhanh' | translate }}</span>
+	// 	</ion-col>
+	// 	<ion-col size="5" class="column">
+	// 		<span class="label">{{ 'HOME_pha_do_he' | translate }}</span>
+	// 	</ion-col>
+	// 	<ion-col size="2" class="column">
+	// 		<span class="label">{{ 'HOME_pha_he_do' | translate }}</span>
+	// 	</ion-col>
+	// </ion-row>
 
-		if (children.length > 0) {
-			html += '<br>';
-			html += '<div><table>';
-			html += '<tr>' + '<th></th>' + '<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>' + '<th>THÔNG TIN</th>' + '</tr>';
-			let prevType = '';
-			children.forEach((item:any) => {
-				if (item.type != prevType) {
-					let relation = (item.type == 'w') ? 'VỢ' : ((item.type == 'h') ? 'CHỒNG' : 'CON');
-					html += '<tr>' + '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>' + '<td/>' + '</tr>';
-					html += '<tr>' + '<td><b>' + relation + '</b></td>' + '<td></td>' + '</tr>';
-					prevType = item.type;
-				}
-				let name = item.name;
-				let idx = name.indexOf('(*)');
-				let style = '';
-				if (idx > 0) {
-					style = 'class="viewer-home-table"'
-					name = name.substring(0, idx)
-				}
-				// html += '<tr><td><b><span '+ style + '>' + name + '</span></b>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;' + item.note + '</td></tr>';
-				html += '<tr>' +
-						'<td><b><span '+ style + '>' + name + '</span></b></td>' +
-						'<td>&nbsp;&nbsp;&nbsp;</td>' +
-						'<td>' + item.note + '</td>' + 
-						'</tr>';
+	/*
+
+<ion-grid class="app-grid">
+	<ion-row>
+		<ion-col size="2" class="column">
+			<span class="label">Tên</span>
+		</ion-col>
+		<ion-col size="2" class="column">
+			<span class="label">Quan hệ</span>
+		</ion-col>
+		<ion-col size="2" class="column">
+			<span class="label">Thông tin</span>
+		</ion-col>
+	<ion-row>
+</ion-grid>
+
+
+*/
+
+
+	// Ten Quan height
+
+		private getRelationHtml() {
+			let html = '';
+			let children = [];
+			this.relationData.forEach(line => {
+				let type = line.charAt(0);
+				let str = line.substring(2);
+				let items = str.split('|');
+				let name = items[0];
+				let note = (items.length > 1) ? items[1] : '';
+				children.push({name: name, note: note, type: type})
 			})
-			html += '</table></div>';
+			// console.log('children: ', children);
+
+			if (children.length > 0) {
+
+				html += '<ion-grid class="app-grid"><ion-row>';
+				html += '<ion-col size="2" class="column center"><span class="label">Tên</span></ion-col>';
+				html += '<ion-col size="2" class="column center"><span class="label">Quan hệ</span></ion-col>';
+				html += '<ion-col size="8" class="column center"><span class="label">Thông tin</span></ion-col>';
+				html += '</ion-row>';
+
+				children.forEach((item:any) => {
+			console.log('item: ', item);
+
+					let name = item.name;
+					let relation = (item.type == 'w') ? 'Vợ' : ( (item.type == 'h') ? 'Chồng' : ( (item.type == 's') ? 'Trai' : 'Gái' ));
+					let note = item.note;
+					if (note == '') {
+						let row = '<ion-row>';
+						row += '<ion-col size="2" class="column center"><b>' + name + '</b></ion-col>';
+						row += '<ion-col size="2" class="column center"><b>' + relation + '</b></ion-col>';
+						row += '<ion-col size="8" class="column"><b></b></ion-col>';
+						row += '</ion-row>';
+						html += row;
+
+					} else {
+						let first = true;
+						let notes = note.split('[]');
+						notes.forEach((no:any) => {
+							let n = first ? name: '';
+							let rel = first ? relation: '';
+							let row = '<ion-row>';
+							row += '<ion-col size="2" class="column center"><b>' + n + '</b></ion-col>';
+							row += '<ion-col size="2" class="column center"><b>' + rel + '</b></ion-col>';
+							row += '<ion-col size="8" class="column left"><b>' + no + '</b></ion-col>';
+							row += '</ion-row>';
+							html += row;
+							first = false;
+						})
+					}
+				});
+				html += '</ion-grid>';
+				// console.log('html: ', html);
+			}
+
+			this.relationData = [];
+			return html;
 		}
 
-		this.tableData = [];
-		return html;
-	}
+			// 	html += '<br>';
+			// 	html += '<div><table>';
+			// 	html += '<tr>' + '<th></th>' + '<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>' + '<th>THÔNG TIN</th>' + '</tr>';
+			// 	let prevType = '';
+			// 	children.forEach((item:any) => {
+			// 		if (item.type != prevType) {
+			// 			let relation = (item.type == 'w') ? 'VỢ' : ((item.type == 'h') ? 'CHỒNG' : 'CON');
+			// 			html += '<tr>' + '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>' + '<td/>' + '</tr>';
+			// 			html += '<tr>' + '<td><b>' + relation + '</b></td>' + '<td></td>' + '</tr>';
+			// 			prevType = item.type;
+			// 		}
+			// 		let name = item.name;
+			// 		let idx = name.indexOf('(*)');
+			// 		let style = '';
+			// 		if (idx > 0) {
+			// 			style = 'class="viewer-home-table"'
+			// 			name = name.substring(0, idx)
+			// 		}
+			// 		// html += '<tr><td><b><span '+ style + '>' + name + '</span></b>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;' + item.note + '</td></tr>';
+			// 		html += '<tr>' +
+			// 				'<td><b><span '+ style + '>' + name + '</span></b></td>' +
+			// 				'<td>&nbsp;&nbsp;&nbsp;</td>' +
+			// 				'<td>' + item.note + '</td>' + 
+			// 				'</tr>';
+			// 	})
+			// 	html += '</table></div>';
+			// }
+
+
+	// private getTableHtml() {
+	// 	let html = '';
+	// 	let children = []
+	// 	this.tableData.forEach(line => {
+	// 		let type = line.charAt(0);
+	// 		let str = line.substring(2);
+	// 		let items = str.split('|');
+	// 		let name = items[0];
+	// 		let note = (items.length > 1) ? items[1] : '';
+	// 		children.push({name: name, note: note, type: type})
+	// 	})
+
+	// 	if (children.length > 0) {
+	// 		html += '<br>';
+	// 		html += '<div><table>';
+	// 		html += '<tr>' + '<th></th>' + '<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>' + '<th>THÔNG TIN</th>' + '</tr>';
+	// 		let prevType = '';
+	// 		children.forEach((item:any) => {
+	// 			if (item.type != prevType) {
+	// 				let relation = (item.type == 'w') ? 'VỢ' : ((item.type == 'h') ? 'CHỒNG' : 'CON');
+	// 				html += '<tr>' + '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>' + '<td/>' + '</tr>';
+	// 				html += '<tr>' + '<td><b>' + relation + '</b></td>' + '<td></td>' + '</tr>';
+	// 				prevType = item.type;
+	// 			}
+	// 			let name = item.name;
+	// 			let idx = name.indexOf('(*)');
+	// 			let style = '';
+	// 			if (idx > 0) {
+	// 				style = 'class="viewer-home-table"'
+	// 				name = name.substring(0, idx)
+	// 			}
+	// 			// html += '<tr><td><b><span '+ style + '>' + name + '</span></b>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;' + item.note + '</td></tr>';
+	// 			html += '<tr>' +
+	// 					'<td><b><span '+ style + '>' + name + '</span></b></td>' +
+	// 					'<td>&nbsp;&nbsp;&nbsp;</td>' +
+	// 					'<td>' + item.note + '</td>' + 
+	// 					'</tr>';
+	// 		})
+	// 		html += '</table></div>';
+	// 	}
+
+	// 	this.tableData = [];
+	// 	return html;
+	// }
 
 	getImageHtml(images: any, str: any, textarea?: boolean) {
 		// im|ac|1|abc.png|This is caption</im>
