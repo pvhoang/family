@@ -1,4 +1,26 @@
 =====================================================================
+# USAGE
+=====================================================================
+
+https://giapha.web.app
+
+// superadmin
+const URL_DELETE_OPEN = '/sopen';   // delete current ancestor and open an existing one
+const URL_DELETE_NEW = '/snew';     // delete current ancestor and create a new one
+
+// admin
+const URL_UPDATE_VERSION = '/aupd'; // update current version
+const URL_EDIT = 'aedit';           // edit ancestor content
+
+// user
+const URL_ANCESTOR = '/phan'        // sign up ancestor after superadmin's approval
+const URL_USAGE = '/'               // use the system after ancestor is signed up
+const URL_THEME = '/utheme'         // change interface theme
+const URL_LANGUAGE = '/ulang'       // change interface language
+const URL_DELETE = '/udel';         // delete local memory
+
+
+=====================================================================
 # TOOLS, PLUGINS
 =====================================================================
 
@@ -30,12 +52,21 @@ https://blog.logrocket.com/creating-beautiful-tooltips-with-only-css/
 // https://ionicframework.com/docs/api/toast
 
 =======================
+# popover with PopoverComponent
+=======================
+
+// https://edupala.com/ionic-popover-example/
+// https://ionicframework.com/docs/api/popover
+
+=======================
 # ng-select with typeahead
 =======================
 @ng-select/ng-select
 // https://www.freakyjolly.com/ng-select-typeahead-with-debouncetime-fetch-server-response
 // https://www.omdbapi.com
 // https://github.com/ng-select/ng-select
+
+https://github.com/ng-select/ng-select#change-detection
 
 =======================
 # Scrolling into view
@@ -54,8 +85,11 @@ element.scrollIntoView
 =======================
 # Gia Pha reference
 =======================
+https://giaphadongtoc.com/noi-dung-trong-cuon-gia-pha-mau/
+https://giaphadaiviet.com/chi-nhanh-phai-canh-trong-gia-pha/
 http://www.giaphavietnam.vn/default.aspx?lang=vi-VN&cp=news-detail&cid=38
 http://www.giaphavietnam.vn/default.aspx?cp=phado&id=307
+https://holaivietnam.com/index.php/tai-lieu-dong-ho/gia-pha-la-gi-noi-dung-cau-truc-va-cach-trinh-bay-gia-pha-29.html
 
 =======================
 # Resizing, set coordinates on images
@@ -73,6 +107,8 @@ https://www.npmjs.com/package/html-to-image
 # Shade image as background
 =======================
 https://coder-coder.com/background-image-opacity/
+https://onlinepngtools.com/change-png-opacity
+20%
 
 =======================
 # Download a text file
@@ -104,8 +140,38 @@ https://stackoverflow.com/questions/48295288/how-to-handle-single-click-and-doub
 =======================
 https://dev.to/_mnavarros/how-to-convert-html-to-pdf-using-angular-3jj8
 https://stackoverflow.com/questions/59885556/how-to-add-and-set-a-font-in-jspdf
+
 http://raw.githack.com/MrRio/jsPDF/master/docs/index.html
+https://raw.githack.com/MrRio/jsPDF/master/index.html
+
 https://www.npmjs.com/package/html-to-image
+
+https://github.com/tsayen/dom-to-image
+
+https://stackoverflow.com/questions/64268184/convert-image-url-to-base-64-string
+https://stackoverflow.com/questions/29578721/image-in-pdf-cut-off-how-to-make-a-canvas-fit-entirely-in-a-pdf-page
+
+=======================
+# FONT for jsPdf and font-face
+=======================
+
+https://fonts.google.com/?subset=vietnamese&noto.script=Latn
+. select Pacifico
+. download to Pacifico.zip -> c:/dev/family/src/assets/ttf/Pacifico-Regular.ttf
+. run https://rawgit.com/MrRio/jsPDF/master/fontconverter/fontconverter.html
+. convert 'Pacifico-Regular.ttf' to c:/dev/family/src/assets/js/Pacifico-Regular-normal.js
+
+import '../../../assets/js/Pacifico-Regular-normal.js';
+...
+doc.setFont('Pacifico-Regular'); // set custom font
+
+@font-face {
+  font-family: 'Pacifico';
+  font-style: italic;
+  font-weight: bold;
+  src: url('./assets/ttf/Pacifico-Regular.ttf');
+}
+--ion-font-family: 'Pacifico'
 
 =======================
 # DOC to HTM
@@ -145,7 +211,7 @@ https://github.com/kpdecker/jsdiff/tree/master/src/diff
 https://hoten.org/100-ho-pho-bien-nhat/
 
 =======================
-# Metrial Designs Font
+# Material Designs Font
 =======================
 . https://materialdesignicons.com/
 . search 'tree'
@@ -180,6 +246,32 @@ https://stackoverflow.com/questions/44621887/angular-how-to-get-current-url-in-a
 
 https://stackoverflow.com/questions/69286935/how-to-get-a-subcollection-inside-a-collection-in-firestore-web-version-9-modul
 
+=======================
+# CORS
+=======================
+
+https://www.techiediaries.com/enable-cors-angular-14/
+https://www.stackhawk.com/blog/angular-cors-guide-examples-and-how-to-enable-it/
+
+
+=======================
+# FIRESTORAGE CORS
+=======================
+https://firebase.google.com/docs/storage/web/download-files
+https://cloud.google.com/storage/docs/gsutil_install
+https://cloud.google.com/sdk/auth_success
+
+gcloud init --skip-diagnostics
+
+You are logged in as: [pvhoang940@gmail.com].
+
+Pick cloud project to use:
+ [3] family-c5b45
+
+C:\Users\Hoang\AppData\Local\Google\Cloud SDK>gsutil cors set c:/dev/family/cors.json gs://family-c5b45.appspot.com
+Setting CORS on gs://family-c5b45.appspot.com/...
+
+C:\Users\Hoang\AppData\Local\Google\Cloud SDK>
 
 =====================================================================
 # FIREBASE
@@ -193,6 +285,11 @@ https://stackoverflow.com/questions/69286935/how-to-get-a-subcollection-inside-a
 # Add new project 'family'
 # Add new web app 'family'
 	Create Firestore database in 'test mode'
+
+=======================
+# Integrating Angular Fire
+=======================
+. ng add @angular/fire
 
 =======================
 # Processing
@@ -226,20 +323,34 @@ https://stackoverflow.com/questions/69286935/how-to-get-a-subcollection-inside-a
   Writing configuration info to firebase.json...
   Writing project information to .firebaserc...
 
+# Functions
 . cd /dev/family/functions
 	. npm install
 	. npm run build
 
+# Emulators
 . cd/dev/family
   . firebase emulators:start
   . firebase emulators:start --only functions,firestore,hosting,storage
   . firebase emulators:start --only functions,firestore,hosting,storage --import test-data
   . firebase emulators:export test-data
 
-=======================
-# Integrating
-=======================
-. ng add @angular/fire
+
+
+
+
+
+
+<!-- # the paths are relative from the Docker file
+
+FROM node:16-alpine AS build
+WORKDIR /app
+COPY ./www /app/www
+FROM nginx:alpine
+RUN rm -rf /usr/share/nginx/html/*
+COPY --from=build /app/www/ /usr/share/nginx/html/ -->
+
+
 
 =======================
 # Hosting
@@ -296,3 +407,37 @@ https://betterprogramming.pub/how-to-send-emails-from-firebase-with-the-trigger-
 
 . open SourceTree
 . copy files from /family-1 to /family
+
+=====================================================================
+# Visual Studio
+=====================================================================
+
+https://bobbyhadz.com/blog/vscode-change-indentation
+
+=======================
+# DOCKERS
+=======================
+
+<!-- https://stackademic.com/blog/how-to-serve-an-angular-application-with-nginx -->
+ionic build --prod
+
+. Dockerfile
+# use the latest version of the official nginx image as the base image
+FROM nginx:latest
+# copy the custom nginx configuration file to the container in the
+# default location
+COPY nginx.conf /etc/nginx/nginx.conf
+# copy the built Angular app files to the default nginx html directory
+COPY ./www /usr/share/nginx/html
+
+# --- Image ---
+docker images
+docker image rmi family-frontend-image --force
+docker build . -t family-frontend-image
+# --- Container ---
+docker ps
+docker stop family-frontend
+docker rm family-frontend
+docker run --name family-frontend -d -it --rm -p 8100:80 family-frontend-image
+
+http://localhost:8100

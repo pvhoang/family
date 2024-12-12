@@ -1,21 +1,18 @@
 
 echo off
 echo ---
-start ionic build --prod
+localhost:8100/auv
 pause
-start firebase deploy --only hosting:giapha
+pause
+start 
 pause
 
-<<<<<<< Updated upstream
-
-=======
 @REM ionic serve --browseroption=/phan
 @REM ionic serve --browseroption=/aedit
 
 
 ionic build --prod
 firebase deploy --only hosting:giapha
->>>>>>> Stashed changes
 
 --- EMULATOR
 cd d:/dev/family/emulator/
