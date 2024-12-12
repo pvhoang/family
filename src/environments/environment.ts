@@ -22,29 +22,30 @@ export const ROOT_COLLECTION = 'giapha';
 export const FONTS_FOLDER = '../../assets/fonts/';
 
 export const DEBUGS = {
-  'APP': true,
+  'APP': false,
   'SPLASH': false,
   'THEME': false,
   'TABS': false,
   'MEMORY': false,
-  'PERSON': true,
+  'PERSON': false,
   'HOME': false,
-  'EDITOR': true,
+  'EDITOR': false,
   'VNODE': false,
-  'NODE': true,
+  'NODE': false,
   'BRANCH': false,
   'DOCS': false,
   'TREE': false,
-  'EDIT': true,
-  'SEARCH': true,
+  'EDIT': false,
+  'SEARCH': false,
   'CROPPER': false,
   'FIREBASE': false,
-  'FILE': true,
+  'FILE': false,
   'FAMILY_SERVICE': false,
   'SVG_TREE_SERVICE': false,
   'UTIL_SERVICE': false,
   'DATA_SERVICE': false,
-  'FCM_SERVICE': true,
+  'FCM_SERVICE': false,
+  'FILER': false,
 
 };
 

@@ -262,11 +262,7 @@ export class FilerPage implements OnInit {
 				this.photoEdit();
 				break;
 			case 'upload':
-				// msg = 'Cất <b>' + this.jsonFileName + '</b> lên mạng?'
-				// this.utilService.alertConfirm('FILE_UPLOAD_SAVE', msg, 'CANCEL', 'OK').then((res) => {
-				// 	if (res.data)
-						this.photoUpload();
-				// });
+				this.photoUpload();
 				break;
 			default:
 		}
@@ -281,15 +277,13 @@ export class FilerPage implements OnInit {
 
 	uploadOnFileSelect(event: any, type: any): void {
     const files = [...event.target.files]
-		// console.log('files: ', files);
 		const file = files[0];
 		this.uploadOnFile(file, type);
   }
 
 	private uploadOnFile(file: any, type: any) {
-		// console.log('type: ', type);
     this.uploadGetTextFile(file).then((res: any) => {
-      // if (DEBUGS.APP)
+      if (DEBUGS.FILER)
         console.log('uploadOnFile - file: ', file);
 			this.uploadMode = true;
 			this.jsonFileName = file.name;
@@ -358,10 +352,7 @@ export class FilerPage implements OnInit {
       if (status == 'cancel') {
         // do nothing
       } else if (status == 'save') {
-        // update node from values
         let family = resp.data.family;
-				// console.log('family: ', family);
-				// this.showData = this.data = JSON.parse(text);
 				this.showData = this.data = family;
 			}
 

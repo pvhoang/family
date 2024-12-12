@@ -10,7 +10,7 @@ export const environment = {
 		vapidKey: "BJ1f8BpQHuErNMLDiD0XRek_WDCTjPuWkftiuWu8twOMCOHwvyZt1L0eaWbrocYGnTh5r7-bkP2BFHs2k06mLNE"
   },
 	useEmulators: false,
-  production: true,
+  production: false,
   android: false,
   version: '3',
 	// backendContainer: 'family-backend'
@@ -23,13 +23,13 @@ export const ROOT_COLLECTION = 'giapha';
 export const FONTS_FOLDER = '../../assets/fonts/';
 
 export const DEBUGS = {
-  'APP': true,
+  'APP': false,
   'SPLASH': false,
   'THEME': false,
   'TABS': false,
   'MEMORY': false,
   'PERSON': false,
-  'HOME': true,
+  'HOME': false,
   'EDITOR': false,
   'VNODE': false,
   'NODE': false,
@@ -37,12 +37,16 @@ export const DEBUGS = {
   'DOCS': false,
   'TREE': false,
   'EDIT': false,
+  'SEARCH': false,
   'CROPPER': false,
-  'FIREBASE': true,
+  'FIREBASE': false,
   'FILE': false,
   'FAMILY_SERVICE': false,
+  'SVG_TREE_SERVICE': false,
   'UTIL_SERVICE': false,
   'DATA_SERVICE': false,
+  'FCM_SERVICE': false,
+  'FILER': false,
 };
 
 export const DRAGON = 'dragon';
