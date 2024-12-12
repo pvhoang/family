@@ -17,9 +17,49 @@ export class DataService {
 	) {
 	}
 
+<<<<<<< Updated upstream
   async saveItem(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
     return await true;
+=======
+	readFamily() {
+    return new Promise((resolve) => {
+      this.readItem('ANCESTOR_DATA').then((adata:any) => {
+        resolve(adata.family);
+      });
+    })
+  }
+
+  saveFamily(family) {
+    return new Promise((resolve) => {
+      this.readItem('ANCESTOR_DATA').then((adata:any) => {
+        adata.family = family;
+        this.saveItem('ANCESTOR_DATA', adata).then((status) => {});
+        resolve(true);
+      });
+    });
+  }
+
+	readAncestorData(type?: any) {
+    return new Promise((resolve) => {
+      this.readItem('ANCESTOR_DATA').then((data:any) => {
+				let res: any;
+				if (!type)
+					res = data;
+				else if (type == 'INFO')
+					res = data.info;
+				else if (type == 'DOCS')
+					res = data.docs;
+				else if (type == 'FAMILY')
+					res = data.family;
+				else if (type == 'IMAGES')
+					res = data.images;
+				else if (type == 'BRANCH')
+					res = data.branch;
+				resolve(res);
+      });
+    })
+>>>>>>> Stashed changes
   }
 
   async readItem(key) {

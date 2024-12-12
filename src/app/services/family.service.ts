@@ -49,6 +49,7 @@ export class FamilyService {
     });
   }
 
+<<<<<<< Updated upstream
   private loadFamily(): Promise<any> {
     return new Promise((resolve) => {
       this.dataService.readFamily().then((localFamily:any) => {
@@ -88,6 +89,96 @@ export class FamilyService {
         });
       });
     });
+=======
+  private buildChildNodes(pnode: Node, family: Family, nodeLevel: number, nodeBranch: number, nodeSubBranch: number, nodeSubSubBranch: number, childIdx: number) {
+    let nodeIdx = 1;
+    family.nodes.forEach((node: any) => {
+      node = this.nodeService.fillNode(node);
+      node.id = pnode.id + '-' + childIdx + '-' + nodeIdx++;
+      node.idlevel = 'level-' + nodeLevel;
+      node.level = nodeLevel;
+      node.nclass = this.nodeService.updateNclass(node);
+      node.pnode = pnode;
+      node.family = family;
+      node.profile = this.nodeService.getSearchKeys(node);
+      node.span = this.nodeService.getSpanStr(node);
+
+			// first definition
+			if (node.branch) {
+				node.branchStart = true;
+			}
+			if (node.sub_branch) {
+				node.subBranchStart = true;
+			}
+			if (node.sub_sub_branch) {
+				node.subSubBranchStart = true;
+			}
+
+			if (nodeBranch != 0)
+				node.branch = '' + nodeBranch;
+			if (nodeBranch == 0 && node.branch)
+				nodeBranch = +node.branch;
+
+			if (nodeSubBranch != 0)
+				node.sub_branch = '' + nodeSubBranch;
+			if (nodeSubBranch == 0 && node.sub_branch)
+				nodeSubBranch = +node.sub_branch;
+
+			if (nodeSubSubBranch != 0)
+				node.sub_sub_branch = '' + nodeSubSubBranch;
+			if (nodeSubSubBranch == 0 && node.sub_sub_branch)
+				nodeSubSubBranch = +node.sub_sub_branch;
+
+    })
+    family.iddom = 'family-' + family.nodes[0].id;
+    if (family['children']) {
+      nodeLevel++;
+      let cIdx = 1;
+      family['children'].forEach(child => {
+        this.buildChildNodes(family.nodes[0], child, nodeLevel, nodeBranch, nodeSubBranch, nodeSubSubBranch, cIdx);
+        cIdx++;
+      })
+    }
+  }
+  
+  // --- People ---
+
+	searchPeopleNodes(family, searchStr) {
+    if (DEBUGS.NODE)
+      console.log('NodePage - startSearch - searchStr: ', searchStr)
+    // remove Generation
+    // name: Đoàn Văn Phê (D7-18)
+		// get name, idlevel
+		let idx = searchStr.indexOf('(');
+		let name = searchStr.substring(0, idx).trim();
+		let iLevel1 = searchStr.indexOf(' ', idx);
+		let iLevel2 = searchStr.indexOf(',', iLevel1);
+		let level = searchStr.substring(iLevel1 + 1, iLevel2);
+
+		// let idxLast = searchStr.indexOf(')', idx);
+		// if (searchStr.charAt(idxLast - 1) == 'c' || searchStr.charAt(idxLast - 1) == 'v')
+		// 	idxLast--;
+		// let idlevel = searchStr.substring(idx+2, idxLast);
+
+		// console.log('NodePage - name: ', name, idlevel)
+		let nodeSelect = null;
+		// search thru all nodes
+    let nodes:Node[] = this.nodeService.getFamilyNodes(family);
+		console.log('NodePage - nodes: ', nodes)
+    nodes.forEach((node:any) => {
+      // reset nclass
+      node.nclass = this.nodeService.updateNclass(node);
+			if (node.name == name && node.level == level) {
+			// if (node.name == name && node.idlevel == idlevel) {
+			// if (node.name == name) {
+				node.nclass = 'select';
+				nodeSelect = node;
+			}
+    })
+		if (DEBUGS.NODE)
+      console.log('searchPeopleNodes - nodeSelect: ', nodeSelect)
+		return nodeSelect;
+>>>>>>> Stashed changes
   }
 
   // private loadAncestor(): Promise<any> {

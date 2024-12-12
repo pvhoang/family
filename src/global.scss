@@ -517,6 +517,7 @@ ion-tab-button {
   background: var(--app-background-color);
 }
 
+<<<<<<< Updated upstream
 .contact-icon-small {
   font-size: $icon_font_size_small;
   color: var(--app-color);
@@ -524,6 +525,296 @@ ion-tab-button {
 }
 
 .contact-grid {
+=======
+.alert-dialog {
+  --height: var(--app-alert-height);
+  .alert-wrapper {
+    background-image: var(--url-ion-content-alert);
+    background-position: center center;
+    min-width: var(--app-alert-width);
+    .alert-head{
+      background: var(--app-background-color);
+      height:40px;
+      width: 90%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top:10px;
+      margin-bottom:10px;
+      margin-left:20px;
+      h2 {
+        // color: var(--app-color);
+        background-color: var(--app-background-color);
+        font-size: var(--app-alert-font-size);
+				color: var(--app-color);
+      }
+    }
+    .alert-message {
+      text-align: left;
+      font-size: var(--app-alert-font-size);
+      color: black;
+			// color: var(--app-color);
+      // line-height: 120%;
+      line-height: 100%;
+    }
+    .alert-button-group {
+      justify-content: center;
+      height: 26px;
+      margin-top: 26px;
+    }
+    .alert-button:first-child {
+      // color: var(--app-color);
+			color: var(--app-color);
+      background-color: var(--app-background-color);
+      height: 26px;
+      text-transform: none;
+			text-align: center;
+    }
+    .alert-button:nth-child(1){
+      // color: var(--app-color);
+			color: var(--app-color);
+      background-color: var(--app-background-color);
+      height: 26px;
+      text-transform: none;
+			text-align: center;
+    }
+    .alert-button:nth-child(2){
+      background-color: var(--app-background-color);
+      // color: var(--app-color);
+			color: var(--app-color);
+      height: 26px;
+      text-transform: none;
+			text-align: center;
+    }
+		.alert-button:nth-child(3){
+      background-color: var(--app-background-color);
+      // color: var(--app-color);
+			color: var(--app-color);
+      height: 26px;
+      text-transform: none;
+			text-align: center;
+    }
+		.alert-button:nth-child(4){
+      background-color: var(--app-background-color);
+      // color: var(--app-color);
+			color: var(--app-color);
+      height: 26px;
+      text-transform: none;
+			text-align: center;
+    }
+		.alert-button:nth-child(5){
+      background-color: var(--app-background-color);
+      // color: var(--app-color);
+			color: var(--app-color);
+      height: 26px;
+      text-transform: none;
+			text-align: center;
+    }
+    .alert-image{
+      // height: 150px;
+      // width: 80%;
+      // justify-content: center;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+    }
+		.alert-input{
+      height: 26px;
+    }
+  }
+}
+
+.toast-dialog {
+  --height: var(--app-toast-height);
+  --width: var(--app-toast-width);
+  --background: var(--app-background-color);
+	color: var(--app-color);
+  &::part(message) {
+    // text-align: center;
+    text-align: left;
+    font-size: var(--app-toast-font-size);
+		// color: var(--app-color);
+  }
+}
+
+.toast-wait {
+  --height: 70px;
+  // color: var(--app-color);
+	color: var(--app-color);
+  font-size: var(--app-toast-font-size);
+  .toast-wrapper {
+    min-width: var(--app-toast-width) !important;
+    .toast-button:first-child {
+      color: grey;
+    }
+    .toast-head {
+      h2 {
+        // color: var(--app-color);
+				color: var(--app-color);
+        background-color: var(--app-background-color);
+        font-size: var(--app-toast-font-size);
+      }
+    }
+    .toast-button-group {
+      justify-content: center;
+    }
+    .toast-button:nth-child(1){
+      // color: red;
+      color: var(--app-background-color);
+    }
+    .toast-button:nth-child(2){
+      // color: blue;
+      color: grey;
+    }
+  }
+  &::part(message) {
+    text-align: center;
+    font-size: var(--app-toast-font-size);
+  }
+}
+
+// --- POPOVER ---
+
+.popover {
+  --min-height: var(--app-alert-height) !important;
+  --min-width: var(--app-alert-min-width) !important;
+  .popover-heading {
+    .label {
+      font-size: var(--app-text-font-size-medium);
+    }
+    .icon {
+      background: var(--app-background-color);
+      font-size: var(--app-icon-font-size-medium);
+      color: var(--app-color);
+    }
+    .span {
+      background-color: var(--app-background-color);
+      // color: var(--app-color);
+			color: var(--app-color);
+      height: 30px;
+      font-size: var(--app-text-font-size-medium);
+      padding-top: 0px;
+      padding-bottom: 10px;
+      padding-right: 10px;
+      padding-left: 10px;
+    }
+  }
+  .message {
+    margin-left:20px;
+    margin-right:10px;
+    font-size: var(--app-icon-font-size-medium);
+  }
+  .image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+  }
+}
+
+// --- person.page.html ---
+
+* {box-sizing: border-box;}
+
+.img-magnifier-container {
+  position:relative;
+}
+
+.img-magnifier-glass {
+  position: absolute;
+  border: 3px solid #000;
+  border-radius: 50%;
+  cursor: none;
+  /*Set the size of the magnifier glass:*/
+  width: 100px;
+  height: 100px;
+}
+
+.person-tomb-image {
+	&:hover{
+		transform:scale(2.0);
+	}
+}
+
+.person-container {
+	width: 100%;
+  height: 100%;
+	.person-image {
+		// padding-left: 20%;
+		padding-left: 10%;
+		// width: 60%;						
+		width: 80%;						
+		// height: 100%;						
+		// padding-right: 20%;
+		margin: 0 auto;
+		// display: flex;
+		// align-items: center;
+		// justify-content: left;
+	}
+	.person-tree {
+		width: 100%;						
+		margin: 0 auto;
+	}
+	.person-desc {
+		width: 100%;
+		margin: 0 auto;
+		font-size: var(--app-text-font-size-tiny);
+
+		.person-section{
+			// background: var(--app-background-color);
+			// color: var(--app-color);
+			border: solid 2px var(--app-background-color);
+			border-radius: 5px;
+			color: var(--app-background-color);
+			// color: var(--app-color);
+			font-size: var(--app-text-font-size-tiny);
+			height:26px;
+			position: relative; 
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: left;
+			.span{
+				margin: 0;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				-ms-transform: translate(-50%, -50%);
+				transform: translate(-50%, -50%);
+			}
+		}
+		.person-textarea{
+			border: solid 1px var(--app-background-color);
+			border-radius: 5px;
+			margin-top: 5px;
+			margin-bottom: 5px;
+			font-size: 100%;
+			.p-center {
+				text-align: center;
+			}
+			.p-right {
+				text-align: right;
+			}
+		}
+	}
+}
+
+// --- vnode.page.html ---
+
+.vnode-container {
+	width: 100%;
+  height: 40%;
+	.vnode-tree {
+		width: 100%;						
+		margin: 0 auto;
+	}
+}
+
+// --- GRID ---
+
+.grid {
+>>>>>>> Stashed changes
   --ion-grid-column-padding: 10px;
   border-collapse: collapse;
   border-style: hidden;

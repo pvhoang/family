@@ -1,0 +1,107 @@
+.editor-filer {
+	width: var(--app-modal-width);
+	// height: var(--app-panel-height-small);
+	// display: flex; 
+  // align-items: center;
+	// margin: auto;
+
+  .label{
+    font-weight: bold;
+    font-size: var(--app-text-font-size-small);
+		background-color: var(--app-background-color);
+		color: var(--app-color);
+  }
+  .select{
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: var(--app-text-font-size-small);
+		border: 1px solid red;
+		border-radius: 5px;
+		// box-shadow: none;
+  }
+}
+
+.editor-filer-header {
+  --background: var(--app-background-color) center / 100%;
+  height: var(--app-panel-height-medium);
+	width: 100%;
+	display: flex; 
+  align-items: center;
+	margin: auto;
+  .heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .icon {
+      font-size: var(--app-icon-font-size-medium);
+      color: var(--app-color);
+    }
+    .label {
+      font-size: var(--app-text-font-size-large);
+      color: var(--app-color);
+    }
+    .button {
+      --padding-start: 5px;
+      --padding-end: 5px;
+    }
+  }
+}
+
+.editor-filer-grid {
+  width: 100%;
+	// .width-80 {
+	// 	width: 80%;
+	// }
+  ion-row:first-child {
+		color: var(--app-color);
+    background-color: var(--app-background-color);
+		// font-size: var(--app-text-font-size-small);
+  }
+  ion-col {
+    border: 1px solid black;
+    border-bottom: 0;
+    border-right: 0;
+  }
+  ion-col:last-child {
+    border-right: 1px solid black;
+  }
+  ion-row:last-child {
+    border-bottom: 1px solid black;
+		// font-size: var(--app-text-font-size-small);
+  }
+	.column {
+		height: var(--app-panel-height-small);
+		display: flex;
+		align-items: center;
+		// justify-content: center;
+		.left {
+			text-align: left !important;
+		}
+		.center {
+			text-align: center !important;
+		}
+		.right {
+			text-align: right !important;
+		}
+		// .left {
+		// 	margin-left:0px;
+		// }
+		.icon {
+			font-size: var(--app-icon-font-size-small);
+			color: var(--app-color);
+			background: var(--app-background-color);
+		}
+		.label {
+			font-size: var(--app-text-font-size-small);
+			color: var(--app-color);
+		}
+		.label-black {
+			font-size: var(--app-text-font-size-small);
+			color: black;
+		}
+		.button {
+			--padding-start: 5px;
+			--padding-end: 5px;
+		}
+	}
+}

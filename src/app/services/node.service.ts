@@ -257,6 +257,7 @@ export class NodeService {
     values.name = node.name;
     values.nick = node.nick;
     values.gender = node.gender;
+<<<<<<< Updated upstream
     values.yob = (node.yob == '') ? null : {name: node.yob};
     values.yod = (node.yod == '') ? null : {name: node.yod};
     values.pob = (node.pob == '') ? null : {name: node.pob};
@@ -265,6 +266,35 @@ export class NodeService {
     values.desc = node.desc;
     values.dod_day = (node.dod == '') ? null : {name: node.dod.substring(0,2)};
     values.dod_month = (node.dod == '') ? null : {name: node.dod.substring(3)};
+=======
+    values.yob = (node.yob == '') ? null : node.yob;
+    values.yod = (node.yod == '') ? null : node.yod;
+    values.pob = (node.pob == '') ? null : node.pob;
+    values.pod = (node.pod == '') ? null : node.pod;
+    values.por = (node.por == '') ? null : node.por;
+    values.job = (node.job == '') ? null : node.job;
+    // values.desc = node.desc;
+    values.desc = node.desc.join('\n');
+
+		// if (Array.isArray(this.values.desc)) {
+			// 	let str = '';
+			// 	this.values.desc.forEach((item:any) => {
+			// 		str += item + '\n';
+			// 	})
+			// 	this.values.desc = str;
+			// }
+
+    values.photo = (node.photo) ? node.photo : '';
+		let dod = node.dod;
+		let idx = dod.indexOf('/');
+		if (idx > 0) {
+			values.dod_day = dod.substring(0, idx);
+			values.dod_month = dod.substring(idx + 1);
+		} else {
+			values.dod_day = null;
+			values.dod_month = null;
+		}
+>>>>>>> Stashed changes
     return values;
   }
 
@@ -286,12 +316,22 @@ export class NodeService {
     node.pob = pob;
     node.pod = pod;
     node.por = por;
+<<<<<<< Updated upstream
     node.desc = values.desc;
     // node.dod = values.dod;
     node.dod = (values.dod_day && values.dod_month) ? (values.dod_day.name + '/' + values.dod_month.name) : '';
+=======
+    node.job = job;
+    node.desc = values.desc.split('\n');
+
+    node.photo = values.photo;
+    node.dod = (dod_day == '' && dod_month == '') ? '' : dod_day + '/' + dod_month;
+>>>>>>> Stashed changes
     return change;
   }
+	
 
+<<<<<<< Updated upstream
   public isNodeChanged(node: any, values:any) {
     let yob = values.yob ? values.yob.name : '';
     let yod = values.yod ? values.yod.name : '';
@@ -299,6 +339,44 @@ export class NodeService {
     let pod = values.pod ? values.pod.name : '';
     let por = values.por ? values.por.name : '';
     let dod = (values.dod_day && values.dod_month) ? (values.dod_day.name + '/' + values.dod_month.name) : '';
+=======
+	public updateNode(node: any, values: any) {
+    // console.log('values: ', values);
+    let change = this.isNodeChanged(node, values);
+
+    let yob = values.yob ? values.yob : '';
+    let yod = values.yod ? values.yod : '';
+    let pob = values.pob ? values.pob : '';
+    let pod = values.pod ? values.pod : '';
+    let por = values.por ? values.por : '';
+    let job = values.job ? values.job : '';
+
+    node.name = values.name;
+    node.nick = values.nick;
+    node.gender = values.gender;
+    node.yob = yob;
+    node.yod = yod;  
+    node.pob = pob;
+    node.pod = pod;
+    node.por = por;
+    node.job = job;
+		
+    node.desc = values.desc.split('\n');
+
+    node.photo = values.photo;
+    // node.dod = values.dod;
+    node.dod = (values.dod_day && values.dod_month) ? (values.dod_day + '/' + values.dod_month) : '';
+    return change;
+  }
+
+	public isNodeChanged(node: any, values:any) {
+    let yob = values.yob ? values.yob : '';
+    let yod = values.yod ? values.yod : '';
+    let pob = values.pob ? values.pob : '';
+    let pod = values.pod ? values.pod : '';
+    let por = values.por ? values.por : '';
+    let job = values.job ? values.job : '';
+    let dod = (values.dod_day && values.dod_month) ? (values.dod_day + '/' + values.dod_month) : '';
 
     let change = 
       (node.name != values.name) ||
@@ -309,7 +387,43 @@ export class NodeService {
       (node.pob != pob) ||
       (node.pod != pod) ||
       (node.por != por) ||
+      (node.job != job) ||
+
+      (node.desc.join('\n') != values.desc) ||
+
+      (node.photo != values.photo) ||
+      (node.dod != dod);
+    return change;
+  }
+	
+  public areValuesChanged(node: any, values:any) {
+    let yob = values.yob ? values.yob : '';
+    let yod = values.yod ? values.yod : '';
+    let pob = values.pob ? values.pob : '';
+    let pod = values.pod ? values.pod : '';
+    let por = values.por ? values.por : '';
+    let job = values.job ? values.job : '';
+		let dod_day = values.dod_day ? values.dod_day : '';
+		let dod_month = values.dod_month ? values.dod_month : '';
+		let dod = (dod_day == '' && dod_month == '') ? '' : dod_day + '/' + dod_month;
+>>>>>>> Stashed changes
+
+    let change = 
+      (node.name != values.name) ||
+      (node.nick != values.nick) ||
+      (node.gender != values.gender) ||
+      (node.yob != yob) ||
+      (node.yod != yod) ||
+      (node.pob != pob) ||
+      (node.pod != pod) ||
+      (node.por != por) ||
+<<<<<<< Updated upstream
       (node.desc != values.desc) ||
+=======
+      (node.job != job) ||
+      (node.desc.join('\n') != values.desc) ||
+      (node.photo != values.photo) ||
+>>>>>>> Stashed changes
       (node.dod != dod);
     return change;
   }

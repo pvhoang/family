@@ -1,0 +1,301 @@
+node:  Phan Văn Nguyên Phan Văn Nghi [
+  'w|Hà Thị Để',
+  'w|Hà Thị Nghiêm',
+  'w|Hà Thị Ố',
+  'd|Bà Để',
+  's|Phan Văn Vũ (Phủ)(*)',
+  's|Phan Văn Dương (Rạng)(*)',
+  's|Phan Văn Dắng|Lập nghiệp và mất tại Quảng Nam (Ngày 04-03)',
+  's|Phan Văn Duy|Mất 27/03, táng tại Đồng phần bản quán',
+  'd|Bà Nghiêm',
+  's|Phan Văn Trích (Tịch)(*)',
+  's|Phan Văn Đăng',
+  'd|Phan Thị Tiếu',
+  'd|Phan Thị Kiều',
+  'd|Bà Ố',
+  's|Phan Văn Tốt(*)',
+  'd|Phan Thị Thả',
+  's|Phan Văn Lý',
+  'd|Phan Thị Thọ'
+]
+node:  Phan Văn Tốt Phan Văn Nguyên [
+  'w|Hoàng Thị Hữu',
+  's|Phan Viên|Mất 16/03',
+  's|Phan Văn Sen(*)|Mất 10/02',
+  's|Phan Gọi|Mất 07/09',
+  'd|Phan Thị Chất',
+  'd|Phan Thị Âm',
+  'd|Phan Thị Don'
+]
+node:  Phan Văn Sen Phan Văn Tốt [ 'w|Trần Thị Ngọ', 's|Phan Văn Đình(*)', 's|Phan Văn Lợ(*)' ]
+node:  Phan Văn Đình Phan Văn Sen [
+  'w|Phạm Thị Con',
+  's|Phan Yêm (Yêm Chú)(*)| sinh giờ Tuất 06-09-Tân Mùi',
+  'd|Phan Thị Lào|tuổi Tuất',
+  'd|Phan Thị Thịu|tuổi Dần',
+  's|Phan Văn Bủng|Sinh 1929 mất 02-05-1968'
+]
+node:  Phan Văn Yêm Phan Văn Đình [
+  's|Phan Thương|mất lúc hơn hai mươi tuổi chưa vợ con sinh 06-06-1943 mất 13-06-1968',
+  'd|Phan Thị Nhớ|sinh 07-01-1945 chồng là Nguyễn Đình Con',
+  's|Phan Câu| 25-05-1949 mất 25-05-1985',
+  'd|Phan Thị Mịn|sinh 27-12-1950, chồng là Hà Công Quýnh',
+  'd|Phan Thị Màng|sinh 21-11-1953, chồng là Hà Công Phưởng',
+  's|Phan Văn Thu| sinh 27-12-1957 vợ là Lê Thị Minh',
+  's|Phan Văn Đông|06-11-1959 vợ Lê Thị Mai (Con Ông Thành)',
+  'd|Phan Thị Mảng|Sinh 15-07-1962 chồng Lê Văn Lưởng'
+]
+node:  Phan Văn Lợ Phan Văn Sen [
+  'w|Nguyễn Thị Thới',
+  'd|Phan Thị Bé| sinh 16-09-1923(Năm Quý Hợi)',
+  's|Phan Văn Đen (Châu)(*)|Sinh 27-07-1926(Canh Dần), mất 10-02',
+  'd|Phan Thị Đỉu| sinh 20-10-1928',
+  's|Phan Văn Điệt(*)|sinh 10-10-1931',
+  's|Phan Văn Hân(*)|sinh 05-05-1935',
+  'd|Phan Thị Vân| sinh 05-01-1943'
+]
+node:  Phan Văn Châu Phan Văn Lợ [
+  'd|Phan Thị Hoãn| sinh 08-06-1952 mất 06-10',
+  's|Phan Văn Trung|sinh 30-11-1956',
+  's|Phan Văn Nghĩa|sinh 23-01-1961',
+  'd|Phan Thị Hiếu|sinh 25-07-1958',
+  'd|Phan Văn Nghĩa|sinh 23-01-1961 mất 29-05',
+  'd|Phan Thị Nhân',
+  's|Phan Văn Dũng',
+  'd|Phan Thị Tiến',
+  'Ông Phan Đen là người có công lớn trong việc quyên góp và hoàn thành khu lăng mộ của dòng tộc Phan ta (1995), là người nối tiếp chức trưởng họ từ Ông Phan Văn Yêm, kế tục truyền thống kết nối kêu gọi đoàn kết dòng tộc, gìn giữ mồ mã từng là đội trưởng sản xuất phụ trách cái ăn, sinh hoạt một khu vực của làng Đồng Phú vào những năm 1945-1975, một người lãnh đạo chòm xóm mẫu mực có trách nhiệm được chính phủ Việt Nam dân chủ Cộng Hòa tặng huân chương kháng chiến chống Mỹ hạng hai'
+]
+node:  Phan Văn Điệt Phan Văn Lợ [
+  'w|Trần Thị Gấy',
+  's|Phan Văn Vương| 1959',
+  's|Phan Văn Hồng|22-09-1969',
+  's|Phan Văn Sơn|02-01-1972'
+]
+node:  Phan Văn Hân Phan Văn Lợ [
+  'w|Nguyễn Thị Chương|1941',
+  's|Phan Hạnh|1963 Quý Mão',
+  's|Phan Hóa|1969 Kỷ Dậu',
+  's|Phan Học|1971 Tân Hợi',
+  'd|Phan Thị Hương',
+  'd|Phan Thị Hoa',
+  'Phan Thị Hành'
+]
+node:  Phan Văn Vũ Phan Văn Nguyên [ 'w|Nguyễn Thị Thái|Mất 18/06', 's|Phan Văn Giai(*)|Mất 25/02' ]
+node:  Phan Văn Giai Phan Văn Vũ [
+  'w|Hoàng Thị Nghinh|Mất 10/05',
+  'd|Phan Thị Đức|Mất 29/01. Sinh 02/09 Giáp Tý',
+  's|Phan Văn Giản|Mất 15/08',
+  's|Phan Văn Viện|Mất 21/09',
+  's|Phan Văn Trạc (Kiệm) (*)|Mất 07/01',
+  's|Phan Văn Y|Mất 10/12',
+  's|Phan Văn Hãn|Mất 27/07',
+  'Ông Giai làm thông lại tại Châu Bắc Bố Chính (Quảng Trạch) thuộc phủ Quảng Bình xứ Thuận Hóa, sau đổi đi Sơn Tây, Bắc Việt bị ốm và mất ngày 25-02, cốt được đưa về làng an táng tại xứ Động Phần'
+]
+node:  Phan Văn Trạc Phan Văn Giai [
+  'w|Trần Thị Nhung',
+  's|Phan Văn Nhưng|Mất 01/12',
+  's|Phan Văn Thất(Thỉ)(*)|Sinh 16/08/Canh Tý',
+  'd|Phan Thị Diêm|Mất 02/08',
+  'd|Phan Thị Thiếc|Mất 14/05/Tân Mùi 1991, Sinh 27/08/Ất Tỵ',
+  'd|Phan Thị Mạnh|Mất 18/01/Mậu Sửu',
+  'd|Phan Thị Chót|Mất 26/01',
+  'd|Phan Thị Chiu',
+  '',
+  'Ông Phan Văn Trạc còn có tên khác là Phan Văn Kiệm nhưng tên thường gọi nhất là Ông Cửu Trạc',
+  'Trước đây Ông giữ chức Tự sinh trong xã, đến năm Quý mão bản xã tạo tác Đình làng quyên góp tiền của để được dự vào hàng Hương hộ',
+  'Phan Thị Chiu sinh giờ Tý ngày 04-02-1913(Quý Sửu), mất 0h30 ngày 14-03-1999 tức 27-01 Kỷ Mão hạ quáng lúc 15h30 ngày 28-01-1999 tại Nghĩa Trang Đá Bạc Đồng Sơn Đồng Hới Quảng Bình. Bà Chiu là Vợ Ông LÊ CU là mẹ của bà LÊ THỊ HẢI LÀNH dâu họ phan vợ của Ông PHAN VĂN BA'
+]
+node:  Phan Văn Thất Phan Văn Trạc [
+  'w|Lê Thị Mượn',
+  'w|Trần Thị Tuyệt',
+  'd|Lê Thị Mượn',
+  's|Phan Văn Kỷ|Mất 15/03 - Liệt sỹ chống Pháp',
+  's|Phan Văn Vọng (Cang)|Mất 16/12/Canh Ngọ',
+  'd|Phan Thị Cẩm (Nghêu)|Mất 04/09/Quý Dậu',
+  'd|Phan Thị Liềng (Liên)|Mất 02/09/2002',
+  'd|Phan Thị Huệ|Mất 22/01/Canh Thìn',
+  's|Phan Lượng|Mất 08/04/1944/Giáp thân',
+  'd|Trần Thị Tuyệt',
+  's|Phan Văn Cân (Cang)|Mất 07/05/1968 - Liệt sỹ chống Mỹ'
+]
+node:  Phan Lượng Phan Văn Thất Mẹ: Lê Thị Mượn, Vo: Nguyễn Thị Hường
+node:  Phan Văn Thưởng Phan Văn Vũ [
+  'w|Nguyễn Thị Huệ| 28/10',
+  's|Phan Văn Công| Sinh ngày 27 tháng 12 năm Giáp tý mất ngày 19-10, lấy vợ người Huế nhưng không có con',
+  's|Phan Văn Ấu| sinh ngày 30 tháng 12 năm Đinh Mão, lấy vợ người Huế mất ngày 16-06',
+  's|Phan Văn Dặng|mất ngày 21-02',
+  's|Phan Văn Hóa(Ổi)(*)|mất ngày 29-11'
+]
+node:  Phan Văn Hóa Phan Văn Thưởng [
+  'w|Trần Thị Khan|04/01',
+  'd|Phan Trang|chết trôi ngày 21-06',
+  's|Phan Tây',
+  's|Phan Lưởng| mất 29-08',
+  'd|Phan Thị Thế',
+  'd|Phan Văn Uông|còn gọi là Côi mất 24-11'
+]
+node:  Phan Văn Dương Phan Văn Nguyên [ 'w|Hà Thị Thảo', 's|Phan Lợi Hành(*)' ]
+node:  Phan Lợi Hành Phan Văn Dương [
+  'w|Trần Thị Khương',
+  'w|Trần Thị Ninh',
+  'w|Hà Thị Duyên',
+  's|Phan Bá Liễn(Phan Khắc Tuần)',
+  's|Phan Văn Nghĩa',
+  'd|Phan Thị Liên',
+  's|Phan Tuấn Đức',
+  's|Phan Hàm',
+  's|Phan Thị Nhàn',
+  's|Phan Văn Nuông',
+  's|Phan Thị Đội',
+  's|Phan Văn Trưng(*)'
+]
+node:  Phan Văn Trưng Phan Lợi Hành [
+  'w|Hoang Thị Tha',
+  's|Phan Bá Kiều',
+  's|Phan Tất Đắc(Lãnh The)(*)',
+  's|Phan Thị Dong',
+  's|Phan Lợi Vang'
+]
+node:  Phan Tất Đắc Phan Văn Trưng [
+  'w|Nguyễn Thị Thương',
+  'w|Trần Thị Nậy',
+  'w|Thị Trúc',
+  's|Thương',
+  'd|Phan Thị Lợi',
+  'd|Phan Thị Châu',
+  's|Nậy',
+  'd|Phan Văn Đai',
+  'd|Phan Thị Thỉu',
+  'd|Phan Thị Kha',
+  'd|Phan Bình An(*)',
+  'd|Phan Phú Định(*)',
+  's|Trúc',
+  'd|Phan Thị Tép'
+]
+node:  Phan Bình An Phan Tất Đắc [
+  's|Phan Ngọc Ái(*)|Mất 22/04',
+  's|Phan Ngọc Ân(*)|Mất 22/04',
+  'd|Phan Thị Việt Bích',
+  's|Phan Ngọc Tuấn(*)|Mất 22/04',
+  'd|Phan Thị Giáng Hương|Mất ???'
+]
+node:  Phan Phú Định Phan Tất Đắc [
+  'Mẹ: Trần Thị Nậy',
+  'd|Phan Thị Kim Oanh',
+  'd|Phan Thị Kim Loan',
+  's|Phan Phú Đạt',
+  's|Phan Anh Ngọc',
+  's|Phan Anh Tuấn',
+  'd|Phan Thị Kim Anh'
+]
+node:  Phan Văn Nghĩa Phan Lợi Hành 
+node:  Phan Khắc Tuần Phan Lợi Hành [
+  'w|Nguyễn Thị Huân',
+  'd|Phan Thị Khuân',
+  'd|Phan Thị Lương',
+  'd|Phan Ngọc Luật(*)',
+  'd|Phan Thị Thiết'
+]
+node:  Phan Ngọc Luật Phan Khắc Tuần [
+  'w|Võ Thị Ngàn',
+  'w|Trần Thị Lan',
+  's|Bà Ngàn',
+  'd|Phan Thị Ké',
+  'd|Phan Thị Cáo (Trợ bang)(*)',
+  's|Phan Duấn(*)',
+  's|Phan Chút',
+  's|Phan Dính(Hinh)(*)',
+  's|Phan Quang Ngự(*)',
+  's|Phan Khắc Phúc(*)',
+  's|Bà Lan',
+  's|Phan Ngọc Tường(*)',
+  'd|Phan Thị Bẹp'
+]
+node:  Phan Thị Cáo Phan Ngọc Luật [
+  'h|Phan Văn Thanh',
+  's|Phan Văn Ky',
+  's|Phan Văn Tô',
+  'd|Phan Thị Bạch Vân',
+  'd|Phan Thị Liên'
+]
+node:  Phan Thị Ké Phan Ngọc Luật [ 'h|Hoàng Thung', 's|Hoàng Duc Quang' ]
+node:  Phan Duấn Phan Ngọc Luật [
+  'w|Phan Thị Quyên',
+  's|Phan Văn Phùng',
+  'd|Phan Thị Bạch Yến',
+  's|Phan Văn Trường',
+  's|Phan Khắc Hưng',
+  's|Phan Văn Trường',
+  's|Phan Thị Hồng Nhạn (Thu Sương)'
+]
+node:  Phan Dính Phan Ngọc Luật [
+  'h|Đoàn Thị Thí',
+  'd|Phan Thị Kim Hải',
+  's|Phan Viết Châu',
+  'd|Phan Thị Tuyết',
+  's|Phan Viết Anh',
+  's|Phan Ngọc Danh',
+  's|Phan Văn Vĩnh',
+  's|Phan Viết Hoàng',
+  's|Phan Thị Cẩm Thành',
+  's|Phan Thị Cẩm Nhung',
+  's|Phan Thị Cẩm Phương'
+]
+node:  Phan Thị Kim Hải Phan Dính [
+  'h|Trần Bông',
+  's|Trần Trung Bảo',
+  's|Trần Thị Ngân Hà',
+  's|Trần Thị Vân'
+]
+node:  Phan Viết Châu Phan Dính [ 'w|Nguyễn Thị Hương', 's|Phan Chánh Pháp' ]
+node:  Phan Thị Tuyết Phan Dính [
+  'h|Nguyễn Văn Bản',
+  's|Nguyễn Phan Bình',
+  's|Nguyễn Phan Hoàng Nam',
+  's|Nguyễn Phan Việt Bắc'
+]
+node:  Phan Viết Anh Phan Dính [
+  'w|Nguyễn Thị Thái Phương',
+  's|Phan Thị Phương Thư',
+  's|Phan Nhật Huy'
+]
+node:  Phan Ngọc Danh Phan Dính [ 'w|Nguyễn Thị Thu Hương', 's|Phan Thị Đỗ Quyên', 's|Phan Lam Duy' ]
+node:  Phan Viết Hoàng Phan Dính [ 's|Phan Anh Quân' ]
+node:  Phan Thị Minh Tâm Phan Dính [
+  'h|Huỳnh Lễ',
+  'd|Huỳnh Thị Lộ',
+  'd|Huỳnh Thị Thanh Nhàn',
+  'd|Huỳnh Thị Lộc'
+]
+node:  Phan Thị Cẩm Phương Phan Dính [ 'h|Nguyễn Đăng Dung', 's|Nguyễn Đăng Hưng', 's|Nguyễn Đăng Thịnh' ]
+node:  Phan Quang Ngự Phan Ngọc Luật [
+  'w|Trần Thị Cút',
+  's|Phan Văn Ba',
+  'd|Phan Thị Tư',
+  'd|Phan Văn Năm',
+  'd|Phan Văn Sáu',
+  'd|Phan Văn Bảy',
+  'd|Phan Văn Tám',
+  'd|Phan Thị Chín'
+]
+node:  Phan Khắc Phúc Phan Ngọc Luật [
+  'w|Nguyễn Thị Thuận',
+  'd|Phan Ngọc Trinh',
+  'd|Phan Ngọc Minh',
+  's|Phan Anh Dũng',
+  'd|Phan Ngọc Mai',
+  'd|Phan Ngọc Trâm',
+  's|Phan Anh Tuấn',
+  's|Phan Anh Ngọc',
+  's|Phan Anh Tùng'
+]
+node:  Phan Ngọc Tường Phan Ngọc Luật [ 'w|Lê Thị Xuân Mỹ', 'd|Phan Thị Mỹ Linh', 'd|Phan Thị Tường Tâm' ]
+node:  Phan Quang Triệt Phan Khắc Tuần [
+  'w|???',
+  'd|Phan Thị Nhượng',
+  's|Phan Quang Phục(*)',
+  'd|Phan Thị Mẹt',
+  'd|Phan Thị Nhường'
+]
+node:  Phan Quang Phục Phan Quang Triệt 
+node:  Phan Văn Trích Phan Văn Nguyên [ 'w|Hà Thị Nghiễm', 'w|Trần Thị Ninh', 's|Phan Văn Nhuận(Cẩu Tha)' ]

@@ -303,7 +303,108 @@ export class UtilService {
     return result;
 	}
 
+<<<<<<< Updated upstream
 	async presentToastWait(srcHeader, srcMessage, okText) {
+=======
+	async alertNotification(srcHeader, inputs: any[], cancelText: any, saveText: any, deleteText: any, addText: any, sendText: any, dialogDim?: any) {
+		let header = this.languageService.getTranslation(srcHeader);
+		if (!header)
+			header = srcHeader;
+		// addText = this.languageService.getTranslation(addText);
+		// sendText = this.languageService.getTranslation(sendText);
+		let css = 'alert-dialog';
+		if (!dialogDim)
+			dialogDim = { width: 550, height: 500 };
+		this.themeService.setAlertSize(dialogDim);
+
+		let buttons = [];
+
+		if (sendText) {
+			sendText = this.languageService.getTranslation(sendText);
+			buttons.push({
+				text: sendText,
+				handler: (data: any) => {
+					alert.dismiss(['SEND', data]);
+					return false;
+				}
+			});
+		}
+		
+		if (addText) {
+			addText = this.languageService.getTranslation(addText);
+			buttons.push({
+				text: addText,
+				handler: (data: any) => {
+					alert.dismiss(['ADD', data]);
+					return false;
+				}
+			});
+		}
+
+		if (deleteText) {
+			deleteText = this.languageService.getTranslation(deleteText);
+			buttons.push({
+				text: deleteText,
+				handler: (data: any) => {
+					alert.dismiss(['DELETE', data]);
+					return false;
+				}
+			});
+		}
+
+		if (saveText) {
+			saveText = this.languageService.getTranslation(saveText);
+			buttons.push({
+				text: saveText,
+				handler: (data: any) => {
+					alert.dismiss(['SAVE', data]);
+					return false;
+				}
+			});
+		}
+
+		if (cancelText) {
+			cancelText = this.languageService.getTranslation(cancelText);
+			buttons.push({
+				text: cancelText,
+				handler: (data: any) => {
+					alert.dismiss(['CANCEL', data]);
+					return false;
+				}
+			});
+		}
+		
+		let alert = await this.alertController.create({
+      header: header,
+			cssClass: css,
+			inputs: inputs,
+      buttons: buttons,
+      // buttons: [
+      //   {
+      //     text: cancelText,
+      //     handler: (data: any) => {
+			// 			alert.dismiss(false);
+			// 			return false;
+      //     }
+			// 	},
+      //   {
+      //     text: okText,
+      //     handler: (data: any) => {
+			// 			alert.dismiss(data);
+			// 			return false;
+      //     }
+      //   }
+      // ],
+			backdropDismiss: false,
+			mode: "md"
+    });
+    await alert.present();
+		return await alert.onDidDismiss();
+	}
+
+
+	async alertSelect(srcHeader: any, selects: any[], cancelText: any, okText: any) {
+>>>>>>> Stashed changes
 		let header = this.languageService.getTranslation(srcHeader);
 		if (!header)
 			header = srcHeader;

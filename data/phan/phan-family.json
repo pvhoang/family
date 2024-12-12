@@ -1,0 +1,846 @@
+{
+	"title": "FAMILY",
+  "version": "5",
+  "date": "21/06/24",
+  "nodes": [
+    {
+      "name": "Phan Văn Nghi",
+			"root": "1",
+      "gender": "male",
+      "pod": "Đá Bạc, Quảng Bình",
+      "yob": "1854",
+      "desc": [
+"w|Thái Thị Tôn Nương|Mồ không rõ chôn ở đâu",
+"s|Phan Văn Nguyên(*)",
+"d|Phan Thị Nhiễm|Mất 09/07"    ,
+"d|Phan Thị Hoa|Mất 11/10"      ,
+"d|Phan Thị Cúc"     ,
+"d|Phan Thị Phượng|Mất 27/01"
+			]
+    }
+  ],
+  "children": [
+    {
+      "nodes": [
+        {
+          "name": "Phan Văn Nguyên",
+          "gender": "male",
+          "yob": "1874",
+          "pod": "Đá Bạc, Quảng Bình",
+          "dod": "07/05",
+          "desc": [
+"w|Hà Thị Để",
+"w|Hà Thị Nghiêm",
+"w|Hà Thị Ố",
+"d|Bà Để",
+"s|Phan Văn Vũ (Phủ)(*)",
+"s|Phan Văn Dương (Rạng)(*)",
+"s|Phan Văn Dắng|Lập nghiệp và mất tại Quảng Nam (Ngày 04-03)",
+"s|Phan Văn Duy|Mất 27/03, táng tại Đồng phần bản quán",
+"d|Bà Nghiêm",
+"s|Phan Văn Trích (Tịch)(*)",
+"s|Phan Văn Đăng",
+"d|Phan Thị Tiếu",
+"d|Phan Thị Kiều",
+"d|Bà Ố",
+"s|Phan Văn Tốt(*)",
+"d|Phan Thị Thả",
+"s|Phan Văn Lý",
+"d|Phan Thị Thọ"
+					]
+        }
+      ],
+      "children": [
+        {
+          "nodes": [
+            {
+              "name": "Phan Văn Tốt",
+							"branch": "1",
+              "gender": "male",
+              "yob": "1894",
+              "pod": "Quảng Bình",
+              "dod": "09/01",
+              "desc": [
+"w|Hoàng Thị Hữu",
+"s|Phan Viên|Mất 16/03",
+"s|Phan Văn Sen(*)|Mất 10/02",
+"s|Phan Gọi|Mất 07/09",
+"d|Phan Thị Chất",
+"d|Phan Thị Âm",
+"d|Phan Thị Don"
+              ]
+            }
+          ],
+          "children": [
+            {
+              "nodes": [
+                {
+                  "name"  : "Phan Văn Sen"      ,
+                  "gender": "male"              ,
+                  "pod"   : "Đá Bạc, Quảng Bình",
+                  "dod"   : "10/02",
+									"desc": [
+										"w|Trần Thị Ngọ",
+										"s|Phan Văn Đình(*)",
+										"s|Phan Văn Lợ(*)"
+									]
+                }
+              ],
+              "children": [
+                {
+                  "nodes": [
+                    {
+                      "name": "Phan Văn Đình",
+                      "gender": "male",
+                      "pod": "Đá Bạc, Quảng Bình",
+                      "desc": [
+                        "w|Phạm Thị Con",
+                        "s|Phan Yêm (Yêm Chú)(*)| sinh giờ Tuất 06-09-Tân Mùi",
+                        "d|Phan Thị Lào|tuổi Tuất",
+                        "d|Phan Thị Thịu|tuổi Dần",
+                        "s|Phan Văn Bủng|Sinh 1929 mất 02-05-1968"
+                      ]
+                    }
+                  ],
+                  "children": [
+                    {
+                      "nodes": [
+                        {
+                          "name": "Phan Văn Yêm",
+                          "gender": "male",
+                          "pod": "Đá Bạc, Quảng Bình",
+                          "nick": "Chú Yêm",
+                          "yob": "1919",
+                          "yod": "1995",
+                          "dod": "09/08",
+                          "desc": [
+                            "s|Phan Thương|mất lúc hơn hai mươi tuổi chưa vợ con sinh 06-06-1943 mất 13-06-1968",
+                            "d|Phan Thị Nhớ|sinh 07-01-1945 chồng là Nguyễn Đình Con",
+                            "s|Phan Câu| 25-05-1949 mất 25-05-1985",
+                            "d|Phan Thị Mịn|sinh 27-12-1950, chồng là Hà Công Quýnh",
+                            "d|Phan Thị Màng|sinh 21-11-1953, chồng là Hà Công Phưởng",
+                            "s|Phan Văn Thu| sinh 27-12-1957 vợ là Lê Thị Minh",
+                            "s|Phan Văn Đông|06-11-1959 vợ Lê Thị Mai (Con Ông Thành)",
+                            "d|Phan Thị Mảng|Sinh 15-07-1962 chồng Lê Văn Lưởng"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodes": [
+                    {
+                      "name": "Phan Văn Lợ",
+                      "gender": "male",
+                      "pod": "Đá Bạc, Quảng Bình",
+                      "desc": [
+                        "w|Nguyễn Thị Thới",
+                        "d|Phan Thị Bé| sinh 16-09-1923(Năm Quý Hợi)",
+                        "s|Phan Văn Đen (Châu)(*)|Sinh 27-07-1926(Canh Dần), mất 10-02",
+                        "d|Phan Thị Đỉu| sinh 20-10-1928",
+                        "s|Phan Văn Điệt(*)|sinh 10-10-1931",
+                        "s|Phan Văn Hân(*)|sinh 05-05-1935",
+                        "d|Phan Thị Vân| sinh 05-01-1943"
+                      ]
+                    }
+                   
+                  ],
+                  "children": [
+                    {
+                      "nodes": [
+                        {
+                          "name": "Phan Văn Châu",
+                          "gender": "male",
+                          "pod": "Đá Bạc, Quảng Bình",
+                          "nick": "Đen",
+                          "yob": "1930",
+                          "desc": [
+                            "d|Phan Thị Hoãn| sinh 08-06-1952 mất 06-10",
+                            "s|Phan Văn Trung|sinh 30-11-1956",
+                            "s|Phan Văn Nghĩa|sinh 23-01-1961",
+                            "d|Phan Thị Hiếu|sinh 25-07-1958",
+                            "d|Phan Văn Nghĩa|sinh 23-01-1961 mất 29-05",
+                            "d|Phan Thị Nhân",
+                            "s|Phan Văn Dũng",
+                            "d|Phan Thị Tiến",
+
+                            "Ông Phan Đen là người có công lớn trong việc quyên góp và hoàn thành khu lăng mộ của dòng tộc Phan ta (1995), là người nối tiếp chức trưởng họ từ Ông Phan Văn Yêm, kế tục truyền thống kết nối kêu gọi đoàn kết dòng tộc, gìn giữ mồ mã từng là đội trưởng sản xuất phụ trách cái ăn, sinh hoạt một khu vực của làng Đồng Phú vào những năm 1945-1975, một người lãnh đạo chòm xóm mẫu mực có trách nhiệm được chính phủ Việt Nam dân chủ Cộng Hòa tặng huân chương kháng chiến chống Mỹ hạng hai"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "nodes": [
+                        {
+                          "name": "Phan Văn Điệt",
+                          "gender": "male",
+                          "pod": "Đá Bạc, Quảng Bình",
+													"yob": "1931",
+                          "desc": [
+														"w|Trần Thị Gấy",
+                            "s|Phan Văn Vương| 1959",
+                            "s|Phan Văn Hồng|22-09-1969",
+                            "s|Phan Văn Sơn|02-01-1972"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "nodes": [
+                        {
+                          "name": "Phan Văn Hân",
+                          "gender": "male",
+                          "nick": "Chú Hân",
+                          "yob": "1935",
+                          "desc": [
+														"w|Nguyễn Thị Chương|1941",
+														"s|Phan Hạnh|1963 Quý Mão",
+                            "s|Phan Hóa|1969 Kỷ Dậu",
+                            "s|Phan Học|1971 Tân Hợi",
+                            "d|Phan Thị Hương",
+														"d|Phan Thị Hoa",
+														"Phan Thị Hành"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nodes": [
+            {
+              "name"  : "Phan Văn Vũ"       ,
+							"branch": "2",
+              "gender": "male"              ,
+              "pod"   : "Đá Bạc, Quảng Bình",
+              "dod"   : "04/02",
+							"desc": [
+"w|Nguyễn Thị Thái|Mất 18/06",
+"s|Phan Văn Giai(*)|Mất 25/02"
+							]
+            }
+          ],
+          "children": [
+            {
+              "nodes": [
+                {
+                  "name": "Phan Văn Giai",
+                  "gender": "male",
+                  "nick": "Quế",
+                  "dod": "25/02",
+                  "desc": [
+"w|Hoàng Thị Nghinh|Mất 10/05",
+"d|Phan Thị Đức|Mất 29/01. Sinh 02/09 Giáp Tý",
+"s|Phan Văn Giản|Mất 15/08",
+"s|Phan Văn Viện|Mất 21/09",
+"s|Phan Văn Trạc (Kiệm) (*)|Mất 07/01",
+"s|Phan Văn Y|Mất 10/12",
+"s|Phan Văn Hãn|Mất 27/07",
+"Ông Giai làm thông lại tại Châu Bắc Bố Chính (Quảng Trạch) thuộc phủ Quảng Bình xứ Thuận Hóa, sau đổi đi Sơn Tây, Bắc Việt bị ốm và mất ngày 25-02, cốt được đưa về làng an táng tại xứ Động Phần"
+                  ]
+                }
+              ],
+              "children": [
+                {
+                  "nodes": [
+                    {
+                      "name": "Phan Văn Trạc",
+                      "gender": "male",
+                      "pod": "Đá Bạc, Quảng Bình",
+                      "yob": "1871",
+                      "pob": "Quảng Bình",
+                      "dod": "07/01",
+                      "desc": [
+"w|Trần Thị Nhung",
+"s|Phan Văn Nhưng|Mất 01/12",
+"s|Phan Văn Thất(Thỉ)(*)|Sinh 16/08/Canh Tý",
+"d|Phan Thị Diêm|Mất 02/08",
+"d|Phan Thị Thiếc|Mất 14/05/Tân Mùi 1991, Sinh 27/08/Ất Tỵ",
+"d|Phan Thị Mạnh|Mất 18/01/Mậu Sửu",
+"d|Phan Thị Chót|Mất 26/01",
+"d|Phan Thị Chiu",
+"",
+"Ông Phan Văn Trạc còn có tên khác là Phan Văn Kiệm nhưng tên thường gọi nhất là Ông Cửu Trạc",
+"Trước đây Ông giữ chức Tự sinh trong xã, đến năm Quý mão bản xã tạo tác Đình làng quyên góp tiền của để được dự vào hàng Hương hộ",
+"Phan Thị Chiu sinh giờ Tý ngày 04-02-1913(Quý Sửu), mất 0h30 ngày 14-03-1999 tức 27-01 Kỷ Mão hạ quáng lúc 15h30 ngày 28-01-1999 tại Nghĩa Trang Đá Bạc Đồng Sơn Đồng Hới Quảng Bình. Bà Chiu là Vợ Ông LÊ CU là mẹ của bà LÊ THỊ HẢI LÀNH dâu họ phan vợ của Ông PHAN VĂN BA"
+                      ]
+                    }
+                  ],
+                  "children": [
+                    {
+                      "nodes": [
+                        {
+                          "name": "Phan Văn Thất",
+                          "gender": "male",
+                          "pod": "Đá Bạc, Quảng Bình",
+                          "yob": "1900",
+                          "nick": "Tự Thỉ",
+                          "desc": [
+"w|Lê Thị Mượn",
+"w|Trần Thị Tuyệt",
+"d|Lê Thị Mượn",
+"s|Phan Văn Kỷ|Mất 15/03 - Liệt sỹ chống Pháp",
+"s|Phan Văn Vọng (Cang)|Mất 16/12/Canh Ngọ",
+"d|Phan Thị Cẩm (Nghêu)|Mất 04/09/Quý Dậu",
+"d|Phan Thị Liềng (Liên)|Mất 02/09/2002",
+"d|Phan Thị Huệ|Mất 22/01/Canh Thìn",
+"s|Phan Lượng|Mất 08/04/1944/Giáp thân",
+"d|Trần Thị Tuyệt",
+"s|Phan Văn Cân (Cang)|Mất 07/05/1968 - Liệt sỹ chống Mỹ"
+                          ]
+                        }
+                       
+                      ],
+                      "children": [
+                        {
+                          "nodes": [
+                            {
+                              "name"  : "Phan Lượng"        ,
+                              "gender": "male"              ,
+                              "pod"   : "Đá Bạc, Quảng Bình",
+                              "yob"   : "1944"              ,
+                              "desc"  : "Mẹ: Lê Thị Mượn, Vo: Nguyễn Thị Hường"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodes": [
+                {
+                  "name": "Phan Văn Thưởng",
+                  "gender": "male",
+                  "pod": "Đá Bạc, Quảng Bình",
+                  "nick": "Dương",
+                  "dod": "05/10",
+                  "desc": [
+										"w|Nguyễn Thị Huệ| 28/10",
+                    "s|Phan Văn Công| Sinh ngày 27 tháng 12 năm Giáp tý mất ngày 19-10, lấy vợ người Huế nhưng không có con",
+                    "s|Phan Văn Ấu| sinh ngày 30 tháng 12 năm Đinh Mão, lấy vợ người Huế mất ngày 16-06",
+                    "s|Phan Văn Dặng|mất ngày 21-02",
+                    "s|Phan Văn Hóa(Ổi)(*)|mất ngày 29-11"
+                  ]
+                }
+              ],
+              "children": [
+                {
+                  "nodes": [
+                    {
+                      "name": "Phan Văn Hóa",
+                      "gender": "male",
+                      "pod": "Đá Bạc, Quảng Bình",
+                      "nick": "Ổi",
+                      "dod": "04/11",
+                      "desc": [
+												"w|Trần Thị Khan|04/01",
+                        "d|Phan Trang|chết trôi ngày 21-06"       ,
+                        "s|Phan Tây"                              ,
+                        "s|Phan Lưởng| mất 29-08"                  ,
+                        "d|Phan Thị Thế"               ,
+                        "d|Phan Văn Uông|còn gọi là Côi mất 24-11"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nodes": [
+            {
+              "name": "Phan Văn Dương",
+              "gender": "male",
+							"branch": "3",
+              "pod": "Đá Bạc, Quảng Bình",
+              "nick": "Rạng",
+              "desc": [
+"w|Hà Thị Thảo",
+"s|Phan Lợi Hành(*)"
+              ]
+            }
+          ],
+          "children": [
+            {
+              "nodes": [
+                {
+                  "name": "Phan Lợi Hành",
+                  "gender": "male",
+                  "pod": "Đá Bạc, Quảng Bình",
+                  "yob": "1829",
+                  "yod": "1878",
+                  "desc": [
+"w|Trần Thị Khương",
+"w|Trần Thị Ninh",
+"w|Hà Thị Duyên",
+"s|Phan Bá Liễn(Phan Khắc Tuần)",
+"s|Phan Văn Nghĩa",
+"d|Phan Thị Liên",
+"s|Phan Tuấn Đức",
+"s|Phan Hàm",
+"s|Phan Thị Nhàn",
+"s|Phan Văn Nuông",
+"s|Phan Thị Đội",
+"s|Phan Văn Trưng(*)"
+                  ]
+                }
+              ],
+              "children": [
+                {
+                  "nodes": [
+                    {
+                      "name"  : "Phan Văn Trưng"    ,
+                      "gender": "male"              ,
+											"sub_branch": "1",
+                      "pod"   : "Đá Bạc, Quảng Bình",
+                      "dod"   : "25/02",
+											"desc": [
+"w|Hoang Thị Tha",
+"s|Phan Bá Kiều",
+"s|Phan Tất Đắc(Lãnh The)(*)",
+"s|Phan Thị Dong",
+"s|Phan Lợi Vang"
+											]
+                    }
+                  ],
+                  "children": [
+                    {
+                      "nodes": [
+                        {
+                          "name"  : "Phan Tất Đắc"      ,
+                          "gender": "male"              ,
+                          "pod"   : "Đá Bạc, Quảng Bình",
+                          "nick"  : "Lãnh The"          ,
+                          "yob"   : "1880"              ,
+                          "yod"   : "1947",
+													"desc"  : [
+"w|Nguyễn Thị Thương",
+"w|Trần Thị Nậy",
+"w|Thị Trúc",
+"s|Thương",
+"d|Phan Thị Lợi",
+"d|Phan Thị Châu",
+"s|Nậy",
+"d|Phan Văn Đai",
+"d|Phan Thị Thỉu",
+"d|Phan Thị Kha",
+"d|Phan Bình An(*)",
+"d|Phan Phú Định(*)",
+"s|Trúc",
+"d|Phan Thị Tép"
+                          ]
+                        }
+                      ],
+                      "children": [
+												{
+                          "nodes": [
+                            {
+                              "name"  : "Phan Bình An"      ,
+                              "gender": "male"              ,
+                              "pod"   : "Đá Bạc, Quảng Bình",
+                              "dod"   : "23/07"             ,
+															"desc"  : [
+"s|Phan Ngọc Ái(*)|Mất 22/04",
+"s|Phan Ngọc Ân(*)|Mất 22/04",
+"d|Phan Thị Việt Bích",
+"s|Phan Ngọc Tuấn(*)|Mất 22/04",
+"d|Phan Thị Giáng Hương|Mất ???"
+															]
+														}
+													]
+												},
+                        {
+                          "nodes": [
+                            {
+                              "name"  : "Phan Phú Định"   ,
+                              "gender": "male"            ,
+                              "dod"   : "04/06"           ,
+                              "desc"  : [
+"Mẹ: Trần Thị Nậy",
+"d|Phan Thị Kim Oanh",
+"d|Phan Thị Kim Loan",
+"s|Phan Phú Đạt",
+"s|Phan Anh Ngọc",
+"s|Phan Anh Tuấn",
+"d|Phan Thị Kim Anh"
+															]
+                            }
+                          ]
+                        }
+											]
+                    }
+                  ]
+                },
+                {
+                  "nodes": [
+                    {"name": "Phan Văn Nghĩa", "gender": "male"}
+                  ]
+                },
+                {
+                  "nodes": [
+                    {
+                      "name": "Phan Khắc Tuần",
+                      "gender": "male",
+											"sub_branch": "2",
+                      "nick": "Cửu Diễn",
+                      "yod": "1886",
+                      "dod": "01/03",
+                      "desc": [
+"w|Nguyễn Thị Huân",
+"d|Phan Thị Khuân",
+"d|Phan Thị Lương",
+"d|Phan Ngọc Luật(*)",
+"d|Phan Thị Thiết"
+                      ]
+                    }
+                  ],
+                  "children": [
+                    {
+                      "nodes": [
+                        {
+                          "name": "Phan Ngọc Luật",
+                          "gender": "male",
+                          "yob": "1881",
+                          "yod": "1941",
+                          "pod": "Đá Bạc, Quảng Bình",
+                          "dod": "15/01",
+                          "desc": [
+"w|Võ Thị Ngàn",
+"w|Trần Thị Lan",
+"s|Bà Ngàn",
+"d|Phan Thị Ké",
+"d|Phan Thị Cáo (Trợ bang)(*)",
+"s|Phan Duấn(*)",
+"s|Phan Chút",
+"s|Phan Dính(Hinh)(*)",
+"s|Phan Quang Ngự(*)",
+"s|Phan Khắc Phúc(*)",
+"s|Bà Lan",
+"s|Phan Ngọc Tường(*)",
+"d|Phan Thị Bẹp"
+                          ]
+                        }
+                      ],
+                      "children": [
+                        {
+                          "nodes": [
+                            {
+                              "name"  : "Phan Thị Cáo",
+                              "gender": "female"      ,
+                              "nick"  : "Thu"         ,
+                              "yob"   : "1920"        ,
+                              "yod"   : "1997"        ,
+                              "dod"   : "03/07",
+															"desc": [
+																"h|Phan Văn Thanh",
+																"s|Phan Văn Ky",
+																"s|Phan Văn Tô",
+																"d|Phan Thị Bạch Vân",
+																"d|Phan Thị Liên"
+															]
+														}
+													]
+                        },
+                        {
+                          "nodes": [
+                            {
+                              "name"  : "Phan Thị Ké",
+                              "gender": "female"     ,
+                              "yob"   : "1910"       ,
+                              "dod"   : "03/02",
+															"desc": [
+																"h|Hoàng Thung",
+																"s|Hoàng Duc Quang"
+															]
+                            }
+                          ]
+                        },
+                        {
+                          "nodes": [
+                            {
+                              "name": "Phan Duấn",
+                              "gender": "male",
+                              "yob": "1912",
+                              "yod": "1985",
+                              "dod": "27/04",
+                              "desc": [
+																"w|Phan Thị Quyên",
+																"s|Phan Văn Phùng",
+																"d|Phan Thị Bạch Yến",
+																"s|Phan Văn Trường",
+																"s|Phan Khắc Hưng",
+																"s|Phan Văn Trường",
+																"s|Phan Thị Hồng Nhạn (Thu Sương)"
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "nodes": [
+                            {
+                              "name": "Phan Dính",
+                              "gender": "male",
+															"sub_sub_branch": "1",
+                              "yob": "1915",
+                              "yod": "1975",
+                              "pob": "Quảng Bình",
+                              "pod": "Núi Thiên Ấn, Quảng Ngãi",
+                              "por": "Quảng Ngãi",
+                              "job": "Công chức",
+                              "dod": "12/09",
+                              "desc": [
+"h|Đoàn Thị Thí",
+"d|Phan Thị Kim Hải",
+"s|Phan Viết Châu",
+"d|Phan Thị Tuyết",
+"s|Phan Viết Anh",
+"s|Phan Ngọc Danh",
+"s|Phan Văn Vĩnh",
+"s|Phan Viết Hoàng",
+"s|Phan Thị Cẩm Thành",
+"s|Phan Thị Cẩm Nhung",
+"s|Phan Thị Cẩm Phương"
+                              ]
+                            }
+                          ],
+													"children": [
+														{
+                              "nodes": [
+                                {
+                                  "name"  : "Phan Thị Kim Hải"    ,
+                                  "gender": "female"            ,
+                                  "yob"   : "1942"              ,
+																	"dod": "10/08",
+																	"desc" : [
+																		"h|Trần Bông",
+																		"s|Trần Trung Bảo",
+																		"s|Trần Thị Ngân Hà",
+																		"s|Trần Thị Vân"
+																	]
+                                }
+                              ]
+                            },
+														{
+                              "nodes": [
+                                {
+                                  "name"  : "Phan Viết Châu"    ,
+                                  "gender": "female"            ,
+                                  "yob"   : "1944"              ,
+																	"desc" : [
+																		"w|Nguyễn Thị Hương",
+																		"s|Phan Chánh Pháp"
+																	]
+                                }
+                              ]
+                            },
+														{
+                              "nodes": [
+                                {
+                                  "name"  : "Phan Thị Tuyết"    ,
+                                  "gender": "female"            ,
+                                  "yob"   : "1945"              ,
+                                  "por"   : "Richmond, Virginia",
+																	"desc" : [
+																		"h|Nguyễn Văn Bản",
+																		"s|Nguyễn Phan Bình",
+																		"s|Nguyễn Phan Hoàng Nam",
+																		"s|Nguyễn Phan Việt Bắc"
+																	]
+                                }
+                              ]
+                            },
+														{
+                              "nodes": [
+                                {
+                                  "name"  : "Phan Viết Anh"    ,
+                                  "gender": "male"            ,
+                                  "yob"   : "1947"              ,
+																	"desc" : [
+																		"w|Nguyễn Thị Thái Phương",
+																		"s|Phan Thị Phương Thư",
+																		"s|Phan Nhật Huy"
+																	]
+                                }
+                              ]
+                            },
+														{
+                              "nodes": [
+                                {
+                                  "name"  : "Phan Ngọc Danh"    ,
+                                  "gender": "male"            ,
+                                  "yob"   : "1949"              ,
+																	"desc" : [
+																		"w|Nguyễn Thị Thu Hương",
+																		"s|Phan Thị Đỗ Quyên",
+																		"s|Phan Lam Duy"
+																	]
+                                }
+                              ]
+                            },
+														{
+                              "nodes": [
+                                {
+                                  "name"  : "Phan Viết Hoàng"    ,
+                                  "gender": "male"            ,
+                                  "yob"   : "1953"              ,
+																	"desc" : [
+																		"s|Phan Anh Quân"
+																	]
+                                }
+                              ]
+                            },
+														{
+                              "nodes": [
+                                {
+                                  "name"  : "Phan Thị Minh Tâm"    ,
+                                  "gender": "female"            ,
+                                  "yob"   : "1953"              ,
+																	"desc" : [
+																		"h|Huỳnh Lễ",
+																		"d|Huỳnh Thị Lộ",
+																		"d|Huỳnh Thị Thanh Nhàn",
+																		"d|Huỳnh Thị Lộc"
+																	]
+                                }
+                              ]
+                            },
+														{
+                              "nodes": [
+                                {
+                                  "name"  : "Phan Thị Cẩm Phương"    ,
+                                  "gender": "female"            ,
+                                  "yob"   : "1953"              ,
+																	"desc" : [
+																		"h|Nguyễn Đăng Dung",
+																		"s|Nguyễn Đăng Hưng",
+																		"s|Nguyễn Đăng Thịnh"
+																	]
+                                }
+                              ]
+                            }
+													]
+
+
+
+
+												},
+												
+                        {
+                          "nodes": [
+                            {
+                              "name": "Phan Quang Ngự",
+                              "gender": "male",
+                              "pod": "Đá Bạc, Quảng Bình",
+                              "dod": "29/04",
+"desc": [
+	"w|Trần Thị Cút",
+	"s|Phan Văn Ba",
+	"d|Phan Thị Tư",
+	"d|Phan Văn Năm",
+	"d|Phan Văn Sáu",
+	"d|Phan Văn Bảy",
+	"d|Phan Văn Tám",
+	"d|Phan Thị Chín"
+]
+                            }
+                          ]
+                        },
+                        {
+                          "nodes": [
+                            {
+                              "name": "Phan Khắc Phúc",
+                              "gender": "male",
+                              "dod": "23/06",
+                              "pod": "Falls Church, Virginia",
+                              "desc": [
+	"w|Nguyễn Thị Thuận",
+	"d|Phan Ngọc Trinh",
+	"d|Phan Ngọc Minh",
+	"s|Phan Anh Dũng",
+	"d|Phan Ngọc Mai",
+	"d|Phan Ngọc Trâm",
+	"s|Phan Anh Tuấn",
+	"s|Phan Anh Ngọc",
+	"s|Phan Anh Tùng"
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "nodes": [
+                            {
+                              "name": "Phan Ngọc Tường",
+                              "gender": "male",
+                              "pod": "Mai Dịch, Hà Nội",
+                              "dod": "14/05",
+                              "desc": [
+	"w|Lê Thị Xuân Mỹ",
+	"d|Phan Thị Mỹ Linh",
+	"d|Phan Thị Tường Tâm"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "nodes": [
+                        {
+                          "name": "Phan Quang Triệt",
+                          "gender": "male",
+                          "dod": "19/03",
+                          "desc": [
+"w|???",
+"d|Phan Thị Nhượng",
+"s|Phan Quang Phục(*)",
+"d|Phan Thị Mẹt",
+"d|Phan Thị Nhường"
+                          ]
+                        }
+                      ],
+                      "children": [
+                        {
+                          "nodes": [
+                            {
+                              "name"  : "Phan Quang Phục"    ,
+                              "gender": "male"               ,
+                              "pod"   : "Tp HCM"             
+                            }
+                          ]
+												}
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nodes": [
+            {
+              "name"  : "Phan Văn Trích"    ,
+              "gender": "male"              ,
+              "nick"  : "Tịch"              ,
+              "pod"   : "Đá Bạc, Quảng Bình",
+							"desc": [
+								"w|Hà Thị Nghiễm",
+								"w|Trần Thị Ninh",
+								"s|Phan Văn Nhuận(Cẩu Tha)"
+							]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
