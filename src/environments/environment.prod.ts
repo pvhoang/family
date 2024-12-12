@@ -9,30 +9,82 @@ export const environment = {
     messagingSenderId: '123668295235',
 		vapidKey: "BJ1f8BpQHuErNMLDiD0XRek_WDCTjPuWkftiuWu8twOMCOHwvyZt1L0eaWbrocYGnTh5r7-bkP2BFHs2k06mLNE"
   },
+	useEmulators: false,
   production: true,
-  phabletDevice: true,
+  android: false,
+  version: '3',
+	// backendContainer: 'family-backend'
+	backendContainer: 'localhost'
 };
 
-<<<<<<< Updated upstream
-export const VERSION = '0.0.6';
-=======
 // export const VERSION = '0.1.4';
 
 export const ROOT_COLLECTION = 'giapha';
->>>>>>> Stashed changes
 export const FONTS_FOLDER = '../../assets/fonts/';
 
-export const DEBUG = false;
-export const DEBUG_TABS = false;
-export const DEBUG_SPLASH = false;
-export const DEBUG_HOME = false;
-export const DEBUG_HILITE = false;
-export const DEBUG_TREE = false;
-export const DEBUG_NODE = false;
-export const DEBUG_ARCHIVE = false;
-export const DEBUG_CONTACT = false;
-export const DEBUG_EDITOR = false;
-export const DEBUG_FILE = false;
-export const DEBUG_FAMILY_SERVICE = false;
+export const DEBUGS = {
+  'APP': true,
+  'SPLASH': false,
+  'THEME': false,
+  'TABS': false,
+  'MEMORY': false,
+  'PERSON': false,
+  'HOME': true,
+  'EDITOR': false,
+  'VNODE': false,
+  'NODE': false,
+  'BRANCH': false,
+  'DOCS': false,
+  'TREE': false,
+  'EDIT': false,
+  'CROPPER': false,
+  'FIREBASE': true,
+  'FILE': false,
+  'FAMILY_SERVICE': false,
+  'UTIL_SERVICE': false,
+  'DATA_SERVICE': false,
+};
 
-// add comment
+export const DRAGON = 'dragon';
+export const VILLAGE = 'village';
+export const TREE = 'tree';
+export const COUNTRY = 'country';
+export const SMALL_SIZE = 'small';
+export const MEDIUM_SIZE = 'medium';
+export const LARGE_SIZE = 'large';
+
+// https://usefulwebtool.com/characters-vietnamese
+export const VietnameseEntities = {
+	'&Agrave;': 'À',
+	'&Aacute;': 'Á',
+	'&Acirc;': 'Â',
+	'&Atilde;': 'Ã',
+	'&Egrave;': 'È',
+	'&Eacute;': 'É',
+	'&Ecirc;': 'Ê',
+	'&Igrave;': 'Ì',
+	'&Iacute;': 'Í',
+	'&Ograve;': 'Ò',
+	'&Oacute;': 'Ó',
+	'&Ocirc;': 'Ô',
+	'&Otilde;': 'Õ',
+	'&Ugrave;': 'Ù',
+	'&Uacute;': 'Ú',
+	'&Yacute;': 'Ý',
+	'&agrave;': 'à',
+	'&aacute;': 'á',
+	'&acirc;': 'â',
+	'&atilde;': 'ã',
+	'&egrave;': 'è',
+	'&eacute;': 'é',
+	'&ecirc;': 'ê',
+	'&igrave;': 'ì',
+	'&iacute;': 'í',
+	'&ograve;': 'ò',
+	'&oacute;': 'ó',
+	'&ocirc;': 'ô',
+	'&otilde;': 'õ',
+	'&ugrave;': 'ù',
+	'&uacute;': 'ú'
+};
+

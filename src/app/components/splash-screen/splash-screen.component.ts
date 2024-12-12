@@ -1,7 +1,6 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, EventEmitter, Input, Output } from "@angular/core";
 import { DataService } from '../../services/data.service';
-import { FirebaseService } from '../../services/firebase.service';
-import { DEBUG_SPLASH} from '../../../environments/environment';
+import { environment, DEBUGS } from '../../../environments/environment';
 
 @Component({
   selector: "splash-screen",
@@ -10,77 +9,80 @@ import { DEBUG_SPLASH} from '../../../environments/environment';
 })
 export class SplashScreenComponent implements OnInit {
 
-  @Input() ancestor: any;
+  @Input() title: any;
+  @Input() url: any;
+  @Input() mode: any;
+  @Input() lang: any;
+  @Output() onComplete: EventEmitter<any> = new EventEmitter();
 
   windowWidth: string;
   showSplash = true;
   firstTitle:any = null;
   secTitle:any = null;
+  version:any = null;
+  appMode:any = null;
+  clickStr: string;
   
   constructor(
     private dataService: DataService,
-    private fbService: FirebaseService,
   ) {
   }
 
   ngOnInit(): void {
-    if (DEBUG_SPLASH)
-      console.log('SplashScreenComponent - ngOnInit - ancestor: ', this.ancestor);
-    this.activateSplash(this.ancestor);
-  }
+    if (DEBUGS.SPLASH)
+      console.log('SplashScreenComponent - ngOnInit - url: ', this.url);
 
-  activateSplash(mode: any) {
-    
-    if (DEBUG_SPLASH)
-      console.log('SplashScreenComponent - activateSplash - mode: ', mode);
-    if (!navigator.onLine || // check internet
-        !mode ||              // no ancestor
-        (mode == 'admin')    // wrong ancestor
-      )
-      return;
-
-    this.showSplash = true;
-
-    this.fbService.checkJsonDocument(mode).subscribe((contents:any) => {
-      if (contents.length > 0) {
-        this.dataService.readItem('ANCESTOR').then((data:any) => {
-          if (DEBUG_SPLASH)
-            console.log('SplashScreenComponent - activateSplash - ancestor: ', this.ancestor);
-
-          if (!data) {
-            // local storage not defined, read from fb
-            this.fbService.readJsonDocument(mode, 'ancestor').subscribe((d:any) => {
-              if (DEBUG_SPLASH)
-                console.log('SplashScreenComponent - activateSplash - d: ', d);
-              this.startSplash(d.description);
-            });
-          } else if (data.id == mode) {
-            if (DEBUG_SPLASH)
-              console.log('SplashScreenComponent - activateSplash - data 2: ', data);
-            this.startSplash(data.data.description);
-          }
-        })
-      }
-    })
-  }
-  
-  startSplash(description: any) {
-    if (DEBUG_SPLASH)
-      console.log('SplashScreenComponent - startSplash - description: ', description);
-    let idx = description.indexOf('-');
-    if (idx > 0) {
-      this.firstTitle = description.substring(0, idx).trim();
-      this.secTitle = description.substring(idx+1).trim();
-    } else {
-      this.firstTitle = this.ancestor.trim();
+    if (navigator.onLine) {
+      this.dataService.readItem('ANCESTOR_DATA').then((adata:any) => {
+        this.showSplash = true;
+        this.startSplash(adata.info.name, adata.info.location, adata.family.version);
+      });
     }
-    if (DEBUG_SPLASH)
+  }
+
+  startSplash(name: any, location: any, dataVersion: any) {
+    this.showSplash = true;
+    this.firstTitle = name;
+    this.secTitle = location;
+    this.version = 'A.' + environment.version + ' (D.' + dataVersion + ')';
+    this.appMode = (this.mode == 'view') ? this.getTranslation('VIEW') : this.getTranslation('EDIT');
+    this.clickStr = this.getTranslation('CLICK');
+
+    if (DEBUGS.SPLASH)
       console.log('SplashScreenComponent - startSplash - showSplash: ', this.showSplash);
+
     setTimeout(() => {
-      this.windowWidth = "-" + window.innerWidth + "px";
-      setTimeout(() => {
-        this.showSplash = !this.showSplash;
-      }, 500);
-    }, 2000);
+      // this.windowWidth = "-" + window.innerWidth + "px";
+      // setTimeout(() => {
+      //   this.showSplash = !this.showSplash;
+      // }, 1000);
+      // this.onComplete.emit();
+      this.onDone();
+    }, 5000);
+  }
+
+  onDone() {
+    this.windowWidth = "-" + window.innerWidth + "px";
+    setTimeout(() => {
+      this.showSplash = !this.showSplash;
+    }, 1000);
+    this.onComplete.emit();
+  }
+
+  getTranslation(key:any) {
+    // get temp translation till language service is activated
+    const vi = {
+      "CLICK": "Nhấn",
+      "VIEW": "THÔNG TIN",
+      "EDIT": "ĐIỀU CHỈNH"
+    }
+		const en = {
+      "CLICK": "Press",
+      "VIEW": "VIEWER",
+      "EDIT": "EDITOR"
+    }
+		if (this.lang == 'vi')
+			return vi[key] ? vi[key] : key;
+		return en[key] ? en[key] : key;
   }
 }

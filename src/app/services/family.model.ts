@@ -1,5 +1,6 @@
 export class Node {
   id: string = '';
+  
   relationship: string = '';
   name: string = '';
   level: string = '';
@@ -10,8 +11,18 @@ export class Node {
   pob: string = '';
   pod: string = '';
   por: string = '';
+  job: string = '';
   desc: string = '';
+  photo: string = '';
   dod: string = '';
+
+  profile: string = '';
+  span: string = '';
+  nclass: string = '';
+  pnode: Node = null;
+  visible: boolean = false;
+  family: Family = null;
+
 }
 
 export const NODE = {
@@ -25,11 +36,42 @@ export const NODE = {
   pob: '',
   pod: '',
   por: '',
+  job: '',
   desc: '',
+  photo: '',
   dod: ''
 }
 
+export const NODE_FIELDS = [
+  'relationship',
+  'name',
+  'level',
+  'nick',
+  'gender',
+  'yob',
+  'yod',
+  'pob',
+  'pod',
+  'por',
+  'job',
+  'desc',
+  'photo',
+  'dod'
+]
+
+export const SEARCH_FIELDS = [
+  'name',
+  'nick',
+  'pob',
+  'pod',
+  'por',
+  'job',
+  'desc'
+]
+
 export const FAMILY = {
+  version: '',
+  date: '',
   generation: '',
   iddom: '',
   nodes: [],
@@ -37,8 +79,11 @@ export const FAMILY = {
 }
 
 export class Family {
+  version: string = '';
+  date: string = '';
   generation: string = '';
   iddom: string = '';
   nodes: Node[] = [];
   children: Family[] = [];
 }
+

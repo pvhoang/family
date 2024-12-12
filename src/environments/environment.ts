@@ -1,7 +1,3 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-
 export const environment = {
   firebase: {
     projectId: 'family-c5b45',
@@ -13,32 +9,15 @@ export const environment = {
     messagingSenderId: '123668295235',
 		vapidKey: "BJ1f8BpQHuErNMLDiD0XRek_WDCTjPuWkftiuWu8twOMCOHwvyZt1L0eaWbrocYGnTh5r7-bkP2BFHs2k06mLNE"
   },
-<<<<<<< Updated upstream
-=======
 	useEmulators: true,
 	// useEmulators: false,
->>>>>>> Stashed changes
   production: false,
-  phabletDevice: true,
+  android: false,
+  version: '3',
+	// backendContainer: 'family-backend'
+	backendContainer: 'localhost'
 };
 
-<<<<<<< Updated upstream
-export const VERSION = '0.0.6';
-export const FONTS_FOLDER = '../../assets/fonts/';
-
-export const DEBUG = false;
-export const DEBUG_TABS = false;
-export const DEBUG_SPLASH = false;
-export const DEBUG_HOME = false;
-export const DEBUG_HILITE = false;
-export const DEBUG_TREE = true;
-export const DEBUG_NODE = false;
-export const DEBUG_ARCHIVE = false;
-export const DEBUG_CONTACT = false;
-export const DEBUG_EDITOR = false;
-export const DEBUG_FILE = false;
-export const DEBUG_FAMILY_SERVICE = true;
-=======
 export const ROOT_COLLECTION = 'giapha';
 export const FONTS_FOLDER = '../../assets/fonts/';
 
@@ -116,13 +95,4 @@ export const VietnameseEntities = {
 
 
 
->>>>>>> Stashed changes
 
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.

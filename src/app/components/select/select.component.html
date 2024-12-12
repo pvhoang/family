@@ -1,0 +1,41 @@
+<ion-header>
+	<ion-item class="header-top">
+    <ion-col size="12" class="heading">
+      <span class="label">{{header}}</span>
+    </ion-col>
+  </ion-item>
+</ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+	<p></p>
+	<div class="selector">
+		<div *ngFor="let select of selects">
+			<ion-item>
+				<ion-label position="stacked">
+					{{select.label}}
+				</ion-label>
+				<!-- https://stackoverflow.com/questions/66121348/cant-set-default-value-to-ion-select-ionic-v4 -->
+				<!-- <ion-select value="{{select.value}}" [(ngModel)]="select.value" placeholder="{{select.placeholder}}" -->
+				<ion-select value="{{select.value}}" placeholder="{{select.placeholder}}"
+					(ionChange)="handleChange($event, select)"
+					(ionCancel)="handleCancel()"
+					(ionDismiss)="handleDismiss()"
+					cancelText="{{cancelText}}"
+					okText="{{okText}}"
+				>
+					<!-- <ion-select-option *ngFor="let item of select.items" [value]="employee" value="{{item.value}}" [selected]="true">{{item.label}}</ion-select-option> -->
+					<ion-select-option *ngFor="let item of select.items" value="{{item.value}}">{{item.label}}</ion-select-option>
+				</ion-select>
+			</ion-item>
+		</div>
+
+		<ion-item class="bottom-button-group">
+			<ion-col size="6" class="bottom" (click)="onCancel()">
+				<span class="label">{{cancelText}}</span>
+			</ion-col>
+			<ion-col size="6" class="bottom" (click)="onSave()">
+				<span class="label">{{okText}}</span>
+			</ion-col>
+		</ion-item>
+	</div>
+
+</ion-content>

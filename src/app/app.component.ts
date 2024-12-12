@@ -1,8 +1,5 @@
-import { Component, OnInit,  } from '@angular/core';
+import { Component, OnInit, ViewChild  } from '@angular/core';
 import { Platform } from '@ionic/angular';
-<<<<<<< Updated upstream
-import { environment, DEBUG} from '../environments/environment';
-=======
 import { environment, FONTS_FOLDER, DEBUGS, DRAGON, VILLAGE, TREE, COUNTRY, SMALL_SIZE, MEDIUM_SIZE, LARGE_SIZE } from '../environments/environment';
 import { DataService } from './services/data.service';
 import { UtilService } from './services/util.service';
@@ -35,7 +32,6 @@ const ADMIN_CODE = '1234';
 // user
 const OPTION_SETTING = 'doi'
 const OPTION_DELETE = 'xoa';
->>>>>>> Stashed changes
 
 @Component({
   selector: 'app-root',
@@ -44,12 +40,26 @@ const OPTION_DELETE = 'xoa';
 })
 export class AppComponent implements OnInit {
 
-  ancestor:any = '';
+  url:any = '';
+  mode:any = VIEW_MODE;
+  startUp:any = false;
+  startApp:any = false;
+	fileUrl: any;
+	fileName: any;
+	theme: any;
+	language: any;
+	langTable: any;
+	size: any;
+	splashTitle: any;
+	email: any;
+	networkStatus: boolean = false;
+	networkStatus$: Subscription = Subscription.EMPTY;
+
+	@ViewChild('popover') popover: any;
+	isOpen = false;
 
   constructor(
     public platform: Platform,
-<<<<<<< Updated upstream
-=======
     private dataService: DataService,
     private utilService: UtilService,
     private themeService: ThemeService,
@@ -59,31 +69,16 @@ export class AppComponent implements OnInit {
     private fbService: FirebaseService,
     private editorService: EditorService,
     private fcm: FcmService,
->>>>>>> Stashed changes
   ) {
-    if (DEBUG)
+    if (DEBUGS.APP)
       console.log('AppComponent - constructor');
-    this.initializeApp();
   }
 
   async ngOnInit(): Promise<any> {
-
-    if (DEBUG)
-      console.log('AppComponent - ngOnInit');
-
+		
+    // get URL
     let strings = window.location.href.split(window.location.host);
     let url = strings[strings.length-1];
-<<<<<<< Updated upstream
-    if (DEBUG)
-      console.log('AppComponent - url2: ', url);
-    let params = url.split('/');
-    this.ancestor = params[1];
-  }
-
-  initializeApp() {
-    environment.phabletDevice = this.platform.is('phablet');
-  }
-=======
 		let dat = url.split('/');
 		if (DEBUGS.APP)
 			console.log('AppComponent - ngOnInit - url, dat: ', url, dat);
@@ -712,5 +707,4 @@ private startAncestor(ancestorID: any) {
 	translate_instant(key:any) {
 		return this.langTable[key];
 	}
->>>>>>> Stashed changes
 }
