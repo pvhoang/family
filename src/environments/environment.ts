@@ -31,7 +31,7 @@ export const DEBUGS = {
   'HOME': false,
   'EDITOR': false,
   'VNODE': false,
-  'NODE': false,
+  'NODE': true,
   'BRANCH': false,
   'DOCS': false,
   'TREE': false,
@@ -39,13 +39,13 @@ export const DEBUGS = {
   'SEARCH': false,
   'CROPPER': false,
   'FIREBASE': false,
-  'FILE': false,
+  'FILE': true,
   'FAMILY_SERVICE': false,
   'SVG_TREE_SERVICE': false,
   'UTIL_SERVICE': false,
   'DATA_SERVICE': false,
   'FCM_SERVICE': false,
-  'FILER': false,
+  'FILER': true,
 
 };
 

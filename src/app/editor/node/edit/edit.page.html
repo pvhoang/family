@@ -11,13 +11,13 @@
       <ion-button class="button" fill="clear" (click)="onCancel()">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
       </ion-button>
-      <!-- <span class="label">{{ 'CANCEL' | translate }}</span> -->
+      <span class="label">{{ 'CANCEL' | translate }}</span>
     </ion-col>
     <ion-col size="6" class="heading" (click)="onSave()">
       <ion-button class="button" fill="clear" (click)="onSave()">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}content-save-outline.svg" class="icon"></ion-icon>
       </ion-button>
-      <!-- <span class="label">{{ 'SAVE' | translate }}</span> -->
+      <span class="label">{{ 'SAVE' | translate }}</span>
     </ion-col>
   </ion-item>
 
@@ -255,7 +255,6 @@
     <br>
 
     <ion-label class="label">{{ 'NODE_DESC' | translate }}</ion-label>
-    <!-- placeholder="{{ 'EDIT_DESC_PLACEHOLDER' | translate }}"> -->
     <ion-textarea clearInput class="textarea" 
       type="text" 
       rows="10" 
@@ -264,7 +263,6 @@
       title="{{ 'EDIT_DESC_TOOLTIP' | translate }}"
     >
     </ion-textarea>
-		<!-- <div id="detail-person"></div> -->
 
     <br>
 

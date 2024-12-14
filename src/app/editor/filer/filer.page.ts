@@ -40,55 +40,45 @@ export class FilerPage implements OnInit {
   familyName: any;
 	imageFiles:File[] = [];
 
-  uploadMode = false;
-  imageMode = false;
-  storageMode = false;
-  photoMode = false;
+	tasks: Array<any>;
+  currentTask: any;
+
   notifyMode = false;
-
-	downloadFileUrl: any;
-	downloadFileName: any;
-	downloadDocsUrl: any;
-	downloadDocsName: any;
-
-	uploadItems: any;
-  uploadItemsPlaceholder: any = '';
-	editorOptions: any;
-
-	imageFileName: any = '';
-  imageViewMode = false;
-	storageFiles: any[] = [];
-  storageViewMode = false;
-  storageFileName: any = '';
-
+	notifyTasks: Array<any>;
+  currentNotifyTask: any;
 	recipientList: any[] = [];
 	messageList: any[] = [];
 	memorialMsg: any;
 
+  jsonMode = false;
+	jsonTasks: Array<any>;
+  currentJsonTask: any;
+	
+	jsonTreeShow = false;
+	jsonItems: any;
+  jsonItemsPlaceholder: any = '';
+	jsonModeShow = false;
+	jsonFileName = '';
+	jsonFileUrl: any;
+	editorOptions: any;
+	showData: any;
+
+  photoMode = false;
+	photoTasks: Array<any>;
+  currentPhotoTask: any;
 	photoBase64: any = '';
-	photoNew: any = false;
 	photo: any = '';
 	photoCaption: any = '';
+
+  storageMode = false;
+	storageFiles: any[] = [];
+	storageViewMode = false;
+  storageFileName: any = '';
 
 	@ViewChild(JsonEditorComponent) editor: JsonEditorComponent;
   data: any;
 	info: any;
-  showData: any;
-  // uploadModeShow = false;
-  uploadTreeShow = false;
-	jsonFileName = '';
-	jsonFileUrl: any;
-
   srcFamily: any;
-
-  tasks: Array<any>;
-  currentTask: any;
-	notifyTasks: Array<any>;
-  currentNotifyTask: any;
-	uploadTasks: Array<any>;
-  currentUploadTask: any;
-	photoTasks: Array<any>;
-  currentPhotoTask: any;
 	
   constructor(
     private modalCtrl: ModalController,
@@ -147,16 +137,15 @@ export class FilerPage implements OnInit {
   }
 
 	resetModes() {
-    this.uploadMode = false;
-		this.uploadTreeShow = false;
+    this.jsonMode = false;
+		// this.jsonTreeShow = false;
 		this.showData = null;
-
 		this.jsonFileName = this.languageService.getTranslation('FILE_UPLOAD_JSON');
-    this.imageMode = false;
+    // this.imageMode = false;
     this.storageMode = false;
     this.photoMode = false;
-    this.imageViewMode = false;
-		this.imageFileName = '';
+    // this.imageViewMode = false;
+		// this.imageFileName = '';
     this.storageViewMode = false;
 		this.storageFileName = '';
     this.notifyMode = false;
@@ -165,29 +154,29 @@ export class FilerPage implements OnInit {
 	setTasks() {
 
 		this.tasks = [
-      { id: 'notification', name: this.languageService.getTranslation('FILE_NOTIFICATION') },
-      { id: 'json', name: this.languageService.getTranslation('FILE_UPLOAD_JSON') },
-      { id: 'photo', name: this.languageService.getTranslation('FILE_PHOTO') },
-      // { id: 'image', name: this.languageService.getTranslation('FILE_IMAGE') },
-      { id: 'storage', name: this.languageService.getTranslation('FILE_STORAGE') },
+      { id: 'notification', name: this.languageService.getTranslation('FILER_NOTIFICATION') },
+      { id: 'json', name: this.languageService.getTranslation('FILER_JSON') },
+      { id: 'photo', name: this.languageService.getTranslation('FILER_PHOTO') },
+      { id: 'storage', name: this.languageService.getTranslation('FILER_STORAGE') },
     ];
 		this.currentTask = 'notification'
 
 		this.notifyTasks = [
-      { id: 'read', name: this.languageService.getTranslation('FILE_NOTIFICATION_READ') },
-      { id: 'save', name: this.languageService.getTranslation('FILE_NOTIFICATION_SAVE') },
+      { id: 'read', name: this.languageService.getTranslation('FILER_NOTIFICATION_READ') },
+      { id: 'save', name: this.languageService.getTranslation('FILER_NOTIFICATION_SAVE') },
     ];
 		this.currentNotifyTask = 'read'
 
-		this.uploadTasks = [
-      { id: 'save', name: this.languageService.getTranslation('FILE_UPLOAD_SAVE') },
-      { id: 'upload', name: this.languageService.getTranslation('FILE_UPLOAD_UPLOAD') },
-      { id: 'tree', name: this.languageService.getTranslation('FILE_UPLOAD_EDIT_TREE') },
+		this.jsonTasks = [
+      { id: 'save', name: this.languageService.getTranslation('FILER_JSON_SAVE') },
+      { id: 'upload', name: this.languageService.getTranslation('FILER_JSON_UPLOAD') },
+      { id: 'tree', name: this.languageService.getTranslation('FILER_JSON_TREE') },
     ];
-		this.currentUploadTask = 'save'
+		this.currentJsonTask = 'save'
 
 		this.photoTasks = [
       { id: 'edit', name: this.languageService.getTranslation('FILE_PHOTO_MODIFY') },
+      { id: 'save', name: this.languageService.getTranslation('FILE_PHOTO_SAVE') },
       { id: 'upload', name: this.languageService.getTranslation('FILE_PHOTO_UPLOAD') },
     ];
 		this.currentPhotoTask = 'edit'
@@ -200,7 +189,7 @@ export class FilerPage implements OnInit {
 				this.notifyOnClick();
 				break;
 			case 'json':
-				this.uploadOnClick();
+				this.jsonOnClick();
 				break;
 			case 'photo':
 				this.photoCreate();
@@ -228,27 +217,27 @@ export class FilerPage implements OnInit {
 		}
   }
 
-	closeUploadTask() {
-		console.log('closeUploadTask: ', this.currentUploadTask);
+	closeJsonTask() {
+		// console.log('closeUploadTask: ', this.currentJsonTask);
 		let msg = '';
-		switch(this.currentUploadTask) {
+		switch(this.currentJsonTask) {
 			case 'save':
 				msg = 'Cất <b>' + this.jsonFileName + '</b> vào máy?'
-				this.utilService.alertConfirm('FILE_UPLOAD_SAVE', msg, 'CANCEL', 'OK').then((res) => {
+				this.utilService.alertConfirm('FILER_JSON_SAVE', msg, 'CANCEL', 'OK').then((res) => {
 					if (res.data)
-						this.uploadProcess('save');
+						this.jsonProcess('save');
 				});
-				// this.uploadProcess('save');
+				// this.jsonProcess('save');
 				break;
-			case 'read':
-				msg = 'Cất <b>' + this.jsonFileName + '</b> lên mạng?'
-				this.utilService.alertConfirm('FILE_UPLOAD_SAVE', msg, 'CANCEL', 'OK').then((res) => {
+			case 'upload':
+				msg = 'Upload <b>' + this.jsonFileName + '</b> lên mạng?'
+				this.utilService.alertConfirm('FILER_JSON_UPLOAD', msg, 'CANCEL', 'OK').then((res) => {
 					if (res.data)
-						this.uploadProcess('upload');
+						this.jsonProcess('upload');
 				});
 				break;
 			case 'tree':
-				if (this.uploadTreeShow)
+				if (this.jsonTreeShow)
 					this.onTree();
 				break;
 			default:
@@ -261,6 +250,9 @@ export class FilerPage implements OnInit {
 			case 'edit':
 				this.photoEdit();
 				break;
+			case 'save':
+				this.photoSave();
+				break;
 			case 'upload':
 				this.photoUpload();
 				break;
@@ -268,32 +260,31 @@ export class FilerPage implements OnInit {
 		}
   }
 
-	// --- uploadMode ---
+	// --- jsonMode ---
 
-	uploadOnClick() {
+	jsonOnClick() {
 		this.resetModes();
-		document.getElementById("modify-upload-json").click()
+		document.getElementById("modify-json-json").click()
 	}
 
-	uploadOnFileSelect(event: any, type: any): void {
+	jsonOnFileSelect(event: any, type: any): void {
     const files = [...event.target.files]
 		const file = files[0];
-		this.uploadOnFile(file, type);
+		this.jsonOnFile(file, type);
   }
 
-	private uploadOnFile(file: any, type: any) {
-    this.uploadGetTextFile(file).then((res: any) => {
+	private jsonOnFile(file: any, type: any) {
+    this.jsonGetTextFile(file).then((res: any) => {
       if (DEBUGS.FILER)
-        console.log('uploadOnFile - file: ', file);
-			this.uploadMode = true;
+        console.log('jsonOnFile - file: ', file);
+			this.jsonMode = true;
 			this.jsonFileName = file.name;
-			console.log('uploadOnFile - jsonFileName: ', this.jsonFileName);
-
-			this.uploadEdit(res.text, type);
+			console.log('jsonOnFile - jsonFileName: ', this.jsonFileName);
+			this.jsonEdit(res.text, type);
 		});
 	}
 
-	private uploadGetTextFile(file:File) {
+	private jsonGetTextFile(file:File) {
     return new Promise((resolve) => {
       var myReader: FileReader = new FileReader();
 			myReader.readAsText(file);
@@ -305,7 +296,7 @@ export class FilerPage implements OnInit {
     });
   }
 
-	private uploadDisplayImageErrors(keys: any) {
+	private jsonDisplayImageErrors(keys: any) {
     let msgs = [];
 		msgs.push({name: 'msg', label: this.languageService.getTranslation('FILE_UPLOAD_FILES_NOT_AVAILABLE')});
 		msgs.push({name: 'msg', label: '&nbsp;'});
@@ -317,26 +308,28 @@ export class FilerPage implements OnInit {
 		this.utilService.alertMsg('ERROR', message, 'OK', { width: 350, height: 450 }).then(choice => {});
   }
 
-	async uploadEdit(text: any, type: any) {
-		this.uploadMode = true;
+	async jsonEdit(text: any, type: any) {
+		this.jsonMode = true;
 		this.showData = this.data = JSON.parse(text);
-		this.uploadTreeShow = this.data.title && this.data.title == 'FAMILY';
-		if (this.uploadTreeShow) {
-			this.uploadTasks = [
-				{ id: 'save', name: this.languageService.getTranslation('FILE_UPLOAD_SAVE') },
-				{ id: 'upload', name: this.languageService.getTranslation('FILE_UPLOAD_UPLOAD') },
-				{ id: 'tree', name: this.languageService.getTranslation('FILE_UPLOAD_EDIT_TREE') },
+		this.jsonTreeShow = this.data.title && this.data.title == 'FAMILY';
+		if (this.jsonTreeShow) {
+			this.jsonTasks = [
+				{ id: 'save', name: this.languageService.getTranslation('FILER_JSON_SAVE') },
+				{ id: 'upload', name: this.languageService.getTranslation('FILER_JSON_UPLOAD') },
+				{ id: 'tree', name: this.languageService.getTranslation('FILER_JSON_TREE') },
 			];
 		} else {
-			this.uploadTasks = [
-				{ id: 'save', name: this.languageService.getTranslation('FILE_UPLOAD_SAVE') },
-				{ id: 'upload', name: this.languageService.getTranslation('FILE_UPLOAD_UPLOAD') },
+			this.jsonTasks = [
+				{ id: 'save', name: this.languageService.getTranslation('FILER_JSON_SAVE') },
+				{ id: 'upload', name: this.languageService.getTranslation('FILER_JSON_UPLOAD') },
 			];
 		}
-
 	}
 
 	async onTree() {
+		
+		console.log('onTree - title:  ', this.data.title);
+
 		const modal = await this.modalCtrl.create({
 			component: NodePage,
 			componentProps: {
@@ -353,6 +346,8 @@ export class FilerPage implements OnInit {
         // do nothing
       } else if (status == 'save') {
         let family = resp.data.family;
+				family.title = "FAMILY";
+				// console.log('onTree - family.title:  ', family.title);
 				this.showData = this.data = family;
 			}
 
@@ -360,7 +355,7 @@ export class FilerPage implements OnInit {
 		return await modal.present();
 	}
 
-	uploadChange(event = null) {
+	jsonChange(event = null) {
     const editorJson = this.editor.getEditor();
     editorJson.validate();
 		// if there is schema, check against it
@@ -377,14 +372,14 @@ export class FilerPage implements OnInit {
 		}
   }
 
-	uploadProcess(mode: any) {
+	jsonProcess(mode: any) {
 		if (mode == 'cancel') {
 
 		} else if (mode == 'save') {
 			let json: any = this.editor.get();
 			let errorFields = this.jsoneditorService.validateFieldNames(json);
 			if (errorFields.length > 0) {
-				this.uploadDisplayFieldErrors(errorFields);
+				this.jsonDisplayFieldErrors(errorFields);
 				return;
 			}
 			let text: any = JSON.stringify(json, null, 2);
@@ -394,20 +389,20 @@ export class FilerPage implements OnInit {
 			link.href = data;
 			link.download = this.jsonFileName; // set a name for the file
 			link.click();
-
+			this.utilService.presentToastOK(['FILER_JSON_SAVE_COMPLETE_1', this.jsonFileName, 'FILER_JSON_SAVE_COMPLETE_2']);
 		} else if (mode == 'upload') {
 			// validate field names
 			let json:any = this.editor.get();
 			let errorFields = this.jsoneditorService.validateFieldNames(json);
 			if (errorFields.length > 0) {
-				this.uploadDisplayFieldErrors(errorFields);
+				this.jsonDisplayFieldErrors(errorFields);
 				return;
 			}
-			this.uploadJson(json);
+			this.jsonUpload(json);
 		}
 	}
 
-	private uploadJson(json: any) {
+	private jsonUpload(json: any) {
 		let title = json.title;
 		if (title == 'INFO') {
 				// update info to server
@@ -421,13 +416,13 @@ export class FilerPage implements OnInit {
 		}
 	
 		// now check new image files
-		this.uploadValidateImage(json).then((res:any) => {
+		this.jsonValidateImage(json).then((res:any) => {
 			if (DEBUGS.FILE)
-				console.log('uploadValidateImage - res: ', res);
+				console.log('jsonValidateImage - res: ', res);
 			let newFiles = res[0];
 			if (newFiles.length > 0) {
 				// files not in storage, errors
-				this.uploadDisplayImageErrors(newFiles);
+				this.jsonDisplayImageErrors(newFiles);
 				return;
 			}
 			// build new images files
@@ -445,8 +440,7 @@ export class FilerPage implements OnInit {
 					rdata.images = images;
 					const doc = (title == 'FAMILY') ? 'family' : 'docs';
 					rdata[doc] = json;
-				console.log('uploadValidateImage - json: ', json);
-
+					console.log('jsonValidateImage - json: ', json);
 					this.fbService.saveAncestorData(rdata).then((status:any) => {
 						this.utilService.presentToastOK(['FILE_UPLOAD_COMPLETE_1', this.jsonFileName, 'FILE_UPLOAD_COMPLETE_2']);
 					});
@@ -455,18 +449,18 @@ export class FilerPage implements OnInit {
 		})
 	}
 
-	private uploadValidateImage(json: any) {
+	private jsonValidateImage(json: any) {
 		return new Promise((resolve) => {
 			this.utilService.presentToast('FILE_UPLOAD_WAIT_READING_STORAGE_IMAGES');
 			// get image list from doc text
-			let docImages = this.uploadGetImages(JSON.stringify(json), json.title);
-			console.log('uploadValidateImage - docImages: ', docImages);
+			let docImages = this.jsonGetImages(JSON.stringify(json), json.title);
+			console.log('jsonValidateImage - docImages: ', docImages);
 			//  get images from storage
 			this.fbService.getFileList(this.ancestor).then((storageImages:any) => {
 			//  get images from local
 				// wait 1 second for async to complete
 				setTimeout(() => {
-					console.log('uploadValidateImage - storageImages: ', storageImages);
+					console.log('jsonValidateImage - storageImages: ', storageImages);
 					let newFiles = [];
 					// go thru each image in doc
 					docImages.forEach(dimage => {
@@ -475,7 +469,7 @@ export class FilerPage implements OnInit {
 						if (index == -1)
 							newFiles.push(dimage);
 					})
-					console.log('uploadValidateDocs - newFiles: ', newFiles);
+					console.log('jsonValidateDocs - newFiles: ', newFiles);
 					// this.utilService.dismissLoading();
 					resolve([newFiles, storageImages]);
 				}, 3000);
@@ -483,7 +477,7 @@ export class FilerPage implements OnInit {
 		});
 	}
 
-	private uploadGetImages(text: any, title: string) {
+	private jsonGetImages(text: any, title: string) {
 		// "im|ac|2|Nhà Thờ Phan Tộc.png|Đá Bạc, Quảng Bình"
 		// "[3|Mộ Tổ Đời 1.jpg|1|1|Tổ mộ, Nghĩa trang Đá Bạc]",
 		// "photo": "Phan Ngọc Luật.jpg",
@@ -526,7 +520,7 @@ export class FilerPage implements OnInit {
 				i1 = text.length + 1;
 		}
 
-		console.log('uploadGetImages - images: ', images);
+		console.log('jsonGetImages - images: ', images);
 
 		let imageList = images.filter((item, pos) => {
 			return images.indexOf(item) == pos; 
@@ -534,7 +528,7 @@ export class FilerPage implements OnInit {
 		return imageList;
 	}
 
-	private uploadDisplayFieldErrors(fields: any) {
+	private jsonDisplayFieldErrors(fields: any) {
     let msgs = [];
 		msgs.push({name: 'msg', label: this.languageService.getTranslation('FIELDS_NOT_CORRECT')});
 		msgs.push({name: 'msg', label: '&nbsp;'});
@@ -544,169 +538,190 @@ export class FilerPage implements OnInit {
 		console.log('msgs: ', msgs);
     let message = this.utilService.getAlertMessage(msgs, true);
 		this.utilService.alertMsg('ERROR', message, 'OK', { width: 350, height: 450 }).then(choice => {});
-  }
+	}
 
 // --------- photoMode ----------
 	
-photoCreate() {
-	this.resetModes();
-	this.photoMode = true;
-	this.photoBase64 = '';
-	this.photo = '';
-	document.getElementById("photo-image").click();
-}
-
-photoGetFile(event: any): void {
-	const files = [...event.target.files]
-	const file = files[0];
-	const name = file.name;
-	const myReader: FileReader = new FileReader();
-	myReader.readAsDataURL(file);
-	myReader.onload = ((event:any) => {
-		let base64 = event.target.result;
-		this.photoBase64 = base64;
-		this.photo = name;
-		this.photoNew = true;
-		this.photoTasks = [
-      { id: 'edit', name: this.languageService.getTranslation('FILE_PHOTO_MODIFY') },
-      { id: 'upload', name: this.languageService.getTranslation('FILE_PHOTO_UPLOAD') },
-    ];
-		this.currentPhotoTask = 'edit'
-	});
-}
-
-photoUpload() {
-	if (this.photoBase64 != '') {
-		console.log('photo: ', this.photo)
-		this.photoUploadStorage( this.photo, this.ancestor, this.photoBase64, null);
+	photoCreate() {
+		this.resetModes();
+		// this.photoMode = false;
+		this.photoBase64 = '';
+		this.photo = '';
+		document.getElementById("photo-image").click();
 	}
-}
 
-photoEdit() {
-	this.openCropperModal(this.photoBase64);
-}
-
-async openCropperModal(base64: any) {
-	const cropperModal = await this.modalCtrl.create({
-		component: CropperModalPage,
-		componentProps: {
-			'caller': 'FilerPage',
-			'base64': base64,
-		},
-		cssClass: 'modal-dialog',
-		backdropDismiss:false
-	});
-	await cropperModal.present();
-	const { data } = await cropperModal.onDidDismiss();
-	if (data.result) {
-		this.photoBase64 = data.result;
-		this.photoNew = false;
-		this.photoTasks = [
-      { id: 'upload', name: this.languageService.getTranslation('FILE_PHOTO_UPLOAD') },
-    ];
-		this.currentPhotoTask = 'upload'
+	photoGetFile(event: any): void {
+		const files = [...event.target.files]
+		const file = files[0];
+		const name = file.name;
+		const myReader: FileReader = new FileReader();
+		myReader.readAsDataURL(file);
+		myReader.onload = ((event:any) => {
+			let base64 = event.target.result;
+			this.photoBase64 = base64;
+			this.photo = name;
+			this.photoMode = true;
+			this.photoTasks = [
+				{ id: 'edit', name: this.languageService.getTranslation('FILER_PHOTO_MODIFY') },
+				{ id: 'save', name: this.languageService.getTranslation('FILER_PHOTO_SAVE') },
+				{ id: 'upload', name: this.languageService.getTranslation('FILER_PHOTO_UPLOAD') },
+			];
+			this.currentPhotoTask = 'edit'
+		});
 	}
-}
 
-private photoUploadStorage(photo: string, ancestor:string, photoBase64: string, file:any) {
-	// make photo type lower case
-	let i = photo.indexOf('.');
-	let ph = photo.substring(0, i) + '.' + photo.substring(i+1).toLowerCase();
+	photoUpload() {
+		if (this.photoBase64 != '') {
+			// console.log('photo: ', this.photo)
+			this.photoUploadStorage( this.photo, this.ancestor, this.photoBase64, null);
+		}
+	}
 
-	let title = this.languageService.getTranslation('FILE_PHOTO_UPLOAD');
-	let cancel = this.languageService.getTranslation('CANCEL');
-	let ok = this.languageService.getTranslation('OK');
-	let inputs = [{
-			label: this.languageService.getTranslation('FILE_PHOTO_NAME'),
-			value: ph,
-			placeholder: this.languageService.getTranslation('FILE_PHOTO_NAME'),
-			attributes: { maxlength: 50 },
-		},
-	]
-	this.utilService.alertText(title, inputs, cancel, ok).then(result => {
-		if (result.data) {
+	photoSave() {
+		if (this.photoBase64 == '')
+				return;
 
-			const WIDTH = 1280;
-			const EXIF_ORIENTATION = -1;	// unknown
-
-			let photoName = result.data[0];
-			if (photoName != '') {
-				if (photoBase64) {
-					this.getMeta(photoBase64).then(img => {
-						let height = img.naturalHeight * WIDTH / img.naturalWidth;
-						let width = WIDTH;
-						this.imageCompress
-							.compressFile(photoBase64, EXIF_ORIENTATION, 50, 50, width, height) // 50% ratio, 50% quality
-							.then(compressedImage => {
-									this.loadImage(compressedImage, photoName, ancestor);
-							});
+		// let fileUrl = "data:" + mimeType + ";base64," + bytesBase64;
+		// 'image/png'let base64 = this.photoBase64;
+		let base64 = this.photoBase64;
+		let imageExt = base64.substring(base64.indexOf('/')+1, base64.indexOf(';'))
+		// console.log('imageExt: ', imageExt);
+		let title = this.languageService.getTranslation('FILER_PHOTO_SAVE');
+		let cancel = this.languageService.getTranslation('CANCEL');
+		let ok = this.languageService.getTranslation('OK');
+		let inputs = [{
+				label: this.languageService.getTranslation('FILER_PHOTO_NAME'),
+				// value: this.photo,
+				value: '',
+				placeholder: this.languageService.getTranslation('FILER_PHOTO_NAME'),
+				attributes: { maxlength: 50 },
+			},
+		]
+		this.utilService.alertText(title, inputs, cancel, ok).then(result => {
+			if (result.data) {
+				let photoName = result.data[0];
+				// let fileUrl = "data:" + mimeType + ";base64," + bytesBase64;
+				// 'image/png'
+				// let imageExt = base64.substring(base64.indexOf('/')+1, base64.indexOf(';'))
+				// console.log('imageExt: ', imageExt);
+				if (photoName != '') {
+					// remove extension
+					if (photoName.indexOf('.') >= 0)
+						photoName = photoName.substring(0, photoName.indexOf('.'))
+					photoName += '.' + imageExt;
+					fetch(this.photoBase64)
+					.then(response => response.blob())
+					.then(blob => {
+						var link = window.document.createElement("a");
+						link.href = window.URL.createObjectURL(blob);
+						link.download = photoName;
+						document.body.appendChild(link);
+						link.click();
+						document.body.removeChild(link);
+						this.utilService.presentToastOK(['FILER_PHOTO_SAVE_COMPLETE_1', photoName, 'FILER_PHOTO_SAVE_COMPLETE_2']);
 					});
-				} else {
-					const objectURL = URL.createObjectURL(file);
-					this.getMeta(objectURL).then(img => {
-						let height = img.naturalHeight * WIDTH / img.naturalWidth;
-						let width = WIDTH;
-						var myReader: FileReader = new FileReader();
-						myReader.readAsDataURL(file);
-						myReader.onload = ((event:any) => {
-							let base64 = event.target.result;
+				}
+			}
+		});
+	}
+
+	photoEdit() {
+		this.openCropperModal(this.photoBase64);
+	}
+
+	async openCropperModal(base64: any) {
+		const cropperModal = await this.modalCtrl.create({
+			component: CropperModalPage,
+			componentProps: {
+				'caller': 'FilerPage',
+				'base64': base64,
+			},
+			cssClass: 'modal-dialog',
+			backdropDismiss:false
+		});
+		await cropperModal.present();
+		const { data } = await cropperModal.onDidDismiss();
+		if (data.result) {
+			this.photoBase64 = data.result;
+			// this.photoTasks = [
+			//   { id: 'upload', name: this.languageService.getTranslation('FILE_PHOTO_UPLOAD') },
+			// ];
+			// this.currentPhotoTask = 'upload'
+		}
+	}
+
+	private photoUploadStorage(photo: string, ancestor:string, photoBase64: string, file:any) {
+		// make photo type lower case
+		// let i = photo.indexOf('.');
+		// let ph = photo.substring(0, i) + '.' + photo.substring(i+1).toLowerCase();
+		// let base64 = this.photoBase64;
+		
+		let imageExt = photoBase64.substring(photoBase64.indexOf('/')+1, photoBase64.indexOf(';'))
+		let title = this.languageService.getTranslation('FILER_PHOTO_UPLOAD');
+		let cancel = this.languageService.getTranslation('CANCEL');
+		let ok = this.languageService.getTranslation('OK');
+		let inputs = [{
+				label: this.languageService.getTranslation('FILER_PHOTO_NAME'),
+				value: '',
+				placeholder: this.languageService.getTranslation('FILER_PHOTO_NAME'),
+				attributes: { maxlength: 50 },
+			},
+		]
+		this.utilService.alertText(title, inputs, cancel, ok).then(result => {
+			if (result.data) {
+
+				const WIDTH = 1280;
+				const EXIF_ORIENTATION = -1;	// unknown
+
+				let photoName = result.data[0];
+				if (photoName != '') {
+					if (photoBase64) {
+						if (photoName.indexOf('.') >= 0)
+							photoName = photoName.substring(0, photoName.indexOf('.'))
+						photoName += '.' + imageExt;
+
+						this.getMeta(photoBase64).then(img => {
+							let height = img.naturalHeight * WIDTH / img.naturalWidth;
+							let width = WIDTH;
 							this.imageCompress
-								.compressFile(base64, EXIF_ORIENTATION, 50, 50, width, height) // 50% ratio, 50% quality
+								.compressFile(photoBase64, EXIF_ORIENTATION, 50, 50, width, height) // 50% ratio, 50% quality
 								.then(compressedImage => {
 										this.loadImage(compressedImage, photoName, ancestor);
 								});
 						});
-					});
+					} else {
+						const objectURL = URL.createObjectURL(file);
+						this.getMeta(objectURL).then(img => {
+							let height = img.naturalHeight * WIDTH / img.naturalWidth;
+							let width = WIDTH;
+							var myReader: FileReader = new FileReader();
+							myReader.readAsDataURL(file);
+							myReader.onload = ((event:any) => {
+								let base64 = event.target.result;
+								this.imageCompress
+									.compressFile(base64, EXIF_ORIENTATION, 50, 50, width, height) // 50% ratio, 50% quality
+									.then(compressedImage => {
+											this.loadImage(compressedImage, photoName, ancestor);
+									});
+							});
+						});
+					}
+				} else {
+					this.utilService.presentToastOK(['FILE_PHOTO_NAME_INVALID']);
 				}
-			} else {
-				this.utilService.presentToastOK(['FILE_PHOTO_NAME_INVALID']);
 			}
-		}
-	})
-}
-
-private loadImage(base64: string, photoName: string, ancestor:string) {
-	let type = base64.substring('data:'.length, base64.indexOf(';'));
-	base64 = base64.replace("data:", "").replace(/^.+,/, "");
-	this.fbService.addImage(base64, type, ancestor, photoName).then(status => {
-		this.utilService.presentToastOK(['FILE_PHOTO_COMPLETE_1', photoName, 'FILE_PHOTO_COMPLETE_2']);
-	});
-}
-
-// --- imageMode ---
-
-	imageOnClick(start: boolean) {
-		if (start) {
-			this.resetModes();
-			this.imageMode = true;
-			this.imageFiles = [];
-			document.getElementById("modify-image").click();
-		} else
-			document.getElementById("modify-image").click();
+		})
 	}
 
-	// https://bobbyhadz.com/blog/check-image-width-and-height-before-upload-using-javascript
+	private loadImage(base64: string, photoName: string, ancestor:string) {
+		let type = base64.substring('data:'.length, base64.indexOf(';'));
+		base64 = base64.replace("data:", "").replace(/^.+,/, "");
+		this.fbService.addImage(base64, type, ancestor, photoName).then(status => {
+			this.utilService.presentToastOK(['FILER_PHOTO_COMPLETE_1', photoName, 'FILER_PHOTO_COMPLETE_2']);
+		});
+	}
 
-  imageOnSelect(event: any): void {
-
-		console.log('imageOnSelect - this.imageFiles: ', this.imageFiles);
-
-    const files = [...event.target.files]
-    if (this.imageFiles.length == 0) {
-			this.getDimension(files[0]);
-			this.imageFiles = files;
-    } else {
-      files.forEach((file:any) => {
-        let index = this.imageFiles.findIndex((f:File) => f.name == file.name);
-        if (index == -1) {
-					this.getDimension(file);
-					// console.log('imageOnSelect - file: ', file);
-          this.imageFiles.push(file);
-				}
-      });
-    }
-		event.target.value = null;
-  }
+// https://bobbyhadz.com/blog/check-image-width-and-height-before-upload-using-javascript
 
 	getDimension(file: any) {
 		const getMeta = async (url: any) => {
@@ -745,37 +760,6 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
 		return str;
 	}
 
-  imageOnDelete(file:File) {
-    if (DEBUGS.FILE)
-      console.log('FilePage - imageOnDelete: ', this.imageFiles);
-    let index = this.imageFiles.findIndex((f:File) => f.name == file.name);
-    if (index != -1) {
-      const files:File[] = [];
-      for (let i = 0; i < this.imageFiles.length; i++) {
-        if (i != index)
-          files.push(this.imageFiles[i])
-      }
-      this.imageFiles = files;
-			// console.log('imageOnDelete - imageFiles: ', this.imageFiles);
-    }
-  }
-
-  imageOnView(file:File) {
-		this.imageViewMode = true;
-    this.imageFileName = file.name;
-    const reader = new FileReader();
-		reader.readAsDataURL(file);
-		reader.onload = ((event:any) => {
-			$('#image-view').attr('src', event.target.result);
-		});
-  }
-
-  imageOnUpload(file:File) {
-    console.log('FilePage - imageOnUpload');
-    const photo:string = file.name;
-		this.photoUploadStorage(photo, this.ancestor, null, file);
-  }
-
 	// --- storageMode ---
 
 	storageOnClick() {
@@ -807,6 +791,7 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
 				this.fbService.deleteImage(this.ancestor, file.name).then((status:any) => {
 					this.fbService.getFileList(this.ancestor).then((res:any) => {
 						this.storageFiles = res;
+						this.storageFileName = '';
 					});
 				});
       }
@@ -917,9 +902,9 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
 	notifySaveList(): void {
 
 		let msg = this.utilService.getAlertMessage([
-			{name: 'msg', label: 'FILE_NOTIFICATION_SAVE'},
+			{name: 'msg', label: 'FILER_NOTIFICATION_SAVE'},
 		]);
-    this.utilService.alertConfirm('FILE_NOTIFICATION_SAVE', msg, 'CANCEL', 'OK').then((res) => {
+    this.utilService.alertConfirm('FILER_NOTIFICATION_SAVE', msg, 'CANCEL', 'OK').then((res) => {
       if (res.data) {
 
 				let recipients = {};
@@ -937,7 +922,7 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
 				this.fbService.deleteNotification(this.ancestor, 'recipients').then((status1:any) => {
 					this.fbService.setNotification(this.ancestor, 'recipients', recipients).then((status2:any) => {});
 				});
-				this.utilService.presentToastOK(['FILE_NOTIFICATION_SAVE_OK']);
+				this.utilService.presentToastOK(['FILER_NOTIFICATION_SAVE_OK']);
       }
     });
   }
@@ -974,7 +959,7 @@ private loadImage(base64: string, photoName: string, ancestor:string) {
 				{   
 					type: 'text',
 					value: '',
-					placeholder: 'NAME',
+					placeholder: 'Tên',
 					attributes: { maxlength: 40},
 				},
 			]

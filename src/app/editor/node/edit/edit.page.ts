@@ -331,6 +331,8 @@ export class EditPage implements OnInit {
         'data': photoBase64,
         'url': url
       },
+			cssClass: 'modal-dialog',
+			backdropDismiss:false
     });
     await cropperModal.present();
     const { data } = await cropperModal.onDidDismiss();

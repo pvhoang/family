@@ -405,6 +405,63 @@ export class UtilService {
 		return await alert.onDidDismiss();
 	}
 
+	async alertAddNode(srcHeader: any, inputs: any[], cancelText: any, wife: any, son: any, daughter: any, dialogDim?: any) {
+		let header = this.languageService.getTranslation(srcHeader);
+		if (!header)
+			header = srcHeader;
+		let css = 'alert-dialog';
+		if (!dialogDim)
+			dialogDim = { width: 550, height: 500 };
+		this.themeService.setAlertSize(dialogDim);
+		let buttons = [];
+		if (wife) {
+			buttons.push({
+				text: this.languageService.getTranslation(wife),
+				handler: (data: any) => {
+					alert.dismiss(['WIFE', data]);
+					return false;
+				}
+			});
+		}
+		if (son) {
+			buttons.push({
+				text: this.languageService.getTranslation(son),
+				handler: (data: any) => {
+					alert.dismiss(['SON', data]);
+					return false;
+				}
+			});
+		}
+		if (daughter) {
+			buttons.push({
+				text: this.languageService.getTranslation(daughter),
+				handler: (data: any) => {
+					alert.dismiss(['DAUGHTER', data]);
+					return false;
+				}
+			});
+		}
+		if (cancelText) {
+			buttons.push({
+				text: this.languageService.getTranslation(cancelText),
+				handler: (data: any) => {
+					alert.dismiss(['CANCEL', data]);
+					return false;
+				}
+			});
+		}
+		
+		let alert = await this.alertController.create({
+      header: header,
+			cssClass: css,
+			inputs: inputs,
+      buttons: buttons,
+			backdropDismiss: false,
+			mode: "md"
+    });
+    await alert.present();
+		return await alert.onDidDismiss();
+	}
 
 	async alertSelect(srcHeader: any, selects: any[], cancelText: any, okText: any) {
 		let header = this.languageService.getTranslation(srcHeader);

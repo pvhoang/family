@@ -325,9 +325,10 @@ export class NodePage implements OnInit {
         'node': node,
         'family': this.family,
         'info': this.info,
-      }
+      },
+			cssClass: 'modal-dialog',
+			backdropDismiss:false
     });
-
     modal.onDidDismiss().then((resp) => {
       let status = resp.data.status;
       if (status == 'cancel') {
@@ -353,50 +354,32 @@ export class NodePage implements OnInit {
   }
 
   async onAdd() {
-
-    let node = this.selectedNode;
-
-    let inputs = [];
-    if (!node.pnode)
-      // root node, add father
-      inputs.push({type: 'radio', label: this.languageService.getTranslation('FATHER'), value: 'FATHER', checked: false });
-    if (node.gender == 'female')
-      inputs.push({type: 'radio', label: this.languageService.getTranslation('HUSBAND'), value: 'HUSBAND' });
-    else if (node.gender == 'male')
-      inputs.push({type: 'radio', label: this.languageService.getTranslation('WIFE'), value: 'WIFE' });
-    inputs.push({type: 'radio', label: this.languageService.getTranslation('SON'), value: 'SON', checked: true });
-    inputs.push({type: 'radio', label: this.languageService.getTranslation('DAUGHTER'), value: 'DAUGHTER', checked: false });
-
-    this.utilService.alertRadio('NODE_ADD_RELATION_HEADER', '', inputs , 'CANCEL', 'OK').then((res) => {
-      console.log('onAdd- res: ', res);
-      if (res.data) {
-
-        let relation = res.data;
-        let ancestorName = this.nodeService.getChildFamilyName(this.selectedNode);
-
-        // let firstChar = ancestorName.charAt(0);
-        // ancestorName = firstChar + ancestorName.substring(1);
-
-        let gender = (relation == 'FATHER' || relation == 'HUSBAND' || relation == 'SON') ? 'male' : 'female';
-        // let lName = this.utilService.stripVN(ancestorName);
-
-        let mName = (gender == 'male') ? 'văn' : 'thị';
-        let fName = (gender == 'male') ? 'nam' : 'nữ';
-        // let name = this.utilService.stripVN(ancestorName) + ' ...';
-        let name = ancestorName + ' ' + mName + ' ' + fName + ' ...';
-        let node: any;
-        if (relation == 'FATHER') {
-          this.addFather(name);
-        } else {
-          if (relation == 'SON' || relation == 'DAUGHTER')
-            node = this.nodeService.addChild(this.selectedNode, name, gender, relation);
-          else
-            node = this.nodeService.addSpouse(this.selectedNode, name, gender, relation);
-          this.updateSystemData(node);
-          this.onNodeSelect(node);
-        }
-      }
-    });
+    // let node = this.selectedNode;
+		let title = 'NODE_ADD_RELATION_HEADER'
+		let inputs = [
+			{   
+				type: 'text',
+				value: '',
+				placeholder: 'Tên',
+				attributes: { maxlength: 40},
+			},
+		]
+		this.utilService.alertAddNode(title, inputs , 'CANCEL', 'WIFE', 'SON', 'DAUGHTER', { width: 700, height: 200 }).then(result => {
+			if (result.data) {
+				let mode = result.data[0];
+				if (mode !== 'CANCEL') {
+					let data =  result.data[1];
+					let name = data[0];
+					let relation = mode;
+					let gender = (relation == 'FATHER' || relation == 'HUSBAND' || relation == 'SON') ? 'male' : 'female';
+					let node = (relation == 'SON' || relation == 'DAUGHTER')
+						? this.nodeService.addChild(this.selectedNode, name, gender, relation)
+						: this.nodeService.addSpouse(this.selectedNode, name, gender, relation);
+					this.updateSystemData(node);
+					this.onNodeSelect(node);
+				}
+			}
+		});
   }
 
   onDelete() {
@@ -418,23 +401,24 @@ export class NodePage implements OnInit {
     });
   }
 
-  addFather(name: string) {
-    this.dataService.readFamily().then((family:any) => {
-      let node = { name: name, gender: 'male', yob: '1900' } 
-      let newFamily = {
-        version: family.version,
-        nodes: [ node ],
-        children: [ { nodes: family.nodes, children: family.children } ]
-      };
-      // this.dataService.saveFamily(newFamily).then(status => {
-      //   this.startFromStorage();
-      // });
-    });
-  }
+  // addFather(name: string) {
+  //   this.dataService.readFamily().then((family:any) => {
+  //     let node = { name: name, gender: 'male', yob: '1900' } 
+  //     let newFamily = {
+  //       version: family.version,
+  //       nodes: [ node ],
+  //       children: [ { nodes: family.nodes, children: family.children } ]
+  //     };
+  //     // this.dataService.saveFamily(newFamily).then(status => {
+  //     //   this.startFromStorage();
+  //     // });
+  //   });
+  // }
 
   updateSystemData(node: any) {
     // update data for node
     node.span = this.nodeService.getSpanStr(node);
+
     // save full family to local memory and update people list
     this.familyService.saveFullFamily(this.family).then(status => {
       // this.peopleNodes = this.getPeopleNodes (this.family);

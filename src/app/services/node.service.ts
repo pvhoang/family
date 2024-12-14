@@ -205,7 +205,7 @@ export class NodeService {
     if (node.pod != '') str += ' ' + node.pod;
     if (node.por != '') str += ' ' + node.por;
     if (node.job != '') str += ' ' + node.job;
-    if (node.desc != '') str += ' ' + node.desc;
+    // if (node.desc != '') str += ' ' + node.desc;
     if (node.dod != '') str += ' ' + node.dod;
     
     str += ' ' + genStr;
@@ -225,7 +225,7 @@ export class NodeService {
       (node.pod ? node.pod : '') + '||' +
       (node.por ? node.por : '') + '||' +
       (node.job ? node.job : '') + '||' +
-      (node.desc ? node.desc :  '') + '||' +
+      // (node.desc ? node.desc :  '') + '||' +
       // ((node.photo) ? node.photo : '') + '||' +
       (node.dod ? node.dod : '');
     return str;
@@ -333,7 +333,7 @@ export class NodeService {
     if (!node.pod) node.pod = '';
     if (!node.por) node.por = '';
     if (!node.job) node.job = '';
-    if (!node.desc) node.desc = '';
+    if (!node.desc) node.desc = [];
     if (!node.photo) node.photo = '';
     if (!node.dod) node.dod = '';
     return node;
@@ -352,7 +352,7 @@ export class NodeService {
     values.por = (node.por == '') ? null : node.por;
     values.job = (node.job == '') ? null : node.job;
     // values.desc = node.desc;
-    values.desc = node.desc.join('\n');
+    values.desc = !node.desc ? '' :  node.desc.join('\n');
 
 		// if (Array.isArray(this.values.desc)) {
 			// 	let str = '';
@@ -453,9 +453,7 @@ export class NodeService {
       (node.pod != pod) ||
       (node.por != por) ||
       (node.job != job) ||
-
-      (node.desc.join('\n') != values.desc) ||
-
+      // (node.desc.join('\n') != values.desc) ||
       (node.photo != values.photo) ||
       (node.dod != dod);
     return change;

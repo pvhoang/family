@@ -12,7 +12,7 @@ export class Node {
   pod: string = '';
   por: string = '';
   job: string = '';
-  desc: string = '';
+  desc: any = [];
   photo: string = '';
   dod: string = '';
 

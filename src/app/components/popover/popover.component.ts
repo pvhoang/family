@@ -12,7 +12,7 @@ export class PopoverComponent implements OnInit {
   @Input() header: any;
   @Input() node: any;
   @Input() isChildOK: any;
-  @Input() isBranchOK: any;
+  // @Input() isBranchOK: any;
 
   isDeleteOK = false;
   isAddOK = false;
@@ -26,7 +26,7 @@ export class PopoverComponent implements OnInit {
     // ok to delele leaf node
     this.isDeleteOK = !this.node.family.children || this.node.family.children.length == 0;
     this.isAddOK = this.isChildOK;
-    this.isAddBranchOK = this.isBranchOK;
+    // this.isAddBranchOK = this.isBranchOK;
   }
 	onCancel() {
     this.popoverController.dismiss('onCancel');
