@@ -3,11 +3,11 @@ import { ModalController, PopoverController } from '@ionic/angular';
 import { LanguageService } from '../../services/language.service';
 import { FamilyService } from '../../services/family.service';
 import { NodeService } from '../../services/node.service';
-import { EditorService } from '../../services/editor.service';
+import { HtmlService } from '../../services/html.service';
 import { DataService } from '../../services/data.service';
 import { FtTreeService } from '../../services/ft-tree.service';
 import { Family, Node, FAMILY} from '../../services/family.model';
-import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
+import { FONTS_FOLDER, DEBUGS, PHOTO_SIZE } from '../../../environments/environment';
 
 // http://www.giaphavietnam.vn/default.aspx?lang=vi-VN&cp=news-detail&cid=38
 
@@ -44,6 +44,9 @@ export class PersonPage implements OnInit {
   isPopover = false;
   timeEnter: number = 0;
   info: any;
+	pass_away: any;
+
+	images: any;
 
 	image1: any = { w: '187px', h: '269px', url: '' };
 	image2: any = { w: '187px', h: '269px', url: '' };
@@ -53,7 +56,7 @@ export class PersonPage implements OnInit {
     public popoverController: PopoverController,
     private familyService: FamilyService,
     private nodeService: NodeService,
-    private editorService: EditorService,
+    private htmlService: HtmlService,
     private dataService: DataService,
     private languageService: LanguageService,
     public ftTreeService: FtTreeService,
@@ -82,6 +85,7 @@ export class PersonPage implements OnInit {
       if (DEBUGS.PERSON)
         console.log('PersonPage - startFromStorage - data: ', data);
       this.info = data.info;
+			this.images = data.images;
       this.title = this.info.description;
       this.start(data.family);
 			// this.setupEditor('');
@@ -91,7 +95,7 @@ export class PersonPage implements OnInit {
   start(family: any) {
     this.family = this.familyService.buildFullFamily(family);
 
-		console.log('nodeid: ', this.nodeid);
+		// console.log('nodeid: ', this.nodeid);
 
 		if (this.nodeid != '') {
 			let selectedNode = this.nodeService.getFamilyNode(this.family, this.nodeid);
@@ -140,117 +144,77 @@ export class PersonPage implements OnInit {
 	onNodeSelect(node: Node) {
     if (DEBUGS.PERSON)
       console.log('PersonPage - onNodeSelect - node: ', node);
-		
-    // reset nclass
-    // if (this.selectedNode)
-    //   this.selectedNode.nclass = this.nodeService.updateNclass(this.selectedNode);
-		
-		// read images from local storage
-		this.dataService.readItem('images').then((images:any) => {
-			if (Array.isArray(node.desc)) {
-				// convert to html if desc is an array
-				let html = this.editorService.convertArrayToHtml(images, node.desc, true);
-				// html = 'Ông bà sinh:<br><p style="padding-left: 20px;">1. Phan <b>Văn</b> Nguyên Trưởng Nam</p>';
-				// html =  'Ông bà sinh:<br><div class="viewer-home-container-left viewer-home-container-padding-20">1. Phan Văn Nguyên Trưởng Nam</div>';
-				// html =  'Ông bà sinh:<br><div class="viewer-home-container-center">1. Phan Văn Nguyên Trưởng Nam</div>';
-				// let dom = document.getElementById('detail-person');
-				// dom.innerHTML = html;
-				node.desc = html;
-				// console.log('PersonPage - onNodeSelect - html: ', html);
-			};
-			this.onNodeDisplay(images, node);
 
-			this.selectedNodeName = node.name;
-			this.selectPeople = node.name + this.nodeService.getFullDetail(node)
-			this.selectedNode = node;
-			this.selectedNode.nclass = 'node-select';
-			this.familyView = this.familyService.getSelectedPerson(this.selectedNode);
+		if (Array.isArray(node.desc)) {
+			// convert to html if desc is an array
+			let dataSource = { images: this.images, textarea: true }
+			let pageHtmls = this.htmlService.convertArrayToHtmls(dataSource, node.desc);
+			let html = this.htmlService.convertHtmls2Html(pageHtmls);
+			node.desc = html;
+			let dom = document.getElementById('detail-person');
+			dom.innerHTML = node.desc;
+		};
 
-		});
+		this.onNodeDisplay(this.images, node);
+
+		this.selectedNodeName = node.name;
+		this.selectPeople = node.name + this.nodeService.getFullDetail(node)
+		this.selectedNode = node;
+		// this.selectedNode.nclass = 'node-select';
+		this.familyView = this.familyService.getSelectedPerson(this.selectedNode);
+		
+		// evaluate living status
+		let currentYear = new Date().getFullYear();
+		this.pass_away =
+			(node.yod && node.yod !== '') ||
+			(node.dod && node.dod != '') ||
+			(node.yob && node.yob != '' && (+node.yob + 100 < currentYear) )
+
   }
 
 	onNodeDisplay(images: any, node: Node) {
-
-		// this.selectedNodeName = node.name;
-    // this.selectPeople = node.name + this.nodeService.getFullDetail(node)
-
-		// this.selectedNode = node;
-    // this.selectedNode.nclass = 'node-select';
-
-    // this.familyView = this.familyService.getSelectedPerson(this.selectedNode);
 
 		if (node.desc) {
 			let dom = document.getElementById('detail-person');
 			dom.innerHTML = node.desc;
 		}
-
-		// dom.innerHTML = '';
-		// if (this.selectedNode.desc && this.selectedNode.desc != '') {
-			// let dom = document.getElementById('detail');
-			// if (dom) {
-				// console.log('innerHTML: ', this.selectedNode.desc)
-				// dom.innerHTML = this.selectedNode.desc;
-			// }
-		// }
-
+	
 		// setup for photo display on top
 		if (node.dod == '' && node.pod == '')
 			return;
 
-		let w2 = 1000;
-		let h2 = 1000;
+		let w2 = PHOTO_SIZE.WIDTH;
+		let h2 = PHOTO_SIZE.HEIGHT;
 		let url = '';
 		if (node.photo != '') {
 			let pdata = images[node.photo];
-			// console.log('pdata: ', pdata);
-			w2 = pdata.width;	// 128
-			h2 = pdata.height;	// 96
+			w2 = pdata.width;
+			h2 = pdata.height;
 			url = pdata.url;
 		} else {
 			let avatar = (node.gender == 'male') ? "male-avatar.jpg" : "female-avatar.jpg";
 			url = "../assets/icon/" + avatar;
 		}
-		// calculate scale
-		let w1 = 187;
-		let h1 = 269;
-		let portrait = w2 < h2;
-		let bigPhoto = w2 > w1 || h2 > h1;
-		let scale = w2 / h2;
-		if (bigPhoto) {
-			w1 = 0.6 * w1;
-			h1 = 0.6 * h1;
-			// reset photo
-			if (portrait) {
-				w2 = w1;
-				h2 = w2 / scale;
-			} else {
-				h2 = h1;
-				w2 = h2 * scale;
-			}
-		} else {
-		}
-		// add 30%
-		w1 = 1.3 * w2;
-		h1 = 1.30 * h2;
-		let top = (h1 - h2) / 2;
+		let frameUrl = "../../../assets/icon/bia.png";
+		let w1 = 140;
+		let h1 = 138;
+		// w2 = 0.7 * w2;
+		// h2 = 0.7 * h2;
+		w2 = 110;
+		h2 = 110;
+		let top = (h1 - h2) / 2 + 2;
 		let left = (w1 - w2) / 2 + w2;
-
-		// top = 40;
-		// left = 40;
-		// top = 80;
-		// left = 290;
-		// console.log('w1, h1: ', w1, h1);
-		// console.log('w2, h2: ', w2, h2);
-		// console.log('top, left: ', top, left);
-
-		this.image1.url = "../../../assets/icon/bia-mo.png";
+		if (DEBUGS.PERSON) {
+			console.log('w1, h1: ', w1, h1);
+			console.log('w2, h2: ', w2, h2);
+			console.log('top, left: ', top, left);
+		}
+		this.image1.url = frameUrl;
 		this.image1.w = '' + parseInt('' + w1)  + 'px';
 		this.image1.h = '' + parseInt('' + h1)  + 'px';
-
 		this.image2.url = url;
 		this.image2.w = '' + parseInt('' + w2) + 'px';
 		this.image2.h = '' + parseInt('' + h2) + 'px';
-
 		let root = document.documentElement;
 		root.style.setProperty('--app-view-person-top', '' + parseInt('' + top) + 'px');
 		root.style.setProperty('--app-view-person-left', '-' + parseInt('' + left) + 'px');

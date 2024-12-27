@@ -43,7 +43,6 @@
 			</ion-col>
 
 			<ion-col size="5" *ngIf="jsonMode">
-				<!-- <ion-label class="label">{{ 'FILE_UPLOAD_JSON_TOOLTIP' | translate }}</ion-label> -->
 				<ion-label class="label">{{ jsonFileName }}</ion-label>
 				<div class="select">
 					<ng-select 
@@ -72,6 +71,22 @@
 					</ng-select>
 				</div>
 			</ion-col>
+
+			<ion-col size="5" *ngIf="storageMode">
+				<ion-label class="label">{{ 'FILER_TASK_HEADER' | translate }}</ion-label>
+				<div class="select">
+					<ng-select 
+						[items]="storageTasks"
+						bindLabel="name"
+						bindValue="id"
+						[(ngModel)]="currentStorageTask"
+						(close)="closeStorageTask()"
+						title="{{ 'FILE_UPLOAD_JSON_TOOLTIP' | translate }}"
+					>
+					</ng-select>
+				</div>
+			</ion-col>
+
 		</ion-row>
 		<br>
 		<ion-item class="editor-filer-header-line">
@@ -82,7 +97,7 @@
 	<div class="screen-file">
 
 		<input id="modify-json-json" type="file" (change)="jsonOnFileSelect($event, 'JSON')" style="display:none;" title=" " accept=".json"/>
-		<input id="photo-image" type="file" (change)="photoGetFile($event)" title=" " accept=".png, .jpg, .jpeg" style="display:none;"/>
+		<input id="photo-image" type="file" (change)="photoGetFile($event)" title=" " accept=".png, .jpg, .jpeg, .doc, .mp4" style="display:none;"/>
 		<input id="modify-image" type="file" (change)="imageOnSelect($event)" multiple title=" " accept=".png, .jpg, .jpeg" style="display:none;"/>
 
 		<div *ngIf="notifyMode">
@@ -214,24 +229,27 @@
 		</div>
 
 		<div *ngIf="photoMode">
-			<form *ngIf="photoBase64 != ''">
+			<form *ngIf="photoBase64 != '' && photoType == 'image'">
 				<img [src]="photoBase64" style="display: block; margin-left: auto; margin-right: auto;" alt="{{photo}}" />
 			</form>
 		</div>
 	
 		<div *ngIf="storageMode">
 
-			<form *ngIf="storageFileName != ''">
+			<form *ngIf="storageFileName != '' && storageFileType">
 				<p style="text-align:center;">{{storageFileName}}</p>
 				<img id="storage-view" src="#" width="500" height="400" style="display: block; margin-left: auto; margin-right: auto;" alt="{{storageFileName}}" />
 			</form>
 
 			<ion-grid class="editor-filer-grid" *ngIf="storageFiles.length > 0">
 				<ion-row>
-					<ion-col size="3" class="column center">
+					<ion-col size="2" class="column center">
+						<span class="label">{{ 'FILE_STORAGE_FOLDER' | translate }}</span>
+					</ion-col>
+					<ion-col size="2" class="column center">
 						<span class="label">{{ 'FILE_STORAGE_HEADER' | translate }}</span>
 					</ion-col>
-					<ion-col size="3" class="column center">
+					<ion-col size="2" class="column center">
 						<span class="label">{{ 'FILE_STORAGE_SIZE' | translate }}</span>
 					</ion-col>
 					<ion-col size="2" class="column center">
@@ -245,10 +263,13 @@
 					</ion-col>
 				</ion-row>
 				<ion-row *ngFor="let file of storageFiles">
-					<ion-col size="3" class="column center"> 
+					<ion-col size="2" class="column center"> 
+						<span class="label-black">{{ file.displayPath }}</span>
+					</ion-col>
+					<ion-col size="2" class="column center"> 
 						<span class="label-black">{{ file.name }}</span>
 					</ion-col>
-					<ion-col size="3" class="column center">
+					<ion-col size="2" class="column center">
 						<span class="label-black">{{ getKB(file.size) }}</span>
 					</ion-col>
 					<ion-col size="2" class="column center">

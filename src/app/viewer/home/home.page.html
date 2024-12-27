@@ -21,21 +21,6 @@
 		<div class="page page-cover page-cover-top" data-density="hard">
 			<div class="page-content">
 
-				<!-- <ion-grid class="app-grid-label">
-					<div class="width-80 margin-auto">
-						<ion-row>
-							<ion-col size="8" class="column center">
-								<b>{{ 'FILE_SEARCH' | translate }}</b>
-							</ion-col>
-							<ion-col size="4" class="column center" (click)="onPhaHeSearch()"> 
-								<ion-button class="button" fill="clear">
-									<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
-								</ion-button>
-							</ion-col>
-						</ion-row>
-					</div>
-				</ion-grid> -->
-
 				<h2 class="page-header-cover-small">{{ 'HOME_TITLE' | translate }}</h2>
 				<div class="page-list">
 					<ul class="list">
@@ -45,7 +30,6 @@
 						<li><span class="page-span" (click)="toPage('pha_do')"><u><i>{{ 'HOME_pha_do' | translate }}</i></u></span></li>
 						<li><span class="page-span" (click)="toPage('ngoai_pha')"><u><i>{{ 'HOME_ngoai_pha' | translate }}</i></u></span></li>
 						<li><span class="page-span" (click)="toPage('phu_khao')"><u><i>{{ 'HOME_phu_khao' | translate }}</i></u></span></li>
-						<li><span class="page-span" (click)="toPage('ngay_gio')"><u><i>{{ 'HOME_ngay_gio' | translate }}</i></u></span></li>
 					</ul>
 				</div>
 				<div class="page-footer"><u><i></i></u></div>
@@ -54,168 +38,88 @@
 
 <!-- pha_nhap, pha_ky, pha_he, pha_do, ngoai_pha, phu_khao -->
 
-		<div *ngFor="let key of specialKeys; index as iKey; ">
+		<div *ngFor="let key of pageKeys; index as iKey; ">
 
-			<div *ngFor="let page of specialPageData[key]; index as i;">
+			<div *ngFor="let page of pageData[key]; index as i;">
 				<div class="page" data-density="hard">
 					<div class="page-content">
-						<h2 class="page-header">{{page.titleText}}</h2>
+						<h1 class="page-header">{{page.titleText}}</h1>
+						<!-- <h2 class="page-header">{{page.titleText}}</h2> -->
+						<!-- <div class="page-header">{{page.titleText}}</div> -->
 						<div class="w3-container page-text scroll">
-
 							<div *ngFor="let data of page.htmls; index as j;">
-
 <!-- NORMAL TEXT -->
 								<div *ngIf="data.html">
 									<div id="{{key}}_{{i}}_{{j}}"></div>
 								</div>
-
 <!-- VIEW POPUP -->
 								<div *ngIf="data.popupHtml">
-									<ion-grid class="app-grid-label-1">
-										<div class="width-80 margin-left">
-										<!-- <div class="width-50 margin-mode"> -->
-											<ion-row>
-												<ion-col size="8" class="column left">
-													<b>{{ data.docTitle }}</b>
-												</ion-col>
-												<ion-col size="4" class="column center" (click)="onDocDetail(page, data.docHtml, data.docTitle)"> 
-													<ion-button class="button" fill="clear">
-														<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
-													</ion-button>
-												</ion-col>
-											</ion-row>
+									<div class="home-text-apa3 home-popup">
+										<b>{{ data.docTitle }}&emsp;</b>
+										<div class="column">
+											<ion-button class="button" fill="clear" (click)="onDocDetail(page, data.docHtml, data.docTitle)">
+												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+											</ion-button>
 										</div>
-									</ion-grid>
+									</div>
+								</div>
+
+<!-- DOWNLOAD DOCUMENT -->
+								<div *ngIf="data.downloadDocumentHtml">
+									<div class="home-text-apa2 home-popup">
+										<b>{{ data.title }}&emsp;</b>
+										<div class="column">
+											<ion-button class="button" fill="clear" (click)="onDocumentDownload(page, data.fileName, data.url)">
+												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+											</ion-button>
+										</div>
+									</div>
 								</div>
 
 <!-- VIEW NODES -->
 								<div *ngIf="data.viewNodeHtml">
-									<ion-grid class="app-grid-label-1">
-										<div class="width-80 margin-auto">
-										<!-- <div class="width-50 margin-mode"> -->
-											<ion-row>
-												<ion-col size="8" class="column center">
-													<b>{{ 'FILE_OPEN_NODES' | translate }}</b>
-												</ion-col>
-												<ion-col size="4" class="column center" (click)="onPhaHe(null)"> 
-													<ion-button class="button" fill="clear">
-														<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
-													</ion-button>
-												</ion-col>
-											</ion-row>
+									<div class="home-text-apa2 home-popup">
+										<b>{{ data.viewNodeHtml }}&emsp;</b>
+										<div class="column">
+											<ion-button class="button" fill="clear" (click)="onPhaHe(page, null)">
+												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+											</ion-button>
 										</div>
-									</ion-grid>
+									</div>
 								</div>
-
 <!-- SEARCH NODE -->
 								<div *ngIf="data.searchNodeHtml">
-									<ion-grid class="app-grid-label-1">
-										<div class="width-80 margin-auto">
-										<!-- <div class="width-50 margin-mode"> -->
-											<ion-row>
-												<ion-col size="8" class="column center">
-													<b>{{ 'FILE_SEARCH' | translate }}</b>
-												</ion-col>
-												<ion-col size="4" class="column center" (click)="onPhaHeSearch()"> 
-													<ion-button class="button" fill="clear">
-														<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
-													</ion-button>
-												</ion-col>
-											</ion-row>
-											</div>
-									</ion-grid>
+									<div class="home-text-apa2 home-popup">
+										<b>{{ data.searchNodeHtml }}&emsp;</b>
+										<div class="column">
+											<ion-button class="button" fill="clear" (click)="onPhaHeSearch(page)">
+												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+											</ion-button>
+										</div>
+									</div>
 								</div>
-
-<!-- VIEW ROOT -->
-								<div *ngIf="data.viewRootHtml">
-									<ion-grid class="app-grid-1">
-
-										<ion-row>
-											<ion-col size="4" class="column center">
-												<span class="label">{{ 'HOME_pha_he_to' | translate }}</span>
-											</ion-col>
-											<!-- <ion-col size="2" class="column center">
-												<span class="label">{{ 'HOME_pha_he_doi' | translate }}</span>
-											</ion-col> -->
-											<ion-col size="7" class="column center">
-												<span class="label">{{ 'HOME_pha_he_ten' | translate }}</span>
-											</ion-col>
-											<ion-col size="1" class="column center">
-												<!-- <span class="label">{{ 'HOME_pha_he_detail' | translate }}</span> -->
-											</ion-col>
-										</ion-row>
-
-										<ion-row *ngFor="let person of tableAncestors; index as i;">
-											<ion-col size="4" class="column center">
-												<b>{{person.title}}/{{person.gen}}</b>
-											</ion-col>
-											<!-- <ion-col size="2" class="column center">
-												<b>{{person.gen}} </b>
-											</ion-col> -->
-											<ion-col size="7" class="column center">
-												<b>{{person.name}}</b>
-											</ion-col>
-											<ion-col size="1" class="column center" (click)="onPhaHe(person)"> 
-												<ion-button class="button" fill="clear">
-													<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
-												</ion-button>
-											</ion-col>
-										</ion-row>
-									</ion-grid>
-								</div>
-
 <!-- VIEW TREE -->
 								<div *ngIf="data.viewTreeHtml">
-									<ion-grid class="app-grid-1">
-										<ion-row>
-											<ion-col size="4" class="column center">
-												<span class="label">{{ 'HOME_pha_do_all' | translate }}</span>
-											</ion-col>
-											<!-- <ion-col size="1" class="column center">
-												<span class="label">{{ 'HOME_pha_do_chi' | translate }}</span>
-											</ion-col>
-											<ion-col size="1" class="column center">
-												<span class="label">{{ 'HOME_pha_do_phai' | translate }}</span>
-											</ion-col>
-											<ion-col size="1" class="column center">
-												<span class="label">{{ 'HOME_pha_do_nhanh' | translate }}</span>
-											</ion-col> -->
-											<ion-col size="7" class="column center">
-												<span class="label">{{ 'HOME_pha_do_he' | translate }}</span>
-											</ion-col>
-											<ion-col size="1" class="column center">
-												<!-- <span class="label">{{ 'HOME_pha_he_do' | translate }}</span> -->
-											</ion-col>
-										</ion-row>
-			
-										<ion-row *ngFor="let tree of tableTrees; index as i;">
-											<ion-col size="4" class="column center">
-												<b>{{tree.all}} </b>
-											</ion-col>
-											<!-- <ion-col size="2" class="column center">
-												<b>{{tree.gen}} </b>
-											</ion-col>
-											<ion-col size="1" class="column center">
-												<b>{{tree.branch}} </b>
-											</ion-col>
-											<ion-col size="1" class="column center">
-												<b>{{tree.sub_branch}}</b>
-											</ion-col>
-											<ion-col size="1" class="column center">
-												<b>{{tree.sub_sub_branch}}</b>
-											</ion-col> -->
-											<ion-col size="7" class="column center">
-												<b>{{tree.name}}</b>
-											</ion-col>
-											<ion-col size="1" class="column center" (click)="onPhaDo(tree)"> 
-												<ion-button class="button" fill="clear">
-													<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
-												</ion-button>
-											</ion-col>
-										</ion-row>
-									</ion-grid>
+									<div class="home-text-apa2 home-popup">
+										<b>{{ data.viewTreeHtml }}&emsp;</b>
+										<div class="column">
+											<ion-button class="button" fill="clear" (click)="onPhaDo(page, nodes[0].id)">
+												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+											</ion-button>
+										</div>
+									</div>
 								</div>
-
+<!-- VIEW TREE OF NODE -->
+								<div *ngIf="data.viewTreeNodeHtml">
+									<div class="home-text-apa2 home-popup">
+										<b>{{ data.title }}&emsp;</b>
+										<div class="column">
+											<ion-button class="button" fill="clear" (click)="onPhaDo(page, data.nodeid)">
+												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+											</ion-button>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="page-footer">{{page.index-1}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
@@ -223,18 +127,6 @@
 				</div>
 			</div>
 		</div>
-
-<!-- ngay_gio -->
-			<div class="page" data-density="hard">
-				<div class="page-content">
-					<h2 class="page-header">{{pageData.ngay_gio.titleText}}</h2>
-					<div class="w3-container page-text scroll">
-						<div id="ngay_gio"></div>
-						<br>
-					</div>
-					<div class="page-footer">{{pageData.ngay_gio.index-1}} - <span class="page-span" (click)="toPage('muc_luc')"><u><i>ML</i></u></span></div>
-				</div>
-			</div>
 
 <!-- contact -->
 			<div class="page page-cover page-cover-top" data-density="hard">

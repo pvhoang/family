@@ -4,7 +4,7 @@ import {
   GetTokenOptions,
 } from "@capacitor-firebase/messaging";
 import { Capacitor } from "@capacitor/core";
-import { Platform } from '@ionic/angular';
+// import { Platform } from '@ionic/angular';
 import { IonicSafeString } from '@ionic/angular';
 import { Firestore, doc, addDoc, deleteDoc, setDoc, collection, collectionData } from '@angular/fire/firestore';
 import { environment, DEBUGS, ROOT_COLLECTION } from '../../environments/environment';
@@ -21,7 +21,7 @@ export class FcmService {
   public token = "";
 
   constructor(
-    public platform: Platform,
+    // public platform: Platform,
     private firestore: Firestore,
     private fbService: FirebaseService,
     private utilService: UtilService
@@ -76,9 +76,9 @@ export class FcmService {
 						if (currentToken) {
 							let token = currentToken.token;
 							if (!recData.token || recData.token != token) {
-								let str = this.platform.platforms().toString();
+								// let str = this.platform.platforms().toString();
 								let newData = {};
-								newData[recipient] =  { name: recData.name, token: token, platform: str };
+								newData[recipient] =  { name: recData.name, token: token, platform: Capacitor.getPlatform() };
 								this.fbService.updateNotification(ancestor, 'recipients', newData).then((status:any) => {
 									resolve ('FCM_NA_TOKEN_IS_UPDATED');
 								});

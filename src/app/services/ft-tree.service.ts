@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Platform } from '@ionic/angular';
+// import { Platform } from '@ionic/angular';
+import { Capacitor } from "@capacitor/core";
 
 const SMALL = 6;
 const NORMAL = 8;
@@ -12,13 +13,14 @@ const MOBILE = 8;
 export class FtTreeService {
 
   constructor(
-    public platform: Platform,
+    // public platform: Platform,
 	) { }
 
   scaleStyle: number = NORMAL;
 	
 	isMobilePlatform() {
-		return (this.platform.is('android') || this.platform.is('ios'))
+		// return (this.platform.is('android') || this.platform.is('ios'))
+		return (Capacitor.getPlatform() === 'android' || Capacitor.getPlatform() == 'ios');
 	}
 
 	reset() {

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UtilService } from '../services/util.service';
 import { LanguageService } from '../services/language.service';
-import { EditorService } from '../services/editor.service';
 import { Family, Node, NODE } from './family.model';
 
 const NODE_VARIABLES = [
@@ -17,7 +16,6 @@ export class NodeService {
 
   constructor(
     private utilService: UtilService,
-    private editorService: EditorService,
     private languageService: LanguageService,
 	) {
 	}
@@ -113,10 +111,7 @@ export class NodeService {
     }
     return 'NO_FAMILY_NAME';
   }
-
 	
-	memorialMsg
-
   public getProperName(node: any)  {
     // get proper Vietnamese name
     let values = [];
@@ -130,7 +125,7 @@ export class NodeService {
     return values.join(' ');
   }
 
-  public isAncestorName(ancestorName, node: any)  {
+  public isAncestorName(ancestorName: any, node: any)  {
     // get proper Vietnamese name
     let values = node.name.split(' ');
     let fname = values[0].toLowerCase();
@@ -138,41 +133,8 @@ export class NodeService {
     return aname == fname;
   }
 
-  public getGeneration(node: any) {
-		// let nodeBranch = (node.branch) ? node.branch : '';
-		// let nodeSubBranch = (node.sub_branch) ? node.sub_branch : '';
-		// let nodeSubSubBranch = (node.sub_sub_branch) ? node.sub_sub_branch : '';
-		// 'Dòng', 'Đời', 'Chi', 'Phái', 'Nhánh'
-		let branch = node.branch ? node.branch : '';
-		let sub_branch = node.sub_branch ? node.sub_branch : '';
-		let sub_sub_branch = node.sub_sub_branch ? node.sub_sub_branch : '';
-		// let str = 'Đời ' + node.level + ', Chi ' + branch + ', Phái ' + sub_branch + ', Nhánh ' + sub_sub_branch;
-		let str = 'Đời ' + node.level;
-		if (branch != '') str += ', Chi ' + branch ;
-		if (sub_branch != '') str += ', Phái ' + sub_branch;
-		if (sub_sub_branch != '') str += ', Nhánh ' + sub_sub_branch;
-		// let str = 'Đời ' + node.level + ', Chi ' + branch + ', Phái ' + sub_branch + ', Nhánh ' + sub_sub_branch;
-    // let genStr = this.languageService.getTranslation('GENERATION') + ' ' + node.level;
-    // let genStr = this.languageService.getTranslation('GENERATION_SHORT') + ((node.idlevel) ? node.idlevel : node.level);
-    // let genStr = str;
-		if (node.id.charAt(node.id.length - 1) != '1') {
-			if (node.gender == 'female')
-				str += 'v';
-			else if (node.gender == 'male')
-				str += 'c';
-		}
-		return str;
-  }
-
-	private getBranch(node: any, type: any) {
-		if (node.branch === undefined)
-			return '';
-
-		// if (node['branch'] == undefined)
-		// 	return node['branch']
-		// node = node.pnode;
-		// let branch = this.getBranch(node, type)
-		// return branch;
+  public getGenerationShort(node: any) {
+		return this.languageService.getTranslation('GENERATION') + ' ' + node.level;
 	}
 
   public getPhotoName(node: any, storageName?)  {
@@ -186,15 +148,20 @@ export class NodeService {
   }
 
   public getFullDetail(node: any)  {
-    return ' (' + this.getGeneration(node) + ')';
+    return ' (' + this.getGenerationShort(node) + ')';
   }
 
   public updateNclass(node: any): string {
-    return (this.isNodeMissingData(node)) ? 'not-complete' : node.gender;
+		let currentYear = new Date().getFullYear();
+		let pass_away =
+				(node.yod && node.yod !== '') ||
+			 	(node.dod && node.dod != '') ||
+				(node.yob && node.yob != '' && (+node.yob + 100 < currentYear) )
+		return (pass_away) ? 'pass_away' : node.gender;
   }
 
 	public getSearchKeys(node): string[]  {
-    let genStr = this.getGeneration(node);
+    let genStr = this.getGenerationShort(node);
     // break into array
     let str = node.name;
     if (node.nick != '') str += ' ' + node.nick;
@@ -225,8 +192,6 @@ export class NodeService {
       (node.pod ? node.pod : '') + '||' +
       (node.por ? node.por : '') + '||' +
       (node.job ? node.job : '') + '||' +
-      // (node.desc ? node.desc :  '') + '||' +
-      // ((node.photo) ? node.photo : '') + '||' +
       (node.dod ? node.dod : '');
     return str;
   } 
@@ -301,15 +266,15 @@ export class NodeService {
 	public getSpanStr(node: Node) {
     let str = '<b>' + node.name + '</b>';
     // str += (node.photo != '' || node.desc != '') ? ' (☺)</b>' : '</b>';
-		if (node.yod != '' || node.pod != '' || node.dod != '') {
-			let dod = node.dod != '' ? node.dod : '_/_';
-			str += '<br/><i>Sinh/Tử:</i> (' + node.yob + ' - ' + node.yod + ')';
-			str += '<br/><i>Giỗ:</i> ' + dod + ' (ÂL)'
-			str += '<br/><i>Mộ:</i> ' + node.pod;
-		} else {
-			str += '<br/><i>Sinh:</i> (' + node.yob + ')</i>';
-			str += '<br/><i>Sống:</i> ' + node.por;
-		}
+		// if (node.yod != '' || node.pod != '' || node.dod != '') {
+		// 	let dod = node.dod != '' ? node.dod : '_/_';
+		// 	str += '<br/><i>Sinh/Tử:</i> (' + node.yob + ' - ' + node.yod + ')';
+		// 	str += '<br/><i>Giỗ:</i> ' + dod + ' (ÂL)'
+		// 	str += '<br/><i>Mộ:</i> ' + node.pod;
+		// } else {
+		// 	str += '<br/><i>Sinh:</i> (' + node.yob + ')</i>';
+		// 	str += '<br/><i>Sống:</i> ' + node.por;
+		// }
 		return str;
   }
 

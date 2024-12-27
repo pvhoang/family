@@ -1,13 +1,13 @@
 <ion-header>
 
   <ion-item class="app-header" *ngIf="!ftTreeService.isMobilePlatform()">
-		<ion-col size="2" class="heading" (click)="onExit()">
-      <ion-button class="button" fill="clear" (click)="onExit()">
+		<ion-col size="1" class="heading" (click)="onExit()">
+      <ion-button class="button" fill="clear">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
       </ion-button>
       <!-- <span class="label"><b>{{ 'CANCEL' | translate }}</b></span> -->
     </ion-col>
-    <ion-col size="8">
+    <ion-col size="9">
       <ng-select 
 				class="mobileClass"
         [appendTo]="'body'"
@@ -20,14 +20,14 @@
       >
       </ng-select>
     </ion-col>
-		<ion-col size="1" class="heading">
-			<ion-button class="button" fill="clear" (click)="ftTreeService.onZoomIn()">
+		<ion-col size="1" class="heading" (click)="ftTreeService.onZoomIn()">
+			<ion-button class="button" fill="clear" >
 				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-minus-outline.svg" class="icon"></ion-icon>
 			</ion-button>
       <!-- <span class="label"><b>{{ 'SMALLER' | translate }}</b></span> -->
 		</ion-col>
-		<ion-col size="1" class="heading">
-			<ion-button class="button" fill="clear" (click)="ftTreeService.onZoomOut()">
+		<ion-col size="1" class="heading" (click)="ftTreeService.onZoomOut()">
+			<ion-button class="button" fill="clear">
 				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-plus-outline.svg" class="icon"></ion-icon>
 			</ion-button>
       <!-- <span class="label"><b>{{ 'LARGER' | translate }}</b></span> -->
@@ -35,13 +35,13 @@
   </ion-item>
 
 	<ion-item class="app-header" *ngIf="ftTreeService.isMobilePlatform()">
-		<ion-col size="3" class="heading" (click)="onExit()">
-      <ion-button class="button" fill="clear" (click)="onExit()">
+		<ion-col size="1" class="heading" (click)="onExit()">
+      <ion-button class="button" fill="clear">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
       </ion-button>
       <!-- <span class="label"><b>{{ 'CANCEL' | translate }}</b></span> -->
     </ion-col>
-    <ion-col size="9">
+    <ion-col size="11">
       <ng-select 
 				class="mobileClass"
         [appendTo]="'body'"

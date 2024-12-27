@@ -49,6 +49,7 @@
     "firebase-functions": "^6.1.0",
     "html-to-image": "^1.10.0",
     "html2canvas": "^1.4.1",
+    "image-js": "^0.35.6",
     "ionicons": "^6.0.3",
     "jquery": "^3.6.0",
     "jsoneditor": "9.10.2",

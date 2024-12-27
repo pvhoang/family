@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild  } from '@angular/core';
-import { Platform } from '@ionic/angular';
+// import { Platform } from '@ionic/angular';
+import { Capacitor } from "@capacitor/core";
 import { environment, FONTS_FOLDER, DEBUGS, DRAGON, VILLAGE, TREE, COUNTRY, SMALL_SIZE, MEDIUM_SIZE, LARGE_SIZE } from '../environments/environment';
 import { DataService } from './services/data.service';
 import { UtilService } from './services/util.service';
-import { EditorService } from './services/editor.service';
+import { HtmlService } from './services/html.service';
 import { ThemeService } from './services/theme.service';
 import { FcmService } from './services/fcm.service';
 import { LanguageService } from './services/language.service';
@@ -59,7 +60,7 @@ export class AppComponent implements OnInit {
 	isOpen = false;
 
   constructor(
-    public platform: Platform,
+    // public platform: Platform,
     private dataService: DataService,
     private utilService: UtilService,
     private themeService: ThemeService,
@@ -67,7 +68,7 @@ export class AppComponent implements OnInit {
     private nodeService: NodeService,
     private familyService: FamilyService,
     private fbService: FirebaseService,
-    private editorService: EditorService,
+    private htmlService: HtmlService,
     private fcm: FcmService,
   ) {
     if (DEBUGS.APP)
@@ -114,14 +115,17 @@ export class AppComponent implements OnInit {
 			}
 
 			// ancestor must be valid before doing anything else
-			this.startAncestor(ancestor).then((rdata: any) => {
+			// this.startAncestor(ancestor).then((rdata: any) => {
+			this.getLocalRdata(ancestor).then((rdata: any) => {
 				if (!rdata) {
 					this.presentToast(['APP_NA_ANCESTOR_1', ancestor, 'APP_NA_ANCESTOR_2', 'APP_NA_ANCESTOR_3', 'APP_SUPER_ADMIN']);
 					return;
 				}
+				if (DEBUGS.APP)
+					console.log('rdata: ', rdata);
+
 				let info = rdata.info;
 				let email = info.admin_name + ' (' + info.admin_email + ')';
-
 				// --- admin tasks
 				if (option == info.admin_code) {
 					this.mode = EDIT_MODE;
@@ -191,7 +195,6 @@ export class AppComponent implements OnInit {
 						if (!size)
 								size = MEDIUM_SIZE;
 						this.size = size;
-						size = MEDIUM_SIZE;
 						if (DEBUGS.APP)
 							console.log('initializeUI - theme, language, size: ', this.theme, this.language, this.size);
 
@@ -213,13 +216,8 @@ export class AppComponent implements OnInit {
 
   initializeApp(rdata: any) {
     // let str = this.platform.platforms().toString();
-    // PLATFORM STR
-    // localhost: mobile, mobileweb
-    // pwa: tablet, mobile, mobileweb
-    // android: android, phablet, pwa, mobile, mobileweb
-    // ios: iphone, ios, phablet, mobile, mobileweb
-
-    environment.android = this.platform.is('android');
+		// Capacitor.getPlatform(): web, android, ios
+    environment.android = (Capacitor.getPlatform() === 'android');
       this.updateAppData(rdata).then(status => {
 				if (DEBUGS.APP)
 					console.log('initializeApp - status, mode: ', status, this.mode);
@@ -456,7 +454,6 @@ export class AppComponent implements OnInit {
 
 				let rdata = {
 					"info": info,
-					"branch": {}, 
 					"images": {}, 
 					"docs": docs, 
 					"family": family
@@ -469,9 +466,6 @@ export class AppComponent implements OnInit {
   }
 
 private startAncestor(ancestorID: any) {
-	// if (DEBUGS.APP)
-	// 	console.trace("ancestorID: ", ancestorID);
-
 	return new Promise((resolve) => {
 		this.fbService.getAncestor(ancestorID).then((data:any) => {
 			if (!data) {
@@ -507,15 +501,14 @@ private startAncestor(ancestorID: any) {
 
 			this.setJsonData('places').then((stat2:any) => {});
 			this.setJsonData('names').then((stat3:any) => {});
+
 			let family = rdata.family;
-			
 			// update screen height
 			let nodes = this.nodeService.getFamilyNodes(family);
 			this.themeService.setScreenSize(nodes);
 			if (!rdata.images)
 				rdata.images = {};
-			rdata.docs = this.updateDocs(rdata.images, rdata.docs[this.language]);
-
+			rdata.docs = rdata.docs[this.language];
 			// save to local
 			this.dataService.saveAncestorData(rdata).then((status:any) => {
 				resolve(true);
@@ -523,165 +516,31 @@ private startAncestor(ancestorID: any) {
 		});
   }
 
-	updateDocs(images: any, docs: any) {
-		// if (DEBUGS.APP)
-		// 	console.log('AppComponent - updateDocs - docs: ', docs);
-		// if (DEBUGS.APP)
-		// 	console.log('AppComponent - updateDocs - images: ', images);
-
-		// create text from desc, if necessary
-		for (var key of Object.keys(docs)) {
-			let doc = docs[key];
-			if (doc.text) {
-				// do nothing
-			} else if (doc.desc && Array.isArray(doc.desc)) {
-				// desc is array, convert to html
-				doc.text = this.editorService.convertArrayToHtml(images, doc.desc);
-				// if (key == 'pha_he')
-				// 	this.testDoc(images);
-				doc.desc = null;
-			} else {
-				doc.text = '';
-			}
-			doc.html = doc.text.slice(0);
-			docs[key] = doc;
-		};
-		return docs;
-	}
-	
-	private testDoc(images: any) {
-
-		// const keywords = {
-		// 	'[[START-POPUP]]': '[[END-POPUP]]',
-		// 	'[[VIEW-NODES]]': '',
-		// 	'[[SEARCH-NODES]]': '',
-		// };
-
-		// let desc = [
-		// 	"",
-		// 	"[[START-POPUP]]",
-		// 	"Tài liệu phả ký",
-		// 	"[CONTENT]",
-		// 	"im|ac|2|Bài vị Thủy Tổ.jpg|Bài vị Thủy Tổ, Nhà thờ Phan Tộc",
-		// 	"[[END-POPUP]]",
-		// 	"[[VIEW-NODES]]",
-		// 	"[[SEARCH-NODES]]"
-		// ]
-
-		let desc = [
-			"",
-			"[[VIEW-NODES]]",
-			"[[SEARCH-NODES]]"
-		]
-
-		let htmls = [];
-
-			// 		htmls.push( {html: srcHtml.substring(i1, i2)} );
-
-		let html = this.editorService.convertArrayToHtml(images, desc);
-		console.log('desc: ', desc);
-		console.log('html: ', html);
-		let dataOK = true;
-		let i1 = 0;
-
-		for (; i1 < html.length && dataOK;) {
-			// search for [[
-			let i2 = html.indexOf('[[', i1);
-			if (i2 > i1) {
-				// found it, search for ]]
-				let i3 = html.indexOf(']]', i2);
-				if (i3 > i2) {
-					// found the keyword
-					let keyword = html.substring(i2+2, i3);
-					console.log('keyword: ', keyword);
-					
-					let html1 = html.substring(i1, i2);
-					htmls.push({ html: html1 });
-
-					i3 += 2;
-					if (keyword == 'START-POPUP') {
-						// search for END-POPUP
-						let i4 = html.indexOf('[[END-POPUP]]', i3);
-						if (i4 > i3) {
-							htmls.push( {popupHtml: html.substring(i3, i4) });
-							i1 = i4 + '[[END-POPUP]]'.length
-						}
-					} else {
-						let k = '';
-						if (keyword == 'VIEW-NODES') k = 'viewNodeHtml';
-						if (keyword == 'SEARCH-NODES') k = 'searchNodeHtml';
-						if (keyword == 'VIEW-ROOT') k = 'viewRootHtml';
-						if (keyword == 'VIEW-TREE') k = 'viewTreeHtml';
-						htmls.push({ [k]: keyword });
-						i1 = i3;
-					}
-				} else {
-					dataOK = false
-					// wrong data, break
-					// html = html.substring(i1);
-					// htmls.push({ html: html });
-					// break;
-				}
-			} else {
-				dataOK = false
-				// wrong data, break
-				// html = html.substring(i1);
-				// htmls.push({ html: html });
-				// break;
-			}
-
-		}
-		if (!dataOK) {
-			htmls.push({ html: html.substring(i1) });
-		}
-		// html = html.substring(i1);
-		// htmls.push({ html: html });
-				// break;
-
-		console.log('htmls: ', htmls);
-
-			// for (var key of Object.keys(keywords)) {
-			// 	let i2 = html.indexOf(key, i1);
-			// 	if (i2 > i1) {
-			// 		//
-			// 	}
-			// }
-
-
-			// let i2 = srcHtml.indexOf('[START-POPUP]', i1);
-			// if (i2 >= i1) {
-			// 	if (i2 > i1)
-			// 		htmls.push( {html: srcHtml.substring(i1, i2)} );
-			// 	let i3 = srcHtml.indexOf('[END-POPUP]', i2);
-			// 	if (i3 > i2) {
-			// 		// found the popup html
-			// 		let popupHtml = srcHtml.substring(i2 + '[START-POPUP]'.length, i3);
-			// 		htmls.push( {popupHtml: popupHtml });
-			// 		i1 = i3 + '[END-POPUP]'.length;
-			// 	} else {
-			// 		// final
-			// 		let html = srcHtml.substring(i2);
-			// 		htmls.push({ html: html });
-			// 		break;
-			// 	}
-			// } else {
-			// 	let html = srcHtml.substring(i1);
-			// 	htmls.push({ html: html });
-			// 	break;
-			// }
-		// return htmls;
-// [SEARCH-NODES]		Tìm hệ
-// [VIEW-TREE]				Xem phả đồ theo Đời-Chi-Phái-Nhánh
-// [VIEW-ROOT]				Xem phả đồ theo Tổ phụ
-
-	}
-
 	private setJsonData(json: string) {
     return new Promise((resolve) => {
       let jsonFile = './assets/common/' + json + '.json';
       this.utilService.getLocalJsonFile(jsonFile).then((jsonData:any) => {
 				this.dataService.saveItem(json, jsonData).then((status:any) => {});
         resolve(true);
+      });
+    });
+	}
+
+	private getLocalRdata(ancestor: any) {
+    return new Promise((resolve) => {
+			let rdata:any = {};
+      this.utilService.getLocalJsonFile('./assets/json/phan-docs.json').then((docs:any) => {
+				rdata.docs = docs;
+				this.utilService.getLocalJsonFile('./assets/json/phan-family.json').then((family:any) => {
+					rdata.family = family;
+					this.utilService.getLocalJsonFile('./assets/json/phan-info.json').then((info:any) => {
+						rdata.info = info;
+						this.utilService.getLocalJsonFile('./assets/json/phan-images.json').then((images:any) => {
+							rdata.images = images;
+							resolve(rdata);
+						})
+					})
+				})
       });
     });
 	}

@@ -30,6 +30,7 @@ export const DEBUGS = {
   'MEMORY': false,
   'PERSON': false,
   'HOME': false,
+  'HTML': false,
   'EDITOR': false,
   'VNODE': false,
   'NODE': false,
@@ -40,14 +41,16 @@ export const DEBUGS = {
   'SEARCH': false,
   'CROPPER': false,
   'FIREBASE': false,
-  'FILE': false,
   'FAMILY_SERVICE': false,
   'SVG_TREE_SERVICE': false,
   'UTIL_SERVICE': false,
   'DATA_SERVICE': false,
   'FCM_SERVICE': false,
-  'FILER': false,
+  'FILER': true,
 };
+
+export const PHOTO_SIZE = { WIDTH: 640, HEIGHT: 480 };
+export const IMAGE_SIZE = { WIDTH: 640, HEIGHT: 480 };
 
 export const DRAGON = 'dragon';
 export const VILLAGE = 'village';

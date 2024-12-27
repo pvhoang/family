@@ -68,32 +68,6 @@ export class FirebaseService {
 		return setDoc(docRef, data);
 	}
 
-	// private getAppData(): Observable<any> {
-	// 	let id = ROOT_COLLECTION + '/app';
-	// 	const data = doc(this.firestore, id);
-	// 	return docData(data) as any;
-	// }
-
-	// private setAppData(data)  {
-	// 	const docRef = doc(this.firestore, ROOT_COLLECTION, 'app');
-	// 	return setDoc(docRef, data);
-	// }
-
-	// private setBackupFamily(ancestor: any, family: any, id: any)  {
-	// 	const docRef = doc(this.firestore, ROOT_COLLECTION, ancestor, "families", id);
-	// 	return setDoc(docRef, family);
-	// }
-	
-	// private setBackupDocs(ancestor: any, docs: any, id: any)  {
-	// 	const docRef = doc(this.firestore, ROOT_COLLECTION, ancestor, "docs", id);
-	// 	return setDoc(docRef, docs);
-	// }
-
-	// async setCol(ancestor: any, colId: any, docId: any, fieldData: any, update?: boolean)  {
-	// 	const docRef = doc(this.firestore, ROOT_COLLECTION, ancestor, colId, docId);
-	// 	return update ? updateDoc(docRef, fieldData) : setDoc(docRef, fieldData)
-	// }
-
 	async setCollectionJson(colId: any, json: any, update?: boolean)  {
 		let data = { content: JSON.stringify(json) }
 		const docRef = doc(this.firestore, ROOT_COLLECTION, this.ancestorID, colId, 'json');
@@ -148,32 +122,6 @@ export class FirebaseService {
 		});
 	}
 
-	// async saveDocsData(ancestor: any, language: any, docs: any) {
-	// 	return new Promise((resolve) => {
-  //     this.readAncestorData(ancestor).subscribe((rdata:any) => {
-	// 			rdata.docs[language] = docs;
-	// 			this.saveAncestorData(rdata).then((status:any) => {
-	// 				this.saveBackupDocs(ancestor, rdata.docs).then((status:any) => {
-	// 					resolve(true);
-	// 				});
-	// 			});
-	// 		});
-	// 	});
-	// }
-
-	// async saveDocsAll(ancestor: any, docs: any) {
-	// 	return new Promise((resolve) => {
-  //     this.readAncestorData(ancestor).subscribe((rdata:any) => {
-	// 			rdata.docs = docs;
-	// 			this.saveAncestorData(rdata).then((status:any) => {
-	// 				this.saveBackupDocs(ancestor, rdata.docs).then((status:any) => {
-	// 					resolve(true);
-	// 				});
-	// 			});
-	// 		});
-	// 	});
-	// }
-
 	readAncestorData(ancestor: string): Observable<any> {
 		return from(
 			new Promise((resolve, reject) => {
@@ -195,68 +143,12 @@ export class FirebaseService {
 			})
 		)
 	}
+	
+	// ----------- STORAGE ---
 
-	// async saveAppData(data: any) {
-	// 	return new Promise((resolve, reject) => {
-	// 		this.setAppData(data).then((res:any) => {
-	// 			resolve(true);
-	// 		});
-	// 	});
-	// }
-
-	// async readAppData() {
-	// 	return new Promise((resolve, reject) => {
-	// 		this.getAppData().subscribe({
-	// 			next: (data:any) => {
-	// 				resolve(data);
-	// 			},
-	// 			error: (error:any) => {
-	// 				console.log('ERROR: ', error);
-	// 				reject(error);
-	// 			},
-	// 			complete() {
-	// 				console.log("is completed");
-	// 				resolve(true);
-	// 			},
-	// 		})
-	// 	})
-	// }
-
-	// async saveBackupFamily(ancestor: any, family: any, id: any) {
-	// 	return new Promise((resolve) => {
-	// 		let rfamily = {};
-	// 		for (var key of Object.keys(family))
-	// 			rfamily[key] = JSON.stringify(family[key]);
-	// 		this.setBackupFamily(ancestor, rfamily, id).then((res:any) => {
-	// 			resolve(true);
-	// 		})
-	// 		.catch((error) => {
-	// 			console.log('saveBackupFamily - ', error.message);
-	// 			resolve(false);
-	// 		});
-	// 	});
-	// }
-
-	// private async saveBackupDocs(ancestor: any, docs: any) {
-	// 	let id = this.utilService.getDateID();
-	// 	return new Promise((resolve) => {
-	// 		this.setBackupDocs(ancestor, docs, id).then((res:any) => {
-	// 			resolve(true);
-	// 		});
-	// 	});
-	// }
-
-	// -----------
-
-	// updateJsonDocument(collection: string, documentId, data) {
-  // 	let document = {id: documentId, data: JSON.stringify(data)};
-	// 	const docRef = doc(this.firestore, collection, documentId);
-	// 	return updateDoc(docRef, document);
-	// }
-
-	deleteImage(storageFolder, storageId: string) {
+	deleteImage(storageFolder, fullPath: string) {
 		return new Promise((resolve) => {
-			const storageRef = ref(this.storage, storageFolder + '/' + storageId);
+			const storageRef = ref(this.storage, storageFolder + '/' + fullPath);
 			deleteObject(storageRef)
 			.then(() => {
 				resolve(true);
@@ -268,32 +160,27 @@ export class FirebaseService {
 		});
 	}
 
-	addText(text: string, storageFolder:string, storageId: string) {
+	addText(text: string, storageFolder:string, fullPath: string) {
 		return new Promise((resolve) => {
-			const storageRef = ref(this.storage, storageFolder + '/' + storageId);
+			const storageRef = ref(this.storage, storageFolder + '/' + fullPath);
 			uploadString(storageRef, text).then((snapshot) => {
-				// console.log('addText - snapshot: ', snapshot);
 				getDownloadURL(snapshot.ref).then(url => {
-					// console.log('addText - url: ', url);
 					resolve(url);
 				});
 			})
 		})
 	}
 
-	addImage(base64: string, type: any, storageFolder, storageId: string) {
+	addImage(base64: string, type: any, storageFolder: any, fullPath: string) {
 		return new Promise((resolve) => {
-			// console.log('addImage - storageFolder: ', storageFolder);
-			// get type: data:image/png;
-			// console.log('addImage - type: ', type);
-			const storageRef = ref(this.storage, storageFolder + '/' + storageId);
+			const storageRef = ref(this.storage, storageFolder + '/' + fullPath);
+			console.log('addImage - storageRef: ', storageRef);
 			uploadString(storageRef, base64, 'base64', {
-				// contentType: 'image/jpeg'
-				// contentType: 'image/png'
 				contentType: type
 			})
 			.then((snapshot) => {
 				getDownloadURL(snapshot.ref).then(url => {
+					console.log('addImage - url: ', url);
 					resolve(url);
 				});
 			})
@@ -304,12 +191,13 @@ export class FirebaseService {
 		})
 	}
 
+	
 	// https://firebase.google.com/docs/storage/web/download-files#web-version-9
 
-	getDocumentURL(storageFolder:string, storageId) {
+	getDocumentURL(storageFolder:string, fullPath: any) {
 		return new Promise((resolve) => {
 			const storage = getStorage();
-			const storageRef = ref(storage, storageFolder + '/' + storageId);
+			const storageRef = ref(storage, storageFolder + '/' + fullPath);
 			getMetadata(storageRef).then((metadata) => {
 				// Metadata now contains the metadata for 'images/forest.jpg'
 				if (DEBUGS.FIREBASE)
@@ -341,10 +229,10 @@ export class FirebaseService {
 		})
 	}
 
-	downloadImage(storageFolder:string, storageId) {
+	downloadImage(storageFolder:string, fullPath: any) {
 		return new Promise((resolve) => {
 			const storage = getStorage();
-			const storageRef = ref(storage, storageFolder + '/' + storageId);
+			const storageRef = ref(storage, storageFolder + '/' + fullPath);
 			getDownloadURL(storageRef).then((url) => {
 				resolve(url);
 			})
@@ -370,10 +258,10 @@ export class FirebaseService {
 		})
 	}
 
-	downloadText(storageFolder:string, storageId) {
+	downloadText(storageFolder:string, fullPath: any) {
 		return new Promise((resolve) => {
 			const storage = getStorage();
-			const storageRef = ref(storage, storageFolder + '/' + storageId);
+			const storageRef = ref(storage, storageFolder + '/' + fullPath);
 			getDownloadURL(storageRef).then((url) => {
 				const xhr = new XMLHttpRequest();
 				xhr.responseType = 'text'
@@ -409,66 +297,60 @@ export class FirebaseService {
 	getFileList(storageFolder:string) {
 		return new Promise((resolve) => {
 			const storage = getStorage();
-			let filelist = []
-			const r = ref(storage, storageFolder + '/');
-			listAll(r).then((data) => {
-				// console.log('data: ', data);
-				for (let i = 0; i < data.items.length; i++) {
-				// console.log('data: ', data.items[i]);
-					let name = data.items[i].name;
-					let newref = ref(storage, storageFolder + '/' + data.items[i].name);
-					getMetadata(newref).then((metadata) => {
-						// Metadata now contains the metadata for 'images/forest.jpg'
-						// console.log('metadata: ', metadata);
-						// if (name.indexOf('png') >= 0)
-							// console.log('metadata: ', metadata);
-						let type = metadata.contentType;
-						let size = metadata.size.toLocaleString('vn-VN');
+			const listRef = ref(storage, storageFolder + '/');
+			let fileList = []
+			this.getFolder(fileList, listRef);
+			setTimeout(() => {
+				resolve(fileList);
+			}, 1000);
+		})
+	}
 
-						if (environment.useEmulators) {
-							// emulator can not decode local file with url (localhost:9199)
-							filelist.push({
-								name: name,
-								size: size,
-								type: type,
-								url: null
-							});
-						} else {
-							const getMeta = async (url: any) => {
-								const img = new Image();
-								img.src = url;
-								await img.decode();  
-								return img
-							};
-							// type = (type.indexOf('image') >= 0) ? 'jpg' : 'html';
-							getDownloadURL(newref).then((url) => {
-								// https://stackoverflow.com/questions/11442712/get-width-height-of-remote-image-from-url
-								getMeta(url).then((img) => {
-									filelist.push({
-										name: name,
-										size: size,
-										type: type,
-										url: url,
-										width: img.naturalWidth,
-										height: img.naturalHeight
-									});
-								}).catch((error) => {
-									// console.log('ERROR - FirebaseService - getMeta - error:', error);
-									// this is not an image file, can not be decoded in getMeta(), use regular 'file'
-									filelist.push({
-										name: name,
-										size: size,
-										type: type,
-										url: url
-									});
+	// https://firebase.google.com/docs/storage/web/list-files
+
+	private getFolder(fileList:any, folderRef:any) {
+		listAll(folderRef).then((res) => {
+			res.prefixes.forEach((fRef) => {
+				this.getFolder(fileList, fRef);
+			});
+			res.items.forEach((fRef) => {
+				getMetadata(fRef).then((metadata) => {
+					let type = metadata.contentType;
+					let size = metadata.size.toLocaleString('vn-VN');
+					if (environment.useEmulators) {
+						// emulator can not decode local file with url (localhost:9199)
+						fileList.push({
+							fullPath: fRef.fullPath,
+							size: size,
+							type: type,
+							url: null,
+							width: 0,
+							height: 0
+						});
+					} else {
+						const getMeta = async (url: any) => {
+							const img = new Image();
+							img.src = url;
+							await img.decode();  
+							return img
+						};
+						getDownloadURL(fRef).then((url) => {
+							// https://stackoverflow.com/questions/11442712/get-width-height-of-remote-image-from-url
+							getMeta(url).then((img) => {
+								fileList.push({
+									fullPath: fRef.fullPath,
+									size: size,
+									type: type,
+									url: url,
+									width: img.naturalWidth,
+									height: img.naturalHeight
 								});
+							}).catch((error) => {
+								console.log('error: ', error);
 							});
-						}
-					}).catch((error) => {
-						console.log('ERROR - FirebaseService - getFileList - error:', error)
-					});
-				}
-				resolve(filelist);
+						});
+					}
+				})
 			});
 		});
 	}

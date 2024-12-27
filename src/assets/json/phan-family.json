@@ -8,6 +8,7 @@
       "gender": "male",
       "pod": "Đá Bạc, Quảng Bình",
       "yob": "1854",
+			"photo": "test/phan ngọc danh.jpg",
       "desc": [
 "family|start|Gia tộc",
 "   w|Thái Thị Tôn Nương",
@@ -31,6 +32,7 @@
           "yob": "1874",
           "pod": "Đá Bạc, Quảng Bình",
           "dod": "07/05",
+					"photo": "",
           "desc": [
 "family|start|Gia tộc",
 	"w|Hà Thị Để",

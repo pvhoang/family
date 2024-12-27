@@ -1,0 +1,209 @@
+.home-text-normal {
+	text-indent: 1.5em;
+	font-size: var(--app-text-font-size-small);
+}
+
+.home-text-apa1 {
+	display: flex;
+	font-size: var(--app-text-font-size-extra-large);
+	justify-content: center;
+	font-weight: bold;
+}
+
+.home-text-apa2-large {
+	display: flex;
+	font-size: var(--app-text-font-size-large);
+	justify-content: left;
+	font-weight: bold;
+}
+
+.home-text-apa2 {
+	display: flex;
+	font-size: var(--app-text-font-size-medium);
+	justify-content: left;
+	font-weight: bold;
+}
+
+.home-text-apa3 {
+	display: flex;
+	font-size: var(--app-text-font-size-medium);
+	justify-content: left;
+	font-weight: bold;
+	font-style: italic;
+}
+
+.home-text-apa4 {
+	display: flex;
+	padding-left: 20px;
+	font-size: var(--app-text-font-size-small);
+	justify-content: left;
+	font-weight: bold;
+}
+
+.home-text-apa5 {
+	display: flex;
+	padding-left: 20px;
+	font-size: var(--app-text-font-size-tiny);
+	justify-content: left;
+	font-weight: bold;
+	font-style: italic;
+}
+
+.home-image {
+	// https://www.educative.io/answers/how-to-enlarge-an-image-on-hover-in-html
+	&:hover{
+		transform:scale(2.5);
+	}
+}
+
+.home-document {
+	display: flex;
+	justify-content: left;
+	font-weight: bold;
+	font-size: var(--app-page-detail);
+}
+
+.home-video-wrapper {
+	max-width: 100%;
+	margin: auto;
+	text-align: left;
+	video {
+		// width: 0%;
+		width: 200px;
+		height: 150px;
+	}
+}
+
+.home-grid {
+  --ion-grid-column-padding: 5px;
+  width: 100%;
+  font-size: var(--app-text-font-size-small);
+  ion-row:first-child {
+    font-weight: bold;
+		color: var(--app-color);
+    background-color: var(--app-background-color);
+    font-size: var(--app-text-font-size-small);
+    border: 3px solid var(--app-background-color);
+		border-radius: 3px;
+		border-right: 0;
+    border-bottom: 0;
+		border-top: 0;
+		border-left: 0;
+  }
+  ion-col {
+    border: 1px solid black;
+    border-bottom: 0;
+    border-right: 0;
+  }
+  ion-col:last-child {
+    border-right: 1px solid black;
+  }
+  ion-row:last-child {
+    border-bottom: 1px solid black;
+  }
+}
+
+.home-grid-small {
+  width: 100%;
+	font-size: var(--app-text-font-size-small);
+  ion-row:first-child {
+		// color: var(--app-color);
+		color: black;
+    // background-color: var(--app-background-color);
+  }
+  ion-col {
+    border: 1px solid black;
+    border-bottom: 0;
+    border-right: 0;
+  }
+  ion-col:last-child {
+    border-right: 1px solid black;
+  }
+  ion-row:last-child {
+    border-bottom: 1px solid black;
+  }
+	.column {
+		height: var(--app-panel-height-small);
+		display: flex;
+		align-items: center;
+		// justify-content: center;
+		.left {
+			text-align: left !important;
+		}
+		.center {
+			text-align: center !important;
+		}
+		.right {
+			text-align: right !important;
+		}
+		// .left {
+		// 	margin-left:0px;
+		// }
+		.icon {
+			// font-size: var(--app-icon-font-size-medium);
+			font-size: var(--app-icon-font-size-small);
+			color: var(--app-color);
+			background: var(--app-background-color);
+		}
+		.label {
+			font-size: var(--app-text-font-size-small);
+			// color: var(--app-color);
+			color: black;
+		}
+		.label-black {
+			font-size: var(--app-text-font-size-small);
+			color: black;
+		}
+		.button {
+			--padding-start: 5px;
+			--padding-end: 5px;
+		}
+	}
+}
+
+.home-popup {
+	display: flex;
+	align-items: center;
+	// justify-content: center;
+	.width-50 {
+		width: 50%;
+	}
+	.width-80 {
+		width: 80%;
+	}
+	.margin-left {
+		margin-left:0px;
+	}
+	.margin-auto {
+		margin: auto;
+	}
+  ion-col {
+    border-bottom: 0;
+    border-right: 0;
+  }
+	.column {
+		height: var(--app-panel-height-small);
+		display: flex;
+		align-items: center;
+		.left {
+			text-align: left !important;
+		}
+		.center {
+			text-align: center !important;
+		}
+		.right {
+			text-align: right !important;
+		}
+		.icon {
+			font-size: var(--app-icon-font-size-medium);
+			color: var(--app-color);
+			background: var(--app-background-color);
+			width: 20px;
+			height: 20px;
+		}
+		.button {
+			--padding-start: 5px;
+			--padding-end: 5px;
+		}
+	}
+}

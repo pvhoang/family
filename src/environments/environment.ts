@@ -24,30 +24,32 @@ export const FONTS_FOLDER = '../../assets/fonts/';
 export const DEBUGS = {
   'APP': false,
   'SPLASH': false,
-  'THEME': false,
+  'THEME': true,
   'TABS': false,
   'MEMORY': false,
   'PERSON': false,
   'HOME': false,
+  'HTML': true,
   'EDITOR': false,
   'VNODE': false,
-  'NODE': true,
+  'NODE': false,
   'BRANCH': false,
   'DOCS': false,
-  'TREE': false,
+  'TREE': true,
   'EDIT': false,
   'SEARCH': false,
   'CROPPER': false,
   'FIREBASE': false,
-  'FILE': true,
   'FAMILY_SERVICE': false,
   'SVG_TREE_SERVICE': false,
   'UTIL_SERVICE': false,
   'DATA_SERVICE': false,
   'FCM_SERVICE': false,
   'FILER': true,
-
 };
+
+export const PHOTO_SIZE = { WIDTH: 128, HEIGHT: 128 };
+export const IMAGE_SIZE = { WIDTH: 200, HEIGHT: 150 };
 
 export const DRAGON = 'dragon';
 export const VILLAGE = 'village';

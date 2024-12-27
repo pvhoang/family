@@ -201,9 +201,68 @@
 	}
 }
 
-
-
 .app-grid-small{
+  width: 100%;
+	// margin: auto;
+	// .margin-left {
+	// 	margin-left:0px;
+	// }
+	// .width-80 {
+	// 	width: 80%;
+	// }
+  ion-row:first-child {
+		color: var(--app-color);
+    background-color: var(--app-background-color);
+  }
+  ion-col {
+    border: 1px solid black;
+    border-bottom: 0;
+    border-right: 0;
+  }
+  ion-col:last-child {
+    border-right: 1px solid black;
+  }
+  ion-row:last-child {
+    border-bottom: 1px solid black;
+  }
+	.column {
+		height: var(--app-panel-height-small);
+		display: flex;
+		align-items: center;
+		// justify-content: center;
+		.left {
+			text-align: left !important;
+		}
+		.center {
+			text-align: center !important;
+		}
+		.right {
+			text-align: right !important;
+		}
+		// .left {
+		// 	margin-left:0px;
+		// }
+		.icon {
+			font-size: var(--app-icon-font-size-medium);
+			color: var(--app-color);
+			background: var(--app-background-color);
+		}
+		.label {
+			font-size: var(--app-text-font-size-small);
+			color: var(--app-color);
+		}
+		.label-black {
+			font-size: var(--app-text-font-size-small);
+			color: black;
+		}
+		.button {
+			--padding-start: 5px;
+			--padding-end: 5px;
+		}
+	}
+}
+
+.app-grid-small-no-header{
   width: 100%;
 	// margin: auto;
 	// .margin-left {
@@ -213,8 +272,9 @@
 		width: 80%;
 	}
   ion-row:first-child {
-		color: var(--app-color);
-    background-color: var(--app-background-color);
+		// color: var(--app-color);
+    // background-color: var(--app-background-color);
+		border-right: 1px solid black;
   }
   ion-col {
     border: 1px solid black;
@@ -303,6 +363,9 @@
 		.button {
 			--padding-start: 5px;
 			--padding-end: 5px;
+			  width: 24px;
+				height: 24px;
+
 		}
 	}
 }
@@ -399,6 +462,9 @@
   left: 0;
 	display: flex;
   justify-content: center;
+	padding-top: 10px;
+	padding-left: 30%;
+
 	.image1 {
 		position: relative;
 		top: 0;
@@ -408,8 +474,8 @@
 	.image2 {
 		// position: absolute;
 		position: relative;
-		// top: 130px;
-		// left: -90px;
+		// top: 20px;
+		// left: -120px;
 		top: var(--app-view-person-top);
 		left: var(--app-view-person-left);
 		// border: 1px green solid;
@@ -436,6 +502,99 @@
 	display: flex;
 	// color: var(--app-color);
 	font-size: var(--app-text-font-size-medium);
+	justify-content: center;
+	font-weight: bold;
+}
+
+// p {
+//   text-indent: -2em;
+//   margin-left: 2em;
+// }
+
+.viewer-home-text-normal {
+	text-indent: 2em;
+	// text-indent: 4em;
+  // margin-left: 2em;
+}
+
+.viewer-home-text-apa1 {
+	display: flex;
+	font-size: var(--app-text-font-size-extra-large);
+	justify-content: center;
+	font-weight: bold;
+}
+
+.viewer-home-text-apa2 {
+	display: flex;
+	font-size: var(--app-text-font-size-large);
+	justify-content: left;
+	font-weight: bold;
+}
+
+.viewer-home-text-apa3 {
+	display: flex;
+	font-size: var(--app-text-font-size-medium);
+	justify-content: left;
+	font-weight: bold;
+	font-style: italic;
+}
+
+.viewer-home-text-apa4 {
+	display: flex;
+	padding-left: 20px;
+	font-size: var(--app-text-font-size-small);
+	justify-content: left;
+	font-weight: bold;
+}
+
+.viewer-home-text-apa5 {
+	display: flex;
+	padding-left: 20px;
+	font-size: var(--app-text-font-size-tiny);
+	justify-content: left;
+	font-weight: bold;
+	font-style: italic;
+}
+
+
+
+.viewer-home-container-text {
+	
+	// display: flex;
+	// font-size: var(--app-text-font-size-large);
+	// justify-content: center;
+	// font-weight: bold;
+
+	.heading {
+		display: flex;
+		font-size: var(--app-text-font-size-large);
+		justify-content: center;
+		font-weight: bold;
+	}
+
+	.apa1 {
+		display: flex;
+		font-size: var(--app-text-font-size-large);
+		justify-content: center;
+		font-weight: bold;
+	}
+
+	.apa2 {
+		display: flex;
+		font-size: var(--app-text-font-size-small);
+		justify-content: left;
+	}
+
+	// font-size: var(--app-text-font-size-medium);
+	// .bold {
+	// 	font-weight: bold !important;
+	// }
+	// .italic {
+	// 	font-style: italic;
+	// }
+	// .center {
+	// 	justify-content: center;
+	// }
 }
 
 .viewer-home-container-text-1 {
@@ -536,7 +695,9 @@
 	margin: auto;
 	text-align: left;
 	video {
-		width: 40%;
+		// width: 0%;
+		width: 200px;
+		height: 150px;
 	}
 }
 .viewer-home-player-wrapper-right {
@@ -591,15 +752,15 @@
 	.person-desc {
 		width: 100%;
 		margin: 0 auto;
-		font-size: var(--app-text-font-size-tiny);
+		font-size: var(--app-text-font-size-medium);
 
 		.person-section{
 			background: var(--app-background-color);
 			color: var(--app-color);
 			border: solid 2px var(--app-background-color);
 			border-radius: 5px;
-			// font-size: var(--app-text-font-size-medium);
-			font-size: var(--app-text-font-size-tiny);
+			font-size: var(--app-text-font-size-medium);
+			// font-size: var(--app-text-font-size-small);
 			height:26px;
 			position: relative; 
 			width: 100%;

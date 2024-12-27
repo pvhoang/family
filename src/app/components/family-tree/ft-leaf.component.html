@@ -8,7 +8,10 @@
       [innerHtml]="(view == 1 || view == 2) ? (node.spanDetail ? node.spanDetail : node.span) : node.span"
   >
   </span>
-  <img class="image" *ngIf="(view == 2) && (node.photoUrl != '')" [src]="node.photoUrl">
+	<span *ngIf="(view == 2) && (node.photoUrl != '')">
+		&nbsp;&nbsp;
+		<img class="image" [src]="node.photoUrl">
+	</span>
 </div>
 <ul *ngIf="child.children && child.children.length > 0">
   <li *ngFor="let row of child.children" [ngStyle]="{'width': child.children.length === 1 ? '100%' : 'auto'}">

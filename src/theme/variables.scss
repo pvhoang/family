@@ -138,14 +138,30 @@
 
   // --app-caption-font-size: 16px;		// 14px;
 
-	--app-page-text: 100%;
-	--app-page-header: 100%;
-	--app-page-header-cover: 100%;
-	--app-page-header-cover-small: 100%;
-	--app-page-span: 100%;
-	--app-page-span-cover: 100%;
-	--app-page-footer: 100%;
-	--app-page-detail: 100%;
+	// --app-page-text: 100%;
+	// --app-page-header: 100%;
+	// --app-page-header-cover: 100%;
+	// --app-page-header-cover-small: 100%;
+	// --app-page-span: 100%;
+	// --app-page-span-cover: 100%;
+	// --app-page-footer: 100%;
+	// --app-page-detail: 100%;
+
+	// --app-page-text-font-size: --app-text-font-size-small
+	// --app-page-header-cover-font-size: --app-text-font-size-extra-large
+	// --app-page-header-cover-small-font-size: --app-text-font-size-large
+	// --app-page-header-font-size: --app-text-font-size-extra-large
+	// --app-page-footer-font-size: --app-text-font-size-medium
+	// --app-page-span-font-size: --app-text-font-size-large
+	// --app-page-span-cover-font-size: --app-text-font-size-extra-large
+		
+	--app-page-text-font-size: 14px;
+	--app-page-header-cover-font-size: 20px;
+	--app-page-header-cover-small-font-size: 18px;
+	--app-page-header-font-size: 22px;
+	--app-page-footer-font-size: 16px;
+	--app-page-span-font-size: 18px;
+	--app-page-span-cover-font-size: 20px;
 
   --app-icon-font-size-tiny: 12px;	// 10px;
   --app-icon-font-size-small: 14px;

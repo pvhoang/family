@@ -1,5 +1,20 @@
 {
 	"dragon": {
+		"template": [
+			["--app-text-font-size-tiny", "12px" ],
+			["--app-text-font-size-small", "14px" ],
+			["--app-text-font-size-medium", "16px" ],
+			["--app-text-font-size-large", "18px" ],
+			["--app-text-font-size-extra-large", "20px" ],
+			
+			["--app-icon-font-size-small", "14px" ],
+			["--app-icon-font-size-medium", "16px" ],
+			["--app-icon-font-size-large", "18px" ],
+			["--app-icon-font-size-extra-large", "20px" ],
+			
+			["--app-alert-font-size", "16px" ],
+			["--app-toast-font-size", "16px" ]
+		],
 		"small": {
 			"android": [
 			],

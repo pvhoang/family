@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Platform } from '@ionic/angular';
+// import { Platform } from '@ionic/angular';
+import { Capacitor } from "@capacitor/core";
 import { DEBUGS } from '../../environments/environment';
 
 const COLORS = {
@@ -24,7 +25,7 @@ export class ThemeService {
   size: any;
 
 	constructor(
-    public platform: Platform,
+    // public platform: Platform,
   ) { }
 
   setSystemProperties(themes: any, theme: any, size: any) {
@@ -32,22 +33,21 @@ export class ThemeService {
 			console.log('setSystemProperties - themes: ', themes);
 			console.log('theme: ', theme);
 			console.log('size: ', size);
-			let str = this.platform.platforms().toString();
-			console.log('platform: ', str);
+			console.log('platform: ', Capacitor.getPlatform());
 		}
 
 		// set by platform
-		let items = [];
+		let items = themes[theme]['template'];
 		let commonItems = themes[theme]['common'];
-		if (this.platform.is('android'))
-			items = themes[theme][size]['android'];
-		else if (this.platform.is('ios')) {
-			items = themes[theme][size]['ios'];
-		} else
-			items = themes[theme][size]['css'];
-
-		if (DEBUGS.THEME)
-			console.log('setSystemProperties - items: ', items);
+		// set size by template: small/medium/large
+		let inc = { small: 0, medium: 2, large: 4 }
+		items.forEach((item: any) => {
+			let px = item[1];
+			let value = +px.substring(0, px.indexOf('px'));
+			value += inc[size];
+			item[1] = '' + value + 'px';
+		})
+		
     let root = document.documentElement;
 		items.forEach((item:any) => {
       root.style.setProperty(item[0], item[1]);
@@ -57,13 +57,19 @@ export class ThemeService {
 			let value = (color) ? color : item[1];
       root.style.setProperty(item[0], value);
     })
+
+		if (DEBUGS.THEME) {
+			this.printRootProperty('Normal text font:', '--app-text-font-size-small');
+			console.log('setSystemProperties - fonts: ', items);
+			console.log('setSystemProperties - commonItems: ', commonItems);
+		}
 		this.size = size;
 		this.theme = theme;
 		this.themes = themes;
 	}
 
 	isMobilePlatform() {
-		return (this.platform.is('android') || this.platform.is('ios'))
+		return (Capacitor.getPlatform() === 'android' || Capacitor.getPlatform() === 'ios')
 	}
 
 	getSize() {

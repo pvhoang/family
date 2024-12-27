@@ -10,7 +10,6 @@ import { LanguageService } from '../../../services/language.service';
 import { CropperModalPage } from './cropper-modal/cropper-modal.page';
 import { UtilService } from '../../../services/util.service';
 import { NodeService } from '../../../services/node.service';
-import { EditorService } from '../../../services/editor.service';
 import { DataService } from '../../../services/data.service';
 
 import { FirebaseService } from '../../../services/firebase.service';
@@ -76,7 +75,6 @@ export class EditPage implements OnInit {
     private fbService: FirebaseService,
     private nodeService: NodeService,
     private typeahead: TypeaheadService,
-		private editorService: EditorService,
     private dataService: DataService,
   ) { 
     defineCustomElements(window);
@@ -131,26 +129,6 @@ export class EditPage implements OnInit {
       // spouse node, can not add child
       this.canAddChild = false;
     }
-
-		// if (Array.isArray(this.values.desc)) {
-		// 	let str = '';
-		// 	this.values.desc.forEach((item:any) => {
-		// 		str += item + '\n';
-		// 	})
-		// 	this.values.desc = str;
-		// }
-
-		// if (this.values.desc) {
-		// 	let desc = this.values.desc;
-			// let dom = document.getElementById('detail-person');
-			// this.dataService.readItem('images').then((images:any) => {
-			// 	if (Array.isArray(desc)) {
-			// 		// convert to html if desc is an array
-			// 		let html = this.editorService.convertArrayToHtml(images, desc, true);
-			// 		dom.innerHTML = html;
-			// 	};
-			// });
-		// }
   }
 
   // ------------- ng-select -------------

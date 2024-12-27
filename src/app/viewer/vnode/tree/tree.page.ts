@@ -22,6 +22,7 @@ export class TreePage implements OnInit {
   @Input() nodeId: any;
   @Input() familyView: any;
   @Input() info: any;
+  @Input() images: any;
 
   FONTS_FOLDER = FONTS_FOLDER;
   title: any = '';
@@ -101,43 +102,6 @@ export class TreePage implements OnInit {
     ele.scrollIntoView(options);
   }
 
-  // https://github.com/tsayen/dom-to-image
-  onJPEG() {
-    let iddom = 'screen';
-    let node = this.node;
-    let fileName = node.name;
-    let msg = this.utilService.getAlertMessage([
-      {name: 'msg', label: 'TREE_SELECT_PRINT_JPEG_MSG_1'},
-      {name: 'data', label: fileName + '.jpeg'},
-      {name: 'msg', label: 'TREE_SELECT_PRINT_JPEG_MSG_2'},
-    ]);
-    this.utilService.alertConfirm('ANNOUNCE', msg, 'CANCEL', 'CONTINUE').then((res) => {
-      if (res.data) {
-				if (DEBUGS.TREE)
-					console.log('onJPEG - res: ', res);
-        this.utilService.presentLoading('TREE_BUILD_JPEG');
-        const ele = document.getElementById(iddom);
-        const dashboardHeight = ele.clientHeight;
-        const dashboardWidth = ele.clientWidth;
-        let opts = { bgcolor: 'white', width: dashboardWidth, height: dashboardHeight, quality: 1.0 };
-        domtoimage.toJpeg(ele, opts).then((imgData:any) => {
-					if (imgData) {
-						var link = document.createElement('a');
-						link.download = fileName;
-						link.href = imgData;
-						link.click();
-					}
-          this.utilService.dismissLoading();
-        })
-				.catch((error:any) => {
-					this.utilService.dismissLoading();
-					let message = this.languageService.getTranslation('TREE_ERROR_SAVE_FILE')
-					this.utilService.alertMsg('ERROR', message, 'OK', { width: 350, height: 200 }).then(choice => {});
-				});
-      }
-    });
-  }
-
   onPDF() {
     let iddom = 'screen';
     let node = this.node;
@@ -149,7 +113,8 @@ export class TreePage implements OnInit {
     ]);
     this.utilService.alertConfirm('ANNOUNCE', msg, 'CANCEL', 'CONTINUE').then((res) => {
       if (res.data) {
-        this.utilService.presentLoading('TREE_BUILD_PDF');
+				console.log('PDF OK', res.data);
+				this.utilService.presentLoading('TREE_BUILD_PDF');
         const ele = document.getElementById(iddom);
 				if (DEBUGS.TREE)
 					console.log('onPDF: clientWidth, clientHeight: ', ele.clientWidth, ele.clientHeight);
@@ -191,13 +156,6 @@ export class TreePage implements OnInit {
         resolve(dim);
       };
     });
-  }
-
-  showJpg(img: any, fileName: any) {
-    var link = document.createElement('a');
-    link.download = fileName;
-    link.href = img;
-    link.click();
   }
 
   private getPDFDimension(ele: any) {
@@ -343,13 +301,10 @@ export class TreePage implements OnInit {
         let url = "../assets/icon/" + avatar;
         resolve(url)
       } else {
-        let ancestor = this.info.id;
-        this.fbService.downloadImage(ancestor, photoName).then((imageURL:any) => {
-          resolve(imageURL)
-        })
-        .catch((error) => {
-          console.log('ERROR: getPhotoUrl: ', error);
-        });
+        // let ancestor = this.info.id;
+				console.log('images: ', this.images)
+				let image = this.images[photoName];
+				resolve(image.url)
       }
     });
   }

@@ -26,94 +26,9 @@ export class UtilService {
     public modalCtrl: ModalController,
 	) { }
 
-	// getLocalJsonFile1(url: string): Promise<any> {
-	// 	return new Promise((resolve, reject) => {
-	// 		this.http.get(url).toPromise().then((data:any) => {
-	// 			resolve(data);
-	// 		}).catch(err => {
-	// 			console.log('err: ', err);
-	// 			reject(err.error);
-	// 		});
-	// 	});
-	// }
-
-	openLocalHTMLLink(url: string): Promise<any> {
-		return new Promise((resolve, reject) => {
-			firstValueFrom(this.http.get<boolean>(url))
-			.then((data) => {
-				resolve (data);
-			}).catch(err => {
-				console.log('err: ', err);
-				reject(err.error);
-			});
-		});
-	}
-
-	getLocalJsonFile(url: string): Promise<any> {
-		return new Promise((resolve, reject) => {
-			firstValueFrom(this.http.get<boolean>(url))
-			.then((data) => {
-				resolve (data);
-			}).catch(err => {
-				console.log('err: ', err);
-				reject(err.error);
-			});
-		});
-	}
-
-	// getLocalTextFile1(url: string): Promise<any> {
-	// 	return new Promise((resolve, reject) => {
-	// 		firstValueFrom(this.http.get<boolean>(url))
-	// 		.then((data) => {
-	// 			console.log(`Result: `, url, data);
-	// 			resolve (data);
-	// 		}).catch(err => {
-	// 			console.log('err: ', err);
-	// 			reject(err.error);
-	// 		});
-
-	// 		// this.http.get(url, {responseType: 'text'}).toPromise().then((data:any) => {
-	// 		// 	resolve(data);
-	// 		// }).catch(err => {
-	// 		// 	reject(err.error);
-	// 		// });
-	// 	}).catch(err => {
-	// 		console.log('err = ', err);
-	// 	});
-	// }
-
-	getLocalTextFile(url: string): Promise<any> {
-		return new Promise((resolve, reject) => {
-			this.http.get(url, {responseType: 'text'}).toPromise().then((data:any) => {
-				resolve(data);
-			}).catch(err => {
-				reject(err.error);
-			});
-		}).catch(err => {
-			console.log('err = ', err);
-		});
-	}
-
-	getLocalImageFile(url: string): Promise<any> {
-		return new Promise((resolve, reject) => {
-			this.http.get(url, { responseType: 'blob' }).toPromise().then((blob:any) => {
-				resolve(blob);
-			}).catch(err => {
-				reject(err.error);
-			});
-		}).catch(err => {
-			console.log('err = ', err);
-		});
-	}
-
-	console_log(msg: string, obj?: any) {
-		if (!DEBUGS.UTIL_SERVICE)
-			return;
-		if (obj)
-			console.log(msg, obj);
-		else
-			console.log(msg);
-			// msg += ' ' + JSON.stringify(obj, null, 4);
+	async getLocalJsonFile(url: string) {
+			const value = await firstValueFrom(this.http.get(url));
+			return value;
 	}
 
 	// ALERT
@@ -128,12 +43,10 @@ export class UtilService {
 				message += (msg) ? msg : item.label
 			} else if (item.name == 'data') {
 				message += '<b>' + item.label + '</b>'
-				// message += '[ ' + item.label + ' ]'
 			}
 			if (br && i != items.length - 1)
 				message += '<br/>';
 		}
-		// message += '<br/>';
 		return message;
 	}
 
@@ -143,7 +56,6 @@ export class UtilService {
 			message += '<img class="alert-image" src="' + data.image + '">';
 			message += '<br/>';
 		};
-		// let message = '<img src="../assets/icon/bia-mo.jpg">';
 		if (data.items) {
 			let items = data.items;
 			message += '<table>';
@@ -152,7 +64,6 @@ export class UtilService {
 			})
 			message += '</table>';
 		}
-		// let message = '<table>';
 		return message;
 	}
 
@@ -313,15 +224,12 @@ export class UtilService {
 		let header = this.languageService.getTranslation(srcHeader);
 		if (!header)
 			header = srcHeader;
-		// addText = this.languageService.getTranslation(addText);
-		// sendText = this.languageService.getTranslation(sendText);
 		let css = 'alert-dialog';
 		if (!dialogDim)
 			dialogDim = { width: 550, height: 500 };
 		this.themeService.setAlertSize(dialogDim);
 
 		let buttons = [];
-
 		if (sendText) {
 			sendText = this.languageService.getTranslation(sendText);
 			buttons.push({
@@ -382,22 +290,6 @@ export class UtilService {
 			cssClass: css,
 			inputs: inputs,
       buttons: buttons,
-      // buttons: [
-      //   {
-      //     text: cancelText,
-      //     handler: (data: any) => {
-			// 			alert.dismiss(false);
-			// 			return false;
-      //     }
-			// 	},
-      //   {
-      //     text: okText,
-      //     handler: (data: any) => {
-			// 			alert.dismiss(data);
-			// 			return false;
-      //     }
-      //   }
-      // ],
 			backdropDismiss: false,
 			mode: "md"
     });
@@ -556,7 +448,6 @@ export class UtilService {
       message: message,
       // icon: 'information-circle',
       position: 'middle',
-      // position: 'bottom',
       color: 'medium',
 			cssClass: css,
       duration: time,
@@ -666,9 +557,7 @@ export class UtilService {
 		let month = ''+(d.getMonth()+1);		if (month.length < 2) month = '0' + month;
 		let year = ''+d.getFullYear();
 		year = year.substring(2);
-		let id = (separator) ? (day + separator + month + separator + year) : (day + month + year);
-		// let id = (slash) ? (''+day+slash+month+slash +(''+year).substring(2)) : ''+day+''+month+(''+year).substring(2);
-		return id;
+		return (separator) ? (day + separator + month + separator + year) : (day + month + year);
 	}
 
 	getDateID() {

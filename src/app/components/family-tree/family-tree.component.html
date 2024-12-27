@@ -1,7 +1,7 @@
 <!-- 
-  view = 0: node.page
-  view = 1: person.page
-  view = 2: tree.page 
+  view = 0, class = tree -> vnode.page.ts - HORIZONTAL TREE
+  view = 1, class = person-tree -> person.page.ts - PERSON TREE
+  view = 2, class = vertical-tree -> tree.page.ts - VERTICAL TREE
 -->
 
 <div *ngIf="(view == 0)">
@@ -70,7 +70,10 @@
             [innerHtml]="node.spanDetail ? node.spanDetail : node.span"
             >
           </span>
-          <img class="image" *ngIf="view && node.photoUrl != ''" [src]="node.photoUrl">
+					<span *ngIf="node.photoUrl != ''">
+						&nbsp;&nbsp;
+						<img class="image" [src]="node.photoUrl">
+					</span>
         </div>
         <ul *ngIf="family.children && family.children.length > 0">
           <li *ngFor="let child of family.children" [ngStyle]="{'width': _setWidth(child) ? '100%' : 'auto'}" >

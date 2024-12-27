@@ -19,7 +19,6 @@ export class SearchPage implements OnInit {
 	@Input() caller: string;
   @Input() nodes: any;
   @Input() family: any;
-  @Input() info: any;
 
 	@ViewChild('popover') popover:any;
 

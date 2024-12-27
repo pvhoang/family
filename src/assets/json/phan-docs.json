@@ -1,0 +1,126 @@
+{
+	"title": "DOCS",
+  "version": "2",
+  "date": "19/06/24",
+	"vi": {
+		"pha_nhap": {
+			"title": "LỜI MỞ ĐẦU",
+			"desc": [
+"",
+"Chim có tổ người có tông, cây có cội, nước có nguồn.",
+"apa1|Chim có tổ người có tông, cây có cội, nước có nguồn.",
+"",
+"apa2|Chim có tổ người có tông, cây có cội, nước có nguồn.",
+"apa3|Chim có tổ người có tông, cây có cội, nước có nguồn.",
+"apa4|Chim có tổ người có tông, cây có cội, nước có nguồn.",
+"apa5|Chim có tổ người có tông, cây có cội, nước có nguồn.",
+"apa1|Pha Nhap",
+
+"image|Bài vị|test/bài vị.jpg|Bài vị tổ, Đồng Hới, 640x640 ",
+"image|Từ thiện|test/xuan son.jpg|Trường TH Xuân Sơn, 640*480",
+"NEW-PAGE",
+"hello world - Xây dựng năm 2001",
+"image|Từ thiện|test/xuan son.jpg|Trường TH Xuân Sơn, 640*480",
+"document|Quảng Bình|Quảng Bình.doc|Quang binh que ta",
+"video|Buddha|buddha.mp4|Buddha Vipassana",
+"popup|start|Hình Phan Văn Tám (Đời 8)",
+"   apa1|Results",
+"   image|Từ thiện|xuan son.jpg|Trường TH Xuân Sơn",
+"popup|end",
+"family|start|Gia tộc nhánh Phan Quang Phục",
+"    w|Phan Thi Lien",
+"    s|Phan Van Trai",
+"    d|Phan Thi Gai",
+"family|end",
+
+"NODE-COUNT|Tổng số hệ"
+
+			]
+		},
+		"pha_ky": {
+			"title": "PHẢ KÝ",
+			"desc": [
+"apa2|Spatial Ability",
+"apa3|Test One",
+"NEW-PAGE",
+"apa4|Teachers with Training",
+"apa5|Teacher Assistants"
+			]
+		},
+		"pha_he": {
+			"title": "PHẢ HỆ",
+			"desc": [
+"VIEW-NODES|Xem tất cả hệ",
+"SEARCH-NODES|Tìm thông tin hệ",
+"",
+"family|start|Gia tộc nhánh Phan Quang Phục",
+"    w|Phan Thi Lien",
+"    s|Phan Van Trai",
+"    d|Phan Thi Gai",
+"family|end"
+			]
+		},
+		"pha_do": {
+			"title": "PHẢ ĐỒ",
+			"desc": [
+"VIEW-TREE-ROOT|Từ đời tổ",
+"VIEW-TREE-NODES|Nhánh Phan Dính (Đời 7)|Phan Dính (Đời 7)"
+			]
+		},
+		"ngoai_pha": {
+			"title": "NGOẠI PHẢ",
+			"desc": [
+"image|Từ thiện|test/xuan son.jpg|Trường TH Xuân Sơn",
+"video|Buddha|buddha.mp4|Buddha Vipassana"
+			]
+		},
+		"phu_khao": {
+			"title":"PHỤ KHẢO",
+			"desc": [
+"TODAY|Hôm nay",
+"MEMORIAL|Giỗ hôm nay"
+
+			]
+		}
+	},
+	"en": {
+		"pha_nhap": {
+			"title": "LỜI MỞ ĐẦU",
+			"desc": [
+				"Introduction to Family Tree"
+			]
+		},
+		"pha_ky": {
+			"title": "PHẢ KÝ",
+			"desc": [
+				"Note"
+			]
+		},
+		"pha_he": {
+			"title": "PHẢ HỆ",
+			"desc": [
+				"People"
+			]
+		},
+		"pha_do": {
+			"title": "PHẢ ĐỒ",
+			"desc": [
+				"Tree"
+			]
+		},
+		"ngoai_pha": {
+			"title": "NGOẠI PHẢ",
+			"desc": [
+				"Extra note"
+			]
+		},
+		"phu_khao": {
+			"title": "PHỤ KHẢO",
+			"desc": [
+				"Addendum"
+			]
+		}
+	}
+}
+
+				

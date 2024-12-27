@@ -23,64 +23,36 @@
 "Chào thân ái!",
 "Cháu Phan Thanh Dũng",
 "Đời thứ XVI họ phan Đồng Phú"
-			]
+
+]
 		},
 		"pha_ky": {
 			"title": "PHẢ KÝ",
 			"desc": [
-"",
-"[[START-POPUP]]",
-"Tài liệu phả ký",
-"[CONTENT]",
-"im|ac|2|Bài vị Thủy Tổ.jpg|Bài vị Thủy Tổ, Nhà thờ Phan Tộc",
-"[[END-POPUP]]",
-""
+
+"apa2|Hình ảnh dòng tộc",
+"image|Bài vị Thủy Tổ|Bài vị Thủy Tổ.jpg|Đặt tại Nhà thờ Phan Tộc, Đồng Hới, Quảng Bình"
+
 			]
 		},
 		"pha_he": {
 			"title": "PHẢ HỆ",
 			"desc": [
-"[[VIEW-NODES]]",
-"[[SEARCH-NODES]]"
 			]
 		},
 		"pha_do": {
 			"title": "PHẢ ĐỒ",
 			"desc": [
-"[[VIEW-ROOT]]",
-"[[VIEW-TREE]]"
 			]
 		},
 		"ngoai_pha": {
 			"title": "NGOẠI PHẢ",
 			"desc": [
-"",
-"1|NHÂN VẬT",
-"",
-"2|Phan Lợi Hành",
-"",
-"Ông Phan Lợi Hành là Chánh bát phẩm, bổ Kinh lịch tỉnh Thái Nguyên (Bắc Việt), làm Bang tá huyện Tuyên Hóa Quảng Bình, sau bổ ra làm Bang tá tại tỉnh Nam Đinh hơn một năm thì đau mất. Tháng giêng năm Mậu Dần (1878) dời quan cốt về làng.",
-"",
-"1|TRUYỀN THỐNG",
-"[[START-POPUP]]",
-"Anh em họ Phan",
-"[CONTENT]",
-"im|ac|2|brothers.jpg|Anh em họ Phan, nhà Phan Dính, Quảng Ngãi",
-"[[END-POPUP]]",
-"[[START-POPUP]]",
-"Anh em họ Nguyen",
-"[CONTENT]",
-"im|ac|2|nguyen.jpg|Anh em họ Nguyen",
-"[[END-POPUP]]",
-""
 			]
 		},
 		"phu_khao": {
 			"title":"PHỤ KHẢO",
 			"desc": [
-"",
-"1|TƯ LIỆU",
-""
 			]
 		}
 	},

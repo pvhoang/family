@@ -1,12 +1,11 @@
 <ion-header>
   <ion-item class="app-header" *ngIf="!ftTreeService.isMobilePlatform()">
-		<ion-col size="2" class="heading" (click)="onExit()">
+		<ion-col size="1" class="heading" (click)="onExit()">
       <ion-button class="button" fill="clear" (click)="onExit()">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
       </ion-button>
-      <!-- <span class="label"><b>{{ 'CANCEL' | translate }}</b></span> -->
     </ion-col>
-    <ion-col size="8">
+    <ion-col size="9">
       <ng-select
 				class="mobileClass"
         [appendTo]="'body'"
@@ -23,24 +22,21 @@
 			<ion-button class="button" fill="clear" (click)="ftTreeService.onZoomIn()">
 				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-minus-outline.svg" class="icon"></ion-icon>
 			</ion-button>
-      <!-- <span class="label"><b>{{ 'SMALLER' | translate }}</b></span> -->
 		</ion-col>
 		<ion-col size="1" class="heading">
 			<ion-button class="button" fill="clear" (click)="ftTreeService.onZoomOut()">
 				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-plus-outline.svg" class="icon"></ion-icon>
 			</ion-button>
-      <!-- <span class="label"><b>{{ 'LARGER' | translate }}</b></span> -->
 		</ion-col>
   </ion-item>
 
 	<ion-item class="app-header" *ngIf="ftTreeService.isMobilePlatform()">
-		<ion-col size="3" class="heading" (click)="onExit()">
+		<ion-col size="1" class="heading" (click)="onExit()">
       <ion-button class="button" fill="clear" (click)="onExit()">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
       </ion-button>
-      <!-- <span class="label"><b>{{ 'CANCEL' | translate }}</b></span> -->
     </ion-col>
-    <ion-col size="9">
+    <ion-col size="11">
       <ng-select
 				class="mobileClass"
         [appendTo]="'body'"
@@ -72,25 +68,43 @@
 			<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
 		</div>
 
-		<!-- <div id="detail"></div> -->
-
-		<!-- <div class="person-desc" *ngIf="selectedNode && selectedNode.desc != ''"> -->
-		<div class="person-desc">
+		<!-- <div class="person-desc" *ngIf="selectedNode">
 			<ion-card-header class="person-section">
-				<span class="span"><b>{{ 'PERSON_INFO' | translate }}</b></span>
+				<span class="span"><b>{{ 'PERSON_INFO_PERSONAL' | translate }}</b></span>
 			</ion-card-header>
-			<!-- <br/> -->
-			<!-- <ion-textarea 
-				clearInput class="person-textarea" 
-				type="text" rows="10" autosize 
-				[innerHtml]="selectedNode.desc" >
-			</ion-textarea> -->
-			<div id="detail-person"></div>
-			<!-- <div>
-				<editor apiKey="td9cz0rc9qe4wcd36a5kwudebvfeblv4nsjyzyqv55udust7" [init]="settings"></editor>
-			</div> -->
-			<!-- <br> -->
-		</div>
+		</div> -->
+
+		<div *ngIf="selectedNode" class="home-text-apa2">{{ 'PERSON_INFO_PERSONAL' | translate }}</div>'
+
+		<ion-grid class="app-grid-small-no-header" *ngIf="selectedNode">
+			<ion-row>
+				<ion-col size="4" class="column center"><b>{{ 'NODE_NICK' | translate }}</b></ion-col>
+				<ion-col size="8" class="column center"><b>{{ selectedNode.nick }}</b></ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col size="4" class="column center"><b>{{ 'NODE_YOB' | translate }}</b></ion-col>
+				<ion-col size="8" class="column center"><b>{{ selectedNode.yob }}</b></ion-col>
+			</ion-row>
+
+			<div *ngIf="pass_away">
+				<ion-row>
+					<ion-col size="4" class="column center"><b>{{ 'NODE_YOD' | translate }}</b></ion-col>
+					<ion-col size="8" class="column center"><b>{{ selectedNode.yod }}</b></ion-col>
+				</ion-row>
+				<ion-row>
+					<ion-col size="4" class="column center"><b>{{ 'NODE_TOMB' | translate }}</b></ion-col>
+					<ion-col size="8" class="column center"><b>{{ selectedNode.pod }}</b></ion-col>
+				</ion-row>
+				<ion-row>
+					<ion-col size="4" class="column center"><b>{{ 'NODE_DOD' | translate }}</b></ion-col>
+					<ion-col size="8" class="column center"><b>{{ selectedNode.dod }}</b></ion-col>
+				</ion-row>
+			</div>
+
+		</ion-grid>
+
+		<div id="detail-person"></div>
+		
 	</div>
 
 </ion-content>

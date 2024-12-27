@@ -9,7 +9,7 @@ import { Family, Node, FAMILY} from '../../services/family.model';
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
 import { TreePage } from './tree/tree.page';
 
-const WAIT_TIME = 500;
+const WAIT_TIME = 1000;
 
 // http://www.giaphavietnam.vn/default.aspx?lang=vi-VN&cp=news-detail&cid=38
 
@@ -41,6 +41,7 @@ export class VnodePage implements OnInit {
   isPopover = false;
   timeEnter: number = 0;
   info: any;
+  images: any;
   nodeItems: Array<any>;
   nodeItem: any;
   nodeItemPlaceholder: any = '';
@@ -86,26 +87,7 @@ export class VnodePage implements OnInit {
         console.log('NodePage - startFromStorage - data: ', data);
       this.info = data.info;
       this.title = this.info.description;
-
-			// Phan Khắc Tuần
-			// let selectedNode = this.nodeService.getFamilyNode(data.family, "1-1-1-1-3-1-1-1-3-1");
-			// let selectedNode = null;
-
-			// let nodes = this.nodeService.getFamilyNodes(data.family);
-			// console.log('NodePage - startFromStorage - nodes: ', nodes);
-
-			// for (let i = 0; i < nodes.length; i++) {
-			// console.log('NodePage - startFromStorage - node: ', nodes[i].name, nodes[i].id);
-
-			// 	if (nodes[i].id == '1-1-1-1-3-1-1-1-3-1') {
-			// 		selectedNode = nodes[i];
-			// 		break;
-			// 	}
-			// }
-
-			// // console.log('NodePage - startFromStorage - family: ', data.family);
-			// console.log('NodePage - startFromStorage - selectedNode: ', selectedNode);
-      // this.start(selectedNode.pnode.family);
+			this.images = data.images;
       this.start(data.family);
     });
   }
@@ -118,18 +100,22 @@ export class VnodePage implements OnInit {
     let fullFamily = this.familyService.buildFullFamily(family);
 		let selectedNode = this.nodeService.getFamilyNode(fullFamily, this.nodeid);
 
-		// let selectedNode = this.nodeService.getFamilyNode(fullFamily, "1-1-1-1-3-1-1-1-3-1");
-		// this.family = selectedNode.pnode.family;
+		// this.selectPeople = selectedNode.name + this.nodeService.getFullDetail(selectedNode)
+		this.onNodeSelect(selectedNode);
+		if (DEBUGS.VNODE) {
+			console.log('NodePage - nodeid: ', this.nodeid);
+			console.log('NodePage - selectedNode: ', selectedNode);
+		}
 		this.family = selectedNode.family;
-
     this.peopleNodes = this.familyService.getPeopleNodes (this.family);
     this.nodeItems = this.nodeService.getInfoList();
     this.nodeItem = null;
     this.nodeItemMessage = this.languageService.getTranslation('NODE_NUM_NODES') + this.peopleNodes.length;
     this.familyView = this.family;
     this.selectPeoplePlaceholder = this.languageService.getTranslation('NODE_SELECT');
-    this.selectPeople = null;
+    // this.selectPeople = null;
     this.nodeItemPlaceholder = this.languageService.getTranslation('NODE_SELECT_EMPTY_DATA');
+		
   }
 
   async onExit() {
@@ -209,6 +195,9 @@ export class VnodePage implements OnInit {
     if (this.selectedNode)
       this.selectedNode.nclass = this.nodeService.updateNclass(this.selectedNode);
     this.selectedNode = node;
+
+		// this.update(node);
+
     this.selectedNodeName = node.name;
     this.selectPeople = node.name + this.nodeService.getFullDetail(node)
     let ancestorName = this.info.family_name;
@@ -233,6 +222,7 @@ export class VnodePage implements OnInit {
         'nodeId': nodeId,
         'familyView': familyView,
         'info': info,
+        'images': this.images
       },
 			cssClass: 'modal-dialog',
 			backdropDismiss:false,

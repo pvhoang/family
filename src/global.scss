@@ -55,6 +55,9 @@
 // Add finally app styles
 @import "theme/app.scss";
 
+@import "theme/home.scss";
+
+
 // Add jsoneditor styles
 // @import "assets/js/jsoneditor.css";
 
@@ -124,6 +127,7 @@ $background_color_male: lightblue;  // primary
 $background_color_female: lightpink;
 $background_color_select: lightgreen; // success
 $background_color_not_complete: lightyellow; // warning in variables.css
+$background_color_pass_away: lightgray; // warning in variables.css
 $background_color_node: #e6d8ad;
 $color: #666;
 $over_color: #000;
@@ -325,121 +329,6 @@ ion-tab-button {
 		}
 	}
 }
-
-// --- HOME.PAGE.HTML ---
-
-// .home-container-left{
-// 	display: flex;
-// 	justify-content: left;
-// }
-// .home-container-center {
-// 	display: flex;
-// 	justify-content: center;
-// }
-// .home-container-right {
-// 	display: flex;
-// 	justify-content: right;
-// }
-
-// .home-container-label {
-// 	background: var(--app-background-color);
-// 	color: var(--app-color);
-// 	font-size: var(--app-page-detail);
-// 	width: 80%;
-// 	height: 40px;
-// 	display: flex;
-// 	align-items: center;
-// 	justify-content: center;
-// 	font-family: "Pacifico", cursive;
-// }
-
-// .home-container-image {
-// 	// width: 60%;
-// 	// width: 100px; // 4/3 w/h to match cropper-modal
-// 	// height: 75px;
-// 	// width: 60px; // 4/3 w/h to match cropper-modal
-// 	// height: 45px;
-// 	// width: 40px; // 4/3 w/h to match cropper-modal
-// 	// height: 30px;
-// 	// https://www.educative.io/answers/how-to-enlarge-an-image-on-hover-in-html
-// 	&:hover{
-// 		// transform:scale(5.0);
-// 		transform:scale(2.5);
-// 	}
-// }
-
-// .home-no-expand {
-//   box-sizing: border-box;
-//   width: 0px;
-//   min-width: 100%;
-//   // background: pink;
-//   padding: 10px;
-// 	// text-align: center;
-// 	// text-align: var(--app-justify);
-// 	// color: var(--app-background-color);
-// 	// font-size: var(--app-caption-font-size);
-// }
-
-
-
-// .home-grid {
-//   --ion-grid-column-padding: 5px;
-//   width: 100%;
-// 	// border: solid 3px var(--app-background-color);
-// 	// border-radius: 5px;
-//   font-size: var(--app-text-font-size-small);
-//   ion-row:first-child {
-//     font-weight: bold;
-//     // color: var(--app-color);
-// 		// color: var(--app-color);
-// 		// color: var(--app-background-color);
-// 		color: var(--app-color);
-//     background-color: var(--app-background-color);
-//     font-size: var(--app-text-font-size-small);
-//     border: 3px solid var(--app-background-color);
-// 		border-radius: 3px;
-// 		border-right: 0;
-//     border-bottom: 0;
-// 		border-top: 0;
-// 		border-left: 0;
-//   }
-//   ion-col {
-//     border: 1px solid black;
-//     border-bottom: 0;
-//     border-right: 0;
-//   }
-//   ion-col:last-child {
-//     border-right: 1px solid black;
-//   }
-//   ion-row:last-child {
-//     border-bottom: 1px solid black;
-//   }
-// }
-
-
-// .home-grid-old {
-//   --ion-grid-column-padding: 5px;
-//   width: 100%;
-//   font-size: var(--app-text-font-size-small);
-//   ion-row:first-child {
-//     font-weight: bold;
-//     // color: var(--app-color);
-// 		color: var(--app-color);
-//     background-color: var(--app-background-color);
-//     font-size: var(--app-text-font-size-small);
-//   }
-//   ion-col {
-//     border: 1px solid black;
-//     border-bottom: 0;
-//     border-right: 0;
-//   }
-//   ion-col:last-child {
-//     border-right: 1px solid black;
-//   }
-//   ion-row:last-child {
-//     border-bottom: 1px solid black;
-//   }
-// }
 
 // --- EDIT ---
 
@@ -861,8 +750,6 @@ ion-tab-button {
 
 .toast-wait {
   --height: 70px;
-  // color: var(--app-color);
-	color: var(--app-color);
   font-size: var(--app-toast-font-size);
   .toast-wrapper {
     min-width: var(--app-toast-width) !important;
@@ -938,125 +825,7 @@ ion-tab-button {
 
 * {box-sizing: border-box;}
 
-.img-magnifier-container {
-  position:relative;
-}
-
-.img-magnifier-glass {
-  position: absolute;
-  border: 3px solid #000;
-  border-radius: 50%;
-  cursor: none;
-  /*Set the size of the magnifier glass:*/
-  width: 100px;
-  height: 100px;
-}
-
-.person-tomb-image {
-	&:hover{
-		transform:scale(2.0);
-	}
-}
-
-.person-container {
-	width: 100%;
-  height: 100%;
-	.person-image {
-		// padding-left: 20%;
-		padding-left: 10%;
-		// width: 60%;						
-		width: 80%;						
-		// height: 100%;						
-		// padding-right: 20%;
-		margin: 0 auto;
-		// display: flex;
-		// align-items: center;
-		// justify-content: left;
-	}
-	.person-tree {
-		width: 100%;						
-		margin: 0 auto;
-	}
-	.person-desc {
-		width: 100%;
-		margin: 0 auto;
-		font-size: var(--app-text-font-size-tiny);
-
-		.person-section{
-			// background: var(--app-background-color);
-			// color: var(--app-color);
-			border: solid 2px var(--app-background-color);
-			border-radius: 5px;
-			color: var(--app-background-color);
-			// color: var(--app-color);
-			font-size: var(--app-text-font-size-tiny);
-			height:26px;
-			position: relative; 
-			width: 100%;
-			display: flex;
-			align-items: center;
-			justify-content: left;
-			.span{
-				margin: 0;
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				-ms-transform: translate(-50%, -50%);
-				transform: translate(-50%, -50%);
-			}
-		}
-		.person-textarea{
-			border: solid 1px var(--app-background-color);
-			border-radius: 5px;
-			margin-top: 5px;
-			margin-bottom: 5px;
-			font-size: 100%;
-			.p-center {
-				text-align: center;
-			}
-			.p-right {
-				text-align: right;
-			}
-		}
-	}
-}
-
 // --- vnode.page.html ---
-
-.vnode-container {
-	width: 100%;
-  height: 40%;
-	.vnode-tree {
-		width: 100%;						
-		margin: 0 auto;
-	}
-}
-
-// --- GRID ---
-
-.grid {
-  --ion-grid-column-padding: 10px;
-  width: 100%;
-  font-size: var(--app-text-font-size-medium);
-  ion-row:first-child {
-    font-weight: bold;
-    // color: var(--app-color);
-		color: var(--app-color);
-    background-color: var(--app-background-color);
-    font-size: var(--app-text-font-size-medium);
-  }
-  ion-col {
-    border: 1px solid black;
-    border-bottom: 0;
-    border-right: 0;
-  }
-  ion-col:last-child {
-    border-right: 1px solid black;
-  }
-  ion-row:last-child {
-    border-bottom: 1px solid black;
-  }
-}
 
 // --- NG-SELECT ---
 
@@ -1099,6 +868,7 @@ html .ng-dropdown-panel .ng-dropdown-panel-items {
 }
 
 // --- HORIZONTAL TREE ---
+
 .tree {
   display: flex; 
 	width:100%;
@@ -1193,7 +963,7 @@ html .ng-dropdown-panel .ng-dropdown-panel-items {
       padding: 5px 5px;
       text-decoration: none;
       color: $color;
-      font-size: var(--app-text-font-size-small);
+      font-size: var(--app-text-font-size-extra-large);
       display: inline-block;
       min-width: 50px;
       min-height: 30px;
@@ -1205,7 +975,6 @@ html .ng-dropdown-panel .ng-dropdown-panel-items {
       -moz-transition: all 0.5s;
       .node {
         display: inline-block;
-        // min-width: 40px; 
         min-width: 40px; 
         padding: 5px;
         border-radius: 5px;
@@ -1226,6 +995,279 @@ html .ng-dropdown-panel .ng-dropdown-panel-items {
         }
         &.not-complete {
           background-color: $background_color_not_complete;
+        }
+				&.pass_away {
+          background-color: $background_color_pass_away;
+        }
+      }
+      &:hover {
+        background: $hover_color;
+        color: $over_color;
+        border: 1px solid $border_color;
+        &+ul {
+          li {
+            div {
+              background: $hover_color;
+              color: $over_color;
+              border: 1px solid $border_color;
+            }
+            &::after {
+              border-color: $border_color;
+            }
+            &::before {
+              border-color: $border_color;
+            }
+          }
+          &::before {
+            border-color: $border_color;
+          }
+          ul {
+            &::before {
+              border-color: $border_color;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// --- PERSON TREE ---
+
+.person-tree-1 {
+  display: flex;
+  justify-content: center;
+  white-space: nowrap;
+  // overflow-x: scroll;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  
+  // https://stackoverflow.com/questions/26681059/create-a-circle-avatar-from-a-rectangle-image-keeping-proportions-and-just-using
+
+  img {
+    object-fit: cover;
+    border-radius: 3px; 
+    width: 60px;
+    height: 45px;
+  }
+
+  ul {
+    padding-left: 10px;
+  }
+  li {
+    margin: 0px 0;
+    list-style-type: none;
+    position: relative;
+    padding: 0px 10px 0px 10px;
+    &::before {
+      content: '';
+      position: absolute; 
+      top: 0;
+      width: 1px; 
+      height: 100%;
+      right: auto; 
+      left: -5px;
+      // border-left: 2px solid #ccc;
+      bottom: 50px;
+    }
+    &::after {
+      content: '';
+      position: absolute; 
+      top: 45px; 
+      width: 15px; 
+      height: 20px;
+      right: auto; 
+      left: -5px;
+      // border-top: 2px solid #ccc;
+    }
+    div {
+      border: 1px solid #C10100;
+      padding: 5px 5px;
+      text-decoration: none;
+      color: $color;
+      font-size: var(--app-text-font-size-extra-large);
+      min-width: 50px;
+      min-height: 30px;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      transition: all 0.5s;
+      -webkit-transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      // display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      .image {
+        // width: 100px; // 4/3 w/h to match cropper-modal
+        // height: 75px;
+        // width: 60px; // 4/3 w/h to match cropper-modal
+        // height: 45px;
+        // width: 40px; // 4/3 w/h to match cropper-modal
+        // height: 30px;
+        // https://www.educative.io/answers/how-to-enlarge-an-image-on-hover-in-html
+        &:hover{
+          transform:scale(2.0);
+        }
+      }
+      .node {
+        display: inline-block;
+        text-align: center;
+        min-width: 40px;
+        padding: 5px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        margin: 0px 2px;
+        &.male {
+          background-color: $background_color_male;
+        }
+        &.female {
+          background-color: $background_color_female;
+        }
+        &.select {
+          background-color: $background_color_select;
+        }
+        &.node-select {
+          background-color: $background_color_node;
+        }
+        &.not-complete {
+          background-color: $background_color_not_complete;
+        }
+				&.pass_away {
+          background-color: $background_color_pass_away;
+        }
+      }
+      &:hover {
+        background: $hover_color;
+        color: $over_color;
+        border: 1px solid $border_color;
+        &+ul {
+          li {
+            div {
+              background: $hover_color;
+              color: $over_color;
+              border: 1px solid $border_color;
+            }
+            &::after {
+              border-color: $border_color;
+            }
+            &::before {
+              border-color: $border_color;
+            }
+          }
+          &::before {
+            border-color: $border_color;
+          }
+          ul {
+            &::before {
+              border-color: $border_color;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.person-tree-2 {
+  display: flex;
+  justify-content: center;
+  white-space: nowrap;
+  // overflow-x: scroll;
+  padding-top: 0px;
+  padding-bottom: 10px;
+  
+  // https://stackoverflow.com/questions/26681059/create-a-circle-avatar-from-a-rectangle-image-keeping-proportions-and-just-using
+
+  img {
+    object-fit: cover;
+    border-radius: 3px; 
+    width: 60px;
+    height: 45px;
+  }
+
+  ul {
+    padding-left: 10px;
+  }
+  li {
+    margin: 0px 0;
+    list-style-type: none;
+    position: relative;
+    padding: 20px 10px 0px 10px;
+    &::before {
+      content: '';
+      position: absolute; 
+      top: 0;
+      width: 1px; 
+      height: 100%;
+      right: auto; 
+      left: -5px;
+      border-left: 2px solid #ccc;
+      bottom: 50px;
+    }
+    &::after {
+      content: '';
+      position: absolute; 
+      top: 45px; 
+      width: 15px; 
+      height: 20px;
+      right: auto; 
+      left: -5px;
+      border-top: 2px solid #ccc;
+    }
+    div {
+      border: 1px solid #C10100;
+      padding: 5px 5px;
+      text-decoration: none;
+      color: $color;
+      font-size: var(--app-text-font-size-extra-large);
+      min-width: 50px;
+      min-height: 30px;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      transition: all 0.5s;
+      -webkit-transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      // display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      .image {
+        width: 100px; // 4/3 w/h to match cropper-modal
+        height: 75px;
+        // https://www.educative.io/answers/how-to-enlarge-an-image-on-hover-in-html
+        &:hover{
+          transform:scale(5.0);
+        }
+      }
+      .node {
+        display: inline-block;
+        text-align: center;
+        min-width: 40px;
+        padding: 5px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        margin: 0px 2px;
+        &.male {
+          background-color: $background_color_male;
+        }
+        &.female {
+          background-color: $background_color_female;
+        }
+        &.select {
+          background-color: $background_color_select;
+        }
+        &.node-select {
+          background-color: $background_color_node;
+        }
+        &.not-complete {
+          background-color: $background_color_not_complete;
+        }
+				&.pass_away {
+          background-color: $background_color_pass_away;
         }
       }
       &:hover {
@@ -1313,8 +1355,8 @@ html .ng-dropdown-panel .ng-dropdown-panel-items {
       padding: 5px 5px;
       text-decoration: none;
       color: $color;
-      // font-size: var(--app-text-font-size-large);
-      font-size: var(--app-text-font-size-small);
+      font-size: var(--app-text-font-size-extra-large);
+      // font-size: var(--app-text-font-size-medium);
       min-width: 50px;
       min-height: 30px;
       border-radius: 5px;
@@ -1363,6 +1405,9 @@ html .ng-dropdown-panel .ng-dropdown-panel-items {
         &.not-complete {
           background-color: $background_color_not_complete;
         }
+				&.pass_away {
+          background-color: $background_color_pass_away;
+        }
       }
       &:hover {
         background: $hover_color;
@@ -1394,11 +1439,9 @@ html .ng-dropdown-panel .ng-dropdown-panel-items {
       }
     }
   }
-}
 
-// --- PERSON TREE ---
 
-.person-tree-1 {
+.person-tree {
   display: flex;
   justify-content: center;
   white-space: nowrap;
@@ -1498,134 +1541,8 @@ html .ng-dropdown-panel .ng-dropdown-panel-items {
         &.not-complete {
           background-color: $background_color_not_complete;
         }
-      }
-      &:hover {
-        background: $hover_color;
-        color: $over_color;
-        border: 1px solid $border_color;
-        &+ul {
-          li {
-            div {
-              background: $hover_color;
-              color: $over_color;
-              border: 1px solid $border_color;
-            }
-            &::after {
-              border-color: $border_color;
-            }
-            &::before {
-              border-color: $border_color;
-            }
-          }
-          &::before {
-            border-color: $border_color;
-          }
-          ul {
-            &::before {
-              border-color: $border_color;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-.person-tree-2 {
-  display: flex;
-  justify-content: center;
-  white-space: nowrap;
-  // overflow-x: scroll;
-  padding-top: 0px;
-  padding-bottom: 10px;
-  
-  // https://stackoverflow.com/questions/26681059/create-a-circle-avatar-from-a-rectangle-image-keeping-proportions-and-just-using
-
-  img {
-    object-fit: cover;
-    border-radius: 3px; 
-    width: 60px;
-    height: 45px;
-  }
-
-  ul {
-    padding-left: 10px;
-  }
-  li {
-    margin: 0px 0;
-    list-style-type: none;
-    position: relative;
-    padding: 20px 10px 0px 10px;
-    &::before {
-      content: '';
-      position: absolute; 
-      top: 0;
-      width: 1px; 
-      height: 100%;
-      right: auto; 
-      left: -5px;
-      border-left: 2px solid #ccc;
-      bottom: 50px;
-    }
-    &::after {
-      content: '';
-      position: absolute; 
-      top: 45px; 
-      width: 15px; 
-      height: 20px;
-      right: auto; 
-      left: -5px;
-      border-top: 2px solid #ccc;
-    }
-    div {
-      border: 1px solid #C10100;
-      padding: 5px 5px;
-      text-decoration: none;
-      color: $color;
-      font-size: var(--app-text-font-size-small);
-      min-width: 50px;
-      min-height: 30px;
-      border-radius: 5px;
-      -webkit-border-radius: 5px;
-      -moz-border-radius: 5px;
-      transition: all 0.5s;
-      -webkit-transition: all 0.5s;
-      -moz-transition: all 0.5s;
-      // display: inline-block;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      .image {
-        width: 100px; // 4/3 w/h to match cropper-modal
-        height: 75px;
-        // https://www.educative.io/answers/how-to-enlarge-an-image-on-hover-in-html
-        &:hover{
-          transform:scale(5.0);
-        }
-      }
-      .node {
-        display: inline-block;
-        text-align: center;
-        min-width: 40px;
-        padding: 5px;
-        border-radius: 5px;
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        margin: 0px 2px;
-        &.male {
-          background-color: $background_color_male;
-        }
-        &.female {
-          background-color: $background_color_female;
-        }
-        &.select {
-          background-color: $background_color_select;
-        }
-        &.node-select {
-          background-color: $background_color_node;
-        }
-        &.not-complete {
-          background-color: $background_color_not_complete;
+				&.pass_away {
+          background-color: $background_color_pass_away;
         }
       }
       &:hover {
@@ -1659,3 +1576,141 @@ html .ng-dropdown-panel .ng-dropdown-panel-items {
     }
   }
 }
+	.person-tree-1 {
+		display: flex;
+		justify-content: center;
+		white-space: nowrap;
+		// overflow-x: scroll;
+		padding-top: 0px;
+		padding-bottom: 0px;
+		
+		// https://stackoverflow.com/questions/26681059/create-a-circle-avatar-from-a-rectangle-image-keeping-proportions-and-just-using
+	
+		img {
+			object-fit: cover;
+			border-radius: 3px; 
+			width: 60px;
+			height: 45px;
+		}
+	
+		ul {
+			padding-left: 10px;
+		}
+		li {
+			margin: 0px 0;
+			list-style-type: none;
+			position: relative;
+			padding: 0px 10px 0px 10px;
+			&::before {
+				content: '';
+				position: absolute; 
+				top: 0;
+				width: 1px; 
+				height: 100%;
+				right: auto; 
+				left: -5px;
+				// border-left: 2px solid #ccc;
+				bottom: 50px;
+			}
+			&::after {
+				content: '';
+				position: absolute; 
+				top: 45px; 
+				width: 15px; 
+				height: 20px;
+				right: auto; 
+				left: -5px;
+				// border-top: 2px solid #ccc;
+			}
+			div {
+				border: 1px solid #C10100;
+				padding: 5px 5px;
+				text-decoration: none;
+				color: $color;
+				font-size: var(--app-text-font-size-small);
+				min-width: 50px;
+				min-height: 30px;
+				border-radius: 5px;
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+				transition: all 0.5s;
+				-webkit-transition: all 0.5s;
+				-moz-transition: all 0.5s;
+				// display: inline-block;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				.image {
+					// width: 100px; // 4/3 w/h to match cropper-modal
+					// height: 75px;
+					// width: 60px; // 4/3 w/h to match cropper-modal
+					// height: 45px;
+					// width: 40px; // 4/3 w/h to match cropper-modal
+					// height: 30px;
+					// https://www.educative.io/answers/how-to-enlarge-an-image-on-hover-in-html
+					&:hover{
+						transform:scale(2.0);
+					}
+				}
+				.node {
+					display: inline-block;
+					text-align: center;
+					min-width: 40px;
+					padding: 5px;
+					border-radius: 5px;
+					-webkit-border-radius: 5px;
+					-moz-border-radius: 5px;
+					margin: 0px 2px;
+					&.male {
+						background-color: $background_color_male;
+					}
+					&.female {
+						background-color: $background_color_female;
+					}
+					&.select {
+						background-color: $background_color_select;
+					}
+					&.node-select {
+						background-color: $background_color_node;
+					}
+					&.not-complete {
+						background-color: $background_color_not_complete;
+					}
+					&.pass_away {
+						background-color: $background_color_pass_away;
+					}
+				}
+				&:hover {
+					background: $hover_color;
+					color: $over_color;
+					border: 1px solid $border_color;
+					&+ul {
+						li {
+							div {
+								background: $hover_color;
+								color: $over_color;
+								border: 1px solid $border_color;
+							}
+							&::after {
+								border-color: $border_color;
+							}
+							&::before {
+								border-color: $border_color;
+							}
+						}
+						&::before {
+							border-color: $border_color;
+						}
+						ul {
+							&::before {
+								border-color: $border_color;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
