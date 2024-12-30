@@ -533,6 +533,17 @@ export class UtilService {
 		return jobs;
 	}
 
+	public getRelationStr(key: any) {
+		let str = ''
+		if (key == 'w') str = this.languageService.getTranslation('hien_the')
+		if (key == 'h') str = this.languageService.getTranslation('hien_phu')
+		if (key == 's1') str = this.languageService.getTranslation('truong_nam')
+		if (key == 's') str = this.languageService.getTranslation('thu_nam')
+		if (key == 'd1') str = this.languageService.getTranslation('truong_nu')
+		if (key == 'd') str = this.languageService.getTranslation('thu_nu')
+		return str;
+	}
+
 	public stripVN(str: any) {
 		str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/gi, 'a');
 		str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/gi, 'e');

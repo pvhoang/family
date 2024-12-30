@@ -175,13 +175,17 @@ export class PersonPage implements OnInit {
 
 	onNodeDisplay(images: any, node: Node) {
 
+		if (DEBUGS.PERSON) {
+			console.log('node, images: ', node, images);
+		}
+
 		if (node.desc) {
 			let dom = document.getElementById('detail-person');
 			dom.innerHTML = node.desc;
 		}
 	
 		let url = '';
-		if (node.photo != '') {
+		if (node.photo != '' && images[node.photo]) {
 			let pdata = images[node.photo];
 			url = pdata.url;
 		} else {

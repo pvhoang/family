@@ -7,6 +7,11 @@ start
 pause
 @REM ionic serve --browseroption=/phan
 
+--- VS Shortkeys ---
+
+Fold/Unfold JSON
+https://stackoverflow.com/questions/30067767/how-do-i-fold-collapse-hide-sections-of-code-in-visual-studio-code
+
 --- EMULATOR
 cd d:/dev/family/emulator/
 firebase emulators:start --import=./firebaseExport --export-on-exit=./firebaseExport

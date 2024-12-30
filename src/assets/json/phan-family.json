@@ -12,8 +12,8 @@
       "desc": [
 "family|start|Gia tộc",
 "   w|Thái Thị Tôn Nương",
-"   s|Phan Văn Nguyên*",
-"   d|Phan Thị Nhiễm"    ,
+"   s1|Phan Văn Nguyên*",
+"   d1|Phan Thị Nhiễm"    ,
 "   d|Phan Thị Hoa"      ,
 "   d|Phan Thị Cúc"     ,
 "   d|Phan Thị Phượng",
@@ -184,6 +184,162 @@
                         }
                       ],
                       "children": [
+												{
+                          "nodes": [
+                            {
+                              "name"  : "Phan Thị Cáo",
+                              "gender": "female"      ,
+                              "nick"  : "Thu"         ,
+                              "yob"   : "1920"        ,
+                              "yod"   : "1997"        ,
+                              "dod"   : "03/07"
+                            },
+                            {
+                              "name"  : "Phan Văn Thanh"    ,
+                              "gender": "male"              ,
+                              "pod"   : "Da Bac, Quang Binh"
+                            }
+                          ],
+                          "children": [
+                            {
+                              "nodes": [
+                                {
+                                  "name"  : "Phan Văn Ky",
+                                  "gender": "male"       ,
+                                  "nick"  : "Ky"
+                                }
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {
+                                  "name"  : "Phan Văn Tô",
+                                  "gender": "male"       ,
+                                  "nick"  : "Tô"
+                                }
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {
+                                  "name"  : "Phan Thị Bạch Vân",
+                                  "gender": "female"           ,
+                                  "nick"  : "Tô"
+                                }
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {"name": "Phan Thị Liên", "gender": "female"}
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "nodes": [
+                            {
+                              "name"  : "Phan Thị Ké",
+                              "gender": "female"     ,
+                              "yob"   : "1910"       ,
+                              "dod"   : "03/02"
+                            },
+                            {"name": "Hoàng Thung", "gender": "male"}
+                          ]
+                        },
+                        {
+                          "nodes": [
+                            {
+                              "name": "Phan Duấn",
+                              "gender": "male",
+                              "yob": "1912",
+                              "yod": "1985",
+                              "dod": "27/04",
+                              "photo": "Phan Duấn.jpg",
+                              "desc": [
+                                "Ông bà sinh hạ:",
+                                "1. Phan Văn Phùng sinh giờ sửu 04-03-Đinh Sửu (1937) tại Quảng Trị, Vợ là Bùi Thị Diệu Chơn dược sĩ, con của Ông Phùng và bà Chơn là Ông Phan Như Minh sinh 26-03-1975 thường gọi lá Giải phóng",
+                                "2. Phan Thị Bạch Yến sinh giờ Mão 10-01 Tân tỵ (1941), chồng là Lê Văn Tập làm nghề Bác sĩ sinh 5 người con: Lê Thị Vân Tước, Lê Minh Chánh, Lê Diệu Hân, Lê Thị Vân Hai, Lê Minh Khoa",
+                                "3. Phan Văn Trường sinh tại Phú Nhuận, Sài Gòn 5h sáng ngày 30-09-Giáp Tuất mất 22-08 Đinh Hợi(1947) vì không có sữa mẹ khi còn quá nhỏ do lạc mẹ vì chiến tranh",
+                                "4. Phan Khắc Hưng sinh tại Đồng Hới lúc 4h sáng ngày 27-11 Mậu tý (27-12-1948), vợ là Hà Thị Việt Anh sinh 4 người con là : CHINA, DAVID, BRIAN và con gái Phan Ngọc Anh(Namay)",
+                                "5. Phan Thị Hồng Nhạn (Thu Sương): Sinh tại Đồng Hới ngày 02-09-1950, cô là giáo viên dạy ngoại ngữ trường trung học Đà Nẵng, năm 1975 dưới sự lộn xộn bao đạn và thay đổi chế độ, cô vào Sài Gòn cùng gia đình, làm nghề buôn bán rồi qua Mỹ quốc, chồng là Lê Văn Cầu có ba con Minh Trang, Ngọc Trâm, và con trai Lê Văn Hùng cả gia đình cô đang ở bên Mỹ",
+                                "Ông Duấn còn có tên là Phan Ngọc Thọ: hồi nhỏ học các trường phổ ở Đồng Hới và Huế ra Hà Nội học thành chung và đã qua các việc:",
+                                "08-1933-1943: Thư ký thương mại Sài Gòn",
+                                "1943-1945: Thư ký tại hoả xa Sài Gòn",
+                                "1945-1947: Tham gia cướp chính quyền ở Sài Gòn tham gia chống Pháp",
+                                "1947-1949: Tỉnh trưởng tỉnh Quảng Bình ",
+                                "03-1949/ 12-1949: Huyện trưởng Lệ Thuỷ",
+                                "Thư ký tài chính Quảng Bình 1951 đến 1954 hiệp đình Geneve",
+                                "Đất nước chia đôi ở vĩ tuyến 17, Ông ở Nam Việt cùng gia đình và làm tài chính huyện Hương Trà tháng 1-1955 đến tháng 03-1957.",
+                                "04-1957 đến 1961 qua làm thư ký hữu ngạn Thừa Thiên đến hết 1962",
+                                "Ông Duấn thành gia thất ngày 15-12-Ất Dậu (1935) cùng với bà Phan Thị Quyên con cụ Phan Huy và bà Nguyễn Thị Trủi người gốc làng Nhàn Biên Phúc, Triệu Phong, Quảng Trị"
+                              ]
+                            },
+                            {
+                              "name"  : "Phan Thị Quyên",
+                              "gender": "female"        ,
+                              "yob"   : "1913"          ,
+                              "yod"   : "2013"          ,
+                              "dod"   : "04/03"
+                            }
+                          ],
+                          "children": [
+                            {
+                              "nodes": [
+                                {
+                                  "name": "Phan Văn Phùng",
+                                  "gender": "male",
+                                  "yob": "1937",
+                                  "desc": [
+                                    "[3|Phan Văn Phùng.jpg|1|1|Không rõ ngày chụp!]"
+                                  ]
+                                },
+                                {"name": "Nguyễn Thị Chơn", "gender": "female"}
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {
+                                  "name"  : "Phan Thị Bạch Yến",
+                                  "gender": "female"           ,
+                                  "nick"  : "Tí"               ,
+                                  "yob"   : "1941"
+                                },
+                                {"name": "Lê Văn Tập", "gender": "male"}
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {
+                                  "name"  : "Phan Văn Trường",
+                                  "gender": "male"           ,
+                                  "yob"   : "1947"
+                                }
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {
+                                  "name"  : "Phan Khắc Hưng",
+                                  "gender": "male"          ,
+                                  "yob"   : "1948"
+                                },
+                                {"name": "Nguyễn Thị Vợ", "gender": "female"}
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {
+                                  "name"  : "Phan Thị Nhạn",
+                                  "gender": "female"       ,
+                                  "nick"  : "Sương"        ,
+                                  "yob"   : "1950"
+                                },
+                                {"name": "Lê Văn Cầu", "gender": "male"}
+                              ]
+                            }
+                          ]
+                        },
+  
                         {
                           "nodes": [
                             {
@@ -199,8 +355,8 @@
                               "desc": [
 "family|start|Gia tộc",
 	"w|Đoàn Thị Thí",
-	"d|Phan Thị Kim Hải",
-	"s|Phan Viết Châu",
+	"d1|Phan Thị Kim Hải",
+	"s1|Phan Viết Châu",
 	"d|Phan Thị Tuyết",
 	"s|Phan Viết Anh",
 	"s|Phan Ngọc Danh",
@@ -410,8 +566,152 @@
 "family|end",
 "",
 "apa2|Thông tin",
+"Lúc nhỏ Ông Phan Quang Ngự họ phổ thông Đồng Hới với lớp Nôm. Ông biết chút ít tiếng Pháp, Hán Nôm, Quốc Ngữ. Ông vào Huế học trường Mỹ Nghệ (Nghề máy nổ) và về Đồng Hới làm nghề điện nước đến năm 1972 thì về hưu. Ông lấy bà Trần Thị Cút là bà con Ông phó tổng Trần Liên và bà Trần Thị Bờ. Ông bà sinh sống tại Đồng Phú. Ngày 16-01 Tân Tỵ (1941) làm lễ cưới cheo bôn tang tại nhà nhạc. Bà tham gia phong trào hội kính Việt Minh cho đến năm 1954, bà bị Pháp bắt bỏ tù 1 năm (1949). Khi hòa bình vĩ tuyến 17 chia hai bà ở Bắc Việt tham gia nhiều phong trào nhất là thời kỳ chống Mỹ, bà được nhà nước xét thưởng một huy chương chống Pháp và một huân chương chống Mỹ. Với công lao phục vụ cho cuộc kháng chiến chống Mỹ hai ông bà được nhà nước tặng huân chương chống mỹ hạng 3",
+"Ông bà sinh hạ được:",
+"1. Hữu vị vô danh 19-12- Kỷ Mùi",
+"2. Ông Phan Văn Ba hay Phan Đức Trí Phan Thạch Sơn hay gọi là Ông Ba Râu sinh 06 giờ sáng ngày 27-10-Giáp thân (1944)",
+"3. Bà Phan Thị Tư sinh 30-12-Mậu tý (25-01-1949) cô sinh ra chưa đầy 1 tiếng thì pháo hoa nổ chào mừng năm mới",
+"4. Ông Phan Văn Năm sinh 17-07 Tân Mão tức ngày 19 tháng 08-năm 1951",
+"5. Vô danh 01-09-1956",
+"6. Vô danh 08-12-1957",
+"7. Ông Phan Văn Sáu 20-04 Mậu Tuất tức 10-05-1958",
+"8. Phan Văn Bảy sinh 09-11-Canh Tý mất 12-11-Canh tý sinh non vì mẹ mổ ruột thừa (1960)",
+"9. Phan Văn Tám sinh 30 tháng 11 năm 1961 (Tân sửu)",
+"10. Phan Thị Chín sinh tháng 3 năm 1964 (Giáp thìn)",
+"* Ông bà Phan Quang Ngự và Trần Thị Cút có nuôi nhiều con nuôi, trong đó có Bác Nguyễn Như Hai tuổi Mùi, Ông Bà mua qua tay một người khác lúc đứa trẻ mới ba tháng cho đến năm lên 15 tuổi, Ông Hai mới về với bố là Nguyễn Như Mày cùng làng vào lúc gia đinh bị đấu tố quy là địa chủ",
 ""
 															]
+                            }
+                          ],
+													"children": [
+                            {
+                              "nodes": [
+                                {
+                                  "name": "Phan Văn Ba",
+                                  "gender": "male",
+                                  "yob": "1944",
+                                  "pod": "Đá Bạc, Quảng Bình",
+                                  "dod": "16/09",
+                                  "desc": [
+																		"apa2|Thông tin",
+                                    "Ông Phan Văn Ba lúc nhỏ tên là Đức Trí, Ông còn có tên khác là Phan Thạch Sơn. Ông Học các trường dân lập Huế, Đồng Hới hoàn cảnh  gia đình khó khăn và nhiều biến cố xã hội Ông học chưa hết phổ thông ( 07/10) sau khi đi làm Ông học thêm lên (09/10). Năm 1965 Ông là kế toán ủy viên ủy ban Đồng Sơn, ban vận động xây dựng làng mới-Cán bộ UBND thị xã, phụ trách vùng, cồn chùa Hà Tứ Trung (Cầu Bốn Thuận Đức ngày nay) 09/1967 máy bay ném bom hủy diệt Ông hai lần gọi lính song địa phương giữ lại, Ông có uy tín với vùng này, sau năm 1969 Ông được điều qua giao thông và làm ở xí nghiệp sửa chữa Ô tô A3 cho đến lúc nghĩ hưu 1993.",
+                                    "Ông Phan Văn Ba lập gia thất cùng Bà Lê Thị Hải Lành năm 1969, cần chú ý rằng Bà Lành là con của Ông Lê Cu và Bà Phan Thị Chiu, Bà Chiu là em ruột Ông Tự Thỉ tộc trưởng họ Phan lúc bầy giờ, Bà Lê Thị Hải Lành tốt nghiệp Cao đẳng Bưu điện, tốt nghiệp trung cấp hữu tuyến năm 1968 tại Hà Nội. Bà người thâm thấp tính hiền và thông minh rất mực vì chồng dù hoàn cảnh khó khăn, vì chiến tranh bà đã qua vang ngày 06-07-Canh Thân do tái phát bệnh thận dù đã mổ hai lần, Ông Bà sinh hạ được:",
+                                    "1. Phan Thanh Sơn còn gọi là Lam tuổi Canh Tuất sinh nhằm 9h tối ngày 17-11-1970 (Tức 27 tháng 10 Canh Tuất) tại bệnh viện Đồng Hới sơ tán đóng tại Đồng Sơn gần Đá Bạc nay thuộc tiểu khu 7 Phường Đồng Sơn. ",
+                                    "2. Phan Thanh Lâm sinh 8h tối  ngày 14-04 năm 1974 tại bệnh viện sơ tán Mỹ Cương (Tức ngày 02-03 Giáp Dần)",
+                                    "3. Phan Vô Danh Ấu tử chưa tròn tháng thai năm 1975 vào tháng 03 năm Mão mộ án táng cạnh Bà Lê Thị Hải Lành",
+                                    "4. Phan Thanh Hùng còn gọi là Dím sinh 9h tối ngày 30 tháng 03 nă 1976 tức 03-03 Bình Thìn, Anh Hùng sinh ra khi mẹ ốm nặng sau 6 tháng nằm viện cũng là sáu tháng Ông Ba phải nuôi sữa bò nên rất yếu, gia đình vất vả vì hai đứa con, người ôm, trẻ mới sinh, thời gian khó. ",
+                                    "Năm 1980 Ông Ba xây dựng gia đình lại cùng bà Trần Thị Manh tuổi Mậu tý (1949), bà Manh sinh trưa rằm tháng mười năm Mậu tý, là quân nhân xuất ngũ năm 1968, đảng viên đảng cộng sản Viêt Nam, cán bộ nhà trẻ, hơn 30 tuổi mới lập gia đình cùng Ông Ba. Bà về với Ông Ba khi anh Sơn vừa tròn 9 tuổi, Lâm 6 tuổi, Hùng gần 4 tuổi. Ông và Bà Trần Thị Manh sinh hạ được:",
+                                    "5. Phan Trần Mỹ Lệ sinh vào lúc 8h tối ngày 28-06 Tân Dậu (29-07-1981) tại trạm xá Đồng Phú",
+                                    "6. Phan Thanh Dũng sinh vào lúc 6h tối 26-08-Quý Hợi  (02-10-1983) tại trạm xá phường Đồng Phú",
+                                    "7. Phan Đại Nghĩa (Trường Nghĩa) sinh 8h tối tại trạm xá Đồng Phú",
+                                    "8. Phan Đại Nhân (Phan Trần Nhân) sinh 8h sáng ngày 16-11 Tân Mùi (20-12-1991). Nhân sinh ra sau anh Hùng bỏ nhà đi 15 ngày và mất sau khi anh Hùng trở về nhà 5 tháng bị chết đuối ở Hói ruộng cá vào lúc gần 8h sáng ngày 02-12-2001 tức ngày 07-11 - Canh Thìn. Khi đó Nhân đang học lớp 5, đang ôn luyện thi học sinh giỏi của Thành Phố",
+                                    "Hình ảnh các anh em từ trái qua phải là Lệ, Hùng, Dũng, Sơn, Lâm, Nghĩa"
+                                  ]
+                                }
+                              ],
+                              "children": [
+                                {
+                                  "nodes": [
+                                    {"name": "Phan Thị Lệ", "gender": "female"}
+                                  ]
+                                },
+                                {
+                                  "nodes": [
+                                    {"name": "Phan Văn Hưng", "gender": "male"}
+                                  ]
+                                },
+                                {
+                                  "nodes": [
+                                    {"name": "Phan Văn Dũng", "gender": "male"}
+                                  ]
+                                },
+                                {
+                                  "nodes": [
+                                    {"name": "Phan Văn Sơn", "gender": "male"}
+                                  ]
+                                },
+                                {
+                                  "nodes": [
+                                    {"name": "Phan Văn Lâm", "gender": "male"}
+                                  ]
+                                },
+                                {
+                                  "nodes": [
+                                    {"name": "Phan Văn Nghĩa", "gender": "male"}
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {"name": "Phan Thị Tư", "gender": "female", "yob": "1949"}   ,
+                                {"name": "Nguyễn Văn Chồng", "gender": "male"}
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {
+                                  "name": "Phan Văn Năm",
+                                  "gender": "male",
+																	"yob": "1951",
+                                  "pod": "Đá Bạc, Quảng Bình",
+                                  "desc": [
+                                    "[3|Phan Văn Năm - Gia Đình.jpg|1|1|Gia đình Phan Văn Năm]",
+                                    "Ông Năm sinh vào thời chinh chiến, hai tuổi đất nước chia đôi, sáu tuổi gia đình bị đấu tố địa chủ, thời gian này Ông Ngự là công nhân điện nước bị ly khai. Ông Học phổ thông chưa hết 08-10 ông đi học nghề xây dựng (1972). Tốt nghiệp sơ cấp tại Hà Nội Ông về làm xung quanh thị xã Đồng Hới. Năm 1986 Ông nghĩ mất sức về nhà làm đủ nghề: Thồ hàng, lái xe công nông, thợ xây…",
+                                    "Ông Năm lập gia thất cùng bà Trần Thị Bưởi tuổi quý ngọ người giồng Trần Công cùng làng Đồng Phú hai ông bà sinh hạ được:",
+                                    "1. Phan Thị Mỹ Lệ 26-09 Bình thìn (17-11-1976)",
+                                    "2. Phan Thanh Hải 26-04 Kỷ mùi ( 22-05-1979)",
+                                    "3. Phan Thanh Hậu 05-10-Tân Dậu (01-11-1981)",
+                                    "4. Phan Thị Mỹ Linh 24-08-Đinh Mão (13-09-1987)"
+                                  ]
+                                },
+                                {"name": "Nguyễn Thị Vợ", "gender": "female"}
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {
+                                  "name": "Phan Thanh Sáu",
+                                  "gender": "male",
+																	"yob": "1958",
+                                  "desc": [
+                                    "[3|Phan Văn Sáu - Gia Đình.jpg|1|1|Gia đình Phan Văn Sáu]",
+                                    "Ông Sáu đón nhận tuổi niên thiếu với chiến tranh tàn khốc. Sơ tán nhiều nơi có khi phải ra Thanh Hóa, Hà Nội, học hành tuy không trắc trở như anh chị, Học hết phổ thông",
+                                    "Năm chiến tranh Tây Nam Ông vào lính chiến tranh biên giới",
+                                    "Ra quân Ông chuyển ngành làm bảo vệ cơ quan ngân hàng tỉnh Quảng Bình rồi chuyển sang làm ở kho bạc Nhà nước đến nay, xây dựng gia đình cùng bà Nguyễn Thị Hương người Lộc Long (Lệ Ninh – Quảng Ninh – Quảng Bình) hai Ông bà sinh hạ được:",
+                                    "1. Phan Thị Thúy Hằng sinh lúc 11h trưa ngày 19-08-1987 (25-07-Đinh mão) hay gọi là Bé",
+                                    "2. Phan Ngọc Hải Long sinh 12h đêm 17-04-1991 (03-03 Tân mùi), ở nhà hay gọi là Đệc"
+                                  ]
+                                },
+                                {"name": "Nguyễn Thị Vợ", "gender": "female"}
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {"name": "Phan Văn Bảy", "gender": "male", "yob": "1951"}
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {
+                                  "name": "Phan Văn Tám",
+                                  "gender": "male",
+																	"yob": "1961",
+                                  "desc": [
+                                    "[3|Phan Văn Tám - Gia Đình.jpg|1|1|Gia đình Phan Văn Tám]",
+                                    "Ông Tám sinh vào lúc anh cả thôi học đi làm, tuổi trẻ quen nhiều máy bay bom phá, thôi học phổ thông trung học sau một năm Ông đi lính, Ông đi lính thông tin ra quân Ông làm ở cảng Đồng Hới và kết hôn cùng bà Nguyễn Thị Hải Lý tuổi Bính Ngọ sau một năm ông đi học Trung cấp vật liệu xây dựng ở Sài Gòn, Bà Lý Xuất khẩu lao động đi Liên Xô, sau hai năm ông bà sống ở Vũng Tàu. Hai Ông bà làm nghề buôn bán vật liệu xây dựng rất may mắn và giàu có ở Vũng Tàu. Ông Bà sinh hạ được:",
+                                    "1. Phan Kiều Bảo Trang 19-11-1990 (Canh Ngọ), còn gọi là Hai",
+                                    "2. Phan Bảo Kiều Trang Bính tý 1996, còn gọi là Sim",
+                                    "3. Phan Bảo Hoài Nam 1999 Đinh Sửu còn gọi là Heo"
+                                  ]
+                                },
+                                {"name": "Nguyễn Thị Vợ", "gender": "female"}
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {"name": "Phan Thị Chín", "gender": "female", "yob": "1964" }
+                              ]
                             }
                           ]
                         },
@@ -438,6 +738,68 @@
 "",
 "apa2|Thông tin",
 ""
+                              ]
+                            }
+                          ],
+													"children": [
+                            {
+                              "nodes": [
+                                {
+                                  "name"  : "Phan Thị Ngọc Trinh",
+                                  "gender": "female"
+                                },
+                                {"name": "Nguyễn Văn Chồng", "gender": "male"}
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {
+                                  "name"  : "Phan Thị Ngọc Minh",
+                                  "gender": "female"
+                                },
+                                {"name": "Nguyễn Văn Chồng", "gender": "male"}
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {"name": "Phan Anh Dũng", "gender": "male"  },
+                                {"name": "Nguyễn Thị Vợ", "gender": "female"}
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {
+                                  "name"  : "Phan Thị Ngọc Mai",
+                                  "gender": "female"
+                                },
+                                {"name": "Nguyễn Văn Chồng", "gender": "male"}
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {
+                                  "name"  : "Phan Thị Ngọc Trâm",
+                                  "gender": "female"
+                                },
+                                {"name": "Nguyễn Văn Chồng", "gender": "male"}
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {"name": "Phan Anh Tuấn", "gender": "male"  },
+                                {"name": "Nguyễn Thị Vợ", "gender": "female"}
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {"name": "Phan Anh Ngọc", "gender": "male"  },
+                                {"name": "Nguyễn Thị Vợ", "gender": "female"}
+                              ]
+                            },
+                            {
+                              "nodes": [
+                                {"name": "Phan Anh Tùng", "gender": "male"  },
+                                {"name": "Nguyễn Thị Vợ", "gender": "female"}
                               ]
                             }
                           ]
@@ -496,3 +858,5 @@
     }
   ]
 }
+
+

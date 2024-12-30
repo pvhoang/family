@@ -231,7 +231,7 @@ export class HtmlService {
 			'<div class="home-text-apa2">' + title + '</div>' +
 			imgTag +
 			// '<div class="home-text-apa4">' + note + '</div>';
-			'<div class="home-text-normal">' + note + '</div>';
+			'<div class="home-text-normal-no-indent">' + note + '</div>';
 		return { html: html }
 	}
 
@@ -330,25 +330,24 @@ export class HtmlService {
 		for (let i = 1; i < lines.length; i++) {
 			let line = lines[i];
 			let items = line.split('|');
-			let type = items[0];
-			let name = items[1];
+			let type = items[0].trim();
+			let name = items[1].trim();
 			children.push({name: name, type: type})
 		}
 		if (children.length > 0) {
 			html += '<ion-grid class="home-grid-small"><ion-row>';
-			// html += '<ion-col size="6" class="column center"><span class="label">Tên</span></ion-col>';
-			// html += '<ion-col size="6" class="column center"><span class="label">Quan hệ</span></ion-col>';
-			html += '<ion-col size="7" class="column center"><b>Tên</b></ion-col>';
-			html += '<ion-col size="5" class="column center"><b>Quan hệ</b></ion-col>';
+			html += '<ion-col size="7" class="column center"><b>' + this.languageService.getTranslation('NAME') + '</b></ion-col>';
+			html += '<ion-col size="5" class="column center"><b>' + this.languageService.getTranslation('RELATION') + '</b></ion-col>';
 			html += '</ion-row>';
 			children.forEach((item:any) => {
 				let name = item.name;
+				// console.log('item: ', item);
 				let color = '';
 				if (name.indexOf('*') > 0) {
 					color = 'style="color: green;"';
 					name = name.substring(0,name.indexOf('*'))
 				}
-				let relation = (item.type == 'w') ? 'Vợ' : ( (item.type == 'h') ? 'Chồng' : ( (item.type == 's') ? 'Con trai' : 'Con gái' ));
+				let relation = this.utilService.getRelationStr(item.type);
 				let row = '<ion-row>';
 				row += '<ion-col size="7" class="column center" ' + color + '>' + name + '</ion-col>';
 				row += '<ion-col size="5" class="column center">' + relation + '</ion-col>';
