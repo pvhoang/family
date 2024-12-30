@@ -39,7 +39,7 @@ export class CropperModalPage implements OnInit {
 
   imageCropped(event: ImageCroppedEvent) {
 		this.croppedImage = event.base64;
-    console.log('CropperModalPage - imageCropped - event: ', event);
+    // console.log('CropperModalPage - imageCropped - event: ', event);
   }
 
   imageLoaded() {
@@ -58,7 +58,7 @@ export class CropperModalPage implements OnInit {
 
   async onSave() {
     await this.modalCtrl.dismiss({
-      result: this.croppedImage
+      result: { base64: this.croppedImage }
     });
   }
 }

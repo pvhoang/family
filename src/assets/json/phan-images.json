@@ -1,22 +1,29 @@
 
 {
 
-	"test/phan ngọc danh.jpg": {
-		"url":"https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2Ftest%2Fphan%20ng%E1%BB%8Dc%20danh.jpg?alt=media&token=68785f29-b3a9-4740-9594-dc7058d76aa1",
-		"type":"image/jpeg","size":"36,443","width":151,"height":151
-	},
-	"test/bài vị.jpg": {
-		"url":"https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2Ftest%2Fb%C3%A0i%20v%E1%BB%8B.jpg?alt=media&token=aab07353-bdcd-4f43-bf33-734229e230e3",
-		"type":"image/jpeg","size":"527,904","width":640,"height":640
-	},
+"Phan Văn Sáu - Gia Đình.jpg": {"url":"https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2FPhan%20V%C4%83n%20S%C3%A1u%20-%20Gia%20%C4%90%C3%ACnh.jpg?alt=media&token=1649ff7e-68b6-4de3-96b8-f3d4fe819b51",
+	"type":"image/png","size":"32 KB","width":1984,"height":1488
+},
+
+"phan dính/Phan Viết Anh.jpg": {"url":"https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2Fphan%20d%C3%ADnh%2FPhan%20Vi%E1%BA%BFt%20Anh.jpg?alt=media&token=0d4b71cf-7bc6-4d8b-83f8-420e36c09691",
+	"type":"image/png","size":"32 KB","width":128,"height":128
+},
+"phan dính/Phan Viết Châu.jpg": {"url":"https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2Fphan%20d%C3%ADnh%2FPhan%20Vi%E1%BA%BFt%20Ch%C3%A2u.jpg?alt=media&token=3050838e-587a-4978-a446-e71379075770",
+	"type":"image/png","size":"32 KB","width":128,"height":128
+},
+"phan dính/Phan Viết Hoàng.jpg": {"url":"https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2Fphan%20d%C3%ADnh%2FPhan%20Vi%E1%BA%BFt%20Ho%C3%A0ng.jpg?alt=media&token=5a5fed54-fd32-4845-b8be-c6d0f44ddfaf",
+	"type":"image/png","size":"32 KB","width":128,"height":128
+},
+"phan dính/Phan Ngọc Danh.jpg": {"url":"https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2Fphan%20d%C3%ADnh%2FPhan%20Ng%E1%BB%8Dc%20Danh.jpg?alt=media&token=9f3154a6-5e4d-41fb-aa78-5ce3744243db",
+	"type":"image/png","size":"32 KB","width":128,"height":128
+},
+"phan dính/Phan Văn Vĩnh.jpg": {"url":"https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2Fphan%20d%C3%ADnh%2FPhan%20V%C4%83n%20V%C4%A9nh.jpg?alt=media&token=d85bd97c-2e5f-45b2-9c12-7461e914f52f",
+	"type":"image/png","size":"32 KB","width":128,"height":128
+},
 
 	"Bài vị Thủy Tổ.jpg": {
 		"url":"https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2Fxuan%20son.jpg?alt=media&token=ce4eff99-9c69-45d7-beac-e579ab8162b4",
 		"type":"image/jpeg","size":"87,942","width":640,"height":480
-	},
-	"Phan Viết Anh.jpg": {
-		"url":"https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2FPhan%20Vi%E1%BA%BFt%20Anh.jpg?alt=media&token=7e8e4aca-76a5-4b44-b79a-220d6316e4ae",
-		"type":"image/jpeg","size":"22,640","width":128,"height":480
 	},
 	"xuan son.jpg": {
 		"url":"https://firebasestorage.googleapis.com/v0/b/family-c5b45.appspot.com/o/phan%2Fxuan%20son.jpg?alt=media&token=ce4eff99-9c69-45d7-beac-e579ab8162b4",

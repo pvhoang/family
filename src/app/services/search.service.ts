@@ -23,8 +23,12 @@ export class SearchService {
 			desc.forEach((item: any) => {
 				let vals = item.split('|');
 				if (vals.length > 0) {
-					let name = vals[1];
-					results.push(name);
+					let name = vals[1].trim()
+					let nameStrip = this.utilService.stripVN(name);
+					if (nameStrip !== 'start' && nameStrip !== 'end' && nameStrip != 'thong tin')
+					// name = this.utilService.stripVN(name);
+					// if (name !== 'start' && name !== 'end' && name != 'thong tin')
+						results.push(name);
 				}
 			})
 			return this.utilService.stripVN(results.join(','))

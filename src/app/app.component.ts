@@ -14,6 +14,7 @@ import { FirebaseService } from './services/firebase.service';
 import { fromEvent, merge, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+const ANCESTOR = 'phan';
 const THEME = 'theme';
 const LANGUAGE = 'language';
 const SIZE = 'size';
@@ -23,13 +24,8 @@ const ENGLISH = 'en';
 const VIEW_MODE = 'view';
 const EDIT_MODE = 'edit';
 
-// superadmin
-const URL_CREATE_ANCESTOR = '/s_create';
-const URL_DELETE_ANCESTOR = '/s_delete';
-// ancestor
-const URL_PHAN_ANCESTOR = '/phan';
 // admin
-const ADMIN_CODE = '1234';
+// const ADMIN_CODE = '1234';
 // user
 const OPTION_SETTING = 'doi'
 const OPTION_DELETE = 'xoa';
@@ -81,16 +77,16 @@ export class AppComponent implements OnInit {
     let strings = window.location.href.split(window.location.host);
     let url = strings[strings.length-1];
 		let dat = url.split('/');
-		if (DEBUGS.APP)
-			console.log('AppComponent - ngOnInit - url, dat: ', url, dat);
-		// url must have format: '/ancestor/option'
-		let ancestor = dat[1];
-		let option = (dat.length > 2) ? dat[2] : '';
+		let ancestor = ANCESTOR;
+		// url must have format: '/option'
+		let option = dat[1];
 		this.url = url;
+
+		if (DEBUGS.APP)
+			console.log('AppComponent - ngOnInit - url, dat, ancestor, option: ', url, dat, ancestor, option);
 
 		// setup UI
 		this.initializeUI().then((status) => {
-
 			// internet must be available before start up
 			this.checkNetworkStatus().then(networkStatus => {
 				if (networkStatus == false) {
@@ -101,15 +97,9 @@ export class AppComponent implements OnInit {
 
 		// --- superadmin tasks
 
-			if (url == URL_CREATE_ANCESTOR) {
-				this.createAncestor();
-				return;
-			} else if (url == URL_DELETE_ANCESTOR) {
-				this.deleteAncestor();
-				return;
-			} 
-			
-			if (ancestor == '') {
+		console.log('AppComponent - ngOnInit - url, ancestor, option: ', url, ancestor, option);
+
+			if (ancestor !== ANCESTOR) {
 				this.presentToast(['APP_NO_ANCESTOR_1','APP_NO_ANCESTOR_2', 'APP_SUPER_ADMIN']);
 				return;
 			}
@@ -140,6 +130,7 @@ export class AppComponent implements OnInit {
 					this.setSetting();
 				else if (option == '')
 					this.initializeApp(rdata);
+
 				else {
 					// token registration for notification
 					// this option is recipient, http://localhost:8102/phan/hoang
@@ -218,19 +209,18 @@ export class AppComponent implements OnInit {
     // let str = this.platform.platforms().toString();
 		// Capacitor.getPlatform(): web, android, ios
     environment.android = (Capacitor.getPlatform() === 'android');
-      this.updateAppData(rdata).then(status => {
-				if (DEBUGS.APP)
-					console.log('initializeApp - status, mode: ', status, this.mode);
-				if (status) {
-					this.splashTitle = this.translate_instant('APP_FAMILY_TREE');
-					if (this.mode == EDIT_MODE)
-						this.startUp = true;
-					else
-						this.startApp = true;
-				}
-				this.fcm.initPush();
-			});
-    // });
+		this.updateAppData(rdata).then(status => {
+			if (DEBUGS.APP)
+				console.log('initializeApp - status, mode: ', status, this.mode);
+			if (status) {
+				this.splashTitle = this.translate_instant('APP_FAMILY_TREE');
+				if (this.mode == EDIT_MODE)
+					this.startUp = true;
+				else
+					this.startApp = true;
+			}
+			this.fcm.initPush();
+		});
   }
 
   onSplashComplete(event: any) {
@@ -310,178 +300,23 @@ export class AppComponent implements OnInit {
     })
   }
   
-  createAncestor() {
-    let title = this.translate_instant('APP_NEW_ANCESTOR');
-    let cancel = this.translate_instant('CANCEL');
-    let ok = this.translate_instant('OK');
-
-    let inputs = [
-			// type =  "text", "password", "email", "number", "search", "tel", "url", 'checkbox' | 'radio' | 'textarea';
-			{  
-				type: 'text',
-				value: 'phan',
-				placeholder: this.translate_instant('APP_ANCESTOR_ID'),
-				attributes: { maxlength: 6 },
-      },
-      {   
-				type: 'text',
-				value: 'Phan Tộc',
-				placeholder: this.translate_instant('APP_ANCESTOR_NAME'),
-				attributes: { maxlength: 20 },
-      },
-      {  
-				type: 'text',
-				value: 'Đồng Hới, Quảng Bình',
-				placeholder: this.translate_instant('APP_ANCESTOR_LOCATION'),
-				attributes: { maxlength: 30 },
-      },
-      {   
-				type: 'text',
-				value: 'Phan',
-				placeholder: this.translate_instant('APP_ANCESTOR_FAMILY_NAME'),
-				attributes: { maxlength: 30 },
-      },
-      {   
-				type: 'text',
-				value: 'Phan Lợi Hành',
-				placeholder: this.translate_instant('APP_ANCESTOR_ROOT_NAME'),
-				attributes: { maxlength: 25 },
-      },
-      {   
-				type: 'number',
-				value: '1900',
-				placeholder: this.translate_instant('APP_ANCESTOR_ROOT_YEAR'),
-				attributes: { maxlength: 4 },
-      },
-			{   
-				type: 'text',
-				value: 'Phan Viết Hoàng',
-				placeholder: this.translate_instant('APP_ANCESTOR_ADMIN_NAME'),
-				attributes: { maxlength: 25 },
-      },
-			{   
-				type: 'text',
-				value: 'Viber 0903 592 592',
-				placeholder: this.translate_instant('APP_ANCESTOR_ADMIN_EMAIL'),
-				attributes: { maxlength: 30 },
-      },
-			{   
-				type: 'number',
-				value: '1234',
-				placeholder: this.translate_instant('APP_ANCESTOR_ADMIN_CODE'),
-				attributes: { maxlength: 4 },
-      },
-    ]
-    this.utilService.alertText(title, inputs , cancel, ok,  { width: 350, height: 500 }).then(result => {
-      if (result.data) {
-				// validate id
-				const ancestor = result.data[0];
-				if (ancestor == '') {
-					let heading = this.translate_instant('ERROR');
-					let msg = this.translate_instant('APP_ANCESTOR_ID_NOT_EMPTY');
-					this.utilService.alertMsg(heading, msg, 'OK', { width: 350, height: 200 }).then(stat => {});
-					return;
+	private startAncestor(ancestorID: any) {
+		return new Promise((resolve) => {
+			this.fbService.getAncestor(ancestorID).then((data:any) => {
+				if (!data) {
+					// ancestorID not exist!
+					resolve (false);
 				} else {
-					this.fbService.getAncestor(ancestor).then((data:any) => {
-						if (data) {
-							let heading = this.translate_instant('ERROR');
-							// already exist, can not add
-							this.presentToast(['APP_ANCESTOR_ID_EXIST_1', ancestor, 'APP_ANCESTOR_ID_EXIST_2']);
-						} else {
-							this.createBaseAncestor(result.data).then((rdata:any) => {
-								console.log('AppComponent - createAncestor - rdata: ', rdata);
-								this.fbService.saveAncestorData(rdata).then((status:any) => {
-									this.presentToast(['APP_OK_ANCESTOR', rdata.info.id]);
-								});
-							});
-						}
-					})
-				}
-      }
-    })
-  }
-
-	deleteAncestor() {
-		this.fbService.getAncestors().then((ancestors:any) => {
-			if (DEBUGS.APP)
-				console.log('AppComponent - deleteAncestor - ancestors: ', ancestors);
-			let inputs = [];
-			ancestors.forEach((ancestor: any) => {
-				if (ancestor.info) {
-					let info = JSON.parse(ancestor.info);
-					let label = info.name + ' (' + info.id + ')';
-					inputs.push({ type: 'radio', label: label, value: info.id, checked: false })
-				}
-			})
-			let heading = this.translate_instant('APP_DELETE_ANCESTOR');
-			this.utilService.alertRadio(heading, '', inputs , this.translate_instant('CANCEL'), this.translate_instant('OK')).then(result => {
-				if (result.data) {
-					let ancestorID = result.data;
-					let heading = this.translate_instant('APP_DELETE_ANCESTOR');
-					this.utilService.alertConfirm(heading, ancestorID, 'CANCEL', 'OK').then((res) => {
-						if (res.data) {
-							this.fbService.deleteAncestor(ancestorID).then(() => {
-								this.presentToast(['APP_DELETE_ANCESTOR_1', ancestorID, 'APP_DELETE_ANCESTOR_2']);
-							});
-						}
+					this.fbService.readAncestorData(ancestorID).subscribe((rdata:any) => {
+							resolve (rdata);
 					});
 				}
-			});
-		});
-  }
-
-	private createBaseAncestor(data: any) {
-
-		return new Promise((resolve) => {
-			this.utilService.getLocalJsonFile('./assets/common/info-template.json').then((info:any) => {
-			this.utilService.getLocalJsonFile('./assets/common/docs-template.json').then((docs:any) => {
-			this.utilService.getLocalJsonFile('./assets/common/family-template.json').then((family:any) => {
-
-				info.id = data[0];
-				info.name = data[1];
-				info.location = data[2];
-				info.family_name = data[3];
-				info.root_name = data[4];
-				info.root_year = data[5];
-				info.admin_name = data[6];
-				info.admin_email = data[7];
-				info.admin_code = data[8];
-
-				family.date = this.utilService.getShortDateID('/');
-				family.nodes[0].name = info.root_name;
-				family.nodes[0].gender = "male";
-				family.nodes[0].yob = info.root_year;
-
-				let rdata = {
-					"info": info,
-					"images": {}, 
-					"docs": docs, 
-					"family": family
-				}
-				resolve (rdata);
-			});
-			});
-			});
-		});
-  }
-
-private startAncestor(ancestorID: any) {
-	return new Promise((resolve) => {
-		this.fbService.getAncestor(ancestorID).then((data:any) => {
-			if (!data) {
-				// ancestorID not exist!
+			})
+			.catch((error: any) => {
+				console.log('AppComponent - startAncestor - error: ', error);
 				resolve (false);
-			} else {
-				this.fbService.readAncestorData(ancestorID).subscribe((rdata:any) => {
-						resolve (rdata);
-				});
-			}
-		})
-		.catch((error: any) => {
-			console.log('AppComponent - startAncestor - error: ', error);
-			resolve (false);
-		})
-	});
+			})
+		});
 	}
 
 	async validateAncestor(ancestorID: any) {

@@ -117,9 +117,12 @@ export class JsonService {
 							images[name] = { url: file.url, type: file.type, size: file.size, width: file.width, height: file.height };
 					})
 				})
-				// console.log('jsonValidateImage - docImages: ', docImages);
-				// console.log('jsonValidateImage - storageImages: ', storageImages);
-				// console.log('jsonValidateImage - images: ', images);
+
+				if (DEBUGS.JSON) {
+					console.log('jsonValidateImage - docImages: ', docImages);
+					console.log('jsonValidateImage - storageImages: ', storageImages);
+					console.log('jsonValidateImage - images: ', images);
+				}
 
 				// update family and images to server
 				this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {

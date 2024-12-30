@@ -1,14 +1,14 @@
 {
 	"title": "FAMILY",
-  "version": "6",
-  "date": "23/12/24",
+  "version": "7",
+  "date": "27/12/24",
   "nodes": [
     {
       "name": "Phan Văn Nghi",
       "gender": "male",
       "pod": "Đá Bạc, Quảng Bình",
       "yob": "1854",
-			"photo": "test/phan ngọc danh.jpg",
+			"photo": "",
       "desc": [
 "family|start|Gia tộc",
 "   w|Thái Thị Tôn Nương",
@@ -18,9 +18,13 @@
 "   d|Phan Thị Cúc"     ,
 "   d|Phan Thị Phượng",
 "family|end",
+"",
 "apa2|Thông tin",
-"Thái Thị Tôn Nương: Mồ không rõ chôn ở đâu"
-			]
+		"Phan Thị Nhiễm: Giỗ ngày 09 tháng 07"    ,
+		"Phan Thị Hoa: Giỗ ngày 11 tháng 10"      ,
+		"Phan Thị Cúc: Giỗ ngày 11 tháng 10"      ,
+		"Phan Thị Phượng: Giỗ ngày 27 tháng giêng"
+      ]
     }
   ],
   "children": [
@@ -38,24 +42,42 @@
 	"w|Hà Thị Để",
 	"w|Hà Thị Nghiêm",
 	"w|Hà Thị Ố",
-	"d|Bà Để",
 	"s|Phan Văn Vũ (Phủ)*",
 	"s|Phan Văn Dương (Rạng)*",
 	"s|Phan Văn Dắng",
 	"s|Phan Văn Duy",
-	"d|Bà Nghiêm",
 	"s|Phan Văn Trích (Tịch)*",
 	"s|Phan Văn Đăng",
 	"d|Phan Thị Tiếu",
 	"d|Phan Thị Kiều",
-	"d|Bà Ố",
 	"s|Phan Văn Tốt*",
 	"d|Phan Thị Thả",
 	"s|Phan Văn Lý",
 	"d|Phan Thị Thọ",
 "family|end",
-"apa2|Thông tin"
-
+"",
+"apa2|Thông tin",
+"Ông bà Phan Văn Nguyên và Hà Thị Đê đều có bài vị (thần chủ) hiện đang lưu giữ tại nhà thờ Họ Phan Đồng Phú",
+"Mộ táng Ông Phan Văn Nguyên lúc đầu tại xứ Kiệt, gần Tam miếu nay đã được tập hợp đưa lên đá bạc Đồng Sơn",
+"Mộ táng Bà Hà Thị Đê xứ cây Sanh, gần Quan lộ (đường cái quan) đã được đưa lên đá bạc Đồng Sơn trong khuôn lăng Họ tộc",
+"Các con của Ông Phan Văn Nguyên:",
+"Với bà cả HÀ THỊ ĐÊ:",
+"1. Phan Văn Vũ (Phủ)",
+"2. Phan Văn Dương (Rạng)",
+"3. Phan Văn Dắng Lập nghiệp và mất tại Quảng Nam (Ngày 04-03)",
+"4. Phan Văn Duy Chưa có vợ con mất ngày 27/03, táng tại Đồng phần bản quán",
+"Với Bà hai Hà Thị Nghiễm:",
+"1. Phan Văn Trích (Tịch)",
+"2. Phan Văn Đăng",
+"3. Phan Thị Tiếu",
+"4. Phan Thị Kiều",
+"Cần chú ý rằng tuy Văn Trích là con bà thứ nhưng là sinh đầu nên là Thứ huynh (Anh Cả)",
+"Với bà ba Hà Thị Ố (U) ",
+"1. Phan Văn Tốt",
+"2. Phan Thị Thả",
+"3. Phan Văn Lý",
+"4. Phan Thị Thọ",
+"Ông Nguyên làm đô đầu phủ Quảng Ninh giai đoạn thế kỷ XVIII, đây là giai đoạn gần với khởi nghĩa Tây Sơn, thời với tướng Hoàng Ngũ Phúc được chúa Trịnh sai đi đánh chiếm Thuận Hóa"
 					]
         }
       ],
@@ -68,6 +90,10 @@
               "pod": "Đá Bạc, Quảng Bình",
               "nick": "Rạng",
               "desc": [
+								"Ông Phan Văn Dương mộ táng tại Xứ Kiệt, gần Tam Miếu, bên phải mộ song thân",
+                "Sinh hạ: Ông Phan Văn Tự sau đổi tên là Phan Lợi Hành",
+                "Vị thứ hai mất sơ sinh được 3 tháng mười ngày khi đó Ông Rạng mất, lúc mẹ còn sống thường giỗ chạp, sau khi mẹ mất không nhớ ngày giỗ chạp nên lấy ngày mất của cha để tưởng nhờ",
+                "bà Hà Thị Thảo cải giá lấy chồng họ Nguyễn sinh được 2 trai, 1 gái, Ông Hành còn nhỏ được bà ngoại nuôi dạy (Bà Phạm Thị Lý). Ông được học hành đổ đạt thành toại, sau biết được công đức bà ngoại con cháu tôn vinh bà là mẫu tổ. Trước năm 1880 Ông đã xây mộ cho bà Phạm Thị Lý rất to ở Bà Ràng, sau năm 1972 Ông Phan Quang Ngự và con cháu đã di dời lên nghĩa trang Đá Bạc, Đồng Sơn để tại lăng gia đình và lập bà là mẫu tổ phái trên bia mộ chí ghi: Mẫu thân tổ nánh"
               ]
             }
           ],
@@ -81,6 +107,25 @@
                   "yob": "1829",
                   "yod": "1878",
                   "desc": [
+										"Ông Phan Lợi Hành là chánh bát phẩm, bổ kinh lịch tỉnh Thái Nguyên (Bắc Việt), làm bang tá huyện Tyên Hóa Quảng Bình, sau bổ ra làm Bang tá tại Tỉnh Nam Đinh hơn một năm thì đau mất. Tháng giêng năm mậu dần (1878) dời quan cốt về làng",
+                    "Ông Hành và bà Khương có thân chủ ",
+                    "Bà Trần Thị Ninh là em ruột bà Trần Thị Khương sau khi bà Khương mất Ông Hành đã lập em bà khương là vợ kế.",
+                    "Còn bà Hà Thị Duyên trước tên là Chích, con Ông Hà Văn Chất, Bà Duyên theo chồng ra Nam Định, Ông mất bà thu tạng đưa quan cửu về làng, sau này bà cải giá lấy Ông Tú Truyên làng Tiền Thiệp",
+                    "Các con của Ông Lợi Hành",
+                    "Với bà Trần Thị Khương:",
+                    "1. Phan Bá Liễn còn gọi là Cựu Diễn sau đổi tên là Tuần tên đầy đủ là Phan Khắc Tuần ",
+                    "2. Phan Văn Nghĩa tuổi Đinh tỵ mất 26-02 Mộ táng tại sát chân mộ cụ Hiển tổ bá Văn Phủ)",
+                    "Với bà Trần Thị Ninh",
+                    "3. Phan Thị Liên",
+                    "4. Phan Tuấn Đức sinh 27-02-Mậu Thìn(1868)",
+                    "5. Phan Hàm sinh quý hợi(1863) mất ngày 22-09 lấy ngày Ông bỏ nhà đi, Ông từng làm thông lại huyện Bố Trạch, chiêu hồn cốt ngày 20-06-1868 (Bính Ngọ)",
+                    "6. Phan Thị Nhàn sau đổi là Muôn sinh 17-10-1870",
+                    "7. Phan Văn Nuông Sau đổi thành Hành Cu sinh ngày 08-01 Quý Dậu (1873) mất Giáp Dần",
+                    "8. Phan Thị Đội",
+                    "9. Phan Văn Trung",
+                    "• Ông Phan Lợi Hành có con nuôi là Ông Trần Ấu con Ông Trần Ngân người Thuận Lý sau này là tổ họ Trần Lịch, Đồng Phú hiện có các Ông là Trúc, Rê, Mãng, Đãng, Trà….",
+                    "• Ông Phan Lợi Hành là tổ chi của chi ta (Đệ nhất nánh đệ nhị chi)"
+        
                   ]
                 }
               ],
@@ -94,6 +139,15 @@
                       "yod": "1886",
                       "dod": "01/03",
                       "desc": [
+												"Tục danh: Cửu Diễn",
+												"Ông bà sinh hạ:",
+                        "2. Vị vô danh",
+                        "3. Song Sanh Phan Thị Khuân (Thị Trước) , Phan Thị Lương (Thị Sau) Hai chị em gái sinh đôi ngày 30 tháng 03 năm Canh Thìn, Thị Trước sinh vào cuối giờ Thìn, Thị Sau sinh giờ Tỵ. Ngày 01 tháng 07 năm đó hai bà cùng bị bệnh cảm, đến cuối ngày 10 thị bà Thị Sau mất đến ngày 16 thì Bà Thị Trước cũng mất theo. Trước phần mộ của hai linh hồn được tang xứ Hương Hóa, nay được đưa về khuôn lăng họ tộc.",
+                        "4. Ông Phan Ngọc Luật",
+                        "5. Phan Thị Thiết tên củ là Âu sinh Ất Dậu 09-03-1895, mất năm Sửu",
+                        "* Ông Phan Khắc Tuần bắt đầu bổ cửu phẩm thừa biên đến tháng 06 Ất Dậu tỉnh thành hữu sự ngày 27-02 Bính Tuất (1886) du tiên triều đình khâm sai bang Quảng Ninh, huyện Lệ Thủy (Quan thanh tra triều đình) Ông cùng với nhiều nhóm hào trưởng đón giá vua Hàm Nghi qua Quán hàu lên lập cứ chống Pháp ở Minh Hóa Quảng Bình (Theo sử lập tại khe Tá Bào huyện Tuyên Hóa này là Huyện Minh Hóa Quảng Bình). Ông ra đi vào ngày 01-03 Bính Tuất gia đình biệt tin ông từ đó nên lấy ngày này làm ngày dỗ Ông.",
+                        "Bà Nguyễn Thị Huân thuộc dòng tộc họ Nguyễn Đình Đồng Phú. Tuy gặp nhà giàu sang bà lấy chồng lúc 16 tuổi bà lo giữ gìn gia pháp gia đạo những ngày chồng chinh chiến thất tích, qua vang các con còn quá nhỏ (Ông Triệt 9 tuổi, Ông Luật 4 tuổi, Ông Thiết 2 tuổi). Bà ở vậy không tái giá, hết sức dìu dắt con cái nuôi dạy con cái đỗ đạt cao. Chiêu hồn lập cốt cho chồng hoàn toàn tử tế, con cái thành danh đỗ đạt cao, bà được vua ban bảng vàng “TIẾT HẠNH KHẢ PHONG’’, Bà thọ được 84 tuổi là một người con dâu kiểu mẫu bậc nhất họ Phan ( Tiết hạnh khả phong chính là ấn chiếu  ban ra rộng rãi tương thưởng cho các tiết phụ (thủ tiết chờ chồng nuôi con) do Bộ lễ và bộ công cấp)"
+
                       ]
                     }
                   ],
@@ -108,6 +162,24 @@
                           "pod": "Đá Bạc, Quảng Bình",
                           "dod": "15/01",
                           "desc": [
+														"Phan Ngọc Luật - Gia Đình.jpg - Toàn bộ gia đình Ông Phan Ngọc Luật",
+                            "Lúc đầu Ông làm nghề dạy học tại làng, tháng 07 năm 1902 được bổ y thuộc, qua tháng 03-1903 quyền cửu phẩm y sanh, năm 1906 phái viên kiểm soát trường thi Thừa Thiên sau đó được bổ thơ lại Ty phiên Quảng Bình, năm 1908 phái viên hiểu dụ kiểm lâm toàn thơ lại ty niết, tháng giêng 1919 lại mục huyện Bố trạch, năm 1930 hồi quan. Chánh thất là bà Võ Thị Ngàn người Trung Bính Bảo Ninh",
+                            "Ông và Bà Ngàn sinh hạ:",
+                            "1. Phan Thị Kế sinh giờ tỵ 19-10-1910 (Canh Tuất) chồng là Hoàng Thung cùng làng làm nghề dạy học",
+                            "2. Phan Thị Cáo (Trợ bang) tức Quý Thu sinh giờ Tý năm Tân Thân lấy chồng họ Phan gốc Thừa Thiên làm xếp giấy thép (Bưu Điện) tại Đồng Hới bị mất đột ngột do dịch tả ngày 23-01 năm Mậu Dần (1938) mộ Ông để ở nghĩa trang gia đình vợ. Cô Cáo và Chồng là Phan Văn Thanh sinh được hai trai Ky và Tô cùng cô Phan Thị Bạch Vân ( Cô Vân lấy chồng tên là Sơn năm 1975 cô Vân cùng chồng vào Huế rồi vào Sài Gòn ở tại tổ II, KP 2, số 78 Quận An Bình, Đồng Nai. Cô Cáo là tri thức hiểu biết thông thạo nhiều ngoại ngữ, cô làm nghề dạy học còn gọi là Trợ Cáo. Cô đi Mỹ cùng cô con gái út là Cô Liên và mất bên Mỹ Quốc ngày 05-08-1997 (Tức 07-03-Đinh Sửu))",
+                            "Mộ chí Giượng Phan Văn Thanh Chồng Bà Phan Thị Cáo trong khuông lăng gia đình Đá Bạc Đồng Sơn",
+                            "3. Phan Ngọc Duấn sinh giờ mùi 16-05 Nhâm Tý (1912)",
+                            "4. Phan Chút sinh giờ mùi ngày 08-11 Quý Sửu (1913) mất 18-03 Giáp Dần (1914)",
+                            "5. Ông Phan Khắc Dính còn gọi là Hinh sinh giờ tỵ 21-05 Ất Mẹo (1915)",
+                            "6. Ông Phan Quang Ngự sinh giờ Thân ngày 08-12 Mậu Ngọ (1918)",
+                            "7. Ông Phan Khắc Phúc sinh giờ Thân ngày 12 tháng 06 năm Quý Hợi (1923).",
+                            "Năm Đinh Mẹo 1927 bà Võ Thị Ngàn qua vang, Năm 1928 Ông Luật lấy bà Trần Thị Lan tuổi Ất tỵ (1905) ",
+                            "Ông bà sinh hạ:",
+                            "8. Ông Phan Ngọc Tường sinh giờ tỵ ngày 21-12-Kỷ tỵ (1929)",
+                            "9. Phan Thị Bẹp sinh giờ tuất ngày 01-04 Quý dậu(1933) mất giờ thân Quý mùi (1943)",
+                            "Bà Lan mất 17-03-1979 tức 20-02-Kỷ Mùi tại Hà Nội, Năm 1982 cải táng mang về làng hiện để tại nghĩa trang gia đình tại Đá Bạc Đồng Sơn",
+                            "Ảnh toàn bộ gia đình Ông Phan Ngọc Luật do Chú Phan Văn Năm cung cấp ảnh chụp tại tư gia nay là Hội người cao tuổi Phường Đồng Phú",
+                            "Từ trái qua phải: Giượng Kế và Con, Ông Phan Duấn, Ông Phan Ngọc Luật cùng Ông Phan Ngọc Tường, Bà Nguyễn Thị Huân, Bà Trần Thị Lan đang bồng con Phan Thị Bẹp, Bà Phan Thị Cáo khi đó chưa lấy chồng, Ông Phan Khắc Phúc, Ông Phan Quang Ngự, Ông Phan Dính, Bà Phan Thị Kế và con"
                           ]
                         }
                       ],
@@ -125,17 +197,31 @@
                               "job": "Công chức",
                               "dod": "12/09",
                               "desc": [
-"h|Đoàn Thị Thí",
-"d|Phan Thị Kim Hải",
-"s|Phan Viết Châu",
-"d|Phan Thị Tuyết",
-"s|Phan Viết Anh",
-"s|Phan Ngọc Danh",
-"s|Phan Văn Vĩnh",
-"s|Phan Viết Hoàng",
-"s|Phan Thị Cẩm Thành",
-"s|Phan Thị Cẩm Nhung",
-"s|Phan Thị Cẩm Phương"
+"family|start|Gia tộc",
+	"w|Đoàn Thị Thí",
+	"d|Phan Thị Kim Hải",
+	"s|Phan Viết Châu",
+	"d|Phan Thị Tuyết",
+	"s|Phan Viết Anh",
+	"s|Phan Ngọc Danh",
+	"s|Phan Văn Vĩnh",
+	"s|Phan Viết Hoàng",
+	"d|Phan Thị Cẩm Thành",
+	"d|Phan Thị Cẩm Nhung",
+	"d|Phan Thị Cẩm Phương",
+	"family|end",
+	"",
+"apa2|Thông tin",
+	"Ông Dính trước là tùy sự công chánh Đà Nẵng (1934) nghĩ dài hạn đến năm 1945 về buôn bán, sau năm 1954 ở Nam Việt  (145 Đường Quang Trung Thị Xã Quảng Ngãi).Vợ Ông là người Trung Bính, Bảo Ninh, Đồng Hới mẹ bà Thí tên là Nguyễn Thị Tiêu",
+                                "Ông bà sinh hạ:",
+                                "1. Phan Thị Kim Hai thường gọi là Ni sinh giờ dần 19-11 Tân tỵ (1941). Năm 1933 cô đi Mỹ sinh sống.",
+                                "3. Phan Thị Tuyết sinh 26-08 Ất Dậu (1945)",
+                                "4. Phan Thị Oanh giờ sửu (01-04-1949)",
+                                "5. Phan Minh Dần (Danh) sinh năm 1951 năm 1974 danh du học ở Anh thất lạc sau 1975 anh về thăm quê luon vợ anh người Bắc Ninh cả hai đều sống ở Mỹ quốc, cả hai đều là kỹ sư cầu đường",
+                                "6. Phan Viết Hoàng tuổi Tỵ 19-03-1953",
+                                "7. Phan Thị Cẩm Thành (Tuổi Dậu) sinh 02-04-1957",
+                                "8. Phan Thị Cẩm Nhung (Tuổi Tuất) 16-09 năm 1958",
+                                "9. Phan Thành Tâm sinh 21-04-1962"
                               ]
                             }
                           ],
@@ -146,12 +232,16 @@
                                   "name"  : "Phan Thị Kim Hải"    ,
                                   "gender": "female"            ,
                                   "yob"   : "1942"              ,
+																	"yod": "2021",
+																	"pod": "Hoả táng, TP HCM",
 																	"dod": "10/08",
 																	"desc" : [
-																		"h|Trần Bông",
-																		"s|Trần Trung Bảo",
-																		"s|Trần Thị Ngân Hà",
-																		"s|Trần Thị Vân"
+"family|start|Gia tộc",
+	"h|Trần Bông",
+	"s|Trần Trung Bảo",
+	"s|Trần Thị Ngân Hà",
+	"s|Trần Thị Vân",
+"family|end"
 																	]
                                 }
                               ]
@@ -162,13 +252,24 @@
                                   "name"  : "Phan Viết Châu"    ,
                                   "gender": "female"            ,
                                   "yob"   : "1944"              ,
+																	"yod": "2022",
+																	"pod": "Tịnh Khê, Quảng Ngãi",
+																	"dod": "10/08",
+																	"photo" : "phan dính/Phan Viết Châu.jpg",
 																	"desc" : [
-																		"w|Nguyễn Thị Hương",
-																		"s|Phan Chánh Pháp"
+"family|start|Gia tộc",
+"w|Nguyễn Thị Hương",
+"s|Phan Chánh Pháp",
+"family|end",
+"apa2|Thông tin khác"
 																	]
                                 }
                               ]
                             },
+
+
+
+
 														{
                               "nodes": [
                                 {
@@ -177,10 +278,12 @@
                                   "yob"   : "1945"              ,
                                   "por"   : "Richmond, Virginia",
 																	"desc" : [
-																		"h|Nguyễn Văn Bản",
-																		"s|Nguyễn Phan Bình",
-																		"s|Nguyễn Phan Hoàng Nam",
-																		"s|Nguyễn Phan Việt Bắc"
+"family|start|Gia tộc",
+	"h|Nguyễn Văn Bản",
+	"s|Nguyễn Phan Bình",
+	"s|Nguyễn Phan Hoàng Nam",
+	"s|Nguyễn Phan Việt Bắc",
+"family|end"
 																	]
                                 }
                               ]
@@ -191,10 +294,16 @@
                                   "name"  : "Phan Viết Anh"    ,
                                   "gender": "male"            ,
                                   "yob"   : "1947"              ,
+																	"photo" : "phan dính/Phan Viết Anh.jpg",
 																	"desc" : [
-																		"w|Nguyễn Thị Thái Phương",
-																		"s|Phan Thị Phương Thư",
-																		"s|Phan Nhật Huy"
+"family|start|Gia tộc",
+	"w|Nguyễn Thị Thái Phương",
+	"s|Phan Thị Phương Thư",
+	"s|Phan Nhật Huy",
+"family|end",
+"",
+"apa2|Thông tin",
+""
 																	]
                                 }
                               ]
@@ -205,10 +314,18 @@
                                   "name"  : "Phan Ngọc Danh"    ,
                                   "gender": "male"            ,
                                   "yob"   : "1949"              ,
+																	"photo" : "phan dính/Phan Ngọc Danh.jpg",
 																	"desc" : [
-																		"w|Nguyễn Thị Thu Hương",
-																		"s|Phan Thị Đỗ Quyên",
-																		"s|Phan Lam Duy"
+"family|start|Gia tộc",
+	"w|Nguyễn Thị Thu Hương",
+	"s|Phan Thị Đỗ Quyên",
+	"s|Phan Lam Duy",
+"family|end",
+"",
+"apa2|Thông tin",
+""
+
+																	
 																	]
                                 }
                               ]
@@ -219,8 +336,14 @@
                                   "name"  : "Phan Viết Hoàng"    ,
                                   "gender": "male"            ,
                                   "yob"   : "1953"              ,
+																	"photo" : "phan dính/Phan Viết Hoàng.jpg",
 																	"desc" : [
-																		"s|Phan Anh Quân"
+"family|start|Gia tộc",
+	"s|Phan Anh Quân",
+"family|end",
+"",
+"apa2|Thông tin",
+""
 																	]
                                 }
                               ]
@@ -232,10 +355,15 @@
                                   "gender": "female"            ,
                                   "yob"   : "1953"              ,
 																	"desc" : [
-																		"h|Huỳnh Lễ",
-																		"d|Huỳnh Thị Lộ",
-																		"d|Huỳnh Thị Thanh Nhàn",
-																		"d|Huỳnh Thị Lộc"
+"family|start|Gia tộc",
+	"h|Huỳnh Lễ",
+	"d|Huỳnh Thị Lộ",
+	"d|Huỳnh Thị Thanh Nhàn",
+	"d|Huỳnh Thị Lộc",
+"family|end",
+"",
+"apa2|Thông tin",
+""
 																	]
                                 }
                               ]
@@ -247,9 +375,14 @@
                                   "gender": "female"            ,
                                   "yob"   : "1953"              ,
 																	"desc" : [
-																		"h|Nguyễn Đăng Dung",
-																		"s|Nguyễn Đăng Hưng",
-																		"s|Nguyễn Đăng Thịnh"
+"family|start|Gia tộc",
+	"h|Nguyễn Đăng Dung",
+	"s|Nguyễn Đăng Hưng",
+	"s|Nguyễn Đăng Thịnh",
+"family|end",
+"",
+"apa2|Thông tin",
+""
 																	]
                                 }
                               ]
@@ -261,9 +394,11 @@
                             {
                               "name": "Phan Quang Ngự",
                               "gender": "male",
+															"yob"   : "1918"              ,
                               "pod": "Đá Bạc, Quảng Bình",
                               "dod": "29/04",
-"desc": [
+															"desc": [
+"family|start|Gia tộc",
 	"w|Trần Thị Cút",
 	"s|Phan Văn Ba",
 	"d|Phan Thị Tư",
@@ -271,8 +406,12 @@
 	"d|Phan Văn Sáu",
 	"d|Phan Văn Bảy",
 	"d|Phan Văn Tám",
-	"d|Phan Thị Chín"
-]
+	"d|Phan Thị Chín",
+"family|end",
+"",
+"apa2|Thông tin",
+""
+															]
                             }
                           ]
                         },
@@ -281,18 +420,24 @@
                             {
                               "name": "Phan Khắc Phúc",
                               "gender": "male",
+															"yob"   : "1923"              ,
                               "dod": "23/06",
                               "pod": "Falls Church, Virginia",
                               "desc": [
-	"w|Nguyễn Thị Thuận",
-	"d|Phan Ngọc Trinh",
-	"d|Phan Ngọc Minh",
-	"s|Phan Anh Dũng",
-	"d|Phan Ngọc Mai",
-	"d|Phan Ngọc Trâm",
-	"s|Phan Anh Tuấn",
-	"s|Phan Anh Ngọc",
-	"s|Phan Anh Tùng"
+"family|start|Gia tộc",
+		"w|Nguyễn Thị Thuận",
+		"d|Phan Ngọc Trinh",
+		"d|Phan Ngọc Minh",
+		"s|Phan Anh Dũng",
+		"d|Phan Ngọc Mai",
+		"d|Phan Ngọc Trâm",
+		"s|Phan Anh Tuấn",
+		"s|Phan Anh Ngọc",
+		"s|Phan Anh Tùng",
+"family|end",
+"",
+"apa2|Thông tin",
+""
                               ]
                             }
                           ]
@@ -302,12 +447,38 @@
                             {
                               "name": "Phan Ngọc Tường",
                               "gender": "male",
+															"yob"   : "1929"              ,
                               "pod": "Mai Dịch, Hà Nội",
                               "dod": "14/05",
                               "desc": [
+"family|start|Gia tộc",
 	"w|Lê Thị Xuân Mỹ",
 	"d|Phan Thị Mỹ Linh",
-	"d|Phan Thị Tường Tâm"
+	"d|Phan Thị Tường Tâm",
+"family|end",
+"",
+"apa2|Thông tin",
+"Ông Phan Ngọc Tường sinh ngày 12/2/1929 tại Phú Ninh nay là Phường Đồng Phú, thành phố Đồng Hới, tỉnh Quảng Bình. ",
+                                "Năm 16 tuổi, ông đã tham gia phong trào thanh niên cứu quốc tại Nhà máy Nhiệt điện Đồng Hới-Quảng Bình và được đứng trong hàng ngũ của Đảng lúc 19 tuổi. ",
+                                "Ủy viên dự khuyết ban chấp hành TW ĐCS Việt Nam Khóa V (1982-1986), Ủy viên TW ĐCS Việt Nam khóa VI (1986-1991), VII (1991-1996)",
+                                "Từ tháng 5/1982 đến tháng 9/1989, ông được cử giữ chức Bộ trưởng Bộ Xây dựng. ",
+                                "Từ tháng 10/1989 đến tháng 10/1996, ông được cử giữ chức Bộ trưởng, Trưởng ban Tổ chức cán bộ Chính phủ. ",
+                                "Với trách nhiệm công tác của mình, ông Phan Ngọc Tường luôn phát huy vai trò người đứng đầu ngành, là tấm gương mẫu mực về tinh thần lao động, cống hiến đầy tâm huyết, được cán bộ, công chức, viên chức trong cơ quan trân trọng, học tập noi theo. ",
+                                "Với những đóng góp tích cực vào sự nghiệp đấu tranh giải phóng dân tộc và xây dựng đất nước, ông đã được tặng thưởng nhiều huân, huy chương các loại và Huy hiệu 40 năm tuổi Đảng./",
+                                "Chiều 17/12/2009, Bộ Nội vụ đã tổ chức lễ truy tặng Huân chương Độc lập hạng Nhất cho ông Phan Ngọc Tường, nguyên Ủy viên Trung ương Đảng, nguyên Bộ trưởng Bộ Xây dựng, Bộ trưởng, Trưởng Ban tổ chức cán bộ Chính phủ.",
+                                "Ông bà sinh hạ: ",
+                                "1. Bà Phan Thị Mỹ Linh sinh ngày 04-04-1959 (Kỷ Hợi) hiện đang là thứ trưởng nữ duy nhất trong Bộ Xây Dựng nước CHXHCN Việt Nam, Chồng tên là Tuấn",
+                                "Ngày 5/7/2012, Thủ tướng Chính phủ đã ký Quyết định bổ nhiệm Bà Phan Thị Mỹ Linh - Cục trưởng cục phát triển đô thị - Bộ Xây dựng giữ chức vụ Thứ trưởng Bộ Xây dựng.",
+                                "",
+                                "Căn cứ ý kiến của Ban Bí thư; xét đề nghị của Bộ Xây dựng, Bộ Nội vụ, ngày 5/7/2012, Thủ tướng Chính phủ Nguyễn Tấn Dũng đã ký Quyết định số 838/QĐ – TTg bổ nhiệm bà Phan Thị Mỹ Linh, Cục trưởng Cục Phát triển đô thị giữ chức vụ Thứ trưởng Bộ Xây dựng. Quyết định có hiệu lực kể từ ngày ký.",
+                                "Bà Phan Thị Mỹ Linh nguyên là Tổng giám đốc Công ty Tư vấn thiết kế xây dựng (CDC) - Nay được cổ phần hóa với tên mới là Công ty CP Tư vấn đầu tư và Thiết kế xây dựng Việt Nam (CDC) từ 1999 đến 2/2006.",
+                                "Từ 2006 đến 2009, giữ Chức vụ Vụ trưởng Vụ Quy hoạch - kiến trúc. ",
+                                "Trước khi bổ nhiệm chức vụ Thứ trưởng, giữ chức vụ Cục trưởng Cục phát triển đô thị. Cô Phan Thị Mỹ Linh là Thứ trưởng Nữ đầu tiên của Bộ Xây dựng.",
+                                "Thứ trưởng Phan Mỹ Linh tại Hội nghị sơ kết công tác 6 tháng đầu năm 2012 của Bộ Xây dựng, ngày 6/7/2012",
+                                "Ngày 9/7/2012, Đ/c Lê Văn Chấn - Chủ tịch HĐQT, các Đ/c trong Ban giám đốc đã đến Bộ Xây dựng tặng hoa và Chúc mừng Đ/c Tân Thứ trưởng Bộ Xây dựng",
+                                "2. Bà Phan Thị Tường Tâm sinh 07-02-1961 (Tuổi Sửu) cô là kỷ sư ngành thương mại đang sống tại Sài Gòn",
+                                "Ông Phan Ngọc Tường (1929-1997)",
+                                "Trong ảnh từ trái qua phải: Người thứ tư là Bà Lê Thị Xuân Mỹ, người thứ bảy là Ông Phan Văn Phùng ảnh được chụp trong dịp khai móng xây dựng nhà thờ Họ tộc Phan Đồng Phú Năm 2005"
                               ]
                             }
                           ]

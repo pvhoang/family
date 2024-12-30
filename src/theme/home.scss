@@ -49,11 +49,16 @@
 	font-style: italic;
 }
 
-.home-image {
+.home-image-hover {
 	// https://www.educative.io/answers/how-to-enlarge-an-image-on-hover-in-html
 	&:hover{
 		transform:scale(2.5);
 	}
+}
+
+.home-image-enlarged {
+	width: 600px;
+	height: 450px;
 }
 
 .home-document {
@@ -65,10 +70,10 @@
 
 .home-video-wrapper {
 	max-width: 100%;
-	margin: auto;
+	// max-width: 80%;
+	// margin: auto;
 	text-align: left;
 	video {
-		// width: 0%;
 		width: 200px;
 		height: 150px;
 	}

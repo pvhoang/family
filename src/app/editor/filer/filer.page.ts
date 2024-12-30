@@ -90,7 +90,7 @@ export class FilerPage implements OnInit {
     private languageService: LanguageService,
     private jsoneditorService: JsoneditorService,
     private fbService: FirebaseService,
-    private utilService: UtilService,
+    public utilService: UtilService,
     private jsonService: JsonService,
     private notifyService: NotifyService,
     private photoService: PhotoService,
@@ -421,6 +421,7 @@ export class FilerPage implements OnInit {
 	jsonOnFileSelect(event: any, type: any): void {
 		const files = [...event.target.files]
 		const file = files[0];
+		event.target.value = ''
 		this.jsonOnFile(file, type);
 	}
 
@@ -519,20 +520,20 @@ export class FilerPage implements OnInit {
 	photoGetFile(event: any): void {
 		const files = [...event.target.files]
 		const file = files[0];
-		// console.log('photoGetFile - file: ', file);
+		console.log('photoGetFile - file: ', file);
 		const name = file.name;
+		event.target.value = ''
 		const myReader: FileReader = new FileReader();
 		myReader.readAsDataURL(file);
 		myReader.onload = ((event:any) => {
+			// console.log('photoGetFile - event: ', event);
 			let base64 = event.target.result;
 			let parts = base64.split(';');
-			let mimType = parts[0].split(':')[1];
-			// let imageData = parts[1].split(',')[1];
+			let photoType = parts[0].split(':')[1].split('/')[0];
 			this.photoBase64 = base64;
 			this.photo = name;
-			this.photoType = mimType;
+			this.photoType = photoType;
       if (DEBUGS.FILER) {
-				console.log('photoGetFile - base64: ', base64);
 				console.log('photoGetFile - photo: ', this.photo);
 				console.log('photoGetFile - photoType: ', this.photoType);
 			}
@@ -563,10 +564,10 @@ export class FilerPage implements OnInit {
 		await cropperModal.present();
 		const { data } = await cropperModal.onDidDismiss();
 		if (data.result) {
-			this.photoBase64 = data.result;
+			console.log('result: ', data.result)
+			this.photoBase64 = data.result.base64;
 		}
 	}
-
 
 	// --- storageMode ---
 
@@ -592,9 +593,9 @@ export class FilerPage implements OnInit {
 				let ret = 0;
 				let val1 = row1.path.replaceAll(' ', '_') + row1.name.replaceAll(' ', '_');
 				let val2 = row2.path.replaceAll(' ', '_') + row2.name.replaceAll(' ', '_');
-				if (val1 > val2)
+				if (val1 < val2)
 					ret = -1;
-				else if (val1 < val2)
+				else if (val1 > val2)
 					ret = 1;
 				// console.log('onStorageFile - ret, val1, val2: ', ret, val1, val2);
 				return ret;
@@ -662,22 +663,5 @@ export class FilerPage implements OnInit {
     }
   }
 
-	getKB(size: any) {
-		// filter all . and ,
-		let s = parseFloat((''+size).replace(/,/g, ''));
-		let kb = s / 1024;
-		let str = '';
-		if (kb < 1)
-			str = s + ' Byte';
-		else if (kb < 1000)
-			str = Math.round(kb) + ' KB';
-		else {
-			// let mb = kb / 1024;
-			str = (Math.round(kb)).toLocaleString('vi', { minimumFractionDigits: 0, maximumFractionDigits: 3}) + ' KB';
-		}
-		return str;
-	}
-
-	
 }
 

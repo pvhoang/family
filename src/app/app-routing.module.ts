@@ -3,13 +3,18 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: ':mode',
-    loadChildren: () => import('./viewer/home/home.module').then(m => m.HomePageModule)
+    path: ':admin_code',
+    loadChildren: () => import('./editor/filer/filer.module').then( m => m.FilerPageModule)
   },
-  {
-    path: ':ancestor/:admin_code',
-    loadChildren: () => import('./editor/filer/filer.module').then(m => m.FilerPageModule)
-    // loadChildren: () => import('./editor/tabs/tabs.module').then(m => m.TabsPageModule)
+  // {
+  //   path: ':ancestor/:admin_code',
+  //   loadChildren: () => import('./editor/filer/filer.module').then(m => m.FilerPageModule)
+  // },
+	{
+    path: '',
+    loadChildren: () => import('./viewer/home/home.module').then(m => m.HomePageModule)
+    // redirectTo: 'home',
+    // pathMatch: 'full'
   },
 	{
     path: 'filer',

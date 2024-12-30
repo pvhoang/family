@@ -25,20 +25,21 @@ export const FONTS_FOLDER = '../../assets/fonts/';
 export const DEBUGS = {
   'APP': false,
   'SPLASH': false,
-  'THEME': false,
+  'THEME': true,
   'TABS': false,
   'MEMORY': false,
   'PERSON': false,
   'HOME': false,
-  'HTML': false,
+  'HTML': true,
+  'JSON': true,
   'EDITOR': false,
   'VNODE': false,
   'NODE': false,
   'BRANCH': false,
   'DOCS': false,
-  'TREE': false,
+  'TREE': true,
   'EDIT': false,
-  'SEARCH': false,
+  'SEARCH': true,
   'CROPPER': false,
   'FIREBASE': false,
   'FAMILY_SERVICE': false,
@@ -48,9 +49,6 @@ export const DEBUGS = {
   'FCM_SERVICE': false,
   'FILER': true,
 };
-
-export const PHOTO_SIZE = { WIDTH: 640, HEIGHT: 480 };
-export const IMAGE_SIZE = { WIDTH: 640, HEIGHT: 480 };
 
 export const DRAGON = 'dragon';
 export const VILLAGE = 'village';

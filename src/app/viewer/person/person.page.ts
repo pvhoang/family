@@ -7,7 +7,8 @@ import { HtmlService } from '../../services/html.service';
 import { DataService } from '../../services/data.service';
 import { FtTreeService } from '../../services/ft-tree.service';
 import { Family, Node, FAMILY} from '../../services/family.model';
-import { FONTS_FOLDER, DEBUGS, PHOTO_SIZE } from '../../../environments/environment';
+// import { FONTS_FOLDER, DEBUGS, PHOTO_SIZE } from '../../../environments/environment';
+import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
 
 // http://www.giaphavietnam.vn/default.aspx?lang=vi-VN&cp=news-detail&cid=38
 
@@ -179,29 +180,22 @@ export class PersonPage implements OnInit {
 			dom.innerHTML = node.desc;
 		}
 	
-		// setup for photo display on top
-		if (node.dod == '' && node.pod == '')
-			return;
-
-		let w2 = PHOTO_SIZE.WIDTH;
-		let h2 = PHOTO_SIZE.HEIGHT;
 		let url = '';
 		if (node.photo != '') {
 			let pdata = images[node.photo];
-			w2 = pdata.width;
-			h2 = pdata.height;
 			url = pdata.url;
 		} else {
 			let avatar = (node.gender == 'male') ? "male-avatar.jpg" : "female-avatar.jpg";
 			url = "../assets/icon/" + avatar;
 		}
 		let frameUrl = "../../../assets/icon/bia.png";
-		let w1 = 140;
-		let h1 = 138;
-		// w2 = 0.7 * w2;
-		// h2 = 0.7 * h2;
-		w2 = 110;
-		h2 = 110;
+
+		let PHOTO = { frame: { width: 140 , height: 138 }, view: { width: 110, height: 110 } };
+		let w1 = PHOTO.frame.width;
+		let h1 = PHOTO.frame.height;
+		let w2 = PHOTO.view.width;
+		let h2 = PHOTO.view.height;
+		
 		let top = (h1 - h2) / 2 + 2;
 		let left = (w1 - w2) / 2 + w2;
 		if (DEBUGS.PERSON) {

@@ -6,7 +6,7 @@ import { NodeService } from '../../services/node.service';
 import { UtilService } from '../../services/util.service';
 import { SearchService } from '../../services/search.service';
 import MiniSearch from 'minisearch'
-import { NODE_FIELDS, SEARCH_FIELDS } from '../../services/family.model';
+// import { NODE_FIELDS, SEARCH_FIELDS } from '../../services/family.model';
 import { FONTS_FOLDER, DEBUGS, environment } from '../../../environments/environment';
 
 @Component({
@@ -50,7 +50,7 @@ export class SearchPage implements OnInit {
     this.typeahead.getJsonPlaces().then((data:any) => {
     })
 		this.start();
-    if (DEBUGS.EDIT)
+    if (DEBUGS.SEARCH)
       console.log('EditPage - ngOnInit - values: ', this.values);
   }
 
@@ -107,6 +107,7 @@ export class SearchPage implements OnInit {
 			if (Array.isArray(node.desc)) {
 				let descID = 'desc'
 				let str = '';
+				let extraInfo = '';
 				let id = 1;
 				node.desc.forEach((item:any) => {
 					let items = item.split('|');
@@ -114,13 +115,29 @@ export class SearchPage implements OnInit {
 						// console.log('items: ', items);
 						let name = items[1].trim()
 						name = this.utilService.stripVN(name);
-						str += name + ',';
-						let descField = descID+'_'+(id++);
-						desc_name[descField] = name;
-						if (searchDescFields.length < id)
-							searchDescFields.push(descField)
+						let nameStrip = this.utilService.stripVN(name);
+						if (nameStrip !== 'start' && nameStrip !== 'end' && nameStrip != 'thong tin khac') {
+							// remove * for search real name
+							if (name.indexOf('*') > 0)
+								name = name.substring(0,name.indexOf('*'))
+							str += name + ',';
+							let descField = descID+'_'+(id++);
+							desc_name[descField] = name;
+							if (searchDescFields.length < id)
+								searchDescFields.push(descField)
+						}
+					} else {
+						extraInfo += item + ' ';
 					}
 				})
+				extraInfo = extraInfo.trim();
+				if (extraInfo.length > 0) {
+					extraInfo = this.utilService.stripVN(extraInfo);
+					str += extraInfo + ',';
+					let descField = descID+'_'+(id);
+					desc_name[descField] = extraInfo;
+					searchDescFields.push(descField);
+				}
 				desc = str;
 			}
 			// let desc = node.desc.join('|');
@@ -139,25 +156,25 @@ export class SearchPage implements OnInit {
       searchNodes.push(snode);
     })
 		this.searchNodes = searchNodes;
-		// console.log('testMiniSearch - searchNodes: ', this.searchNodes);
+		console.log('testMiniSearch - searchNodes: ', this.searchNodes);
 		this.searchDescFields = searchDescFields;
-		// console.log('testMiniSearch - searchDescFields: ', this.searchDescFields);
+		console.log('testMiniSearch - searchDescFields: ', this.searchDescFields);
 	}
 
 	testMiniSearch(value) {
 
-		let searchFields = [ 'name', 'nick', 'pob', 'pod', 'por', 'yob' ];
+		// let searchFields = [ 'name', 'nick', 'pob', 'pod', 'por', 'yob' ];
+		let searchFields = [ 'name', 'pob', 'pod', 'por', 'yob' ];
 		// add desc fields for name
 		this.searchDescFields.forEach(field => {
 			searchFields.push(field);
 		})
-
-
 		let storeFields = [ 'firstName', 'lastName', 'node'];
 
 		let miniSearch = new MiniSearch({
 			fields: searchFields, // fields to index for full-text search
 			storeFields: storeFields,
+
 			tokenize: (string, _fieldName) => {
 				// if (_fieldName == 'desc')
 				// 	console.log('tokenize: ', string, _fieldName);
@@ -180,8 +197,8 @@ export class SearchPage implements OnInit {
 				let value = document[fieldName];
 				if (fieldName === 'firstName' || fieldName === 'lastName') {
 					return this.utilService.stripVN(value);
-				} else if (fieldName === 'desc') {
-					return this.searchService.getNamesFromDesc(value);
+				// } else if (fieldName === 'desc') {
+				// 	return this.searchService.getNamesFromDesc(value);
 				}
 				return value;
 			},
@@ -192,22 +209,19 @@ export class SearchPage implements OnInit {
 			value = value.substring(1);
 			searchOptions = { combineWith: 'AND' };
 		}
-
-		// Index all documents
 		miniSearch.addAll(this.searchNodes);
 
 		let stripVal = this.utilService.stripVN(value);
-
-
-		console.log('testMiniSearch - value: ', value);
 		let suggest = miniSearch.autoSuggest(stripVal)
-		console.log('testMiniSearch - suggest: ', suggest);
 		let fuzzy = miniSearch.autoSuggest(stripVal, { fuzzy: 0.2 })
-		console.log('testMiniSearch - fuzzy: ', fuzzy);
-		// let results = miniSearch.search(stripVal)
-		// let search = miniSearch.search(stripVal, { combineWith: 'AND' })
 		let search = miniSearch.search(stripVal, searchOptions)
-		console.log('testMiniSearch - search: ', search);
+
+    if (DEBUGS.SEARCH) {
+			console.log('testMiniSearch - value: ', value);
+			console.log('testMiniSearch - suggest: ', suggest);
+			console.log('testMiniSearch - fuzzy: ', fuzzy);
+			console.log('testMiniSearch - search: ', search);
+		}
 
 		let results = search;
 
@@ -223,12 +237,15 @@ export class SearchPage implements OnInit {
 				break;
 			let node = item.node;
 			
-			result += '<b>' + this.getMatch(node.name, item.match) + '</b><br>' + this.getNodeHtml(node, item.match) + '<br>';
+			result += '<b>' + this.getMatch(node.name, false, item.match) + '</b><br>' + this.getNodeHtml(node, item.match) + '<br>';
+			
 			// console.log('node:' , node);
-			console.log('SCORE:' , item.score);
-			console.log('match:' , item.match);
-			for (let key of Object.keys(item.match)) {
-				console.log('match - key, count, value:' , key, item.match[key].length, item.match[key]);
+			if (DEBUGS.SEARCH) {
+				console.log('SCORE:' , item.score);
+				console.log('match:' , item.match);
+				for (let key of Object.keys(item.match)) {
+					console.log('match - key, count, value:' , key, item.match[key].length, item.match[key]);
+				}
 			}
 
 			// console.log('queryTerms:' , item.queryTerms);
@@ -237,64 +254,90 @@ export class SearchPage implements OnInit {
 			// result += '<b>' + nodes[0].name + '</b><br>' + this.getNodeHtml(nodes[0]) + '<br>';
 			// console.log('name:' , nodes[0].name);
 		};
-
-		// console.log('RESULT:' , result);
+		if (DEBUGS.SEARCH)
+			console.log('RESULT:' , result);
+		
 		this.searchResult = result;
 		document.getElementById('detail').innerHTML = this.searchResult;
 	}
 
 	// check with match
-	private getMatch(name, match: any) {
+	private getMatch(name: any, starName: any, match: any) {
 		for (let key of Object.keys(match)) {
 			// console.log('match - key, count, value:' , key, item.match[key].length, item.match[key]);
 			if (key == this.utilService.stripVN(name)) {
-				name = "<b><i>" + name + "</i></b>"
+				name = "<b style='color:blue;'><i>" + name + "</i></b>";
 				return name;
 			}
 		}
+		if (starName)
+			name = "<b style='color:green;'><i>" + name + "</i></b>";
 		return name;
 	}
 
 	private getNodeHtml(node: any, match: any) {
 
+		let currentYear = new Date().getFullYear();
+		let pass_away =
+			(node.yod && node.yod !== '') ||
+			(node.dod && node.dod != '') ||
+			(node.yob && node.yob != '' && (+node.yob + 100 < currentYear) )
+
 		let parent = node.pnode;
 		let html = 
 		'<ion-grid class="viewer-home-grid">' +
 			'<ion-row>' +
-				'<ion-col size="6" class="column center">' + this.languageService.getTranslation('SEARCH_NODE_ITEM') +
+				'<ion-col size="5" class="column center">' + this.languageService.getTranslation('SEARCH_NODE_ITEM') +
 				'</ion-col>' +
-				'<ion-col size="6" class="column center">' + this.languageService.getTranslation('SEARCH_NODE_DETAIL') +
-				'</ion-col>' +
-			'</ion-row>' +
-			// '<ion-row>' +
-			// 	'<ion-col size="6" class="column">' + '<b>' + this.languageService.getTranslation('NODE_NICK') + '</b>' +
-			// 	'</ion-col>' +
-			// 	'<ion-col size="6" class="column">' + node.nick +
-			// 	'</ion-col>' +
-			// '</ion-row>' +
-			'<ion-row>' +
-				'<ion-col size="6" class="column">' + '<b>' + this.languageService.getTranslation('NODE_VIEW_CHILD_OF_FATHER') + '</b>' +
-				'</ion-col>' +
-				'<ion-col size="6" class="column">' + ((parent) ? parent.name : '') +
-				'</ion-col>' +
-			'</ion-row>' +
-			'<ion-row>' +
-				'<ion-col size="6" class="column">' + '<b>' + this.languageService.getTranslation('NODE_POR') + '</b>' +
-				'</ion-col>' +
-				'<ion-col size="6" class="column">' + node.por +
-				'</ion-col>' +
-			'</ion-row>' +
-			'<ion-row>' +
-				'<ion-col size="6" class="column">' + '<b>' + this.languageService.getTranslation('NODE_YOB') + '</b>' +
-				'</ion-col>' +
-				'<ion-col size="6" class="column">' + node.yob +
+				'<ion-col size="7" class="column center">' + this.languageService.getTranslation('SEARCH_NODE_DETAIL') +
 				'</ion-col>' +
 			'</ion-row>';
-			
-		// html += '<br>';
+
+		html += 
+			'<ion-row>' +
+				'<ion-col size="5" class="column center">' + '<b>' + this.languageService.getTranslation('NODE_VIEW_CHILD_OF_FATHER') + '</b>' +
+				'</ion-col>' +
+				'<ion-col size="7" class="column center">' + ((parent) ? parent.name : '') +
+				'</ion-col>' +
+			'</ion-row>';
+		html +=
+			'<ion-row>' +
+				'<ion-col size="5" class="column center">' + '<b>' + this.languageService.getTranslation('NODE_YOB') + '</b>' +
+				'</ion-col>' +
+				'<ion-col size="7" class="column center">' + node.yob +
+				'</ion-col>' +
+			'</ion-row>';
+		if (!pass_away) {
+			html +=
+			'<ion-row>' +
+				'<ion-col size="5" class="column center">' + '<b>' + this.languageService.getTranslation('NODE_POR') + '</b>' +
+				'</ion-col>' +
+				'<ion-col size="7" class="column center">' + node.por +
+				'</ion-col>' +
+			'</ion-row>';
+		} else {
+			html +=
+				'<ion-row>' +
+				'<ion-col size="5" class="column center">' + '<b>' + this.languageService.getTranslation('NODE_YOD') + '</b>' +
+				'</ion-col>' +
+				'<ion-col size="7" class="column center">' + node.yod +
+				'</ion-col>' +
+			'</ion-row>' +
+			'<ion-row>' +
+				'<ion-col size="5" class="column center">' + '<b>' + this.languageService.getTranslation('NODE_TOMB') + '</b>' +
+				'</ion-col>' +
+				'<ion-col size="7" class="column center">' + node.pod +
+				'</ion-col>' +
+			'</ion-row>' +
+			'<ion-row>' +
+				'<ion-col size="5" class="column center">' + '<b>' + this.languageService.getTranslation('NODE_DOD') + '</b>' +
+				'</ion-col>' +
+				'<ion-col size="7" class="column center">' + node.dod +
+				'</ion-col>' +
+			'</ion-row>';
+		}
 
 		if (Array.isArray(node.desc)) {
-			// html += '<ion-grid class="viewer-home-grid">';
 			let extraDesc = false;
 			let stat = { h: 'Chồng', w: 'Vợ', s: 'Con trai', d: 'Con gái' }
 			node.desc.forEach((item:any) => {
@@ -303,24 +346,22 @@ export class SearchPage implements OnInit {
 					let rel = items[0].trim();
 					let status = stat[rel];
 					let name = items[1].trim();
-
-					name = this.getMatch(name, match);
-					// check with match
-					// for (let key of Object.keys(match)) {
-					// 	// console.log('match - key, count, value:' , key, item.match[key].length, item.match[key]);
-					// 	if (key == this.utilService.stripVN(name)) {
-					// 		name = "<b>" + name + "</b>"
-					// 		break;
-					// 	}
-					// }
-
-					html += 
-					'<ion-row>' +
-					'<ion-col size="6" class="column">' + '<b>' + status + '</b>' +
-					'</ion-col>' +
-					'<ion-col size="6" class="column">' + name +
-					'</ion-col>' +
-					'</ion-row>';
+					let nameStrip = this.utilService.stripVN(name);
+					if (nameStrip !== 'start' && nameStrip !== 'end' && nameStrip != 'thong tin khac') {
+						let starName = false;
+						if (name.indexOf('*') > 0) {
+							name = name.substring(0,name.indexOf('*'))
+							starName = true;
+						}
+						name = this.getMatch(name, starName, match);
+						html += 
+						'<ion-row>' +
+						'<ion-col size="5" class="column center">' + '<b>' + status + '</b>' +
+						'</ion-col>' +
+						'<ion-col size="7" class="column center">' + name +
+						'</ion-col>' +
+						'</ion-row>';
+					}
 				} else {
 					extraDesc = true
 				}
@@ -328,9 +369,9 @@ export class SearchPage implements OnInit {
 			if (extraDesc) {
 				html += 
 					'<ion-row>' +
-					'<ion-col size="6" class="column">' + '<b>' + 'Thông tin khác' + '</b>' +
+					'<ion-col size="5" class="column center">' + '<b>' + 'Thông tin khác' + '</b>' +
 					'</ion-col>' +
-					'<ion-col size="6" class="column">' + '<b>Xem Phả Ký</b>' +
+					'<ion-col size="7" class="column center">' + 'Xem Phả Hệ' +
 					'</ion-col>' +
 					'</ion-row>';
 			}

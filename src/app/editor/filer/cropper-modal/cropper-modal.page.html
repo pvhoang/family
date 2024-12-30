@@ -6,11 +6,18 @@
 			</ion-button>
 			<!-- <span class="label">{{ 'CANCEL' | translate }}</span> -->
 		</ion-col>
-    <ion-col size="6" class="heading" (click)="onSave()">
+    <!-- <ion-col size="4" class="heading" (click)="onSave('photo')">
       <ion-button class="button" fill="clear">
         <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}content-save-outline.svg" class="icon"></ion-icon>
       </ion-button>
-      <span class="label">{{ 'SAVE' | translate }}</span>
+      <span class="label">{{ 'FILER_PHOTO_SAVE_PHOTO' | translate }}</span>
+    </ion-col> -->
+		<ion-col size="6" class="heading" (click)="onSave()">
+      <ion-button class="button" fill="clear">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}content-save-outline.svg" class="icon"></ion-icon>
+      </ion-button>
+      <!-- <span class="label">{{ 'FILER_PHOTO_SAVE_IMAGE' | translate }}</span> -->
+      <!-- <span class="label">{{ 'SAVE' | translate }}</span> -->
     </ion-col>
   </ion-item>
 </ion-header>

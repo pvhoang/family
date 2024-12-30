@@ -306,6 +306,29 @@ export class HomePage implements OnInit{
 		return await modal.present();
 	}
 
+	onVideoEnlarge(page: any, videoId: any, enlarge) {
+		console.log('videoId: ', videoId)
+		let video:any = document.getElementById(videoId);
+		// console.log('video: ', video, video.width, video.height)
+		// if (enlarge) {
+		// 	video.width = 400;
+		// 	video.height = 300;
+		// } else {
+		// 	video.width = 200;
+		// 	video.height = 150;
+		// }
+		if (enlarge) {
+			// Set size to 3 times original
+			video.style.transform = "scale(3)";
+			// Animation effect
+			video.style.transition = "transform 0.25s ease";
+		} else {
+			video.style.transform = "scale(1)";
+			video.style.transition = "transform 0.25s ease";
+		}
+		this.toPage(page);
+	}
+	
 	onDocumentDownload(page: any, fileName: any, url: any) {
 		this.onDownload(fileName, url).then(data => {
 			this.toPage(page);
@@ -367,6 +390,14 @@ export class HomePage implements OnInit{
 				data.url = params[2];
 				// console.log('data.downloadDocumentHtml: data:', data);
 
+			} else if (data.videoHtml) {
+				let params = data.videoHtml;
+				data.title = params[0];
+				data.videoId = params[1];
+				data.url = params[2];
+				data.note = params[3];
+				console.log('data.videoHtml: data:', data);
+
 			} else if (data.viewTreeNodeHtml) {
 				let line = data.viewTreeNodeHtml;
 				// console.log('data.viewTreeNodeHtml: ', line);
@@ -380,6 +411,7 @@ export class HomePage implements OnInit{
 				// console.log('data.viewTreeNodeHtml: data:', data);
 			}
 		})
+
 	}
 	
 }

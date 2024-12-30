@@ -584,4 +584,20 @@ export class UtilService {
 		return new Date().getTime();
 	}
 
+	getKB(size: any) {
+		// filter all . and ,
+		let s = parseFloat((''+size).replace(/,/g, ''));
+		let kb = s / 1024;
+		let str = '';
+		if (kb < 1)
+			str = s + ' Byte';
+		else if (kb < 1000)
+			str = Math.round(kb) + ' KB';
+		else {
+			// let mb = kb / 1024;
+			str = (Math.round(kb)).toLocaleString('vi', { minimumFractionDigits: 0, maximumFractionDigits: 3}) + ' KB';
+		}
+		return str;
+	}
+
 }

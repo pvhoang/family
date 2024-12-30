@@ -15,9 +15,13 @@ firebase deploy --only functions:pushMessages
 
 --- APP
 cd d:/dev/family/
+ionic serve
 ionic serve --browseroption=/phan
 ionic serve --browseroption=/phan/1234
 
 --- PROD
 ionic build --prod
-firebase deploy --only hosting:giapha
+@REM firebase deploy --only hosting:giapha
+
+firebase target:apply hosting giaphahophan giaphahophan
+firebase deploy --only hosting:giaphahophan

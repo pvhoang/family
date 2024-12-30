@@ -98,7 +98,6 @@
 
 		<input id="modify-json-json" type="file" (change)="jsonOnFileSelect($event, 'JSON')" style="display:none;" title=" " accept=".json"/>
 		<input id="photo-image" type="file" (change)="photoGetFile($event)" title=" " accept=".png, .jpg, .jpeg, .doc, .mp4" style="display:none;"/>
-		<input id="modify-image" type="file" (change)="imageOnSelect($event)" multiple title=" " accept=".png, .jpg, .jpeg" style="display:none;"/>
 
 		<div *ngIf="notifyMode">
 			
@@ -270,7 +269,7 @@
 						<span class="label-black">{{ file.name }}</span>
 					</ion-col>
 					<ion-col size="2" class="column center">
-						<span class="label-black">{{ getKB(file.size) }}</span>
+						<span class="label-black">{{ utilService.getKB(file.size) }}</span>
 					</ion-col>
 					<ion-col size="2" class="column center">
 						<span class="label-black">{{ file.type }}</span>

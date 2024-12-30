@@ -163,7 +163,7 @@
 	"HOME_END": "Kết thúc",
 	"HOME_UPDATE": "Để cập nhật thông tin, liên lạc: ",
 
-	"PERSON_INFO_PERSONAL": "Thông tin cá nhân",
+	"PERSON_INFO_PERSONAL": "Cá nhân",
 	"PERSON_INFO_RELATION": "Thông tin gia tộc",
 	"PERSON_IMAGE_DETAIL": "Hình chi tiết",
 	
@@ -288,6 +288,10 @@
   "FILER_PHOTO_COMPLETE_2": " đã được upload lên mạng.",
 	"FILER_PHOTO_SAVE_COMPLETE_1": "Hình: ",
   "FILER_PHOTO_SAVE_COMPLETE_2": " đã được cất vào thư mục /Downloads trên máy.",
+  "FILER_PHOTO_SAVE_COMPLETE_3": "Text đã được chép vào clipboard.",
+
+	"FILER_PHOTO_SAVE_PHOTO": "Cất theo chân dung",
+	"FILER_PHOTO_SAVE_IMAGE": "Cất theo hình",
 
   "FILE_TASK_TOOLTIP": "Quản lý dữ liệu",
 

@@ -10,8 +10,12 @@
         ],
         "giapha": [
           "giapha"
+        ],
+        "giaphahophan": [
+          "giaphahophan"
         ]
       }
     }
-  }
+  },
+  "etags": {}
 }

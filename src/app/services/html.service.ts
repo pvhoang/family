@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { UtilService } from '../services/util.service';
 import { LanguageService } from '../services/language.service';
-import { DEBUGS, IMAGE_SIZE } from '../../environments/environment'; 
+// import { DEBUGS, IMAGE_SIZE } from '../../environments/environment'; 
+import { DEBUGS } from '../../environments/environment'; 
 
 @Injectable({
   providedIn: 'root'
@@ -191,7 +192,7 @@ export class HtmlService {
 		let type = images[name].type;
 		if (type.indexOf('image') == -1)
 			return '';
-			
+		
 		let width = images[name].width;
 		let height = images[name].height;
 		if (!url) {
@@ -199,7 +200,9 @@ export class HtmlService {
 			width = 128;
 			height = 128;
 		}
-		let data = { width: IMAGE_SIZE.WIDTH, height: IMAGE_SIZE.HEIGHT };
+		const IMAGE = { width: 200, height: 150 };
+		let data = { width: IMAGE.width, height: IMAGE.height };
+
 		if (width > height) {
 			// landscape
 			data.height = data.width * height / width;
@@ -215,7 +218,7 @@ export class HtmlService {
 		let imgTag = '';
 		if (textarea) {
 			// textarea container in person.page.ts, use hover
-			imgTag = '<img src="' + url + '" class="home-image" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + name + '"/>';
+			imgTag = '<img src="' + url + '" class="home-image-hover" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + name + '"/>';
 		} else {
 			// regular container, use click
 			let stripName = this.utilService.stripVN(name);
@@ -244,11 +247,6 @@ export class HtmlService {
 		let type = images[name].type;
 		if (type.indexOf('image') >= 0 || type.indexOf('video') >= 0)
 			return '';
-
-		// let html = 
-		// 	'<div class="home-text-apa2">' + title + ':&emsp;' +
-		// 		'<span id="document-download" class="home-text-apa3" onclick="downloadDocument(\'' + url + '\', \'' + name + '\')">[' + name + ']</span>' +
-		// 	'</div>';
 		return { downloadDocumentHtml: [title, name, url] }
 	}
 
@@ -266,11 +264,16 @@ export class HtmlService {
 		if (type.indexOf('video') == -1)
 			return '';
 
+		let stripName = this.utilService.stripVN(name);
+		stripName = stripName.replaceAll(' ', '-');
+		stripName = stripName.replaceAll('.', '-');
+		let videoId = "video-id-" + this.utilService.getCurrentTime() + '-' + stripName;
+
 		let html = 
 			'<div class="home-text-apa2">' + title + '</div>' +
 			'<div class="home-video-wrapper">' +
 			'<vg-player>' +
-				'<video #media [vgMedia]="media" id="singleVideo" preload="auto" controls>' +
+				'<video #media [vgMedia]="media" id="' + videoId + '" preload="auto" controls>' +
 					'<source src="' + url + '" type="video/mp4">' +
 				'</video>' +
 			'</vg-player>' +
@@ -335,22 +338,20 @@ export class HtmlService {
 			html += '<ion-grid class="home-grid-small"><ion-row>';
 			// html += '<ion-col size="6" class="column center"><span class="label">Tên</span></ion-col>';
 			// html += '<ion-col size="6" class="column center"><span class="label">Quan hệ</span></ion-col>';
-			html += '<ion-col size="6" class="column center"><b>Tên</b></ion-col>';
-			html += '<ion-col size="6" class="column center"><b>Quan hệ</b></ion-col>';
+			html += '<ion-col size="7" class="column center"><b>Tên</b></ion-col>';
+			html += '<ion-col size="5" class="column center"><b>Quan hệ</b></ion-col>';
 			html += '</ion-row>';
 			children.forEach((item:any) => {
 				let name = item.name;
 				let color = '';
-				let rowStart = '<ion-row>';
 				if (name.indexOf('*') > 0) {
-					rowStart = '<ion-row style="color: yellow;">'
-					color = 'style="color: red;"';
+					color = 'style="color: green;"';
 					name = name.substring(0,name.indexOf('*'))
 				}
 				let relation = (item.type == 'w') ? 'Vợ' : ( (item.type == 'h') ? 'Chồng' : ( (item.type == 's') ? 'Con trai' : 'Con gái' ));
 				let row = '<ion-row>';
-				row += '<ion-col size="6" class="column center" ' + color + '>' + name + '</ion-col>';
-				row += '<ion-col size="6" class="column center">' + relation + '</ion-col>';
+				row += '<ion-col size="7" class="column center" ' + color + '>' + name + '</ion-col>';
+				row += '<ion-col size="5" class="column center">' + relation + '</ion-col>';
 				row += '</ion-row>';
 				html += row;
 			});

@@ -76,6 +76,29 @@
 									</div>
 								</div>
 
+<!-- VIDEO ENLARGEMENT -->
+								<!-- <div *ngIf="data.videoHtml">
+									<div class="home-text-apa2">{{ data.title }}</div>
+									<div class="home-video-wrapper">
+										<vg-player>
+											<video #media [vgMedia]="media" id="{{ data.videoId }}" preload="auto" controls>
+												<source src="{{ data.url }}" type="video/mp4">
+											</video>
+										</vg-player>
+									</div>
+									<div class="home-text-apa4 home-popup">
+										{{ data.note }}&emsp;
+										<div class="column">
+											<ion-button class="button" fill="clear" (click)="onVideoEnlarge(page, data.videoId, false)">
+												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-minus-outline.svg" class="icon"></ion-icon>
+											</ion-button>
+											<ion-button class="button" fill="clear" (click)="onVideoEnlarge(page, data.videoId, true)">
+												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-plus-outline.svg" class="icon"></ion-icon>
+											</ion-button>
+										</div>
+									</div>
+								</div> -->
+
 <!-- VIEW NODES -->
 								<div *ngIf="data.viewNodeHtml">
 									<div class="home-text-apa2 home-popup">

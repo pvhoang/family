@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FamilyTreeModule } from '../../components/family-tree/family-tree.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { VgCoreModule, } from '@videogular/ngx-videogular/core';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
@@ -17,6 +18,7 @@ import { HomePageRoutingModule } from './home-routing.module';
     TranslateModule,
     NgSelectModule,
     FamilyTreeModule,
+		VgCoreModule,
     HomePageRoutingModule
   ],
   declarations: [HomePage]

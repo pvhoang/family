@@ -57,34 +57,32 @@
 
   <div class="screen-node viewer-person-container" id="full-tree">
 
-		<div class="view-person-photo-parent" *ngIf="selectedNode && (this.selectedNode.yod != '' || this.selectedNode.dod != '' || this.selectedNode.pod != '')">
+		<!-- <div class="view-person-photo-parent" *ngIf="selectedNode && (this.selectedNode.yod != '' || this.selectedNode.dod != '' || this.selectedNode.pod != '')"> -->
+		<div class="view-person-photo-parent" *ngIf="selectedNode">
 			<img class="image1" [src]="image1.url" [attr.width]="image1.w" [attr.height]="image1.h" />
 			<img class="image2" [src]="image2.url" [attr.width]="image2.w" [attr.height]="image2.h" />
     </div>
 
 		<p></p>
-		
-		<div class="person-tree" [ngStyle]="ftTreeService.getZoomStyle()">
+		<!-- <div class="screen-node" [ngStyle]="ftTreeService.getZoomStyle()"> -->
+		<div class="person-tree-view" [ngStyle]="ftTreeService.getZoomStyle()">
 			<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
 		</div>
 
-		<!-- <div class="person-desc" *ngIf="selectedNode">
-			<ion-card-header class="person-section">
-				<span class="span"><b>{{ 'PERSON_INFO_PERSONAL' | translate }}</b></span>
-			</ion-card-header>
-		</div> -->
-
-		<div *ngIf="selectedNode" class="home-text-apa2">{{ 'PERSON_INFO_PERSONAL' | translate }}</div>'
+		<div *ngIf="selectedNode" class="home-text-apa2">{{ 'PERSON_INFO_PERSONAL' | translate }}</div>
 
 		<ion-grid class="app-grid-small-no-header" *ngIf="selectedNode">
-			<ion-row>
-				<ion-col size="4" class="column center"><b>{{ 'NODE_NICK' | translate }}</b></ion-col>
-				<ion-col size="8" class="column center"><b>{{ selectedNode.nick }}</b></ion-col>
-			</ion-row>
 			<ion-row>
 				<ion-col size="4" class="column center"><b>{{ 'NODE_YOB' | translate }}</b></ion-col>
 				<ion-col size="8" class="column center"><b>{{ selectedNode.yob }}</b></ion-col>
 			</ion-row>
+
+			<div *ngIf="!pass_away">
+				<ion-row>
+					<ion-col size="4" class="column center"><b>{{ 'NODE_POR' | translate }}</b></ion-col>
+					<ion-col size="8" class="column center"><b>{{ selectedNode.por }}</b></ion-col>
+				</ion-row>
+			</div>
 
 			<div *ngIf="pass_away">
 				<ion-row>
@@ -102,7 +100,7 @@
 			</div>
 
 		</ion-grid>
-
+		<br/>
 		<div id="detail-person"></div>
 		
 	</div>
