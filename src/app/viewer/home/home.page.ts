@@ -101,11 +101,6 @@ export class HomePage implements OnInit{
 
 		let pageData: any = {};
 
-		// let size = this.themeService.getSize();
-		// let fontSizePercent = (size == SMALL_SIZE) ? '80' : ((size == MEDIUM_SIZE) ? '100' : '120');
-		// if (DEBUGS.HOME)
-		// 	console.log('HomePage-updatePageData: size, fontSizePercent: ', size, fontSizePercent);
-
 		// start from pha_nhap, page index = 2; cover=0, mucluc=1
 		let count = 2;
 		for (var key of Object.keys(docs)) {

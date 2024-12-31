@@ -30,25 +30,31 @@ export class FcmService {
 
 	public initPush() {
 		FirebaseMessaging.requestPermissions().then(settings => {
-			console.log('settings.receive: ' + settings.receive)
+			if (DEBUGS.FCM)
+				console.log('settings.receive: ' + settings.receive)
 		});
 
 		FirebaseMessaging.addListener('tokenReceived', (event) => {
 			// console.info('Registration token: ', token.value);
-      console.log("tokenReceived: ", { event });
+			if (DEBUGS.FCM)
+				console.log("tokenReceived: ", { event });
 		});
     FirebaseMessaging.addListener("notificationReceived", (event) => {
-      console.log("notificationReceived: ", { event });
+			if (DEBUGS.FCM)
+				console.log("notificationReceived: ", { event });
     });
     FirebaseMessaging.addListener("notificationActionPerformed", (event) => {
-      console.log("notificationActionPerformed: ", { event });
+			if (DEBUGS.FCM)
+				console.log("notificationActionPerformed: ", { event });
     });
-
-		console.log('platform: ', Capacitor.getPlatform());
+		
+		if (DEBUGS.FCM)
+			console.log('FcmService - platform: ', Capacitor.getPlatform());
 
 		if (Capacitor.getPlatform() === "web") {
       navigator.serviceWorker.addEventListener("message", (event: any) => {
-        console.log("serviceWorker: event: ", { event });
+				if (DEBUGS.FCM)
+					console.log("serviceWorker: event: ", { event });
 				// alert('serviceWorker');
 				// let type = event.data.data.type;
 				let icon = "../assets/icon/gia-pha.png";
@@ -64,13 +70,15 @@ export class FcmService {
 				this.utilService.alertMsg(title, body, 'OK', { width: 350, height: 200 }).then(stat => {});
       });
     }
-		console.log("initPush");
+		if (DEBUGS.FCM)
+			console.log("FcmService - initPush");
   }
 
 	public requestPermissions(ancestor: string, recipient: any, recData: any) {
 		return new Promise((resolve) => {
 			FirebaseMessaging.requestPermissions().then(settings => {
-				console.log('settings: ', settings);
+				if (DEBUGS.FCM)
+					console.log('FcmService - settings: ', settings);
 				if (settings.receive == "granted") {
 					this.getToken(ancestor).then((currentToken:any) => {
 						if (currentToken) {

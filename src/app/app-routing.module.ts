@@ -6,15 +6,17 @@ const routes: Routes = [
     path: ':admin_code',
     loadChildren: () => import('./editor/filer/filer.module').then( m => m.FilerPageModule)
   },
-  // {
-  //   path: ':ancestor/:admin_code',
-  //   loadChildren: () => import('./editor/filer/filer.module').then(m => m.FilerPageModule)
-  // },
+	{
+    path: 'debug/:codes',
+    loadChildren: () => import('./viewer/home/home.module').then(m => m.HomePageModule)
+  },
+	{
+    path: ':admin_code/debug/:codes',
+    loadChildren: () => import('./editor/filer/filer.module').then( m => m.FilerPageModule)
+  },
 	{
     path: '',
     loadChildren: () => import('./viewer/home/home.module').then(m => m.HomePageModule)
-    // redirectTo: 'home',
-    // pathMatch: 'full'
   },
 	{
     path: 'filer',

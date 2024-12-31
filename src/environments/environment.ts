@@ -21,13 +21,14 @@ export const environment = {
 export const ROOT_COLLECTION = 'giapha';
 export const FONTS_FOLDER = '../../assets/fonts/';
 
-export const DEBUGS = {
+export let DEBUGS = {
   'APP': false,
   'SPLASH': false,
   'THEME': false,
+	'FCM': false,
   'TABS': false,
   'MEMORY': false,
-  'PERSON': true,
+  'PERSON': false,
   'HOME': false,
   'HTML': false,
   'JSON': false,
@@ -36,9 +37,9 @@ export const DEBUGS = {
   'NODE': false,
   'BRANCH': false,
   'DOCS': false,
-  'TREE': true,
+  'TREE': false,
   'EDIT': false,
-  'SEARCH': true,
+  'SEARCH': false,
   'CROPPER': false,
   'FIREBASE': false,
   'FAMILY_SERVICE': false,

@@ -29,6 +29,9 @@ const EDIT_MODE = 'edit';
 // user
 const OPTION_SETTING = 'doi'
 const OPTION_DELETE = 'xoa';
+// debug/FCM,HOME,SEARCH
+const OPTION_DEBUG = 'debug';
+// 1234/debug/FILER
 
 @Component({
   selector: 'app-root',
@@ -82,6 +85,17 @@ export class AppComponent implements OnInit {
 		let option = dat[1];
 		this.url = url;
 
+		// debug/FCM,HOME,SEARCH
+		// 1234/debug/FILER,FCM
+		let debugCodes = '';
+		if (dat.length == 3 && (dat[1] == 'debug'))
+			debugCodes = dat[2];
+		else if (dat.length == 4 && (dat[2] == 'debug'))
+			debugCodes = dat[3];
+		debugCodes.split(',').forEach (code => {
+			DEBUGS[code] = true;
+		})
+
 		if (DEBUGS.APP)
 			console.log('AppComponent - ngOnInit - url, dat, ancestor, option: ', url, dat, ancestor, option);
 
@@ -94,10 +108,6 @@ export class AppComponent implements OnInit {
 					return;
 				}
 			});
-
-		// --- superadmin tasks
-
-		console.log('AppComponent - ngOnInit - url, ancestor, option: ', url, ancestor, option);
 
 			if (ancestor !== ANCESTOR) {
 				this.presentToast(['APP_NO_ANCESTOR_1','APP_NO_ANCESTOR_2', 'APP_SUPER_ADMIN']);
@@ -116,6 +126,7 @@ export class AppComponent implements OnInit {
 
 				let info = rdata.info;
 				let email = info.admin_name + ' (' + info.admin_email + ')';
+
 				// --- admin tasks
 				if (option == info.admin_code) {
 					this.mode = EDIT_MODE;
@@ -128,9 +139,10 @@ export class AppComponent implements OnInit {
 					this.deleteLocal();
 				else if (option == OPTION_SETTING)
 					this.setSetting();
+				else if (option == OPTION_DEBUG) 
+					this.initializeApp(rdata);
 				else if (option == '')
 					this.initializeApp(rdata);
-
 				else {
 					// token registration for notification
 					// this option is recipient, http://localhost:8102/phan/hoang

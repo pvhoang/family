@@ -429,10 +429,8 @@ export class FilerPage implements OnInit {
 		this.jsonGetTextFile(file).then((res: any) => {
 			if (DEBUGS.FILER)
 				console.log('jsonOnFile - file: ', file);
-			// this.jsonMode = true;
 			this.jsonFileName = file.name;
 			this.jsonService.jsonSetFileName(file.name);
-			console.log('jsonOnFile - jsonFileName: ', this.jsonFileName);
 			this.jsonEdit(res.text, type);
 		});
 	}

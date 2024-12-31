@@ -237,7 +237,7 @@ export class SearchPage implements OnInit {
 			if (item.score < 2)
 				break;
 			let node = item.node;
-			result += '<b>' + this.getMatch(node.name, item.match) + '</b><br>' + this.getNodeHtml(node, item.match) + '<br>';
+			result += '<b><i>' + this.getMatch(node.name, item.match) + '</i></b><br>' + this.getNodeHtml(node, item.match) + '<br>';
 			if (DEBUGS.SEARCH) {
 				console.log('SCORE:' , item.score);
 				for (let key of Object.keys(item.match)) {
@@ -261,13 +261,6 @@ export class SearchPage implements OnInit {
 			let rel = items[0].trim();
 			// let status = RELATION_STATUS[rel];
 			let relation = this.utilService.getRelationStr(rel);
-			// let relation = ''
-			// if (rel == 'w') relation = this.languageService.getTranslation('hien_the')
-			// if (rel == 'h') relation = this.languageService.getTranslation('hien_phu')
-			// if (rel == 's1') relation = this.languageService.getTranslation('truong_nam')
-			// if (rel == 's') relation = this.languageService.getTranslation('thu_nam')
-			// if (rel == 'd1') relation = this.languageService.getTranslation('truong_nu')
-			// if (rel == 'd') relation = this.languageService.getTranslation('thu_nu')
 			if (relation !== '') {
 				let name = items[1].trim();
 				return [relation, name];
@@ -375,8 +368,9 @@ export class SearchPage implements OnInit {
 					'</ion-row>';
 				}
 			})
-			html += '</ion-grid>';
 		}
+		html += '</ion-grid>';
+
 		return html;
 	}
 
