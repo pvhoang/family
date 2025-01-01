@@ -16,7 +16,7 @@
             (click)="_leafSelected(node)" 
             id="{{node.id}}"
             [innerHtml]="node.span"
-            >
+					>
           </span>
         </div>
         <ul *ngIf="family.children && family.children.length > 0">
@@ -41,7 +41,7 @@
             (click)="_leafSelected(node)" 
             id="{{node.id}}"
             [innerHtml]="node.spanDetail ? node.spanDetail : node.span"
-            >
+					>
           </span>
         </div>
       </li>
@@ -68,7 +68,7 @@
             (click)="_leafSelected(node)" 
             id="{{node.id}}"
             [innerHtml]="node.spanDetail ? node.spanDetail : node.span"
-            >
+					>
           </span>
 					<span *ngIf="node.photoUrl != ''">
 						&nbsp;&nbsp;

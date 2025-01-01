@@ -1,4 +1,4 @@
-<div *ngFor="let node of child.nodes">
+<div *ngFor="let node of child.nodes; index as i;">
   <span *ngIf="(view == 1 || view == 2) || ((view == 0) && node.visible)"
       class="node"
       [ngClass]="node.relationship ? node.relationship + '-leaf' : ''"
@@ -8,7 +8,7 @@
       [innerHtml]="(view == 1 || view == 2) ? (node.spanDetail ? node.spanDetail : node.span) : node.span"
   >
   </span>
-	<span *ngIf="(view == 2) && (node.photoUrl != '')">
+	<span *ngIf="view == 2 && i == 0 && node.photoUrl != ''">
 		&nbsp;&nbsp;
 		<img class="image" [src]="node.photoUrl">
 	</span>

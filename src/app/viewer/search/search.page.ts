@@ -156,9 +156,11 @@ export class SearchPage implements OnInit {
       searchNodes.push(snode);
     })
 		this.searchNodes = searchNodes;
-		console.log('testMiniSearch - searchNodes: ', this.searchNodes);
 		this.searchDescFields = searchDescFields;
-		console.log('testMiniSearch - searchDescFields: ', this.searchDescFields);
+    if (DEBUGS.SEARCH) {
+			console.log('testMiniSearch - searchNodes: ', this.searchNodes);
+			console.log('testMiniSearch - searchDescFields: ', this.searchDescFields);
+		}
 	}
 
 	testMiniSearch(value: any) {
@@ -203,9 +205,9 @@ export class SearchPage implements OnInit {
 			},
 		})
 
-		// let searchOptions:any = { fuzzy: 0.2, boost: { 'name': 2 } };
 		// match exact name, no fuzzy, no boost
-		let searchOptions:any = { };
+		let searchOptions:any = { fuzzy: 0.2, boost: { 'name': 2 } };
+		// let searchOptions:any = { };
 
 		if (value.charAt(0) == '"') {
 			// match 100%
@@ -227,17 +229,20 @@ export class SearchPage implements OnInit {
 
 		let results = search;
 		// get top MAX_TOTAL_SCORES and find the best
-		let max = (results.length < 3) ? results.length : 3;
+		let max = (results.length < MAX_TOTAL_SCORES) ? results.length : MAX_TOTAL_SCORES;
+
 		let res = [];
 		// let max = results.length;
 		let result  = '';
 		for (let ct = 0; ct < max; ct++) {
 			let item = results[ct];
 			// score is too small, ignore
-			if (item.score < 2)
-				break;
+			// if (item.score < 2)
+			// 	break;
 			let node = item.node;
-			result += '<b><i>' + this.getMatch(node.name, item.match) + '</i></b><br>' + this.getNodeHtml(node, item.match) + '<br>';
+			let name = this.getMatch(node.name, item.match, ' (' + this.nodeService.getGenerationShort(node) + ')');
+			result += '<b><i>' + name + '</i></b><br>' + this.getNodeHtml(node, item.match) + '<br>';
+			// result += '<b><i>' + this.getMatch(node.name, item.match) + '</i></b><br>' + this.getNodeHtml(node, item.match) + '<br>';
 			if (DEBUGS.SEARCH) {
 				console.log('SCORE:' , item.score);
 				for (let key of Object.keys(item.match)) {
@@ -271,12 +276,15 @@ export class SearchPage implements OnInit {
 	}
 
 	// check with match
-	private getMatch(name: any, match: any) {
+	private getMatch(name: any, match: any, extraStr?: any) {
 		let starName = false;
 		if (name.indexOf('*') > 0) {
 			name = name.substring(0,name.indexOf('*'))
 			starName = true;
 		}
+		if (extraStr)
+			name += extraStr;
+
 		for (let key of Object.keys(match)) {
 			// if (key == this.utilService.stripVN(name)) {
 			if (this.utilService.stripVN(name).indexOf(key) >= 0) {

@@ -56,13 +56,13 @@
 .home-image-hover {
 	// https://www.educative.io/answers/how-to-enlarge-an-image-on-hover-in-html
 	&:hover{
-		transform:scale(2.5);
+		transform:scale(3.0);
 	}
 }
 
 .home-image-enlarged {
-	width: 600px;
-	height: 450px;
+	width: 450px;
+	height: 300px;
 }
 
 .home-document {

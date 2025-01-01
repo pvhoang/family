@@ -59,7 +59,7 @@
 		// https://www.geeksforgeeks.org/how-to-make-the-images-bigger-when-clicked/
 		var imageEnlarge = {};
 		function enlargeImage(id) {
-			console.log('imageEnlarge - id: ', id);
+			// console.log('imageEnlarge - id: ', id);
 
 			if (!imageEnlarge[id])
 				imageEnlarge[id] = false;
@@ -76,7 +76,7 @@
 			// console.log('realWidth, clientWidth: ', realWidth, clientWidth);
 			if (imageEnlarge[id]) {
 				// Set image size to 2 times original
-			console.log('imageEnlarge - img: ', img);
+			// console.log('imageEnlarge - img: ', img);
 				img.style.transform = "scale(3)";
 				// Animation effect
 				img.style.transition = "transform 0.25s ease";

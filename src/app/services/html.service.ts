@@ -200,7 +200,7 @@ export class HtmlService {
 			width = 128;
 			height = 128;
 		}
-		const IMAGE = { width: 200, height: 150 };
+		const IMAGE = { width: 150, height: 100 };
 		let data = { width: IMAGE.width, height: IMAGE.height };
 
 		if (width > height) {
@@ -336,8 +336,8 @@ export class HtmlService {
 		}
 		if (children.length > 0) {
 			html += '<ion-grid class="home-grid-small"><ion-row>';
-			html += '<ion-col size="7" class="column center"><b>' + this.languageService.getTranslation('NAME') + '</b></ion-col>';
-			html += '<ion-col size="5" class="column center"><b>' + this.languageService.getTranslation('RELATION') + '</b></ion-col>';
+			html += '<ion-col size="7" class="column center"><b>' + this.languageService.getTranslation('huy') + '</b></ion-col>';
+			html += '<ion-col size="5" class="column center"><b>' + this.languageService.getTranslation('quan_he') + '</b></ion-col>';
 			html += '</ion-row>';
 			children.forEach((item:any) => {
 				let name = item.name;

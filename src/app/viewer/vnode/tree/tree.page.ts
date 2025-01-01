@@ -77,6 +77,8 @@ export class TreePage implements OnInit {
       this.getPhotoUrl(node).then((url:any) => {
         node.photoUrl = url;
       });
+			// set display with yob for each node
+			node.spanDetail = this.nodeService.getSpanVerticalTreeStr(node);
     })
     this.themeService.setScreenSize(nodes, true);
     this.node = this.nodeService.getFamilyNode(this.familyView, this.nodeId);
@@ -302,7 +304,7 @@ export class TreePage implements OnInit {
         resolve(url)
       } else {
         // let ancestor = this.info.id;
-				console.log('images: ', this.images)
+				// console.log('images: ', this.images)
 				let image = this.images[photoName];
 				resolve(image.url)
       }

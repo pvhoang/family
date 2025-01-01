@@ -154,6 +154,7 @@ export class NodeService {
   public updateNclass(node: any): string {
 		let currentYear = new Date().getFullYear();
 		let pass_away =
+				(node.pod && node.pod !== '') ||
 				(node.yod && node.yod !== '') ||
 			 	(node.dod && node.dod != '') ||
 				(node.yob && node.yob != '' && (+node.yob + 100 < currentYear) )
@@ -277,6 +278,13 @@ export class NodeService {
 		// }
 		return str;
   }
+
+	public getSpanVerticalTreeStr(node: Node) {
+    let str = '<b>' + node.name + '</b>';
+		if (node.yob !== '' || node.yod !== '')
+			str += '<br/><i>(' + node.yob + '-' + node.yod + ')</i>';
+		return str;
+	}
 
   public getSpanNodeStr(node: Node) {
 		return this.getSpanStr(node);
