@@ -7,6 +7,9 @@ start
 pause
 @REM ionic serve --browseroption=/phan
 
+--- TEXT ICONS ---
+https://coolsymbol.com/
+
 --- VS Shortkeys ---
 
 Fold/Unfold JSON

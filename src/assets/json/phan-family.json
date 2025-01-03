@@ -7,11 +7,13 @@
       "name": "Phan Văn Nghi",
       "gender": "male",
       "pod": "Đá Bạc, Quảng Bình",
+			"dod": "04/12",
+
       "photo": "",
       "desc": [
         "family|start|Gia tộc",
         "   w|Thái Thị Tôn Nương",
-        "   s1|Phan Văn Nguyên*",
+        "   s1|Phan Văn Nguyên",
         "   d1|Phan Thị Nhiễm",
         "   d|Phan Thị Hoa",
         "   d|Phan Thị Cúc",
@@ -28,6 +30,8 @@
     {
       "name": "Thái Thị Tôn Nương",
       "gender": "female",
+			"dod": "06/12",
+
 "pod": "Đá Bạc, Quảng Bình"
 
     }
@@ -47,15 +51,15 @@
             "w|Hà Thị Để",
             "w|Hà Thị Nghiêm",
             "w|Hà Thị Ố",
-            "s|Phan Văn Vũ (Phủ)*",
-            "s|Phan Văn Dương (Rạng)*",
+            "s|Phan Văn Vũ (Phủ)",
+            "s|Phan Văn Dương (Rạng)",
             "s|Phan Văn Dắng",
             "s|Phan Văn Duy",
-            "s|Phan Văn Trích (Tịch)*",
+            "s|Phan Văn Trích (Tịch)",
             "s|Phan Văn Đăng",
             "d|Phan Thị Tiếu",
             "d|Phan Thị Kiều",
-            "s|Phan Văn Tốt*",
+            "s|Phan Văn Tốt",
             "d|Phan Thị Thả",
             "s|Phan Văn Lý",
             "d|Phan Thị Thọ",
@@ -104,7 +108,7 @@
               "desc": [
                 "family|start|Gia tộc",
                 "s1|Phan Viên",
-                "s|Phan Văn Sen*",
+                "s|Phan Văn Sen",
                 "s|Phan Gọi",
                 "d|Phan Thị Chất",
                 "d|Phan Thị Âm",
@@ -177,7 +181,7 @@
                           "dod": "09/08",
                           "desc": [
                             "family|start|Gia tộc",
-                            "s1|Phan Văn Thương*",
+                            "s1|Phan Văn Thương",
                             "d1|Phan Thị Nhớ",
                             "s|Phan Văn Câu",
                             "d|Phan Thị Mịn",
@@ -272,6 +276,7 @@
                           "name": "Phan Văn Điệt",
                           "gender": "male",
                           "pod": "Đá Bạc, Quảng Bình",
+                          "yob": "1931",
                           "desc": [
                             "family|start|Gia tộc",
                             "s1|Phan Văn Vương",
@@ -280,7 +285,7 @@
                             "family|end",
                             "",
                             "apa2|Thông tin",
-                            "Ông Phan Điệt sinh năm mùi 1931, Ông Điệt làm nghề canh nông, vợ là Bà Trần Thị Gấy",
+                            "Ông Phan Văn Điệt sinh năm mùi 1931, Ông Điệt làm nghề canh nông, vợ là Bà Trần Thị Gấy",
                             "Phan Văn Vương: sinh 1959",
                             "Phan Văn Hồng: sinh 22-09-1969",
                             "Phan Văn Sơn: sinh 02-01-1972"
@@ -295,7 +300,7 @@
                           "gender": "male",
                           "nick": "Chú Hân",
                           "yob": "1935",
-                          "photo": "Phan Văn Hân.jpg",
+                          "photo": "",
                           "desc": [
                             "family|start|Gia tộc",
                             "d1|Phan Thị Hạnh",
@@ -307,7 +312,7 @@
                             "family|end",
                             "",
                             "apa2|Thông tin",
-                            "Phan Hạnh: sinh 1963 Quý Mão",
+                            "Phan Thị Hạnh: sinh 1963 Quý Mão",
                             "Phan Văn Hóa: sinh 1969 Kỷ Dậu",
                             "Phan Văn Học: sinh 1971 Tân Hợi",
                             "Ông Hân sinh năm 1935 (Kỷ Hợi), Ông học hết phổ thông là thanh niên của phong trào cách mạng năm 1958 bí thứ thanh niên hoạt động phong trào, vào đảng cộng sản Việt Nam năm 1959. Là bí thử chủ tịch UBND Phường Đồng Phú, rồi chánh văn phòng Thị, sau đó là trưởng ban nông nghiệp Thị, là cán bộ có uy tín của UBND Đồng Hới, thời gian tiếp ông làm Giám đốc Lương Thực thời tỉnh Bình Trị Thiên",
@@ -335,7 +340,7 @@
               "dod": "04/02",
               "desc": [
                 "family|start|Gia tộc",
-                "   s1|Phan Văn Giai*",
+                "   s1|Phan Văn Giai",
                 "   s|Phan Văn Thưởng",
                 "   d|Phan Thị Tung",
                 "   d|Phan Thị Bạch",
@@ -365,7 +370,7 @@
                     "d1|Phan Thị Đức",
                     "s1|Phan Văn Giản",
                     "s|Phan Văn Viện",
-                    "s|Phan Văn Trạc*",
+                    "s|Phan Văn Trạc",
                     "s|Phan Văn Y",
                     "s|Phan Văn Hãn",
                     "family|end",
@@ -400,7 +405,7 @@
                       "desc": [
                         "family|start|Gia tộc",
                         "s1|Phan Văn Nhưng",
-                        "s|Phan Văn Thất*",
+                        "s|Phan Văn Thất",
                         "d1|Phan Thị Diêm",
                         "d|Phan Thị Thiếc",
                         "d|Phan Thị Mạnh",
@@ -695,7 +700,7 @@
                             "s1|Phan Văn Đai",
                             "d|Phan Thị Thỉu",
                             "d|Phan Thị Kha",
-                            "s|Phan Bình An*",
+                            "s|Phan Bình An",
                             "s|Phan Phú Định",
                             "family|end",
                             "",
@@ -874,11 +879,11 @@
                               "photo": "",
                               "desc": [
                                 "family|start|Gia tộc",
-                                "family|end",
                                 "s1|Phan Văn Ky",
                                 "s|Phan Văn Tô",
                                 "d1|Phan Thị Bạch Vân",
                                 "d|Phan Thị Liên",
+                                "family|end",
                                 "",
                                 "apa2|Thông tin"
                               ]
@@ -915,12 +920,12 @@
                               "photo": "phan ngọc luật/Phan Duấn.jpg",
                               "desc": [
                                 "family|start|Gia tộc",
-                                "family|end",
                                 "s1|Phan Văn Phùng",
                                 "d1|Phan Thị Bạch Yến",
                                 "s|Phan Văn Trường",
                                 "s|Phan Khắc Hưng",
                                 "d|Phan Thị Hồng Nhạn",
+																"family|end",
                                 "",
                                 "apa2|Thông tin",
                                 "Ông bà sinh hạ:",

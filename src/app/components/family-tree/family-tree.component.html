@@ -30,6 +30,7 @@
 </div>
   
 <div *ngIf="(view == 1)">
+
   <div class="person-tree-1" id="person-tree-1">
     <ul>
       <li>
@@ -47,13 +48,15 @@
       </li>
     </ul>
   </div>
-  <div class="person-tree-2">
+	
+	<div class="person-tree-2">
     <ul *ngIf="family.children && family.children.length > 0">
       <li *ngFor="let child of family.children" [ngStyle]="{'width': _setWidth(child) ? '100%' : 'auto'}" >
         <ft-leaf (onLeafSelected)="_leafSelected($event)" [view]="view" [child]="child"></ft-leaf>
       </li>
     </ul>
   </div>
+
 </div>
 
 <div *ngIf="(view == 2)">

@@ -12,7 +12,7 @@ export const environment = {
 	useEmulators: true,
 	// useEmulators: false,
   production: false,
-  android: false,
+  platform: 'web',
   version: '3',
 	// backendContainer: 'family-backend'
 	backendContainer: 'localhost'

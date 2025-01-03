@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-// import { Platform } from '@ionic/angular';
-import { Capacitor } from "@capacitor/core";
+import { environment } from '../../environments/environment';
 
 const SMALL = 6;
 const NORMAL = 8;
@@ -12,15 +11,12 @@ const MOBILE = 8;
 })
 export class FtTreeService {
 
-  constructor(
-    // public platform: Platform,
-	) { }
+  constructor() { }
 
   scaleStyle: number = NORMAL;
 	
 	isMobilePlatform() {
-		// return (this.platform.is('android') || this.platform.is('ios'))
-		return (Capacitor.getPlatform() === 'android' || Capacitor.getPlatform() == 'ios');
+		return environment.platform === 'android' || environment.platform === 'ios';
 	}
 
 	reset() {
@@ -43,7 +39,21 @@ export class FtTreeService {
 
   getZoomStyle() {
 		let scale = this.isMobilePlatform() ? MOBILE : this.scaleStyle;
-		// let scale = this.scaleStyle / 10;
+    scale /= 10;
+    let styles = {
+      'zoom': scale,
+      '-moz-transform': 'scale(' + scale + ')',
+      '-moz-transform-origin': '0 0',
+      '-o-transform': 'scale(' + scale + ')',
+      '-o-transform-origin': '0 0',
+      '-webkit-transform': 'scale(' + scale + ')',
+      '-webkit-transform-origin': '0 0'
+    };
+    return styles;
+  }
+
+	getZoomStylePerson() {
+		let scale = SMALL;
     scale /= 10;
     let styles = {
       'zoom': scale,

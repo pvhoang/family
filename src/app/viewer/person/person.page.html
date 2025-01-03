@@ -57,18 +57,12 @@
 
   <div class="screen-node viewer-person-container" id="full-tree">
 
-		<!-- <div class="view-person-photo-parent" *ngIf="selectedNode && (this.selectedNode.yod != '' || this.selectedNode.dod != '' || this.selectedNode.pod != '')"> -->
 		<div class="view-person-photo-parent" *ngIf="selectedNode">
 			<img class="image1" [src]="image1.url" [attr.width]="image1.w" [attr.height]="image1.h" />
 			<img class="image2" [src]="image2.url" [attr.width]="image2.w" [attr.height]="image2.h" />
     </div>
-
 		<p></p>
-		<!-- <div class="screen-node" [ngStyle]="ftTreeService.getZoomStyle()"> -->
-		<div class="person-tree-view" [ngStyle]="ftTreeService.getZoomStyle()">
-			<ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
-		</div>
-
+		<ft-tree *ngIf="selectedNode" [ngStyle]="ftTreeService.getZoomStylePerson()" (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
 		<div *ngIf="selectedNode" class="home-text-apa2">{{ 'PERSON_INFO_PERSONAL' | translate }}</div>
 
 		<ion-grid class="app-grid-small-no-header" *ngIf="selectedNode">

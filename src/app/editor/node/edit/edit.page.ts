@@ -148,17 +148,19 @@ export class EditPage implements OnInit {
   keyupItem(event: any, item: any) { 
     let value = event.target.value;
     let dotKey = value.endsWith(".");
-    let enterKey = !environment.android && event.key == 'Enter';
+    // let enterKey = !environment.android && event.key == 'Enter';
+    let enterKey = (environment.platform == 'android') && event.key == 'Enter';
     if (DEBUGS.EDIT)
-      console.log('EditPage - keyupItem - dotKey, enterKey, value: ', dotKey, enterKey, value);
-    if (!(dotKey || enterKey))
-      return;
+      console.log('EditPage - keyupItem - dotKey, enterKey, item, value: ', dotKey, enterKey, item, value);
+    // if (!(dotKey || enterKey))
+      // return;
+
     if (dotKey)
       value = value.substring(0, value.length -1);
     if (item == 'name') {
       this.typeahead.getEvaluatedName(value).then((names:any) => {
         if (DEBUGS.EDIT)
-          console.log('EditPage - keyupItem - dotKey, enterKey, value, names: ', dotKey, enterKey, value, names);
+          console.log('EditPage - keyupItem - names: ', names);
         if (names.length == 1) {
           let val = names[0];
           if (dotKey && value == names[0])

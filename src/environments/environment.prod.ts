@@ -11,7 +11,7 @@ export const environment = {
   },
 	useEmulators: false,
   production: false,
-  android: false,
+  platform: 'web',
   version: '3',
 	// backendContainer: 'family-backend'
 	backendContainer: 'localhost'
@@ -22,24 +22,25 @@ export const environment = {
 export const ROOT_COLLECTION = 'giapha';
 export const FONTS_FOLDER = '../../assets/fonts/';
 
-export const DEBUGS = {
+export let DEBUGS = {
   'APP': false,
   'SPLASH': false,
-  'THEME': true,
+  'THEME': false,
+	'FCM': false,
   'TABS': false,
   'MEMORY': false,
   'PERSON': false,
   'HOME': false,
-  'HTML': true,
-  'JSON': true,
+  'HTML': false,
+  'JSON': false,
   'EDITOR': false,
   'VNODE': false,
   'NODE': false,
   'BRANCH': false,
   'DOCS': false,
-  'TREE': true,
+  'TREE': false,
   'EDIT': false,
-  'SEARCH': true,
+  'SEARCH': false,
   'CROPPER': false,
   'FIREBASE': false,
   'FAMILY_SERVICE': false,
@@ -47,7 +48,7 @@ export const DEBUGS = {
   'UTIL_SERVICE': false,
   'DATA_SERVICE': false,
   'FCM_SERVICE': false,
-  'FILER': true,
+  'FILER': false,
 };
 
 export const DRAGON = 'dragon';

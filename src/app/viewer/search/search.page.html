@@ -7,7 +7,37 @@
       </ion-button>
     </ion-col>
 
-		<ion-col size="10" >
+		<ion-col size="10">
+      <ng-select
+				class="mobileClass"
+        [appendTo]="'body'"
+        [items]="items" 
+        placeholder="{{itemPlaceholder}}"
+        [(ngModel)]="selectItem"
+        (close)="closeItem()"
+        (clear)="clearItem()"
+        (keyup)="keyupItem($event)"
+      >
+      </ng-select>
+    </ion-col>
+
+		<!-- <ion-col size="10">
+      <ng-select
+				class="mobileClass"
+        [appendTo]="'body'"
+        [items]="peopleNodes" 
+        placeholder="{{selectPeoplePlaceholder}}"
+        [(ngModel)]="selectPeople"
+        (close)="closePeopleNodes()"
+        (clear)="clearPeopleNodes()"
+        (keyup)="keyupPeopleNodes($event)"
+      >
+      </ng-select>
+    </ion-col> -->
+
+
+
+		<!-- <ion-col size="10" >
 			<ion-input clearInput
 			class="header-input"
 			[(ngModel)]="values.name"
@@ -25,9 +55,12 @@
 					</ion-content>
 				</ng-template>
 			</ion-popover>
-    </ion-col>
+    </ion-col> -->
+
 		<ion-col size="1" >
 		</ion-col>
+
+
   </ion-item>
 
 </ion-header>

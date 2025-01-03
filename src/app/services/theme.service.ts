@@ -68,10 +68,6 @@ export class ThemeService {
 		this.themes = themes;
 	}
 
-	isMobilePlatform() {
-		return (Capacitor.getPlatform() === 'android' || Capacitor.getPlatform() === 'ios')
-	}
-
 	getSize() {
 		return this.size;
 	}

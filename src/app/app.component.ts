@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild  } from '@angular/core';
-// import { Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { Capacitor } from "@capacitor/core";
 import { environment, FONTS_FOLDER, DEBUGS, DRAGON, VILLAGE, TREE, COUNTRY, SMALL_SIZE, MEDIUM_SIZE, LARGE_SIZE } from '../environments/environment';
 import { DataService } from './services/data.service';
@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
 	isOpen = false;
 
   constructor(
-    // public platform: Platform,
+    public platform: Platform,
     private dataService: DataService,
     private utilService: UtilService,
     private themeService: ThemeService,
@@ -76,6 +76,18 @@ export class AppComponent implements OnInit {
 
   async ngOnInit(): Promise<any> {
 		
+		// set default
+		let str = this.platform.platforms().toString();
+		environment.platform = 'web';
+		if (str.indexOf('android') >= 0)
+			environment.platform = 'android';
+		else if (str.indexOf('ios') >= 0)
+			environment.platform = 'ios';
+
+		// Capacitor.getPlatform(): web, android, ios
+    // environment.platform = Capacitor.getPlatform();
+		// alert('platform: ' + environment.platform + '-' + str);
+
     // get URL
     let strings = window.location.href.split(window.location.host);
     let url = strings[strings.length-1];
@@ -218,9 +230,7 @@ export class AppComponent implements OnInit {
 	}
 
   initializeApp(rdata: any) {
-    // let str = this.platform.platforms().toString();
-		// Capacitor.getPlatform(): web, android, ios
-    environment.android = (Capacitor.getPlatform() === 'android');
+   
 		this.updateAppData(rdata).then(status => {
 			if (DEBUGS.APP)
 				console.log('initializeApp - status, mode: ', status, this.mode);

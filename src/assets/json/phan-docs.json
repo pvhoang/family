@@ -28,9 +28,11 @@
     "pha_ky": {
       "title": "PHẢ KÝ",
       "desc": [
-        "TODAY|Hôm nay là ngày ",
-        "NODE-COUNT|Tổng số hệ dòng họ cho đến hôm nay",
-        "MEMORIAL|Những ngày giỗ họ sắp đến "
+        "TODAY|Hôm nay",
+        "NODE-COUNT|Số hệ trong gia phả",
+        "ITEM-COUNT|Tổng số hệ",
+				"",
+        "MEMORIAL|Ngày giỗ sắp đến"
       ]
     },
     "pha_he": {

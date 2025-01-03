@@ -35,8 +35,22 @@ export class SearchPage implements OnInit {
 	placeHolder = '';
   searchNames = [];
 	searchResult = '';
-  searchNodes = [];
-  searchDescFields = [];
+	miniSearch: any;
+	searchOptions: any;
+  // searchNodes = [];
+  // searchFields = [];
+  // storeFields = [];
+
+	// selectPeople: string = null;
+  // selectPeoplePlaceholder: string = null;
+	// selectedNode: any = null;
+  // selectedNodeName: string = '';
+  // peopleNodes: any = [];
+
+	selectItem: string = null;
+  itemPlaceholder: string = null;
+  // selectedNodeName: string = '';
+  items: any = [];
 
   constructor(
     public modalCtrl: ModalController,
@@ -57,41 +71,11 @@ export class SearchPage implements OnInit {
       console.log('EditPage - ngOnInit - values: ', this.values);
   }
 
-	async onExit() {
-    await this.modalCtrl.dismiss({
-      result: false
-    });
-  }
-
-	// ------------- ng-select -------------
-  // -------TYPE NEW WORD (Enter) OR SELECT -------
-  // -------------------------------------
-
-  presentPopover(e: Event) {
-    this.popover.event = e;
-    this.isOpen = true;
-  }
-
-  onName(name: any) {
-    this.isOpen = false;
-    this.values.name = name;
-  }
-
-	keyupItem(event: any, item: any) { 
-    let value = event.target.value;
-		// console.log('keyupItem - value: ', value);
-		if (value.length < 2)
-			return;
-		this.testMiniSearch(value);
-	}
-  
-  clearItem(item) {
-    if (DEBUGS.SEARCH)
-      console.log('EditPage - clearItem');
-    this.values[item] = null;
-  }
-
 	start() {
+
+		this.items = [];
+		this.itemPlaceholder = '';
+
 		// convert nodes to searchNodes
 		let searchNodes = [];
 		let searchDescFields = [];
@@ -118,8 +102,12 @@ export class SearchPage implements OnInit {
 						if (vals.length > 1) {
 							// valid name
 							let name = vals[1]
-							if (name.indexOf('*') > 0)
-								name = name.substring(0,name.indexOf('*'))
+
+							// if (name.indexOf('*') > 0)
+								// name = name.substring(0,name.indexOf('*'))
+							if (name.indexOf(' (') > 0)
+								name = name.substring(0,name.indexOf(' ('))
+
 							str += name + ',';
 							let descField = descID+'_'+(id++);
 							desc_name[descField] = name;
@@ -155,25 +143,22 @@ export class SearchPage implements OnInit {
 			}
       searchNodes.push(snode);
     })
-		this.searchNodes = searchNodes;
-		this.searchDescFields = searchDescFields;
-    if (DEBUGS.SEARCH) {
-			console.log('testMiniSearch - searchNodes: ', this.searchNodes);
-			console.log('testMiniSearch - searchDescFields: ', this.searchDescFields);
-		}
-	}
-
-	testMiniSearch(value: any) {
 
 		let searchFields = [ 'name', 'pob', 'pod', 'por', 'yob', 'yod', 'dod' ];
 		// add desc fields for name
-		this.searchDescFields.forEach(field => {
+		searchDescFields.forEach(field => {
 			searchFields.push(field);
 		})
 		let storeFields = [ 'firstName', 'lastName', 'node'];
 
-		let miniSearch = new MiniSearch({
+    if (DEBUGS.SEARCH) {
+			console.log('storeFields: ', storeFields);
+			console.log('searchNodes: ', searchNodes);
+			console.log('searchFields: ', searchFields);
+		}
 
+		this.miniSearch = new MiniSearch({
+	
 			fields: searchFields, // fields to index for full-text search
 			storeFields: storeFields,
 
@@ -204,26 +189,86 @@ export class SearchPage implements OnInit {
 				return (fieldName !== 'node') ? this.utilService.stripVN(value) : value;
 			},
 		})
-
 		// match exact name, no fuzzy, no boost
-		let searchOptions:any = { fuzzy: 0.2, boost: { 'name': 2 } };
-		// let searchOptions:any = { };
+		this.searchOptions = { fuzzy: 0.2, boost: { 'name': 2 } };
+		this.miniSearch.addAll(searchNodes);
+	}
 
+	async onExit() {
+    await this.modalCtrl.dismiss({
+      result: false
+    });
+  }
+
+	// ------------- ng-select -------------
+  // -------TYPE NEW WORD (Enter) OR SELECT -------
+  // -------------------------------------
+
+	clearItem() {
+    this.selectItem = null;
+  }
+
+  closeItem() {
+    if (DEBUGS.SEARCH)
+      console.log('closeItem - selectItem: ', this.selectItem);
+    if (this.selectItem) {
+			this.search(this.selectItem, true).then((results:any) => {
+				if (DEBUGS.SEARCH)
+					console.log('closeItem - results: ', results);
+				this.items = [];
+			});
+		}
+  }
+  
+  keyupItem(event) {
+		let value = event.target.value;
+		let key = event.key;
+		if (DEBUGS.SEARCH)
+			console.log('keyupItem - value, key: ', value, key);
+		if (!value || value === '' || key === 'Enter') {
+			this.items = [];
+			return;
+		}
+		this.search(value).then((suggests:any) => {
+			if (DEBUGS.SEARCH)
+				console.log('keyupItem - suggests: ', suggests);
+			if (suggests.length == 0) {
+				this.items = [];
+			} else {
+				this.items = suggests;
+			}
+		});
+  }
+
+	// --------- END ng-select ----------
+	
+	search(value: any, enter?: any) {
+		return new Promise((resolve) => {
+			let stripVal = this.utilService.stripVN(value);
+			let results = [];
+			let suggest = this.miniSearch.autoSuggest(stripVal, { fuzzy: 0.2 })
+			console.log('testMiniSearch - suggest: ', suggest);
+			if (suggest.length > 0)
+				results = suggest[0].terms;  
+			if (enter)
+				results = this.showSearchResults(value);
+			resolve(results);
+		});
+	}
+
+	showSearchResults(value: any) {
+		let searchOptions = this.searchOptions;
 		if (value.charAt(0) == '"') {
 			// match 100%
 			value = value.substring(1);
 			searchOptions = { combineWith: 'AND' };
 		}
-		miniSearch.addAll(this.searchNodes);
-
+		let miniSearch = this.miniSearch;
 		let stripVal = this.utilService.stripVN(value);
-		// let fuzzy = miniSearch.autoSuggest(stripVal)
-		let fuzzy = miniSearch.autoSuggest(stripVal, { fuzzy: 0.2 })
 		let search = miniSearch.search(stripVal, searchOptions)
 
     if (DEBUGS.SEARCH) {
 			console.log('testMiniSearch - value: ', value);
-			console.log('testMiniSearch - fuzzy: ', fuzzy);
 			console.log('testMiniSearch - search: ', search);
 		}
 
@@ -240,8 +285,8 @@ export class SearchPage implements OnInit {
 			// if (item.score < 2)
 			// 	break;
 			let node = item.node;
-			let name = this.getMatch(node.name, item.match, ' (' + this.nodeService.getGenerationShort(node) + ')');
-			result += '<b><i>' + name + '</i></b><br>' + this.getNodeHtml(node, item.match) + '<br>';
+			let name = node.name + ' (' + this.nodeService.getGenerationShort(node) + ')';
+			result += '<b>' + name + '</b><br>' + this.getNodeHtml(node, item.match) + '<br>';
 			// result += '<b><i>' + this.getMatch(node.name, item.match) + '</i></b><br>' + this.getNodeHtml(node, item.match) + '<br>';
 			if (DEBUGS.SEARCH) {
 				console.log('SCORE:' , item.score);
@@ -249,14 +294,9 @@ export class SearchPage implements OnInit {
 					console.log('match - key, count, value:' , key, item.match[key]);
 				}
 			}
-			// console.log('queryTerms:' , item.queryTerms);
-			// console.log('terms:' , item.terms);
-			// let nodes = this.nodes.filter((node:any) => {return node.id == item.id});
-			// result += '<b>' + nodes[0].name + '</b><br>' + this.getNodeHtml(nodes[0]) + '<br>';
-			// console.log('name:' , nodes[0].name);
 		};
-		this.searchResult = result;
-		document.getElementById('detail').innerHTML = this.searchResult;
+		document.getElementById('detail').innerHTML = result;
+		return results;
 	}
 
 	// w|Phan Viet Hoang
@@ -288,12 +328,18 @@ export class SearchPage implements OnInit {
 		for (let key of Object.keys(match)) {
 			// if (key == this.utilService.stripVN(name)) {
 			if (this.utilService.stripVN(name).indexOf(key) >= 0) {
-				name = "<b style='color:blue;'><i>" + name + "</i></b>";
+				if (starName)
+					// name = "<b style='color:blue;'><i>" + name + "🌲</i></b>";
+					name = "<span style='color:blue;'>" + name + "🌲</span>"
+				else
+					// name = "<style='color:blue;'><i>" + name + "</i></b>";
+					name = "<span style='color:blue;'>" + name + "</span>"
 				return name;
 			}
 		}
 		if (starName) {
-			name = "<b style='color:green;'><i>" + name + "</i></b>";
+			name = "<span style='color:green;'>" + name + "🌲</span>";
+			// name = "<b style='color:green;'><i>" + name + "🌲</i></b>";
 		}
 		return name;
 	}
@@ -378,7 +424,6 @@ export class SearchPage implements OnInit {
 			})
 		}
 		html += '</ion-grid>';
-
 		return html;
 	}
 

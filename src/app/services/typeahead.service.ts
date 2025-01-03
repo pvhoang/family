@@ -14,9 +14,11 @@ export class TypeaheadService {
   ) { }
 
   getEvaluatedName(term: string) {
+		console.log('getEvaluatedName1 - term: ', term);
+
     return new Promise((resolve) => {
       this.dataService.readItem('names').then((result:any) => {
-        // console.log('getEvaluatedName - term: ', term);
+        console.log('getEvaluatedName - term: ', term);
         let sterm = this.utilService.stripVN(term);
         if (term != sterm) {
           resolve([term]);

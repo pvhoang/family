@@ -80,6 +80,34 @@ export class FamilyService {
       }
       node.span = this.nodeService.getSpanStr(node);
     }
+		// modify desc data in node
+		// w|Phan Viet Hoang
+
+		for (let i = 0; i < nodes.length; i++) {
+      let node = nodes[i];
+			let pnode = node.pnode;
+			if (!pnode)
+				continue;
+			let desc = pnode.desc;
+			for (let j = 0; j < desc.length; j++) {
+			// desc.forEach((item:any) => {
+				let items = desc[j].split('|');
+				if (items.length > 1) {
+					let rel = items[0].trim();
+					// let status = RELATION_STATUS[rel];
+					let relation = this.utilService.getRelationStr(rel);
+					if (relation !== '') {
+						let name = items[1].trim();
+						if (name.indexOf(node.name) == 0) {
+							// desc[j] += '*';
+							desc[j] += this.nodeService.getFullDetail(node);
+							break;
+						}
+					}
+				}
+			}
+		}
+
     // console.log('buildFullFamily - nodes: ', nodes);
     // console.log('buildFullFamily - family: ', family);
 		return family;
@@ -220,13 +248,18 @@ export class FamilyService {
 		msg.sort((row1:any, row2: any) => {
 			return row1[2] - row2[2];
 		});
-		let d = new Date();
-		let cal = new CalendarVietnamese()
-		cal.fromGregorian(d.getFullYear(), d.getMonth()+1, d.getDate())
-		let cdate = cal.get()
-		let day = (cdate[4] < 10) ? '0' + cdate[4] : cdate[4];
-		let month = (cdate[2] < 10) ? '0' + cdate[2] : cdate[2];
-		let today = day + '/' + month;
+
+		// let d = new Date();
+		// let cal = new CalendarVietnamese()
+		// cal.fromGregorian(d.getFullYear(), d.getMonth()+1, d.getDate())
+		// let cdate = cal.get()
+		// let day = (cdate[4] < 10) ? '0' + cdate[4] : cdate[4];
+		// let month = (cdate[2] < 10) ? '0' + cdate[2] : cdate[2];
+		// let today = day + '/' + month;
+		let today = this.utilService.getLunarDate();
+
+		console.log('passAwayFamily - memorialMsg: ', today, msg);
+
 		return ({ today: today, persons: msg });
   }
 

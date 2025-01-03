@@ -6,6 +6,7 @@ import { DEBUGS } from '../../environments/environment';
 import { SelectComponent } from '../components/select/select.component';
 import { LanguageService } from '../services/language.service';
 import { ThemeService } from '../services/theme.service';
+import { CalendarVietnamese } from 'date-chinese';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({
@@ -562,6 +563,22 @@ export class UtilService {
     return str.toLowerCase();
 	}
 
+	getLunarDate() {
+		let d = new Date();
+		let cal = new CalendarVietnamese()
+		cal.fromGregorian(d.getFullYear(), d.getMonth()+1, d.getDate())
+		let cdate = cal.get()
+		let day = (cdate[4] < 10) ? '0' + cdate[4] : cdate[4];
+		let month = (cdate[2] < 10) ? '0' + cdate[2] : cdate[2];
+		// let cdate = cal.get()
+		//> [ 78, 2, 2, true, 2 ]
+		let gyear = cal.yearFromEpochCycle()
+		//> 1985
+		let lyear = this.getLunarYear(gyear);
+		let today = day + '/' + month + ' ' + lyear;
+		return today 
+	}
+
 	getShortDateID(separator?: any) {
 		const d = new Date();
 		let day = ''+d.getDate();		if (day.length < 2) day = '0' + day;
@@ -569,6 +586,14 @@ export class UtilService {
 		let year = ''+d.getFullYear();
 		year = year.substring(2);
 		return (separator) ? (day + separator + month + separator + year) : (day + month + year);
+	}
+
+	getFullDateID() {
+		const d = new Date();
+		let day = ''+d.getDate();		if (day.length < 2) day = '0' + day;
+		let month = ''+(d.getMonth()+1);		if (month.length < 2) month = '0' + month;
+		let year = ''+d.getFullYear();
+		return day + '/' + month + '/' + year;
 	}
 
 	getDateID() {

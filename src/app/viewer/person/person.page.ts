@@ -31,7 +31,8 @@ export class PersonPage implements OnInit {
   selectPeople: string = null;
   selectPeoplePlaceholder: string = null;
   title: string = '';
-  peopleNodes: Node[] = [];
+  // peopleNodes: Node[] = [];
+  peopleNodes: any = [];
   justClicked = false;
   doubleClicked = false;
   selectedNode: any = null;

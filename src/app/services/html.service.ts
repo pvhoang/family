@@ -95,15 +95,24 @@ export class HtmlService {
 				let items = line.split('|');
 				let text = items[1];
 				let html = 
-					'<div class="home-text-apa2"><b>' + text + ':&emsp;</b><i>' + dataSource.nodes.length + '</i></div>';
+					'<div class="home-text-apa2-normal"><b>' + text + ':&emsp;</b>' + dataSource.nodes.length + '</div>';
+				htmls.push( { html: html } )
+
+			} else if (line.indexOf('ITEM-COUNT') == 0 && dataSource.nodes) {
+				let items = line.split('|');
+				let text = items[1];
+				let count = this.getTotalItemCountHtml(dataSource.nodes);
+				let html = 
+					'<div class="home-text-apa2-normal"><b>' + text + ':&emsp;</b>' + count + '</div>';
 				htmls.push( { html: html } )
 
 			} else if (line.indexOf('TODAY') == 0) {
+				let todayLunar = this.utilService.getLunarDate();
+				let today = this.utilService.getFullDateID();
 				let items = line.split('|');
 				let text = items[1];
-				let today = this.utilService.getShortDateID('/');
 				let html = 
-				'<div class="home-text-apa2"><b>' + text + ':&emsp;</b><i>' + today + '</i></div>';
+				'<div class="home-text-apa2-normal"><b>' + text + ':&emsp;</b>' + today + '<br>(' + todayLunar + ')</div>';
 				htmls.push( { html: html } )
 			
 			} else if (line.indexOf('MEMORIAL') == 0 && dataSource.memorialMsg) {
@@ -283,6 +292,9 @@ export class HtmlService {
 	}
 
 	private getMemorialHtml(memorialMsg, line: any) {
+
+		console.log('memorialMsg: ', memorialMsg);
+
 		let items = line.split('|');
 		let title = items[1];
 		let data: any = memorialMsg;
@@ -292,27 +304,22 @@ export class HtmlService {
 			html += '<p style="text-align: center;"><strong>' + this.languageService.getTranslation('HOME_MEMORY_NO_DOD') + '</strong></p>';
 		} else {
 			html += 
-			'<ion-grid class="home-grid">' +
+			'<ion-grid class="viewer-home-grid">' +
 			'<ion-row>' +
-				'<ion-col size="6" class="column center">' + this.languageService.getTranslation('HOME_MEMORY_NAME') + '</ion-col>' +
-				'<ion-col size="4" class="column center">' +	this.languageService.getTranslation('HOME_MEMORY_DOD') + '</ion-col>' +
-				'<ion-col size="2" class="column center">' +	this.languageService.getTranslation('HOME_MEMORY_DAYS') +	'</ion-col>' +
+				'<ion-col size="8" class="column center">' + this.languageService.getTranslation('HOME_MEMORY_NAME') + '</ion-col>' +
+				'<ion-col size="3" class="column center">' +	this.languageService.getTranslation('HOME_MEMORY_DOD') + '</ion-col>' +
+				'<ion-col size="1" class="column center">' +	this.languageService.getTranslation('HOME_MEMORY_DAYS') +	'</ion-col>' +
 			'</ion-row>';
 			for (let i = 0; i < data.persons.length; i++) {
 				let person = data.persons[i];
 				let name = person[0];
 				let dod = person[1];
 				let days = person[2];
-				if (days == '0') {
-					name = '<b>' + name + '</b>'
-					dod = '<b>' + dod + '</b>'
-					days = '';
-				}
 				html += 
 				'<ion-row>' +
-					'<ion-col size="6" class="column center"><b>' + name + '</b></ion-col>' +
-					'<ion-col size="4" class="column center"><b>' +	dod + '</b></ion-col>' +
-					'<ion-col size="2" class="column center"><b>' +	days +	'</b></ion-col>' +
+					'<ion-col size="8" class="column center">' + name + '</ion-col>' +
+					'<ion-col size="3" class="column center">' +	dod + '</ion-col>' +
+					'<ion-col size="1" class="column center">' +	days +	'</ion-col>' +
 				'</ion-row>';
 			};
 			html += '</ion-grid>';
@@ -335,21 +342,15 @@ export class HtmlService {
 			children.push({name: name, type: type})
 		}
 		if (children.length > 0) {
-			html += '<ion-grid class="home-grid-small"><ion-row>';
+			html += '<ion-grid class="viewer-home-grid"><ion-row>';
 			html += '<ion-col size="7" class="column center"><b>' + this.languageService.getTranslation('huy') + '</b></ion-col>';
 			html += '<ion-col size="5" class="column center"><b>' + this.languageService.getTranslation('quan_he') + '</b></ion-col>';
 			html += '</ion-row>';
 			children.forEach((item:any) => {
 				let name = item.name;
-				// console.log('item: ', item);
-				let color = '';
-				if (name.indexOf('*') > 0) {
-					color = 'style="color: green;"';
-					name = name.substring(0,name.indexOf('*'))
-				}
 				let relation = this.utilService.getRelationStr(item.type);
 				let row = '<ion-row>';
-				row += '<ion-col size="7" class="column center" ' + color + '>' + name + '</ion-col>';
+				row += '<ion-col size="7" class="column center">' + name + '</ion-col>';
 				row += '<ion-col size="5" class="column center">' + relation + '</ion-col>';
 				row += '</ion-row>';
 				html += row;
@@ -359,4 +360,30 @@ export class HtmlService {
 		return { html: html }
 	}
 	
+	private getTotalItemCountHtml(nodes: any) {
+		let count = nodes.length;
+		for (let i = 0; i < nodes.length; i++) {
+			let node = nodes[i];
+			let desc = node.desc;
+			let descCount = 0;
+			for (let j = 0; j < desc.length; j++) {
+				let items = desc[j].split('|');
+				if (items.length > 1) {
+					let rel = items[0].trim();
+					// let status = RELATION_STATUS[rel];
+					let relation = this.utilService.getRelationStr(rel);
+					if (relation !== '') {
+						let name = items[1].trim();
+						if (name.indexOf(' (') == -1) {
+							// add to count
+							count++;
+							descCount++;
+						}
+					}
+				}
+			}
+			// console.log('name, descCount: ', node.name, descCount)
+		}
+		return count;
+	}
 }
