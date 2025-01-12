@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { environment, FONTS_FOLDER, DEBUGS,  SMALL_SIZE, MEDIUM_SIZE, LARGE_SIZE } from '../../../environments/environment';
 import { LanguageService } from '../../services/language.service';
-// import { UtilService } from '../../services/util.service';
 import { FamilyService } from '../../services/family.service';
 import { NodeService } from '../../services/node.service';
 import { PageFlip } from '../../../assets/js/page-flip/PageFlip';
@@ -35,7 +34,7 @@ export class HomePage implements OnInit{
 	version: any;
 	info: any = { name: '', location: '', admin_name: '', admin_email: '' };
 	memorialMsg: any;
-	// tableTrees: any = [];
+	imageEnlarge: any = {};
 	tableAncestors: any = [];
 	rdata: any;
 	pageData = {};
@@ -60,12 +59,21 @@ export class HomePage implements OnInit{
   ) {
   }
 
-  ngOnInit() {
+	ngOnInit() {
+  }
+
+  ionViewWillEnter() {
 		this.start();
     setTimeout(() => {
+			// must wait for DOM ids to kick in
 			this.startBook();
     }, PAGE_SWITCH_TIME)   
   }
+	
+	ionViewWillLeave() {
+    if (DEBUGS.HOME)
+      console.log('DocPage - ionViewWillLeave');
+	}
 
 	start() {
 		// initialize
@@ -107,10 +115,16 @@ export class HomePage implements OnInit{
 			let doc = docs[key];
 			doc.titleText = titles[key];
 
+			// if (key == 'pha_nhap') {
+			// 	// - **Đời 1: Phan Văn Nghi (1754)**
+			// 	// - **Đời 1: Phan Văn Nghi (1754)**  /popup/some title/md|phan ngoc tuong.md/hello/md|A line/
+			// 	doc.desc = [];
+			// 	doc.desc.push('md| - **Đời 1: Phan Văn Nghi (1754)**  /popup/some title/md|phan ngoc tuong.md/hello/md|A line/')
+			// }
 			// calculate html for each desc line
 			// doc.desc = this.getPhanDoc(key, doc.desc);
 
-			let dataSource = { nodes: this.nodes, memorialMsg: this.memorialMsg, images: this.rdata.images }
+			let dataSource = { nodes: this.nodes, memorialMsg: this.memorialMsg, images: this.rdata.images, mds: this.rdata.mds }
 			let pageHtmls = this.htmlService.convertArrayToHtmls(dataSource, doc.desc);
 
 			if (DEBUGS.HOME)
@@ -134,6 +148,8 @@ export class HomePage implements OnInit{
 	startBook() {
 		for (var key of Object.keys(this.pageData)) {
 			let pages = this.pageData[key];
+			// activate all DOMs
+
 			let idp = 0;
 			pages.forEach((page:any) => {
 				this.setPageDom(key, idp++, page);
@@ -301,29 +317,6 @@ export class HomePage implements OnInit{
 		return await modal.present();
 	}
 
-	onVideoEnlarge(page: any, videoId: any, enlarge) {
-		console.log('videoId: ', videoId)
-		let video:any = document.getElementById(videoId);
-		// console.log('video: ', video, video.width, video.height)
-		// if (enlarge) {
-		// 	video.width = 400;
-		// 	video.height = 300;
-		// } else {
-		// 	video.width = 200;
-		// 	video.height = 150;
-		// }
-		if (enlarge) {
-			// Set size to 3 times original
-			video.style.transform = "scale(3)";
-			// Animation effect
-			video.style.transition = "transform 0.25s ease";
-		} else {
-			video.style.transform = "scale(1)";
-			video.style.transition = "transform 0.25s ease";
-		}
-		this.toPage(page);
-	}
-	
 	onDocumentDownload(page: any, fileName: any, url: any) {
 		this.onDownload(fileName, url).then(data => {
 			this.toPage(page);
@@ -357,16 +350,14 @@ export class HomePage implements OnInit{
 	setPageDom(key: any, idPage: any, page) {
 		let id = key + '_' + idPage;
 		let htmls = page.htmls;
-		if (DEBUGS.HOME)
+		if (DEBUGS.HOME) {
+			console.log('setPageDom() - key, idPage: ', key, idPage);
 			console.log('setPageDom() - htmls: ', htmls);
-
+		}
 		let idHtml = 0;
-		htmls.forEach(data => {
+		htmls.forEach((data: any) => {
 			let it = id + '_' + idHtml++;
-			// console.log('it: ' + it);
-
 			if (data.html) {
-				// console.log('html: ' + data.html);
 				document.getElementById(it).innerHTML = data.html;
 
 			} else if (data.popupHtml) {
@@ -376,14 +367,13 @@ export class HomePage implements OnInit{
 					html += obj.htmls[i].html + ' ';
 				data.docHtml = html;
 				data.docTitle = obj.title;
-				// console.log('data.popupHtml: data:', data);
+				data.lineTitle = obj.lineTitle;
 
 			} else if (data.downloadDocumentHtml) {
 				let params = data.downloadDocumentHtml;
 				data.title = params[0];
 				data.fileName = params[1];
 				data.url = params[2];
-				// console.log('data.downloadDocumentHtml: data:', data);
 
 			} else if (data.videoHtml) {
 				let params = data.videoHtml;
@@ -395,18 +385,14 @@ export class HomePage implements OnInit{
 
 			} else if (data.viewTreeNodeHtml) {
 				let line = data.viewTreeNodeHtml;
-				// console.log('data.viewTreeNodeHtml: ', line);
-				// VIEW-TREE-NODES|Xem phả đồ theo nhánh|Phan Dính (Đời 7)
 				let items = line.split('|');
 				data.title = items[1];
 				// get nodeid from name
 				let name = items[2].trim();
 				let nodeSelect = this.familyService.searchPeopleNodes(this.family, name);
 				data.nodeid = nodeSelect.id;
-				// console.log('data.viewTreeNodeHtml: data:', data);
 			}
 		})
-
 	}
-	
 }
+	

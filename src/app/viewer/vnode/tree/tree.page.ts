@@ -306,7 +306,8 @@ export class TreePage implements OnInit {
         // let ancestor = this.info.id;
 				// console.log('images: ', this.images)
 				let image = this.images[photoName];
-				resolve(image.url)
+				let url = (image) ? image.url : '';
+				resolve(url)
       }
     });
   }

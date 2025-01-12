@@ -21,6 +21,8 @@ import { SelectComponent } from './components/select/select.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { VgCoreModule, } from '@videogular/ngx-videogular/core';
 
+import { MarkdownModule } from 'ngx-markdown';
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -47,17 +49,10 @@ export function createTranslateLoader(http: HttpClient) {
 							deps: [HttpClient]
 					}
 			}),
-
-			// provideFirebaseApp(() => initializeApp(environment.firebase)),
-			// provideFirestore(() => getFirestore()),
-			// provideAuth(() => getAuth()),
-			// provideStorage(() => getStorage()),
-
 			provideFirebaseApp(() => initializeApp(environment.firebase)),
 			provideAuth(() => {
 				const auth = getAuth();
 				if (environment.useEmulators)
-					// connectAuthEmulator(auth, 'http://' + environment.backendContainer + ':9099', {
 					connectAuthEmulator(auth, 'http://localhost:9099', {
 						disableWarnings: true,
 					});
@@ -65,9 +60,7 @@ export function createTranslateLoader(http: HttpClient) {
 			}),
 			provideFirestore(() => {
 				const firestore = getFirestore()
-				// console.log('*** provideFirestore (useEmulators, backendContainer, production ***  ): ', environment.useEmulators, environment.backendContainer, environment.production);
 				if (environment.useEmulators) {
-					// connectFirestoreEmulator(firestore, environment.backendContainer, 8080);
 					connectFirestoreEmulator(firestore, 'localhost', 8080);
 				}
 				return firestore;
@@ -75,17 +68,17 @@ export function createTranslateLoader(http: HttpClient) {
 			provideStorage(() => {
 				const storage = getStorage();
 				if (environment.useEmulators)
-					// connectStorageEmulator(storage, environment.backendContainer, 9199);
 					connectStorageEmulator(storage, 'localhost', 9199);
 				return storage;
 			}),
 			BrowserAnimationsModule,
-			VgCoreModule
+			VgCoreModule,
+			MarkdownModule.forRoot(),
     ],
     providers: [{
-            provide: RouteReuseStrategy,
-            useClass: IonicRouteStrategy
-        }],
+			provide: RouteReuseStrategy,
+			useClass: IonicRouteStrategy,
+		}],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

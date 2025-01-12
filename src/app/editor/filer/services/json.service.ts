@@ -3,7 +3,7 @@ import { LanguageService } from '../../../services/language.service';
 import { UtilService } from '../../../services/util.service';
 import { FirebaseService } from '../../../services/firebase.service';
 import { JsoneditorService } from '../../../services/jsoneditor.service';
-import { FONTS_FOLDER, DEBUGS } from '../../../../environments/environment';
+import { FONTS_FOLDER, DEBUGS, environment } from '../../../../environments/environment';
 
 @Injectable({
 	providedIn: 'root'
@@ -77,20 +77,55 @@ export class JsonService {
 		}
 	}
 		
-	private jsonUpload(json: any) {
+	private jsonType(json: any) {
 		let title = json.title;
-		
-		if (title == 'INFO') {
+		if (!title) {
+			if (this.jsonFileName.indexOf('images') > 0)
+				title = 'IMAGES'
+			else if (this.jsonFileName.indexOf('mds') > 0)
+				title = 'MDS'
+			else
+				title = null;
+		}
+		return title;
+	}
+
+	private jsonUpload(json: any) {
+		let type = this.jsonType(json);
+		// let title = json.title;
+		// validate images before upload for FAMILY and DOCS files
+		if (!type)
+			return;
+
+		if (type == 'INFO' || type == 'IMAGES' || type == 'MDS') {
 			// update info to server
 			this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
-				rdata.info = json;
+				if (type == 'INFO')
+					rdata.info = json;
+				else if (type == 'IMAGES')
+					rdata.images = json;
+				else
+					rdata.mds = json;
 				this.fbService.saveAncestorData(rdata).then((status:any) => {
 					this.utilService.presentToastOK(['FILE_UPLOAD_COMPLETE_1', this.jsonFileName, 'FILE_UPLOAD_COMPLETE_2']);
 				});
 			});
 			return;
 		}
-	
+
+		if (environment.useEmulators) {
+			this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
+				if (type == 'DOCS')
+					rdata.docs = json;
+				else if (type == 'FAMILY')
+					rdata.family = json;
+				this.fbService.saveAncestorData(rdata).then((status:any) => {
+					this.utilService.presentToastOK(['FILE_UPLOAD_COMPLETE_1', this.jsonFileName, 'FILE_UPLOAD_COMPLETE_2']);
+				});
+			});
+			return;
+		}
+
 		// validate new image files
 		this.jsonValidateImage(json).then((res:any) => {
 			if (DEBUGS.FILER)
@@ -106,7 +141,7 @@ export class JsonService {
 			let storageImages = res[2];
 			
 			// some time it's too slow to process file list, wait 2 sec
-			let toastMsg = (title == 'FAMILY') ? 'FILE_UPLOAD_WAIT_UPDATE_FAMILY' : 'FILE_UPLOAD_WAIT_UPDATE_DOC'; 
+			let toastMsg = (type == 'FAMILY') ? 'FILE_UPLOAD_WAIT_UPDATE_FAMILY' : 'FILE_UPLOAD_WAIT_UPDATE_DOC'; 
 
 			this.utilService.presentToast(toastMsg);
 			setTimeout(() => {
@@ -133,7 +168,7 @@ export class JsonService {
 					}
 					// console.log('jsonValidateImage - rdata.images: ', rdata.images);
 					rdata.images = images;
-					const doc = (title == 'FAMILY') ? 'family' : 'docs';
+					const doc = (type == 'FAMILY') ? 'family' : 'docs';
 					rdata[doc] = json;
 					// console.log('jsonValidateImage - json: ', json);
 					this.fbService.saveAncestorData(rdata).then((status:any) => {
@@ -172,6 +207,7 @@ export class JsonService {
 					// this.utilService.dismissLoading();
 					resolve([newFiles, docImages, storageImages]);
 				}, 2000);
+
 			});
 		});
 	}

@@ -57,6 +57,21 @@
 				</div>
 			</ion-col>
 
+			<ion-col size="5" *ngIf="mdMode">
+				<ion-label class="label">{{ mdFileName }}</ion-label>
+				<div class="select">
+					<ng-select 
+						[items]="mdTasks"
+						bindLabel="name"
+						bindValue="id"
+						[(ngModel)]="currentMdTask"
+						(close)="closeMdTask()"
+						title="{{ 'FILE_UPLOAD_MD_TOOLTIP' | translate }}"
+					>
+					</ng-select>
+				</div>
+			</ion-col>
+
 			<ion-col size="5" *ngIf="photoMode">
 				<ion-label class="label">{{ photo }}</ion-label>
 				<div class="select">
@@ -96,7 +111,8 @@
 	
 	<div class="screen-file">
 
-		<input id="modify-json-json" type="file" (change)="jsonOnFileSelect($event, 'JSON')" style="display:none;" title=" " accept=".json"/>
+		<input id="modify-json-json" type="file" (change)="jsonOnFileSelect($event, 'JSON')" style="display:none;" title=" " accept=".json, .md"/>
+		<input id="modify-text-md" type="file" (change)="mdOnFileSelect($event, 'MD')" style="display:none;" title=" " accept=".md"/>
 		<input id="photo-image" type="file" (change)="photoGetFile($event)" title=" " accept=".png, .jpg, .jpeg, .doc, .mp4" style="display:none;"/>
 
 		<div *ngIf="notifyMode">
@@ -211,7 +227,7 @@
 			</ion-grid>
 		</div>
 		
-		<div *ngIf="jsonMode">
+		<div *ngIf="jsonMode && !mdMode">
 			<div class="ion-padding">
 				<json-editor
 					class="col-md-12"

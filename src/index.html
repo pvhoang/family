@@ -14,9 +14,8 @@
 
   <link rel="icon" type="image/png" href="assets/icon/gia-pha-village.png" />
   <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
-  
 	<link href="./assets/js/jsoneditor.css" rel="stylesheet" type="text/css">
-	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <!-- https://allfont.net/download/family-tree/ -->
   <!-- <link href="https://allfont.net/allfont.css?fonts=family-tree" rel="stylesheet" type="text/css" /> -->
   <!-- <link href="http://allfont.net/allfont.css?fonts=family-tree&effects=emboss" rel="stylesheet" type="text/css" /> -->
@@ -43,41 +42,16 @@
   <script src="./assets/js/jsoneditor.js"></script>
 
 	<script>
-		function downloadDocument(url, filename) {
-			// console.log('url: ', url);
-			// console.log('filename: ', filename);
-			fetch(url).then((t) => {
-				return t.blob().then((b)=>{
-						var a = document.createElement("a");
-						a.href = URL.createObjectURL(b);
-						a.setAttribute("download", filename);
-						a.click();
-				});
-			});
-		}
-
 		// https://www.geeksforgeeks.org/how-to-make-the-images-bigger-when-clicked/
 		var imageEnlarge = {};
 		function enlargeImage(id) {
-			// console.log('imageEnlarge - id: ', id);
-
 			if (!imageEnlarge[id])
 				imageEnlarge[id] = false;
 			imageEnlarge[id] = !imageEnlarge[id];
-
-			// enlarge = !enlarge;
-			// console.log('width, enlarge: ', width, enlarge);
-			// let id = 'image-id';
-
 			let img = document.getElementById(id);
-			// let realWidth = img.naturalWidth;
-			// let clientWidth = img.clientWidth;
-			// console.log('width: ', width);
-			// console.log('realWidth, clientWidth: ', realWidth, clientWidth);
 			if (imageEnlarge[id]) {
-				// Set image size to 2 times original
-			// console.log('imageEnlarge - img: ', img);
-				img.style.transform = "scale(3)";
+				// Set image size to 2.3 times original
+				img.style.transform = "scale(2.3)";
 				// Animation effect
 				img.style.transition = "transform 0.25s ease";
 			} else {
@@ -85,7 +59,6 @@
 				img.style.transition = "transform 0.25s ease";
 			}
 		}
-
 	</script>
 
   <app-root></app-root>

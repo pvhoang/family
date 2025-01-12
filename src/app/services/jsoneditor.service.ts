@@ -33,14 +33,11 @@ export class JsoneditorService {
 
 	// validate new fields
 	validateFieldNames(json: any) {
-
 		let title = json.title;
-		let validFields:any = fieldNames.FAMILY;
-		if (title == "DOCS")
-			validFields = fieldNames.DOCS;
-		else if (title == "INFO")
-			validFields = fieldNames.INFO;
-
+		let validFields = title ? fieldNames[title] : [];
+		if (validFields.length == 0)
+			return [];
+	
 		// convert to text
 		let text: any = JSON.stringify(json);
 		let match = text.match(/"([^"]*)":/g);
@@ -48,7 +45,7 @@ export class JsoneditorService {
 		let unique = match.filter((value: any, index: any, array: any) => {
 			return array.indexOf(value) === index;
 		});
-		console.log('convertJsonFieldNames - unique: ', unique);
+		// console.log('convertJsonFieldNames - unique: ', unique);
 		let errorFields = [];
 		// change to new field names, unique has "...", "nodes": -> "HỆ":
 		unique.map((name: any) => {
@@ -68,12 +65,9 @@ export class JsoneditorService {
 
 		let options = new JsonEditorOptions();
 		this.editorOptions = options;
-
 		options.modes = ['code', 'text', 'tree', 'view']; // set all allowed modes
 		options.mode = 'tree';
-		
 		options.expandAll = true;
-		
 		options.onClassName = (node) => {
 			// console.log('onClassName: ', node);
 			const path = node.path // array with strings and numbers
@@ -204,7 +198,6 @@ export class JsoneditorService {
 					className: 'jsoneditor-type-object',
 					// click: function () {
 					click: () => {
-
 						// this.utilService.alertMsg('ERROR', 'HELLO', 'OK', { width: 350, height: 450 }).then(choice => {
 							data.node._onInsertAfter('', 
 								{

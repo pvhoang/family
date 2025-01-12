@@ -1,7 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { LanguageService } from '../../services/language.service';
-
 import { FONTS_FOLDER, DEBUGS } from '../../../environments/environment';
 
 @Component({
@@ -18,14 +16,9 @@ export class DocPage implements OnInit {
 
   constructor(
     public modalCtrl: ModalController,
-    private languageService: LanguageService,
-
   ) {}
 
   ngOnInit() {
-
-		console.log('this.html: ', this.html)
-
 		document.getElementById('detail').innerHTML = this.html;
   }
 

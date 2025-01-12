@@ -364,14 +364,14 @@ export class SearchPage implements OnInit {
 
 		html += 
 			'<ion-row>' +
-				'<ion-col size="5" class="column center">' + '<b>' + this.languageService.getTranslation('NODE_VIEW_CHILD_OF_FATHER') + '</b>' +
+				'<ion-col size="5" class="column center">' + this.languageService.getTranslation('NODE_VIEW_CHILD_OF_FATHER') +
 				'</ion-col>' +
 				'<ion-col size="7" class="column center">' + ((parent) ? this.getMatch(parent.name, match) : '') +
 				'</ion-col>' +
 			'</ion-row>';
 		html +=
 			'<ion-row>' +
-				'<ion-col size="5" class="column center">' + '<b>' + this.languageService.getTranslation('NODE_YOB') + '</b>' +
+				'<ion-col size="5" class="column center">' + this.languageService.getTranslation('NODE_YOB') +
 				'</ion-col>' +
 				'<ion-col size="7" class="column center">' + this.getMatch(node.yob, match) +
 				'</ion-col>' +
@@ -379,7 +379,7 @@ export class SearchPage implements OnInit {
 		if (!pass_away) {
 			html +=
 			'<ion-row>' +
-				'<ion-col size="5" class="column center">' + '<b>' + this.languageService.getTranslation('NODE_POR') + '</b>' +
+				'<ion-col size="5" class="column center">' + this.languageService.getTranslation('NODE_POR') +
 				'</ion-col>' +
 				'<ion-col size="7" class="column center">' + this.getMatch(node.por, match) +
 				'</ion-col>' +
@@ -387,41 +387,74 @@ export class SearchPage implements OnInit {
 		} else {
 			html +=
 				'<ion-row>' +
-				'<ion-col size="5" class="column center">' + '<b>' + this.languageService.getTranslation('NODE_YOD') + '</b>' +
+				'<ion-col size="5" class="column center">' + this.languageService.getTranslation('NODE_YOD') +
 				'</ion-col>' +
 				'<ion-col size="7" class="column center">' + this.getMatch(node.yod, match) +
 				'</ion-col>' +
 			'</ion-row>' +
 			'<ion-row>' +
-				'<ion-col size="5" class="column center">' + '<b>' + this.languageService.getTranslation('NODE_TOMB') + '</b>' +
+				'<ion-col size="5" class="column center">' + this.languageService.getTranslation('NODE_TOMB') +
 				'</ion-col>' +
 				'<ion-col size="7" class="column center">' + this.getMatch(node.pod, match) +
 				'</ion-col>' +
 			'</ion-row>' +
 			'<ion-row>' +
-				'<ion-col size="5" class="column center">' + '<b>' + this.languageService.getTranslation('NODE_DOD') + '</b>' +
+				'<ion-col size="5" class="column center">' + this.languageService.getTranslation('NODE_DOD') +
 				'</ion-col>' +
 				'<ion-col size="7" class="column center">' + this.getMatch(node.dod, match) +
 				'</ion-col>' +
 			'</ion-row>';
 		}
+		// html += '</ion-grid>';
 
-		if (Array.isArray(node.desc)) {
+		if (Array.isArray(node.desc) && node.desc.length > 0) {
+			let relHtmls = [];
 			node.desc.forEach((item:any) => {
 				let vals = this.getNameInLine(item);
 				if (vals && vals.length > 1) {
 					let status = vals[0]
 					let name = vals[1]
 					name = this.getMatch(name, match);
+					relHtmls.push([status, name]);
+				}
+			});
+			if (relHtmls.length > 0) {
+				html += 
+						'<ion-grid class="viewer-home-grid">' +
+						'<ion-row>' +
+							'<ion-col size="5" class="column center">' + this.languageService.getTranslation('SEARCH_NODE_ITEM') +
+							'</ion-col>' +
+							'<ion-col size="7" class="column center">' + this.languageService.getTranslation('SEARCH_NODE_RELATION') +
+							'</ion-col>' +
+						'</ion-row>';
+				relHtmls.forEach(rel => {
 					html += 
 					'<ion-row>' +
-					'<ion-col size="5" class="column center">' + '<b>' + status + '</b>' +
+					'<ion-col size="5" class="column center">' + rel[0] +
 					'</ion-col>' +
-					'<ion-col size="7" class="column center">' + name +
+					'<ion-col size="7" class="column center">' + rel[1] +
 					'</ion-col>' +
 					'</ion-row>';
-				}
-			})
+				})
+			}
+
+			// node.desc.forEach((item:any) => {
+			// 	let vals = this.getNameInLine(item);
+			// 	if (vals && vals.length > 1) {
+			// 		let status = vals[0]
+			// 		let name = vals[1]
+			// 		name = this.getMatch(name, match);
+			// 		html += 
+			// 		'<ion-row>' +
+			// 		'<ion-col size="5" class="column center">' + status +
+			// 		'</ion-col>' +
+			// 		'<ion-col size="7" class="column center">' + name +
+			// 		'</ion-col>' +
+			// 		'</ion-row>';
+			// 	}
+			// })
+		// }
+			// html += '</ion-grid>';
 		}
 		html += '</ion-grid>';
 		return html;

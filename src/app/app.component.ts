@@ -127,8 +127,7 @@ export class AppComponent implements OnInit {
 			}
 
 			// ancestor must be valid before doing anything else
-			// this.startAncestor(ancestor).then((rdata: any) => {
-			this.getLocalRdata(ancestor).then((rdata: any) => {
+			this.startAncestor(ancestor).then((rdata: any) => {
 				if (!rdata) {
 					this.presentToast(['APP_NA_ANCESTOR_1', ancestor, 'APP_NA_ANCESTOR_2', 'APP_NA_ANCESTOR_3', 'APP_SUPER_ADMIN']);
 					return;
@@ -365,6 +364,8 @@ export class AppComponent implements OnInit {
 			this.themeService.setScreenSize(nodes);
 			if (!rdata.images)
 				rdata.images = {};
+			if (!rdata.mds)
+				rdata.mds = {};
 			rdata.docs = rdata.docs[this.language];
 			// save to local
 			this.dataService.saveAncestorData(rdata).then((status:any) => {
@@ -379,25 +380,6 @@ export class AppComponent implements OnInit {
       this.utilService.getLocalJsonFile(jsonFile).then((jsonData:any) => {
 				this.dataService.saveItem(json, jsonData).then((status:any) => {});
         resolve(true);
-      });
-    });
-	}
-
-	private getLocalRdata(ancestor: any) {
-    return new Promise((resolve) => {
-			let rdata:any = {};
-      this.utilService.getLocalJsonFile('./assets/json/phan-docs.json').then((docs:any) => {
-				rdata.docs = docs;
-				this.utilService.getLocalJsonFile('./assets/json/phan-family.json').then((family:any) => {
-					rdata.family = family;
-					this.utilService.getLocalJsonFile('./assets/json/phan-info.json').then((info:any) => {
-						rdata.info = info;
-						this.utilService.getLocalJsonFile('./assets/json/phan-images.json').then((images:any) => {
-							rdata.images = images;
-							resolve(rdata);
-						})
-					})
-				})
       });
     });
 	}

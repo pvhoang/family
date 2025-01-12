@@ -272,6 +272,7 @@
 	"FILER_TASK_HEADER": "Dữ liệu",
 	"FILER_NOTIFICATION": "Tin nhắn trên mạng",
 	"FILER_JSON": "File JSON trên máy",
+	"FILER_MD": "File MD trên máy",
 	"FILER_PHOTO": "File (JPG, MP4, DOCX, PDF) trên máy",
 	"FILER_STORAGE": "File trên mạng",
 
@@ -285,6 +286,10 @@
 	"FILER_JSON_TREE": "Sửa dạng cây",
 	"FILER_JSON_SAVE_COMPLETE_1": "File: ",
   "FILER_JSON_SAVE_COMPLETE_2": " đã được cất vào thư mục /Downloads trên máy.",
+
+	"FILER_MD_UPLOAD": "Upload lên mạng",
+	"FILER_MD_UPLOAD_TITLE": "Upload file MD lên mạng",
+	"FILER_MD_NAME_INVALID": "Tên file MD không được để trống!",
 
 	"FILER_PHOTO_MODIFY": "Sửa",
 	"FILER_PHOTO_SAVE": "Cất vào máy",
@@ -435,6 +440,7 @@
 	"SEARCH_TEXT": "Thông tin hệ",
 	"SEARCH_NODE_ITEM": "Thông tin",
 	"SEARCH_NODE_DETAIL": "Chi tiết",
+	"SEARCH_NODE_RELATION": "Gia tộc",
 	
   "DOC_INTRO": "Lời mở đầu",
   "DOC_NOTE": "Phả ký",

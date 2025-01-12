@@ -51,7 +51,6 @@ export class FilerPage implements OnInit {
   jsonMode = false;
 	jsonTasks: Array<any>;
   currentJsonTask: any;
-	
 	jsonTreeShow = false;
 	jsonItems: any;
   jsonItemsPlaceholder: any = '';
@@ -60,6 +59,12 @@ export class FilerPage implements OnInit {
 	jsonFileUrl: any;
 	editorOptions: any;
 	showData: any;
+
+	mdMode = false;
+	mdTasks: Array<any>;
+  currentMdTask: any;
+	mdFileName = '';
+	mdText: any;
 
   photoMode = false;
 	photoTasks: Array<any>;
@@ -98,9 +103,9 @@ export class FilerPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (DEBUGS.FILER)
-      console.log('FilePage - ngOnInit');
-    this.start();
+    // if (DEBUGS.FILER)
+    //   console.log('FilePage - ngOnInit');
+    // this.start();
   }
 
   ionViewWillEnter() {
@@ -138,6 +143,7 @@ export class FilerPage implements OnInit {
 	resetModes() {
     this.notifyMode = false;
     this.jsonMode = false;
+    this.mdMode = false;
 		this.showData = null;
     this.photoMode = false;
     this.storageMode = false;
@@ -152,6 +158,7 @@ export class FilerPage implements OnInit {
 		this.tasks = [
       { id: 'notification', name: this.languageService.getTranslation('FILER_NOTIFICATION') },
       { id: 'json', name: this.languageService.getTranslation('FILER_JSON') },
+      { id: 'md', name: this.languageService.getTranslation('FILER_MD') },
       { id: 'photo', name: this.languageService.getTranslation('FILER_PHOTO') },
       { id: 'storage', name: this.languageService.getTranslation('FILER_STORAGE') },
     ];
@@ -169,6 +176,11 @@ export class FilerPage implements OnInit {
       { id: 'tree', name: this.languageService.getTranslation('FILER_JSON_TREE') },
     ];
 		this.currentJsonTask = 'save'
+
+		this.mdTasks = [
+      { id: 'upload', name: this.languageService.getTranslation('FILER_MD_UPLOAD') },
+    ];
+		this.currentMdTask = 'upload'
 
 		this.photoTasks = [
       { id: 'edit', name: this.languageService.getTranslation('FILE_PHOTO_MODIFY') },
@@ -191,6 +203,9 @@ export class FilerPage implements OnInit {
 				break;
 			case 'json':
 				this.jsonOnClick();
+				break;
+			case 'md':
+				this.mdOnClick();
 				break;
 			case 'photo':
 				this.photoOnClick();
@@ -242,6 +257,10 @@ export class FilerPage implements OnInit {
 				break;
 			default:
 		}
+	}
+
+	closeMdTask() {
+		this.mdUpload(this.mdFileName, this.mdText )
 	}
 
 	closePhotoTask() {
@@ -430,8 +449,19 @@ export class FilerPage implements OnInit {
 			if (DEBUGS.FILER)
 				console.log('jsonOnFile - file: ', file);
 			this.jsonFileName = file.name;
-			this.jsonService.jsonSetFileName(file.name);
-			this.jsonEdit(res.text, type);
+
+			if (file.name.endsWith('.md')) {
+				// this is a markdown file, only 'upload'
+				this.jsonMode = true;
+				this.mdMode = true;
+				this.mdText = res.text;
+				this.jsonTasks = [
+					{ id: 'upload', name: this.languageService.getTranslation('FILER_JSON_UPLOAD') },
+				];
+			} else {
+				this.jsonService.jsonSetFileName(file.name);
+				this.jsonEdit(res.text, type);
+			}
 		});
 	}
 
@@ -505,6 +535,121 @@ export class FilerPage implements OnInit {
 		});
 		return await modal.present();
 	}
+
+// 
+// --- jsonMode ---
+
+mdOnClick() {
+	this.resetModes();
+	document.getElementById("modify-text-md").click()
+}
+
+mdOnFileSelect(event: any, type: any): void {
+	const files = [...event.target.files]
+	const file = files[0];
+	event.target.value = ''
+	this.mdOnFile(file, type);
+}
+
+private mdOnFile(file: any, type: any) {
+	this.mdGetTextFile(file).then((res: any) => {
+		if (DEBUGS.FILER)
+			console.log('mdOnFile - file: ', file);
+		this.mdFileName = file.name;
+		// this is a markdown file, only 'upload'
+		this.mdMode = true;
+		this.mdText = res.text;
+	});
+}
+
+private mdGetTextFile(file:File) {
+	return new Promise((resolve) => {
+		var myReader: FileReader = new FileReader();
+		myReader.readAsText(file);
+		myReader.onload = ((event:any) => {
+			let text:any = event.target.result;
+			resolve({text: text});
+		});
+	});
+}
+
+mdUpload(mdFile: any, text: any) {
+
+	if (mdFile === 'phan-mds.md') {
+		// build json
+		this.mdBuild(text);
+		return;
+	}
+
+	let title = this.languageService.getTranslation('FILER_MD_UPLOAD_TITLE');
+	let inputs = [{ value: mdFile, attributes: { maxlength: 50 } } ]
+	let cancel = this.languageService.getTranslation('CANCEL');
+	let ok = this.languageService.getTranslation('OK');
+	this.utilService.alertText(title, inputs, cancel, ok).then(result => {
+		console.log('result: ', result);
+		if (result.data) {
+			let mdName = result.data[0];
+			if (mdName != '') {
+				// remove extension
+				if (mdName.indexOf('.') >= 0)
+					mdName = mdName.substring(0, mdName.indexOf('.'))
+				mdName += '.md';
+				// update markdown to server
+				this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
+					if (!rdata.mds)
+						rdata.mds = {};
+					let mds = rdata.mds;
+					mds[mdName] = text;
+					rdata.mds = mds;
+					this.fbService.saveAncestorData(rdata).then((status:any) => {
+						this.utilService.presentToastOK(['FILE_UPLOAD_COMPLETE_1', mdName, 'FILE_UPLOAD_COMPLETE_2']);
+					});
+				});
+			} else {
+				this.utilService.presentToastOK(['FILER_MD_NAME_INVALID']);
+			}
+		}
+	})
+}
+
+// build and save to phan-mds.json
+mdBuild(text: any) {
+	
+	let lines = text.split('\n');
+	let mds = {};
+	for (let il = 0; il < lines.length; il++) {
+		let line = lines[il].trim();
+		if (line.length == 0)
+			continue;
+		// console.log('line: ', line);
+		this.utilService.getLocalTextFile(line).subscribe((data:any) => {
+			if (DEBUGS.FILER)
+				console.log('mdBuild - data: ', data);
+			let idxStart = data.indexOf('### START ');
+			if (idxStart > 0) {
+				idxStart += '### START '.length;
+				let fileMd = data.substring(idxStart + 1, data.indexOf("'", idxStart + 3))
+				idxStart = data.indexOf('\n', idxStart);
+				let idxEnd = data.indexOf('### END', idxStart);
+				let text = data.substring(idxStart, idxEnd);
+				mds[fileMd] = text;
+			}
+		})
+	}
+	setTimeout(() => {
+		console.log('mds: ', mds);
+		let fileName = 'phan-mds.json';
+		// save to Download	and to	// build src/app/assets/json/phan-mds.json
+		let text: any = JSON.stringify(mds, null, 2); 
+		const newBlob = new Blob([text], { type: "text/csv" });
+		const data = window.URL.createObjectURL(newBlob);
+		const link = document.createElement("a");
+		link.href = data;
+		link.download = fileName; // set a name for the file
+		link.click();
+		this.utilService.presentToastOK(['FILER_JSON_SAVE_COMPLETE_1', fileName, 'FILER_JSON_SAVE_COMPLETE_2']);
+	}, 1000);
+}
 
 // --------- photoMode ----------
 	
@@ -640,7 +785,6 @@ export class FilerPage implements OnInit {
       console.log('onStorageView - file: ', file);
 		if (!file.url)
 			file.url = "../assets/icon/male-avatar.jpg";
-
     this.storageViewMode = true;
     this.storageFileName = file.name;
 		if (file.type.indexOf('image') >= 0) {

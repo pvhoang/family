@@ -63,7 +63,7 @@
     </div>
 		<p></p>
 		<ft-tree *ngIf="selectedNode" [ngStyle]="ftTreeService.getZoomStylePerson()" (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
-		<div *ngIf="selectedNode" class="home-text-apa2">{{ 'PERSON_INFO_PERSONAL' | translate }}</div>
+		<div *ngIf="selectedNode" class="home-text-h6">{{ 'PERSON_INFO_PERSONAL' | translate }}</div>
 
 		<ion-grid class="app-grid-small-no-header" *ngIf="selectedNode">
 			<ion-row>

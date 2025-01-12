@@ -79,12 +79,14 @@
 :root {
 
   /* Set the font family of the entire app */
-  --ion-font-family: 'Rubik', sans-serif;
+  // --ion-font-family: 'Rubik', sans-serif;
   // https://allfont.net/download/family-tree/
   // --ion-font-family: 'Family Tree', arial;
   // font-family: 'Family Tree', arial;
   // --ion-font-family: 'FiryanaBeauty'!important;
   // --ion-font-family: 'Milleniale'!important;
+	
+  --ion-font-family: 'Roboto', sans-serif;
 
   --app-background: #FFFFFF;
   --app-background-shade: var(--ion-background-color-step-50, #F2F2F2);

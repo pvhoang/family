@@ -32,6 +32,10 @@ export class UtilService {
 			return value;
 	}
 
+	getLocalTextFile(url: string) {
+		return this.http.get(url, {responseType: 'text'});
+	}
+
 	// ALERT
 
 	getAlertMessage(items: any, br?: any) {

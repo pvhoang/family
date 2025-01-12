@@ -44,18 +44,26 @@
 				<div class="page" data-density="hard">
 					<div class="page-content">
 						<h1 class="page-header">{{page.titleText}}</h1>
-						<!-- <h2 class="page-header">{{page.titleText}}</h2> -->
-						<!-- <div class="page-header">{{page.titleText}}</div> -->
 						<div class="w3-container page-text scroll">
 							<div *ngFor="let data of page.htmls; index as j;">
 <!-- NORMAL TEXT -->
 								<div *ngIf="data.html">
 									<div id="{{key}}_{{i}}_{{j}}"></div>
 								</div>
+
 <!-- VIEW POPUP -->
 								<div *ngIf="data.popupHtml">
-									<div class="home-text-apa3 home-popup">
-										<b>{{ data.docTitle }}&emsp;</b>
+									
+									<div *ngIf="!data.lineTitle" class="home-text-h6 home-popup">
+										<b>{{ data.docTitle }}</b>
+										<div class="column">
+											<ion-button class="button" fill="clear" (click)="onDocDetail(page, data.docHtml, data.docTitle)">
+												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
+											</ion-button>
+										</div>
+									</div>
+									<div *ngIf="data.lineTitle" class="home-popup">
+										<span [innerHtml]="data.lineTitle"></span>
 										<div class="column">
 											<ion-button class="button" fill="clear" (click)="onDocDetail(page, data.docHtml, data.docTitle)">
 												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
@@ -66,8 +74,8 @@
 
 <!-- DOWNLOAD DOCUMENT -->
 								<div *ngIf="data.downloadDocumentHtml">
-									<div class="home-text-apa2 home-popup">
-										<b>{{ data.title }}&emsp;</b>
+									<div class="home-text-h6 home-popup">
+										<b>{{ data.title }}</b>
 										<div class="column">
 											<ion-button class="button" fill="clear" (click)="onDocumentDownload(page, data.fileName, data.url)">
 												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
@@ -76,33 +84,10 @@
 									</div>
 								</div>
 
-<!-- VIDEO ENLARGEMENT -->
-								<!-- <div *ngIf="data.videoHtml">
-									<div class="home-text-apa2">{{ data.title }}</div>
-									<div class="home-video-wrapper">
-										<vg-player>
-											<video #media [vgMedia]="media" id="{{ data.videoId }}" preload="auto" controls>
-												<source src="{{ data.url }}" type="video/mp4">
-											</video>
-										</vg-player>
-									</div>
-									<div class="home-text-apa4 home-popup">
-										{{ data.note }}&emsp;
-										<div class="column">
-											<ion-button class="button" fill="clear" (click)="onVideoEnlarge(page, data.videoId, false)">
-												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-minus-outline.svg" class="icon"></ion-icon>
-											</ion-button>
-											<ion-button class="button" fill="clear" (click)="onVideoEnlarge(page, data.videoId, true)">
-												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-plus-outline.svg" class="icon"></ion-icon>
-											</ion-button>
-										</div>
-									</div>
-								</div> -->
-
 <!-- VIEW NODES -->
 								<div *ngIf="data.viewNodeHtml">
-									<div class="home-text-apa2 home-popup">
-										<b>{{ data.viewNodeHtml }}&emsp;</b>
+									<div class="home-text-h6 home-popup">
+										<b>{{ data.viewNodeHtml }}</b>
 										<div class="column">
 											<ion-button class="button" fill="clear" (click)="onPhaHe(page, null)">
 												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
@@ -112,8 +97,8 @@
 								</div>
 <!-- SEARCH NODE -->
 								<div *ngIf="data.searchNodeHtml">
-									<div class="home-text-apa2 home-popup">
-										<b>{{ data.searchNodeHtml }}&emsp;</b>
+									<div class="home-text-h6 home-popup">
+										<b>{{ data.searchNodeHtml }}</b>
 										<div class="column">
 											<ion-button class="button" fill="clear" (click)="onPhaHeSearch(page)">
 												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
@@ -123,8 +108,8 @@
 								</div>
 <!-- VIEW TREE -->
 								<div *ngIf="data.viewTreeHtml">
-									<div class="home-text-apa2 home-popup">
-										<b>{{ data.viewTreeHtml }}&emsp;</b>
+									<div class="home-text-h6 home-popup">
+										<b>{{ data.viewTreeHtml }}</b>
 										<div class="column">
 											<ion-button class="button" fill="clear" (click)="onPhaDo(page, nodes[0].id)">
 												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
@@ -134,8 +119,8 @@
 								</div>
 <!-- VIEW TREE OF NODE -->
 								<div *ngIf="data.viewTreeNodeHtml">
-									<div class="home-text-apa2 home-popup">
-										<b>{{ data.title }}&emsp;</b>
+									<div class="home-text-h6 home-popup">
+										<b>{{ data.title }}</b>
 										<div class="column">
 											<ion-button class="button" fill="clear" (click)="onPhaDo(page, data.nodeid)">
 												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
