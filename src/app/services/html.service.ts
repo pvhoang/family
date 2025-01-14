@@ -48,6 +48,11 @@ export class HtmlService {
 					let firstLine = lines[ip1];
 					let items = firstLine.split('|');
 					let docTitle = items[2];
+					// convert to MD data
+					// docTitle = '###### **' + docTitle.trim() + '**';
+					docTitle = '- **' + docTitle.trim() + '**';
+					docTitle = this.mdService.parse(docTitle);
+
 					for (let i = ip1 + 1; i < ip2; i++)
 						desc.push(lines[i]);
 					htmls.push( { popupHtml: { title: docTitle, desc: desc } } )
@@ -124,26 +129,34 @@ export class HtmlService {
 			
 			} else if (line.indexOf('MEMORIAL') == 0 && dataSource.memorialMsg) {
 				let items = line.split('|');
-				let text = items[1];
 				htmls.push(this.getMemorialHtml(dataSource.memorialMsg, line));
 
 			} else if (line.indexOf('VIEW-NODES') == 0) {
 				let items = line.split('|');
 				let text = items[1];
+				// convert to MD data
+				// docTitle = '###### **' + docTitle.trim() + '**';
+				// text = '- **' + docTitle.trim() + '**';
+				text = this.mdService.parse('##### **' + text.trim() + '**');
 				htmls.push( { viewNodeHtml: text });
 
 			} else if (line.indexOf('SEARCH-NODES') == 0) {
 				let items = line.split('|');
 				let text = items[1];
+				text = this.mdService.parse('##### **' + text.trim() + '**');
 				htmls.push( { searchNodeHtml: text });
 
 			} else if (line.indexOf('VIEW-TREE-ROOT') == 0) {
 				let items = line.split('|');
 				let text = items[1];
+				text = this.mdService.parse('##### **' + text.trim() + '**');
 				htmls.push( { viewTreeHtml: text });
 
 			} else if (line.indexOf('VIEW-TREE-NODES') == 0) {
 				let items = line.split('|');
+				let text = items[1];
+				items[1] = this.mdService.parse('##### **' + text.trim() + '**');
+				line = items.join('|');
 				htmls.push( { viewTreeNodeHtml: line });
 				
 			} else
@@ -258,11 +271,11 @@ export class HtmlService {
 		let note = items[3];
 		if (!images[name])
 				return '';
-
 		let url = images[name].url;
 		let type = images[name].type;
 		if (type.indexOf('image') == -1)
 			return '';
+
 		
 		let width = images[name].width;
 		let height = images[name].height;
@@ -299,12 +312,17 @@ export class HtmlService {
 			let imageId = "image-id-" + this.utilService.getCurrentTime() + '-' + stripName;
 			imgTag = '<img id="' + imageId + '" src="' + url + '" width="' + data.width + 'px" height="' + data.height + 'px" alt="' + name + '" onclick=enlargeImage(\'' + imageId + '\')>';
 		}
+
+		// convert to markdown
+		title = '###### **' + title.trim() + '**';
+		note = '<h6 align="center">' + note.trim() + '</h6>';
+		title = this.mdService.parse(title);
+		note = this.mdService.parse(note);
 		let html = 
-			'<div class="home-text-h6"><b>' + title + '</b></div>' +
-			'<div class="home-image-center">' +
-			imgTag +
-			'</div>' +
-			'<div class="home-text-p home-text-center">' + note + '</div>';
+			'<div>' + title + '</div>' +
+			'<div class="home-image-center">' + imgTag + '</div>' +
+			'<div>' + note + '</div>';
+		// console.log('html: ', html);
 		return { html: html }
 	}
 
@@ -337,15 +355,22 @@ export class HtmlService {
 		if (type.indexOf('video') == -1)
 			return '';
 
+		// convert to markdown
+		title = '###### **' + title.trim() + '**';
+		note = '<h6 align="center">' + note.trim() + '</h6>';
+		title = this.mdService.parse(title);
+		note = this.mdService.parse(note);
+
 		let stripName = this.utilService.stripVN(name);
 		stripName = stripName.replaceAll(' ', '-');
 		stripName = stripName.replaceAll('.', '-');
 		let html = 
-		'<div class="home-text-h6"><b>' + title + '</b></div>' +
+		'<div>' + title + '</div>' +
 		'<video preload="auto" style="display: block;margin: auto;" width="200" height="150" controls>' +
 			'<source src="' + url + '" type="video/mp4">' + 
 		'</video>' +
-		'<div class="home-text-p">' + note + '</div>';
+		'<div>' + note + '</div>';
+
 		return { html: html }
 	}
 

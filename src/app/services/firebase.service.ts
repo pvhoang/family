@@ -45,7 +45,6 @@ export class FirebaseService {
 			this.ancestorID = ancestor;
 			return snap.data()
 		}	else
-			// return Promise.reject(Error(`No such document: ${ROOT_COLLECTION}.${ancestor}`))
 			return null;
 	}
 
@@ -307,7 +306,6 @@ export class FirebaseService {
 	}
 
 	// https://firebase.google.com/docs/storage/web/list-files
-
 	private getFolder(fileList:any, folderRef:any) {
 		listAll(folderRef).then((res) => {
 			res.prefixes.forEach((fRef) => {
@@ -317,24 +315,25 @@ export class FirebaseService {
 				getMetadata(fRef).then((metadata) => {
 					let type = metadata.contentType;
 					let size = metadata.size.toLocaleString('vn-VN');
-					if (environment.useEmulators) {
-						// emulator can not decode local file with url (localhost:9199)
-						fileList.push({
-							fullPath: fRef.fullPath,
-							size: size,
-							type: type,
-							url: null,
-							width: 0,
-							height: 0
-						});
-					} else {
-						const getMeta = async (url: any) => {
-							const img = new Image();
-							img.src = url;
-							await img.decode();  
-							return img
-						};
-						getDownloadURL(fRef).then((url) => {
+					let imageType =  (type.indexOf('image') >= 0);
+
+					const getMeta = async (url: any) => {
+						const img = new Image();
+						img.src = url;
+						await img.decode();  
+						return img
+					};
+					getDownloadURL(fRef).then((url) => {
+						if (!imageType) {
+							fileList.push({
+								fullPath: fRef.fullPath,
+								size: size,
+								type: type,
+								url: url,
+								width: 0,
+								height: 0
+							});
+						} else {
 							// https://stackoverflow.com/questions/11442712/get-width-height-of-remote-image-from-url
 							getMeta(url).then((img) => {
 								fileList.push({
@@ -348,9 +347,9 @@ export class FirebaseService {
 							}).catch((error) => {
 								console.log('error: ', error);
 							});
-						});
-					}
-				})
+						}
+					})
+				});
 			});
 		});
 	}

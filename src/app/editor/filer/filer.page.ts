@@ -444,6 +444,25 @@ export class FilerPage implements OnInit {
 		this.jsonOnFile(file, type);
 	}
 
+	// https://ourcodeworld.com/articles/read/1438/how-to-read-multiple-files-at-once-using-the-filereader-class-in-javascript
+	jsonOnMultipleFileSelect(event: any, type: any): void {
+		const files = [...event.target.files]
+		let readers = [];
+		// Abort if there were no files selected
+		if(!files.length)
+			return;
+		// Store promises in array
+		for(let i = 0; i < files.length;i++)
+			readers.push(this.jsonGetTextFile(files[i]));
+		// Trigger Promises
+		Promise.all(readers).then((values) => {
+				// Values will be an array that contains an item
+				// with the text of every selected file
+				// ["File1 Content", "File2 Content" ... "FileN Content"]
+				console.log(values);
+		});
+	}
+
 	private jsonOnFile(file: any, type: any) {
 		this.jsonGetTextFile(file).then((res: any) => {
 			if (DEBUGS.FILER)
@@ -480,6 +499,15 @@ export class FilerPage implements OnInit {
 	async jsonEdit(text: any, type: any) {
 		this.jsonMode = true;
 		this.showData = this.data = JSON.parse(text);
+
+		// edit only FAMILY, DOCS, and INFO type
+		if (!this.data.title) {
+			let status = await this.utilService.alertMsg('ERROR', 'FILE_RECIPIENT_ALREADY_EXIST', 'OK', { width: 350, height: 450 });
+			if (DEBUGS.FILER)
+				console.log('jsonEdit - status: ', status);
+			return;
+		}
+
 		this.jsonTreeShow = this.data.title && this.data.title == 'FAMILY';
 		if (this.jsonTreeShow) {
 			this.jsonTasks = [
@@ -537,7 +565,7 @@ export class FilerPage implements OnInit {
 	}
 
 // 
-// --- jsonMode ---
+// --- mdMode ---
 
 mdOnClick() {
 	this.resetModes();
@@ -574,13 +602,11 @@ private mdGetTextFile(file:File) {
 }
 
 mdUpload(mdFile: any, text: any) {
-
-	if (mdFile === 'phan-mds.md') {
-		// build json
-		this.mdBuild(text);
-		return;
-	}
-
+	// if (mdFile === 'phan-mds.md') {
+	// 	// build json
+	// 	this.mdBuild(text);
+	// 	return;
+	// }
 	let title = this.languageService.getTranslation('FILER_MD_UPLOAD_TITLE');
 	let inputs = [{ value: mdFile, attributes: { maxlength: 50 } } ]
 	let cancel = this.languageService.getTranslation('CANCEL');
@@ -613,43 +639,42 @@ mdUpload(mdFile: any, text: any) {
 }
 
 // build and save to phan-mds.json
-mdBuild(text: any) {
-	
-	let lines = text.split('\n');
-	let mds = {};
-	for (let il = 0; il < lines.length; il++) {
-		let line = lines[il].trim();
-		if (line.length == 0)
-			continue;
-		// console.log('line: ', line);
-		this.utilService.getLocalTextFile(line).subscribe((data:any) => {
-			if (DEBUGS.FILER)
-				console.log('mdBuild - data: ', data);
-			let idxStart = data.indexOf('### START ');
-			if (idxStart > 0) {
-				idxStart += '### START '.length;
-				let fileMd = data.substring(idxStart + 1, data.indexOf("'", idxStart + 3))
-				idxStart = data.indexOf('\n', idxStart);
-				let idxEnd = data.indexOf('### END', idxStart);
-				let text = data.substring(idxStart, idxEnd);
-				mds[fileMd] = text;
-			}
-		})
-	}
-	setTimeout(() => {
-		console.log('mds: ', mds);
-		let fileName = 'phan-mds.json';
-		// save to Download	and to	// build src/app/assets/json/phan-mds.json
-		let text: any = JSON.stringify(mds, null, 2); 
-		const newBlob = new Blob([text], { type: "text/csv" });
-		const data = window.URL.createObjectURL(newBlob);
-		const link = document.createElement("a");
-		link.href = data;
-		link.download = fileName; // set a name for the file
-		link.click();
-		this.utilService.presentToastOK(['FILER_JSON_SAVE_COMPLETE_1', fileName, 'FILER_JSON_SAVE_COMPLETE_2']);
-	}, 1000);
-}
+// mdBuild(text: any) {
+// 	let lines = text.split('\n');
+// 	let mds = {};
+// 	for (let il = 0; il < lines.length; il++) {
+// 		let line = lines[il].trim();
+// 		if (line.length == 0)
+// 			continue;
+// 		// console.log('line: ', line);
+// 		this.utilService.getLocalTextFile(line).subscribe((data:any) => {
+// 			if (DEBUGS.FILER)
+// 				console.log('mdBuild - data: ', data);
+// 			let idxStart = data.indexOf('### START ');
+// 			if (idxStart > 0) {
+// 				idxStart += '### START '.length;
+// 				let fileMd = data.substring(idxStart + 1, data.indexOf("'", idxStart + 3))
+// 				idxStart = data.indexOf('\n', idxStart);
+// 				let idxEnd = data.indexOf('### END', idxStart);
+// 				let text = data.substring(idxStart, idxEnd);
+// 				mds[fileMd] = text;
+// 			}
+// 		})
+// 	}
+// 	setTimeout(() => {
+// 		console.log('mds: ', mds);
+// 		let fileName = 'phan-mds.json';
+// 		// save to Download	and to	// build src/app/assets/json/phan-mds.json
+// 		let text: any = JSON.stringify(mds, null, 2); 
+// 		const newBlob = new Blob([text], { type: "text/csv" });
+// 		const data = window.URL.createObjectURL(newBlob);
+// 		const link = document.createElement("a");
+// 		link.href = data;
+// 		link.download = fileName; // set a name for the file
+// 		link.click();
+// 		this.utilService.presentToastOK(['FILER_JSON_SAVE_COMPLETE_1', fileName, 'FILER_JSON_SAVE_COMPLETE_2']);
+// 	}, 1000);
+// }
 
 // --------- photoMode ----------
 	
@@ -725,11 +750,13 @@ mdBuild(text: any) {
     this.fbService.getFileList(this.ancestor).then((res:any) => {
 			// decode folder and name
 			res.forEach((file:any) => {
+				// console.log('storageReadFiles - file: ', file);
 				let fullPath = file.fullPath.substring(this.ancestor.length+1)
 				let idx = fullPath.lastIndexOf('/');
 				file.name = fullPath.substring(idx+1);
 				file.path = fullPath.substring(0,idx);
 				file.fullPath = fullPath;
+				file.dim = (file.type.indexOf('image') >= 0) ? (file.width + 'x' + file.height) : '';
 			})
 
 			res.sort((row1:any, row2: any) => {
@@ -749,10 +776,10 @@ mdBuild(text: any) {
 			res.forEach((file:any) => {
 				let path = file.path;
 				if (path != displayPath) {
-					file.displayPath = path;
+					file.displayPath = '/' + path;
 					displayPath = path;
 				} else {
-					file.displayPath = '';
+					file.displayPath = '/';
 				}
 			})
 

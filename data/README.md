@@ -19,17 +19,22 @@ md|__This will also be bold__
 md|#### _You **can** combine them_
 md|###### this is normal line h6
 md|This is normal line h7 - 14px
-md|- **Đời 1: Phan Văn Nghi (1754)**  /popup/some title/md|phan ngoc tuong.md/hello/md|A line/
 
-image|number|title|name|notes
+md|- **bold**  /popup/some title/md|phan ngoc tuong.md/hello/md|A line/
+md|* _italic_
+md|1. bullet text
+md|_**<h6 align="center">Title</h6>** <- h6, center, bold, italic>
+
+md|test.md
+image|title|name|notes
 document|title|name|notes
 
-popup|start|title
+popup|start|###### _title **can** combine them_
 	md|#### Results
 	image|number|title|name|notes
 popup|end
 
-family|start|title
+family|start|###### **title** combine them_
 	w,h,s,d|name
 family|end
 

@@ -17,6 +17,7 @@ export class JsonService {
 	jsonModeShow = false;
 	jsonFileName = '';
 	jsonFileUrl: any;
+	storageImages: any;
 	
 	constructor(
     private languageService: LanguageService,
@@ -28,6 +29,10 @@ export class JsonService {
 	jsonStart(ancestor: any ) {
 		this.ancestor = ancestor;
 		this.jsonFileName = this.languageService.getTranslation('FILE_UPLOAD_JSON');
+		// read storage files
+		this.fbService.getFileList(this.ancestor).then((storageImages:any) => {
+			this.storageImages = storageImages;
+		});
 	}
 	
 	private jsonDisplayImageErrors(keys: any) {
@@ -37,7 +42,7 @@ export class JsonService {
 		keys.forEach((key:any) => {
 			msgs.push({name: 'msg', label: '. ' + key});
 		})
-		console.log('msgs: ', msgs);
+		// console.log('msgs: ', msgs);
 		let message = this.utilService.getAlertMessage(msgs, true);
 		this.utilService.alertMsg('ERROR', message, 'OK', { width: 350, height: 450 }).then(choice => {});
 	}
@@ -77,48 +82,13 @@ export class JsonService {
 		}
 	}
 		
-	private jsonType(json: any) {
-		let title = json.title;
-		if (!title) {
-			if (this.jsonFileName.indexOf('images') > 0)
-				title = 'IMAGES'
-			else if (this.jsonFileName.indexOf('mds') > 0)
-				title = 'MDS'
-			else
-				title = null;
-		}
-		return title;
-	}
-
 	private jsonUpload(json: any) {
-		let type = this.jsonType(json);
-		// let title = json.title;
-		// validate images before upload for FAMILY and DOCS files
-		if (!type)
-			return;
 
-		if (type == 'INFO' || type == 'IMAGES' || type == 'MDS') {
+		let title = json.title;
+		if (title == 'INFO') {
 			// update info to server
 			this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
-				if (type == 'INFO')
-					rdata.info = json;
-				else if (type == 'IMAGES')
-					rdata.images = json;
-				else
-					rdata.mds = json;
-				this.fbService.saveAncestorData(rdata).then((status:any) => {
-					this.utilService.presentToastOK(['FILE_UPLOAD_COMPLETE_1', this.jsonFileName, 'FILE_UPLOAD_COMPLETE_2']);
-				});
-			});
-			return;
-		}
-
-		if (environment.useEmulators) {
-			this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
-				if (type == 'DOCS')
-					rdata.docs = json;
-				else if (type == 'FAMILY')
-					rdata.family = json;
+				rdata.info = json;
 				this.fbService.saveAncestorData(rdata).then((status:any) => {
 					this.utilService.presentToastOK(['FILE_UPLOAD_COMPLETE_1', this.jsonFileName, 'FILE_UPLOAD_COMPLETE_2']);
 				});
@@ -138,17 +108,16 @@ export class JsonService {
 			}
 			// build new images files
 			let docImages = res[1];
-			let storageImages = res[2];
-			
-			// some time it's too slow to process file list, wait 2 sec
-			let toastMsg = (type == 'FAMILY') ? 'FILE_UPLOAD_WAIT_UPDATE_FAMILY' : 'FILE_UPLOAD_WAIT_UPDATE_DOC'; 
-
-			this.utilService.presentToast(toastMsg);
+			let mdFiles = res[2];
+			let storageImages = this.storageImages;
+			// let toastMsg = (title == 'FAMILY') ? 'FILE_UPLOAD_WAIT_UPDATE_FAMILY' : 'FILE_UPLOAD_WAIT_UPDATE_DOC'; 
+			// this.utilService.presentToast(toastMsg);
 			setTimeout(() => {
 				let images = {};
 				docImages.forEach( (name: any) => {
+					let fullPath = this.ancestor + '/' + name;
 					storageImages.forEach( (file: any) => {
-						if (file.name == name)
+						if (file.fullPath == fullPath)
 							images[name] = { url: file.url, type: file.type, size: file.size, width: file.width, height: file.height };
 					})
 				})
@@ -158,57 +127,55 @@ export class JsonService {
 					console.log('jsonValidateImage - storageImages: ', storageImages);
 					console.log('jsonValidateImage - images: ', images);
 				}
-
-				// update family and images to server
+				// update family, docs to server
 				this.fbService.readAncestorData(this.ancestor).subscribe((rdata:any) => {
-					// add to rdata.images if not exist!
+					// add to rdata.images if key not exist!
 					for (let key of Object.keys(images)) {
-						if (!rdata.images[key])
-							rdata.images[key] = images[key];
+						// if (!rdata.images[key])
+						rdata.images[key] = images[key];
 					}
-					// console.log('jsonValidateImage - rdata.images: ', rdata.images);
-					rdata.images = images;
-					const doc = (type == 'FAMILY') ? 'family' : 'docs';
+
+					// add to rdata.mds if key not exist!
+					let mds = rdata.mds;
+					mdFiles.forEach((file:any) => {
+						file = file.trim();
+						if (!mds[file])
+							mds[file] = {};
+					})
+
+					const doc = (title == 'FAMILY') ? 'family' : 'docs';
 					rdata[doc] = json;
-					// console.log('jsonValidateImage - json: ', json);
+
 					this.fbService.saveAncestorData(rdata).then((status:any) => {
 						this.utilService.presentToastOK(['FILE_UPLOAD_COMPLETE_1', this.jsonFileName, 'FILE_UPLOAD_COMPLETE_2']);
 					});
 				});
-			}, 2000);
+			}, 1000);
 		})
 	}
 		
 	private jsonValidateImage(json: any) {
 		return new Promise((resolve) => {
-
-			this.utilService.presentToast('FILE_UPLOAD_WAIT_READING_STORAGE_IMAGES');
-			
 			// get image list from doc text
-			let docImages = this.jsonGetImages(JSON.stringify(json), json.title);
-			console.log('jsonValidateImage - docImages: ', docImages);
-
-			//  get images from storage
-			this.fbService.getFileList(this.ancestor).then((storageImages:any) => {
-				//  get images from local
-				// wait 1 second for async to complete
-				setTimeout(() => {
-					console.log('jsonValidateImage - storageImages: ', storageImages);
-
-					let newFiles = [];
-					// go thru each image in doc
-					docImages.forEach(dimage => {
-						// compare with storageImages
-						let index = storageImages.findIndex((sitem: any) => sitem.fullPath == dimage);
-						if (index == -1)
-							newFiles.push(dimage);
-					})
-					console.log('jsonValidateDocs - newFiles: ', newFiles);
-					// this.utilService.dismissLoading();
-					resolve([newFiles, docImages, storageImages]);
-				}, 2000);
-
-			});
+			let data = this.jsonGetImages(JSON.stringify(json), json.title);
+			let docImages = data[0];
+			let docMds = data[1];
+			// validate images from storage
+			// wait 1 second for async to complete
+			setTimeout(() => {
+				let storageImages = this.storageImages;
+				let newFiles = [];
+				// go thru each image in doc
+				docImages.forEach(dimage => {
+					let fullPath = this.ancestor + '/' + dimage;
+					// compare with storageImages
+					let index = storageImages.findIndex((sitem: any) => sitem.fullPath == fullPath);
+					if (index == -1)
+						newFiles.push(dimage);
+				})
+				console.log('jsonValidateDocs - newFiles: ', newFiles);
+				resolve([newFiles, docImages, docMds, storageImages]);
+			}, 1000);
 		});
 	}
 		
@@ -219,6 +186,10 @@ export class JsonService {
 		// "photo": "Phan Ngọc Luật.jpg",
 
 		let images = [];
+		let mds = [];
+
+		// "photo="hello.jpg"
+
 		let i1 = 0;
 		if (docTitle == 'FAMILY') {
 			// search photo for FAMILY type
@@ -238,12 +209,13 @@ export class JsonService {
 			}
 		}
 		// console.log('jsonGetImages - photo images: ', images);
-		// search image, document, and video from desc = []
+		// search image, document, video, and .md from desc = []
+
+		// "image|Từ thiện|xuan son.jpg|Trường TH Xuân Sơn"
 		i1 = 0;
 		while (i1 < text.length) {
 			i1 = text.indexOf('"image|', i1)
 			if (i1 >= 0) {
-				// "image|Từ thiện|xuan son.jpg|Trường TH Xuân Sơn"
 				let i2 = text.indexOf('"', i1+1);
 				let items = text.substring(i1+1, i2).split('|');
 				let imageName = items[2];
@@ -253,12 +225,11 @@ export class JsonService {
 				i1 = text.length + 1;
 		}
 
+		// "document|Quảng Bình|Quảng Bình.doc|Quang binh que ta"
 		i1 = 0;
 		while (i1 < text.length) {
 			i1 = text.indexOf('"document|', i1)
-		// "video|Buddha|buddha.mp4|Buddha Vipassana"
 			if (i1 >= 0) {
-				// "document|Quảng Bình|Quảng Bình.doc|Quang binh que ta"
 				let i2 = text.indexOf('"', i1+1);
 				let items = text.substring(i1+1, i2).split('|');
 				let documentName = items[2];
@@ -268,16 +239,30 @@ export class JsonService {
 				i1 = text.length + 1;
 		}
 
+		// "video|Buddha|buddha.mp4|Buddha Vipassana"
 		i1 = 0;
 		while (i1 < text.length) {
 			i1 = text.indexOf('"video|', i1)
-		// "video|Buddha|buddha.mp4|Buddha Vipassana"
 			if (i1 >= 0) {
-				// "document|Quảng Bình|Quảng Bình.doc|Quang binh que ta"
 				let i2 = text.indexOf('"', i1+1);
 				let items = text.substring(i1+1, i2).split('|');
 				let videoName = items[2];
 				images.push( videoName );
+				i1 = i2 + 1;
+			} else
+				i1 = text.length + 1;
+		}
+
+		// "md|phu khao.md",
+		i1 = 0;
+		while (i1 < text.length) {
+			i1 = text.indexOf('"md|', i1)
+			if (i1 >= 0) {
+				let i2 = text.indexOf('"', i1+1);
+				let items = text.substring(i1+1, i2).split('|');
+				let mdFile: any = items[1];
+				if (mdFile.endsWith('.md'))
+					mds.push( mdFile );
 				i1 = i2 + 1;
 			} else
 				i1 = text.length + 1;
@@ -288,7 +273,10 @@ export class JsonService {
 		let imageList = images.filter((item, pos) => {
 			return images.indexOf(item) == pos; 
 		});
-		return imageList;
+		let mdList = mds.filter((item, pos) => {
+			return mds.indexOf(item) == pos; 
+		});
+		return [imageList, mdList];
 	}
 		
 	private jsonDisplayFieldErrors(fields: any) {

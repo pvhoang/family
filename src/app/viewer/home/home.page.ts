@@ -116,13 +116,25 @@ export class HomePage implements OnInit{
 			doc.titleText = titles[key];
 
 			// if (key == 'pha_nhap') {
-			// 	// - **Đời 1: Phan Văn Nghi (1754)**
-			// 	// - **Đời 1: Phan Văn Nghi (1754)**  /popup/some title/md|phan ngoc tuong.md/hello/md|A line/
 			// 	doc.desc = [];
-			// 	doc.desc.push('md| - **Đời 1: Phan Văn Nghi (1754)**  /popup/some title/md|phan ngoc tuong.md/hello/md|A line/')
+			// 	// doc.desc.push('md| - **Đời 1: Phan Văn Nghi (1754)**  /popup/some title/md|phan ngoc tuong.md/hello/md|A line/')
+			// 	// let title = "###### **title** them_";
+			// 	// let note = '**<p style="text-align:center;">Đời 1: Phan Văn Nghi (1754)</p>**';
+			// 	// let note = '***<p style="text-align:center;">Text with basic formatting applied</p>***';
+			// 	// let note = '_**<h6 align="center">Title</h6>**_';
+			// 	// let note = '- **Đời 1: Phan Văn Nghi (1754)**';
+			// 	// let note = '1. **Đời 1: Phan Văn Nghi (1754)**';
+
+			// 	let line = "image|Gia đình Phan Dính|images/phan dinh/Phan Anh Em.jpg|Anh em trai gia đình Phan Dính (Đời 7)"
+
+			// 	// let title = "- **Gia đình Phan Dính**";
+			// 	let title = "###### **Gia đình Phan Dính**";
+			// 	let note = '<h6 align="center">Anh em trai gia đình Phan Dính (Đời 7)</h6>';
+			// 	let image = "images/phan dinh/Phan Anh Em.jpg";
+
+			// 	// let line = "image|" + title + "|" + image + "|" + note;
+			// 	doc.desc.push(line);
 			// }
-			// calculate html for each desc line
-			// doc.desc = this.getPhanDoc(key, doc.desc);
 
 			let dataSource = { nodes: this.nodes, memorialMsg: this.memorialMsg, images: this.rdata.images, mds: this.rdata.mds }
 			let pageHtmls = this.htmlService.convertArrayToHtmls(dataSource, doc.desc);
@@ -361,6 +373,7 @@ export class HomePage implements OnInit{
 				document.getElementById(it).innerHTML = data.html;
 
 			} else if (data.popupHtml) {
+
 				let obj = data.popupHtml;
 				let html = '';
 				for (let i = 0 ; i < obj.htmls.length; i++)

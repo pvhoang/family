@@ -67,8 +67,8 @@ export function createTranslateLoader(http: HttpClient) {
 			}),
 			provideStorage(() => {
 				const storage = getStorage();
-				if (environment.useEmulators)
-					connectStorageEmulator(storage, 'localhost', 9199);
+				// if (environment.useEmulators)
+					// connectStorageEmulator(storage, 'localhost', 9199);
 				return storage;
 			}),
 			BrowserAnimationsModule,

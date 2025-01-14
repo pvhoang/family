@@ -54,8 +54,10 @@
 <!-- VIEW POPUP -->
 								<div *ngIf="data.popupHtml">
 									
-									<div *ngIf="!data.lineTitle" class="home-text-h6 home-popup">
-										<b>{{ data.docTitle }}</b>
+									<!-- <div *ngIf="!data.lineTitle" class="home-text-h6 home-popup"> -->
+										<!-- <b>{{ data.docTitle }}</b> -->
+									<div *ngIf="!data.lineTitle" class="home-popup">
+										<span [innerHtml]="data.docTitle"></span>
 										<div class="column">
 											<ion-button class="button" fill="clear" (click)="onDocDetail(page, data.docHtml, data.docTitle)">
 												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
@@ -74,8 +76,10 @@
 
 <!-- DOWNLOAD DOCUMENT -->
 								<div *ngIf="data.downloadDocumentHtml">
-									<div class="home-text-h6 home-popup">
-										<b>{{ data.title }}</b>
+									<!-- <div class="home-text-h6 home-popup">
+										<b>{{ data.title }}</b> -->
+									<div class="home-popup">
+										<span [innerHtml]="data.title"></span>
 										<div class="column">
 											<ion-button class="button" fill="clear" (click)="onDocumentDownload(page, data.fileName, data.url)">
 												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
@@ -86,8 +90,10 @@
 
 <!-- VIEW NODES -->
 								<div *ngIf="data.viewNodeHtml">
-									<div class="home-text-h6 home-popup">
-										<b>{{ data.viewNodeHtml }}</b>
+									<!-- <div class="home-text-h6 home-popup">
+										<b>{{ data.viewNodeHtml }}</b> -->
+									<div class="home-popup">
+										<span [innerHtml]="data.viewNodeHtml"></span>
 										<div class="column">
 											<ion-button class="button" fill="clear" (click)="onPhaHe(page, null)">
 												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
@@ -97,8 +103,10 @@
 								</div>
 <!-- SEARCH NODE -->
 								<div *ngIf="data.searchNodeHtml">
-									<div class="home-text-h6 home-popup">
-										<b>{{ data.searchNodeHtml }}</b>
+									<!-- <div class="home-text-h6 home-popup">
+										<b>{{ data.searchNodeHtml }}</b> -->
+									<div class="home-popup">
+										<span [innerHtml]="data.searchNodeHtml"></span>
 										<div class="column">
 											<ion-button class="button" fill="clear" (click)="onPhaHeSearch(page)">
 												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
@@ -108,8 +116,10 @@
 								</div>
 <!-- VIEW TREE -->
 								<div *ngIf="data.viewTreeHtml">
-									<div class="home-text-h6 home-popup">
-										<b>{{ data.viewTreeHtml }}</b>
+									<!-- <div class="home-text-h6 home-popup">
+										<b>{{ data.viewTreeHtml }}</b> -->
+									<div class="home-popup">
+										<span [innerHtml]="data.viewTreeHtml"></span>
 										<div class="column">
 											<ion-button class="button" fill="clear" (click)="onPhaDo(page, nodes[0].id)">
 												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
@@ -119,8 +129,10 @@
 								</div>
 <!-- VIEW TREE OF NODE -->
 								<div *ngIf="data.viewTreeNodeHtml">
-									<div class="home-text-h6 home-popup">
-										<b>{{ data.title }}</b>
+									<!-- <div class="home-text-h6 home-popup">
+										<b>{{ data.title }}</b> -->
+									<div class="home-popup">
+										<span [innerHtml]="data.title"></span>
 										<div class="column">
 											<ion-button class="button" fill="clear" (click)="onPhaDo(page, data.nodeid)">
 												<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>

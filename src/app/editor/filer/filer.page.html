@@ -111,7 +111,8 @@
 	
 	<div class="screen-file">
 
-		<input id="modify-json-json" type="file" (change)="jsonOnFileSelect($event, 'JSON')" style="display:none;" title=" " accept=".json, .md"/>
+		<input id="modify-json-json" type="file" (change)="jsonOnFileSelect($event, 'JSON')" style="display:none;" title=" " accept=".json, .md" />
+		<!-- <input id="modify-json-json" type="file" (change)="jsonOnMultipleFileSelect($event, 'JSON')" style="display:none;" title=" " accept=".json, .md" multiple /> -->
 		<input id="modify-text-md" type="file" (change)="mdOnFileSelect($event, 'MD')" style="display:none;" title=" " accept=".md"/>
 		<input id="photo-image" type="file" (change)="photoGetFile($event)" title=" " accept=".png, .jpg, .jpeg, .doc, .mp4" style="display:none;"/>
 
@@ -268,12 +269,15 @@
 						<span class="label">{{ 'FILE_STORAGE_SIZE' | translate }}</span>
 					</ion-col>
 					<ion-col size="2" class="column center">
+						<span class="label">{{ 'FILE_STORAGE_DIMENSION' | translate }}</span>
+					</ion-col>
+					<ion-col size="2" class="column center">
 						<span class="label">{{ 'FILE_STORAGE_TYPE' | translate }}</span>
 					</ion-col>
-					<ion-col size="2" class="column center">
+					<ion-col size="1" class="column center">
 						<span class="label">{{ 'FILE_STORAGE_DELETE' | translate }}</span>
 					</ion-col>
-					<ion-col size="2" class="column center">
+					<ion-col size="1" class="column center">
 						<span class="label">{{ 'FILE_STORAGE_VIEW' | translate }}</span>
 					</ion-col>
 				</ion-row>
@@ -288,14 +292,17 @@
 						<span class="label-black">{{ utilService.getKB(file.size) }}</span>
 					</ion-col>
 					<ion-col size="2" class="column center">
+						<span class="label-black">{{ file.dim }}</span>
+					</ion-col>
+					<ion-col size="2" class="column center">
 						<span class="label-black">{{ file.type }}</span>
 					</ion-col>
-					<ion-col size="2" class="column center"> 
+					<ion-col size="1" class="column center"> 
 						<ion-button class="button" fill="clear" (click)="storageOnDelete(file)">
 							<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-minus-outline.svg" class="icon"></ion-icon>
 						</ion-button>
 					</ion-col>
-					<ion-col size="2" class="column center"> 
+					<ion-col size="1" class="column center"> 
 						<ion-button class="button" fill="clear" (click)="storageOnView(file)">
 							<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}file-document-edit-outline.svg" class="icon"></ion-icon>
 						</ion-button>

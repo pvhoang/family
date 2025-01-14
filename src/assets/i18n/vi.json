@@ -392,6 +392,7 @@
   "FILE_STORAGE_FOLDER": "Thư mục",
   "FILE_STORAGE_HEADER": "Tên",
   "FILE_STORAGE_SIZE": "Dung lượng",
+  "FILE_STORAGE_DIMENSION": "Kích thước",
   "FILE_STORAGE_TYPE": "Loại",
   "FILE_STORAGE_VIEW": "Xem",
   "FILE_STORAGE_DELETE": "Xoá",
