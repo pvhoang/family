@@ -16,10 +16,12 @@ export class HtmlService {
 		private utilService: UtilService,
     private languageService: LanguageService,
   ) { 
-		let text = "- **Đời 1: Phan Văn Nghi (1754)**"
-		let html = this.mdService.parse(text);
-		console.log('text: ', text)
-		console.log('html: ', html)
+		if (DEBUGS.HTML) {
+			let text = "- **Đời 1: Phan Văn Nghi (1754)**"
+			let html = this.mdService.parse(text);
+			console.log('text: ', text)
+			console.log('html: ', html)
+		}
 	}
 
 	convertArrayToHtmls(dataSource: any, lines: any) {
@@ -50,12 +52,12 @@ export class HtmlService {
 					let docTitle = items[2];
 					// convert to MD data
 					// docTitle = '###### **' + docTitle.trim() + '**';
-					docTitle = '- **' + docTitle.trim() + '**';
-					docTitle = this.mdService.parse(docTitle);
-
+					let lineHtml = '- **' + docTitle.trim() + '**';
+					// lineHtml = this.mdService.parse(lineHtml);
+					// this.mdService.parse(lineHtml);
 					for (let i = ip1 + 1; i < ip2; i++)
 						desc.push(lines[i]);
-					htmls.push( { popupHtml: { title: docTitle, desc: desc } } )
+					htmls.push( { popupHtml: { title: docTitle, lineTitle: this.mdService.parse(lineHtml), desc: desc } } )
 					popupOn = false
 				}
 				continue;
@@ -211,17 +213,14 @@ export class HtmlService {
 		// parse MD line
 		if (text.indexOf('/popup') > 0) {
 			let idx = text.indexOf('/popup');
-			console.log('text: ', text)
 			let lineText = text.substring(0, idx);
 			let lineHtml = this.mdService.parse(lineText);
 			// process popup
 			let items = line.split('/');
-			console.log('items: ', items)
 			let docTitle = items[2];
 			let desc = [];
 			for (let i = 3; i < items.length - 1; i++)
 				desc.push(items[i]);
-			console.log('docTitle, lineHtml, desc: ', docTitle, lineHtml, desc)
 			return [{ popupHtml: { title: docTitle,  lineTitle: lineHtml, desc: desc } }];
 
 		} else if (text.indexOf('.md') > 0) {
@@ -248,9 +247,7 @@ export class HtmlService {
 		} else {
 			html = this.mdService.parse(text);
 			return [{ html: html }]
-			// console.log('html: ', html)
 		}
-
 	}
 
 	private getHtmlHtml(line: any) {
@@ -397,7 +394,7 @@ export class HtmlService {
 			for (let i = 0; i < data.persons.length; i++) {
 				let person = data.persons[i];
 				let name = person[0];
-				let dod = person[1];
+				let dod = person[1].dod;
 				let days = person[2];
 				html += 
 				'<ion-row>' +

@@ -52,7 +52,7 @@ export class NotifyService {
 							mItems.push({id: key, status: msg.status, content: msg.content})
 						};
 					}
-
+					// console.log('memorial: ', this.memorialMsg);
 					let dateID = this.utilService.getDateID();
 					let persons = this.memorialMsg.persons;
 					let lunarDay = this.memorialMsg.today;
@@ -60,7 +60,11 @@ export class NotifyService {
 					for (let i = 0; i < persons.length; i++) {
 						let item = persons[i];
 						let id = dateID+'-'+(i+1);
-						let content = 'Hôm nay (ÂL): ' + lunarDay + ' - Húy nhật: ' + item[1] + ' ( ' + item[0] + ' ) ' 
+						let genre = (item[1].gender == 'male') ? 'ông' : 'bà';
+						let day = lunarDay.substring(0, lunarDay.indexOf(' '));
+						// let content = 'Hôm nay (ÂL): ' + lunarDay + ' - Húy nhật: ' + item[1] + ' ( ' + item[0] + ' ) ';
+						let content = 'Hôm nay (' + day + ' ÂL) là ngày Húy Nhật của ' + genre + ' ' +  item[0];
+
 						// if this content already exists, ignore
 						let iContents = mItems.filter((item: any) => {
 							return item.content === content;
@@ -69,7 +73,7 @@ export class NotifyService {
 							mItems.push({id: id, status: stat, content: content })
 					}
 					if (mItems.length == 0) {
-						mItems = [{ id: dateID, status: 1, content: 'Ngay giỗ của dòng họ ...' }];
+						mItems = [{ id: dateID, status: 1, content: 'Ngày giỗ của dòng họ ...' }];
 					}
 					resolve({ recipientList: rItems, messageList: mItems })
 				});

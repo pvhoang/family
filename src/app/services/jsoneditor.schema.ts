@@ -21,10 +21,7 @@ export const fieldNames = {
 			"photo": "HÌNH ẢNH",
 			"desc": "GIẢI THÍCH",
 			"dod": "HÚY NHẬT",
-			"root": "DÒNG HỌ",
-			"branch": "CHI HỌ",
-			"sub_branch": "PHÁI",
-			"sub_sub_branch": "NHÁNH",
+			"root": "DÒNG HỌ"
 		},
 		"DOCS": {
 			"vi": "TIẾNG VIỆT",

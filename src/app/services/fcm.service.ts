@@ -3,7 +3,7 @@ import {
   FirebaseMessaging,
   GetTokenOptions,
 } from "@capacitor-firebase/messaging";
-import { Capacitor } from "@capacitor/core";
+// import { Capacitor } from "@capacitor/core";
 // import { Platform } from '@ionic/angular';
 import { IonicSafeString } from '@ionic/angular';
 import { Firestore, doc, addDoc, deleteDoc, setDoc, collection, collectionData } from '@angular/fire/firestore';
@@ -39,6 +39,7 @@ export class FcmService {
 			if (DEBUGS.FCM)
 				console.log("tokenReceived: ", { event });
 		});
+
     FirebaseMessaging.addListener("notificationReceived", (event) => {
 			if (DEBUGS.FCM)
 				console.log("notificationReceived: ", { event });
@@ -48,25 +49,17 @@ export class FcmService {
 				console.log("notificationActionPerformed: ", { event });
     });
 		
-		if (DEBUGS.FCM)
-			console.log('FcmService - platform: ', Capacitor.getPlatform());
-
-		if (Capacitor.getPlatform() === "web") {
+		if (environment.platform === "web") {
+			// https://developer.mozilla.org/en-US/docs/Web/API/Notification
       navigator.serviceWorker.addEventListener("message", (event: any) => {
 				if (DEBUGS.FCM)
 					console.log("serviceWorker: event: ", { event });
-				// alert('serviceWorker');
-				// let type = event.data.data.type;
 				let icon = "../assets/icon/gia-pha.png";
-
-				// https://developer.mozilla.org/en-US/docs/Web/API/Notification
-
 				let title = event.data.notification.title;
+				alert('Title: '+ title);
 				let body = event.data.notification.body;
-				body = new IonicSafeString('<img src="../assets/icon/gia-pha.png" width="20px" height="20px"/><br/>' + body);
-
-				// alert(title);
-				// alert(body);
+				let message = '<img src="' + icon + '" width="20px" height="20px"/>&nbsp;&nbsp;' + body;
+				body = new IonicSafeString(message);
 				this.utilService.alertMsg(title, body, 'OK', { width: 350, height: 200 }).then(stat => {});
       });
     }
@@ -84,9 +77,8 @@ export class FcmService {
 						if (currentToken) {
 							let token = currentToken.token;
 							if (!recData.token || recData.token != token) {
-								// let str = this.platform.platforms().toString();
 								let newData = {};
-								newData[recipient] =  { name: recData.name, token: token, platform: Capacitor.getPlatform() };
+								newData[recipient] =  { name: recData.name, token: token, platform: environment.platform };
 								this.fbService.updateNotification(ancestor, 'recipients', newData).then((status:any) => {
 									resolve ('FCM_NA_TOKEN_IS_UPDATED');
 								});
@@ -108,7 +100,7 @@ export class FcmService {
 		const options: GetTokenOptions = {
 			vapidKey: environment.firebase.vapidKey,
 		};
-		if (Capacitor.getPlatform() === "web") {
+		if (environment.platform === "web") {
 			options.serviceWorkerRegistration =
 				await navigator.serviceWorker.register("firebase-messaging-sw.js");
 		}

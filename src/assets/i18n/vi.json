@@ -119,10 +119,10 @@
 	"APP_NA_OPTION_2": "không hợp lệ!",
 	"APP_NA_OPTION_3": "Liên lạc: ",
 
-	"FCM_NA_TOKEN_IS_UPDATED": "Token is updated!",
-	"FCM_NA_TOKEN_NOT_CHANGED": "Token not changed!",
-	"FCM_NA_TOKEN_CAN_NOT_SET": "Can not set token!",
-	"FCM_NA_PERMISSION_DENIED": "Permission denied!",
+	"FCM_NA_TOKEN_IS_UPDATED": "Token được cập nhật cho cho người dùng",
+	"FCM_NA_TOKEN_NOT_CHANGED": "Token không thay đổi cho người dùng",
+	"FCM_NA_TOKEN_CAN_NOT_SET": "Không thể đăng ký token cho người dùng",
+	"FCM_NA_PERMISSION_DENIED": "Đăng ký bị từ chối cho người dùng",
 
 	"APP_APP_VERSIONS_NOT_SAME_1": "Ấn bản trên máy đã cũ: ",
 	"APP_APP_VERSIONS_NOT_SAME_2": ". Yêu cầu xóa cache và chạy lại (F5)!",

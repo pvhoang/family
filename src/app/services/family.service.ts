@@ -234,8 +234,8 @@ export class FamilyService {
 			const dayCount = this.isMemorialComing(node.dod);
 			if (dayCount >= 0 && dayCount < DAY_COUNT) {
 				let name = node.name + ' (' + this.nodeService.getGenerationShort(node) + ')';
-				let dod = node.dod;
-				msg.push([name, dod, dayCount]);
+				// let dod = node.dod;
+				msg.push([name, node, dayCount]);
 			}
 		})
 		if (family['children']) {
@@ -257,8 +257,8 @@ export class FamilyService {
       const dayCount = this.isMemorialComing(node.dod);
       if (dayCount >= 0 && dayCount < DAY_COUNT) {
 				let name = node.name + ' (' + this.nodeService.getGenerationShort(node) + ')';
-        let dod = node.dod;
-        msg.push([name, dod, dayCount]);
+        // let dod = node.dod;
+        msg.push([name, node, dayCount]);
       }
     })
     if (family['children']) {

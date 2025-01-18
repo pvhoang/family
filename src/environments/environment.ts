@@ -9,8 +9,8 @@ export const environment = {
     messagingSenderId: '123668295235',
 		vapidKey: "BJ1f8BpQHuErNMLDiD0XRek_WDCTjPuWkftiuWu8twOMCOHwvyZt1L0eaWbrocYGnTh5r7-bkP2BFHs2k06mLNE"
   },
-	useEmulators: true,
-	// useEmulators: false,
+	// useEmulators: true,
+	useEmulators: false,
   production: false,
   platform: 'web',
   version: '3',
@@ -35,7 +35,6 @@ export let DEBUGS = {
   'EDITOR': false,
   'VNODE': false,
   'NODE': false,
-  'BRANCH': false,
   'DOCS': false,
   'TREE': false,
   'EDIT': false,

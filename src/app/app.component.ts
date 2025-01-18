@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild  } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { Capacitor } from "@capacitor/core";
+// import { Capacitor } from "@capacitor/core";
 import { environment, FONTS_FOLDER, DEBUGS, DRAGON, VILLAGE, TREE, COUNTRY, SMALL_SIZE, MEDIUM_SIZE, LARGE_SIZE } from '../environments/environment';
 import { DataService } from './services/data.service';
 import { UtilService } from './services/util.service';
@@ -128,6 +128,7 @@ export class AppComponent implements OnInit {
 
 			// ancestor must be valid before doing anything else
 			this.startAncestor(ancestor).then((rdata: any) => {
+			// this.getLocalRdata(ancestor).then((rdata: any) => {
 				if (!rdata) {
 					this.presentToast(['APP_NA_ANCESTOR_1', ancestor, 'APP_NA_ANCESTOR_2', 'APP_NA_ANCESTOR_3', 'APP_SUPER_ADMIN']);
 					return;
@@ -165,7 +166,7 @@ export class AppComponent implements OnInit {
 							this.presentToast(['APP_NA_OPTION_1', recipient, 'APP_NA_OPTION_2', 'APP_NA_OPTION_3', email]);
 						} else {
 							this.fcm.requestPermissions(ancestor, recipient, recData).then((status:any) => {
-								this.presentToast([status]);
+								this.presentToast([this.translate_instant(status) + " '" + recipient + "' (" + recData.name + ")"]);
 							});
 						}
 					})
@@ -380,6 +381,28 @@ export class AppComponent implements OnInit {
       this.utilService.getLocalJsonFile(jsonFile).then((jsonData:any) => {
 				this.dataService.saveItem(json, jsonData).then((status:any) => {});
         resolve(true);
+      });
+    });
+	}
+
+	private getLocalRdata(ancestor: any) {
+    return new Promise((resolve) => {
+			let rdata:any = {};
+      this.utilService.getLocalJsonFile('./assets/json/phan-docs.json').then((docs:any) => {
+				rdata.docs = docs;
+				this.utilService.getLocalJsonFile('./assets/json/phan-family.json').then((family:any) => {
+					rdata.family = family;
+					this.utilService.getLocalJsonFile('./assets/json/phan-info.json').then((info:any) => {
+						rdata.info = info;
+						this.utilService.getLocalJsonFile('./assets/json/phan-images.json').then((images:any) => {
+							rdata.images = images;
+							this.utilService.getLocalJsonFile('./assets/json/phan-mds.json').then((mds:any) => {
+								rdata.mds = mds;
+								resolve(rdata);
+							})
+						})
+					})
+				})
       });
     });
 	}

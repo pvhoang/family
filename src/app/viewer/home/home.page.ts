@@ -258,7 +258,7 @@ export class HomePage implements OnInit{
 	}
 
 	async onPhaDo(page: any, nodeid: any) {
-		console.log('nodeid: ', nodeid);
+		// console.log('nodeid: ', nodeid);
 
 		this.modalPage = 'pha_do';
 		// tree.id = "1-1-1-1-1-1-1-1-1-1-1-1-1-1";

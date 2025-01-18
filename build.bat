@@ -19,7 +19,10 @@ https://stackoverflow.com/questions/30067767/how-do-i-fold-collapse-hide-section
 cd d:/dev/family/emulator/
 firebase emulators:start --import=./firebaseExport --export-on-exit=./firebaseExport
 http://localhost:4000/
-firebase deploy --only functions:pushMessages
+
+--- FIREBASE MESSAGING - FUNCTION CHANGE
+cd d:/dev/family/emulator/
+firebase deploy --only functions:pushMessages_phan
 
 --- APP
 cd d:/dev/family/

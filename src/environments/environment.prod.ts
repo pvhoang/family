@@ -36,7 +36,6 @@ export let DEBUGS = {
   'EDITOR': false,
   'VNODE': false,
   'NODE': false,
-  'BRANCH': false,
   'DOCS': false,
   'TREE': false,
   'EDIT': false,
