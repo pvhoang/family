@@ -21,7 +21,7 @@ export const environment = {
   phabletDevice: true,
 };
 
-export const VERSION = '0.0.6';
+export const VERSION = '0.3.0';
 export const FONTS_FOLDER = '../../assets/fonts/';
 
 export const DEBUG = false;
