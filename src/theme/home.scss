@@ -1,0 +1,333 @@
+
+.home-text-h1 {
+	display: flex;
+	font-size: 36px;
+}
+.home-text-h2{
+	display: flex;
+	font-size: 30px;
+}
+.home-text-h3 {
+	display: flex;
+	font-size: 24px;
+}
+.home-text-h4 {
+	display: flex;
+	font-size: 20px;
+}
+.home-text-h5 {
+	display: flex;
+	font-size: 18px;
+}
+.home-text-h6 {
+	display: flex;
+	font-size: 16px;
+}
+.home-text-p {
+	font-size: 14px;
+}
+
+.home-text-center {
+	text-align: center;
+}
+
+.home-image-hover {
+	// https://www.educative.io/answers/how-to-enlarge-an-image-on-hover-in-html
+	&:hover{
+		transform:scale(2.0);
+	}
+}
+
+.home-image-center {
+	display: flex;
+	justify-content: center;
+}
+
+.home-document {
+	display: flex;
+	justify-content: left;
+	font-weight: bold;
+	font-size: var(--app-page-detail);
+}
+
+.home-video-wrapper {
+	max-width: 100%;
+	text-align: left;
+	video {
+		width: 200px;
+		height: 150px;
+	}
+}
+
+.home-grid {
+	--ion-grid-column-padding: 5px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+	font-size: 15px;
+  width: 100%;
+  ion-row:first-child {
+    font-weight: bold;
+		color: var(--app-color);
+    background-color: var(--app-background-color);
+    border: 3px solid var(--app-background-color);
+		border-radius: 3px;
+		border-right: 0;
+    border-bottom: 0;
+		border-top: 0;
+		border-left: 0;
+  }
+  ion-col {
+    border: 1px solid black;
+    border-bottom: 0;
+    border-right: 0;
+  }
+  ion-col:last-child {
+    border-right: 1px solid black;
+  }
+  ion-row:last-child {
+    border-bottom: 1px solid black;
+  }
+}
+
+.home-popup {
+	display: flex;
+	align-items: center;
+	.width-50 {
+		width: 50%;
+	}
+	.width-80 {
+		width: 80%;
+	}
+	.margin-left {
+		margin-left:0px;
+	}
+	.margin-auto {
+		margin: auto;
+	}
+  ion-col {
+    border-bottom: 0;
+    border-right: 0;
+  }
+	.column {
+		height: var(--app-panel-height-small);
+		display: flex;
+		align-items: center;
+		.left {
+			text-align: left !important;
+		}
+		.center {
+			text-align: center !important;
+		}
+		.right {
+			text-align: right !important;
+		}
+		.icon {
+			font-size: var(--app-icon-font-size-small);
+			color: var(--app-color);
+			background: var(--app-background-color);
+			width: 16px;
+			height: 16px;
+		}
+		.button {
+			--padding-start: 5px;
+			--padding-end: 5px;
+		}
+	}
+}
+
+// https://stackoverflow.com/questions/69454463/html-make-div-scrollable-on-mobile-airconsole
+.scroll {
+	-webkit-overflow-scrolling: touch;
+	overflow: auto;
+}
+
+.flip-book {
+  box-shadow: 0 0 20px 0 var(--app-background-color);
+  display: none;
+  background-size: cover;
+}
+
+.page {
+  padding: 20px;
+  background-image: var(--url-ion-content-splash);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  color: black;
+  border: solid 1px hsl(35, 20%, 70%);
+  overflow: hidden;
+
+  .page-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+
+    .page-header-cover {
+      color: var(--app-background-color);
+      font-family: "Pacifico", cursive;
+			padding-top: 200px;
+			padding-bottom: 20px;
+      font-size: var(app-page-header-cover-font-size);
+      text-align: center;
+    }
+
+		.page-header-cover-small {
+      color: var(--app-background-color);
+      font-family: "Pacifico", cursive;
+			padding-top: 160px;
+			padding-bottom: 20px;
+      font-size: var(app-page-header-cover-small-font-size);
+      text-align: center;
+    }
+
+    .page-header {
+      height: 20px;
+      font-size: var(--app-page-header-font-size);
+      font-weight: bold;
+			padding-top: 10px;
+			padding-bottom: 10px;
+      text-align: center;
+      color: var(--app-background-color);
+      font-family: "Pacifico", cursive;
+    }
+
+		.page-header-ng-select {
+			--background: var(--app-background-color) center / 100%;
+			height: var(--app-panel-height-medium);
+			width: 100%;
+			.heading {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-bottom: 8px;
+				.icon {
+					font-size: var(--app-icon-font-size-medium);
+					color: var(--app-color);
+				}
+				.label {
+					font-size: var(--app-text-font-size-medium);
+					color: var(--app-color);
+				}
+				.button {
+					--padding-start: 5px;
+					--padding-end: 5px;
+				}
+			}
+			.ng-select-item{
+				border-radius: 4px;
+				margin-top: 0px;
+				margin-bottom: 8px;
+				font-size: var(--app-text-font-size-small) !important;
+			}
+		}
+
+    .page-image {
+      height: 100%;
+      background-size: contain;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+
+    .page-text {
+			height: 100%;
+      flex-grow: 1;
+			font-size: var(--app-page-text-font-size);
+      // text-align: center;
+      margin-top: 10px;
+      padding-top: 10px;
+      box-sizing: border-box;
+      // font-family: "Milleniale";
+      font-family: var('--ion-font-family');
+    }
+
+    .page-footer {
+			margin-top: auto;
+      height: 30px;
+			padding-top: 10px;
+      border-top: solid 1px var(--app-background-color);
+			font-size: var(--app-page-footer-font-size);
+      color: var(--app-background-color);
+      text-align: center;
+    }
+   
+    .page-button {
+      --padding-start: 5px;
+      --padding-end: 5px;
+    }
+
+    .page-list {
+      padding-top: -20px;
+      text-align: center;
+      color: var(--app-background-color);
+			ul {
+				list-style-type: none;
+			}
+			ul li {
+				margin: 15px 0;
+				text-align: center;
+			}
+    }
+		
+    .page-span {
+      color: var(--app-background-color);
+      font-size: var(--app-page-span-font-size);
+      text-align: center;
+    }
+		.page-span-cover {
+      color: var(--app-background-color);
+      font-size: var(--app-page-span-cover-font-size);
+      text-align: center;
+      font-family: "Pacifico", cursive;
+      padding-top: 10px;
+    }
+  }
+
+  &.--left { // for left page (property will be added automatically)
+    border-right: 0;
+    box-shadow: inset -7px 0 30px -7px var(--app-background-color);
+  }
+
+  &.--right { // for right page (property will be added automatically)
+    border-left: 0;
+    box-shadow: inset -7px 0 30px -7px var(--app-background-color);
+  }
+
+  &.hard { // for hard page
+    border:  var(--app-background-color);
+  }
+
+  &.page-cover {
+    color:  var(--app-background-color);
+    border:  var(--app-background-color);
+    h2 {
+      text-align: center;
+      // padding-top: 50%;
+      padding-top: 30%;
+      // font-size: 210%;
+      // font-size: 200%;
+      font-weight: bold;
+    }
+    &.page-cover-top {
+      box-shadow: inset 0px 0 20px 0px var(--app-background-color), -2px 0 5px 2px var(--app-background-color);
+    }
+    &.page-cover-bottom {
+      box-shadow: inset 0px 0 30px 0px var(--app-background-color), 10px 0 8px 0px var(--app-background-color);
+    }
+  }
+}

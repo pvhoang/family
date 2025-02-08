@@ -3,6 +3,12 @@ import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { AlertController, ToastController } from '@ionic/angular';
 import { DEBUG } from '../../environments/environment';
 import { LanguageService } from '../services/language.service';
+<<<<<<< Updated upstream
+=======
+import { ThemeService } from '../services/theme.service';
+import { CalendarVietnamese, CalendarChinese } from 'date-chinese';
+import { firstValueFrom } from 'rxjs';
+>>>>>>> Stashed changes
 
 @Injectable({
   providedIn: 'root'
@@ -407,7 +413,76 @@ export class UtilService {
     return str.toLowerCase();
 	}
 
+<<<<<<< Updated upstream
 	getDateID(full?) {
+=======
+	getGregorianDate(ldate: any) {
+		// get today date
+		let	d = new Date();
+		let cal = new CalendarVietnamese()
+		let cdate = cal.get()
+		cal.fromGregorian(d.getFullYear(), d.getMonth()+1, d.getDate())
+		let gyear = cal.yearFromEpochCycle();
+		let values = ldate.split('/');
+		let day = values[0];
+		let month = values[1];
+		cal = new CalendarChinese(cdate[0], cdate[1], +month, cdate[3], +day)
+		return cal.toGregorian(gyear)
+	}
+
+	// getGregorianDate(gdate: any) {
+	// 	// get today date
+	// 	let	d = new Date();
+	// 	let vcal = new CalendarVietnamese()
+	// 	vcal.fromGregorian(d.getFullYear(), d.getMonth()+1, d.getDate())
+	// 	let cdate = vcal.get()
+	// 	let gyear = vcal.yearFromEpochCycle()
+	// 	let values = gdate.split('/');
+	// 	let day = values[0];
+	// 	let month = values[1];
+	// 	let ccal = new CalendarChinese(cdate[0], cdate[1], +month, cdate[3], +day)
+	// 	let tdate = ccal.toGregorian(gyear)
+	// 	return tdate;
+	// }
+
+	getLunarDate(d?: any) {
+		// let d = new Date();
+		if (!d)
+			d = new Date();
+		let cal = new CalendarVietnamese()
+		cal.fromGregorian(d.getFullYear(), d.getMonth()+1, d.getDate())
+		let cdate = cal.get()
+		let day = (cdate[4] < 10) ? '0' + cdate[4] : cdate[4];
+		let month = (cdate[2] < 10) ? '0' + cdate[2] : cdate[2];
+		// let cdate = cal.get()
+		//> [ 78, 2, 2, true, 2 ]
+		let gyear = cal.yearFromEpochCycle()
+		//> 1985
+		let lyear = this.getLunarYear(gyear);
+		let today = day + '/' + month + ' ' + lyear;
+		return today 
+	}
+
+	getShortDateID(separator?: any) {
+		const d = new Date();
+		let day = ''+d.getDate();		if (day.length < 2) day = '0' + day;
+		let month = ''+(d.getMonth()+1);		if (month.length < 2) month = '0' + month;
+		let year = ''+d.getFullYear();
+		year = year.substring(2);
+		return (separator) ? (day + separator + month + separator + year) : (day + month + year);
+	}
+
+	getFullDateID(d?: any) {
+		if (!d)
+			d = new Date();
+		let day = ''+d.getDate();		if (day.length < 2) day = '0' + day;
+		let month = ''+(d.getMonth()+1);		if (month.length < 2) month = '0' + month;
+		let year = ''+d.getFullYear();
+		return day + '/' + month + '/' + year;
+	}
+
+	getDateID() {
+>>>>>>> Stashed changes
 		const d = new Date();
 		let day = ''+d.getDate();		if (day.length < 2) day = '0' + day;
 		let month = ''+(d.getMonth()+1);		if (month.length < 2) month = '0' + month;

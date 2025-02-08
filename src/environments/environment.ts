@@ -12,6 +12,11 @@ export const environment = {
     authDomain: 'family-c5b45.firebaseapp.com',
     messagingSenderId: '123668295235',
   },
+<<<<<<< Updated upstream
+=======
+	useEmulators: true,
+	// useEmulators: false,
+>>>>>>> Stashed changes
   production: false,
   phabletDevice: true,
 };

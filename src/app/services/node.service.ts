@@ -235,7 +235,39 @@ export class NodeService {
     return str;
   }
 
+<<<<<<< Updated upstream
   public fillNode(node) {
+=======
+	public getSpanStr(node: Node) {
+    return node.name;
+  }
+
+	public getSpanDetailStr(node: Node) {
+		let str = '<b>' + node.name + '</b>';
+		let yob = (node.yob) ? node.yob : '';
+		let yod = (node.yod) ? node.yod : '';
+		if (node.yob || node.yod)
+			str += '<br/><i>(' + yob + '-' + yod + ')</i>';
+		return str;
+  }
+
+	// public getSpanVerticalTreeStr(node: Node) {
+  //   let str = '<b>' + node.name + '</b>';
+	// 	if (node.yob !== '' || node.yod !== '')
+	// 		str += '<br/><i>(' + node.yob + '-' + node.yod + ')</i>';
+	// 	return str;
+	// }
+
+  public getSpanNodeStr(node: Node) {
+		return this.getSpanStr(node);
+  }
+
+  public getSpanPersonStr(node: Node) {
+		return this.getSpanStr(node);
+  }
+
+  public fillNode(node: Node) {
+>>>>>>> Stashed changes
     if (!node.id) node.id = '';
     if (!node.relationship) node.relationship = '';
     if (!node.name) node.name = '';
@@ -257,6 +289,7 @@ export class NodeService {
     values.name = node.name;
     values.nick = node.nick;
     values.gender = node.gender;
+<<<<<<< Updated upstream
     values.yob = (node.yob == '') ? null : {name: node.yob};
     values.yod = (node.yod == '') ? null : {name: node.yod};
     values.pob = (node.pob == '') ? null : {name: node.pob};
@@ -269,6 +302,58 @@ export class NodeService {
   }
 
   public updateNode(node: any, values: any) {
+=======
+    values.yob = (node.yob == '') ? null : node.yob;
+    values.yod = (node.yod == '') ? null : node.yod;
+    values.pob = (node.pob == '') ? null : node.pob;
+    values.pod = (node.pod == '') ? null : node.pod;
+    values.por = (node.por == '') ? null : node.por;
+    values.job = (node.job == '') ? null : node.job;
+    values.desc = !node.desc ? '' :  node.desc.join('\n');
+    values.photo = (node.photo) ? node.photo : '';
+		let dod = node.dod;
+		let idx = dod.indexOf('/');
+		if (idx > 0) {
+			values.dod_day = dod.substring(0, idx);
+			values.dod_month = dod.substring(idx + 1);
+		} else {
+			values.dod_day = null;
+			values.dod_month = null;
+		}
+    return values;
+  }
+
+  public saveValues(node: any, values: any) {
+    // console.log('values: ', values);
+    let change = this.areValuesChanged(node, values);
+    let yob = values.yob ? values.yob : '';
+    let yod = values.yod ? values.yod : '';
+    let pob = values.pob ? values.pob : '';
+    let pod = values.pod ? values.pod : '';
+    let por = values.por ? values.por : '';
+    let job = values.job ? values.job : '';
+		let dod_day = values.dod_day ? values.dod_day : '';
+		let dod_month = values.dod_month ? values.dod_month : '';
+
+    node.name = values.name;
+    node.nick = values.nick;
+    node.gender = values.gender;
+    node.yob = yob;
+    node.yod = yod;  
+    node.pob = pob;
+    node.pod = pod;
+    node.por = por;
+    node.job = job;
+    node.desc = values.desc.split('\n');
+
+    node.photo = values.photo;
+    node.dod = (dod_day == '' && dod_month == '') ? '' : dod_day + '/' + dod_month;
+    return change;
+  }
+	
+
+	public updateNode(node: any, values: any) {
+>>>>>>> Stashed changes
     // console.log('values: ', values);
     let change = this.isNodeChanged(node, values);
 

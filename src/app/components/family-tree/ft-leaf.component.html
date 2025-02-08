@@ -1,0 +1,40 @@
+<!-- 
+	VIEW	CLASS								TS									DESCRIPTION
+	0			vertical-tree				vnode.page.ts				WITH PHOTO, NO DETAIL
+	1			horizontal-tree			vnode.page.ts				NO PHOTO, NO DETAIL
+	2			person-tree-1/2			person.page.ts			NO PHOTO, NO DETAIL
+	3			vertical-tree				tree.page.ts				WITH PHOTO, WITH DETAIL, (MOBILE: NO PDF)
+	4			vertical-tree				tree.page.ts				NO PHOTO, WITH DETAIL, (WEB: PDF),																								
+-->
+
+<div *ngFor="let node of child.nodes; index as i;">
+	<span *ngIf="view != 3 && view != 4"
+      class="node"
+      [ngClass]="node.relationship ? node.relationship + '-leaf' : ''"
+      [class]="node.nclass"
+      (click)="_leafSelected(node)"
+      id="{{node.id}}"
+      [innerHtml]="node.span"
+  >
+  </span>
+  <span *ngIf="view == 3 || view == 4"
+      class="node"
+      [ngClass]="node.relationship ? node.relationship + '-leaf' : ''"
+      [class]="node.nclass"
+      (click)="_leafSelected(node)"
+      id="{{node.id}}"
+      [innerHtml]="node.spanDetail"
+  >
+  </span>
+	<span *ngIf="(view == 0 || view == 3) && node.photoUrl" class="image" display:inline-block>
+		<img [src]="node.photoUrl" width="40px" height="40px">
+	</span>
+</div>
+
+<ul *ngIf="child.children && child.children.length > 0">
+  <li *ngFor="let row of child.children" [ngStyle]="{'width': child.children.length === 1 ? '100%' : 'auto'}">
+    <ft-leaf (onLeafSelected)="_leafSelected($event)" [view]="view" [child]="row"></ft-leaf>
+  </li>
+</ul>
+
+

@@ -48,6 +48,20 @@
 // Add base shell styles
 @import "theme/shell-defaults.scss";
 
+<<<<<<< Updated upstream
+=======
+// Add w3 shell styles
+@import "theme/w3.scss";
+
+// Add finally app-specific styles
+@import "theme/app.scss";
+@import "theme/tree.scss";
+@import "theme/home.scss";
+
+// Add jsoneditor styles
+// @import "assets/js/jsoneditor.css";
+
+>>>>>>> Stashed changes
 // PROJECT GLOBAL STYLES
 @import "~@ng-select/ng-select/themes/default.theme.css";
 
@@ -57,11 +71,26 @@
 // $base_color: yellow;
 // $base_background_color: #C10100;
 
+<<<<<<< Updated upstream
 $background_color_male: lightblue;  // primary
 $background_color_female: lightpink;
 $background_color_select: lightgreen; // success
 $background_color_not_complete: lightyellow; // warning in variables.css
 $background_color_node: #e6d8ad;
+=======
+// // --- color for tree ---
+// $background_color_male: lightblue;  // primary
+// $background_color_female: lightpink;
+// $background_color_select: lightgreen; // success
+// $background_color_not_complete: lightyellow; // warning in variables.css
+// $background_color_pass_away: lightgray; // warning in variables.css
+// $background_color_node: #e6d8ad;
+// $color: #666;
+// $over_color: #000;
+// $border_color: #94a0b4;
+// $hover_color: #c8e4f8;
+// ------
+>>>>>>> Stashed changes
 
 $text_font_size_large: 20px;
 $text_font_size_medium: 18px;
@@ -620,6 +649,7 @@ ion-tab-button {
   // }
 }
 
+<<<<<<< Updated upstream
 .alert-big {
     --height: 450px;
     .alert-wrapper {
@@ -727,6 +757,93 @@ ion-tab-button {
 	margin-bottom: 8px;
   font-size: $text_font_size_small;
 }
+=======
+// --- POPOVER ---
+
+.popover {
+  --min-height: var(--app-alert-height) !important;
+  --min-width: var(--app-alert-min-width) !important;
+  .popover-heading {
+    .label {
+      font-size: var(--app-text-font-size-medium);
+    }
+    .icon {
+      background: var(--app-background-color);
+      font-size: var(--app-icon-font-size-medium);
+      color: var(--app-color);
+    }
+    .span {
+      background-color: var(--app-background-color);
+      // color: var(--app-color);
+			color: var(--app-color);
+      height: 30px;
+      font-size: var(--app-text-font-size-medium);
+      padding-top: 0px;
+      padding-bottom: 10px;
+      padding-right: 10px;
+      padding-left: 10px;
+    }
+  }
+  .message {
+    margin-left:20px;
+    margin-right:10px;
+    font-size: var(--app-icon-font-size-medium);
+  }
+  .image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+  }
+}
+
+// --- person.page.html ---
+
+* {box-sizing: border-box;}
+
+// --- vnode.page.html ---
+
+// --- NG-SELECT ---
+
+.ng-select.mobileClass ::ng-deep .ng-select-container  {            
+	border: 1px solid var(--ion-color-medium-shade) !important;
+  box-shadow: none;
+  font-size: var(--app-text-font-size-small) !important;
+  height: 20px;
+}
+
+.ng-select-container {
+  // border: 2px solid var(--app-color) !important;
+  border: 1px solid var(--ion-color-medium-shade) !important;
+  box-shadow: none;
+  font-size: var(--app-text-font-size-medium) !important;
+  height: 20px;
+}
+
+html .ng-dropdown-panel .ng-dropdown-panel-items {
+  max-height: 200px;
+  overflow: scroll;
+  font-size: var(--app-text-font-size-medium) !important;
+  // border: 1px solid red !important;
+  border: 1px solid var(--ion-color-medium-tint) !important;
+}
+
+.ng-select-popover {
+  border: 1px solid red;
+  border-radius: 5px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  width:100%;
+  .button {
+    font-size: var(--app-text-font-size-medium);
+    color: black;
+    text-align: left;
+    text-transform: none;
+    --padding-start: 0px;
+  }
+}
+
+>>>>>>> Stashed changes
 
 .card-textarea{
 	margin-top: 8px;

@@ -1,0 +1,67 @@
+<!-- 
+  view = 0, class = tree -> vnode.page.ts, node.page.ts - HORIZONTAL TREE
+  view = 1, class = person-tree -> person.page.ts - PERSON TREE (PDF)
+  view = 2, class = vertical-tree -> vnode.page.ts, tree.page.ts - VERTICAL TREE
+-->
+
+<div *ngIf="(view == 0)">
+  <div *ngFor="let node of child.nodes">
+    <span *ngIf="node.visible"
+        class="node"
+        [ngClass]="node.relationship ? node.relationship + '-leaf' : ''"
+        [class]="node.nclass"
+        (click)="_leafSelected(node)"
+        id="{{node.id}}"
+        [innerHtml]="node.span"
+    >
+    </span>
+  </div>
+	<ul *ngIf="child.children && child.children.length > 0">
+		<li *ngFor="let row of child.children" [ngStyle]="{'width': child.children.length === 1 ? '100%' : 'auto'}">
+			<ft-leaf (onLeafSelected)="_leafSelected($event)" [view]="view" [child]="row"></ft-leaf>
+		</li>
+	</ul>
+</div>
+
+<div *ngIf="(view == 1)">
+  <div *ngFor="let node of child.nodes">
+    <span
+        class="node"
+        [ngClass]="node.relationship ? node.relationship + '-leaf' : ''"
+        [class]="node.nclass"
+        (click)="_leafSelected(node)"
+        id="{{node.id}}"
+        [innerHtml]="node.spanDetail ? node.spanDetail : node.span"
+    >
+    </span>
+  </div>
+	<ul *ngIf="child.children && child.children.length > 0">
+		<li *ngFor="let row of child.children" [ngStyle]="{'width': child.children.length === 1 ? '100%' : 'auto'}">
+			<ft-leaf (onLeafSelected)="_leafSelected($event)" [view]="view" [child]="row"></ft-leaf>
+		</li>
+	</ul>
+</div>
+
+<div *ngIf="(view == 2)">
+  <div *ngFor="let node of child.nodes">
+    <span
+        class="node"
+        [ngClass]="node.relationship ? node.relationship + '-leaf' : ''"
+        [class]="node.nclass"
+        (click)="_leafSelected(node)"
+        id="{{node.id}}"
+        [innerHtml]="node.spanDetail ? node.spanDetail : node.span"
+    >
+    </span>
+    <img class="image" *ngIf="node.photoUrl != ''" [src]="node.photoUrl">
+  </div>
+	<ul *ngIf="child.children && child.children.length > 0">
+		<li *ngFor="let row of child.children" [ngStyle]="{'width': child.children.length === 1 ? '100%' : 'auto'}">
+			<ft-leaf (onLeafSelected)="_leafSelected($event)" [view]="view" [child]="row"></ft-leaf>
+		</li>
+	</ul>
+</div>
+
+
+
+

@@ -10,13 +10,13 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } fro
 export class NgFamilyTreeComponent implements OnInit {
 
   @Input() family: any;
-  @Input() class: any;
   @Input() view: any;
   @Output() onLeafSelected: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
+		console.log('view: ', this.view);
   }
 
   _leafSelected(_leaf) {

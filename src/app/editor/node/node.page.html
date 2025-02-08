@@ -1,0 +1,49 @@
+<ion-header>
+
+  <ion-item class="app-header">
+		<ion-col size="2" class="heading" (click)="onCancel()">
+      <ion-button class="button" fill="clear">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
+      </ion-button>
+    </ion-col>
+		<ion-col size="2" class="heading" (click)="onSave()">
+      <ion-button class="button" fill="clear">
+        <ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
+      </ion-button>
+    </ion-col>
+    <ion-col size="6">
+      <ng-select
+				class="mobileClass"
+        [appendTo]="'body'"
+        [items]="peopleNodes" 
+        placeholder="{{selectPeoplePlaceholder}}"
+        [(ngModel)]="selectPeople"
+        (close)="closePeopleNodes()"
+        (clear)="clearPeopleNodes()"
+        (keyup)="keyupPeopleNodes($event)"
+      >
+      </ng-select>
+    </ion-col>
+		<ion-col size="1" class="heading">
+			<ion-button class="button" fill="clear" (click)="ftTreeService.onZoomIn()">
+				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-minus-outline.svg" class="icon"></ion-icon>
+			</ion-button>
+		</ion-col>
+		<ion-col size="1" class="heading">
+			<ion-button class="button" fill="clear" (click)="ftTreeService.onZoomOut()">
+				<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}magnify-plus-outline.svg" class="icon"></ion-icon>
+			</ion-button>
+    </ion-col>
+  </ion-item>
+
+</ion-header>
+
+<ion-content [fullscreen]="true">
+	
+  <div class="screen-node" id="full-tree">
+			<div [ngStyle]="ftTreeService.getZoomStyle()">
+      <ft-tree (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode" [class]="treeClass"></ft-tree>
+    </div>
+  </div>
+
+</ion-content>

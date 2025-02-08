@@ -1,0 +1,79 @@
+<ion-content [fullscreen]="true">
+
+	<div class="page" data-density="hard">
+		<div class="page-content">
+			<h1 class="page-header">{{title}}</h1>
+			<br>
+			<ion-item class="page-header-ng-select">
+				<ion-col size="1" class="heading" (click)="onExit()">
+					<ion-button class="button" fill="clear" (click)="onExit()">
+						<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
+					</ion-button>
+				</ion-col>
+				<ion-col size="11" class="ng-select-item">
+					<ng-select
+						class="mobileClass"
+						[appendTo]="'body'"
+						[items]="peopleNodes" 
+						placeholder="{{selectPeoplePlaceholder}}"
+						[(ngModel)]="selectPeople"
+						(close)="closePeopleNodes()"
+						(clear)="clearPeopleNodes()"
+						(keyup)="keyupPeopleNodes($event)"
+					>
+					</ng-select>
+				</ion-col>
+			</ion-item>
+
+			<div class="w3-container page-text scroll">
+
+				<div class="viewer-person-container" id="full-tree">
+
+					<div class="view-person-photo-parent" *ngIf="selectedNode">
+						<img class="image1" [src]="image1.url" [attr.width]="image1.w" [attr.height]="image1.h" />
+						<img class="image2" [src]="image2.url" [attr.width]="image2.w" [attr.height]="image2.h" />
+					</div>
+					<p></p>
+					<ft-tree *ngIf="selectedNode" (onLeafSelected)="onLeafSelected($event)" [family]="familyView" [view]="viewMode"></ft-tree>
+					<div *ngIf="selectedNode" class="home-text-h6"><b>{{ 'PERSON_INFO_PERSONAL' | translate }}</b></div>
+			
+					<ion-grid class="app-grid-small-no-header" *ngIf="selectedNode">
+						<ion-row>
+							<ion-col size="4" class="column center"><b>{{ 'NODE_YOB' | translate }}</b></ion-col>
+							<ion-col size="8" class="column center"><b>{{ selectedNode.yob }}</b></ion-col>
+						</ion-row>
+			
+						<div *ngIf="!pass_away">
+							<ion-row>
+								<ion-col size="4" class="column center"><b>{{ 'NODE_POR' | translate }}</b></ion-col>
+								<ion-col size="8" class="column center"><b>{{ selectedNode.por }}</b></ion-col>
+							</ion-row>
+						</div>
+			
+						<div *ngIf="pass_away">
+							<ion-row>
+								<ion-col size="4" class="column center"><b>{{ 'NODE_YOD' | translate }}</b></ion-col>
+								<ion-col size="8" class="column center"><b>{{ selectedNode.yod }}</b></ion-col>
+							</ion-row>
+							<ion-row>
+								<ion-col size="4" class="column center"><b>{{ 'NODE_TOMB' | translate }}</b></ion-col>
+								<ion-col size="8" class="column center"><b>{{ selectedNode.pod }}</b></ion-col>
+							</ion-row>
+							<ion-row>
+								<ion-col size="4" class="column center"><b>{{ 'NODE_DOD' | translate }}</b></ion-col>
+								<ion-col size="8" class="column center"><b>{{ selectedNode.dod }}</b></ion-col>
+							</ion-row>
+						</div>
+			
+					</ion-grid>
+					<br/>
+					<div id="detail-person"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</ion-content>
+
+
+

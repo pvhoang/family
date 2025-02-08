@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { UtilService } from '../services/util.service';
 import { DataService } from '../services/data.service';
 import { NodeService } from '../services/node.service';
+<<<<<<< Updated upstream
 import { LanguageService } from '../services/language.service';
 import { FirebaseService } from '../services/firebase.service';
 import { DEBUG_FAMILY_SERVICE } from '../../environments/environment';
@@ -12,6 +13,10 @@ import { Family, Node, NODE } from './family.model';
 // var ancestor = environment.ancestor;
 // declare var ancestor;
 // declare var Diff: any;
+=======
+import { Family, Node} from './family.model';
+import { DEBUGS } from '../../environments/environment';
+>>>>>>> Stashed changes
 
 @Injectable({
 	providedIn: 'root'
@@ -23,7 +28,6 @@ export class FamilyService {
     private dataService: DataService,
     private fbService: FirebaseService,
     private nodeService: NodeService,
-    private languageService: LanguageService,
 	) {
 	}
 
@@ -711,6 +715,7 @@ export class FamilyService {
       node.family = family;
       node.profile = this.nodeService.getSearchKeys(node);
       node.span = this.nodeService.getSpanStr(node);
+      node.spanDetail = this.nodeService.getSpanDetailStr(node);
     });
     family.iddom = 'family-' + family.nodes[0].id;
     if (family.children) {
@@ -736,6 +741,7 @@ export class FamilyService {
       node.family = family;
       node.profile = this.nodeService.getSearchKeys(node);
       node.span = this.nodeService.getSpanStr(node);
+      node.spanDetail = this.nodeService.getSpanDetailStr(node);
     })
     family.iddom = 'family-' + family.nodes[0].id;
     if (family['children']) {
@@ -747,5 +753,321 @@ export class FamilyService {
       })
     }
   }
+<<<<<<< Updated upstream
+=======
+  
+  // --- People ---
+
+	searchPeopleNodes(family, searchStr: any) {
+    if (DEBUGS.NODE)
+      console.log('NodePage - startSearch - searchStr: ', searchStr)
+		// Phan Văn Nghi (Đời 1)
+		let idx = searchStr.indexOf('(');
+		let name = searchStr.substring(0, idx).trim();
+		let idx1 = searchStr.indexOf(' ', idx) + 1;
+		let idx2 = searchStr.indexOf(')', idx1);
+		let level = searchStr.substring(idx1, idx2);
+		if (DEBUGS.FAMILY_SERVICE)
+			console.log('NodePage - name, level: ', name, level)
+		let nodeSelect = null;
+		// search thru all nodes
+    let nodes:Node[] = this.nodeService.getFamilyNodes(family);
+    nodes.forEach((node:any) => {
+      // reset nclass
+      node.nclass = this.nodeService.updateNclass(node);
+			if (node.name == name && node.level == level)
+				nodeSelect = node;
+    })
+		if (DEBUGS.FAMILY_SERVICE)
+      console.log('searchPeopleNodes - nodeSelect: ', nodeSelect)
+		return nodeSelect;
+  }
+
+	getPeopleNodes (family: any, item?: any) {
+    let nodes = this.nodeService.getFamilyNodes(family);
+    if (DEBUGS.FAMILY_SERVICE)
+      console.log('NodePage - getPeopleNodes - nodes: ', nodes.length);
+    nodes.forEach(node => {
+      if (!item)
+        // all visible
+        node.visible = true;
+      else {
+        // visible only if item == ''
+        node.visible = (node[item] == '');
+        if (item == 'pod' || item == 'dod') {
+          // show if yod != ''
+          if (node.visible && node.yod == '')
+            node.visible = false;
+        }
+      }       
+    })
+    return this.getPeopleList(family);
+  }
+
+  private getPeopleList(family:Family): any {
+    let data = [];
+    let nodeLevel = 1;
+    family.nodes.forEach((node: any) => {
+      if (node.visible) {
+				let name = node.name + ' (' + this.nodeService.getGenerationShort(node) + ')';
+        data.push({name: name, node: node});
+      }
+    })
+    if (family.children) {
+      nodeLevel++;
+      family.children.forEach(child => {
+        this.getPeopleListChild(child, data, nodeLevel);
+      })
+    }
+    if (DEBUGS.FAMILY_SERVICE)
+      console.log('FamilyService - getPeopleList -  data: ', data.length);
+    
+		let names = [];
+		data.forEach(name => {
+			names.push(name.name);
+		})
+		return names;
+	}
+  
+  private getPeopleListChild(family:Family, data:any, nodeLevel: number) {
+    family.nodes.forEach((node: any) => {
+      if (node.visible) {
+				let name = node.name + ' (' + this.nodeService.getGenerationShort(node) + ')';
+        data.push({name: name, node: node});
+      }
+    })
+    if (family.children) {
+      nodeLevel++;
+      family.children.forEach(child => {
+        this.getPeopleListChild(child, data, nodeLevel);
+      })
+    }
+  }
+
+  // --- passAwayFamily
+
+  passAwayFamily(family: any) {
+		let msg = [];
+		let nodeLevel = 1;
+		family.nodes.forEach((node: Node) => {
+			const dayCount = this.isMemorialComing(node.dod);
+			if (dayCount) {
+				let name = node.name + ' (' + this.nodeService.getGenerationShort(node) + ')';
+				msg.push([name, node, dayCount]);
+			}
+		})
+		if (family['children']) {
+			nodeLevel++;
+			family['children'].forEach(child => {
+				this.passAwayFamilyNode(child, nodeLevel, msg);
+			})
+		}
+		// sort number of days
+		msg.sort((row1:any, row2: any) => {
+			return row1[2] - row2[2];
+		});
+		let today = this.utilService.getLunarDate();
+		return ({ today: today, persons: msg });
+  }
+
+  private passAwayFamilyNode(family:Family, nodeLevel: number, msg: any[]) {
+    family.nodes.forEach(node => {
+      const dayCount = this.isMemorialComing(node.dod);
+			if (dayCount) {
+				let name = node.name + ' (' + this.nodeService.getGenerationShort(node) + ')';
+        msg.push([name, node, dayCount]);
+      }
+    })
+    if (family['children']) {
+      nodeLevel++;
+      family['children'].forEach(child => {
+        this.passAwayFamilyNode(child, nodeLevel, msg);
+      })
+    }
+  }
+
+	private isMemorialComing(dod: string) {
+		if (!dod || dod == '')
+			return null;
+		// get gregorian day of dod
+		let gdate = this.utilService.getGregorianDate(dod);
+		let d = new Date();
+		let d1 = new Date( d.getFullYear(), d.getMonth(), 1)
+		let d2 = new Date( d.getFullYear(), d.getMonth()+1, 1);
+		let dDod = new Date( gdate.year, gdate.month - 1, gdate.day, 23, 30, 30);
+		let dodTime = dDod.getTime();
+		let days = null;
+		if (dodTime >= d1.getTime() && dodTime <= d2.getTime())
+			days = Math.round((dodTime - d.getTime()) / (1000 * 3600 * 24));
+		return days;
+	}
+
+  // --- getFilterFamily
+  getFilterFamily(family: Family, clean?: any) {
+		let filterFamily:any = {};
+    filterFamily.version = family.version;
+    filterFamily.date = family.date;
+    filterFamily['nodes'] = [];
+    if (family['nodes'].length > 0) {
+      family['nodes'].forEach(node => {
+        if (clean)
+					filterFamily['nodes'].push(this.nodeService.getCleanNode(node));
+				else
+					filterFamily['nodes'].push(this.nodeService.cloneNode(node));
+      });
+    }
+    if (family['children']) {
+      filterFamily['children'] = [];
+      family['children'].forEach(fam => {
+        if (fam.nodes.length > 0) {
+          let nFamily = this.getFilterFamilyNode(fam, clean);
+          filterFamily['children'].push(nFamily);
+        }
+      })
+    }
+    return filterFamily;
+  }
+
+  private getFilterFamilyNode(family: Family, clean?: any) {
+		// validate this family format if clean
+		// only 2 keys: 'nodes and 'children' are allowed
+		if (clean) {
+			for (let key of Object.keys(family))
+				if (key != 'nodes' && key != 'children') {
+					console.log('ERROR - FamilyService - getFilterFamilyNode() - Key not valid: ' + key + '.');
+					return null;
+				}
+		}
+		let filterFamily:any = {};
+    filterFamily['nodes'] = [];
+    if (family['nodes'].length > 0) {
+      family['nodes'].forEach(node => {
+				if (clean)
+					filterFamily['nodes'].push(this.nodeService.getCleanNode(node));
+				else
+					filterFamily['nodes'].push(this.nodeService.cloneNode(node));
+      });
+    }
+    if (family['children']) {
+      filterFamily['children'] = [];
+      // sort each family by main person yob
+      let sortNodes:any = [];
+      family['children'].forEach(fam => {
+        if (fam.nodes.length > 0)
+          sortNodes.push({ node: fam.nodes[0], family: fam });
+      })
+      if (clean) {
+				sortNodes.sort((item1:any, item2:any) => {
+					// let a2: any = (item2.node.yob == '') ? 2050 : +item2.node.yob;
+					// return a1 - a2;
+					// no sort for now, 12/01/24, DOB can be filled in later. Keep input order
+					return 0;
+				});
+			}
+      sortNodes.forEach(item => {
+        let fam = item.family;
+        if (fam.nodes.length > 0) {
+          let nFamily = this.getFilterFamilyNode(fam, clean);
+          filterFamily['children'].push(nFamily);
+        }
+      })
+    }
+    return filterFamily;
+  }
+  
+  getSelectedFamily(family: Family, srcNode: Node) {
+    let filterFamily:any = {};
+    let nodes = [];
+
+    // search backward for parent
+    let node = srcNode;
+		// if (node.pnode) {
+		// 	nodes.push(node.pnode);
+		// 	nodes.push(node);
+		// } else {
+		// 	nodes.push(node);
+		// }
+		// let count = 0;
+    while (node) {
+      nodes.push(node);
+      node = node.pnode;
+			// count++;
+			// if (count > 1)
+			// 	break;
+    }
+
+    let ffam:any = filterFamily;
+    if (nodes.length == 1) {
+      // this is root node, add everything below
+        filterFamily = srcNode.family;
+    } else {
+      for (let i = 0; i < nodes.length; i++) {
+        node = nodes[nodes.length - 1 - i];
+        let fam = this.getSelectedFamilyNode(node);
+        if (i == 0) {
+          ffam.nodes = fam.nodes;
+          ffam.children = fam.children;
+        } else if (i == nodes.length - 1) {
+          ffam.children.push(srcNode.family);
+        } else if (i < nodes.length) {
+          ffam.children.push(fam);
+          ffam = fam;
+        }
+      }
+    }
+    // nodes = this.nodeService.getFamilyNodes(filterFamily);
+    // console.log('getSelectedFamily - nodes: ', nodes);
+    // nodes.forEach((node:any) => {
+    //   node.spanDetail = this.nodeService.getSpanVerticalTreeStr(node);
+    // })
+    return filterFamily;
+  }
+
+  private getSelectedFamilyNode(node: any) {
+    let filterFamily:any = {};
+    filterFamily.nodes = [];
+    filterFamily.nodes.push(node);
+    filterFamily.children = [];
+    return filterFamily;
+  }
+
+  getSelectedPerson(srcNode: any) {
+    let filterFamily:any = {};
+    filterFamily['nodes'] = [];
+    let family = srcNode.family;
+    if (family['nodes'].length > 0) {
+      family['nodes'].forEach(node => {
+        filterFamily['nodes'].push(this.nodeService.cloneNode(node, true));
+      });
+    }
+    if (family['children']) {
+      filterFamily['children'] = [];
+      family['children'].forEach(fam => {
+        if (fam.nodes.length > 0) {
+          let nFamily = this.getSelectedPersonNode(fam);
+          filterFamily['children'].push(nFamily);
+        }
+      })
+    }
+    let nodes = this.nodeService.getFamilyNodes(filterFamily);
+    nodes.forEach((node:any) => {
+      node.span = this.nodeService.getSpanStr(node);
+    })
+		nodes[0].span = "<b>" + nodes[0].span + "</b>"
+    return filterFamily;
+  }
+
+  private getSelectedPersonNode(family) {
+    let filterFamily:any = {};
+    filterFamily['nodes'] = [];
+    if (family['nodes'].length > 0) {
+      family['nodes'].forEach((node: any) => {
+        filterFamily['nodes'].push(this.nodeService.cloneNode(node, true));
+      });
+    }
+    filterFamily['children'] = [];
+    return filterFamily;
+  }
+>>>>>>> Stashed changes
 
 }

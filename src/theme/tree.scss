@@ -1,0 +1,555 @@
+
+// --- useful link ---
+// https://stackoverflow.com/questions/26681059/create-a-circle-avatar-from-a-rectangle-image-keeping-proportions-and-just-using
+
+// --- color for tree ---
+$background_color_male: lightblue;  // primary
+$background_color_female: lightpink;
+$background_color_select: lightgreen; // success
+$background_color_not_complete: lightyellow; // warning in variables.css
+$background_color_pass_away: lightgray; // warning in variables.css
+$background_color_node: #e6d8ad;
+$color: #666;
+$over_color: #000;
+$border_color: #94a0b4;
+$hover_color: #c8e4f8;
+
+// --- VERTICAL TREE ---
+
+.vertical-tree {
+	width:100%;
+  justify-content: left;
+  white-space: nowrap;
+  overflow-x: scroll;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  ul {
+    padding-left: 30px;
+  }
+  li {
+    margin: 0px 0;
+    list-style-type: none;
+    position: relative;
+    padding: 20px 10px 0px 10px;
+    &::before {
+      content: '';
+      position: absolute; 
+      top: 0;
+      width: 1px; 
+      height: 100%;
+      right: auto; 
+      left: -5px;
+      border-left: 2px solid #ccc;
+      bottom: 50px;
+    }
+    &::after {
+      content: '';
+      position: absolute; 
+      top: 45px; 
+      width: 15px; 
+      height: 20px;
+      right: auto; 
+      left: -5px;
+      border-top: 2px solid #ccc;
+    }
+    div {
+      border: 1px solid #C10100;
+      padding: 5px 5px;
+      text-decoration: none;
+      color: $color;
+      font-size: var(--app-text-font-size-small);
+      min-width: 50px;
+      min-height: 30px;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      transition: all 0.5s;
+      -webkit-transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      .image {
+				width: 40px; // match with image in photoUrl
+        height: 40px;
+        &:hover {
+          transform:scale(4.0);
+        }
+      }
+      .node {
+        display: inline-block;
+        text-align: center;
+				min-width: 50px;
+        padding: 5px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        margin: 0px 2px;
+        &.male {
+          background-color: $background_color_male;
+        }
+        &.female {
+          background-color: $background_color_female;
+        }
+        &.select {
+          background-color: $background_color_select;
+        }
+        &.node-select {
+          background-color: $background_color_node;
+        }
+        &.not-complete {
+          background-color: $background_color_not_complete;
+        }
+				&.pass_away {
+          background-color: $background_color_pass_away;
+        }
+      }
+      &:hover {
+        background: $hover_color;
+        color: $over_color;
+        border: 1px solid $border_color;
+        &+ul {
+          li {
+            div {
+              background: $hover_color;
+              color: $over_color;
+              border: 1px solid $border_color;
+            }
+            &::after {
+              border-color: $border_color;
+            }
+            &::before {
+              border-color: $border_color;
+            }
+          }
+          &::before {
+            border-color: $border_color;
+          }
+          ul {
+            &::before {
+              border-color: $border_color;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// --- HORIZONTAL TREE ---
+
+.horizontal-tree {
+  display: flex; 
+	width:100%;
+	overflow-x: auto;
+  justify-content: center;
+  white-space: nowrap;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  ul {
+    display: flex;
+    width:100%;
+    padding-top: 20px;
+    position: relative;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    ul {
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        border-left: 2px solid #ccc;
+        width: 0;
+        height: 20px;
+      }
+    }
+  }
+  li {
+    float: left;
+    text-align: center;
+    list-style-type: none;
+    position: relative;
+    padding: 20px 5px 0 5px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 50%;
+      border-top: 2px solid #ccc;
+      width: 50%;
+      height: 20px;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 50%;
+      border-top: 2px solid #ccc;
+      width: 50%;
+      height: 20px;
+      right: auto;
+      left: 50%;
+      border-left: 2px solid #ccc;
+    }
+    &:only-child {
+      &::after {
+        display: none;
+      }
+      &::before {
+        display: none;
+      }
+      padding-top: 0;
+    }
+    &:first-child {
+      &::before {
+        border: 0 none;
+      }
+      &::after {
+        border-radius: 5px 0 0 0;
+        -webkit-border-radius: 5px 0 0 0;
+        -moz-border-radius: 5px 0 0 0;
+      }
+    }
+    &:last-child {
+      &::after {
+        border: 0 none;
+      }
+      &::before {
+        border-right: 2px solid #ccc;
+        border-radius: 0 5px 0 0;
+        -webkit-border-radius: 0 5px 0 0;
+        -moz-border-radius: 0 5px 0 0;
+      }
+    }
+    div {
+      border: 1px solid #C10100;
+      padding: 5px 5px;
+      text-decoration: none;
+      color: $color;
+      font-size: var(--app-text-font-size-small);
+      display: inline-block;
+      min-width: 50px;
+      min-height: 30px;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      transition: all 0.5s;
+      -webkit-transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      .node {
+        display: inline-block;
+        min-width: 40px; 
+        padding: 5px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        margin: 0px 2px;
+        &.male {
+          background-color: $background_color_male;
+        }
+        &.female {
+          background-color: $background_color_female;
+        }
+        &.select {
+          background-color: $background_color_select;
+        }
+        &.node-select {
+          background-color: $background_color_node;
+        }
+        &.not-complete {
+          background-color: $background_color_not_complete;
+        }
+				&.pass_away {
+          background-color: $background_color_pass_away;
+        }
+      }
+      &:hover {
+        background: $hover_color;
+        color: $over_color;
+        border: 1px solid $border_color;
+        &+ul {
+          li {
+            div {
+              background: $hover_color;
+              color: $over_color;
+              border: 1px solid $border_color;
+            }
+            &::after {
+              border-color: $border_color;
+            }
+            &::before {
+              border-color: $border_color;
+            }
+          }
+          &::before {
+            border-color: $border_color;
+          }
+          ul {
+            &::before {
+              border-color: $border_color;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// --- PERSON TREE ---
+
+.person-tree-1 {
+  display: flex;
+  justify-content: left;
+  white-space: nowrap;
+  // overflow-x: scroll;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  // https://stackoverflow.com/questions/26681059/create-a-circle-avatar-from-a-rectangle-image-keeping-proportions-and-just-using
+  ul {
+    padding-left: 30px;
+  }
+  li {
+    margin: 0px 0;
+    list-style-type: none;
+    position: relative;
+    padding: 0px 10px 0px 10px;
+    &::before {
+      content: '';
+      position: absolute; 
+      top: 0;
+      width: 1px; 
+      height: 100%;
+      right: auto; 
+      left: -5px;
+      // border-left: 2px solid #ccc;
+      bottom: 50px;
+    }
+    &::after {
+      content: '';
+      position: absolute; 
+      top: 45px; 
+      width: 15px; 
+      height: 20px;
+      right: auto; 
+      left: -5px;
+      // border-top: 2px solid #ccc;
+    }
+    div {
+      border: 1px solid #C10100;
+      padding: 5px 5px;
+      text-decoration: none;
+      color: $color;
+      font-size: var(--app-text-font-size-medium);
+      min-width: 50px;
+      min-height: 30px;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      transition: all 0.5s;
+      -webkit-transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      // display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+			.image {
+				width: 40px; // match with image in photoUrl
+        height: 40px;
+        &:hover {
+          transform:scale(4.0);
+        }
+      }
+      .node {
+        display: inline-block;
+        text-align: center;
+        min-width: 40px;
+				font-size: var(--app-text-font-size-medium);
+				// font-size: 24px;
+        padding: 5px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        margin: 0px 2px;
+        &.male {
+          background-color: $background_color_male;
+        }
+        &.female {
+          background-color: $background_color_female;
+        }
+        &.select {
+          background-color: $background_color_select;
+        }
+        &.node-select {
+          background-color: $background_color_node;
+        }
+        &.not-complete {
+          background-color: $background_color_not_complete;
+        }
+				&.pass_away {
+          background-color: $background_color_pass_away;
+        }
+      }
+      &:hover {
+        background: $hover_color;
+        color: $over_color;
+        border: 1px solid $border_color;
+        &+ul {
+          li {
+            div {
+              background: $hover_color;
+              color: $over_color;
+              border: 1px solid $border_color;
+            }
+            &::after {
+              border-color: $border_color;
+            }
+            &::before {
+              border-color: $border_color;
+            }
+          }
+          &::before {
+            border-color: $border_color;
+          }
+          ul {
+            &::before {
+              border-color: $border_color;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.person-tree-2 {
+  display: flex;
+  justify-content: left;
+  white-space: nowrap;
+  // overflow-x: scroll;
+  padding-top: 0px;
+  padding-bottom: 10px;
+  
+  // https://stackoverflow.com/questions/26681059/create-a-circle-avatar-from-a-rectangle-image-keeping-proportions-and-just-using
+  ul {
+    padding-left: 30px;
+  }
+  li {
+    margin: 0px 0;
+    list-style-type: none;
+    position: relative;
+    padding: 20px 10px 0px 10px;
+    &::before {
+      content: '';
+      position: absolute; 
+      top: 0;
+      width: 1px; 
+      height: 100%;
+      right: auto; 
+      left: -5px;
+      border-left: 2px solid #ccc;
+      bottom: 50px;
+    }
+    &::after {
+      content: '';
+      position: absolute; 
+      top: 45px; 
+      width: 15px; 
+      height: 20px;
+      right: auto; 
+      left: -5px;
+      border-top: 2px solid #ccc;
+    }
+    div {
+      border: 1px solid #C10100;
+      padding: 5px 5px;
+      text-decoration: none;
+      color: $color;
+      font-size: var(--app-text-font-size-small);
+      min-width: 50px;
+      min-height: 30px;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      transition: all 0.5s;
+      -webkit-transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      // display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+			.image {
+				width: 40px; // match with image in photoUrl
+        height: 40px;
+        &:hover {
+          transform:scale(4.0);
+        }
+      }
+      .node {
+        display: inline-block;
+        text-align: center;
+        min-width: 40px;
+        padding: 5px;
+				font-size: var(--app-text-font-size-small);
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        margin: 0px 2px;
+        &.male {
+          background-color: $background_color_male;
+        }
+        &.female {
+          background-color: $background_color_female;
+        }
+        &.select {
+          background-color: $background_color_select;
+        }
+        &.node-select {
+          background-color: $background_color_node;
+        }
+        &.not-complete {
+          background-color: $background_color_not_complete;
+        }
+				&.pass_away {
+          background-color: $background_color_pass_away;
+        }
+      }
+      &:hover {
+        background: $hover_color;
+        color: $over_color;
+        border: 1px solid $border_color;
+        &+ul {
+          li {
+            div {
+              background: $hover_color;
+              color: $over_color;
+              border: 1px solid $border_color;
+            }
+            &::after {
+              border-color: $border_color;
+            }
+            &::before {
+              border-color: $border_color;
+            }
+          }
+          &::before {
+            border-color: $border_color;
+          }
+          ul {
+            &::before {
+              border-color: $border_color;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+

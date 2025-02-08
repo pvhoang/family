@@ -1,0 +1,26 @@
+<ion-content [fullscreen]="true">
+
+	<div class="page" data-density="hard">
+		<div class="page-content">
+			<h1 class="page-header">{{title}}</h1>
+			<br>
+			<ion-item class="page-header-ng-select">
+
+				<ion-col size="1" class="heading" (click)="onCancel()">
+					<ion-button class="button" fill="clear">
+						<ion-icon slot="icon-only" src="{{FONTS_FOLDER}}close-circle-outline.svg" class="icon"></ion-icon>
+					</ion-button>
+				</ion-col>
+				<ion-col size="11" class="heading">
+					<span class="label"><b>{{heading}}</b></span>
+				</ion-col>
+				
+			</ion-item>
+
+			<div class="w3-container page-text scroll">
+				<div id="detail"></div>
+			</div>
+		</div>
+	</div>
+
+</ion-content>
